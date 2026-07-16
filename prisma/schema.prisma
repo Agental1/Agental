@@ -1,0 +1,405 @@
+// Agental — provider-agnostic Prisma schema.
+// Runs on SQLite locally; swaps to PostgreSQL (Neon) in prod by changing the
+// datasource provider + DATABASE_URL. Enums are Strings validated by Zod in
+// src/domain; JSON blobs and scalar lists are Strings (SQLite has no native
+// enum / Json / scalar-list). Money is stored as integer cents.
+//
+// CRITICAL DOMAIN RULE: Mandat (free legal representation) is structurally
+// separate from Subscription (optional paid tech service). Mandat has no price
+// and no plan; opportunity access depends on Mandat.status, never on Subscription.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─────────────────────────── Identity & auth (Auth.js) ───────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  kind          String    @default("TALENT") // TALENT | CASTING
+  locale        String    @default("fr")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  artistProfile ArtistProfile?
+  memberships   Membership[]
+  auditLogs     AuditLog[]
+  notifications Notification[]
+  messages      Message[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─────────────────────────── B2C — Artist domain ─────────────────────────────
+
+model ArtistProfile {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  stageName         String
+  legalName         String?
+  birthDate         DateTime?
+  isMinor           Boolean   @default(false)
+  phone             String?
+  city              String?
+  bio               String?
+  physical          String    @default("{}") // JSON: height, hair, eyes, build…
+  mobilityCountries String    @default("[]") // JSON string[]
+  minRateCents      Int?
+  completenessScore Int       @default(0)
+  status            String    @default("DRAFT") // DRAFT | ACTIVE
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialties   Specialty[]
+  availability  Availability[]
+  media         Media[]
+  candidatures  Candidature[]
+  careerEntries CareerEntry[]
+  mandat        Mandat?
+  minorCase     MinorCase?
+}
+
+model Specialty {
+  id        String @id @default(cuid())
+  profileId String
+  kind      String // figuration | silhouette | seconds-roles | publicite | photo | voix | enfants | createurs
+  level     String @default("BEGINNER") // BEGINNER | INTERMEDIATE | CONFIRMED
+  tags      String @default("[]") // JSON string[]
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Availability {
+  id        String   @id @default(cuid())
+  profileId String
+  from      DateTime
+  to        DateTime
+  type      String   @default("AVAILABLE") // AVAILABLE | UNAVAILABLE
+  zones     String   @default("[]") // JSON string[]
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Media {
+  id         String   @id @default(cuid())
+  profileId  String
+  type       String // PHOTO | VIDEO | SELFTAPE | AUDIO
+  storageKey String
+  mime       String?
+  order      Int      @default(0)
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  profile  ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  selfTape SelfTape?
+}
+
+model SelfTape {
+  id               String   @id @default(cuid())
+  mediaId          String   @unique
+  projectId        String?
+  takeNumber       Int      @default(1)
+  qualityScore     Int?
+  qualityBreakdown String   @default("{}") // JSON: framing, light, sound
+  status           String   @default("PROCESSING") // PROCESSING | READY | FAILED
+  lowBandwidth     Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  media   Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+}
+
+model CareerEntry {
+  id              String   @id @default(cuid())
+  profileId       String
+  projectRef      String?
+  role            String
+  cachetCents     Int
+  commissionRate  Float
+  commissionCents Int
+  date            DateTime
+  status          String   @default("PENDING") // PENDING | PAID
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────── Legal & commercial (kept SEPARATE) ───────────────────────
+
+// Free legal representation contract. No price, no plan. Gates opportunities.
+model Mandat {
+  id              String    @id @default(cuid())
+  profileId       String    @unique
+  status          String    @default("ACTIVE") // ACTIVE | REVOKED
+  documentVersion String    @default("v1")
+  signedAt        DateTime?
+  signatureIp     String?
+  revokedAt       DateTime?
+  createdAt       DateTime  @default(now())
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+// Optional paid tech service. NEVER referenced by Mandat. Polymorphic subject:
+// ARTIST (userId) for B2C, ORG (organizationId) for B2B.
+model Subscription {
+  id                   String    @id @default(cuid())
+  subjectType          String // ARTIST | ORG
+  subjectId            String    @unique
+  plan                 String    @default("FREE") // B2C: FREE|PRO|PREMIUM|ULTIMATE — B2B: FREE|PRO|STUDIO|ENTERPRISE
+  priceCents           Int       @default(0)
+  commissionRate       Float     @default(0.10) // B2C only
+  seatCount            Int?
+  stripeSubscriptionId String?
+  status               String    @default("ACTIVE") // ACTIVE | PAST_DUE | CANCELED
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+// ─────────────────────────── B2B — Casting domain ────────────────────────────
+
+model Organization {
+  id               String   @id @default(cuid())
+  name             String
+  siret            String?
+  siretStatus      String   @default("PENDING") // PENDING | VERIFIED | REJECTED
+  scope            String   @default("{}") // JSON: project types, zones
+  plan             String   @default("FREE") // FREE | PRO | STUDIO | ENTERPRISE
+  stripeCustomerId String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  memberships Membership[]
+  seats       Seat[]
+  projects    Project[]
+  invitations Invitation[]
+}
+
+model Membership {
+  id             String   @id @default(cuid())
+  userId         String
+  organizationId String
+  role           String   @default("MEMBER") // OWNER | ADMIN | MEMBER
+  seatId         String?  @unique
+  createdAt      DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  seat         Seat?        @relation(fields: [seatId], references: [id], onDelete: SetNull)
+  projects     Project[]
+
+  @@unique([userId, organizationId])
+}
+
+model Seat {
+  id             String   @id @default(cuid())
+  organizationId String
+  status         String   @default("EMPTY") // ACTIVE | INVITED | EMPTY
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  membership   Membership?
+}
+
+model Project {
+  id             String    @id @default(cuid())
+  organizationId String
+  createdById    String?
+  title          String
+  status         String    @default("DRAFT") // DRAFT | OPEN | SHORTLISTING | CLOSED
+  roleSpec       String    @default("{}") // JSON: role, ageRange, type, language, accent, constraints
+  shootingFrom   DateTime?
+  shootingTo     DateTime?
+  budgetCents    Int?
+  briefFiles     String    @default("[]") // JSON string[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdBy    Membership?   @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  candidatures Candidature[]
+  selfTapes    SelfTape[]
+  minorCases   MinorCase[]
+}
+
+model Candidature {
+  id                 String   @id @default(cuid())
+  projectId          String
+  artistProfileId    String?
+  externalTalentId   String?
+  source             String   @default("AGENTAL") // AGENTAL | EXTERNAL
+  status             String   @default("NEW") // NEW | SHORTLISTED | STARRED | EXCLUDED | SELFTAPE_REQUESTED | INVITED | CONTRACTED | REJECTED
+  estimatedRateCents Int?
+  appliedAt          DateTime @default(now())
+  timeline           String   @default("[]") // JSON events
+
+  project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  artistProfile  ArtistProfile?  @relation(fields: [artistProfileId], references: [id], onDelete: SetNull)
+  externalTalent ExternalTalent? @relation(fields: [externalTalentId], references: [id], onDelete: SetNull)
+  matchScore     MatchScore?
+}
+
+model MatchScore {
+  id             String   @id @default(cuid())
+  candidatureId  String   @unique
+  score          Int // 0-100
+  justification  String
+  factors        String   @default("{}") // JSON: {physical: .8, availability: 1, …}
+  diversityFlags String   @default("[]") // JSON string[]
+  scorerVersion  String   @default("mock-v1")
+  computedAt     DateTime @default(now())
+
+  candidature Candidature @relation(fields: [candidatureId], references: [id], onDelete: Cascade)
+}
+
+model ExternalTalent {
+  id        String   @id @default(cuid())
+  name      String
+  agency    String?
+  data      String   @default("{}") // JSON: minimal PII / features
+  createdAt DateTime @default(now())
+
+  candidatures Candidature[]
+}
+
+// ─────────────────────────── Compliance & comms ──────────────────────────────
+
+model MinorCase {
+  id                    String    @id @default(cuid())
+  artistProfileId       String    @unique
+  projectId             String?
+  prefectoralAuthStatus String    @default("NONE") // NONE | REQUESTED | GRANTED | REFUSED
+  authRef               String?
+  escrowPercent         Int       @default(90)
+  escrowStatus          String    @default("PENDING") // PENDING | HELD | RELEASED
+  parentalPresence      Boolean   @default(false)
+  guardianContact       String    @default("{}") // JSON
+  state                 String    @default("OPENED") // OPENED | DOCS_PENDING | READY | BLOCKED
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  project       Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+}
+
+model Thread {
+  id        String    @id @default(cuid())
+  subject   String?
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  threadId    String
+  senderId    String?
+  body        String
+  attachments String    @default("[]") // JSON string[]
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  actorUserId    String?
+  organizationId String?
+  action         String
+  resourceType   String
+  resourceId     String
+  before         String   @default("{}") // JSON
+  after          String   @default("{}") // JSON
+  createdAt      DateTime @default(now())
+
+  actor User? @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  kind      String
+  payload   String    @default("{}") // JSON
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Invitation {
+  id             String    @id @default(cuid())
+  organizationId String
+  email          String
+  role           String    @default("MEMBER")
+  token          String    @unique
+  acceptedAt     DateTime?
+  createdAt      DateTime  @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model UsageCounter {
+  id        String @id @default(cuid())
+  subjectId String // orgId or userId
+  metric    String // activeProjects | filteredCandidatures
+  period    String // YYYY-MM
+  count     Int    @default(0)
+
+  @@unique([subjectId, metric, period])
+}
+
+model WebhookEvent {
+  id          String    @id @default(cuid())
+  provider    String // stripe | siret
+  externalId  String    @unique
+  payload     String    @default("{}")
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+}

@@ -43,3 +43,13 @@ next-env.d.ts
 # Agental extraction pipeline (generated, regenerable via bun tools/extract/run.ts)
 /tools/extract/out/
 /public/fonts/
+
+/src/generated/prisma
+
+# Prisma
+/src/generated/
+/prisma/*.db
+/prisma/*.db-journal
+/dev.db
+/dev.db-journal
+/dev.db-*
