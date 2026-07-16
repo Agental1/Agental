@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   Agental — couche de tokens
+   1. Palette brute (charte graphique) — portal-agnostique
+   2. Couche sémantique — remappée par [data-portal="talents|casting"]
+   3. @theme inline — expose les tokens sémantiques comme utilitaires Tailwind
+   Aucun composant ne doit lire une couleur brute : uniquement les rôles.
+   ============================================================================= */
+
+:root {
+  /* --- Palette brute (charte) --- */
+  /* Neutres */
+  --creme: #f8f4ec;
+  --ivoire: #ede4d5;
+  --greige: #cdbfa8;
+  --taupe: #9a8b76;
+  --brungrise: #6b5d4c;
+  --espresso: #3a2f26;
+  --noirchaud: #241c16;
+  /* Bruns chauds */
+  --camel: #c68a5b;
+  --cognac: #a96b3c;
+  --chocolat: #6e4527;
+  /* Marines */
+  --ardoise: #3c5a7a;
+  --marine: #1f3a5c;
+  --marineprof: #142942;
+  --encre: #0e1d30;
+  /* Oranges */
+  --abricot: #f0a06a;
+  --orangebrule: #de6b34;
+  --terracotta: #b24e22;
+  /* Verts */
+  --sauge: #8fa588;
+  --bouteille: #3f5e4c;
+  --foret: #263b2e;
+  /* Sémantiques (partagées) */
+  --succes: #2e7d5b;
+  --alerte: #c9821e;
+  --erreur: #c0432e;
+
+  /* Rayon signature */
+  --sedan: 0.6rem;
+}
+
+/* --- Couche sémantique : peau Talents (B2C, clair & chaud) --- */
+[data-portal="talents"] {
+  color-scheme: light;
+  --bg: var(--creme);
+  --surface: #ffffff;
+  --surface-2: var(--ivoire);
+  --fg: var(--espresso);
+  --fg-muted: var(--brungrise);
+  --fg-subtle: var(--taupe);
+  --border: var(--greige);
+  --border-strong: var(--taupe);
+  --accent: var(--cognac);
+  --accent-hover: var(--chocolat);
+  --accent-fg: var(--creme);
+  --accent-2: var(--terracotta);
+  --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
+  --ring: var(--cognac);
+  --success: var(--succes);
+  --warning: var(--alerte);
+  --danger: var(--erreur);
+}
+
+/* --- Couche sémantique : peau Casting (B2B, sombre & sobre) --- */
+[data-portal="casting"] {
+  color-scheme: dark;
+  --bg: var(--encre);
+  --surface: var(--marineprof);
+  --surface-2: var(--marine);
+  --fg: var(--creme);
+  --fg-muted: var(--greige);
+  --fg-subtle: var(--taupe);
+  --border: color-mix(in srgb, var(--ardoise) 55%, var(--marineprof));
+  --border-strong: var(--ardoise);
+  --accent: var(--abricot);
+  --accent-hover: var(--orangebrule);
+  --accent-fg: var(--encre);
+  --accent-2: var(--ardoise);
+  --accent-soft: color-mix(in srgb, var(--ardoise) 30%, var(--marineprof));
+  --ring: var(--abricot);
+  --success: color-mix(in srgb, var(--succes) 78%, white);
+  --warning: color-mix(in srgb, var(--alerte) 82%, white);
+  --danger: color-mix(in srgb, var(--erreur) 82%, white);
+}
+
+/* Défaut si aucun portail défini : peau Talents */
+:root:not([data-portal]) {
+  --bg: var(--creme);
+  --surface: #ffffff;
+  --surface-2: var(--ivoire);
+  --fg: var(--espresso);
+  --fg-muted: var(--brungrise);
+  --fg-subtle: var(--taupe);
+  --border: var(--greige);
+  --border-strong: var(--taupe);
+  --accent: var(--cognac);
+  --accent-hover: var(--chocolat);
+  --accent-fg: var(--creme);
+  --accent-2: var(--terracotta);
+  --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
+  --ring: var(--cognac);
+  --success: var(--succes);
+  --warning: var(--alerte);
+  --danger: var(--erreur);
+}
+
+/* --- Exposition aux utilitaires Tailwind (inline = suit la cascade data-portal) --- */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-2: var(--accent-2);
+  --color-accent-soft: var(--accent-soft);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --radius-sedan: var(--sedan);
+
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
