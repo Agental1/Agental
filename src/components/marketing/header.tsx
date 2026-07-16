@@ -15,13 +15,12 @@ export interface NavItem {
 }
 
 export function MarketingHeader({
-  portal,
   home,
   nav,
   cta,
   crossLink,
 }: {
-  portal: Portal;
+  portal?: Portal;
   home: string;
   nav: NavItem[];
   cta: { href: string; label: string };

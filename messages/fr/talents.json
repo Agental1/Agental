@@ -91,5 +91,87 @@
     "title": "Prêt à être représenté ?",
     "ctaPrimary": "Devenir membre",
     "ctaSecondary": "Poser une question"
+  },
+  "how": {
+    "meta": { "title": "Comment ça marche — Agental Talents", "description": "De la création de ton profil au versement de ton cachet : comment Agental te représente et travaille pour toi, étape par étape." },
+    "hero": { "eyebrow": "Comment ça marche", "title": "Comment fonctionne Agental, côté artiste", "subtitle": "Un vrai agent qui te représente, une IA qui bosse pour toi en continu. Voici le parcours, sans jargon." },
+    "sections": [
+      { "title": "Un profil qui te ressemble", "body": "Tu renseignes ton identité, ton physique, tes médias, tes spécialités et tes disponibilités. Chaque champ métier est expliqué en clair — pas besoin de connaître le vocabulaire du casting." },
+      { "title": "Le contrat qui te fait représenter", "body": "Tu signes ton mandat de représentation : c'est le contrat standard entre un artiste et son agent, encadré par la loi française. Gratuit, sans engagement de ta part, résiliable quand tu veux." },
+      { "title": "Une veille qui ne s'arrête jamais", "body": "L'IA surveille les castings 24/7 et repère ceux qui te correspondent vraiment. Fini de scroller des annonces hors sujet : on te trouve les rôles qui te vont." },
+      { "title": "Le studio qui te met en confiance", "body": "Le Self-tape Studio te guide au cadrage, à la lumière et au son, avec un coach vocal. Même filmé au téléphone, ton self-tape peut tout changer." },
+      { "title": "De la sélection au cachet", "body": "Quand tu es retenu, on négocie, on sécurise le contrat et on te reverse ton cachet. Ta commission baisse à mesure que tu montes." }
+    ],
+    "cta": "Devenir membre"
+  },
+  "pricingPage": {
+    "meta": { "title": "Tarifs — Agental Talents", "description": "Le mandat de représentation est gratuit. L'abonnement, optionnel, récompense ta progression avec une commission dégressive." },
+    "hero": { "eyebrow": "Tarifs", "title": "Des tarifs qui récompensent ta progression", "subtitle": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service technologique optionnel — jamais un péage vers les opportunités." }
+  },
+  "faq": {
+    "meta": { "title": "FAQ — Agental Talents", "description": "Tes questions sur Agental : l'agence, le mandat, la commission et le fonctionnement au quotidien." },
+    "hero": { "eyebrow": "FAQ", "title": "Questions fréquentes des artistes", "subtitle": "Tout ce que tu veux savoir avant de te lancer. Une autre question ? Écris-nous." },
+    "cta": "Devenir membre gratuitement",
+    "groups": [
+      { "title": "L'essentiel", "items": [
+        { "q": "Qu'est-ce qu'Agental ?", "a": "Une vraie agence artistique, régulée, dont tout le travail opérationnel — veille, candidatures, suivi, coaching — est augmenté par une IA. On te représente ; l'IA travaille pour toi 24/7." },
+        { "q": "Est-ce une vraie agence ou une plateforme d'annonces ?", "a": "Une vraie agence : mandat écrit, déclaration en préfecture, responsabilité professionnelle. Pas un site d'annonces où tu postules seul." },
+        { "q": "Combien ça coûte de commencer ?", "a": "Rien. Le mandat de représentation est gratuit et la formule Free te permet d'être représenté sans payer. L'abonnement payant est optionnel." },
+        { "q": "Faut-il de l'expérience pour s'inscrire ?", "a": "Non. Agental s'adresse justement aux profils sous-servis par les agences classiques. Un reel filmé au téléphone suffit pour commencer." }
+      ] },
+      { "title": "Le mandat et la commission", "items": [
+        { "q": "Qu'est-ce que le mandat de représentation ?", "a": "C'est le contrat standard entre un artiste et son agent, encadré par la loi française. Il nous autorise à te représenter et à négocier pour toi. Gratuit, sans engagement de ta part." },
+        { "q": "Combien prend Agental de commission ?", "a": "10 % en Free et Pro, 7,5 % en Premium, 5 % en Ultimate. Plus tu montes, plus tu gardes." },
+        { "q": "La commission, c'est en plus de l'abonnement ?", "a": "Le mandat (gratuit) et son éventuelle commission sont séparés de l'abonnement (optionnel). L'abonnement finance des services techno ; il n'achète jamais un accès aux opportunités." },
+        { "q": "Puis-je résilier mon mandat ?", "a": "Oui, avec un préavis court et sans avoir à te justifier. Tu restes libre." }
+      ] },
+      { "title": "Au quotidien", "items": [
+        { "q": "Comment l'IA trouve-t-elle des rôles pour moi ?", "a": "Elle croise ton profil (physique, spécialités, langues, accents, disponibilités) avec les castings ouverts et te propose ceux qui te correspondent vraiment." },
+        { "q": "Est-ce que je garde le contrôle de mes candidatures ?", "a": "Oui. Tu définis tes préférences (types de projets, mobilité, plafonds) et tu peux valider ou refuser. L'IA propose, tu décides." },
+        { "q": "L'abonnement me donne-t-il un accès privilégié aux castings ?", "a": "Non. Les opportunités passent par le mandat, gratuit. L'abonnement débloque des outils (auto-candidature, coaching), pas un passe-droit." },
+        { "q": "Que se passe-t-il si j'arrête de payer ?", "a": "Tu repasses automatiquement en formule gratuite. Tu restes représenté." },
+        { "q": "Ça marche sur un téléphone simple ?", "a": "Oui. Le Self-tape Studio a un mode dégradé pensé pour les terminaux modestes et les connexions lentes." }
+      ] }
+    ]
+  },
+  "about": {
+    "meta": { "title": "Qui sommes-nous — Agental", "description": "Une idée née à table : démocratiser l'accès à la représentation artistique grâce à un vrai agent augmenté par l'IA." },
+    "hero": { "eyebrow": "Qui sommes-nous", "title": "Une idée née à table", "subtitle": "Agental est né d'une conviction simple : le talent est partout, la représentation ne l'est pas. On voulait changer ça." },
+    "story": [
+      "Trop de profils formidables n'ont jamais eu accès à un agent : trop jeunes, trop loin des grandes villes, trop « atypiques » pour les agences établies. Pourtant, les castings les cherchent.",
+      "Nous avons construit une agence qui fait le travail d'un vrai agent — mandat, négociation, défense de carrière — mais dont la veille, le scoring et le suivi tournent 24/7 grâce à une IA. La chaleur d'un agent, la puissance d'un logiciel."
+    ],
+    "valuesTitle": "Ce qui nous rassemble",
+    "values": [
+      { "title": "Démocratiser", "body": "Donner accès à la représentation aux profils sous-servis, sans barrière de jargon ni de contrat intimidant." },
+      { "title": "Transparence", "body": "On explique toujours pourquoi. L'IA est un assistant au service de l'humain, jamais une boîte noire." },
+      { "title": "Respect", "body": "Tes médias restent à toi. Tes données sont protégées. Ta liberté de partir aussi." }
+    ],
+    "foundersTitle": "L'équipe",
+    "founders": [
+      { "name": "Jérôme", "role": "le père" },
+      { "name": "Vadim", "role": "à Paris" }
+    ]
+  },
+  "castingLandings": {
+    "index": {
+      "meta": { "title": "Tous les types de casting — Agental Talents", "description": "Figuration, silhouette, seconds rôles, publicité, photo, voix, enfants, créateurs : trouve le type de casting fait pour toi et laisse Agental te représenter." },
+      "eyebrow": "Types de casting",
+      "title": "Trouve le casting fait pour toi",
+      "subtitle": "Quel que soit ton profil, il y a une place. Choisis un univers, on te trouve les rôles qui te correspondent."
+    },
+    "audienceTitle": "À qui ça s'adresse",
+    "benefitsTitle": "Ce qu'Agental t'apporte",
+    "protectionTitle": "Le cadre protecteur appliqué",
+    "cachetsTitle": "Cachets indicatifs en France",
+    "cachetsNote": "Fourchettes indicatives, variables selon le projet, la production et l'expérience.",
+    "startTitle": "Comment commencer",
+    "startBody": "Crée ton profil gratuitement, signe ton mandat, et laisse l'IA repérer les castings faits pour toi.",
+    "cta": "Devenir membre",
+    "benefits": [
+      "On te trouve les annonces qui te correspondent vraiment",
+      "On optimise ton dossier et tes self-tapes",
+      "On négocie et on sécurise ton cachet"
+    ]
   }
 }

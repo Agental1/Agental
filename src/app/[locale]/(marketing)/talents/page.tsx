@@ -54,12 +54,13 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function TalentsLanding({
+export default async function TalentsLanding({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  void params;
+  const { locale } = await params;
+  setRequestLocale(locale);
   return (
     <>
       <Hero />

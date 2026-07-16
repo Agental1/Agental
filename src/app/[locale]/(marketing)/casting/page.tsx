@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Layers,
   BadgeCheck,
@@ -49,7 +49,13 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function CastingLanding() {
+export default async function CastingLanding({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return (
     <>
       <Hero />
