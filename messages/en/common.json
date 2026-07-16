@@ -1,0 +1,28 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "Comment ça marche",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "about": "Qui sommes-nous"
+  },
+  "footer": {
+    "tagline": "La première agence artistique nativement augmentée par IA.",
+    "legalTitle": "Cadre légal",
+    "prefectorale": "Agence artistique déclarée en préfecture",
+    "rgpd": "RGPD",
+    "mentions": "Mentions légales",
+    "cgu": "CGU",
+    "rights": "© {year} Agental. Tous droits réservés.",
+    "sections": {
+      "product": "Produit",
+      "company": "Agental",
+      "legal": "Légal"
+    }
+  },
+  "locale": {
+    "fr": "Français",
+    "en": "English",
+    "switch": "Langue"
+  }
+}

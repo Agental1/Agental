@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "title": "Agental Talents — Un vrai agent, augmenté par IA",
+    "description": "Concentre-toi sur ton jeu, on s'occupe du reste. Un vrai agent régulé, une IA qui bosse 24/7, gratuit pour commencer."
+  },
+  "nav": {
+    "cta": "Devenir membre",
+    "crossLink": "Vous êtes directeur de casting ?"
+  },
+  "hero": {
+    "title": "Concentre-toi sur ton jeu.",
+    "titleEmph": "On s'occupe du reste.",
+    "subtitle": "La première agence artistique nativement augmentée par IA. Un vrai agent qui te représente, une IA qui travaille pour toi 24/7.",
+    "ctaPrimary": "Devenir membre",
+    "ctaSecondary": "Voir comment ça marche"
+  },
+  "proof": {
+    "regulated": { "title": "Un vrai agent, régulé.", "body": "Mandat écrit encadré par la loi française." },
+    "ai": { "title": "Une IA qui bosse 24/7.", "body": "Veille, candidatures et suivi pendant que tu joues." },
+    "free": { "title": "Gratuit pour commencer.", "body": "Tu ne paies rien pour être représenté." }
+  },
+  "why": {
+    "eyebrow": "Pourquoi Agental",
+    "title": "Une agence qui travaille vraiment pour toi",
+    "items": [
+      { "title": "Un vrai agent qui te représente", "body": "Mandat écrit, encadré par la loi. Pas un énième site d'annonces : une agence." },
+      { "title": "L'agent travaille pendant que tu joues", "body": "Veille des castings, candidatures, relances et suivi — en continu." },
+      { "title": "On te trouve les rôles qui te vont", "body": "Fini de scroller des castings hors sujet. On cible ce qui te correspond vraiment." },
+      { "title": "On te coache pour te démarquer", "body": "Self-tapes, dossier, choix des médias : on optimise ce qui fait la différence." },
+      { "title": "Tu gardes plus quand tu montes", "body": "Commission dégressive : plus tu avances, plus tu gardes." },
+      { "title": "Chaque profil a une force", "body": "On valorise ce qui te rend unique, pas un moule." }
+    ]
+  },
+  "steps": {
+    "eyebrow": "En cinq étapes",
+    "title": "Rejoindre Agental, en cinq étapes",
+    "cta": "Voir le détail complet",
+    "items": [
+      { "title": "Crée ton profil", "body": "Identité, physique, médias, spécialités et disponibilités." },
+      { "title": "Signe ton mandat", "body": "Gratuit, encadré par la loi, résiliable à tout moment." },
+      { "title": "Laisse l'IA travailler", "body": "Elle repère les castings faits pour toi." },
+      { "title": "Tourne tes self-tapes", "body": "On te guide pour qu'ils te démarquent." },
+      { "title": "Décroche tes rôles", "body": "On négocie, on sécurise, on te reverse ton cachet." }
+    ]
+  },
+  "selftape": {
+    "eyebrow": "Self-tape Studio",
+    "title": "Ton self-tape peut tout changer. On t'aide à le réussir.",
+    "hint": "cadrage · lumière · son OK",
+    "cta": "Découvrir le Self-tape Studio"
+  },
+  "commission": {
+    "eyebrow": "Commission dégressive",
+    "title": "Plus tu avances, plus tu gardes",
+    "cta": "Voir les tarifs en détail"
+  },
+  "pricing": {
+    "eyebrow": "Tarifs",
+    "title": "Des tarifs qui récompensent ta progression",
+    "note": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service optionnel.",
+    "perMonth": "par mois",
+    "commission": "commission {rate}",
+    "popular": "POPULAIRE",
+    "plans": [
+      { "name": "Free", "price": "0 €", "commission": "10 %", "cta": "Commencer", "features": ["Mandat de représentation", "Profil complet", "Candidatures manuelles", "Accès aux castings ciblés"] },
+      { "name": "Pro", "price": "19 €", "commission": "10 %", "cta": "Choisir", "features": ["Tout le Free", "Auto-candidature par l'IA", "Veille IA prioritaire", "Self-tape Studio augmenté", "Support prioritaire", "Jusqu'à 10 candidatures/jour"] },
+      { "name": "Premium", "price": "49 €", "commission": "7,5 %", "cta": "Choisir", "features": ["Tout le Pro", "Coaching IA avancé", "Mobilité multi-pays", "Jusqu'à 50 candidatures/jour"] },
+      { "name": "Ultimate", "price": "79 €", "commission": "5 %", "cta": "Choisir", "features": ["Tout le Premium", "Gestion presse automatisée", "Candidatures illimitées", "Commission réduite à 5 %"] }
+    ]
+  },
+  "testimonials": {
+    "title": "Ils ont rejoint Agental",
+    "items": [
+      { "quote": "On cherche pour toi, tu te concentres sur ton jeu.", "author": "Sofiane, 22 ans — figuration et petits rôles, Lyon" },
+      { "quote": "Trois nouvelles annonces qui me correspondent vraiment, chaque semaine.", "author": "Amina, 34 ans — publicité et voix, Marseille" },
+      { "quote": "Mon self-tape a tout changé. On m'a montré comment le tourner.", "author": "Lucas, 41 ans — seconds rôles, Lille" }
+    ]
+  },
+  "minors": {
+    "title": "Un cadre protecteur pour les jeunes talents",
+    "cta": "En savoir plus sur la protection des mineurs",
+    "items": [
+      "Autorisation de la commission départementale",
+      "Présence parentale au casting et au tournage",
+      "Lecture du script par le parent",
+      "Visite médicale avant le tournage",
+      "90 % du cachet bloqué jusqu'à la majorité"
+    ]
+  },
+  "finalCta": {
+    "title": "Prêt à être représenté ?",
+    "ctaPrimary": "Devenir membre",
+    "ctaSecondary": "Poser une question"
+  }
+}

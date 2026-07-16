@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "Agental Casting — Le filtre IA qualifié pour vos castings",
+    "description": "Recevez les meilleurs talents, pas les plus nombreux. Une short-list courte, vérifiée, prête à convoquer. Scoring transparent, source affichée."
+  },
+  "nav": {
+    "cta": "Tester gratuitement",
+    "crossLink": "Vous êtes artiste ?"
+  },
+  "hero": {
+    "eyebrow": "Agence artistique régulée · scoring transparent",
+    "title": "Le casting, enfin à la bonne échelle.",
+    "titleEmph": "La short-list, faite pour vous.",
+    "subtitle": "Nous filtrons 90 % des candidatures pour ne vous présenter que les profils réellement pertinents.",
+    "ctaPrimary": "Tester gratuitement",
+    "ctaSecondary": "Voir une démo",
+    "note": "Formule gratuite, sans carte bancaire. Un projet actif offert."
+  },
+  "demo": {
+    "eyebrow": "Démo interactive",
+    "title": "Un brief. Une short-list.",
+    "subtitle": "Décrivez le rôle, l'assistant met votre brief en forme, la short-list se génère — source de chaque profil visible.",
+    "briefLabel": "Votre rôle",
+    "briefPlaceholder": "ex. « Maxime », homme, 25–32 ans, accent breton, disponible en septembre",
+    "generate": "Générer la short-list",
+    "reviewed": "profils passés en revue",
+    "retained": "{count} retenus",
+    "sourceAgental": "Agental",
+    "sourceExternal": "External",
+    "roleHeader": "SHORT-LIST · SÉRIE « MARÉE HAUTE »",
+    "roleLine": "Rôle « Maxime » · H · 25–32 · accent breton"
+  },
+  "benefits": {
+    "eyebrow": "Ce que vous gagnez avec Agental",
+    "title": "La qualité, pas la quantité.",
+    "items": [
+      { "title": "Une sélection courte, tout de suite exploitable", "body": "Trois fois plus de profils pertinents, zéro bruit." },
+      { "title": "Des profils prêts à convoquer", "body": "Self-tapes, disponibilités et droits déjà vérifiés." },
+      { "title": "Un classement que vous comprenez", "body": "Chaque profil est classé avec une justification lisible." },
+      { "title": "Une neutralité qui se vérifie", "body": "Même scoring pour tous, source affichée, historique traçable." }
+    ]
+  },
+  "neutrality": {
+    "eyebrow": "Neutralité",
+    "title": "La neutralité, prouvée dans le produit",
+    "items": [
+      { "title": "La provenance sur chaque profil", "body": "Agental ou externe, toujours visible." },
+      { "title": "Le même calcul pour tous", "body": "Les mêmes critères, quelle que soit la source." },
+      { "title": "Un historique consultable", "body": "Chaque décision de classement reste traçable." }
+    ]
+  },
+  "steps": {
+    "eyebrow": "En trois temps",
+    "title": "Votre casting, en trois temps",
+    "cta": "Voir le détail complet",
+    "items": [
+      { "title": "Décrivez le rôle", "body": "Un assistant conversationnel met votre brief en forme." },
+      { "title": "Recevez votre short-list", "body": "Une sélection courte, calibrée pour la pertinence." },
+      { "title": "Décidez et convoquez", "body": "Self-tapes, disponibilités et droits sont déjà vérifiés." }
+    ]
+  },
+  "testimonials": {
+    "title": "Ils castent avec Agental",
+    "items": [
+      { "quote": "Une short-list courte, exploitable dès la première minute.", "author": "Directrice de casting, longs métrages, Paris" },
+      { "quote": "On gagne un temps considérable sur le premier tri.", "author": "Société de production indépendante, séries" },
+      { "quote": "La source affichée sur chaque profil nous a convaincus.", "author": "Agence de publicité, casting interne" }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Tarifs",
+    "title": "Une tarification pensée pour votre volume de casting",
+    "note": "Sans engagement. Vous changez de formule ou résiliez à tout moment.",
+    "recommended": "RECOMMANDÉ",
+    "plans": [
+      { "name": "Free", "price": "0 €", "priceUnit": "", "cta": "Tester", "features": ["1 projet actif", "50 candidatures triées par mois", "Score de base", "Provenance affichée sur chaque talent"] },
+      { "name": "Pro", "price": "99 €", "priceUnit": "/siège/mois", "cta": "Choisir Pro", "features": ["10 projets actifs", "1 000 candidatures triées/mois", "Score détaillé et explication", "Vérification des self-tapes", "Tableau de bord complet", "Filtres et tri avancés"] },
+      { "name": "Studio", "price": "299 €", "priceUnit": "/mois", "cta": "Choisir", "features": ["Jusqu'à 5 sièges", "Projets et sélections illimités", "Intégrations", "Support dédié"] },
+      { "name": "Enterprise", "price": "Sur devis", "priceUnit": "", "cta": "Nous contacter", "features": ["Grandes maisons et studios", "SSO", "SLA garanti", "API privée"] }
+    ]
+  },
+  "finalCta": {
+    "title": "Prêt à recevoir des short-lists qui vous font gagner du temps ?",
+    "ctaPrimary": "Tester gratuitement",
+    "ctaSecondary": "Demander une démo"
+  }
+}
