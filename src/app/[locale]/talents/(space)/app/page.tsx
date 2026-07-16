@@ -15,8 +15,9 @@ export default async function TalentsDashboard({
   setRequestLocale(locale);
 
   const session = await auth();
+  if (!session?.user?.id) return null; // layout guard handles redirect
   const profile = await prisma.artistProfile.findUnique({
-    where: { userId: session!.user.id },
+    where: { userId: session.user.id },
     include: { mandat: true, specialties: true },
   });
 
