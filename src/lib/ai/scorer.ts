@@ -29,11 +29,17 @@ export interface ScoringResult {
 }
 
 export interface Scorer {
-  score(role: RoleSpec, candidates: TalentFeatures[]): ScoringResult[];
+  readonly version: string;
+  score(role: RoleSpec, candidates: TalentFeatures[]): Promise<ScoringResult[]>;
 }
 
 export class MockScorer implements Scorer {
-  score(role: RoleSpec, candidates: TalentFeatures[]): ScoringResult[] {
+  readonly version = "mock-v1";
+
+  async score(
+    role: RoleSpec,
+    candidates: TalentFeatures[]
+  ): Promise<ScoringResult[]> {
     const results = candidates.map((c) => this.one(role, c));
     // Diversity re-ranking pass: flag near-duplicate top profiles.
     const seen = new Set<string>();
@@ -116,7 +122,18 @@ export class MockScorer implements Scorer {
   }
 }
 
-export function getScorer(): Scorer {
+/**
+ * Select the scorer. SCORER=llm uses the Anthropic-backed scorer when an API
+ * key is present; otherwise (and by default) the deterministic mock — so the
+ * app runs identically with or without an LLM. The interface is unchanged, so
+ * swapping is invisible to callers (Phase 6).
+ */
+export async function getScorer(): Promise<Scorer> {
+  if (process.env.SCORER === "llm" && process.env.ANTHROPIC_API_KEY) {
+    // Lazy import so the SDK loads only when the LLM scorer is selected.
+    const { LlmScorer } = await import("./llm-scorer");
+    return new LlmScorer(new MockScorer());
+  }
   return new MockScorer();
 }
 

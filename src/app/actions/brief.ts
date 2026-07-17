@@ -140,8 +140,8 @@ export async function runShortlist(projectId: string): Promise<void> {
     }),
   ];
 
-  const scored = getScorer()
-    .score(roleSpec, features)
+  const scorer = await getScorer();
+  const scored = (await scorer.score(roleSpec, features))
     .filter((r) => r.score >= 55) // the "90% filtered" — only relevant profiles
     .sort((a, b) => b.score - a.score)
     .slice(0, 12);
@@ -168,6 +168,7 @@ export async function runShortlist(projectId: string): Promise<void> {
         justification: r.justification,
         factors: toJson(r.factors),
         diversityFlags: toJson(r.diversityFlags),
+        scorerVersion: scorer.version,
       },
     });
   }
