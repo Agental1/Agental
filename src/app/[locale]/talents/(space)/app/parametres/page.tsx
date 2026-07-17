@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
+import { RgpdSection } from "@/components/app/rgpd-section";
 import { B2C_PLANS } from "@/domain/pricing";
 
 export const metadata: Metadata = { title: "Paramètres" };
@@ -79,6 +80,8 @@ export default async function ParametresPage({
           Gérer l&apos;abonnement (bientôt)
         </Button>
       </Section>
+
+      <RgpdSection />
 
       <form action={logoutAction}>
         <Button type="submit" variant="ghost">

@@ -1,177 +1,177 @@
 {
   "meta": {
-    "title": "Agental Talents — Un vrai agent, augmenté par IA",
-    "description": "Concentre-toi sur ton jeu, on s'occupe du reste. Un vrai agent régulé, une IA qui bosse 24/7, gratuit pour commencer."
+    "title": "Agental Talents — A real agent, augmented by AI",
+    "description": "Focus on your craft, we handle the rest. A real regulated agent, an AI that works 24/7, free to get started."
   },
   "nav": {
-    "cta": "Devenir membre",
-    "crossLink": "Vous êtes directeur de casting ?"
+    "cta": "Become a member",
+    "crossLink": "Are you a casting director?"
   },
   "hero": {
-    "title": "Concentre-toi sur ton jeu.",
-    "titleEmph": "On s'occupe du reste.",
-    "subtitle": "La première agence artistique nativement augmentée par IA. Un vrai agent qui te représente, une IA qui travaille pour toi 24/7.",
-    "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Voir comment ça marche"
+    "title": "Focus on your craft.",
+    "titleEmph": "We handle the rest.",
+    "subtitle": "The first artist agency natively augmented by AI. A real agent who represents you, an AI that works for you 24/7.",
+    "ctaPrimary": "Become a member",
+    "ctaSecondary": "See how it works"
   },
   "proof": {
-    "regulated": { "title": "Un vrai agent, régulé.", "body": "Mandat écrit encadré par la loi française." },
-    "ai": { "title": "Une IA qui bosse 24/7.", "body": "Veille, candidatures et suivi pendant que tu joues." },
-    "free": { "title": "Gratuit pour commencer.", "body": "Tu ne paies rien pour être représenté." }
+    "regulated": { "title": "A real, regulated agent.", "body": "A written mandate governed by French law." },
+    "ai": { "title": "An AI that works 24/7.", "body": "Scouting, applications and follow-up while you perform." },
+    "free": { "title": "Free to get started.", "body": "You pay nothing to be represented." }
   },
   "why": {
-    "eyebrow": "Pourquoi Agental",
-    "title": "Une agence qui travaille vraiment pour toi",
+    "eyebrow": "Why Agental",
+    "title": "An agency that truly works for you",
     "items": [
-      { "title": "Un vrai agent qui te représente", "body": "Mandat écrit, encadré par la loi. Pas un énième site d'annonces : une agence." },
-      { "title": "L'agent travaille pendant que tu joues", "body": "Veille des castings, candidatures, relances et suivi — en continu." },
-      { "title": "On te trouve les rôles qui te vont", "body": "Fini de scroller des castings hors sujet. On cible ce qui te correspond vraiment." },
-      { "title": "On te coache pour te démarquer", "body": "Self-tapes, dossier, choix des médias : on optimise ce qui fait la différence." },
-      { "title": "Tu gardes plus quand tu montes", "body": "Commission dégressive : plus tu avances, plus tu gardes." },
-      { "title": "Chaque profil a une force", "body": "On valorise ce qui te rend unique, pas un moule." }
+      { "title": "A real agent who represents you", "body": "A written mandate, governed by law. Not another listings site: an agency." },
+      { "title": "The agent works while you perform", "body": "Casting watch, applications, follow-ups and tracking — continuously." },
+      { "title": "We find the roles that fit you", "body": "No more scrolling through irrelevant castings. We target what truly matches." },
+      { "title": "We coach you to stand out", "body": "Self-tapes, portfolio, media choices: we optimise what makes the difference." },
+      { "title": "You keep more as you rise", "body": "A decreasing commission: the further you go, the more you keep." },
+      { "title": "Every profile has a strength", "body": "We highlight what makes you unique, not a mould." }
     ]
   },
   "steps": {
-    "eyebrow": "En cinq étapes",
-    "title": "Rejoindre Agental, en cinq étapes",
-    "cta": "Voir le détail complet",
+    "eyebrow": "In five steps",
+    "title": "Joining Agental, in five steps",
+    "cta": "See the full details",
     "items": [
-      { "title": "Crée ton profil", "body": "Identité, physique, médias, spécialités et disponibilités." },
-      { "title": "Signe ton mandat", "body": "Gratuit, encadré par la loi, résiliable à tout moment." },
-      { "title": "Laisse l'IA travailler", "body": "Elle repère les castings faits pour toi." },
-      { "title": "Tourne tes self-tapes", "body": "On te guide pour qu'ils te démarquent." },
-      { "title": "Décroche tes rôles", "body": "On négocie, on sécurise, on te reverse ton cachet." }
+      { "title": "Create your profile", "body": "Identity, physique, media, specialties and availability." },
+      { "title": "Sign your mandate", "body": "Free, governed by law, cancellable anytime." },
+      { "title": "Let the AI work", "body": "It spots the castings made for you." },
+      { "title": "Shoot your self-tapes", "body": "We guide you so they make you stand out." },
+      { "title": "Land your roles", "body": "We negotiate, secure the deal, and pay you your fee." }
     ]
   },
   "selftape": {
     "eyebrow": "Self-tape Studio",
-    "title": "Ton self-tape peut tout changer. On t'aide à le réussir.",
-    "hint": "cadrage · lumière · son OK",
-    "cta": "Découvrir le Self-tape Studio"
+    "title": "Your self-tape can change everything. We help you nail it.",
+    "hint": "framing · lighting · sound OK",
+    "cta": "Discover the Self-tape Studio"
   },
   "commission": {
-    "eyebrow": "Commission dégressive",
-    "title": "Plus tu avances, plus tu gardes",
-    "cta": "Voir les tarifs en détail"
+    "eyebrow": "Decreasing commission",
+    "title": "The further you go, the more you keep",
+    "cta": "See detailed pricing"
   },
   "pricing": {
-    "eyebrow": "Tarifs",
-    "title": "Des tarifs qui récompensent ta progression",
-    "note": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service optionnel.",
-    "perMonth": "par mois",
+    "eyebrow": "Pricing",
+    "title": "Pricing that rewards your progress",
+    "note": "The representation mandate is free and separate. The subscription is an optional service.",
+    "perMonth": "per month",
     "commission": "commission {rate}",
-    "popular": "POPULAIRE",
+    "popular": "POPULAR",
     "plans": [
-      { "name": "Free", "price": "0 €", "commission": "10 %", "cta": "Commencer", "features": ["Mandat de représentation", "Profil complet", "Candidatures manuelles", "Accès aux castings ciblés"] },
-      { "name": "Pro", "price": "19 €", "commission": "10 %", "cta": "Choisir", "features": ["Tout le Free", "Auto-candidature par l'IA", "Veille IA prioritaire", "Self-tape Studio augmenté", "Support prioritaire", "Jusqu'à 10 candidatures/jour"] },
-      { "name": "Premium", "price": "49 €", "commission": "7,5 %", "cta": "Choisir", "features": ["Tout le Pro", "Coaching IA avancé", "Mobilité multi-pays", "Jusqu'à 50 candidatures/jour"] },
-      { "name": "Ultimate", "price": "79 €", "commission": "5 %", "cta": "Choisir", "features": ["Tout le Premium", "Gestion presse automatisée", "Candidatures illimitées", "Commission réduite à 5 %"] }
+      { "name": "Free", "price": "€0", "commission": "10%", "cta": "Get started", "features": ["Representation mandate", "Full profile", "Manual applications", "Access to targeted castings"] },
+      { "name": "Pro", "price": "€19", "commission": "10%", "cta": "Choose", "features": ["Everything in Free", "AI auto-applications", "Priority AI watch", "Augmented Self-tape Studio", "Priority support", "Up to 10 applications/day"] },
+      { "name": "Premium", "price": "€49", "commission": "7.5%", "cta": "Choose", "features": ["Everything in Pro", "Advanced AI coaching", "Multi-country mobility", "Up to 50 applications/day"] },
+      { "name": "Ultimate", "price": "€79", "commission": "5%", "cta": "Choose", "features": ["Everything in Premium", "Automated press management", "Unlimited applications", "Commission reduced to 5%"] }
     ]
   },
   "testimonials": {
-    "title": "Ils ont rejoint Agental",
+    "title": "They joined Agental",
     "items": [
-      { "quote": "On cherche pour toi, tu te concentres sur ton jeu.", "author": "Sofiane, 22 ans — figuration et petits rôles, Lyon" },
-      { "quote": "Trois nouvelles annonces qui me correspondent vraiment, chaque semaine.", "author": "Amina, 34 ans — publicité et voix, Marseille" },
-      { "quote": "Mon self-tape a tout changé. On m'a montré comment le tourner.", "author": "Lucas, 41 ans — seconds rôles, Lille" }
+      { "quote": "They search for me, I focus on my craft.", "author": "Sofiane, 22 — extra and small roles, Lyon" },
+      { "quote": "Three new castings that truly match me, every week.", "author": "Amina, 34 — advertising and voice, Marseille" },
+      { "quote": "My self-tape changed everything. They showed me how to shoot it.", "author": "Lucas, 41 — supporting roles, Lille" }
     ]
   },
   "minors": {
-    "title": "Un cadre protecteur pour les jeunes talents",
-    "cta": "En savoir plus sur la protection des mineurs",
+    "title": "A protective framework for young talents",
+    "cta": "Learn more about protecting minors",
     "items": [
-      "Autorisation de la commission départementale",
-      "Présence parentale au casting et au tournage",
-      "Lecture du script par le parent",
-      "Visite médicale avant le tournage",
-      "90 % du cachet bloqué jusqu'à la majorité"
+      "Authorisation from the departmental commission",
+      "Parental presence at casting and on set",
+      "Reading of the script by the parent",
+      "Medical check-up before the shoot",
+      "90% of the fee held until majority"
     ]
   },
   "finalCta": {
-    "title": "Prêt à être représenté ?",
-    "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Poser une question"
+    "title": "Ready to be represented?",
+    "ctaPrimary": "Become a member",
+    "ctaSecondary": "Ask a question"
   },
   "how": {
-    "meta": { "title": "Comment ça marche — Agental Talents", "description": "De la création de ton profil au versement de ton cachet : comment Agental te représente et travaille pour toi, étape par étape." },
-    "hero": { "eyebrow": "Comment ça marche", "title": "Comment fonctionne Agental, côté artiste", "subtitle": "Un vrai agent qui te représente, une IA qui bosse pour toi en continu. Voici le parcours, sans jargon." },
+    "meta": { "title": "How it works — Agental Talents", "description": "From creating your profile to receiving your fee: how Agental represents you and works for you, step by step." },
+    "hero": { "eyebrow": "How it works", "title": "How Agental works, for artists", "subtitle": "A real agent who represents you, an AI working for you continuously. Here's the journey, jargon-free." },
     "sections": [
-      { "title": "Un profil qui te ressemble", "body": "Tu renseignes ton identité, ton physique, tes médias, tes spécialités et tes disponibilités. Chaque champ métier est expliqué en clair — pas besoin de connaître le vocabulaire du casting." },
-      { "title": "Le contrat qui te fait représenter", "body": "Tu signes ton mandat de représentation : c'est le contrat standard entre un artiste et son agent, encadré par la loi française. Gratuit, sans engagement de ta part, résiliable quand tu veux." },
-      { "title": "Une veille qui ne s'arrête jamais", "body": "L'IA surveille les castings 24/7 et repère ceux qui te correspondent vraiment. Fini de scroller des annonces hors sujet : on te trouve les rôles qui te vont." },
-      { "title": "Le studio qui te met en confiance", "body": "Le Self-tape Studio te guide au cadrage, à la lumière et au son, avec un coach vocal. Même filmé au téléphone, ton self-tape peut tout changer." },
-      { "title": "De la sélection au cachet", "body": "Quand tu es retenu, on négocie, on sécurise le contrat et on te reverse ton cachet. Ta commission baisse à mesure que tu montes." }
+      { "title": "A profile that reflects you", "body": "You add your identity, physique, media, specialties and availability. Every industry field is explained in plain language — no need to know casting vocabulary." },
+      { "title": "The contract that gets you represented", "body": "You sign your representation mandate: the standard contract between an artist and their agent, governed by French law. Free, no commitment on your side, cancellable anytime." },
+      { "title": "A watch that never stops", "body": "The AI monitors castings 24/7 and spots the ones that truly match you. No more irrelevant listings: we find the roles that fit." },
+      { "title": "The studio that builds your confidence", "body": "The Self-tape Studio guides you on framing, lighting and sound, with a vocal coach. Even shot on a phone, your self-tape can change everything." },
+      { "title": "From selection to fee", "body": "When you're picked, we negotiate, secure the contract and pay you your fee. Your commission drops as you rise." }
     ],
-    "cta": "Devenir membre"
+    "cta": "Become a member"
   },
   "pricingPage": {
-    "meta": { "title": "Tarifs — Agental Talents", "description": "Le mandat de représentation est gratuit. L'abonnement, optionnel, récompense ta progression avec une commission dégressive." },
-    "hero": { "eyebrow": "Tarifs", "title": "Des tarifs qui récompensent ta progression", "subtitle": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service technologique optionnel — jamais un péage vers les opportunités." }
+    "meta": { "title": "Pricing — Agental Talents", "description": "The representation mandate is free. The subscription, optional, rewards your progress with a decreasing commission." },
+    "hero": { "eyebrow": "Pricing", "title": "Pricing that rewards your progress", "subtitle": "The representation mandate is free and separate. The subscription is an optional technology service — never a toll to opportunities." }
   },
   "faq": {
-    "meta": { "title": "FAQ — Agental Talents", "description": "Tes questions sur Agental : l'agence, le mandat, la commission et le fonctionnement au quotidien." },
-    "hero": { "eyebrow": "FAQ", "title": "Questions fréquentes des artistes", "subtitle": "Tout ce que tu veux savoir avant de te lancer. Une autre question ? Écris-nous." },
-    "cta": "Devenir membre gratuitement",
+    "meta": { "title": "FAQ — Agental Talents", "description": "Your questions about Agental: the agency, the mandate, the commission and how it works day to day." },
+    "hero": { "eyebrow": "FAQ", "title": "Artists' frequently asked questions", "subtitle": "Everything you want to know before getting started. Another question? Write to us." },
+    "cta": "Become a member for free",
     "groups": [
-      { "title": "L'essentiel", "items": [
-        { "q": "Qu'est-ce qu'Agental ?", "a": "Une vraie agence artistique, régulée, dont tout le travail opérationnel — veille, candidatures, suivi, coaching — est augmenté par une IA. On te représente ; l'IA travaille pour toi 24/7." },
-        { "q": "Est-ce une vraie agence ou une plateforme d'annonces ?", "a": "Une vraie agence : mandat écrit, déclaration en préfecture, responsabilité professionnelle. Pas un site d'annonces où tu postules seul." },
-        { "q": "Combien ça coûte de commencer ?", "a": "Rien. Le mandat de représentation est gratuit et la formule Free te permet d'être représenté sans payer. L'abonnement payant est optionnel." },
-        { "q": "Faut-il de l'expérience pour s'inscrire ?", "a": "Non. Agental s'adresse justement aux profils sous-servis par les agences classiques. Un reel filmé au téléphone suffit pour commencer." }
+      { "title": "The essentials", "items": [
+        { "q": "What is Agental?", "a": "A real, regulated artist agency whose entire operational work — scouting, applications, follow-up, coaching — is augmented by AI. We represent you; the AI works for you 24/7." },
+        { "q": "Is it a real agency or a listings platform?", "a": "A real agency: written mandate, official registration, professional liability. Not a listings site where you apply on your own." },
+        { "q": "How much does it cost to start?", "a": "Nothing. The representation mandate is free and the Free plan lets you be represented without paying. The paid subscription is optional." },
+        { "q": "Do I need experience to sign up?", "a": "No. Agental is precisely for the profiles underserved by traditional agencies. A reel filmed on your phone is enough to start." }
       ] },
-      { "title": "Le mandat et la commission", "items": [
-        { "q": "Qu'est-ce que le mandat de représentation ?", "a": "C'est le contrat standard entre un artiste et son agent, encadré par la loi française. Il nous autorise à te représenter et à négocier pour toi. Gratuit, sans engagement de ta part." },
-        { "q": "Combien prend Agental de commission ?", "a": "10 % en Free et Pro, 7,5 % en Premium, 5 % en Ultimate. Plus tu montes, plus tu gardes." },
-        { "q": "La commission, c'est en plus de l'abonnement ?", "a": "Le mandat (gratuit) et son éventuelle commission sont séparés de l'abonnement (optionnel). L'abonnement finance des services techno ; il n'achète jamais un accès aux opportunités." },
-        { "q": "Puis-je résilier mon mandat ?", "a": "Oui, avec un préavis court et sans avoir à te justifier. Tu restes libre." }
+      { "title": "The mandate and commission", "items": [
+        { "q": "What is the representation mandate?", "a": "It's the standard contract between an artist and their agent, governed by French law. It authorises us to represent you and negotiate for you. Free, no commitment on your side." },
+        { "q": "How much commission does Agental take?", "a": "10% on Free and Pro, 7.5% on Premium, 5% on Ultimate. The more you rise, the more you keep." },
+        { "q": "Is the commission on top of the subscription?", "a": "The mandate (free) and its possible commission are separate from the subscription (optional). The subscription funds tech services; it never buys access to opportunities." },
+        { "q": "Can I cancel my mandate?", "a": "Yes, with a short notice and without having to justify it. You stay free." }
       ] },
-      { "title": "Au quotidien", "items": [
-        { "q": "Comment l'IA trouve-t-elle des rôles pour moi ?", "a": "Elle croise ton profil (physique, spécialités, langues, accents, disponibilités) avec les castings ouverts et te propose ceux qui te correspondent vraiment." },
-        { "q": "Est-ce que je garde le contrôle de mes candidatures ?", "a": "Oui. Tu définis tes préférences (types de projets, mobilité, plafonds) et tu peux valider ou refuser. L'IA propose, tu décides." },
-        { "q": "L'abonnement me donne-t-il un accès privilégié aux castings ?", "a": "Non. Les opportunités passent par le mandat, gratuit. L'abonnement débloque des outils (auto-candidature, coaching), pas un passe-droit." },
-        { "q": "Que se passe-t-il si j'arrête de payer ?", "a": "Tu repasses automatiquement en formule gratuite. Tu restes représenté." },
-        { "q": "Ça marche sur un téléphone simple ?", "a": "Oui. Le Self-tape Studio a un mode dégradé pensé pour les terminaux modestes et les connexions lentes." }
+      { "title": "Day to day", "items": [
+        { "q": "How does the AI find roles for me?", "a": "It cross-references your profile (physique, specialties, languages, accents, availability) with open castings and suggests the ones that truly match." },
+        { "q": "Do I keep control of my applications?", "a": "Yes. You set your preferences (project types, mobility, caps) and can approve or decline. The AI suggests, you decide." },
+        { "q": "Does the subscription give me privileged access to castings?", "a": "No. Opportunities go through the mandate, which is free. The subscription unlocks tools (auto-application, coaching), not a fast pass." },
+        { "q": "What happens if I stop paying?", "a": "You automatically move back to the free plan. You remain represented." },
+        { "q": "Does it work on a basic phone?", "a": "Yes. The Self-tape Studio has a degraded mode designed for modest devices and slow connections." }
       ] }
     ]
   },
   "about": {
-    "meta": { "title": "Qui sommes-nous — Agental", "description": "Une idée née à table : démocratiser l'accès à la représentation artistique grâce à un vrai agent augmenté par l'IA." },
-    "hero": { "eyebrow": "Qui sommes-nous", "title": "Une idée née à table", "subtitle": "Agental est né d'une conviction simple : le talent est partout, la représentation ne l'est pas. On voulait changer ça." },
+    "meta": { "title": "About us — Agental", "description": "An idea born at the dinner table: democratising access to artistic representation through a real agent augmented by AI." },
+    "hero": { "eyebrow": "About us", "title": "An idea born at the table", "subtitle": "Agental was born from a simple conviction: talent is everywhere, representation is not. We wanted to change that." },
     "story": [
-      "Trop de profils formidables n'ont jamais eu accès à un agent : trop jeunes, trop loin des grandes villes, trop « atypiques » pour les agences établies. Pourtant, les castings les cherchent.",
-      "Nous avons construit une agence qui fait le travail d'un vrai agent — mandat, négociation, défense de carrière — mais dont la veille, le scoring et le suivi tournent 24/7 grâce à une IA. La chaleur d'un agent, la puissance d'un logiciel."
+      "Too many wonderful profiles never had access to an agent: too young, too far from big cities, too 'atypical' for established agencies. Yet castings are looking for them.",
+      "We built an agency that does a real agent's work — mandate, negotiation, career defence — but whose watch, scoring and follow-up run 24/7 thanks to AI. The warmth of an agent, the power of software."
     ],
-    "valuesTitle": "Ce qui nous rassemble",
+    "valuesTitle": "What brings us together",
     "values": [
-      { "title": "Démocratiser", "body": "Donner accès à la représentation aux profils sous-servis, sans barrière de jargon ni de contrat intimidant." },
-      { "title": "Transparence", "body": "On explique toujours pourquoi. L'IA est un assistant au service de l'humain, jamais une boîte noire." },
-      { "title": "Respect", "body": "Tes médias restent à toi. Tes données sont protégées. Ta liberté de partir aussi." }
+      { "title": "Democratise", "body": "Give access to representation to underserved profiles, without jargon or intimidating contracts." },
+      { "title": "Transparency", "body": "We always explain why. The AI is an assistant in service of humans, never a black box." },
+      { "title": "Respect", "body": "Your media stay yours. Your data is protected. So is your freedom to leave." }
     ],
-    "foundersTitle": "L'équipe",
+    "foundersTitle": "The team",
     "founders": [
-      { "name": "Jérôme", "role": "le père" },
-      { "name": "Vadim", "role": "à Paris" }
+      { "name": "Jérôme", "role": "the father" },
+      { "name": "Vadim", "role": "in Paris" }
     ]
   },
   "castingLandings": {
     "index": {
-      "meta": { "title": "Tous les types de casting — Agental Talents", "description": "Figuration, silhouette, seconds rôles, publicité, photo, voix, enfants, créateurs : trouve le type de casting fait pour toi et laisse Agental te représenter." },
-      "eyebrow": "Types de casting",
-      "title": "Trouve le casting fait pour toi",
-      "subtitle": "Quel que soit ton profil, il y a une place. Choisis un univers, on te trouve les rôles qui te correspondent."
+      "meta": { "title": "All casting types — Agental Talents", "description": "Extras, silhouette, supporting roles, advertising, photo, voice, children, creators: find the casting type made for you and let Agental represent you." },
+      "eyebrow": "Casting types",
+      "title": "Find the casting made for you",
+      "subtitle": "Whatever your profile, there's a place. Pick a world, we find the roles that match."
     },
-    "audienceTitle": "À qui ça s'adresse",
-    "benefitsTitle": "Ce qu'Agental t'apporte",
-    "protectionTitle": "Le cadre protecteur appliqué",
-    "cachetsTitle": "Cachets indicatifs en France",
-    "cachetsNote": "Fourchettes indicatives, variables selon le projet, la production et l'expérience.",
-    "startTitle": "Comment commencer",
-    "startBody": "Crée ton profil gratuitement, signe ton mandat, et laisse l'IA repérer les castings faits pour toi.",
-    "cta": "Devenir membre",
+    "audienceTitle": "Who it's for",
+    "benefitsTitle": "What Agental brings you",
+    "protectionTitle": "The protective framework applied",
+    "cachetsTitle": "Indicative fees in France",
+    "cachetsNote": "Indicative ranges, varying by project, production and experience.",
+    "startTitle": "How to start",
+    "startBody": "Create your profile for free, sign your mandate, and let the AI spot the castings made for you.",
+    "cta": "Become a member",
     "benefits": [
-      "On te trouve les annonces qui te correspondent vraiment",
-      "On optimise ton dossier et tes self-tapes",
-      "On négocie et on sécurise ton cachet"
+      "We find the listings that truly match you",
+      "We optimise your portfolio and self-tapes",
+      "We negotiate and secure your fee"
     ]
   }
 }

@@ -12,6 +12,9 @@ import {
   FolderKanban,
   Users,
   CreditCard,
+  History,
+  ShieldAlert,
+  Gauge,
   type LucideIcon,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -29,6 +32,9 @@ const ICONS: Record<string, LucideIcon> = {
   projects: FolderKanban,
   talents: Users,
   billing: CreditCard,
+  audit: History,
+  minors: ShieldAlert,
+  console: Gauge,
 };
 
 export interface AppNavItem {

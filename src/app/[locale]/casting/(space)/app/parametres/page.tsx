@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
+import { RgpdSection } from "@/components/app/rgpd-section";
 
 export const metadata: Metadata = { title: "Paramètres" };
 
@@ -57,6 +58,8 @@ export default async function CastingParametresPage({
           <Link href="/casting/app/abonnement">Gérer l&apos;abonnement</Link>
         </Button>
       </Section>
+
+      <RgpdSection />
 
       <form action={logoutAction}>
         <Button type="submit" variant="ghost">
