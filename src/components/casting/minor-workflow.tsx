@@ -1,0 +1,143 @@
+"use client";
+
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { ShieldAlert, Check, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { openMinorCase, advanceMinorCase } from "@/app/actions/minors";
+
+export interface MinorCaseData {
+  id: string;
+  prefectoralAuthStatus: string;
+  parentalPresence: boolean;
+  escrowPercent: number;
+  escrowStatus: string;
+  state: string;
+}
+
+export function MinorWorkflow({
+  candidatureId,
+  minorCase,
+}: {
+  candidatureId: string;
+  minorCase: MinorCaseData | null;
+}) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const run = (fn: () => Promise<unknown>) =>
+    start(async () => {
+      await fn();
+      router.refresh();
+    });
+
+  return (
+    <div className="rounded-sedan border border-warning/40 bg-warning/5 p-5">
+      <div className="flex items-center gap-2">
+        <ShieldAlert className="size-5 text-warning" />
+        <h2 className="font-display text-lg font-medium">
+          Protection du mineur
+        </h2>
+        {minorCase?.state === "READY" && (
+          <Badge variant="success">Prêt à convoquer</Badge>
+        )}
+      </div>
+      <p className="mt-1 text-sm text-fg-muted">
+        Dispositif légal français appliqué à la lettre avant toute convocation.
+      </p>
+
+      {!minorCase ? (
+        <Button
+          className="mt-4"
+          disabled={pending}
+          onClick={() => run(() => openMinorCase(candidatureId))}
+        >
+          {pending && <Loader2 className="size-4 animate-spin" />}
+          Ouvrir le dossier de protection
+        </Button>
+      ) : (
+        <ul className="mt-4 space-y-2">
+          <StepRow
+            done={minorCase.prefectoralAuthStatus === "GRANTED"}
+            label="Autorisation de la commission départementale"
+            status={
+              minorCase.prefectoralAuthStatus === "GRANTED"
+                ? "Accordée"
+                : minorCase.prefectoralAuthStatus === "REQUESTED"
+                  ? "Demandée"
+                  : "À demander"
+            }
+            action={
+              minorCase.prefectoralAuthStatus === "NONE"
+                ? { label: "Demander", fn: () => advanceMinorCase(minorCase.id, "requestAuth") }
+                : minorCase.prefectoralAuthStatus === "REQUESTED"
+                  ? { label: "Marquer accordée", fn: () => advanceMinorCase(minorCase.id, "grantAuth") }
+                  : undefined
+            }
+            pending={pending}
+            run={run}
+          />
+          <StepRow
+            done={minorCase.parentalPresence}
+            label="Présence parentale (casting & tournage)"
+            status={minorCase.parentalPresence ? "Confirmée" : "À confirmer"}
+            action={
+              !minorCase.parentalPresence
+                ? { label: "Confirmer", fn: () => advanceMinorCase(minorCase.id, "confirmParental") }
+                : undefined
+            }
+            pending={pending}
+            run={run}
+          />
+          <StepRow
+            done={minorCase.escrowStatus === "HELD"}
+            label={`Séquestre de ${minorCase.escrowPercent}% du cachet jusqu'à la majorité`}
+            status={minorCase.escrowStatus === "HELD" ? "Bloqué" : "À bloquer"}
+            action={
+              minorCase.escrowStatus !== "HELD"
+                ? { label: "Bloquer", fn: () => advanceMinorCase(minorCase.id, "holdEscrow") }
+                : undefined
+            }
+            pending={pending}
+            run={run}
+          />
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function StepRow({
+  done,
+  label,
+  status,
+  action,
+  pending,
+  run,
+}: {
+  done: boolean;
+  label: string;
+  status: string;
+  action?: { label: string; fn: () => Promise<unknown> };
+  pending: boolean;
+  run: (fn: () => Promise<unknown>) => void;
+}) {
+  return (
+    <li className="flex items-center gap-3 rounded-sedan border border-border bg-surface p-3 text-sm">
+      <span
+        className={`flex size-5 shrink-0 items-center justify-center rounded-full ${
+          done ? "bg-success text-white" : "border border-border"
+        }`}
+      >
+        {done && <Check className="size-3" />}
+      </span>
+      <span className="min-w-0 flex-1">{label}</span>
+      <Badge variant={done ? "success" : "warning"}>{status}</Badge>
+      {action && (
+        <Button size="sm" variant="outline" disabled={pending} onClick={() => run(action.fn)}>
+          {action.label}
+        </Button>
+      )}
+    </li>
+  );
+}
