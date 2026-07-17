@@ -88,6 +88,7 @@ model ArtistProfile {
   city              String?
   bio               String?
   physical          String    @default("{}") // JSON: height, hair, eyes, build…
+  preferences       String    @default("{}") // JSON: auto-candidature prefs, constraints
   mobilityCountries String    @default("[]") // JSON string[]
   minRateCents      Int?
   completenessScore Int       @default(0)
