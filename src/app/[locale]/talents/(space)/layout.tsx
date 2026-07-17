@@ -12,6 +12,7 @@ const NAV: AppNavItem[] = [
   { href: "/talents/app/candidatures", label: "Candidatures", icon: "send" },
   { href: "/talents/app/self-tape", label: "Self-tape", icon: "video" },
   { href: "/talents/app/carriere", label: "Carrière", icon: "career" },
+  { href: "/talents/app/abonnement", label: "Abonnement", icon: "billing" },
   { href: "/talents/app/messages", label: "Messages", icon: "messages" },
   { href: "/talents/app/parametres", label: "Paramètres", icon: "settings" },
 ];

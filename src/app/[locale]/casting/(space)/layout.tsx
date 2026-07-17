@@ -8,7 +8,7 @@ import { AppSidebar, type AppNavItem } from "@/components/app/app-sidebar";
 
 const NAV: AppNavItem[] = [
   { href: "/casting/app", label: "Projets", icon: "projects" },
-  { href: "/casting/app/talents", label: "Talents", icon: "talents" },
+  { href: "/casting/app/abonnement", label: "Abonnement", icon: "billing" },
   { href: "/casting/app/parametres", label: "Paramètres", icon: "settings" },
 ];
 

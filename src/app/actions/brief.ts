@@ -12,6 +12,7 @@ import {
   type TalentFeatures,
 } from "@/lib/ai/scorer";
 import { b2bLimit } from "@/domain/pricing";
+import { incrementUsage } from "@/lib/quotas";
 import { parseJson, toJson, PhysicalTraits } from "@/domain/json";
 import { z } from "zod";
 
@@ -175,6 +176,9 @@ export async function runShortlist(projectId: string): Promise<void> {
     where: { id: projectId },
     data: { status: "SHORTLISTING" },
   });
+
+  // Consume monthly "filtered candidatures" quota (all profiles reviewed).
+  await incrementUsage(project.organizationId, "filteredCandidatures", features.length);
 }
 
 const NEXT_STATUS: Record<string, string> = {

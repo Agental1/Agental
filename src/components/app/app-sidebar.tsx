@@ -11,6 +11,7 @@ import {
   LogOut,
   FolderKanban,
   Users,
+  CreditCard,
   type LucideIcon,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -27,6 +28,7 @@ const ICONS: Record<string, LucideIcon> = {
   settings: Settings,
   projects: FolderKanban,
   talents: Users,
+  billing: CreditCard,
 };
 
 export interface AppNavItem {
