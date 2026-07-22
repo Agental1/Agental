@@ -19,6 +19,7 @@ export default function TalentsLayout({
 
   const nav: NavItem[] = [
     { href: "/talents/comment-ca-marche", label: t("nav.how") },
+    { href: "/castings", label: t("nav.castingTypes") },
     { href: "/talents/tarifs", label: t("nav.pricing") },
     { href: "/talents/faq", label: t("nav.faq") },
     { href: "/talents/qui-sommes-nous", label: t("nav.about") },
