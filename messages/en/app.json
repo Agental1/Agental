@@ -85,5 +85,28 @@
     "password": "Password",
     "emailPlaceholder": "first.last@example.com",
     "passwordPlaceholder": "8 characters minimum"
+  },
+  "specialties": {
+    "figuration": "Background acting",
+    "silhouette": "Walk-on",
+    "seconds-roles": "Supporting roles",
+    "publicite": "Commercials",
+    "photo": "Photo",
+    "voix": "Voice & dubbing",
+    "enfants": "Children & teens",
+    "createurs": "Creators"
+  },
+  "levels": {
+    "BEGINNER": "Beginner",
+    "INTERMEDIATE": "Intermediate",
+    "CONFIRMED": "Experienced"
+  },
+  "projectTypes": {
+    "long": "Feature film",
+    "serie": "Series",
+    "pub": "Commercial",
+    "court": "Short film",
+    "theatre": "Theatre",
+    "clip": "Music video"
   }
 }

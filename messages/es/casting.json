@@ -286,5 +286,36 @@
     "submit": "Crear mi cuenta",
     "already": "¿Ya está registrado?",
     "signIn": "Iniciar sesión"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identidad",
+      "scope": "Ámbito",
+      "verify": "Verificación"
+    },
+    "identity": {
+      "title": "Su estructura",
+      "subtitle": "Verificamos su identidad profesional.",
+      "orgName": "Nombre de la estructura",
+      "orgNamePlaceholder": "Productora, agencia, estudio…",
+      "siret": "SIRET (14 dígitos)",
+      "siretNote": "Un SIRET válido activa la verificación inmediata. Si no, su cuenta queda pendiente de revisión."
+    },
+    "scope": {
+      "title": "Su ámbito",
+      "subtitle": "Para calibrar los perfiles que le presentamos.",
+      "projectTypes": "Tipos de proyecto",
+      "zones": "Zonas de actuación (separadas por comas)",
+      "zonesPlaceholder": "París, Lyon, nacional"
+    },
+    "verify": {
+      "title": "Último paso",
+      "subtitle": "Confirme su correo para acceder a sus proyectos.",
+      "sent": "Se le ha enviado un correo de confirmación.",
+      "demo": "Para esta demo, haga clic abajo para confirmar y activar su espacio gratuito (1 proyecto activo, 50 candidaturas filtradas al mes).",
+      "submit": "Confirmar y acceder a mis proyectos"
+    },
+    "back": "Volver",
+    "continue": "Continuar"
   }
 }

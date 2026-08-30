@@ -286,5 +286,36 @@
     "submit": "Créer mon compte",
     "already": "Déjà inscrit ?",
     "signIn": "Se connecter"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identité",
+      "scope": "Périmètre",
+      "verify": "Vérification"
+    },
+    "identity": {
+      "title": "Votre structure",
+      "subtitle": "On vérifie votre identité professionnelle.",
+      "orgName": "Nom de la structure",
+      "orgNamePlaceholder": "Production, agence, studio…",
+      "siret": "SIRET (14 chiffres)",
+      "siretNote": "Un SIRET valide active la vérification immédiate. Sinon, votre compte reste en attente de revue."
+    },
+    "scope": {
+      "title": "Votre périmètre",
+      "subtitle": "Pour calibrer les profils qu'on vous présente.",
+      "projectTypes": "Types de projets",
+      "zones": "Zones d'intervention (séparées par des virgules)",
+      "zonesPlaceholder": "Paris, Lyon, national"
+    },
+    "verify": {
+      "title": "Dernière étape",
+      "subtitle": "Confirmez votre email pour accéder à vos projets.",
+      "sent": "Un email de confirmation vous a été envoyé.",
+      "demo": "Pour cette démo, cliquez ci-dessous pour confirmer et activer votre espace gratuit (1 projet actif, 50 candidatures triées / mois).",
+      "submit": "Confirmer et accéder à mes projets"
+    },
+    "back": "Retour",
+    "continue": "Continuer"
   }
 }

@@ -450,5 +450,65 @@
     "submit": "Crear mi cuenta",
     "already": "¿Ya eres miembro?",
     "signIn": "Iniciar sesión"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identidad",
+      "physical": "Físico",
+      "media": "Medios",
+      "specialties": "Especialidades",
+      "mandat": "Mandato"
+    },
+    "identity": {
+      "title": "¿Quién eres?",
+      "subtitle": "Empecemos por lo básico.",
+      "stageName": "Nombre artístico",
+      "stageNamePlaceholder": "Tu nombre artístico",
+      "legalName": "Nombre civil (privado)",
+      "birthDate": "Fecha de nacimiento",
+      "city": "Ciudad",
+      "cityPlaceholder": "Lyon",
+      "phone": "Teléfono"
+    },
+    "physical": {
+      "title": "Tu físico",
+      "subtitle": "Lo que buscan los cástines. Todo es opcional.",
+      "height": "Estatura (cm)",
+      "build": "Complexión",
+      "buildPlaceholder": "delgada, atlética…",
+      "hair": "Cabello",
+      "eyes": "Ojos",
+      "languages": "Idiomas (separados por comas)",
+      "languagesPlaceholder": "francés, inglés",
+      "accents": "Acentos",
+      "accentsPlaceholder": "bretón, marsellés"
+    },
+    "media": {
+      "title": "Tus medios",
+      "subtitle": "Fotos, vídeo, voz: lo que mejor te muestre.",
+      "note": "Un vídeo grabado con el móvil basta para empezar. Podrás añadir material desde tu perfil justo después de registrarte.",
+      "skip": "Saltar este paso"
+    },
+    "specialties": {
+      "title": "Tus especialidades",
+      "subtitle": "Elige lo que encaja contigo, al menos una.",
+      "minRate": "Caché mínimo (€/día, opcional)"
+    },
+    "mandat": {
+      "title": "Tu mandato de representación",
+      "subtitle": "Un último paso y ya estás representado.",
+      "free": "Gratis. Sin compromiso por tu parte. Cancelable cuando quieras.",
+      "read": "Leer el mandato completo",
+      "accept": "Acepto el mandato de representación y pido a Agental que me represente.",
+      "points": [
+        "Es el contrato estándar entre un artista y su agente, amparado por la ley francesa.",
+        "Agental te representa y negocia por ti. La comisión solo se aplica a los cachés conseguidos.",
+        "Tu material sigue siendo tuyo. Tus datos están protegidos (RGPD).",
+        "La suscripción de pago es otra decisión, más adelante, nunca mezclada con el mandato."
+      ],
+      "submit": "Firmar y activar mi cuenta"
+    },
+    "back": "Volver",
+    "continue": "Continuar"
   }
 }

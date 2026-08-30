@@ -286,5 +286,36 @@
     "submit": "Create my account",
     "already": "Already registered?",
     "signIn": "Sign in"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identity",
+      "scope": "Scope",
+      "verify": "Verification"
+    },
+    "identity": {
+      "title": "Your organisation",
+      "subtitle": "We verify your professional identity.",
+      "orgName": "Organisation name",
+      "orgNamePlaceholder": "Production company, agency, studio…",
+      "siret": "SIRET (14 digits)",
+      "siretNote": "A valid SIRET triggers immediate verification. Otherwise your account stays pending review."
+    },
+    "scope": {
+      "title": "Your scope",
+      "subtitle": "So we can calibrate the profiles we show you.",
+      "projectTypes": "Project types",
+      "zones": "Areas covered (comma separated)",
+      "zonesPlaceholder": "Paris, Lyon, nationwide"
+    },
+    "verify": {
+      "title": "Last step",
+      "subtitle": "Confirm your email to reach your projects.",
+      "sent": "A confirmation email has been sent to you.",
+      "demo": "For this demo, click below to confirm and activate your free workspace (1 active project, 50 filtered applications per month).",
+      "submit": "Confirm and open my projects"
+    },
+    "back": "Back",
+    "continue": "Continue"
   }
 }

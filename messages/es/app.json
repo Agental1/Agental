@@ -85,5 +85,28 @@
     "password": "Contraseña",
     "emailPlaceholder": "nombre@ejemplo.es",
     "passwordPlaceholder": "mínimo 8 caracteres"
+  },
+  "specialties": {
+    "figuration": "Figuración",
+    "silhouette": "Figuración especial",
+    "seconds-roles": "Papeles secundarios",
+    "publicite": "Publicidad",
+    "photo": "Fotografía",
+    "voix": "Voz y doblaje",
+    "enfants": "Niños y adolescentes",
+    "createurs": "Creadores"
+  },
+  "levels": {
+    "BEGINNER": "Principiante",
+    "INTERMEDIATE": "Intermedio",
+    "CONFIRMED": "Consolidado"
+  },
+  "projectTypes": {
+    "long": "Largometraje",
+    "serie": "Serie",
+    "pub": "Publicidad",
+    "court": "Cortometraje",
+    "theatre": "Teatro",
+    "clip": "Videoclip"
   }
 }

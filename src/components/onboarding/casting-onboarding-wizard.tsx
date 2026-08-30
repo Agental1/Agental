@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -19,16 +20,24 @@ import {
   finalizeCastingOnboarding,
 } from "@/app/actions/casting-onboarding";
 
+/**
+ * Project types: the French label IS the stored value (Organization.scope holds
+ * these strings verbatim). Translating them would rewrite existing data, so the
+ * stored value stays put and only `id` drives the displayed label.
+ *
+ * A future migration could move the stored side to ids; until then, changing
+ * `value` here would silently orphan every organisation already scoped.
+ */
 const PROJECT_TYPES = [
-  "Long métrage",
-  "Série",
-  "Publicité",
-  "Court métrage",
-  "Clip",
-  "Théâtre",
-];
+  { id: "long", value: "Long métrage" },
+  { id: "serie", value: "Série" },
+  { id: "pub", value: "Publicité" },
+  { id: "court", value: "Court métrage" },
+  { id: "clip", value: "Clip" },
+  { id: "theatre", value: "Théâtre" },
+] as const;
 
-const STEPS = ["Identité", "Périmètre", "Vérification"];
+const STEP_KEYS = ["identity", "scope", "verify"] as const;
 
 export interface CastingInitial {
   organizationName: string;
@@ -42,6 +51,8 @@ export function CastingOnboardingWizard({
 }: {
   initial: CastingInitial;
 }) {
+  const t = useTranslations("casting");
+  const ta = useTranslations("app");
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initial);
   const [error, setError] = useState<ActionError | undefined>();
@@ -58,7 +69,7 @@ export function CastingOnboardingWizard({
           return;
         }
       }
-      setStep((s) => Math.min(STEPS.length - 1, s + 1));
+      setStep((s) => Math.min(STEP_KEYS.length - 1, s + 1));
     });
   }
 
@@ -75,19 +86,19 @@ export function CastingOnboardingWizard({
         {step === 0 && (
           <>
             <Head
-              title="Votre structure"
-              subtitle="On vérifie votre identité professionnelle."
+              title={t("onboarding.identity.title")}
+              subtitle={t("onboarding.identity.subtitle")}
             />
-            <Field label="Nom de la structure" required>
+            <Field label={t("onboarding.identity.orgName")} required>
               <Input
                 value={data.organizationName}
                 onChange={(e) =>
                   setData({ ...data, organizationName: e.target.value })
                 }
-                placeholder="Production, agence, studio…"
+                placeholder={t("onboarding.identity.orgNamePlaceholder")}
               />
             </Field>
-            <Field label="SIRET (14 chiffres)">
+            <Field label={t("onboarding.identity.siret")}>
               <Input
                 value={data.siret}
                 onChange={(e) => setData({ ...data, siret: e.target.value })}
@@ -96,8 +107,7 @@ export function CastingOnboardingWizard({
               />
             </Field>
             <p className="text-xs text-fg-subtle">
-              Un SIRET valide active la vérification immédiate. Sinon, votre
-              compte reste en attente de revue.
+              {t("onboarding.identity.siretNote")}
             </p>
             <Nav
               pending={pending}
@@ -116,24 +126,24 @@ export function CastingOnboardingWizard({
         {step === 1 && (
           <>
             <Head
-              title="Votre périmètre"
-              subtitle="Pour calibrer les profils qu'on vous présente."
+              title={t("onboarding.scope.title")}
+              subtitle={t("onboarding.scope.subtitle")}
             />
             <div>
-              <Label>Types de projets</Label>
+              <Label>{t("onboarding.scope.projectTypes")}</Label>
               <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {PROJECT_TYPES.map((t) => {
-                  const active = data.projectTypes.includes(t);
+                {PROJECT_TYPES.map((pt) => {
+                  const active = data.projectTypes.includes(pt.value);
                   return (
                     <button
-                      key={t}
+                      key={pt.id}
                       type="button"
                       onClick={() =>
                         setData({
                           ...data,
                           projectTypes: active
-                            ? data.projectTypes.filter((x) => x !== t)
-                            : [...data.projectTypes, t],
+                            ? data.projectTypes.filter((x) => x !== pt.value)
+                            : [...data.projectTypes, pt.value],
                         })
                       }
                       className={cn(
@@ -143,13 +153,13 @@ export function CastingOnboardingWizard({
                           : "border-border hover:border-accent"
                       )}
                     >
-                      {t}
+                      {ta(`projectTypes.${pt.id}`)}
                     </button>
                   );
                 })}
               </div>
             </div>
-            <Field label="Zones d'intervention (séparées par des virgules)">
+            <Field label={t("onboarding.scope.zones")}>
               <Input
                 value={data.zones.join(", ")}
                 onChange={(e) =>
@@ -161,7 +171,7 @@ export function CastingOnboardingWizard({
                       .filter(Boolean),
                   })
                 }
-                placeholder="Paris, Lyon, national"
+                placeholder={t("onboarding.scope.zonesPlaceholder")}
               />
             </Field>
             <Nav
@@ -186,25 +196,21 @@ export function CastingOnboardingWizard({
 }
 
 function VerifyStep() {
+  const t = useTranslations("casting");
   const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
   return (
     <>
       <Head
-        title="Dernière étape"
-        subtitle="Confirmez votre email pour accéder à vos projets."
+        title={t("onboarding.verify.title")}
+        subtitle={t("onboarding.verify.subtitle")}
       />
       <div className="flex items-start gap-3 rounded-sedan border border-border bg-surface p-5">
         <MailCheck className="mt-0.5 size-5 shrink-0 text-accent" />
         <div className="text-sm text-fg-muted">
-          <p className="font-medium text-fg">
-            Un email de confirmation vous a été envoyé.
-          </p>
-          <p className="mt-1">
-            Pour cette démo, cliquez ci-dessous pour confirmer et activer votre
-            espace gratuit (1 projet actif, 50 candidatures triées / mois).
-          </p>
+          <p className="font-medium text-fg">{t("onboarding.verify.sent")}</p>
+          <p className="mt-1">{t("onboarding.verify.demo")}</p>
         </div>
       </div>
       {error && (
@@ -238,17 +244,18 @@ function VerifyStep() {
         }
       >
         {pending && <Loader2 className="size-4 animate-spin" />}
-        <BadgeCheck className="size-4" /> Confirmer et accéder à mes projets
+        <BadgeCheck className="size-4" /> {t("onboarding.verify.submit")}
       </Button>
     </>
   );
 }
 
 function Progress({ step }: { step: number }) {
+  const t = useTranslations("casting");
   return (
     <div className="flex items-center gap-2">
-      {STEPS.map((label, i) => (
-        <div key={label} className="flex flex-1 flex-col gap-1.5">
+      {STEP_KEYS.map((key, i) => (
+        <div key={key} className="flex flex-1 flex-col gap-1.5">
           <div
             className={cn(
               "h-1 rounded-full",
@@ -261,7 +268,7 @@ function Progress({ step }: { step: number }) {
               i === step ? "font-medium text-fg" : "text-fg-subtle"
             )}
           >
-            {label}
+            {t(`onboarding.steps.${key}`)}
           </span>
         </div>
       ))}
@@ -307,18 +314,19 @@ function Nav({
   onBack?: () => void;
   pending: boolean;
 }) {
+  const t = useTranslations("casting");
   return (
     <div className="flex items-center justify-between pt-2">
       {onBack ? (
         <Button variant="ghost" onClick={onBack} disabled={pending}>
-          <ArrowLeft /> Retour
+          <ArrowLeft /> {t("onboarding.back")}
         </Button>
       ) : (
         <span />
       )}
       <Button onClick={onNext} disabled={pending}>
         {pending ? <Loader2 className="size-4 animate-spin" /> : null}
-        Continuer {!pending && <ArrowRight />}
+        {t("onboarding.continue")} {!pending && <ArrowRight />}
       </Button>
     </div>
   );

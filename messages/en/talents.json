@@ -450,5 +450,65 @@
     "submit": "Create my account",
     "already": "Already a member?",
     "signIn": "Sign in"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identity",
+      "physical": "Physical",
+      "media": "Media",
+      "specialties": "Specialties",
+      "mandat": "Mandate"
+    },
+    "identity": {
+      "title": "Who are you?",
+      "subtitle": "Let's start with the basics.",
+      "stageName": "Stage name",
+      "stageNamePlaceholder": "Your stage name",
+      "legalName": "Legal name (private)",
+      "birthDate": "Date of birth",
+      "city": "City",
+      "cityPlaceholder": "Lyon",
+      "phone": "Phone"
+    },
+    "physical": {
+      "title": "Your look",
+      "subtitle": "What casting directors look for. All optional.",
+      "height": "Height (cm)",
+      "build": "Build",
+      "buildPlaceholder": "slim, athletic…",
+      "hair": "Hair",
+      "eyes": "Eyes",
+      "languages": "Languages (comma separated)",
+      "languagesPlaceholder": "French, English",
+      "accents": "Accents",
+      "accentsPlaceholder": "Breton, Marseille"
+    },
+    "media": {
+      "title": "Your media",
+      "subtitle": "Photos, reel, voice — whatever shows you best.",
+      "note": "A reel shot on a phone is enough to start. You can add media from your profile right after signing up.",
+      "skip": "Skip this step"
+    },
+    "specialties": {
+      "title": "Your specialties",
+      "subtitle": "Pick what fits you — at least one.",
+      "minRate": "Minimum fee (€/day, optional)"
+    },
+    "mandat": {
+      "title": "Your representation mandate",
+      "subtitle": "One last step and you are represented.",
+      "free": "Free. No commitment on your side. Cancel whenever you want.",
+      "read": "Read the full mandate",
+      "accept": "I accept the representation mandate and ask Agental to represent me.",
+      "points": [
+        "It is the standard contract between an artist and their agent, framed by French law.",
+        "Agental represents you and negotiates for you. Commission applies only to fees you actually land.",
+        "Your media stays yours. Your data is protected (GDPR).",
+        "The paid subscription is a separate choice, later — never mixed with the mandate."
+      ],
+      "submit": "Sign and activate my account"
+    },
+    "back": "Back",
+    "continue": "Continue"
   }
 }

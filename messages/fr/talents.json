@@ -450,5 +450,65 @@
     "submit": "Créer mon compte",
     "already": "Déjà membre ?",
     "signIn": "Se connecter"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identité",
+      "physical": "Physique",
+      "media": "Médias",
+      "specialties": "Spécialités",
+      "mandat": "Mandat"
+    },
+    "identity": {
+      "title": "Qui es-tu ?",
+      "subtitle": "On commence par les bases.",
+      "stageName": "Nom artistique",
+      "stageNamePlaceholder": "Ton nom de scène",
+      "legalName": "Nom civil (privé)",
+      "birthDate": "Date de naissance",
+      "city": "Ville",
+      "cityPlaceholder": "Lyon",
+      "phone": "Téléphone"
+    },
+    "physical": {
+      "title": "Ton physique",
+      "subtitle": "Ce que les castings recherchent. Tout est optionnel.",
+      "height": "Taille (cm)",
+      "build": "Corpulence",
+      "buildPlaceholder": "mince, athlétique…",
+      "hair": "Cheveux",
+      "eyes": "Yeux",
+      "languages": "Langues (séparées par des virgules)",
+      "languagesPlaceholder": "français, anglais",
+      "accents": "Accents",
+      "accentsPlaceholder": "breton, marseillais"
+    },
+    "media": {
+      "title": "Tes médias",
+      "subtitle": "Photos, reel, voix — ce qui te met en valeur.",
+      "note": "Un reel filmé au téléphone suffit pour commencer. Tu ajouteras tes médias depuis ton profil, juste après ton inscription.",
+      "skip": "Passer cette étape"
+    },
+    "specialties": {
+      "title": "Tes spécialités",
+      "subtitle": "Choisis ce qui te correspond — au moins une.",
+      "minRate": "Cachet minimum (€/jour, optionnel)"
+    },
+    "mandat": {
+      "title": "Ton mandat de représentation",
+      "subtitle": "La dernière étape — et tu es représenté.",
+      "free": "Gratuit. Sans engagement de ta part. Résiliable quand tu veux.",
+      "read": "Lire le mandat complet",
+      "accept": "J'accepte le mandat de représentation et je demande à Agental de me représenter.",
+      "points": [
+        "C'est le contrat standard entre un artiste et son agent, encadré par la loi française.",
+        "Agental te représente et négocie pour toi. La commission ne s'applique qu'aux cachets décrochés.",
+        "Tes médias restent à toi. Tes données sont protégées (RGPD).",
+        "L'abonnement payant est un autre choix, plus tard — jamais mêlé au mandat."
+      ],
+      "submit": "Signer et activer mon compte"
+    },
+    "back": "Retour",
+    "continue": "Continuer"
   }
 }

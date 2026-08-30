@@ -85,5 +85,28 @@
     "password": "Mot de passe",
     "emailPlaceholder": "prenom@exemple.fr",
     "passwordPlaceholder": "8 caractères minimum"
+  },
+  "specialties": {
+    "figuration": "Figuration",
+    "silhouette": "Silhouette",
+    "seconds-roles": "Seconds rôles",
+    "publicite": "Publicité",
+    "photo": "Photo",
+    "voix": "Voix & doublage",
+    "enfants": "Enfants & ados",
+    "createurs": "Créateurs"
+  },
+  "levels": {
+    "BEGINNER": "Débutant",
+    "INTERMEDIATE": "Intermédiaire",
+    "CONFIRMED": "Confirmé"
+  },
+  "projectTypes": {
+    "long": "Long métrage",
+    "serie": "Série",
+    "pub": "Publicité",
+    "court": "Court métrage",
+    "theatre": "Théâtre",
+    "clip": "Clip"
   }
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { SpecialtyKind } from "@/domain/enums";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -17,16 +19,10 @@ import {
   savePreferences,
 } from "@/app/actions/profile";
 
-const SPECIALTIES = [
-  { kind: "figuration", label: "Figuration" },
-  { kind: "silhouette", label: "Silhouette" },
-  { kind: "seconds-roles", label: "Seconds rôles" },
-  { kind: "publicite", label: "Publicité" },
-  { kind: "photo", label: "Photo" },
-  { kind: "voix", label: "Voix & doublage" },
-  { kind: "enfants", label: "Enfants & ados" },
-  { kind: "createurs", label: "Créateurs" },
-];
+// Same source as the onboarding wizard: the Zod enum the database stores.
+// These two lists used to be duplicated verbatim, so a label edit in one drifted
+// silently from the other.
+const SPECIALTY_KINDS = SpecialtyKind.options;
 
 export interface ProfileEditorData {
   stageName: string;
@@ -255,22 +251,23 @@ function PhysicalTab({ data, setData }: TabProps) {
 }
 
 function SpecialtiesTab({ data, setData }: TabProps) {
+  const ta = useTranslations("app");
   const { save, pending, saved, error } = useSave(saveProfileSpecialties);
   return (
     <div className="max-w-xl space-y-4">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {SPECIALTIES.map((s) => {
-          const active = data.specialties.includes(s.kind);
+        {SPECIALTY_KINDS.map((kind) => {
+          const active = data.specialties.includes(kind);
           return (
             <button
-              key={s.kind}
+              key={kind}
               type="button"
               onClick={() =>
                 setData({
                   ...data,
                   specialties: active
-                    ? data.specialties.filter((k) => k !== s.kind)
-                    : [...data.specialties, s.kind],
+                    ? data.specialties.filter((k) => k !== kind)
+                    : [...data.specialties, kind],
                 })
               }
               className={cn(
@@ -278,7 +275,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
                 active ? "border-accent bg-accent-soft text-accent" : "border-border hover:border-accent"
               )}
             >
-              {s.label}
+              {ta(`specialties.${kind}`)}
             </button>
           );
         })}
