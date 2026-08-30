@@ -50,9 +50,23 @@ protégées sont inatteignables sur une base fraîche.
 | `bun run typecheck` | `tsc --noEmit` |
 | `bun run lint` | ESLint |
 | `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
-| `bun run a11y:check` | Aucune cible interactive sous le seuil tactile à 375 px |
+| `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
 | `bun run db:migrate` / `db:seed` / `db:studio` | Prisma |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
+
+### Garde d'accessibilité
+
+`a11y:check` pilote un Chromium via Playwright. Une seule installation :
+
+```bash
+bunx playwright install chromium
+```
+
+Le seuil par défaut est **24 px**, celui de WCAG 2.5.8 (niveau AA) — pas 44,
+qui relève de SC 2.5.5 (AAA) et des recommandations Apple. `--min 44` mesure
+l'écart de confort sans le rendre bloquant. `--base <url>` vise un autre
+serveur : le lancer contre `next dev` est lent, la compilation à froid de
+chaque route dépassant le délai ; préférez `bun run build && bun run start`.
 
 ## Internationalisation
 

@@ -33,7 +33,7 @@ export default async function LoginPage({
       <AuthForm action={loginAction} submitLabel={t("login.submit")} locale={locale} />
       <p className="text-center text-sm text-fg-muted">
         {t("login.noAccount")}{" "}
-        <Link href="/talents/inscription" className="text-accent hover:underline">
+        <Link href="/talents/inscription" className="inline-flex min-h-11 items-center md:min-h-0 text-accent hover:underline">
           {t("login.signUp")}
         </Link>
       </p>

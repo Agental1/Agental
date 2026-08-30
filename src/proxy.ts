@@ -16,6 +16,15 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  // Everything except API routes, Next internals, and files with an extension.
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  /**
+   * Everything except API routes, Next internals, and files with an extension.
+   *
+   * `icon` and `apple-icon` need naming explicitly: they are metadata routes
+   * with no file extension, so the extension rule does not catch them and this
+   * proxy was redirecting /icon to /fr/icon — which does not exist. The
+   * manifest points at both, so "Add to home screen" got a redirect instead of
+   * an image. Same shape as the /studio problem: any extensionless route that
+   * lives outside [locale] has to be excluded here or it is unreachable.
+   */
+  matcher: ["/((?!api|_next|_vercel|icon|apple-icon|studio(?:/|$)|.*\\..*).*)"],
 };

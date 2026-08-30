@@ -49,7 +49,7 @@ export default async function TalentsSignupPage({
         />
         <p className="mt-6 text-center text-sm text-fg-muted">
           {t("signup.already")}{" "}
-          <Link href="/connexion" className="text-accent hover:underline">
+          <Link href="/connexion" className="inline-flex min-h-11 items-center md:min-h-0 text-accent hover:underline">
             {t("signup.signIn")}
           </Link>
         </p>
