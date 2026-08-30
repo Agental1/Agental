@@ -111,9 +111,9 @@
         "cta": "Get started",
         "features": [
           "Representation mandate",
-          "Full profile",
-          "Manual applications",
-          "Access to targeted castings"
+          "Full profile and media",
+          "Self-tape Studio",
+          "Career and earnings tracking"
         ]
       },
       {
@@ -123,11 +123,9 @@
         "cta": "Choose",
         "features": [
           "Everything in Free",
-          "AI auto-applications",
-          "Priority AI watch",
-          "Augmented Self-tape Studio",
-          "Priority support",
-          "Up to 10 applications/day"
+          "AI feedback on your self-tapes",
+          "Messaging with your agent",
+          "Priority support"
         ]
       },
       {
@@ -137,9 +135,7 @@
         "cta": "Choose",
         "features": [
           "Everything in Pro",
-          "Advanced AI coaching",
-          "Multi-country mobility",
-          "Up to 50 applications/day"
+          "Commission down to 7.5%"
         ]
       },
       {
@@ -149,9 +145,7 @@
         "cta": "Choose",
         "features": [
           "Everything in Premium",
-          "Automated press management",
-          "Unlimited applications",
-          "Commission reduced to 5%"
+          "Commission down to 5%"
         ]
       }
     ]
@@ -378,10 +372,67 @@
       "We find the listings that truly match you",
       "We optimise your portfolio and self-tapes",
       "We negotiate and secure your fee"
-    ]
+    ],
+    "othersTitle": "Other casting types"
   },
   "notFound": {
     "title": "This page has left the set.",
     "body": "The link may be old, or the page was renamed. Your castings are still where you left them."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Background acting",
+      "h1": "Background acting casting",
+      "tagline": "The way into film and television. No experience required.",
+      "audience": "You want to be on screen, see how a set works and build a first credit. Every profile, every age, anywhere in France."
+    },
+    "silhouette": {
+      "name": "Walk-on",
+      "h1": "Walk-on casting",
+      "tagline": "A step up from background: one gesture, one presence that registers.",
+      "audience": "You have a look, a bearing or a precise action to play on camera. A silent but visible role, usually better paid than background work."
+    },
+    "seconds-roles": {
+      "name": "Supporting roles",
+      "h1": "Supporting role casting",
+      "tagline": "Lines, a character, series and feature films.",
+      "audience": "You act, you have (or are building) some experience, and you want speaking parts in series, drama and film."
+    },
+    "publicite": {
+      "name": "Commercials",
+      "h1": "Commercial casting",
+      "tagline": "The best-paid shoots, open to every profile.",
+      "audience": "A face, a family, an athlete, a senior, a child, expert hands… Advertising looks for real people, not models. High fees and negotiated image rights."
+    },
+    "photo": {
+      "name": "Photo",
+      "h1": "Photo casting",
+      "tagline": "Campaigns, catalogues, editorial: your image, put to work.",
+      "audience": "You are at ease in front of the lens for commercial or editorial shoots. Authentic faces, every type and every age."
+    },
+    "voix-doublage": {
+      "name": "Voice & dubbing",
+      "h1": "Voice and dubbing casting",
+      "tagline": "Your voice is enough: ads, dubbing, narration, e-learning.",
+      "audience": "You have a voice that carries, an accent, a language or a particular timbre. The work happens in a studio, often without travelling far."
+    },
+    "enfants": {
+      "name": "Children & teens",
+      "h1": "Children and teen casting",
+      "tagline": "A strict protective framework, so they can act safely.",
+      "audience": "Your child wants to be on set? Background, commercials, series: the opportunities exist, inside a protective legal framework we apply to the letter."
+    },
+    "createurs": {
+      "name": "Content creators",
+      "h1": "Content creator casting",
+      "tagline": "Your audience and your ease on camera are casting assets.",
+      "audience": "You already create content and want to monetise your presence: placements, brand campaigns, hybrid formats. We structure and negotiate for you."
+    },
+    "units": {
+      "day": "/ day",
+      "session": "/ session",
+      "project": "project-based",
+      "variable": "Varies"
+    }
   }
 }

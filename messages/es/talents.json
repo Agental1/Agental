@@ -108,50 +108,44 @@
         "name": "Free",
         "price": "0 €",
         "commission": "10 %",
-        "cta": "Commencer",
+        "cta": "Empezar",
         "features": [
-          "Mandat de représentation",
-          "Profil complet",
-          "Candidatures manuelles",
-          "Accès aux castings ciblés"
+          "Mandato de representación",
+          "Perfil completo y medios",
+          "Self-tape Studio",
+          "Seguimiento de carrera e ingresos"
         ]
       },
       {
         "name": "Pro",
         "price": "19 €",
         "commission": "10 %",
-        "cta": "Choisir",
+        "cta": "Elegir",
         "features": [
-          "Tout le Free",
-          "Auto-candidature par l'IA",
-          "Veille IA prioritaire",
-          "Self-tape Studio augmenté",
-          "Support prioritaire",
-          "Jusqu'à 10 candidatures/jour"
+          "Todo lo de Free",
+          "Comentarios de IA sobre tus self-tapes",
+          "Mensajería con tu agente",
+          "Soporte prioritario"
         ]
       },
       {
         "name": "Premium",
         "price": "49 €",
         "commission": "7,5 %",
-        "cta": "Choisir",
+        "cta": "Elegir",
         "features": [
-          "Tout le Pro",
-          "Coaching IA avancé",
-          "Mobilité multi-pays",
-          "Jusqu'à 50 candidatures/jour"
+          "Todo lo de Pro",
+          "Comisión reducida al 7,5 %"
         ]
       },
       {
         "name": "Ultimate",
         "price": "79 €",
         "commission": "5 %",
-        "cta": "Choisir",
+        "cta": "Elegir",
         "features": [
-          "Tout le Premium",
-          "Gestion presse automatisée",
-          "Candidatures illimitées",
-          "Commission réduite à 5 %"
+          "Todo lo de Premium",
+          "Comisión reducida al 5 %"
         ]
       }
     ]
@@ -378,10 +372,67 @@
       "On te trouve les annonces qui te correspondent vraiment",
       "On optimise ton dossier et tes self-tapes",
       "On négocie et on sécurise ton cachet"
-    ]
+    ],
+    "othersTitle": "Otros tipos de casting"
   },
   "notFound": {
     "title": "Esta página ha dejado el plató.",
     "body": "Puede que el enlace sea antiguo o que la página haya cambiado de nombre. Tus cástines siguen ahí."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Figuración",
+      "h1": "Casting de figuración",
+      "tagline": "La puerta de entrada al cine y la televisión. Sin experiencia previa.",
+      "audience": "Quieres aparecer en pantalla, conocer los rodajes y conseguir tu primera experiencia. Todos los perfiles, todas las edades."
+    },
+    "silhouette": {
+      "name": "Figuración especial",
+      "h1": "Casting de figuración especial",
+      "tagline": "Un paso por encima de la figuración: un gesto, una presencia que se nota.",
+      "audience": "Tienes presencia, un porte o una acción concreta que interpretar ante la cámara. Un papel mudo pero visible, y mejor pagado que la figuración."
+    },
+    "seconds-roles": {
+      "name": "Papeles secundarios",
+      "h1": "Casting de papeles secundarios",
+      "tagline": "Texto, un personaje, series y largometrajes.",
+      "audience": "Actúas, tienes (o estás construyendo) algo de experiencia y quieres papeles con diálogo en series, ficción y cine."
+    },
+    "publicite": {
+      "name": "Publicidad",
+      "h1": "Casting de publicidad",
+      "tagline": "Los rodajes mejor pagados, para todos los perfiles.",
+      "audience": "Un rostro, una familia, un deportista, un sénior, un niño, unas manos expertas… La publicidad busca gente real, no modelos. Caché alto y derechos de imagen negociados."
+    },
+    "photo": {
+      "name": "Fotografía",
+      "h1": "Casting de fotografía",
+      "tagline": "Campañas, catálogos, editoriales: tu imagen, valorizada.",
+      "audience": "Te desenvuelves bien ante el objetivo en sesiones comerciales o editoriales. Rostros auténticos, de todo tipo y de todas las edades."
+    },
+    "voix-doublage": {
+      "name": "Voz y doblaje",
+      "h1": "Casting de voz y doblaje",
+      "tagline": "Con tu voz basta: publicidad, doblaje, narración, e-learning.",
+      "audience": "Tienes una voz que llega, un acento, un idioma o un timbre particular. El trabajo se hace en estudio, a menudo sin desplazarte lejos."
+    },
+    "enfants": {
+      "name": "Niños y adolescentes",
+      "h1": "Casting de niños y adolescentes",
+      "tagline": "Un marco protector estricto, para actuar con total seguridad.",
+      "audience": "¿Tu hijo quiere rodar? Figuración, publicidad, series: las oportunidades existen, dentro de un marco legal protector que aplicamos al pie de la letra."
+    },
+    "createurs": {
+      "name": "Creadores de contenido",
+      "h1": "Casting de creadores de contenido",
+      "tagline": "Tu audiencia y tu naturalidad son una baza de casting.",
+      "audience": "Ya creas contenido y quieres monetizar tu presencia: menciones, campañas de marca, formatos híbridos. Lo estructuramos y lo negociamos por ti."
+    },
+    "units": {
+      "day": "/ día",
+      "session": "/ sesión",
+      "project": "según proyecto",
+      "variable": "Variable"
+    }
   }
 }

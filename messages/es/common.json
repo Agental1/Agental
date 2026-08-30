@@ -5,7 +5,10 @@
     "castingTypes": "Types de casting",
     "pricing": "Tarifs",
     "faq": "FAQ",
-    "about": "Qui sommes-nous"
+    "about": "Qui sommes-nous",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "skipToContent": "Ir al contenido"
   },
   "footer": {
     "tagline": "La première agence artistique nativement augmentée par IA.",
@@ -37,5 +40,10 @@
     "body": "Se ha registrado el incidente. Reintentar suele bastar.",
     "retry": "Reintentar",
     "backHome": "Volver al inicio"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "La primera agencia artística concebida con IA desde el principio. Un agente real y regulado, con una IA que trabaja para ti."
   }
 }

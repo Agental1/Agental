@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { Users, Sparkles, ShieldCheck, Coins, ArrowRight, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -10,9 +10,11 @@ import { Badge } from "@/components/ui/badge";
 import { PageHero } from "@/components/marketing/page-hero";
 import {
   CASTING_TYPES,
+  formatCachet,
   getCastingType,
   type CastingType,
 } from "@/data/casting-types";
+import { seo, jsonLd, serviceLd, breadcrumbLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return CASTING_TYPES.map((t) => ({ type: t.slug }));
@@ -23,13 +25,17 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; type: string }>;
 }): Promise<Metadata> {
-  const { type } = await params;
+  const { locale: rawLocale, type } = await params;
+  const locale = toLocale(rawLocale);
   const ct = getCastingType(type);
   if (!ct) return {};
-  return {
-    title: `${ct.h1} — Agental Talents`,
-    description: `${ct.tagline} ${ct.audience}`,
-  };
+  const tt = await getTranslations({ locale, namespace: "talents.castingTypes" });
+  return seo({
+    locale,
+    path: `/castings/${ct.slug}`,
+    title: `${tt(`${ct.slug}.h1`)} — Agental Talents`,
+    description: `${tt(`${ct.slug}.tagline`)} ${tt(`${ct.slug}.audience`)}`,
+  });
 }
 
 export default async function CastingTypePage({
@@ -42,18 +48,55 @@ export default async function CastingTypePage({
   setRequestLocale(locale);
   const ct = getCastingType(type);
   if (!ct) notFound();
-  return <TypeContent ct={ct} />;
+  const tt = await getTranslations({ locale, namespace: "talents.castingTypes" });
+  const tl = await getTranslations({ locale, namespace: "talents.castingLandings" });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            serviceLd({
+              locale,
+              path: `/castings/${ct.slug}`,
+              name: tt(`${ct.slug}.h1`),
+              description: tt(`${ct.slug}.tagline`),
+            })
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            breadcrumbLd(locale, [
+              ["Agental", "/talents"],
+              [tl("index.title"), "/castings"],
+              [tt(`${ct.slug}.name`), `/castings/${ct.slug}`],
+            ])
+          ),
+        }}
+      />
+      <TypeContent ct={ct} locale={locale} />
+    </>
+  );
 }
 
-function TypeContent({ ct }: { ct: CastingType }) {
+function TypeContent({ ct, locale }: { ct: CastingType; locale: string }) {
   const t = useTranslations("talents.castingLandings");
+  const tt = useTranslations("talents.castingTypes");
   const tm = useTranslations("talents.minors");
   const benefits = t.raw("benefits") as string[];
   const minorsItems = tm.raw("items") as string[];
 
   return (
     <>
-      <PageHero eyebrow={t("index.eyebrow")} title={ct.h1} subtitle={ct.tagline}>
+      <PageHero
+        eyebrow={t("index.eyebrow")}
+        title={tt(`${ct.slug}.h1`)}
+        subtitle={tt(`${ct.slug}.tagline`)}
+      >
         <Button asChild size="lg">
           <Link href="/talents/inscription">
             {t("cta")} <ArrowRight />
@@ -63,7 +106,9 @@ function TypeContent({ ct }: { ct: CastingType }) {
 
       <div className="mx-auto max-w-3xl space-y-14 px-4 py-16 sm:px-6">
         <Block icon={Users} title={t("audienceTitle")}>
-          <p className="text-lg leading-relaxed text-fg-muted">{ct.audience}</p>
+          <p className="text-lg leading-relaxed text-fg-muted">
+            {tt(`${ct.slug}.audience`)}
+          </p>
         </Block>
 
         <Block icon={Sparkles} title={t("benefitsTitle")}>
@@ -79,8 +124,10 @@ function TypeContent({ ct }: { ct: CastingType }) {
 
         <Block icon={Coins} title={t("cachetsTitle")}>
           <div className="flex items-baseline gap-2">
-            <span className="font-display text-3xl text-fg">{ct.cachet}</span>
-            <span className="text-fg-muted">{ct.cachetUnit}</span>
+            <span className="font-display text-3xl text-fg">
+              {formatCachet(ct, locale, tt("units.variable"))}
+            </span>
+            <span className="text-fg-muted">{tt(`units.${ct.cachetUnit}`)}</span>
           </div>
           <p className="mt-2 text-sm text-fg-subtle">{t("cachetsNote")}</p>
         </Block>
@@ -115,13 +162,13 @@ function TypeContent({ ct }: { ct: CastingType }) {
 
         <div className="border-t border-border pt-8">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
-            Autres types de casting
+            {t("othersTitle")}
           </h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {CASTING_TYPES.filter((o) => o.slug !== ct.slug).map((o) => (
               <Link key={o.slug} href={`/castings/${o.slug}`}>
                 <Badge variant="neutral" className="hover:border-accent">
-                  {o.name}
+                  {tt(`${o.slug}.name`)}
                 </Badge>
               </Link>
             ))}

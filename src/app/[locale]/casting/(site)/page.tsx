@@ -1,5 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
@@ -31,7 +32,12 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "casting" });
-  return { title: t("meta.title"), description: t("meta.description") };
+  return seo({
+    locale,
+    path: "/casting",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 type Item = { title: string; body: string };
@@ -59,8 +65,22 @@ export default async function CastingLanding({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            serviceLd({
+              locale,
+              path: "/casting",
+              name: t("meta.title"),
+              description: t("meta.description"),
+            })
+          ),
+        }}
+      />
       <Hero />
       <Benefits />
       <Neutrality />

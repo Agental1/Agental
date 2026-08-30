@@ -1,5 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { Heart, Eye, HandHeart } from "lucide-react";
@@ -14,7 +15,12 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "talents.about" });
-  return { title: t("meta.title"), description: t("meta.description") };
+  return seo({
+    locale,
+    path: "/talents/qui-sommes-nous",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 export default async function Page({

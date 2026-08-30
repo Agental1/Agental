@@ -1,5 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
@@ -33,7 +34,12 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "talents" });
-  return { title: t("meta.title"), description: t("meta.description") };
+  return seo({
+    locale,
+    path: "/talents",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 const WHY_ICONS = [ShieldCheck, Bot, Target, Sparkles, TrendingUp, Star];
@@ -64,8 +70,22 @@ export default async function TalentsLanding({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd(
+            serviceLd({
+              locale,
+              path: "/talents",
+              name: t("meta.title"),
+              description: t("meta.description"),
+            })
+          ),
+        }}
+      />
       <Hero />
       <Proof />
       <Why />

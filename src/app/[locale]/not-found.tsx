@@ -47,7 +47,7 @@ export default function LocaleNotFound() {
         cta={{ href: "/talents/inscription", label: tt("nav.cta") }}
         crossLink={{ href: "/casting", label: tt("nav.crossLink") }}
       />
-      <main className="flex-1">
+      <main id="main" className="flex-1">
         <NotFoundContent portal="talents" />
       </main>
       <MarketingFooter home="/talents" nav={nav} />

@@ -111,9 +111,9 @@
         "cta": "Commencer",
         "features": [
           "Mandat de représentation",
-          "Profil complet",
-          "Candidatures manuelles",
-          "Accès aux castings ciblés"
+          "Profil complet et médias",
+          "Self-tape Studio",
+          "Suivi de carrière et de revenus"
         ]
       },
       {
@@ -123,11 +123,9 @@
         "cta": "Choisir",
         "features": [
           "Tout le Free",
-          "Auto-candidature par l'IA",
-          "Veille IA prioritaire",
-          "Self-tape Studio augmenté",
-          "Support prioritaire",
-          "Jusqu'à 10 candidatures/jour"
+          "Retours IA sur tes self-tapes",
+          "Messagerie avec ton agent",
+          "Support prioritaire"
         ]
       },
       {
@@ -137,9 +135,7 @@
         "cta": "Choisir",
         "features": [
           "Tout le Pro",
-          "Coaching IA avancé",
-          "Mobilité multi-pays",
-          "Jusqu'à 50 candidatures/jour"
+          "Commission réduite à 7,5 %"
         ]
       },
       {
@@ -149,8 +145,6 @@
         "cta": "Choisir",
         "features": [
           "Tout le Premium",
-          "Gestion presse automatisée",
-          "Candidatures illimitées",
           "Commission réduite à 5 %"
         ]
       }
@@ -251,7 +245,7 @@
         "items": [
           {
             "q": "Qu'est-ce qu'Agental ?",
-            "a": "Une vraie agence artistique, régulée, dont tout le travail opérationnel — veille, candidatures, suivi, coaching — est augmenté par une IA. On te représente ; l'IA travaille pour toi 24/7."
+            "a": "Une vraie agence artistique, régulée, dont le travail opérationnel — suivi, préparation, coaching — est augmenté par une IA. On te représente ; les outils travaillent avec toi."
           },
           {
             "q": "Est-ce une vraie agence ou une plateforme d'annonces ?",
@@ -297,11 +291,11 @@
           },
           {
             "q": "Est-ce que je garde le contrôle de mes candidatures ?",
-            "a": "Oui. Tu définis tes préférences (types de projets, mobilité, plafonds) et tu peux valider ou refuser. L'IA propose, tu décides."
+            "a": "Oui. Tu définis tes préférences — types de projets, mobilité, cachet minimum — et rien n'est engagé en ton nom sans ton accord. Tu décides, toujours."
           },
           {
             "q": "L'abonnement me donne-t-il un accès privilégié aux castings ?",
-            "a": "Non. Les opportunités passent par le mandat, gratuit. L'abonnement débloque des outils (auto-candidature, coaching), pas un passe-droit."
+            "a": "Non. Les opportunités passent par le mandat, qui est gratuit. L'abonnement réduit la commission et débloque des outils, pas un passe-droit."
           },
           {
             "q": "Que se passe-t-il si j'arrête de payer ?",
@@ -378,10 +372,67 @@
       "On te trouve les annonces qui te correspondent vraiment",
       "On optimise ton dossier et tes self-tapes",
       "On négocie et on sécurise ton cachet"
-    ]
+    ],
+    "othersTitle": "Autres types de casting"
   },
   "notFound": {
     "title": "Cette page a quitté le plateau.",
     "body": "Le lien est peut-être ancien, ou la page a changé de nom. Tes castings, eux, sont toujours là."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Figuration",
+      "h1": "Casting figuration",
+      "tagline": "Le point d'entrée du cinéma et de la télé. Aucune expérience requise.",
+      "audience": "Tu veux apparaître à l'écran, découvrir les plateaux et te constituer une première expérience. Tous profils, tous âges, partout en France."
+    },
+    "silhouette": {
+      "name": "Silhouette",
+      "h1": "Casting silhouette",
+      "tagline": "Un cran au-dessus de la figuration : un geste, une présence remarquée.",
+      "audience": "Tu as une présence, une allure ou une action précise à jouer à l'image. Un rôle muet mais visible, souvent mieux rémunéré que la figuration."
+    },
+    "seconds-roles": {
+      "name": "Seconds rôles",
+      "h1": "Casting seconds rôles",
+      "tagline": "Du texte, un personnage, des séries et des longs métrages.",
+      "audience": "Tu joues, tu as (ou construis) une petite expérience, et tu veux décrocher des rôles parlants dans les séries, la fiction et le cinéma."
+    },
+    "publicite": {
+      "name": "Publicité",
+      "h1": "Casting publicité",
+      "tagline": "Les tournages les mieux payés, pour tous les profils.",
+      "audience": "Visage, famille, sportif, senior, enfant, main experte… La pub cherche du vrai, pas des mannequins. Des cachets élevés et des droits d'image négociés."
+    },
+    "photo": {
+      "name": "Photo",
+      "h1": "Casting photo",
+      "tagline": "Campagnes, catalogues, éditoriaux : ton image, valorisée.",
+      "audience": "Tu es à l'aise devant l'objectif pour des shootings commerciaux ou éditoriaux. Des visages authentiques, de tous types et de tous âges."
+    },
+    "voix-doublage": {
+      "name": "Voix & doublage",
+      "h1": "Casting voix et doublage",
+      "tagline": "Ta voix suffit : pub, doublage, narration, e-learning.",
+      "audience": "Tu as une voix qui porte, un accent, une langue ou un timbre particulier. Le travail se fait en studio, souvent sans jamais te déplacer loin."
+    },
+    "enfants": {
+      "name": "Enfants & ados",
+      "h1": "Casting enfants et ados",
+      "tagline": "Un cadre protecteur strict, pour jouer en toute sécurité.",
+      "audience": "Ton enfant veut tourner ? Figuration, pub, séries : les opportunités existent, encadrées par un dispositif légal protecteur que nous appliquons à la lettre."
+    },
+    "createurs": {
+      "name": "Créateurs de contenu",
+      "h1": "Casting créateurs de contenu",
+      "tagline": "Ton audience et ton naturel sont un atout de casting.",
+      "audience": "Tu crées déjà du contenu et tu veux monétiser ta présence : placements, campagnes de marque, formats hybrides. On structure et on négocie pour toi."
+    },
+    "units": {
+      "day": "/ jour",
+      "session": "/ séance",
+      "project": "selon projet",
+      "variable": "Variable"
+    }
   }
 }

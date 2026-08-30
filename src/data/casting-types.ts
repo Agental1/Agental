@@ -1,105 +1,85 @@
 /**
- * The 8 SEO casting-type landings (Talents side, tutoiement).
- * FR content is inlined here for V1; structure stays i18n-ready.
+ * The 8 SEO casting-type landings. STRUCTURE ONLY — no copy.
+ *
+ * Every string (name, h1, tagline, audience, cachet unit) lives in
+ * messages/<locale>/talents.json under `castingTypes.<slug>`. Inlining French
+ * here is what made /en/castings/* serve English chrome around a French body:
+ * the pages read ct.h1 and ct.tagline straight from this file, so the landings
+ * were monolingual by construction.
+ *
+ * Fees stay numeric so Intl.NumberFormat can render them per locale — a French
+ * "800–3 000 €" is not how a Spanish or English reader expects to see money.
+ * `createurs` genuinely has no figure, hence the optional fields: the display
+ * falls back to a translated "Varies".
  */
+export type CachetUnit = "day" | "session" | "project";
+
+/**
+ * Slugs as a literal union, not `string`.
+ *
+ * This is what makes t(`${type.slug}.name`) typecheck against the message
+ * files: with a plain string the key is unverifiable, so a slug renamed here
+ * and not in messages/<locale>/talents.json would compile fine and render an
+ * empty <h1> at runtime, on one of eight pages, in one of three locales.
+ */
+export type CastingTypeSlug =
+  | "figuration"
+  | "silhouette"
+  | "seconds-roles"
+  | "publicite"
+  | "photo"
+  | "voix-doublage"
+  | "enfants"
+  | "createurs";
+
 export interface CastingType {
-  slug: string;
-  name: string;
-  h1: string;
-  tagline: string;
-  audience: string;
-  cachet: string;
-  cachetUnit: string;
+  slug: CastingTypeSlug;
+  /** Lower bound in euros. Absent when the fee is project-dependent. */
+  cachetMin?: number;
+  /** Upper bound in euros. Absent when the fee is project-dependent. */
+  cachetMax?: number;
+  /** Which translated unit label to render next to the amount. */
+  cachetUnit: CachetUnit;
   /** Whether the reinforced minors framework applies prominently. */
   minors?: boolean;
 }
 
 export const CASTING_TYPES: CastingType[] = [
-  {
-    slug: "figuration",
-    name: "Figuration",
-    h1: "Casting figuration",
-    tagline: "Le point d'entrée du cinéma et de la télé. Aucune expérience requise.",
-    audience:
-      "Tu veux apparaître à l'écran, découvrir les plateaux et te constituer une première expérience. Tous profils, tous âges, partout en France.",
-    cachet: "80–180 €",
-    cachetUnit: "/ jour",
-  },
-  {
-    slug: "silhouette",
-    name: "Silhouette",
-    h1: "Casting silhouette",
-    tagline: "Un cran au-dessus de la figuration : un geste, une présence remarquée.",
-    audience:
-      "Tu as une présence, une allure ou une action précise à jouer à l'image. Un rôle muet mais visible, souvent mieux rémunéré que la figuration.",
-    cachet: "100–250 €",
-    cachetUnit: "/ jour",
-  },
-  {
-    slug: "seconds-roles",
-    name: "Seconds rôles",
-    h1: "Casting seconds rôles",
-    tagline: "Du texte, un personnage, des séries et des longs métrages.",
-    audience:
-      "Tu joues, tu as (ou construis) une petite expérience, et tu veux décrocher des rôles parlants dans les séries, la fiction et le cinéma.",
-    cachet: "350–800 €",
-    cachetUnit: "/ jour",
-  },
-  {
-    slug: "publicite",
-    name: "Publicité",
-    h1: "Casting publicité",
-    tagline: "Les tournages les mieux payés, pour tous les profils.",
-    audience:
-      "Visage, famille, sportif, senior, enfant, main experte… La pub cherche du vrai, pas des mannequins. Des cachets élevés et des droits d'image négociés.",
-    cachet: "800–3 000 €",
-    cachetUnit: "/ jour",
-  },
-  {
-    slug: "photo",
-    name: "Photo",
-    h1: "Casting photo",
-    tagline: "Campagnes, catalogues, éditoriaux : ton image, valorisée.",
-    audience:
-      "Tu es à l'aise devant l'objectif pour des shootings commerciaux ou éditoriaux. Des visages authentiques, de tous types et de tous âges.",
-    cachet: "200–600 €",
-    cachetUnit: "/ jour",
-  },
-  {
-    slug: "voix-doublage",
-    name: "Voix & doublage",
-    h1: "Casting voix et doublage",
-    tagline: "Ta voix suffit : pub, doublage, narration, e-learning.",
-    audience:
-      "Tu as une voix qui porte, un accent, une langue ou un timbre particulier. Le travail se fait en studio, souvent sans jamais te déplacer loin.",
-    cachet: "200–800 €",
-    cachetUnit: "/ séance",
-  },
-  {
-    slug: "enfants",
-    name: "Enfants & ados",
-    h1: "Casting enfants et ados",
-    tagline: "Un cadre protecteur strict, pour jouer en toute sécurité.",
-    audience:
-      "Ton enfant veut tourner ? Figuration, pub, séries : les opportunités existent, encadrées par un dispositif légal protecteur que nous appliquons à la lettre.",
-    cachet: "80–800 €",
-    cachetUnit: "/ jour",
-    minors: true,
-  },
-  {
-    slug: "createurs",
-    name: "Créateurs de contenu",
-    h1: "Casting créateurs de contenu",
-    tagline: "Ton audience et ton naturel sont un atout de casting.",
-    audience:
-      "Tu crées déjà du contenu et tu veux monétiser ta présence : placements, campagnes de marque, formats hybrides. On structure et on négocie pour toi.",
-    cachet: "Variable",
-    cachetUnit: "selon projet",
-  },
+  { slug: "figuration", cachetMin: 80, cachetMax: 180, cachetUnit: "day" },
+  { slug: "silhouette", cachetMin: 100, cachetMax: 250, cachetUnit: "day" },
+  { slug: "seconds-roles", cachetMin: 350, cachetMax: 800, cachetUnit: "day" },
+  { slug: "publicite", cachetMin: 800, cachetMax: 3000, cachetUnit: "day" },
+  { slug: "photo", cachetMin: 200, cachetMax: 600, cachetUnit: "day" },
+  { slug: "voix-doublage", cachetMin: 200, cachetMax: 800, cachetUnit: "session" },
+  { slug: "enfants", cachetMin: 80, cachetMax: 800, cachetUnit: "day", minors: true },
+  { slug: "createurs", cachetUnit: "project" },
 ];
 
 export const CASTING_TYPE_SLUGS = CASTING_TYPES.map((t) => t.slug);
 
 export function getCastingType(slug: string): CastingType | undefined {
   return CASTING_TYPES.find((t) => t.slug === slug);
+}
+
+/**
+ * Fee range for display, formatted for the locale.
+ *
+ * Slugs never change with locale (translating them would break the SEO already
+ * earned and every inbound link), but the money does: en-US wants "€800–€3,000"
+ * where fr-FR wants "800–3 000 €".
+ */
+export function formatCachet(
+  type: CastingType,
+  locale: string,
+  variableLabel: string
+): string {
+  if (type.cachetMin === undefined || type.cachetMax === undefined) {
+    return variableLabel;
+  }
+  const money = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  });
+  return `${money.format(type.cachetMin)}–${money.format(type.cachetMax)}`;
 }

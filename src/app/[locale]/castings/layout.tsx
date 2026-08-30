@@ -39,7 +39,7 @@ export default function CastingsLayout({
         cta={{ href: "/talents/inscription", label: tt("nav.cta") }}
         crossLink={{ href: "/casting", label: tt("nav.crossLink") }}
       />
-      <main className="flex-1">{children}</main>
+      <main id="main" className="flex-1">{children}</main>
       <MarketingFooter home="/talents" nav={nav} />
     </div>
   );

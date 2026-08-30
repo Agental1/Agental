@@ -1,5 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { ShieldCheck } from "lucide-react";
@@ -17,7 +18,12 @@ export async function generateMetadata({
     locale,
     namespace: "talents.pricingPage",
   });
-  return { title: t("meta.title"), description: t("meta.description") };
+  return seo({
+    locale,
+    path: "/talents/tarifs",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 export default async function Page({

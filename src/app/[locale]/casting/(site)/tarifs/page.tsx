@@ -1,5 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -16,7 +17,12 @@ export async function generateMetadata({
     locale,
     namespace: "casting.pricingPage",
   });
-  return { title: t("meta.title"), description: t("meta.description") };
+  return seo({
+    locale,
+    path: "/casting/tarifs",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 export default async function Page({

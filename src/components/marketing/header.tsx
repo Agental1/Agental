@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { AgentalLogo } from "@/components/brand/logo";
@@ -27,9 +28,19 @@ export function MarketingHeader({
   crossLink: { href: string; label: string };
 }) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("common");
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/85 backdrop-blur-md">
+      {/* Keyboard users otherwise tab through the logo, five nav links, the
+          cross-link, three locale links and the CTA before reaching content —
+          on every page. WCAG 2.4.1. */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-sedan focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-fg"
+      >
+        {t("nav.skipToContent")}
+      </a>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href={home} className="shrink-0" aria-label="Agental">
           <AgentalLogo />
@@ -64,7 +75,7 @@ export function MarketingHeader({
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="md:hidden rounded-sedan p-2 text-fg hover:bg-surface-2"
-          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={t(open ? "nav.closeMenu" : "nav.openMenu")}
           aria-expanded={open}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}

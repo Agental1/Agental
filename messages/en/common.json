@@ -5,7 +5,10 @@
     "castingTypes": "Casting types",
     "pricing": "Pricing",
     "faq": "FAQ",
-    "about": "About us"
+    "about": "About us",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToContent": "Skip to content"
   },
   "footer": {
     "tagline": "The first artist agency natively augmented by AI.",
@@ -37,5 +40,10 @@
     "body": "The incident was logged. Retrying usually does the trick.",
     "retry": "Try again",
     "backHome": "Back to home"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "The first talent agency built around AI from day one. A real regulated agent, with AI working for you."
   }
 }

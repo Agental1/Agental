@@ -205,11 +205,11 @@ function Showcase({ portal }: { portal: Portal }) {
 
 export default function StyleguidePage() {
   return (
-    <main className="min-h-screen bg-neutral-100 p-6 md:p-10">
+    <main className="min-h-screen bg-surface-2 p-6 md:p-10">
       <div className="mx-auto max-w-7xl space-y-6">
         <div>
           <h1 className="font-display text-3xl">Design system — deux peaux</h1>
-          <p className="text-neutral-600 text-sm mt-1">
+          <p className="text-fg-muted text-sm mt-1">
             Un seul jeu de tokens, deux skins via{" "}
             <code className="text-xs">data-portal</code>. Les composants sont
             écrits une seule fois.
