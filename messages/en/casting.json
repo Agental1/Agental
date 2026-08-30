@@ -28,7 +28,8 @@
     "sourceAgental": "Agental",
     "sourceExternal": "External",
     "roleHeader": "SHORT-LIST · SERIES 'MARÉE HAUTE'",
-    "roleLine": "Role 'Maxime' · M · 25–32 · Breton accent"
+    "roleLine": "Role 'Maxime' · M · 25–32 · Breton accent",
+    "favourite": "Add to favourites"
   },
   "benefits": {
     "eyebrow": "What you gain with Agental",
@@ -317,5 +318,102 @@
     },
     "back": "Back",
     "continue": "Continue"
+  },
+  "space": {
+    "nav": {
+      "projects": "Projects",
+      "subscription": "Subscription",
+      "settings": "Settings",
+      "account": "My account"
+    },
+    "brief": {
+      "working": "Structuring your brief and generating the shortlist…",
+      "intro": "The assistant shapes your request. You will validate the generated shortlist.",
+      "introA": "The assistant shapes your request. You will validate the generated shortlist",
+      "introB": "provenance shown on every profile."
+    },
+    "plans": {
+      "demo": "Demo mode — no real payment. No commitment, cancel at any time."
+    },
+    "minors": {
+      "title": "Minor protection",
+      "subtitle": "The French legal framework applied to the letter before any call-back.",
+      "authLabel": "Authorisation from the departmental commission",
+      "authGranted": "Granted",
+      "authRequested": "Requested",
+      "authTodo": "To request",
+      "request": "Request",
+      "markGranted": "Mark as granted",
+      "parentalLabel": "Parental presence (casting & shoot)",
+      "parentalOk": "Confirmed",
+      "parentalTodo": "To confirm",
+      "confirm": "Confirm",
+      "escrowLabel": "{percent}% of the fee held in escrow until adulthood",
+      "escrowHeld": "Held",
+      "escrowTodo": "To hold"
+    },
+    "shortlist": {
+      "empty": "No profile matches these filters."
+    },
+    "subscription": {
+      "title": "Subscription",
+      "subtitle": "Per-seat and per-volume pricing, built around your activity.",
+      "activeProjects": "Active projects",
+      "sortedThisMonth": "Applications filtered this month",
+      "quote": "On request"
+    },
+    "projects": {
+      "subtitle": "Your casting projects and your shortlists.",
+      "siretVerified": "SIRET verified",
+      "siretPending": "SIRET pending",
+      "newBrief": "New brief",
+      "firstTitle": "Create your first brief",
+      "firstBody": "Describe a role to our assistant: it shapes your request and generates a calibrated shortlist.",
+      "yours": "Your projects",
+      "open": "Open projects",
+      "shortlisting": "Shortlists in progress",
+      "shortlisted": "Shortlisted talents"
+    },
+    "projectStatus": {
+      "DRAFT": "Draft",
+      "OPEN": "Open",
+      "SHORTLISTING": "Shortlisting",
+      "CLOSED": "Closed"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Your organisation, your seats, your subscription.",
+      "org": "Organisation",
+      "name": "Name",
+      "siret": "SIRET",
+      "seats": "Seats",
+      "activeSeats": "Active seats",
+      "subscription": "Subscription",
+      "plan": "Plan",
+      "verified": "Verified",
+      "pending": "Pending",
+      "manageSub": "Manage subscription"
+    },
+    "project": {
+      "shortlist": "Shortlist",
+      "externalTalent": "External talent"
+    },
+    "talentSheet": {
+      "title": "Talent sheet",
+      "back": "Back to the shortlist",
+      "languages": "Languages",
+      "accents": "Accents",
+      "height": "Height",
+      "specialties": "Specialties",
+      "minor": "Minor",
+      "available": "Available",
+      "justification": "Ranking rationale",
+      "audit": "Audit trail",
+      "auditNote": "Every ranking decision and action is traced here."
+    },
+    "newBrief": {
+      "title": "New brief",
+      "subtitle": "Describe the role — the assistant handles the rest."
+    }
   }
 }

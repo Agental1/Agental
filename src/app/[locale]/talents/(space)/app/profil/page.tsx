@@ -1,6 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { ProfileEditor } from "@/components/app/profile-editor";
@@ -24,6 +24,7 @@ export default async function ProfilPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -42,10 +43,8 @@ export default async function ProfilPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Mon profil</h1>
-        <p className="text-fg-muted">
-          Un profil qui te ressemble — c&apos;est ce que l&apos;IA fait matcher.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("space.profile.title")}</h1>
+        <p className="text-fg-muted">{t("space.profile.subtitle")}</p>
       </div>
       <ProfileEditor
         initial={{

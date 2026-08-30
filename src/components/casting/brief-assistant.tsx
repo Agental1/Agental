@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -11,6 +12,7 @@ import { BRIEF_QUESTIONS, type BriefAnswers } from "@/lib/ai/brief-assistant";
 import { createBrief } from "@/app/actions/brief";
 
 export function BriefAssistant() {
+  const t = useTranslations("casting");
   const errorText = useActionErrorText();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<BriefAnswers>({});
@@ -62,9 +64,7 @@ export function BriefAssistant() {
           {done && !error && (
             <Bubble role="assistant">
               <span className="flex items-center gap-2">
-                <Loader2 className="size-4 animate-spin" /> Je structure votre
-                brief et génère la short-list…
-              </span>
+                <Loader2 className="size-4 animate-spin" />{t("space.brief.working")}</span>
             </Bubble>
           )}
         </div>
@@ -118,9 +118,8 @@ export function BriefAssistant() {
 
       <p className="mt-3 flex items-center gap-2 text-xs text-fg-subtle">
         <Sparkles className="size-3.5 text-accent" />
-        L&apos;assistant met votre demande en forme. Vous validerez la short-list
-        générée <ArrowRight className="size-3" /> source affichée sur chaque
-        profil.
+        {t("space.brief.introA")} <ArrowRight className="size-3" />{" "}
+        {t("space.brief.introB")}
       </p>
     </div>
   );

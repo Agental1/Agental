@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useRef, useState, useTransition } from "react";
@@ -32,6 +33,7 @@ function typeForMime(mime: string): "PHOTO" | "VIDEO" | "AUDIO" {
 }
 
 export function MediaManager({ media }: { media: MediaItem[] }) {
+  const t = useTranslations("talents");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, startTransition] = useTransition();
@@ -67,10 +69,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         className="flex flex-col items-center justify-center gap-2 rounded-sedan border-2 border-dashed border-border bg-surface-2/40 p-8 text-center"
       >
         <Upload className="size-6 text-accent" />
-        <p className="text-sm text-fg-muted">
-          Glisse tes photos, reels ou voix ici — un reel filmé au téléphone
-          suffit.
-        </p>
+        <p className="text-sm text-fg-muted">{t("space.media.drop")}</p>
         <input
           ref={inputRef}
           type="file"
@@ -110,6 +109,7 @@ function MediaCard({
   media: MediaItem;
   onChanged: () => void;
 }) {
+  const t = useTranslations("talents");
   const [pending, startTransition] = useTransition();
   return (
     <div className="group relative overflow-hidden rounded-sedan border border-border bg-surface">
@@ -142,7 +142,7 @@ function MediaCard({
       >
         {media.type === "PHOTO" && !media.isPrimary && (
           <button
-            aria-label="Définir comme principale"
+            aria-label={t("space.media.setPrimary")}
             disabled={pending}
             onClick={() =>
               startTransition(async () => {
@@ -156,7 +156,7 @@ function MediaCard({
           </button>
         )}
         <button
-          aria-label="Supprimer"
+          aria-label={t("space.media.delete")}
           disabled={pending}
           onClick={() =>
             startTransition(async () => {

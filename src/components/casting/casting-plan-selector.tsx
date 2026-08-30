@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -28,6 +29,7 @@ export function CastingPlanSelector({
   current: string;
   seatCount: number;
 }) {
+  const t = useTranslations("casting");
   const router = useRouter();
   const [pending, start] = useTransition();
   const [busy, setBusy] = useState<string | undefined>();
@@ -95,9 +97,7 @@ export function CastingPlanSelector({
         })}
       </div>
       {error && <p className="text-sm text-danger">{errorText(error)}</p>}
-      <p className="text-xs text-fg-subtle">
-        Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment.
-      </p>
+      <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
     </div>
   );
 }

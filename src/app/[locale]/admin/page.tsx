@@ -1,7 +1,7 @@
 import { dateTime } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Users,
   UserCheck,
@@ -24,6 +24,7 @@ export default async function AdminDashboard({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "app" });
 
   const [
     talents,
@@ -57,10 +58,8 @@ export default async function AdminDashboard({
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-medium">Supervision</h1>
-        <p className="text-fg-muted">
-          Back-office interne — pilotage, conformité et audit.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("admin.title")}</h1>
+        <p className="text-fg-muted">{t("admin.subtitle")}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -80,10 +79,8 @@ export default async function AdminDashboard({
         >
           <ShieldAlert className="size-8 text-warning" />
           <div>
-            <p className="font-medium">Dossiers mineurs à traiter</p>
-            <p className="text-sm text-fg-muted">
-              Autorisations, séquestre et présence parentale à valider.
-            </p>
+            <p className="font-medium">{t("admin.minorsTodo")}</p>
+            <p className="text-sm text-fg-muted">{t("admin.minorsTodoBody")}</p>
           </div>
           <Badge variant={pendingMinors > 0 ? "warning" : "success"} className="ml-auto">
             {pendingMinors}
@@ -91,10 +88,10 @@ export default async function AdminDashboard({
         </Link>
 
         <div className="rounded-sedan border border-border bg-surface p-5">
-          <h2 className="font-display text-lg font-medium">Activité récente</h2>
+          <h2 className="font-display text-lg font-medium">{t("admin.recent")}</h2>
           <ul className="mt-3 space-y-1.5 text-sm">
             {recentAudits.length === 0 ? (
-              <li className="text-fg-muted">Aucune activité.</li>
+              <li className="text-fg-muted">{t("admin.noActivity")}</li>
             ) : (
               recentAudits.map((a) => (
                 <li key={a.id} className="flex items-center gap-2 text-fg-muted">

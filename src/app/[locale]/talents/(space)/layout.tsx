@@ -1,22 +1,23 @@
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { AgentalLogo } from "@/components/brand/logo";
 import { AppSidebar, type AppNavItem } from "@/components/app/app-sidebar";
 
-const NAV: AppNavItem[] = [
-  { href: "/talents/app", label: "Tableau de bord", icon: "dashboard" },
-  { href: "/talents/app/profil", label: "Profil", icon: "user" },
-  { href: "/talents/app/candidatures", label: "Candidatures", icon: "send" },
-  { href: "/talents/app/self-tape", label: "Self-tape", icon: "video" },
-  { href: "/talents/app/carriere", label: "Carrière", icon: "career" },
-  { href: "/talents/app/abonnement", label: "Abonnement", icon: "billing" },
-  { href: "/talents/app/messages", label: "Messages", icon: "messages" },
-  { href: "/talents/app/parametres", label: "Paramètres", icon: "settings" },
-];
+/** Route + icon are structure; the label is looked up per locale below. */
+const NAV = [
+  { href: "/talents/app", key: "dashboard", icon: "dashboard" },
+  { href: "/talents/app/profil", key: "profile", icon: "user" },
+  { href: "/talents/app/candidatures", key: "candidatures", icon: "send" },
+  { href: "/talents/app/self-tape", key: "selftape", icon: "video" },
+  { href: "/talents/app/carriere", key: "career", icon: "career" },
+  { href: "/talents/app/abonnement", key: "subscription", icon: "billing" },
+  { href: "/talents/app/messages", key: "messages", icon: "messages" },
+  { href: "/talents/app/parametres", key: "settings", icon: "settings" },
+] as const;
 
 export default async function TalentsAppLayout({
   children,
@@ -29,6 +30,7 @@ export default async function TalentsAppLayout({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "talents" });
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
     return redirect({ href: "/connexion", locale });
@@ -46,13 +48,17 @@ export default async function TalentsAppLayout({
     <div data-portal="talents" className="min-h-screen bg-bg text-fg">
       <div className="mx-auto flex max-w-7xl">
         <AppSidebar
-          nav={NAV}
+          nav={NAV.map((n): AppNavItem => ({
+            href: n.href,
+            icon: n.icon,
+            label: t(`space.nav.${n.key}`),
+          }))}
           header={
             <Link href="/talents/app" aria-label="Agental">
               <AgentalLogo />
             </Link>
           }
-          userLabel={session.user.email ?? "Mon compte"}
+          userLabel={session.user.email ?? t("space.nav.account")}
         />
         <main className="min-w-0 flex-1 px-4 py-8 sm:px-8">{children}</main>
       </div>

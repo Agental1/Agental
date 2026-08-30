@@ -28,7 +28,8 @@
     "sourceAgental": "Agental",
     "sourceExternal": "External",
     "roleHeader": "LISTA CORTA · SERIE «MARÉE HAUTE»",
-    "roleLine": "Papel «Maxime» · H · 25-32 · acento bretón"
+    "roleLine": "Papel «Maxime» · H · 25-32 · acento bretón",
+    "favourite": "Añadir a favoritos"
   },
   "benefits": {
     "eyebrow": "Lo que gana con Agental",
@@ -317,5 +318,102 @@
     },
     "back": "Volver",
     "continue": "Continuar"
+  },
+  "space": {
+    "nav": {
+      "projects": "Proyectos",
+      "subscription": "Suscripción",
+      "settings": "Ajustes",
+      "account": "Mi cuenta"
+    },
+    "brief": {
+      "working": "Estructurando su briefing y generando la lista corta…",
+      "intro": "El asistente da forma a su petición. Usted validará la lista corta generada.",
+      "introA": "El asistente da forma a su petición. Usted validará la lista corta generada",
+      "introB": "procedencia visible en cada perfil."
+    },
+    "plans": {
+      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento."
+    },
+    "minors": {
+      "title": "Protección del menor",
+      "subtitle": "Marco legal francés aplicado al pie de la letra antes de cualquier convocatoria.",
+      "authLabel": "Autorización de la comisión departamental",
+      "authGranted": "Concedida",
+      "authRequested": "Solicitada",
+      "authTodo": "Por solicitar",
+      "request": "Solicitar",
+      "markGranted": "Marcar como concedida",
+      "parentalLabel": "Presencia parental (casting y rodaje)",
+      "parentalOk": "Confirmada",
+      "parentalTodo": "Por confirmar",
+      "confirm": "Confirmar",
+      "escrowLabel": "{percent} % del caché bloqueado hasta la mayoría de edad",
+      "escrowHeld": "Bloqueado",
+      "escrowTodo": "Por bloquear"
+    },
+    "shortlist": {
+      "empty": "Ningún perfil coincide con estos filtros."
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "subtitle": "Una tarificación por puesto y por volumen, pensada para su actividad.",
+      "activeProjects": "Proyectos activos",
+      "sortedThisMonth": "Candidaturas filtradas este mes",
+      "quote": "A medida"
+    },
+    "projects": {
+      "subtitle": "Sus proyectos de casting y sus listas cortas.",
+      "siretVerified": "SIRET verificado",
+      "siretPending": "SIRET pendiente",
+      "newBrief": "Nuevo briefing",
+      "firstTitle": "Cree su primer briefing",
+      "firstBody": "Describa un papel a nuestro asistente: da forma a su petición y genera una lista corta calibrada.",
+      "yours": "Sus proyectos",
+      "open": "Proyectos abiertos",
+      "shortlisting": "Listas cortas en curso",
+      "shortlisted": "Talentos preseleccionados"
+    },
+    "projectStatus": {
+      "DRAFT": "Borrador",
+      "OPEN": "Abierto",
+      "SHORTLISTING": "Lista corta",
+      "CLOSED": "Cerrado"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "subtitle": "Su estructura, sus puestos, su suscripción.",
+      "org": "Estructura",
+      "name": "Nombre",
+      "siret": "SIRET",
+      "seats": "Puestos",
+      "activeSeats": "Puestos activos",
+      "subscription": "Suscripción",
+      "plan": "Plan",
+      "verified": "Verificado",
+      "pending": "Pendiente",
+      "manageSub": "Gestionar la suscripción"
+    },
+    "project": {
+      "shortlist": "Lista corta",
+      "externalTalent": "Talento externo"
+    },
+    "talentSheet": {
+      "title": "Ficha del talento",
+      "back": "Volver a la lista corta",
+      "languages": "Idiomas",
+      "accents": "Acentos",
+      "height": "Estatura",
+      "specialties": "Especialidades",
+      "minor": "Menor",
+      "available": "Disponible",
+      "justification": "Justificación de la clasificación",
+      "audit": "Registro de auditoría",
+      "auditNote": "Cada decisión de clasificación y cada acción quedan trazadas aquí."
+    },
+    "newBrief": {
+      "title": "Nuevo briefing",
+      "subtitle": "Describa el papel: el asistente se encarga del resto."
+    }
   }
 }

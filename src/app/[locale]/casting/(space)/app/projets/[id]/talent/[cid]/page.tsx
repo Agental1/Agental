@@ -2,7 +2,7 @@ import { dateTime } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Sparkles, History, ArrowLeft } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -27,6 +27,7 @@ export default async function FicheTalentPage({
   const { locale: rawLocale, id, cid } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -84,8 +85,7 @@ export default async function FicheTalentPage({
         href={`/casting/app/projets/${id}`}
         className="inline-flex items-center gap-1 text-sm text-fg-muted hover:text-fg"
       >
-        <ArrowLeft className="size-4" /> Retour à la short-list
-      </Link>
+        <ArrowLeft className="size-4" />{t("space.talentSheet.back")}</Link>
 
       {/* Header */}
       <div className="flex flex-wrap items-start gap-5 rounded-sedan border border-border bg-surface p-5">
@@ -109,12 +109,12 @@ export default async function FicheTalentPage({
             <Badge variant={isAgental ? "solid" : "neutral"}>
               {isAgental ? "Agental" : "External"}
             </Badge>
-            {p?.isMinor && <Badge variant="warning">Mineur</Badge>}
+            {p?.isMinor && <Badge variant="warning">{t("space.talentSheet.minor")}</Badge>}
           </div>
           <div className="mt-1 flex flex-wrap gap-3 text-sm text-fg-muted">
             {p?.city && <span>{p.city}</span>}
             {rate != null && <span className="font-medium text-fg">{rate} €/j</span>}
-            <Badge variant="success">Disponible</Badge>
+            <Badge variant="success">{t("space.talentSheet.available")}</Badge>
           </div>
         </div>
         {cand.matchScore && (
@@ -128,8 +128,7 @@ export default async function FicheTalentPage({
       {cand.matchScore && (
         <section className="rounded-sedan border border-border bg-surface p-5">
           <h2 className="flex items-center gap-2 font-display text-lg font-medium">
-            <Sparkles className="size-4 text-accent" /> Justification du classement
-          </h2>
+            <Sparkles className="size-4 text-accent" />{t("space.talentSheet.justification")}</h2>
           <p className="mt-2 text-sm text-fg-muted">{cand.matchScore.justification}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {Object.entries(factors).map(([k, v]) => (
@@ -160,12 +159,9 @@ export default async function FicheTalentPage({
       {/* Audit trail */}
       <section className="rounded-sedan border border-border bg-surface p-5">
         <h2 className="flex items-center gap-2 font-display text-lg font-medium">
-          <History className="size-4 text-accent" /> Journal (audit trail)
-        </h2>
+          <History className="size-4 text-accent" />{t("space.talentSheet.audit")}</h2>
         {audits.length === 0 ? (
-          <p className="mt-2 text-sm text-fg-muted">
-            Chaque décision de classement et d&apos;action est tracée ici.
-          </p>
+          <p className="mt-2 text-sm text-fg-muted">{t("space.talentSheet.auditNote")}</p>
         ) : (
           <ul className="mt-3 space-y-1.5 text-sm">
             {audits.map((a) => (

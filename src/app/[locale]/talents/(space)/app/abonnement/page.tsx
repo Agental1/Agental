@@ -1,7 +1,7 @@
 import { euros, percent } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
@@ -27,6 +27,7 @@ export default async function AbonnementPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -52,11 +53,8 @@ export default async function AbonnementPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Abonnement</h1>
-        <p className="text-fg-muted">
-          Un service optionnel qui récompense ta progression. Le mandat reste
-          gratuit.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
+        <p className="text-fg-muted">{t("space.subscription.subtitle")}</p>
       </div>
 
       <PlanSelector plans={plans} current={current} />

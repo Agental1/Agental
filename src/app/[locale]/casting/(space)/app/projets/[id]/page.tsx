@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +31,7 @@ export default async function ProjectShortlistPage({
   const { locale: rawLocale, id } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -104,7 +105,7 @@ export default async function ProjectShortlistPage({
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="font-display text-3xl font-medium">{project.title}</h1>
-          <Badge variant="accent">Short-list</Badge>
+          <Badge variant="accent">{t("space.project.shortlist")}</Badge>
         </div>
         <p className="mt-1 text-fg-muted">
           Rôle « {role.role} »

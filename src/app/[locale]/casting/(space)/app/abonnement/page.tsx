@@ -1,7 +1,7 @@
 import { euros } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Gauge } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -31,6 +31,7 @@ export default async function CastingAbonnementPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -63,20 +64,18 @@ export default async function CastingAbonnementPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Abonnement</h1>
-        <p className="text-fg-muted">
-          Une tarification par siège et par volume, pensée pour votre activité.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
+        <p className="text-fg-muted">{t("space.subscription.subtitle")}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <QuotaCard
-          label="Projets actifs"
+          label={t("space.subscription.activeProjects")}
           used={projectsQ.used}
           limit={projectsQ.limit}
         />
         <QuotaCard
-          label="Candidatures triées ce mois"
+          label={t("space.subscription.sortedThisMonth")}
           used={candQ.used}
           limit={candQ.limit}
         />

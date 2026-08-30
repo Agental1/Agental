@@ -1,6 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import {
@@ -18,6 +18,7 @@ export default async function CandidaturesPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -47,9 +48,9 @@ export default async function CandidaturesPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Mes candidatures</h1>
+        <h1 className="font-display text-3xl font-medium">{t("space.candidatures.title")}</h1>
         <p className="text-fg-muted">
-          Factuel et bienveillant — chaque statut, expliqué.
+          {t("space.candidatures.subtitle")}
         </p>
       </div>
       <CandidaturesList rows={rows} />

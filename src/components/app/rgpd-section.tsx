@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { exportMyData, deleteMyAccount } from "@/app/actions/account";
 
 export function RgpdSection() {
+  const t = useTranslations("talents");
   const [pending, start] = useTransition();
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
@@ -58,10 +60,7 @@ export function RgpdSection() {
         <ShieldQuestion className="size-4 text-accent" /> Données personnelles
         (RGPD)
       </h2>
-      <p className="text-sm text-fg-muted">
-        Tu peux exporter toutes tes données, ou supprimer définitivement ton
-        compte.
-      </p>
+      <p className="text-sm text-fg-muted">{t("space.rgpd.intro")}</p>
       <div className="flex flex-wrap gap-3">
         <Button variant="outline" size="sm" onClick={onExport} disabled={pending}>
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
@@ -74,11 +73,10 @@ export function RgpdSection() {
             className="text-danger hover:bg-danger/10"
             onClick={() => setConfirming(true)}
           >
-            <Trash2 className="size-4" /> Supprimer mon compte
-          </Button>
+            <Trash2 className="size-4" />{t("space.rgpd.delete")}</Button>
         ) : (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-danger">Confirmer la suppression ?</span>
+            <span className="text-sm text-danger">{t("space.rgpd.confirm")}</span>
             <Button variant="danger" size="sm" onClick={onDelete} disabled={pending}>
               {pending && <Loader2 className="size-4 animate-spin" />}
               Oui, supprimer

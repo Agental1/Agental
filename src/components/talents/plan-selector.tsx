@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
@@ -25,6 +26,7 @@ export function PlanSelector({
   plans: PlanCard[];
   current: string;
 }) {
+  const t = useTranslations("talents");
   const router = useRouter();
   const [pending, start] = useTransition();
   const [busy, setBusy] = useState<string | undefined>();
@@ -94,10 +96,7 @@ export function PlanSelector({
         })}
       </div>
       {error && <p className="text-sm text-danger">{errorText(error)}</p>}
-      <p className="text-xs text-fg-subtle">
-        Mode démo — aucun paiement réel. Le mandat de représentation reste
-        gratuit et séparé quel que soit ton plan.
-      </p>
+      <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { TrendingDown, Info } from "lucide-react";
 import { useLocale } from "next-intl";
 import { B2C_PLANS } from "@/domain/pricing";
@@ -19,6 +20,7 @@ export function RentabiliteWidget({
   annualCachetCents: number;
   currentPlan: PlanB2C;
 }) {
+  const t = useTranslations("talents");
   // useLocale() rather than a prop: this renders inside the Talents workspace,
   // where every caller would otherwise have to thread the locale down by hand.
   const locale = useLocale();
@@ -36,9 +38,7 @@ export function RentabiliteWidget({
     <div className="rounded-sedan border border-border bg-surface p-5">
       <div className="flex items-center gap-2">
         <TrendingDown className="size-5 text-accent" />
-        <h2 className="font-display text-lg font-medium">
-          Rentabilité de l&apos;abonnement
-        </h2>
+        <h2 className="font-display text-lg font-medium">{t("space.profitability.title")}</h2>
       </div>
       <p className="mt-1 text-sm text-fg-muted">
         Sur un volume annuel estimé de{" "}
@@ -88,15 +88,14 @@ export function RentabiliteWidget({
         <Info className="mt-0.5 size-4 shrink-0 text-accent" />
         {saving > 0 ? (
           <span>
-            À ton volume, la formule{" "}
-            <span className="font-medium">{best.def.plan}</span> te ferait
-            économiser <span className="font-medium text-success">{euros(saving, locale)}</span>{" "}
-            par an.
+            {t("space.profitability.save", {
+              plan: best.def.plan,
+              amount: euros(saving, locale),
+            })}
           </span>
         ) : (
           <span className="text-fg-muted">
-            À ton volume actuel, ta formule <span className="font-medium">{currentPlan}</span>{" "}
-            est déjà la plus avantageuse — inutile de payer plus.
+            {t("space.profitability.best", { plan: currentPlan })}
           </span>
         )}
       </p>

@@ -1,7 +1,7 @@
 import { date, euros } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TrendingUp, Wallet, Percent } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -19,6 +19,7 @@ export default async function CarrierePage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -45,8 +46,8 @@ export default async function CarrierePage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Ma carrière</h1>
-        <p className="text-fg-muted">Tes rôles, tes cachets, ta progression.</p>
+        <h1 className="font-display text-3xl font-medium">{t("space.career.title")}</h1>
+        <p className="text-fg-muted">{t("space.career.subtitle")}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -60,19 +61,17 @@ export default async function CarrierePage({
       </div>
 
       {entries.length === 0 ? (
-        <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-8 text-center text-sm text-fg-muted">
-          Ton historique de rôles apparaîtra ici dès ton premier cachet.
-        </p>
+        <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-8 text-center text-sm text-fg-muted">{t("space.career.empty")}</p>
       ) : (
         <div className="overflow-hidden rounded-sedan border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-2/60 text-left text-fg-muted">
               <tr>
-                <th className="px-4 py-3 font-medium">Rôle</th>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium text-right">Cachet</th>
-                <th className="px-4 py-3 font-medium text-right">Commission</th>
-                <th className="px-4 py-3 font-medium">Statut</th>
+                <th className="px-4 py-3 font-medium">{t("space.career.role")}</th>
+                <th className="px-4 py-3 font-medium">{t("space.career.date")}</th>
+                <th className="px-4 py-3 font-medium text-right">{t("space.career.fee")}</th>
+                <th className="px-4 py-3 font-medium text-right">{t("space.career.commission")}</th>
+                <th className="px-4 py-3 font-medium">{t("space.career.status")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

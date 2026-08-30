@@ -1,5 +1,5 @@
 import { toLocale } from "@/i18n/routing";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Send,
   Clock,
@@ -23,6 +23,7 @@ export default async function TalentsDashboard({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -85,12 +86,10 @@ export default async function TalentsDashboard({
           <h1 className="font-display text-3xl font-medium">
             Bienvenue{profile.stageName ? `, ${profile.stageName}` : ""}.
           </h1>
-          <p className="text-fg-muted">
-            On cherche pour toi, tu te concentres sur ton jeu.
-          </p>
+          <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="success">Représenté</Badge>
+          <Badge variant="success">{t("space.dashboard.represented")}</Badge>
           <Badge variant="neutral">Plan Free</Badge>
         </div>
       </div>
@@ -111,13 +110,10 @@ export default async function TalentsDashboard({
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section className="space-y-3">
           <h2 className="font-display text-xl font-medium">
-            Candidatures récentes
+            {t("space.dashboard.recent")}
           </h2>
           {cands.length === 0 ? (
-            <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-6 text-sm text-fg-muted">
-              L&apos;IA veille et postule pour toi dès qu&apos;un rôle te
-              correspond.
-            </p>
+            <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-6 text-sm text-fg-muted">{t("space.dashboard.empty")}</p>
           ) : (
             <ul className="space-y-2">
               {cands.slice(0, 4).map((c) => (
@@ -142,7 +138,7 @@ export default async function TalentsDashboard({
 
         <section className="space-y-3">
           <h2 className="flex items-center gap-2 font-display text-xl font-medium">
-            <Sparkles className="size-5 text-accent" /> Suggestions de l&apos;IA
+            <Sparkles className="size-5 text-accent" /> {t("space.dashboard.suggestions")}
           </h2>
           <div className="space-y-2">
             {suggestions.map((s) => (

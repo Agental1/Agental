@@ -108,5 +108,65 @@
     "court": "Short film",
     "theatre": "Theatre",
     "clip": "Music video"
+  },
+  "candidatureStatus": {
+    "NEW": "New",
+    "SHORTLISTED": "Shortlisted",
+    "STARRED": "Starred",
+    "EXCLUDED": "Excluded",
+    "SELFTAPE_REQUESTED": "Self-tape requested",
+    "INVITED": "Invited",
+    "CONTRACTED": "Contracted",
+    "REJECTED": "Not selected"
+  },
+  "mandatStatus": {
+    "ACTIVE": "Active",
+    "REVOKED": "Revoked",
+    "INACTIVE": "Inactive"
+  },
+  "admin": {
+    "title": "Supervision",
+    "subtitle": "Internal back-office — steering, compliance and audit.",
+    "nav": {
+      "overview": "Supervision",
+      "audit": "Audit trail",
+      "minors": "Minor cases"
+    },
+    "stats": {
+      "artists": "Artists",
+      "activeProfiles": "Active profiles",
+      "castingDirectors": "Casting directors",
+      "orgs": "Organisations",
+      "projects": "Projects",
+      "candidatures": "Applications"
+    },
+    "minorsTodo": "Minor cases to handle",
+    "minorsTodoBody": "Authorisations, escrow and parental presence to validate.",
+    "recent": "Recent activity",
+    "noActivity": "No activity.",
+    "audit": {
+      "title": "Audit trail",
+      "subtitle": "Every decision and action, traced — neutrality proven.",
+      "date": "Date",
+      "action": "Action",
+      "resource": "Resource",
+      "actor": "Actor"
+    },
+    "minors": {
+      "title": "Minor cases",
+      "subtitle": "Prefectoral authorisation, 90% escrow, parental presence.",
+      "empty": "No open minor case.",
+      "talent": "Talent",
+      "project": "Project",
+      "prefectoral": "Prefectoral",
+      "escrow": "Escrow",
+      "parental": "Parental",
+      "state": "State",
+      "open": "Open",
+      "waiting": "Documents pending",
+      "ready": "Ready",
+      "held": "Held",
+      "toConfirm": "To confirm"
+    }
   }
 }

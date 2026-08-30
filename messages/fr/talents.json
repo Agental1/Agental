@@ -510,5 +510,149 @@
     },
     "back": "Retour",
     "continue": "Continuer"
+  },
+  "space": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "profile": "Profil",
+      "candidatures": "Candidatures",
+      "selftape": "Self-tape",
+      "career": "Carrière",
+      "subscription": "Abonnement",
+      "messages": "Messages",
+      "settings": "Paramètres",
+      "account": "Mon compte"
+    },
+    "dashboard": {
+      "tagline": "On cherche pour toi, tu te concentres sur ton jeu.",
+      "represented": "Représenté",
+      "plan": "Plan {plan}",
+      "recent": "Candidatures récentes",
+      "empty": "Tu verras ici les rôles qui te correspondent dès qu'une candidature est ouverte pour toi.",
+      "suggestions": "Suggestions de l'IA",
+      "activeCount": "Candidatures actives",
+      "pendingCount": "Retours en attente",
+      "auditions": "Prochaines auditions",
+      "urgent": "Opportunités urgentes",
+      "complete": "Compléter",
+      "selftapeHint": "Tourne un premier self-tape — on te guide pour qu'il te démarque.",
+      "view": "Voir"
+    },
+    "candidatures": {
+      "title": "Mes candidatures",
+      "subtitle": "Factuel et bienveillant — chaque statut, expliqué.",
+      "empty": "Aucune candidature pour l'instant.",
+      "emptyList": "Aucune candidature ici pour l'instant. Tu verras apparaître les rôles dès qu'une candidature est ouverte pour toi."
+    },
+    "career": {
+      "title": "Ma carrière",
+      "subtitle": "Tes rôles, tes cachets, ta progression.",
+      "empty": "Ton historique de rôles apparaîtra ici dès ton premier cachet.",
+      "role": "Rôle",
+      "date": "Date",
+      "fee": "Cachet",
+      "commission": "Commission",
+      "status": "Statut",
+      "gross": "Cachets bruts",
+      "net": "Net perçu",
+      "agencyCommission": "Commission Agental",
+      "paid": "Payé",
+      "pending": "En attente"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Tes échanges avec Agental et les castings.",
+      "empty": "Pas encore de message. Quand un casting s'intéresse à ton profil ou que ton agent a une info, ça se passe ici.",
+      "conversation": "Conversation"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "subtitle": "Ton compte, ton mandat, ton abonnement.",
+      "account": "Compte",
+      "email": "Email",
+      "stageName": "Nom artistique",
+      "mandat": "Mandat de représentation",
+      "subscription": "Abonnement",
+      "editProfile": "Modifier mon profil",
+      "mandatNote": "Gratuit, résiliable à tout moment. C'est lui qui te fait représenter — indépendamment de tout abonnement.",
+      "subNote": "Service technologique optionnel. Il n'achète jamais un accès aux opportunités.",
+      "manageSub": "Gérer l'abonnement (bientôt)",
+      "signedOn": "Signé le {date}"
+    },
+    "profile": {
+      "title": "Mon profil",
+      "subtitle": "Un profil qui te ressemble — c'est ce que l'IA fait matcher."
+    },
+    "selftape": {
+      "title": "Self-tape Studio",
+      "subtitle": "Ton self-tape peut tout changer. On t'aide à le réussir — cadrage, lumière et son en temps réel.",
+      "takes": "Tes prises",
+      "degraded": "Mode dégradé",
+      "take": "Prise {n}",
+      "framing": "Cadrage",
+      "light": "Lumière",
+      "sound": "Son"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "subtitle": "Un service optionnel qui récompense ta progression. Le mandat reste gratuit."
+    },
+    "planFeatures": {
+      "FREE": [
+        "Mandat & profil",
+        "Profil complet et médias",
+        "Self-tape Studio",
+        "Suivi de carrière"
+      ],
+      "PRO": [
+        "Tout le Free",
+        "Retours IA sur tes self-tapes",
+        "Messagerie avec ton agent",
+        "Support prioritaire"
+      ],
+      "PREMIUM": [
+        "Tout le Pro",
+        "Commission réduite à 7,5 %"
+      ],
+      "ULTIMATE": [
+        "Tout le Premium",
+        "Commission réduite à 5 %"
+      ]
+    },
+    "media": {
+      "drop": "Glisse tes photos, reels ou voix ici — un reel filmé au téléphone suffit.",
+      "setPrimary": "Définir comme principale",
+      "delete": "Supprimer"
+    },
+    "profileEditor": {
+      "completeness": "Complétude du profil",
+      "completenessHint": "Ton profil gagnerait à être complété — plus il est riche, mieux il ressort dans les recherches.",
+      "birthDate": "Date de naissance",
+      "bioPlaceholder": "Quelques lignes sur ton parcours, ce qui te rend unique…",
+      "nudity": "J'accepte les rôles avec nudité",
+      "animals": "Je peux jouer avec des animaux"
+    },
+    "rgpd": {
+      "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",
+      "delete": "Supprimer mon compte",
+      "confirm": "Confirmer la suppression ?"
+    },
+    "plans": {
+      "demo": "Mode démo — aucun paiement réel. Le mandat de représentation reste gratuit et séparé quel que soit ton plan."
+    },
+    "profitability": {
+      "title": "Rentabilité de l'abonnement",
+      "atVolume": "À ton volume actuel, ta formule",
+      "save": "À ton volume, la formule {plan} te ferait économiser {amount} par an.",
+      "best": "À ton volume actuel, ta formule {plan} est déjà la plus avantageuse — inutile de payer plus."
+    },
+    "studio": {
+      "enableCamera": "Activer la caméra",
+      "cameraUnavailable": "Caméra indisponible. Passe en mode dégradé et importe une vidéo.",
+      "record": "Lancer la prise",
+      "analysing": "Analyse de ta prise…",
+      "import": "Importer une vidéo",
+      "score": "Score qualité de ta prise"
+    }
   }
 }

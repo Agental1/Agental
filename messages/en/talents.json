@@ -510,5 +510,149 @@
     },
     "back": "Back",
     "continue": "Continue"
+  },
+  "space": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "candidatures": "Applications",
+      "selftape": "Self-tape",
+      "career": "Career",
+      "subscription": "Subscription",
+      "messages": "Messages",
+      "settings": "Settings",
+      "account": "My account"
+    },
+    "dashboard": {
+      "tagline": "We look for you, you focus on your craft.",
+      "represented": "Represented",
+      "plan": "{plan} plan",
+      "recent": "Recent applications",
+      "empty": "Roles that match you will appear here as soon as an application is opened for you.",
+      "suggestions": "AI suggestions",
+      "activeCount": "Active applications",
+      "pendingCount": "Awaiting feedback",
+      "auditions": "Upcoming auditions",
+      "urgent": "Urgent opportunities",
+      "complete": "Complete",
+      "selftapeHint": "Shoot a first self-tape — we guide you so it stands out.",
+      "view": "View"
+    },
+    "candidatures": {
+      "title": "My applications",
+      "subtitle": "Factual and kind — every status, explained.",
+      "empty": "No applications yet.",
+      "emptyList": "No applications here yet. Roles will appear as soon as an application is opened for you."
+    },
+    "career": {
+      "title": "My career",
+      "subtitle": "Your roles, your fees, your progress.",
+      "empty": "Your role history will appear here from your first fee.",
+      "role": "Role",
+      "date": "Date",
+      "fee": "Fee",
+      "commission": "Commission",
+      "status": "Status",
+      "gross": "Gross fees",
+      "net": "Net received",
+      "agencyCommission": "Agental commission",
+      "paid": "Paid",
+      "pending": "Pending"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Your conversations with Agental and casting teams.",
+      "empty": "No messages yet. When a casting team takes an interest in your profile, or your agent has news, it lands here.",
+      "conversation": "Conversation"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Your account, your mandate, your subscription.",
+      "account": "Account",
+      "email": "Email",
+      "stageName": "Stage name",
+      "mandat": "Representation mandate",
+      "subscription": "Subscription",
+      "editProfile": "Edit my profile",
+      "mandatNote": "Free, cancellable at any time. It is what makes you represented — independently of any subscription.",
+      "subNote": "Optional technology service. It never buys access to opportunities.",
+      "manageSub": "Manage subscription (soon)",
+      "signedOn": "Signed on {date}"
+    },
+    "profile": {
+      "title": "My profile",
+      "subtitle": "A profile that looks like you — that is what the AI matches on."
+    },
+    "selftape": {
+      "title": "Self-tape Studio",
+      "subtitle": "Your self-tape can change everything. We help you nail it — framing, light and sound in real time.",
+      "takes": "Your takes",
+      "degraded": "Reduced mode",
+      "take": "Take {n}",
+      "framing": "Framing",
+      "light": "Light",
+      "sound": "Sound"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "subtitle": "An optional service that rewards your progress. The mandate stays free."
+    },
+    "planFeatures": {
+      "FREE": [
+        "Mandate & profile",
+        "Full profile and media",
+        "Self-tape Studio",
+        "Career tracking"
+      ],
+      "PRO": [
+        "Everything in Free",
+        "AI feedback on your self-tapes",
+        "Messaging with your agent",
+        "Priority support"
+      ],
+      "PREMIUM": [
+        "Everything in Pro",
+        "Commission down to 7.5%"
+      ],
+      "ULTIMATE": [
+        "Everything in Premium",
+        "Commission down to 5%"
+      ]
+    },
+    "media": {
+      "drop": "Drop your photos, reels or voice here — a reel shot on a phone is enough.",
+      "setPrimary": "Set as primary",
+      "delete": "Delete"
+    },
+    "profileEditor": {
+      "completeness": "Profile completeness",
+      "completenessHint": "Your profile would benefit from more detail — the richer it is, the better it surfaces in searches.",
+      "birthDate": "Date of birth",
+      "bioPlaceholder": "A few lines about your path, what makes you unique…",
+      "nudity": "I accept roles with nudity",
+      "animals": "I can act with animals"
+    },
+    "rgpd": {
+      "intro": "You can export all your data, or permanently delete your account.",
+      "delete": "Delete my account",
+      "confirm": "Confirm deletion?"
+    },
+    "plans": {
+      "demo": "Demo mode — no real payment. The representation mandate stays free and separate whatever your plan."
+    },
+    "profitability": {
+      "title": "Subscription payback",
+      "atVolume": "At your current volume, your plan",
+      "save": "At your volume, the {plan} plan would save you {amount} a year.",
+      "best": "At your current volume, your {plan} plan is already the best value — no need to pay more."
+    },
+    "studio": {
+      "enableCamera": "Enable camera",
+      "cameraUnavailable": "Camera unavailable. Switch to reduced mode and upload a video.",
+      "record": "Start the take",
+      "analysing": "Analysing your take…",
+      "import": "Upload a video",
+      "score": "Quality score for your take"
+    }
   }
 }

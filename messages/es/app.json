@@ -108,5 +108,65 @@
     "court": "Cortometraje",
     "theatre": "Teatro",
     "clip": "Videoclip"
+  },
+  "candidatureStatus": {
+    "NEW": "Nueva",
+    "SHORTLISTED": "Preseleccionada",
+    "STARRED": "Destacada",
+    "EXCLUDED": "Descartada",
+    "SELFTAPE_REQUESTED": "Self-tape solicitado",
+    "INVITED": "Convocada",
+    "CONTRACTED": "Contratada",
+    "REJECTED": "No seleccionada"
+  },
+  "mandatStatus": {
+    "ACTIVE": "Activo",
+    "REVOKED": "Revocado",
+    "INACTIVE": "Inactivo"
+  },
+  "admin": {
+    "title": "Supervisión",
+    "subtitle": "Back-office interno: pilotaje, cumplimiento y auditoría.",
+    "nav": {
+      "overview": "Supervisión",
+      "audit": "Registro de auditoría",
+      "minors": "Expedientes de menores"
+    },
+    "stats": {
+      "artists": "Artistas",
+      "activeProfiles": "Perfiles activos",
+      "castingDirectors": "Directores de casting",
+      "orgs": "Organizaciones",
+      "projects": "Proyectos",
+      "candidatures": "Candidaturas"
+    },
+    "minorsTodo": "Expedientes de menores por tratar",
+    "minorsTodoBody": "Autorizaciones, depósito y presencia parental por validar.",
+    "recent": "Actividad reciente",
+    "noActivity": "Sin actividad.",
+    "audit": {
+      "title": "Registro de auditoría",
+      "subtitle": "Todas las decisiones y acciones, trazadas: la neutralidad demostrada.",
+      "date": "Fecha",
+      "action": "Acción",
+      "resource": "Recurso",
+      "actor": "Actor"
+    },
+    "minors": {
+      "title": "Expedientes de menores",
+      "subtitle": "Autorización prefectoral, depósito del 90 %, presencia parental.",
+      "empty": "Ningún expediente de menor abierto.",
+      "talent": "Talento",
+      "project": "Proyecto",
+      "prefectoral": "Prefectoral",
+      "escrow": "Depósito",
+      "parental": "Parental",
+      "state": "Estado",
+      "open": "Abierto",
+      "waiting": "Documentos pendientes",
+      "ready": "Listo",
+      "held": "Bloqueado",
+      "toConfirm": "Por confirmar"
+    }
   }
 }

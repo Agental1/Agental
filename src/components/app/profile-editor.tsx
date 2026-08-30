@@ -84,13 +84,12 @@ export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
 }
 
 function Completeness({ value }: { value: number }) {
+  const t = useTranslations("talents");
   return (
     <div className="rounded-sedan border border-border bg-surface p-4">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-2 text-sm font-medium">
-          <Sparkles className="size-4 text-accent" />
-          Complétude du profil
-        </span>
+          <Sparkles className="size-4 text-accent" />{t("space.profileEditor.completeness")}</span>
         <span className="font-display text-lg">{value}%</span>
       </div>
       <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
@@ -100,10 +99,7 @@ function Completeness({ value }: { value: number }) {
         />
       </div>
       {value < 100 && (
-        <p className="mt-2 text-xs text-fg-muted">
-          Ton profil gagnerait à être complété — plus il est riche, plus l&apos;IA
-          le fait performer.
-        </p>
+        <p className="mt-2 text-xs text-fg-muted">{t("space.profileEditor.completenessHint")}</p>
       )}
     </div>
   );
@@ -170,6 +166,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function IdentityTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
@@ -177,7 +174,7 @@ function IdentityTab({ data, setData }: TabProps) {
         <Input value={data.stageName} onChange={(e) => setData({ ...data, stageName: e.target.value })} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Date de naissance">
+        <Field label={t("space.profileEditor.birthDate")}>
           <Input type="date" value={data.birthDate} onChange={(e) => setData({ ...data, birthDate: e.target.value })} />
         </Field>
         <Field label="Ville">
@@ -194,7 +191,7 @@ function IdentityTab({ data, setData }: TabProps) {
           rows={4}
           maxLength={600}
           className="w-full rounded-sedan border border-border bg-surface px-3 py-2 text-sm text-fg placeholder:text-fg-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
-          placeholder="Quelques lignes sur ton parcours, ce qui te rend unique…"
+          placeholder={t("space.profileEditor.bioPlaceholder")}
         />
       </Field>
       <SaveBar
@@ -303,6 +300,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
 }
 
 function PreferencesTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(savePreferences);
   const pr = data.preferences;
   const setPr = (patch: Partial<ProfileEditorData["preferences"]>) =>
@@ -320,8 +318,8 @@ function PreferencesTab({ data, setData }: TabProps) {
 
           The `autoApply` and `dailyCap` fields stay in the data model, so
           nothing is lost the day the feature actually ships. */}
-      <Toggle label="J'accepte les rôles avec nudité" checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
-      <Toggle label="Je peux jouer avec des animaux" checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
+      <Toggle label={t("space.profileEditor.nudity")} checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
+      <Toggle label={t("space.profileEditor.animals")} checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
       <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(pr)} />
     </div>
   );

@@ -1,6 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MessageSquare } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -15,6 +15,7 @@ export default async function MessagesPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -28,16 +29,13 @@ export default async function MessagesPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Messages</h1>
-        <p className="text-fg-muted">Tes échanges avec Agental et les castings.</p>
+        <h1 className="font-display text-3xl font-medium">{t("space.messages.title")}</h1>
+        <p className="text-fg-muted">{t("space.messages.subtitle")}</p>
       </div>
       {threads.length === 0 ? (
         <div className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-10 text-center">
           <MessageSquare className="mx-auto size-8 text-accent" />
-          <p className="mx-auto mt-3 max-w-sm text-sm text-fg-muted">
-            Pas encore de message. Quand un casting s&apos;intéresse à ton profil
-            ou que ton agent a une info, ça se passe ici.
-          </p>
+          <p className="mx-auto mt-3 max-w-sm text-sm text-fg-muted">{t("space.messages.empty")}</p>
         </div>
       ) : (
         <ul className="divide-y divide-border overflow-hidden rounded-sedan border border-border bg-surface">

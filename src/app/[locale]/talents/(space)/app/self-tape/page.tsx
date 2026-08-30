@@ -1,6 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Film } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -25,6 +25,7 @@ export default async function SelfTapePage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -42,50 +43,49 @@ export default async function SelfTapePage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Self-tape Studio</h1>
-        <p className="text-fg-muted">
-          Ton self-tape peut tout changer. On t&apos;aide à le réussir — cadrage,
-          lumière et son en temps réel.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("space.selftape.title")}</h1>
+        <p className="text-fg-muted">{t("space.selftape.subtitle")}</p>
       </div>
 
       <SelfTapeStudio />
 
       {takes.length > 0 && (
         <div className="space-y-3">
-          <h2 className="font-display text-xl font-medium">Tes prises</h2>
+          <h2 className="font-display text-xl font-medium">{t("space.selftape.takes")}</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {takes.map((t) => {
-              const b = parseJson(Breakdown, t.qualityBreakdown);
+            {takes.map((take) => {
+              const b = parseJson(Breakdown, take.qualityBreakdown);
               return (
                 <div
-                  key={t.id}
+                  key={take.id}
                   className="rounded-sedan border border-border bg-surface p-4"
                 >
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-2 text-sm font-medium">
-                      <Film className="size-4 text-accent" /> Prise{" "}
-                      {t.takeNumber}
+                      <Film className="size-4 text-accent" />{" "}
+                      {t("space.selftape.take", { n: take.takeNumber })}
                     </span>
                     <span
                       className={`font-display text-lg ${
-                        (t.qualityScore ?? 0) >= 75 ? "text-success" : "text-accent"
+                        (take.qualityScore ?? 0) >= 75 ? "text-success" : "text-accent"
                       }`}
                     >
-                      {t.qualityScore ?? "—"}
+                      {take.qualityScore ?? "—"}
                     </span>
                   </div>
                   <video
-                    src={`/api/media/${t.mediaId}`}
+                    src={`/api/media/${take.mediaId}`}
                     controls
                     className="mt-3 aspect-video w-full rounded-sedan bg-noirchaud object-cover"
                   />
                   <p className="mt-2 text-xs text-fg-muted">
-                    Cadrage {b.framing} · Lumière {b.light} · Son {b.sound}
+                    {t("space.selftape.framing")} {b.framing} ·{" "}
+                    {t("space.selftape.light")} {b.light} ·{" "}
+                    {t("space.selftape.sound")} {b.sound}
                   </p>
-                  {t.lowBandwidth && (
+                  {take.lowBandwidth && (
                     <Badge variant="neutral" className="mt-2">
-                      Mode dégradé
+                      {t("space.selftape.degraded")}
                     </Badge>
                   )}
                 </div>
