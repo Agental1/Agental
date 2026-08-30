@@ -1,5 +1,6 @@
 "use server";
 
+import { err, type ActionError } from "@/domain/action-result";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { revalidatePath } from "next/cache";
@@ -17,7 +18,7 @@ import { incrementUsage } from "@/lib/quotas";
 import { parseJson, toJson, PhysicalTraits } from "@/domain/json";
 import { z } from "zod";
 
-export type BriefActionResult = { ok: boolean; error?: string; upgrade?: boolean };
+export type BriefActionResult = { ok: boolean; error?: ActionError; upgrade?: boolean };
 
 async function ownerOrg() {
   const session = await auth();
@@ -34,7 +35,7 @@ async function ownerOrg() {
 /** Create a project from brief answers, then run the scorer to build the shortlist. */
 export async function createBrief(answers: BriefAnswers): Promise<BriefActionResult> {
   const ctx = await ownerOrg();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
 
   // Quota (B2B active projects).
   const limit = b2bLimit(ctx.org.plan as never, "activeProjects");
@@ -49,7 +50,7 @@ export async function createBrief(answers: BriefAnswers): Promise<BriefActionRes
       return {
         ok: false,
         upgrade: true,
-        error: `Ton plan ${ctx.org.plan} permet ${limit} projet(s) actif(s). Passe au plan supérieur pour en ouvrir plus.`,
+        error: err("errors.quotaExceeded", { plan: ctx.org.plan, limit: limit ?? 0 }),
       };
     }
   }
@@ -196,13 +197,13 @@ export async function actOnCandidature(
   action: keyof typeof NEXT_STATUS
 ): Promise<BriefActionResult> {
   const ctx = await ownerOrg();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
   const cand = await prisma.candidature.findUnique({
     where: { id: candidatureId },
     include: { project: true },
   });
   if (!cand || cand.project.organizationId !== ctx.org.id) {
-    return { ok: false, error: "Candidature introuvable." };
+    return { ok: false, error: err("errors.candidatureNotFound") };
   }
   const status = NEXT_STATUS[action];
   await prisma.candidature.update({

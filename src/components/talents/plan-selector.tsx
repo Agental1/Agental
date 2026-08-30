@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Check, Loader2 } from "lucide-react";
@@ -25,15 +27,16 @@ export function PlanSelector({
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
-  const [busy, setBusy] = useState<string>();
-  const [error, setError] = useState<string>();
+  const [busy, setBusy] = useState<string | undefined>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
 
   function choose(plan: string) {
     setBusy(plan);
     setError(undefined);
     start(async () => {
       const res = await upgradeTalentPlan(plan);
-      if (!res.ok) setError(res.error ?? "Erreur.");
+      if (!res.ok) setError(res.error ?? err("errors.generic"));
       else if (res.checkoutUrl) window.location.href = res.checkoutUrl;
       else router.refresh();
       setBusy(undefined);
@@ -90,7 +93,7 @@ export function PlanSelector({
           );
         })}
       </div>
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-danger">{errorText(error)}</p>}
       <p className="text-xs text-fg-subtle">
         Mode démo — aucun paiement réel. Le mandat de représentation reste
         gratuit et séparé quel que soit ton plan.

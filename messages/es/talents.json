@@ -434,5 +434,21 @@
       "project": "según proyecto",
       "variable": "Variable"
     }
+  },
+  "login": {
+    "metaTitle": "Iniciar sesión",
+    "title": "Me alegra verte de nuevo",
+    "subtitle": "Inicia sesión en tu espacio Agental.",
+    "submit": "Iniciar sesión",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "signUp": "Hazte miembro"
+  },
+  "signup": {
+    "metaTitle": "Hazte miembro",
+    "title": "Crea tu cuenta de artista",
+    "subtitle": "Gratis. Te representamos, la IA trabaja para ti.",
+    "submit": "Crear mi cuenta",
+    "already": "¿Ya eres miembro?",
+    "signIn": "Iniciar sesión"
   }
 }

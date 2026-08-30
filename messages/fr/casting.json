@@ -278,5 +278,13 @@
   "notFound": {
     "title": "Cette page n'est plus au casting.",
     "body": "Le lien est peut-être ancien, ou la page a changé de nom. Vos projets restent accessibles depuis votre espace."
+  },
+  "signup": {
+    "metaTitle": "Tester gratuitement",
+    "title": "Créez votre compte casting",
+    "subtitle": "Gratuit, sans carte bancaire. Un projet actif offert.",
+    "submit": "Créer mon compte",
+    "already": "Déjà inscrit ?",
+    "signIn": "Se connecter"
   }
 }

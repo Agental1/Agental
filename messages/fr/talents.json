@@ -434,5 +434,21 @@
       "project": "selon projet",
       "variable": "Variable"
     }
+  },
+  "login": {
+    "metaTitle": "Connexion",
+    "title": "Content de te revoir",
+    "subtitle": "Connecte-toi à ton espace Agental.",
+    "submit": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "signUp": "Devenir membre"
+  },
+  "signup": {
+    "metaTitle": "Devenir membre",
+    "title": "Crée ton compte artiste",
+    "subtitle": "Gratuit. On te représente, l'IA travaille pour toi.",
+    "submit": "Créer mon compte",
+    "already": "Déjà membre ?",
+    "signIn": "Se connecter"
   }
 }

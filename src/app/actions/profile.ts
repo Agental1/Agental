@@ -1,5 +1,6 @@
 "use server";
 
+import { err, zodError, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -13,7 +14,7 @@ import {
   AvailabilityInput,
 } from "@/domain/profile";
 
-export type SaveResult = { ok: boolean; error?: string; completeness?: number };
+export type SaveResult = { ok: boolean; error?: ActionError; completeness?: number };
 
 async function requireProfile() {
   const session = await auth();
@@ -39,10 +40,10 @@ async function done(profileId: string): Promise<SaveResult> {
 
 export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   const parsed = ProfileIdentity.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
   await prisma.artistProfile.update({
     where: { id: profile.id },
@@ -61,10 +62,10 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
 
 export async function saveProfilePhysical(input: unknown): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   const parsed = ProfilePhysical.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   await prisma.artistProfile.update({
     where: { id: profile.id },
     data: { physical: toJson(parsed.data) },
@@ -76,10 +77,10 @@ export async function saveProfileSpecialties(
   input: unknown
 ): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   const parsed = ProfileSpecialties.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
   await prisma.$transaction([
     prisma.specialty.deleteMany({ where: { profileId: profile.id } }),
@@ -104,10 +105,10 @@ export async function saveProfileSpecialties(
 
 export async function savePreferences(input: unknown): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   const parsed = PreferencesInput.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   await prisma.artistProfile.update({
     where: { id: profile.id },
     data: { preferences: toJson(parsed.data) },
@@ -118,10 +119,10 @@ export async function savePreferences(input: unknown): Promise<SaveResult> {
 
 export async function addAvailability(input: unknown): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   const parsed = AvailabilityInput.safeParse(input);
   if (!parsed.success)
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
   await prisma.availability.create({
     data: {
@@ -138,7 +139,7 @@ export async function addAvailability(input: unknown): Promise<SaveResult> {
 
 export async function deleteAvailability(id: string): Promise<SaveResult> {
   const profile = await requireProfile();
-  if (!profile) return { ok: false, error: "Non autorisé." };
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
   await prisma.availability.deleteMany({
     where: { id, profileId: profile.id },
   });

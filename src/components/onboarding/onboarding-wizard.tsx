@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import {
   Check,
@@ -49,7 +51,8 @@ export interface OnboardingInitial {
 export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initial);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
 
   function set<K extends keyof OnboardingInitial>(
@@ -59,13 +62,13 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
     setData((d) => ({ ...d, [key]: value }));
   }
 
-  function next(save?: () => Promise<{ ok: boolean; error?: string }>) {
+  function next(save?: () => Promise<{ ok: boolean; error?: ActionError }>) {
     setError(undefined);
     startTransition(async () => {
       if (save) {
         const res = await save();
         if (!res.ok) {
-          setError(res.error ?? "Une erreur est survenue.");
+          setError(res.error ?? err("errors.generic"));
           return;
         }
       }
@@ -79,7 +82,7 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 
       {error && (
         <p role="alert" className="mt-4 text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
 
@@ -310,9 +313,10 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 }
 
 function MandatStep() {
+  const errorText = useActionErrorText();
   const [accept, setAccept] = useState(false);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
 
   return (
     <Step
@@ -359,7 +363,7 @@ function MandatStep() {
 
       {error && (
         <p role="alert" className="mt-2 text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
 
@@ -384,7 +388,7 @@ function MandatStep() {
               ) {
                 throw e;
               }
-              setError("La signature a échoué. Réessaie.");
+              setError(err("errors.signatureFailed"));
             }
           })
         }

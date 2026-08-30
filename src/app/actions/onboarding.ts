@@ -1,5 +1,6 @@
 "use server";
 
+import { zodError, type ActionError } from "@/domain/action-result";
 import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
@@ -13,7 +14,7 @@ import {
 } from "@/domain/onboarding";
 import { toJson } from "@/domain/json";
 
-export type StepResult = { ok: boolean; error?: string };
+export type StepResult = { ok: boolean; error?: ActionError };
 
 async function requireTalentUserId(): Promise<string> {
   const session = await auth();
@@ -47,7 +48,7 @@ export async function saveIdentity(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = IdentityStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const d = parsed.data;
   await prisma.artistProfile.update({
@@ -68,7 +69,7 @@ export async function savePhysical(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = PhysicalStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   await prisma.artistProfile.update({
     where: { userId },
@@ -81,7 +82,7 @@ export async function saveSpecialties(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = SpecialtiesStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const profile = await prisma.artistProfile.findUniqueOrThrow({
     where: { userId },

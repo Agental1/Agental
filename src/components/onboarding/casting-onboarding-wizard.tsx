@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import {
   ArrowRight,
@@ -42,16 +44,17 @@ export function CastingOnboardingWizard({
 }) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initial);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
 
-  function next(save?: () => Promise<{ ok: boolean; error?: string }>) {
+  function next(save?: () => Promise<{ ok: boolean; error?: ActionError }>) {
     setError(undefined);
     startTransition(async () => {
       if (save) {
         const res = await save();
         if (!res.ok) {
-          setError(res.error ?? "Une erreur est survenue.");
+          setError(res.error ?? err("errors.generic"));
           return;
         }
       }
@@ -64,7 +67,7 @@ export function CastingOnboardingWizard({
       <Progress step={step} />
       {error && (
         <p role="alert" className="mt-4 text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
 
@@ -183,8 +186,9 @@ export function CastingOnboardingWizard({
 }
 
 function VerifyStep() {
+  const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
   return (
     <>
       <Head
@@ -205,7 +209,7 @@ function VerifyStep() {
       </div>
       {error && (
         <p role="alert" className="text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
       <Button
@@ -228,7 +232,7 @@ function VerifyStep() {
               ) {
                 throw e;
               }
-              setError("La confirmation a échoué. Réessayez.");
+              setError(err("errors.confirmFailed"));
             }
           })
         }

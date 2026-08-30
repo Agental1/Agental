@@ -1,7 +1,9 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
 import type { Locale } from "next-intl";
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -22,6 +24,8 @@ export function AuthForm({
   locale: Locale;
   showName?: boolean;
 }) {
+  const t = useTranslations("app");
+  const errorText = useActionErrorText();
   const [state, formAction, pending] = useActionState<AuthState, FormData>(
     action,
     undefined
@@ -34,25 +38,25 @@ export function AuthForm({
 
       {showName && (
         <div className="space-y-1.5">
-          <Label htmlFor="name">Nom</Label>
+          <Label htmlFor="name">{t("auth.name")}</Label>
           <Input id="name" name="name" autoComplete="name" />
         </div>
       )}
 
       <div className="space-y-1.5">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t("auth.email")}</Label>
         <Input
           id="email"
           name="email"
           type="email"
           required
           autoComplete="email"
-          placeholder="prenom@exemple.fr"
+          placeholder={t("auth.emailPlaceholder")}
         />
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="password">Mot de passe</Label>
+        <Label htmlFor="password">{t("auth.password")}</Label>
         <Input
           id="password"
           name="password"
@@ -60,7 +64,7 @@ export function AuthForm({
           required
           autoComplete={kind ? "new-password" : "current-password"}
           minLength={8}
-          placeholder="8 caractères minimum"
+          placeholder={t("auth.passwordPlaceholder")}
         />
       </div>
 
@@ -70,7 +74,7 @@ export function AuthForm({
           className="flex items-center gap-2 rounded-sedan bg-danger/10 px-3 py-2 text-sm text-danger"
         >
           <AlertCircle className="size-4 shrink-0" />
-          {state.error}
+          {errorText(state.error)}
         </p>
       )}
 

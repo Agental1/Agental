@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import { Download, Trash2, Loader2, ShieldQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,7 +10,8 @@ import { exportMyData, deleteMyAccount } from "@/app/actions/account";
 export function RgpdSection() {
   const [pending, start] = useTransition();
   const [confirming, setConfirming] = useState(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
 
   function onExport() {
     setError(undefined);
@@ -44,7 +47,7 @@ export function RgpdSection() {
         ) {
           throw e;
         }
-        setError("La suppression a échoué.");
+        setError(err("errors.deleteFailed"));
       }
     });
   }
@@ -86,7 +89,7 @@ export function RgpdSection() {
           </div>
         )}
       </div>
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-danger">{errorText(error)}</p>}
     </section>
   );
 }

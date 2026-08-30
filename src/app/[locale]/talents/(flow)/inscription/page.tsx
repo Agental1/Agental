@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { redirect } from "@/i18n/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
@@ -10,7 +10,15 @@ import { signupAction } from "@/app/actions/auth";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { parseJson, parseStringArray, PhysicalTraits } from "@/domain/json";
 
-export const metadata: Metadata = { title: "Devenir membre" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const tm = await getTranslations({ locale: toLocale(rawLocale), namespace: "talents" });
+  return { title: tm("signup.metaTitle") };
+}
 
 export default async function TalentsSignupPage({
   params,
@@ -20,6 +28,7 @@ export default async function TalentsSignupPage({
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
   const session = await auth();
 
   // Not signed in → create account.
@@ -28,22 +37,20 @@ export default async function TalentsSignupPage({
       <div className="mx-auto max-w-sm px-4 py-16">
         <div className="mb-6 space-y-1 text-center">
           <h1 className="font-display text-2xl font-medium">
-            Crée ton compte artiste
+            {t("signup.title")}
           </h1>
-          <p className="text-sm text-fg-muted">
-            Gratuit. On te représente, l&apos;IA travaille pour toi.
-          </p>
+          <p className="text-sm text-fg-muted">{t("signup.subtitle")}</p>
         </div>
         <AuthForm
           action={signupAction}
-          submitLabel="Créer mon compte"
+          submitLabel={t("signup.submit")}
           kind="TALENT"
           locale={locale}
         />
         <p className="mt-6 text-center text-sm text-fg-muted">
-          Déjà membre ?{" "}
+          {t("signup.already")}{" "}
           <Link href="/connexion" className="text-accent hover:underline">
-            Se connecter
+            {t("signup.signIn")}
           </Link>
         </p>
       </div>

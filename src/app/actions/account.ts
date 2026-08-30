@@ -1,17 +1,18 @@
 "use server";
 
+import { err, type ActionError } from "@/domain/action-result";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 
 export type ExportResult =
   | { ok: true; data: unknown }
-  | { ok: false; error: string };
+  | { ok: false; error: ActionError };
 
 /** RGPD: export everything we hold about the signed-in user, as JSON. */
 export async function exportMyData(): Promise<ExportResult> {
   const session = await auth();
-  if (!session?.user?.id) return { ok: false, error: "Non autorisé." };
+  if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
   const userId = session.user.id;
 
   const user = await prisma.user.findUnique({
@@ -31,7 +32,7 @@ export async function exportMyData(): Promise<ExportResult> {
       memberships: { include: { organization: true } },
     },
   });
-  if (!user) return { ok: false, error: "Introuvable." };
+  if (!user) return { ok: false, error: err("errors.notFound") };
 
   const subscription = await prisma.subscription.findUnique({
     where: { subjectId: userId },
@@ -59,9 +60,9 @@ export async function exportMyData(): Promise<ExportResult> {
 }
 
 /** RGPD: permanently delete the account and everything cascading from it. */
-export async function deleteMyAccount(): Promise<{ ok: boolean; error?: string }> {
+export async function deleteMyAccount(): Promise<{ ok: boolean; error?: ActionError }> {
   const session = await auth();
-  if (!session?.user?.id) return { ok: false, error: "Non autorisé." };
+  if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
   const userId = session.user.id;
 
   await audit({

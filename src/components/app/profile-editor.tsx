@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import { Check, Loader2, Sparkles } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -116,16 +118,16 @@ type TabProps = {
   setData: React.Dispatch<React.SetStateAction<ProfileEditorData>>;
 };
 
-function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: string; completeness?: number }>) {
+function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionError; completeness?: number }>) {
   const [pending, start] = useTransition();
   const [saved, setSaved] = useState(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
   function save(input: unknown, onDone?: (c?: number) => void) {
     setError(undefined);
     setSaved(false);
     start(async () => {
       const res = await fn(input);
-      if (!res.ok) return setError(res.error ?? "Erreur.");
+      if (!res.ok) return setError(res.error ?? err("errors.generic"));
       setSaved(true);
       onDone?.(res.completeness);
       setTimeout(() => setSaved(false), 2000);
@@ -142,9 +144,10 @@ function SaveBar({
 }: {
   pending: boolean;
   saved: boolean;
-  error?: string;
+  error?: ActionError;
   onSave: () => void;
 }) {
+  const errorText = useActionErrorText();
   return (
     <div className="flex items-center gap-3 pt-2">
       <Button onClick={onSave} disabled={pending}>
@@ -156,7 +159,7 @@ function SaveBar({
           <Check className="size-4" /> Enregistré
         </span>
       )}
-      {error && <span className="text-sm text-danger">{error}</span>}
+      {error && <span className="text-sm text-danger">{errorText(error)}</span>}
     </div>
   );
 }

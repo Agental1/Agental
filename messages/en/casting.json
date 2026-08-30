@@ -278,5 +278,13 @@
   "notFound": {
     "title": "This page is no longer in the running.",
     "body": "The link may be old, or the page was renamed. Your projects remain available from your workspace."
+  },
+  "signup": {
+    "metaTitle": "Try it free",
+    "title": "Create your casting account",
+    "subtitle": "Free, no card required. One active project included.",
+    "submit": "Create my account",
+    "already": "Already registered?",
+    "signIn": "Sign in"
   }
 }

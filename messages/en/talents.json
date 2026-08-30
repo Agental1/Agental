@@ -434,5 +434,21 @@
       "project": "project-based",
       "variable": "Varies"
     }
+  },
+  "login": {
+    "metaTitle": "Sign in",
+    "title": "Good to see you again",
+    "subtitle": "Sign in to your Agental space.",
+    "submit": "Sign in",
+    "noAccount": "No account yet?",
+    "signUp": "Become a member"
+  },
+  "signup": {
+    "metaTitle": "Become a member",
+    "title": "Create your artist account",
+    "subtitle": "Free. We represent you, the AI works for you.",
+    "submit": "Create my account",
+    "already": "Already a member?",
+    "signIn": "Sign in"
   }
 }

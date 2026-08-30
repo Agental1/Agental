@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -33,7 +35,8 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
 
   function onFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -45,7 +48,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         fd.set("type", typeForMime(file.type));
         const res = await uploadMedia(fd);
         if (!res.ok) {
-          setError(res.error ?? "Échec de l'upload.");
+          setError(res.error ?? err("errors.uploadFailed"));
           break;
         }
       }
@@ -87,7 +90,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         </Button>
       </div>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-danger">{errorText(error)}</p>}
 
       {media.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">

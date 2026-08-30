@@ -1,5 +1,6 @@
 "use client";
 
+import { useActionErrorText } from "@/components/app/action-error";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -23,6 +24,7 @@ import type { QualityMetrics } from "@/lib/ai/quality-scorer";
 type Phase = "idle" | "ready" | "recording" | "processing" | "done" | "denied";
 
 export function SelfTapeStudio() {
+  const errorText = useActionErrorText();
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -326,7 +328,7 @@ export function SelfTapeStudio() {
         </div>
       )}
       {phase === "done" && result && !result.ok && (
-        <p className="text-sm text-danger">{result.error}</p>
+        <p className="text-sm text-danger">{errorText(result.error)}</p>
       )}
     </div>
   );
