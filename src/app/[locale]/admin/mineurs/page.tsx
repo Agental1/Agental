@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { ShieldCheck } from "lucide-react";
@@ -18,7 +19,8 @@ export default async function AdminMinorsPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const cases = await prisma.minorCase.findMany({

@@ -1,6 +1,7 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -74,7 +75,7 @@ export async function createBrief(answers: BriefAnswers): Promise<BriefActionRes
   });
 
   await runShortlist(project.id);
-  redirect(`/casting/app/projets/${project.id}`);
+  return redirect({ href: `/casting/app/projets/${project.id}`, locale: await getLocale() });
 }
 
 /** Score roster + external talents against the role and persist candidatures. */

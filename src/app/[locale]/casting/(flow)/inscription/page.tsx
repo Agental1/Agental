@@ -1,5 +1,6 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -22,7 +23,8 @@ export default async function CastingSignupPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const session = await auth();
 
@@ -60,7 +62,7 @@ export default async function CastingSignupPage({
 
   // Already onboarded (org exists + email verified) → app.
   if (membership && session.user && (await isVerified(session.user.id))) {
-    redirect("/casting/app");
+    return redirect({ href: "/casting/app", locale });
   }
 
   const scope = membership

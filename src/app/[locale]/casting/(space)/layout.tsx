@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+import { toLocale } from "@/i18n/routing";
+import { redirect } from "@/i18n/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -19,17 +20,18 @@ export default async function CastingAppLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "CASTING") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale });
   }
   const membership = await prisma.membership.findFirst({
     where: { userId: session.user.id, role: "OWNER" },
   });
-  if (!membership) redirect("/casting/inscription");
+  if (!membership) return redirect({ href: "/casting/inscription", locale });
 
   return (
     <div data-portal="casting" className="min-h-screen bg-bg text-fg">

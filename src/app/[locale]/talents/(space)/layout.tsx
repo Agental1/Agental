@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+import { toLocale } from "@/i18n/routing";
+import { redirect } from "@/i18n/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -24,12 +25,13 @@ export default async function TalentsAppLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale });
   }
   // Representation gate: opportunities require a signed Mandat, not a plan.
   const profile = await prisma.artistProfile.findUnique({
@@ -37,7 +39,7 @@ export default async function TalentsAppLayout({
     include: { mandat: true },
   });
   if (!profile?.mandat?.signedAt || profile.mandat.status !== "ACTIVE") {
-    redirect("/talents/inscription");
+    return redirect({ href: "/talents/inscription", locale });
   }
 
   return (

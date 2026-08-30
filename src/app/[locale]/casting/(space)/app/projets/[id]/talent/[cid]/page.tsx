@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -22,7 +23,8 @@ export default async function FicheTalentPage({
 }: {
   params: Promise<{ locale: string; id: string; cid: string }>;
 }) {
-  const { locale, id, cid } = await params;
+  const { locale: rawLocale, id, cid } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const session = await auth();

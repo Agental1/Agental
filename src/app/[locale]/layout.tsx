@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { Fraunces, Inter } from "next/font/google";
-import { routing } from "@/i18n/routing";
+import { routing, toLocale } from "@/i18n/routing";
+import { SITE } from "@/lib/seo";
 import "../globals.css";
 
 const inter = Inter({
@@ -20,7 +21,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://agental.fr"),
+  metadataBase: new URL(SITE),
   title: {
     default: "Agental",
     template: "%s · Agental",
@@ -40,7 +41,8 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 

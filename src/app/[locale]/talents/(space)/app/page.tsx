@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import {
   Send,
@@ -19,7 +20,8 @@ export default async function TalentsDashboard({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const session = await auth();

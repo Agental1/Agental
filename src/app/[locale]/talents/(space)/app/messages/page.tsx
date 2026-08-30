@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { MessageSquare } from "lucide-react";
@@ -11,7 +12,8 @@ export default async function MessagesPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const session = await auth();

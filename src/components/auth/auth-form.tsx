@@ -1,5 +1,6 @@
 "use client";
 
+import type { Locale } from "next-intl";
 import { useActionState } from "react";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,7 @@ export function AuthForm({
   action: Action;
   submitLabel: string;
   kind?: "TALENT" | "CASTING";
-  locale: string;
+  locale: Locale;
   showName?: boolean;
 }) {
   const [state, formAction, pending] = useActionState<AuthState, FormData>(

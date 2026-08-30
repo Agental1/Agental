@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { Link } from "@/i18n/navigation";
@@ -10,7 +11,8 @@ export default function AuthLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = use(params);
+  const { locale: rawLocale } = use(params);
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   return (
     <div

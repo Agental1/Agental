@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -36,7 +37,8 @@ export default async function CastingTypePage({
 }: {
   params: Promise<{ locale: string; type: string }>;
 }) {
-  const { locale, type } = await params;
+  const { locale: rawLocale, type } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const ct = getCastingType(type);
   if (!ct) notFound();

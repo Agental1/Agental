@@ -1,5 +1,6 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -16,7 +17,8 @@ export default async function TalentsSignupPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const session = await auth();
 
@@ -57,7 +59,7 @@ export default async function TalentsSignupPage({
   });
 
   if (profile.mandat?.status === "ACTIVE" && profile.mandat.signedAt) {
-    redirect("/talents/app");
+    return redirect({ href: "/talents/app", locale });
   }
 
   const physical = parseJson(PhysicalTraits, profile.physical);

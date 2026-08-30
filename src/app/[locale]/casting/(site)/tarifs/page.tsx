@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
@@ -9,12 +10,13 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   const t = await getTranslations({
     locale,
-    namespace: "casting.pricingPage.meta",
+    namespace: "casting.pricingPage",
   });
-  return { title: t("title"), description: t("description") };
+  return { title: t("meta.title"), description: t("meta.description") };
 }
 
 export default async function Page({
@@ -22,7 +24,8 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   return <TarifsContent />;
 }

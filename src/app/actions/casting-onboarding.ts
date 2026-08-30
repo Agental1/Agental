@@ -1,6 +1,7 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -12,7 +13,7 @@ export type StepResult = { ok: boolean; error?: string; orgId?: string };
 async function requireCastingUserId(): Promise<string> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "CASTING") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale: await getLocale() });
   }
   return session.user.id;
 }
@@ -114,7 +115,7 @@ export async function saveCastingScope(input: unknown): Promise<StepResult> {
 export async function finalizeCastingOnboarding(): Promise<void> {
   const userId = await requireCastingUserId();
   const org = await findOwnedOrg(userId);
-  if (!org) redirect("/casting/inscription");
+  if (!org) return redirect({ href: "/casting/inscription", locale: await getLocale() });
 
   await prisma.user.update({
     where: { id: userId },
@@ -127,5 +128,5 @@ export async function finalizeCastingOnboarding(): Promise<void> {
     resourceType: "Organization",
     resourceId: org.id,
   });
-  redirect("/casting/app");
+  return redirect({ href: "/casting/app", locale: await getLocale() });
 }

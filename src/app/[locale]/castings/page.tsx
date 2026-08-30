@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
@@ -11,12 +12,13 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   const t = await getTranslations({
     locale,
-    namespace: "talents.castingLandings.index.meta",
+    namespace: "talents.castingLandings",
   });
-  return { title: t("title"), description: t("description") };
+  return { title: t("index.meta.title"), description: t("index.meta.description") };
 }
 
 export default async function CastingsIndex({
@@ -24,19 +26,20 @@ export default async function CastingsIndex({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   return <IndexContent />;
 }
 
 function IndexContent() {
-  const t = useTranslations("talents.castingLandings.index");
+  const t = useTranslations("talents.castingLandings");
   return (
     <>
       <PageHero
-        eyebrow={t("eyebrow")}
-        title={t("title")}
-        subtitle={t("subtitle")}
+        eyebrow={t("index.eyebrow")}
+        title={t("index.title")}
+        subtitle={t("index.subtitle")}
       />
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

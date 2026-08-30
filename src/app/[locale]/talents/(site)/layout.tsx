@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
@@ -11,7 +12,8 @@ export default function TalentsLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = use(params);
+  const { locale: rawLocale } = use(params);
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const t = useTranslations("common");

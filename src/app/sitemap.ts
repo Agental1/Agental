@@ -1,8 +1,8 @@
+import type { Locale } from "next-intl";
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { CASTING_TYPE_SLUGS } from "@/data/casting-types";
-
-const BASE = "https://agental.fr";
+import { SITE } from "@/lib/seo";
 
 const PATHS = [
   "/talents",
@@ -19,9 +19,9 @@ const PATHS = [
 ];
 
 /** Build a locale-prefixed URL (default locale has no prefix — localePrefix "as-needed"). */
-function url(locale: string, path: string): string {
+function url(locale: Locale, path: string): string {
   const prefix = locale === routing.defaultLocale ? "" : `/${locale}`;
-  return `${BASE}${prefix}${path}`;
+  return `${SITE}${prefix}${path}`;
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

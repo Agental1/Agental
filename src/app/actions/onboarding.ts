@@ -1,7 +1,8 @@
 "use server";
 
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -17,7 +18,7 @@ export type StepResult = { ok: boolean; error?: string };
 async function requireTalentUserId(): Promise<string> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale: await getLocale() });
   }
   return session.user.id;
 }
@@ -161,7 +162,7 @@ export async function signMandat(): Promise<void> {
     after: { signedAt: mandat.signedAt, ip },
   });
 
-  redirect("/talents/app");
+  return redirect({ href: "/talents/app", locale: await getLocale() });
 }
 
 async function computeCompleteness(profileId: string): Promise<number> {
