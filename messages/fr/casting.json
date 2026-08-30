@@ -34,19 +34,40 @@
     "eyebrow": "Ce que vous gagnez avec Agental",
     "title": "La qualité, pas la quantité.",
     "items": [
-      { "title": "Une sélection courte, tout de suite exploitable", "body": "Trois fois plus de profils pertinents, zéro bruit." },
-      { "title": "Des profils prêts à convoquer", "body": "Self-tapes, disponibilités et droits déjà vérifiés." },
-      { "title": "Un classement que vous comprenez", "body": "Chaque profil est classé avec une justification lisible." },
-      { "title": "Une neutralité qui se vérifie", "body": "Même scoring pour tous, source affichée, historique traçable." }
+      {
+        "title": "Une sélection courte, tout de suite exploitable",
+        "body": "Trois fois plus de profils pertinents, zéro bruit."
+      },
+      {
+        "title": "Des profils prêts à convoquer",
+        "body": "Self-tapes, disponibilités et droits déjà vérifiés."
+      },
+      {
+        "title": "Un classement que vous comprenez",
+        "body": "Chaque profil est classé avec une justification lisible."
+      },
+      {
+        "title": "Une neutralité qui se vérifie",
+        "body": "Même scoring pour tous, source affichée, historique traçable."
+      }
     ]
   },
   "neutrality": {
     "eyebrow": "Neutralité",
     "title": "La neutralité, prouvée dans le produit",
     "items": [
-      { "title": "La provenance sur chaque profil", "body": "Agental ou externe, toujours visible." },
-      { "title": "Le même calcul pour tous", "body": "Les mêmes critères, quelle que soit la source." },
-      { "title": "Un historique consultable", "body": "Chaque décision de classement reste traçable." }
+      {
+        "title": "La provenance sur chaque profil",
+        "body": "Agental ou externe, toujours visible."
+      },
+      {
+        "title": "Le même calcul pour tous",
+        "body": "Les mêmes critères, quelle que soit la source."
+      },
+      {
+        "title": "Un historique consultable",
+        "body": "Chaque décision de classement reste traçable."
+      }
     ]
   },
   "steps": {
@@ -54,17 +75,35 @@
     "title": "Votre casting, en trois temps",
     "cta": "Voir le détail complet",
     "items": [
-      { "title": "Décrivez le rôle", "body": "Un assistant conversationnel met votre brief en forme." },
-      { "title": "Recevez votre short-list", "body": "Une sélection courte, calibrée pour la pertinence." },
-      { "title": "Décidez et convoquez", "body": "Self-tapes, disponibilités et droits sont déjà vérifiés." }
+      {
+        "title": "Décrivez le rôle",
+        "body": "Un assistant conversationnel met votre brief en forme."
+      },
+      {
+        "title": "Recevez votre short-list",
+        "body": "Une sélection courte, calibrée pour la pertinence."
+      },
+      {
+        "title": "Décidez et convoquez",
+        "body": "Self-tapes, disponibilités et droits sont déjà vérifiés."
+      }
     ]
   },
   "testimonials": {
     "title": "Ils castent avec Agental",
     "items": [
-      { "quote": "Une short-list courte, exploitable dès la première minute.", "author": "Directrice de casting, longs métrages, Paris" },
-      { "quote": "On gagne un temps considérable sur le premier tri.", "author": "Société de production indépendante, séries" },
-      { "quote": "La source affichée sur chaque profil nous a convaincus.", "author": "Agence de publicité, casting interne" }
+      {
+        "quote": "Une short-list courte, exploitable dès la première minute.",
+        "author": "Directrice de casting, longs métrages, Paris"
+      },
+      {
+        "quote": "On gagne un temps considérable sur le premier tri.",
+        "author": "Société de production indépendante, séries"
+      },
+      {
+        "quote": "La source affichée sur chaque profil nous a convaincus.",
+        "author": "Agence de publicité, casting interne"
+      }
     ]
   },
   "pricing": {
@@ -73,10 +112,56 @@
     "note": "Sans engagement. Vous changez de formule ou résiliez à tout moment.",
     "recommended": "RECOMMANDÉ",
     "plans": [
-      { "name": "Free", "price": "0 €", "priceUnit": "", "cta": "Tester", "features": ["1 projet actif", "50 candidatures triées par mois", "Score de base", "Provenance affichée sur chaque talent"] },
-      { "name": "Pro", "price": "99 €", "priceUnit": "/siège/mois", "cta": "Choisir Pro", "features": ["10 projets actifs", "1 000 candidatures triées/mois", "Score détaillé et explication", "Vérification des self-tapes", "Tableau de bord complet", "Filtres et tri avancés"] },
-      { "name": "Studio", "price": "299 €", "priceUnit": "/mois", "cta": "Choisir", "features": ["Jusqu'à 5 sièges", "Projets et sélections illimités", "Intégrations", "Support dédié"] },
-      { "name": "Enterprise", "price": "Sur devis", "priceUnit": "", "cta": "Nous contacter", "features": ["Grandes maisons et studios", "SSO", "SLA garanti", "API privée"] }
+      {
+        "name": "Free",
+        "price": "0 €",
+        "priceUnit": "",
+        "cta": "Tester",
+        "features": [
+          "1 projet actif",
+          "50 candidatures triées par mois",
+          "Score de base",
+          "Provenance affichée sur chaque talent"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "99 €",
+        "priceUnit": "/siège/mois",
+        "cta": "Choisir Pro",
+        "features": [
+          "10 projets actifs",
+          "1 000 candidatures triées/mois",
+          "Score détaillé et explication",
+          "Vérification des self-tapes",
+          "Tableau de bord complet",
+          "Filtres et tri avancés"
+        ]
+      },
+      {
+        "name": "Studio",
+        "price": "299 €",
+        "priceUnit": "/mois",
+        "cta": "Choisir",
+        "features": [
+          "Jusqu'à 5 sièges",
+          "Projets et sélections illimités",
+          "Intégrations",
+          "Support dédié"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "price": "Sur devis",
+        "priceUnit": "",
+        "cta": "Nous contacter",
+        "features": [
+          "Grandes maisons et studios",
+          "SSO",
+          "SLA garanti",
+          "API privée"
+        ]
+      }
     ]
   },
   "finalCta": {
@@ -85,40 +170,113 @@
     "ctaSecondary": "Demander une démo"
   },
   "how": {
-    "meta": { "title": "Comment ça marche — Agental Casting", "description": "Du brief à la convocation : comment Agental filtre 90 % des candidatures pour ne vous présenter que les profils réellement pertinents." },
-    "hero": { "eyebrow": "Comment ça marche", "title": "Comment fonctionne Agental Casting", "subtitle": "Un brief structuré en quelques minutes, une short-list calibrée, des profils prêts à décider. La neutralité prouvée dans le produit." },
+    "meta": {
+      "title": "Comment ça marche — Agental Casting",
+      "description": "Du brief à la convocation : comment Agental filtre 90 % des candidatures pour ne vous présenter que les profils réellement pertinents."
+    },
+    "hero": {
+      "eyebrow": "Comment ça marche",
+      "title": "Comment fonctionne Agental Casting",
+      "subtitle": "Un brief structuré en quelques minutes, une short-list calibrée, des profils prêts à décider. La neutralité prouvée dans le produit."
+    },
     "sections": [
-      { "title": "Un brief structuré en quelques minutes", "body": "Un assistant conversationnel met votre demande en forme : rôle, sexe, fourchette d'âge, type physique, langue, accent, contraintes, fenêtre de tournage, lieu et budget. Vous validez un aperçu clair." },
-      { "title": "Une sélection en cascade, calibrée pour la pertinence", "body": "L'IA écarte les candidatures hors sujet et classe les profils restants selon vos critères. Vous recevez une short-list courte, pas un annuaire." },
-      { "title": "Des profils prêts à décider", "body": "Self-tapes, disponibilités et droits image sont vérifiés en amont. Chaque profil affiche un score et une justification lisible." },
-      { "title": "Vous gardez le contrôle, la neutralité est garantie", "body": "La source (Agental ou externe) est affichée sur chaque talent, le même calcul s'applique à tous, et chaque décision de classement reste traçable." }
+      {
+        "title": "Un brief structuré en quelques minutes",
+        "body": "Un assistant conversationnel met votre demande en forme : rôle, sexe, fourchette d'âge, type physique, langue, accent, contraintes, fenêtre de tournage, lieu et budget. Vous validez un aperçu clair."
+      },
+      {
+        "title": "Une sélection en cascade, calibrée pour la pertinence",
+        "body": "L'IA écarte les candidatures hors sujet et classe les profils restants selon vos critères. Vous recevez une short-list courte, pas un annuaire."
+      },
+      {
+        "title": "Des profils prêts à décider",
+        "body": "Self-tapes, disponibilités et droits image sont vérifiés en amont. Chaque profil affiche un score et une justification lisible."
+      },
+      {
+        "title": "Vous gardez le contrôle, la neutralité est garantie",
+        "body": "La source (Agental ou externe) est affichée sur chaque talent, le même calcul s'applique à tous, et chaque décision de classement reste traçable."
+      }
     ],
     "cta": "Tester gratuitement"
   },
   "pricingPage": {
-    "meta": { "title": "Tarifs — Agental Casting", "description": "Une tarification par siège et par volume, pensée pour votre activité de casting. Sans engagement." },
-    "hero": { "eyebrow": "Tarifs", "title": "Une tarification pensée pour votre volume de casting", "subtitle": "Commencez gratuitement, sans carte bancaire. Passez au palier supérieur quand la valeur est démontrée." }
+    "meta": {
+      "title": "Tarifs — Agental Casting",
+      "description": "Une tarification par siège et par volume, pensée pour votre activité de casting. Sans engagement."
+    },
+    "hero": {
+      "eyebrow": "Tarifs",
+      "title": "Une tarification pensée pour votre volume de casting",
+      "subtitle": "Commencez gratuitement, sans carte bancaire. Passez au palier supérieur quand la valeur est démontrée."
+    }
   },
   "faq": {
-    "meta": { "title": "FAQ — Agental Casting", "description": "Vos questions sur le scoring, la neutralité, les self-tapes vérifiés et la tarification d'Agental Casting." },
-    "hero": { "eyebrow": "FAQ", "title": "Questions fréquentes", "subtitle": "L'essentiel sur le fonctionnement, la neutralité et la tarification. Une question spécifique ? Contactez-nous." },
+    "meta": {
+      "title": "FAQ — Agental Casting",
+      "description": "Vos questions sur le scoring, la neutralité, les self-tapes vérifiés et la tarification d'Agental Casting."
+    },
+    "hero": {
+      "eyebrow": "FAQ",
+      "title": "Questions fréquentes",
+      "subtitle": "L'essentiel sur le fonctionnement, la neutralité et la tarification. Une question spécifique ? Contactez-nous."
+    },
     "cta": "Tester gratuitement",
     "groups": [
-      { "title": "Le fonctionnement", "items": [
-        { "q": "Que signifie « filtrer 90 % des candidatures » ?", "a": "L'IA écarte les profils qui ne correspondent pas à votre brief pour ne vous présenter que les candidats réellement pertinents. C'est un gain de temps, pas un tri opaque : chaque classement est justifié." },
-        { "q": "Comment fonctionne le scoring ?", "a": "Chaque talent reçoit un score de 0 à 100 assorti d'une justification lisible (accent, disponibilité, droits, distance au profil idéal). Le même calcul s'applique à tous les profils." },
-        { "q": "Les self-tapes sont-ils vérifiés ?", "a": "Oui, à partir du plan Pro : cadrage, qualité et conformité au rôle sont contrôlés avant de vous être présentés." }
-      ] },
-      { "title": "La neutralité", "items": [
-        { "q": "Qu'est-ce que le badge « source » ?", "a": "Il indique si un talent est représenté par Agental ou sourcé hors roster (external). La provenance est toujours visible, pour prouver que le classement n'est pas biaisé." },
-        { "q": "Les talents Agental sont-ils avantagés ?", "a": "Non. Le même scoring et les mêmes critères s'appliquent quelle que soit la source. Un talent externe peut être classé devant un talent Agental." },
-        { "q": "Puis-je auditer les décisions de classement ?", "a": "Oui. Chaque décision reste tracée et consultable : l'audit trail est intégré au produit." }
-      ] },
-      { "title": "Comptes et tarifs", "items": [
-        { "q": "La formule gratuite nécessite-t-elle une carte bancaire ?", "a": "Non. Le plan Free ouvre 1 projet actif et 50 candidatures triées par mois, sans carte bancaire." },
-        { "q": "Comment fonctionne la tarification par siège ?", "a": "Le plan Pro est facturé par siège actif et par mois. Vous ajoutez ou retirez des sièges selon votre équipe ; Studio couvre jusqu'à 5 sièges." },
-        { "q": "Puis-je résilier à tout moment ?", "a": "Oui. Sans engagement : vous changez de formule ou résiliez quand vous le souhaitez." }
-      ] }
+      {
+        "title": "Le fonctionnement",
+        "items": [
+          {
+            "q": "Que signifie « filtrer 90 % des candidatures » ?",
+            "a": "L'IA écarte les profils qui ne correspondent pas à votre brief pour ne vous présenter que les candidats réellement pertinents. C'est un gain de temps, pas un tri opaque : chaque classement est justifié."
+          },
+          {
+            "q": "Comment fonctionne le scoring ?",
+            "a": "Chaque talent reçoit un score de 0 à 100 assorti d'une justification lisible (accent, disponibilité, droits, distance au profil idéal). Le même calcul s'applique à tous les profils."
+          },
+          {
+            "q": "Les self-tapes sont-ils vérifiés ?",
+            "a": "Oui, à partir du plan Pro : cadrage, qualité et conformité au rôle sont contrôlés avant de vous être présentés."
+          }
+        ]
+      },
+      {
+        "title": "La neutralité",
+        "items": [
+          {
+            "q": "Qu'est-ce que le badge « source » ?",
+            "a": "Il indique si un talent est représenté par Agental ou sourcé hors roster (external). La provenance est toujours visible, pour prouver que le classement n'est pas biaisé."
+          },
+          {
+            "q": "Les talents Agental sont-ils avantagés ?",
+            "a": "Non. Le même scoring et les mêmes critères s'appliquent quelle que soit la source. Un talent externe peut être classé devant un talent Agental."
+          },
+          {
+            "q": "Puis-je auditer les décisions de classement ?",
+            "a": "Oui. Chaque décision reste tracée et consultable : l'audit trail est intégré au produit."
+          }
+        ]
+      },
+      {
+        "title": "Comptes et tarifs",
+        "items": [
+          {
+            "q": "La formule gratuite nécessite-t-elle une carte bancaire ?",
+            "a": "Non. Le plan Free ouvre 1 projet actif et 50 candidatures triées par mois, sans carte bancaire."
+          },
+          {
+            "q": "Comment fonctionne la tarification par siège ?",
+            "a": "Le plan Pro est facturé par siège actif et par mois. Vous ajoutez ou retirez des sièges selon votre équipe ; Studio couvre jusqu'à 5 sièges."
+          },
+          {
+            "q": "Puis-je résilier à tout moment ?",
+            "a": "Oui. Sans engagement : vous changez de formule ou résiliez quand vous le souhaitez."
+          }
+        ]
+      }
     ]
+  },
+  "notFound": {
+    "title": "Cette page n'est plus au casting.",
+    "body": "Le lien est peut-être ancien, ou la page a changé de nom. Vos projets restent accessibles depuis votre espace."
   }
 }

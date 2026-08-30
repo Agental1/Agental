@@ -1,0 +1,41 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "Comment ça marche",
+    "castingTypes": "Types de casting",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "about": "Qui sommes-nous"
+  },
+  "footer": {
+    "tagline": "La première agence artistique nativement augmentée par IA.",
+    "legalTitle": "Cadre légal",
+    "prefectorale": "Agence artistique déclarée en préfecture",
+    "rgpd": "RGPD",
+    "mentions": "Mentions légales",
+    "cgu": "CGU",
+    "rights": "© {year} Agental. Tous droits réservés.",
+    "sections": {
+      "product": "Produit",
+      "company": "Agental",
+      "legal": "Légal"
+    }
+  },
+  "locale": {
+    "fr": "Français",
+    "en": "English",
+    "switch": "Langue",
+    "es": "Español"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "Volver al inicio",
+    "backCastings": "Ver los cástines"
+  },
+  "error": {
+    "title": "Algo ha salido mal",
+    "body": "Se ha registrado el incidente. Reintentar suele bastar.",
+    "retry": "Reintentar",
+    "backHome": "Volver al inicio"
+  }
+}

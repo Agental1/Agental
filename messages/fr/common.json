@@ -24,6 +24,18 @@
   "locale": {
     "fr": "Français",
     "en": "English",
-    "switch": "Langue"
+    "switch": "Langue",
+    "es": "Español"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "Retour à l'accueil",
+    "backCastings": "Voir les castings"
+  },
+  "error": {
+    "title": "Quelque chose s'est mal passé",
+    "body": "L'incident a été enregistré. Réessayer suffit souvent.",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'accueil"
   }
 }
