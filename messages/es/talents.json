@@ -1,108 +1,108 @@
 {
   "meta": {
-    "title": "Agental Talents — Un vrai agent, augmenté par IA",
-    "description": "Concentre-toi sur ton jeu, on s'occupe du reste. Un vrai agent régulé, une IA qui bosse 24/7, gratuit pour commencer."
+    "title": "Agental Talents — Un agente de verdad, aumentado por IA",
+    "description": "Concéntrate en tu interpretación, del resto nos ocupamos nosotros. Un agente real y regulado, una IA que trabaja 24/7, gratis para empezar."
   },
   "nav": {
-    "cta": "Devenir membre",
-    "crossLink": "Vous êtes directeur de casting ?"
+    "cta": "Hazte miembro",
+    "crossLink": "¿Eres director de casting?"
   },
   "hero": {
-    "title": "Concentre-toi sur ton jeu.",
-    "titleEmph": "On s'occupe du reste.",
-    "subtitle": "La première agence artistique nativement augmentée par IA. Un vrai agent qui te représente, une IA qui travaille pour toi 24/7.",
-    "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Voir comment ça marche"
+    "title": "Concéntrate en tu interpretación.",
+    "titleEmph": "Del resto nos ocupamos nosotros.",
+    "subtitle": "La primera agencia artística concebida con IA desde el principio. Un agente real que te representa, una IA que trabaja para ti 24/7.",
+    "ctaPrimary": "Hazte miembro",
+    "ctaSecondary": "Ver cómo funciona"
   },
   "proof": {
     "regulated": {
-      "title": "Un vrai agent, régulé.",
-      "body": "Mandat écrit encadré par la loi française."
+      "title": "Un agente real y regulado.",
+      "body": "Mandato escrito, amparado por la ley francesa."
     },
     "ai": {
-      "title": "Une IA qui bosse 24/7.",
-      "body": "Veille, candidatures et suivi pendant que tu joues."
+      "title": "Una IA que trabaja 24/7.",
+      "body": "Seguimiento y preparación mientras tú actúas."
     },
     "free": {
-      "title": "Gratuit pour commencer.",
-      "body": "Tu ne paies rien pour être représenté."
+      "title": "Gratis para empezar.",
+      "body": "No pagas nada por estar representado."
     }
   },
   "why": {
-    "eyebrow": "Pourquoi Agental",
-    "title": "Une agence qui travaille vraiment pour toi",
+    "eyebrow": "Por qué Agental",
+    "title": "Una agencia que trabaja de verdad para ti",
     "items": [
       {
-        "title": "Un vrai agent qui te représente",
-        "body": "Mandat écrit, encadré par la loi. Pas un énième site d'annonces : une agence."
+        "title": "Un agente real que te representa",
+        "body": "Mandato escrito, amparado por la ley. No es un portal de anuncios más: es una agencia."
       },
       {
-        "title": "L'agent travaille pendant que tu joues",
-        "body": "Veille des castings, candidatures, relances et suivi — en continu."
+        "title": "El agente trabaja mientras tú actúas",
+        "body": "Seguimiento de cástines, preparación y acompañamiento, sin pausa."
       },
       {
-        "title": "On te trouve les rôles qui te vont",
-        "body": "Fini de scroller des castings hors sujet. On cible ce qui te correspond vraiment."
+        "title": "Te buscamos los papeles que encajan contigo",
+        "body": "Se acabó revisar cástines que no te corresponden. Apuntamos a lo que de verdad va contigo."
       },
       {
-        "title": "On te coache pour te démarquer",
-        "body": "Self-tapes, dossier, choix des médias : on optimise ce qui fait la différence."
+        "title": "Te preparamos para destacar",
+        "body": "Self-tapes, dosier, elección de material: optimizamos lo que marca la diferencia."
       },
       {
-        "title": "Tu gardes plus quand tu montes",
-        "body": "Commission dégressive : plus tu avances, plus tu gardes."
+        "title": "Cuanto más avanzas, más te quedas",
+        "body": "Comisión decreciente: cuanto más progresas, más conservas."
       },
       {
-        "title": "Chaque profil a une force",
-        "body": "On valorise ce qui te rend unique, pas un moule."
+        "title": "Cada perfil tiene su fuerza",
+        "body": "Valoramos lo que te hace único, no un molde."
       }
     ]
   },
   "steps": {
-    "eyebrow": "En cinq étapes",
-    "title": "Rejoindre Agental, en cinq étapes",
-    "cta": "Voir le détail complet",
+    "eyebrow": "En cinco pasos",
+    "title": "Unirte a Agental, en cinco pasos",
+    "cta": "Ver el detalle completo",
     "items": [
       {
-        "title": "Crée ton profil",
-        "body": "Identité, physique, médias, spécialités et disponibilités."
+        "title": "Crea tu perfil",
+        "body": "Identidad, físico, material, especialidades y disponibilidad."
       },
       {
-        "title": "Signe ton mandat",
-        "body": "Gratuit, encadré par la loi, résiliable à tout moment."
+        "title": "Firma tu mandato",
+        "body": "Gratis, amparado por la ley, cancelable en cualquier momento."
       },
       {
-        "title": "Laisse l'IA travailler",
-        "body": "Elle repère les castings faits pour toi."
+        "title": "Deja trabajar a la IA",
+        "body": "Detecta los cástines hechos para ti."
       },
       {
-        "title": "Tourne tes self-tapes",
-        "body": "On te guide pour qu'ils te démarquent."
+        "title": "Graba tus self-tapes",
+        "body": "Te guiamos para que destaquen."
       },
       {
-        "title": "Décroche tes rôles",
-        "body": "On négocie, on sécurise, on te reverse ton cachet."
+        "title": "Consigue tus papeles",
+        "body": "Negociamos, aseguramos y te abonamos tu caché."
       }
     ]
   },
   "selftape": {
     "eyebrow": "Self-tape Studio",
-    "title": "Ton self-tape peut tout changer. On t'aide à le réussir.",
-    "hint": "cadrage · lumière · son OK",
-    "cta": "Découvrir le Self-tape Studio"
+    "title": "Tu self-tape puede cambiarlo todo. Te ayudamos a bordarlo.",
+    "hint": "encuadre · luz · sonido correctos",
+    "cta": "Descubrir el Self-tape Studio"
   },
   "commission": {
-    "eyebrow": "Commission dégressive",
-    "title": "Plus tu avances, plus tu gardes",
-    "cta": "Voir les tarifs en détail"
+    "eyebrow": "Comisión decreciente",
+    "title": "Cuanto más avanzas, más te quedas",
+    "cta": "Ver las tarifas en detalle"
   },
   "pricing": {
-    "eyebrow": "Tarifs",
-    "title": "Des tarifs qui récompensent ta progression",
-    "note": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service optionnel.",
-    "perMonth": "par mois",
-    "commission": "commission {rate}",
-    "popular": "POPULAIRE",
+    "eyebrow": "Tarifas",
+    "title": "Tarifas que premian tu progresión",
+    "note": "El mandato de representación es gratuito e independiente. La suscripción es un servicio opcional.",
+    "perMonth": "al mes",
+    "commission": "comisión {rate}",
+    "popular": "POPULAR",
     "plans": [
       {
         "name": "Free",
@@ -151,159 +151,159 @@
     ]
   },
   "testimonials": {
-    "title": "Ils ont rejoint Agental",
+    "title": "Se han unido a Agental",
     "items": [
       {
-        "quote": "On cherche pour toi, tu te concentres sur ton jeu.",
-        "author": "Sofiane, 22 ans — figuration et petits rôles, Lyon"
+        "quote": "Buscan por ti, y tú te concentras en tu interpretación.",
+        "author": "Sofiane, 22 años — figuración y papeles pequeños, Lyon"
       },
       {
-        "quote": "Trois nouvelles annonces qui me correspondent vraiment, chaque semaine.",
-        "author": "Amina, 34 ans — publicité et voix, Marseille"
+        "quote": "Tres anuncios nuevos que encajan de verdad conmigo, cada semana.",
+        "author": "Amina, 34 años — publicidad y voz, Marsella"
       },
       {
-        "quote": "Mon self-tape a tout changé. On m'a montré comment le tourner.",
-        "author": "Lucas, 41 ans — seconds rôles, Lille"
+        "quote": "Mi self-tape lo cambió todo. Me enseñaron a grabarlo.",
+        "author": "Lucas, 41 años — papeles secundarios, Lille"
       }
     ]
   },
   "minors": {
-    "title": "Un cadre protecteur pour les jeunes talents",
-    "cta": "En savoir plus sur la protection des mineurs",
+    "title": "Un marco protector para los jóvenes talentos",
+    "cta": "Saber más sobre la protección de menores",
     "items": [
-      "Autorisation de la commission départementale",
-      "Présence parentale au casting et au tournage",
-      "Lecture du script par le parent",
-      "Visite médicale avant le tournage",
-      "90 % du cachet bloqué jusqu'à la majorité"
+      "Autorización de la comisión departamental",
+      "Presencia parental en el casting y en el rodaje",
+      "Lectura del guion por parte del progenitor",
+      "Reconocimiento médico antes del rodaje",
+      "90 % del caché bloqueado hasta la mayoría de edad"
     ]
   },
   "finalCta": {
-    "title": "Prêt à être représenté ?",
-    "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Poser une question"
+    "title": "¿Listo para estar representado?",
+    "ctaPrimary": "Hazte miembro",
+    "ctaSecondary": "Hacer una pregunta"
   },
   "how": {
     "meta": {
-      "title": "Comment ça marche — Agental Talents",
-      "description": "De la création de ton profil au versement de ton cachet : comment Agental te représente et travaille pour toi, étape par étape."
+      "title": "Cómo funciona — Agental Talents",
+      "description": "De la creación de tu perfil al cobro de tu caché: cómo Agental te representa y trabaja para ti, paso a paso."
     },
     "hero": {
-      "eyebrow": "Comment ça marche",
-      "title": "Comment fonctionne Agental, côté artiste",
-      "subtitle": "Un vrai agent qui te représente, une IA qui bosse pour toi en continu. Voici le parcours, sans jargon."
+      "eyebrow": "Cómo funciona",
+      "title": "Cómo funciona Agental, desde el lado del artista",
+      "subtitle": "Un agente real que te representa, una IA que trabaja para ti sin parar. Este es el recorrido, sin jerga."
     },
     "sections": [
       {
-        "title": "Un profil qui te ressemble",
-        "body": "Tu renseignes ton identité, ton physique, tes médias, tes spécialités et tes disponibilités. Chaque champ métier est expliqué en clair — pas besoin de connaître le vocabulaire du casting."
+        "title": "Un perfil que se parece a ti",
+        "body": "Indicas tu identidad, tu físico, tu material, tus especialidades y tu disponibilidad. Cada campo del oficio viene explicado en claro: no hace falta dominar el vocabulario del casting."
       },
       {
-        "title": "Le contrat qui te fait représenter",
-        "body": "Tu signes ton mandat de représentation : c'est le contrat standard entre un artiste et son agent, encadré par la loi française. Gratuit, sans engagement de ta part, résiliable quand tu veux."
+        "title": "El contrato que te hace estar representado",
+        "body": "Firmas tu mandato de representación: es el contrato estándar entre un artista y su agente, amparado por la ley francesa. Gratuito, sin compromiso por tu parte, cancelable cuando quieras."
       },
       {
-        "title": "Une veille qui ne s'arrête jamais",
-        "body": "L'IA surveille les castings 24/7 et repère ceux qui te correspondent vraiment. Fini de scroller des annonces hors sujet : on te trouve les rôles qui te vont."
+        "title": "Un seguimiento que no se detiene nunca",
+        "body": "La IA vigila los cástines 24/7 y detecta los que encajan de verdad contigo. Se acabó revisar anuncios que no te corresponden: te buscamos los papeles que van contigo."
       },
       {
-        "title": "Le studio qui te met en confiance",
-        "body": "Le Self-tape Studio te guide au cadrage, à la lumière et au son, avec un coach vocal. Même filmé au téléphone, ton self-tape peut tout changer."
+        "title": "El estudio que te da confianza",
+        "body": "El Self-tape Studio te guía en el encuadre, la luz y el sonido, con un asistente de voz. Aunque lo grabes con el móvil, tu self-tape puede cambiarlo todo."
       },
       {
-        "title": "De la sélection au cachet",
-        "body": "Quand tu es retenu, on négocie, on sécurise le contrat et on te reverse ton cachet. Ta commission baisse à mesure que tu montes."
+        "title": "De la selección al caché",
+        "body": "Cuando te seleccionan, negociamos, aseguramos el contrato y te abonamos tu caché. Tu comisión baja a medida que progresas."
       }
     ],
-    "cta": "Devenir membre"
+    "cta": "Hazte miembro"
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifs — Agental Talents",
-      "description": "Le mandat de représentation est gratuit. L'abonnement, optionnel, récompense ta progression avec une commission dégressive."
+      "title": "Tarifas — Agental Talents",
+      "description": "El mandato de representación es gratuito. La suscripción, opcional, premia tu progresión con una comisión decreciente."
     },
     "hero": {
-      "eyebrow": "Tarifs",
-      "title": "Des tarifs qui récompensent ta progression",
-      "subtitle": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service technologique optionnel — jamais un péage vers les opportunités."
+      "eyebrow": "Tarifas",
+      "title": "Tarifas que premian tu progresión",
+      "subtitle": "El mandato de representación es gratuito e independiente. La suscripción es un servicio tecnológico opcional, nunca un peaje hacia las oportunidades."
     }
   },
   "faq": {
     "meta": {
-      "title": "FAQ — Agental Talents",
-      "description": "Tes questions sur Agental : l'agence, le mandat, la commission et le fonctionnement au quotidien."
+      "title": "Preguntas frecuentes — Agental Talents",
+      "description": "Tus dudas sobre Agental: la agencia, el mandato, la comisión y el funcionamiento del día a día."
     },
     "hero": {
-      "eyebrow": "FAQ",
-      "title": "Questions fréquentes des artistes",
-      "subtitle": "Tout ce que tu veux savoir avant de te lancer. Une autre question ? Écris-nous."
+      "eyebrow": "Preguntas frecuentes",
+      "title": "Preguntas frecuentes de los artistas",
+      "subtitle": "Todo lo que quieres saber antes de empezar. ¿Otra duda? Escríbenos."
     },
-    "cta": "Devenir membre gratuitement",
+    "cta": "Hazte miembro gratis",
     "groups": [
       {
-        "title": "L'essentiel",
+        "title": "Lo esencial",
         "items": [
           {
-            "q": "Qu'est-ce qu'Agental ?",
-            "a": "Une vraie agence artistique, régulée, dont tout le travail opérationnel — veille, candidatures, suivi, coaching — est augmenté par une IA. On te représente ; l'IA travaille pour toi 24/7."
+            "q": "¿Qué es Agental?",
+            "a": "Una agencia artística real y regulada, cuyo trabajo operativo —seguimiento, preparación, acompañamiento— está aumentado por una IA. Te representamos; las herramientas trabajan contigo."
           },
           {
-            "q": "Est-ce une vraie agence ou une plateforme d'annonces ?",
-            "a": "Une vraie agence : mandat écrit, déclaration en préfecture, responsabilité professionnelle. Pas un site d'annonces où tu postules seul."
+            "q": "¿Es una agencia de verdad o un portal de anuncios?",
+            "a": "Una agencia de verdad: mandato escrito, declaración ante la prefectura, responsabilidad profesional. No un portal donde te presentas tú solo."
           },
           {
-            "q": "Combien ça coûte de commencer ?",
-            "a": "Rien. Le mandat de représentation est gratuit et la formule Free te permet d'être représenté sans payer. L'abonnement payant est optionnel."
+            "q": "¿Cuánto cuesta empezar?",
+            "a": "Nada. El mandato de representación es gratuito y la modalidad Free te permite estar representado sin pagar. La suscripción de pago es opcional."
           },
           {
-            "q": "Faut-il de l'expérience pour s'inscrire ?",
-            "a": "Non. Agental s'adresse justement aux profils sous-servis par les agences classiques. Un reel filmé au téléphone suffit pour commencer."
+            "q": "¿Hace falta experiencia para inscribirse?",
+            "a": "No. Agental se dirige precisamente a los perfiles peor atendidos por las agencias clásicas. Un vídeo grabado con el móvil basta para empezar."
           }
         ]
       },
       {
-        "title": "Le mandat et la commission",
+        "title": "El mandato y la comisión",
         "items": [
           {
-            "q": "Qu'est-ce que le mandat de représentation ?",
-            "a": "C'est le contrat standard entre un artiste et son agent, encadré par la loi française. Il nous autorise à te représenter et à négocier pour toi. Gratuit, sans engagement de ta part."
+            "q": "¿Qué es el mandato de representación?",
+            "a": "Es el contrato estándar entre un artista y su agente, amparado por la ley francesa. Nos autoriza a representarte y a negociar por ti. Gratuito, sin compromiso por tu parte."
           },
           {
-            "q": "Combien prend Agental de commission ?",
-            "a": "10 % en Free et Pro, 7,5 % en Premium, 5 % en Ultimate. Plus tu montes, plus tu gardes."
+            "q": "¿Qué comisión se lleva Agental?",
+            "a": "10 % en Free y Pro, 7,5 % en Premium, 5 % en Ultimate. Cuanto más progresas, más conservas."
           },
           {
-            "q": "La commission, c'est en plus de l'abonnement ?",
-            "a": "Le mandat (gratuit) et son éventuelle commission sont séparés de l'abonnement (optionnel). L'abonnement finance des services techno ; il n'achète jamais un accès aux opportunités."
+            "q": "¿La comisión se suma a la suscripción?",
+            "a": "El mandato (gratuito) y su eventual comisión son independientes de la suscripción (opcional). La suscripción financia servicios tecnológicos; nunca compra acceso a las oportunidades."
           },
           {
-            "q": "Puis-je résilier mon mandat ?",
-            "a": "Oui, avec un préavis court et sans avoir à te justifier. Tu restes libre."
+            "q": "¿Puedo cancelar mi mandato?",
+            "a": "Sí, con un preaviso breve y sin tener que justificarte. Sigues siendo libre."
           }
         ]
       },
       {
-        "title": "Au quotidien",
+        "title": "El día a día",
         "items": [
           {
-            "q": "Comment l'IA trouve-t-elle des rôles pour moi ?",
-            "a": "Elle croise ton profil (physique, spécialités, langues, accents, disponibilités) avec les castings ouverts et te propose ceux qui te correspondent vraiment."
+            "q": "¿Cómo encuentra la IA papeles para mí?",
+            "a": "Cruza tu perfil (físico, especialidades, idiomas, acentos, disponibilidad) con los cástines abiertos y te propone los que encajan de verdad contigo."
           },
           {
-            "q": "Est-ce que je garde le contrôle de mes candidatures ?",
-            "a": "Oui. Tu définis tes préférences (types de projets, mobilité, plafonds) et tu peux valider ou refuser. L'IA propose, tu décides."
+            "q": "¿Mantengo el control de mis candidaturas?",
+            "a": "Sí. Tú defines tus preferencias —tipos de proyecto, movilidad, caché mínimo— y nada se compromete en tu nombre sin tu acuerdo. Decides tú, siempre."
           },
           {
-            "q": "L'abonnement me donne-t-il un accès privilégié aux castings ?",
-            "a": "Non. Les opportunités passent par le mandat, gratuit. L'abonnement débloque des outils (auto-candidature, coaching), pas un passe-droit."
+            "q": "¿La suscripción me da acceso privilegiado a los cástines?",
+            "a": "No. Las oportunidades pasan por el mandato, que es gratuito. La suscripción reduce la comisión y desbloquea herramientas, nunca un atajo."
           },
           {
-            "q": "Que se passe-t-il si j'arrête de payer ?",
-            "a": "Tu repasses automatiquement en formule gratuite. Tu restes représenté."
+            "q": "¿Qué pasa si dejo de pagar?",
+            "a": "Vuelves automáticamente a la modalidad gratuita. Sigues estando representado."
           },
           {
-            "q": "Ça marche sur un téléphone simple ?",
-            "a": "Oui. Le Self-tape Studio a un mode dégradé pensé pour les terminaux modestes et les connexions lentes."
+            "q": "¿Funciona en un móvil sencillo?",
+            "a": "Sí. El Self-tape Studio tiene un modo reducido pensado para terminales modestos y conexiones lentas."
           }
         ]
       }
@@ -311,67 +311,67 @@
   },
   "about": {
     "meta": {
-      "title": "Qui sommes-nous — Agental",
-      "description": "Une idée née à table : démocratiser l'accès à la représentation artistique grâce à un vrai agent augmenté par l'IA."
+      "title": "Quiénes somos — Agental",
+      "description": "Una idea nacida en la mesa de casa: democratizar el acceso a la representación artística con un agente real aumentado por IA."
     },
     "hero": {
-      "eyebrow": "Qui sommes-nous",
-      "title": "Une idée née à table",
-      "subtitle": "Agental est né d'une conviction simple : le talent est partout, la représentation ne l'est pas. On voulait changer ça."
+      "eyebrow": "Quiénes somos",
+      "title": "Una idea nacida en la mesa de casa",
+      "subtitle": "Agental nació de una convicción sencilla: el talento está en todas partes, la representación no. Queríamos cambiarlo."
     },
     "story": [
-      "Trop de profils formidables n'ont jamais eu accès à un agent : trop jeunes, trop loin des grandes villes, trop « atypiques » pour les agences établies. Pourtant, les castings les cherchent.",
-      "Nous avons construit une agence qui fait le travail d'un vrai agent — mandat, négociation, défense de carrière — mais dont la veille, le scoring et le suivi tournent 24/7 grâce à une IA. La chaleur d'un agent, la puissance d'un logiciel."
+      "Demasiados perfiles extraordinarios nunca han tenido acceso a un agente: demasiado jóvenes, demasiado lejos de las grandes ciudades, demasiado «atípicos» para las agencias establecidas. Y sin embargo, los cástines los buscan.",
+      "Hemos construido una agencia que hace el trabajo de un agente de verdad —mandato, negociación, defensa de la carrera— pero cuyo seguimiento, puntuación y acompañamiento funcionan 24/7 gracias a una IA. La cercanía de un agente, la potencia de un software."
     ],
-    "valuesTitle": "Ce qui nous rassemble",
+    "valuesTitle": "Lo que nos une",
     "values": [
       {
-        "title": "Démocratiser",
-        "body": "Donner accès à la représentation aux profils sous-servis, sans barrière de jargon ni de contrat intimidant."
+        "title": "Democratizar",
+        "body": "Dar acceso a la representación a los perfiles peor atendidos, sin barreras de jerga ni contratos intimidantes."
       },
       {
-        "title": "Transparence",
-        "body": "On explique toujours pourquoi. L'IA est un assistant au service de l'humain, jamais une boîte noire."
+        "title": "Transparencia",
+        "body": "Siempre explicamos el porqué. La IA es un asistente al servicio de la persona, nunca una caja negra."
       },
       {
-        "title": "Respect",
-        "body": "Tes médias restent à toi. Tes données sont protégées. Ta liberté de partir aussi."
+        "title": "Respeto",
+        "body": "Tu material sigue siendo tuyo. Tus datos están protegidos. Tu libertad de irte, también."
       }
     ],
-    "foundersTitle": "L'équipe",
+    "foundersTitle": "El equipo",
     "founders": [
       {
         "name": "Jérôme",
-        "role": "le père"
+        "role": "el padre"
       },
       {
         "name": "Vadim",
-        "role": "à Paris"
+        "role": "en París"
       }
     ]
   },
   "castingLandings": {
     "index": {
       "meta": {
-        "title": "Tous les types de casting — Agental Talents",
-        "description": "Figuration, silhouette, seconds rôles, publicité, photo, voix, enfants, créateurs : trouve le type de casting fait pour toi et laisse Agental te représenter."
+        "title": "Todos los tipos de casting — Agental Talents",
+        "description": "Figuración, figuración especial, papeles secundarios, publicidad, foto, voz, niños, creadores: encuentra el tipo de casting hecho para ti y deja que Agental te represente."
       },
-      "eyebrow": "Types de casting",
-      "title": "Trouve le casting fait pour toi",
-      "subtitle": "Quel que soit ton profil, il y a une place. Choisis un univers, on te trouve les rôles qui te correspondent."
+      "eyebrow": "Tipos de casting",
+      "title": "Encuentra el casting hecho para ti",
+      "subtitle": "Sea cual sea tu perfil, hay un sitio para ti. Elige un ámbito y te buscamos los papeles que encajan contigo."
     },
-    "audienceTitle": "À qui ça s'adresse",
-    "benefitsTitle": "Ce qu'Agental t'apporte",
-    "protectionTitle": "Le cadre protecteur appliqué",
-    "cachetsTitle": "Cachets indicatifs en France",
-    "cachetsNote": "Fourchettes indicatives, variables selon le projet, la production et l'expérience.",
-    "startTitle": "Comment commencer",
-    "startBody": "Crée ton profil gratuitement, signe ton mandat, et laisse l'IA repérer les castings faits pour toi.",
-    "cta": "Devenir membre",
+    "audienceTitle": "A quién va dirigido",
+    "benefitsTitle": "Lo que Agental te aporta",
+    "protectionTitle": "El marco protector aplicado",
+    "cachetsTitle": "Cachés orientativos en Francia",
+    "cachetsNote": "Horquillas orientativas, variables según el proyecto, la producción y la experiencia.",
+    "startTitle": "Cómo empezar",
+    "startBody": "Crea tu perfil gratis, firma tu mandato y deja que la IA detecte los cástines hechos para ti.",
+    "cta": "Hazte miembro",
     "benefits": [
-      "On te trouve les annonces qui te correspondent vraiment",
-      "On optimise ton dossier et tes self-tapes",
-      "On négocie et on sécurise ton cachet"
+      "Te buscamos los anuncios que encajan de verdad contigo",
+      "Optimizamos tu dosier y tus self-tapes",
+      "Negociamos y aseguramos tu caché"
     ],
     "othersTitle": "Otros tipos de casting"
   },

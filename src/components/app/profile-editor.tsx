@@ -309,10 +309,17 @@ function PreferencesTab({ data, setData }: TabProps) {
     setData({ ...data, preferences: { ...pr, ...patch } });
   return (
     <div className="max-w-xl space-y-4">
-      <Toggle label="Auto-candidature par l'IA" hint="L'IA postule pour toi (Pro)" checked={pr.autoApply} onChange={(v) => setPr({ autoApply: v })} />
-      <Field label="Plafond de candidatures / jour">
-        <Input type="number" value={pr.dailyCap ?? ""} onChange={(e) => setPr({ dailyCap: e.target.value ? Number(e.target.value) : undefined })} />
-      </Field>
+      {/* The "auto-application" toggle and the daily cap field were removed
+          here, not reworded. Both promised behaviour the product does not have:
+          dailyCandidatureLimit (src/domain/pricing.ts) has zero readers in all
+          of src/, Candidature rows are only ever created by the casting-side
+          shortlist flow (actions/brief.ts), and there is no talent-facing apply
+          screen at all. Removing the same claim from the pricing page while
+          leaving it as a live control inside the paid product would just move
+          the problem somewhere harder to see.
+
+          The `autoApply` and `dailyCap` fields stay in the data model, so
+          nothing is lost the day the feature actually ships. */}
       <Toggle label="J'accepte les rôles avec nudité" checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
       <Toggle label="Je peux jouer avec des animaux" checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
       <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(pr)} />

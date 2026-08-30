@@ -1,3 +1,4 @@
+import { date } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
@@ -56,7 +57,7 @@ export default async function ParametresPage({
           </Badge>
           {profile?.mandat?.signedAt && (
             <span className="text-sm text-fg-muted">
-              Signé le {profile.mandat.signedAt.toLocaleDateString("fr-FR")}
+              Signé le {date(profile.mandat.signedAt, locale)}
             </span>
           )}
         </div>

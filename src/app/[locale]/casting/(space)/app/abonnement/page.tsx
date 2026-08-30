@@ -1,3 +1,4 @@
+import { euros } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
@@ -21,7 +22,6 @@ const FEATURES: Record<PlanB2B, string[]> = {
   ENTERPRISE: ["SSO", "SLA garanti", "API privée", "Grandes maisons"],
 };
 
-const euros = (c: number) => (c / 100).toFixed(0) + " €";
 
 export default async function CastingAbonnementPage({
   params,
@@ -53,7 +53,7 @@ export default async function CastingAbonnementPage({
     return {
       plan: p,
       name: def.plan,
-      price: p === "ENTERPRISE" ? "Sur devis" : euros(def.priceCents),
+      price: p === "ENTERPRISE" ? "Sur devis" : euros(def.priceCents, locale),
       priceUnit: p === "ENTERPRISE" ? "" : def.perSeat ? "/siège/mois" : def.priceCents ? "/mois" : "",
       features: FEATURES[p],
       contactOnly: p === "ENTERPRISE",

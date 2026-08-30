@@ -1,0 +1,57 @@
+{
+  "actions": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "edit": "Edit",
+    "add": "Add",
+    "send": "Send",
+    "retry": "Try again",
+    "upload": "Upload",
+    "download": "Download",
+    "copy": "Copy",
+    "search": "Search",
+    "filter": "Filter",
+    "seeAll": "See all",
+    "seeMore": "See more",
+    "logout": "Sign out"
+  },
+  "states": {
+    "loading": "Loading…",
+    "empty": "Nothing to show yet",
+    "error": "Something went wrong",
+    "saved": "Saved",
+    "required": "Required field",
+    "optional": "optional",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "status": {
+    "draft": "Draft",
+    "active": "Active",
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "refused": "Declined",
+    "archived": "Archived",
+    "paid": "Paid",
+    "signed": "Signed",
+    "verified": "Verified"
+  },
+  "errors": {
+    "generic": "Something went wrong.",
+    "unauthorized": "You need to be signed in.",
+    "forbidden": "Access denied.",
+    "notFound": "Not found.",
+    "quotaExceeded": "Your {plan} plan allows {limit} active project(s). Upgrade to open more.",
+    "invalidInput": "Check the form fields.",
+    "uploadFailed": "Upload failed.",
+    "signatureFailed": "Signing failed. Try again."
+  }
+}

@@ -1,3 +1,4 @@
+import { dateTime } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
@@ -98,7 +99,7 @@ export default async function AdminDashboard({
               recentAudits.map((a) => (
                 <li key={a.id} className="flex items-center gap-2 text-fg-muted">
                   <span className="tabular-nums text-xs text-fg-subtle">
-                    {a.createdAt.toLocaleString("fr-FR")}
+                    {dateTime(a.createdAt, locale)}
                   </span>
                   <span className="font-medium text-fg">{a.action}</span>
                 </li>

@@ -1,3 +1,4 @@
+import { date, euros } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
@@ -8,8 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = { title: "Ma carrière" };
 
-const euros = (cents: number) =>
-  (cents / 100).toLocaleString("fr-FR", { maximumFractionDigits: 0 }) + " €";
+
 
 export default async function CarrierePage({
   params,
@@ -37,9 +37,9 @@ export default async function CarrierePage({
   const netCents = grossCents - commissionCents;
 
   const stats = [
-    { label: "Cachets bruts", value: euros(grossCents), icon: Wallet },
-    { label: "Net perçu", value: euros(netCents), icon: TrendingUp },
-    { label: "Commission Agental", value: euros(commissionCents), icon: Percent },
+    { label: "Cachets bruts", value: euros(grossCents, locale), icon: Wallet },
+    { label: "Net perçu", value: euros(netCents, locale), icon: TrendingUp },
+    { label: "Commission Agental", value: euros(commissionCents, locale), icon: Percent },
   ];
 
   return (
@@ -80,11 +80,11 @@ export default async function CarrierePage({
                 <tr key={e.id} className="bg-surface">
                   <td className="px-4 py-3 font-medium">{e.role}</td>
                   <td className="px-4 py-3 text-fg-muted">
-                    {e.date.toLocaleDateString("fr-FR")}
+                    {date(e.date, locale)}
                   </td>
-                  <td className="px-4 py-3 text-right">{euros(e.cachetCents)}</td>
+                  <td className="px-4 py-3 text-right">{euros(e.cachetCents, locale)}</td>
                   <td className="px-4 py-3 text-right text-fg-muted">
-                    {euros(e.commissionCents)} ({Math.round(e.commissionRate * 100)}%)
+                    {euros(e.commissionCents, locale)} ({Math.round(e.commissionRate * 100)}%)
                   </td>
                   <td className="px-4 py-3">
                     <Badge variant={e.status === "PAID" ? "success" : "warning"}>

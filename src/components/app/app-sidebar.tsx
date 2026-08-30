@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
 import {
   LayoutDashboard,
   User,
@@ -52,6 +54,7 @@ export function AppSidebar({
   header: React.ReactNode;
   userLabel: string;
 }) {
+  const t = useTranslations("app");
   const pathname = usePathname();
 
   return (
@@ -82,13 +85,16 @@ export function AppSidebar({
       </nav>
       <div className="border-t border-border pt-3">
         <p className="truncate px-3 text-xs text-fg-subtle">{userLabel}</p>
+        {/* The promise is "trilingual from landing to dashboard"; without this
+            the language could not be changed once signed in. */}
+        <LocaleSwitcher className="mt-2 px-3" />
         <form action={logoutAction}>
           <button
             type="submit"
             className="mt-1 flex w-full items-center gap-3 rounded-sedan px-3 py-2 text-sm text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
           >
             <LogOut className="size-4" />
-            Se déconnecter
+            {t("actions.logout")}
           </button>
         </form>
       </div>

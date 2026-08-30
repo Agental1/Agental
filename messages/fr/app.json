@@ -1,0 +1,57 @@
+{
+  "actions": {
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "send": "Envoyer",
+    "retry": "Réessayer",
+    "upload": "Téléverser",
+    "download": "Télécharger",
+    "copy": "Copier",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "seeAll": "Tout voir",
+    "seeMore": "Voir plus",
+    "logout": "Se déconnecter"
+  },
+  "states": {
+    "loading": "Chargement…",
+    "empty": "Rien à afficher pour le moment",
+    "error": "Une erreur est survenue",
+    "saved": "Enregistré",
+    "required": "Champ obligatoire",
+    "optional": "facultatif",
+    "none": "Aucun",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "status": {
+    "draft": "Brouillon",
+    "active": "Actif",
+    "pending": "En attente",
+    "accepted": "Accepté",
+    "refused": "Refusé",
+    "archived": "Archivé",
+    "paid": "Payé",
+    "signed": "Signé",
+    "verified": "Vérifié"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue.",
+    "unauthorized": "Tu dois être connecté.",
+    "forbidden": "Accès refusé.",
+    "notFound": "Introuvable.",
+    "quotaExceeded": "Ton plan {plan} permet {limit} projet(s) actif(s). Passe au plan supérieur pour en ouvrir plus.",
+    "invalidInput": "Vérifie les champs du formulaire.",
+    "uploadFailed": "Le téléversement a échoué.",
+    "signatureFailed": "La signature a échoué. Réessaie."
+  }
+}

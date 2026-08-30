@@ -39,12 +39,6 @@ export function commissionCents(plan: PlanB2C, cachetCents: number): number {
   return Math.round(cachetCents * B2C_PLANS[plan].commissionRate);
 }
 
-/** Commission rate as a FR percentage label (e.g. 0.075 → "7,5"). */
-export function commissionPct(rate: number): string {
-  const pct = rate * 100;
-  return (Number.isInteger(pct) ? String(pct) : pct.toFixed(1)).replace(".", ",");
-}
-
 /** B2B quota limit for a metric; null = unlimited. */
 export function b2bLimit(
   plan: PlanB2B,

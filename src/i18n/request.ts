@@ -13,10 +13,11 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ? requested
     : routing.defaultLocale;
 
-  const [common, talents, casting] = await Promise.all([
+  const [common, talents, casting, app] = await Promise.all([
     import(`../../messages/${locale}/common.json`),
     import(`../../messages/${locale}/talents.json`),
     import(`../../messages/${locale}/casting.json`),
+    import(`../../messages/${locale}/app.json`),
   ]);
 
   return {
@@ -25,6 +26,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       common: common.default,
       talents: talents.default,
       casting: casting.default,
+      app: app.default,
     },
 
     /**

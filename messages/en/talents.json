@@ -245,7 +245,7 @@
         "items": [
           {
             "q": "What is Agental?",
-            "a": "A real, regulated artist agency whose entire operational work — scouting, applications, follow-up, coaching — is augmented by AI. We represent you; the AI works for you 24/7."
+            "a": "A real, regulated talent agency whose operational work — follow-up, preparation, coaching — is augmented by AI. We represent you; the tools work alongside you."
           },
           {
             "q": "Is it a real agency or a listings platform?",
@@ -291,11 +291,11 @@
           },
           {
             "q": "Do I keep control of my applications?",
-            "a": "Yes. You set your preferences (project types, mobility, caps) and can approve or decline. The AI suggests, you decide."
+            "a": "Yes. You set your preferences — project types, mobility, minimum fee — and nothing is committed in your name without your agreement. You decide, always."
           },
           {
             "q": "Does the subscription give me privileged access to castings?",
-            "a": "No. Opportunities go through the mandate, which is free. The subscription unlocks tools (auto-application, coaching), not a fast pass."
+            "a": "No. Opportunities go through the mandate, which is free. The subscription lowers the commission and unlocks tools, never a fast pass."
           },
           {
             "q": "What happens if I stop paying?",

@@ -1,0 +1,57 @@
+{
+  "actions": {
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "edit": "Editar",
+    "add": "Añadir",
+    "send": "Enviar",
+    "retry": "Reintentar",
+    "upload": "Subir",
+    "download": "Descargar",
+    "copy": "Copiar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "seeAll": "Ver todo",
+    "seeMore": "Ver más",
+    "logout": "Cerrar sesión"
+  },
+  "states": {
+    "loading": "Cargando…",
+    "empty": "Nada que mostrar por ahora",
+    "error": "Se ha producido un error",
+    "saved": "Guardado",
+    "required": "Campo obligatorio",
+    "optional": "opcional",
+    "none": "Ninguno",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "status": {
+    "draft": "Borrador",
+    "active": "Activo",
+    "pending": "Pendiente",
+    "accepted": "Aceptado",
+    "refused": "Rechazado",
+    "archived": "Archivado",
+    "paid": "Pagado",
+    "signed": "Firmado",
+    "verified": "Verificado"
+  },
+  "errors": {
+    "generic": "Se ha producido un error.",
+    "unauthorized": "Debes iniciar sesión.",
+    "forbidden": "Acceso denegado.",
+    "notFound": "No encontrado.",
+    "quotaExceeded": "Tu plan {plan} permite {limit} proyecto(s) activo(s). Cambia de plan para abrir más.",
+    "invalidInput": "Revisa los campos del formulario.",
+    "uploadFailed": "La subida ha fallado.",
+    "signatureFailed": "La firma ha fallado. Inténtalo de nuevo."
+  }
+}

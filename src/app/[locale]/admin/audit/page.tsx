@@ -1,3 +1,4 @@
+import { dateTime } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
@@ -42,7 +43,7 @@ export default async function AdminAuditPage({
             {audits.map((a) => (
               <tr key={a.id} className="bg-surface">
                 <td className="px-4 py-2.5 tabular-nums text-xs text-fg-subtle">
-                  {a.createdAt.toLocaleString("fr-FR")}
+                  {dateTime(a.createdAt, locale)}
                 </td>
                 <td className="px-4 py-2.5 font-medium">{a.action}</td>
                 <td className="px-4 py-2.5 text-fg-muted">

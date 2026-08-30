@@ -2,6 +2,7 @@ import type { routing } from "@/i18n/routing";
 import type common from "../messages/fr/common.json";
 import type talents from "../messages/fr/talents.json";
 import type casting from "../messages/fr/casting.json";
+import type app from "../messages/fr/app.json";
 
 /**
  * Type-level contract for translations. French is the reference locale: its
@@ -23,6 +24,7 @@ declare module "use-intl" {
       common: typeof common;
       talents: typeof talents;
       casting: typeof casting;
+      app: typeof app;
     };
   }
 }
