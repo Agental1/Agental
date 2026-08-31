@@ -73,8 +73,11 @@ se déclare correctement aux moteurs de recherche.
   est réel et devient le différenciateur affiché.
 - `robots.txt` n'expose plus les espaces connectés, l'administration ni la page
   de connexion.
-- Le guide de style interne passe derrière l'authentification administrateur.
-- Le fichier de proxy suit la convention Next 16 (`proxy.ts`).
+- Le guide de style interne, jusque-là public, passe derrière l'authentification
+  administrateur (`/admin/styleguide`).
+- Le fichier de proxy suit la convention Next 16 : `src/middleware.ts` devient
+  `src/proxy.ts`. Même rôle — c'est le seul endroit où la locale d'une requête est
+  résolue — mais le nom change, donc cherchez-le là.
 
 ### Notes
 

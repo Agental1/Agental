@@ -5,7 +5,7 @@ Agence artistique nativement augmentée par IA. Deux portails sur une seule base
 - **Talents** (B2C, tutoiement, peau claire) — `/[locale]/talents/**`
 - **Casting** (B2B, vouvoiement, peau sombre) — `/[locale]/casting/**`
 
-Next.js 16 (App Router, webpack), next-intl, Prisma 7 + libSQL/SQLite, Tailwind v4, bun.
+Next.js 16 (App Router, webpack), next-intl, Prisma 7 + libSQL/SQLite, Tailwind v4, Vitest, bun.
 
 > **Lisez `AGENTS.md` avant d'écrire du code.** Cette version de Next.js diffère des
 > conventions courantes ; la doc de référence est embarquée dans
@@ -38,8 +38,8 @@ Mot de passe commun : `demo1234`.
 | Casting | `demo-casting@demo.agental.co` |
 | Admin | `demo-admin@demo.agental.co` |
 
-Le compte admin ouvre `/admin` (audit, dossiers mineurs). Sans lui, les surfaces
-protégées sont inatteignables sur une base fraîche.
+Le compte admin ouvre `/admin` (audit, dossiers mineurs, guide de style). Sans lui, les
+surfaces protégées sont inatteignables sur une base fraîche.
 
 ## Scripts
 
@@ -47,7 +47,7 @@ protégées sont inatteignables sur une base fraîche.
 |----------|-------|
 | `bun run dev` | Serveur de développement |
 | `bun run build` / `start` | Build de production et service |
-| `bun run test` | Tests unitaires et d'intégration (Vitest) |
+| `bun run test` / `test:watch` | Tests unitaires et d'intégration (Vitest) |
 | `bun run typecheck` | `tsc --noEmit` |
 | `bun run lint` | ESLint |
 | `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
@@ -83,9 +83,20 @@ chaque route dépassant le délai ; préférez `bun run build && bun run start`.
 
 ## Internationalisation
 
-Locales dans `src/i18n/routing.ts`. Les messages vivent dans `messages/<locale>/` et sont
-découpés par **registre**, pas par page : `talents.json` tutoie, `casting.json` vouvoie,
-`common.json` est neutre. Choisir le mauvais namespace produit du texte au mauvais ton.
+Trois locales, définies dans `src/i18n/routing.ts` : `fr` (défaut), `en`, `es`. **Chaque
+locale porte son préfixe**, le français compris — les URLs sont `/fr/talents`,
+`/en/talents`, `/es/talents`, et aucune route non préfixée n'existe. Une URL sans préfixe
+est négociée vers la langue du visiteur.
+
+Cette négociation vit dans `src/proxy.ts` — pas `src/middleware.ts` : Next 16 a renommé la
+convention de fichier. C'est le seul endroit où la locale d'une requête est résolue.
+N'ajoutez pas de `redirects()` équivalents dans `next.config.ts` : Next les applique avant
+le proxy et court-circuiterait la négociation.
+
+Les messages vivent dans `messages/<locale>/` et sont découpés par **registre**, pas par
+page : `talents.json` tutoie, `casting.json` vouvoie, `common.json` est neutre, `app.json`
+sert l'application connectée (actions, états, erreurs). Choisir le mauvais namespace produit
+du texte au mauvais ton.
 
 `src/global.d.ts` type les messages depuis le français : une clé absente ou mal
 orthographiée échoue au `typecheck` au lieu de s'afficher à un visiteur.
@@ -93,6 +104,13 @@ orthographiée échoue au `typecheck` au lieu de s'afficher à un visiteur.
 **N'importez jamais** `redirect`, `useRouter`, `usePathname` de `next/navigation`, ni
 `Link` de `next/link` — ils ignorent la locale et renvoient l'utilisateur en français.
 Utilisez `@/i18n/navigation`. Une règle ESLint le fait respecter.
+
+**Les server actions renvoient une clé, jamais une phrase.** Un message traduit sur le
+serveur fige la langue au moment où l'action s'exécute. Renvoyez `err("errors.…")` depuis
+`src/domain/action-result.ts` — les clés sont typées depuis `messages/fr/app.json`, donc une
+clé inexistante échoue au `typecheck` — et laissez `<ActionErrorMessage>`
+(`src/components/app/action-error.tsx`) la traduire côté client, où la locale active est
+connue.
 
 ## Architecture
 
@@ -111,3 +129,12 @@ la configuration manquante plutôt que de retomber silencieusement sur le mock.
 
 `src/lib/seo.ts` porte `SITE`, l'unique origine canonique. Ne codez jamais un domaine en
 dur : `metadataBase`, le sitemap et `robots.txt` doivent tous en dériver.
+
+## Le reste de la documentation
+
+| Fichier | Contenu |
+|---------|---------|
+| [`AGENTS.md`](AGENTS.md) | À lire avant d'écrire du code : cette version de Next.js diffère des conventions courantes |
+| [`CHANGELOG.md`](CHANGELOG.md) | Ce qui a changé, version par version |
+| [`TODOS.md`](TODOS.md) | Le travail différé, avec sa preuve et son déclencheur de reprise — dont deux points bloquants avant toute mise en ligne |
+| `VERSION` | La version courante, à quatre composants (`package.json` n'en accepte que trois) |
