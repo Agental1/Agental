@@ -3,6 +3,30 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.4.0.0] - 2026-08-31
+
+### Changed
+
+- **L'explication d'une shortlist n'est plus une phrase, mais des raisons
+  structurées.** Elle était construite en français sur le serveur et persistée,
+  alors que trois personnes la lisent — le directeur de casting qui a lancé le
+  brief, un collègue de son organisation, et le talent lui-même via sa liste de
+  candidatures. Elle était française pour toutes, dans les trois langues.
+
+  `MatchScore.justification` devient `MatchScore.reasons`, du JSON, comme
+  `factors` et `diversityFlags` l'étaient déjà. **Migration destructive** : la
+  colonne portait du texte généré, réécrit à chaque relance de matching.
+- **Le scorer LLM choisit désormais dans une liste fermée** au lieu de rédiger.
+  C'est un vrai renoncement — la prose est ce qu'un modèle fait de mieux — mais
+  une explication persistée et relue par plusieurs personnes ne peut pas vivre
+  dans une seule langue.
+
+### Fixed
+
+- « Mineur » et « profil similaire » étaient codés en dur sur les cartes de
+  shortlist. La garde lexicale ne pouvait pas les voir : aucun mot-marqueur
+  français n'y figure.
+
 ## [0.3.2.1] - 2026-08-31
 
 ### Fixed

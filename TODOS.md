@@ -111,35 +111,23 @@ problème de cloisonnement.
 colonne et le filtre coûtent quelques minutes maintenant, une migration avec
 reprise de données plus tard.
 
-### E-C4 — Le français hors d'atteinte de l'i18n — VÉRIFIÉ, et c'est deux problèmes
+### ~~E-C4 — Le français hors d'atteinte de l'i18n~~ CORRIGÉ
 
-Le constat tient, mais il mélangeait deux choses dont le coût n'a rien à voir.
+Les deux moitiés sont faites. Les conseils de self-tape en v0.3.2.1, les
+justifications de matching en v0.4.0.0.
 
-**1. Les justifications de matching — persistées.** `src/lib/ai/scorer.ts:111`
-assemble `Classé ici : …` à partir de fragments français codés en dur
-(`:65` « accent … natif », `:77` « âge dans la fourchette », `:91`
-« disponibilité confirmée », « droits image OK »), et le prompt système de
-`llm-scorer.ts` exige explicitement du français. `brief.ts:215` écrit ça dans
-`MatchScore.justification`, et `shortlist-board.tsx:192` le rend tel quel. Un
-directeur de casting anglophone lit du français dans sa shortlist.
+`MatchScore.justification` devient `MatchScore.reasons`, du JSON, comme
+`factors` et `diversityFlags` l'étaient déjà. Les deux scorers renvoient des
+clés ; le prompt du scorer LLM choisit dans une liste fermée au lieu de rédiger.
+Le rendu se fait chez le lecteur, dans sa langue — vérifié en production sur les
+trois locales, côté casting **et** côté talent, puisque les deux portails lisent
+le même champ.
 
-**Mais la reprise de données est bien plus petite qu'annoncé.** `brief.ts:220`
-est un `upsert` dont la branche `update` **réécrit** `justification` : relancer
-un matching régénère le texte. Seules restent figées les lignes de projets que
-personne ne relance. Le vrai travail est le changement de contrat — faire
-renvoyer au `Scorer` des clés structurées (`{ reasons: ReasonKey[] }`) rendues
-côté client — pas une migration.
+La reprise de données annoncée par la revue n'a pas eu lieu d'être : la colonne
+portait du texte régénéré à chaque relance de matching, et les quatre lignes
+existantes étaient des données de démo, rebasculées sur les clés correspondantes.
 
-**2. ~~Les conseils de self-tape~~ CORRIGÉ (v0.3.2.1).** Le scorer renvoie
-désormais des clés (`TipKey`, dérivée du fichier de messages comme `ErrorKey`),
-et le client les rend dans la langue du visiteur. Corrigé au passage : la ligne
-« Cadrage · Lumière · Son » juste au-dessus était codée en dur alors que les
-clés existaient, et le paramètre du `.map()` s'appelait `t`, masquant la
-fonction de traduction — rien n'aurait pu être traduit à cet endroit sans le
-renommer.
-
-**Déclencheur :** le point 1 dès qu'un directeur de casting non francophone
-ouvre une shortlist.
+**Corrigé :** v0.4.0.0 (2026-08-31).
 
 ### `onboarding.ts:146` — la commission réduite n'est jamais appliquée
 
