@@ -63,16 +63,28 @@ Non fait parce que c'est du texte juridique, qui ne s'invente pas.
 
 ## Défauts critiques hors périmètre des 5 lots
 
-### B12 — Le matching IA est inopérant
+### ~~B12 — Le matching IA est inopérant~~ CORRIGÉ, et l'entrée était fausse
 
-`src/lib/ai/llm-scorer.ts:37` → `model: "claude-opus-4-8"`. Cet identifiant de
-modèle n'existe pas. La fonctionnalité phare de la Phase 6 échoue dès que
-`SCORER=llm`, et personne ne l'a vu parce que `getScorer()`
-(`src/lib/ai/scorer.ts:131`) retombe **silencieusement** sur `MockScorer`.
+**Le constat d'origine était erroné.** Cette entrée affirmait que
+`model: "claude-opus-4-8"` était un identifiant inexistant. Il est valide :
+c'est Claude Opus 4.8. L'affirmation venait de la revue `/autoplan`, n'a jamais
+été vérifiée, et a été recopiée ici telle quelle.
 
-Deux correctifs, pas un : l'identifiant, et le repli qui doit devenir bruyant.
+Le vrai défaut était l'autre moitié de l'entrée, celle qui était juste : tout
+échouait en silence. `getScorer()` renvoyait le mock quand `SCORER=llm` était
+demandé sans clé, et `LlmScorer.score()` avalait toute exception sans un log.
+Un déploiement convaincu d'avoir activé le matching IA servait donc des scores
+déterministes, chacun accompagné d'une justification rédigée en français, à un
+directeur de casting — indiscernables d'un vrai matching.
 
-**Déclencheur :** avant d'activer `SCORER=llm` en production.
+Désormais : `SCORER=llm` sans clé est refusé au démarrage avec un message qui
+dit quoi faire ; un échec à l'exécution (limite de débit, refus, réponse hors
+schéma) continue de retomber sur le mock, parce qu'il ne faut pas casser un
+brief en cours, mais il est journalisé à chaque fois. Le modèle passe à
+`claude-opus-5` — même tarif qu'Opus 4.8, plus capable. Couvert par
+`tests/lib/scorer-selection.test.ts`.
+
+**Corrigé :** v0.3.2.0 (2026-08-31).
 
 ### B16 — `ExternalTalent` n'a pas de colonne de tenant
 

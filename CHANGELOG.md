@@ -3,6 +3,29 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.2.0] - 2026-08-31
+
+### Fixed
+
+- **Le matching IA échouait en silence.** `getScorer()` renvoyait le scorer
+  déterministe quand `SCORER=llm` était demandé sans clé API, et
+  `LlmScorer.score()` avalait toute exception sans un log. Un déploiement
+  convaincu d'avoir activé le matching IA servait donc des scores calculés par
+  une heuristique, chacun accompagné d'une justification rédigée, à un directeur
+  de casting — rien ne les distinguait d'un vrai matching.
+
+  `SCORER=llm` sans clé est maintenant refusé avec un message qui dit quoi
+  faire. Un échec à l'exécution — limite de débit, refus du modèle, réponse hors
+  schéma — continue de retomber sur le scorer déterministe, parce qu'il ne faut
+  pas casser un brief en cours, mais il est journalisé à chaque fois.
+
+### Changed
+
+- Le modèle passe de `claude-opus-4-8` à `claude-opus-5` : même tarif, plus
+  capable. **L'identifiant précédent était valide** — `TODOS.md` affirmait le
+  contraire depuis la revue initiale, ce qui était faux et n'avait jamais été
+  vérifié. L'entrée est corrigée.
+
 ## [0.3.1.5] - 2026-08-31
 
 ### Fixed

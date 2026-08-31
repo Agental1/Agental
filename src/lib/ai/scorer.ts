@@ -123,13 +123,25 @@ export class MockScorer implements Scorer {
 }
 
 /**
- * Select the scorer. SCORER=llm uses the Anthropic-backed scorer when an API
- * key is present; otherwise (and by default) the deterministic mock — so the
- * app runs identically with or without an LLM. The interface is unchanged, so
- * swapping is invisible to callers (Phase 6).
+ * Select the scorer. The deterministic mock is the default; SCORER=llm selects
+ * the Anthropic-backed one. The interface is unchanged either way, so swapping
+ * is invisible to callers (Phase 6).
+ *
+ * SCORER=llm without a key is refused rather than quietly downgraded. The
+ * previous version returned the mock in that case, which meant a deployment
+ * that believed it had AI matching switched on got deterministic scores with
+ * written justifications instead — presented to a casting director as a real
+ * match, with nothing anywhere saying otherwise. A missing key is a deployment
+ * error, and it says so here rather than being discovered from the results.
  */
 export async function getScorer(): Promise<Scorer> {
-  if (process.env.SCORER === "llm" && process.env.ANTHROPIC_API_KEY) {
+  if (process.env.SCORER === "llm") {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error(
+        "SCORER=llm requires ANTHROPIC_API_KEY. Set it, or unset SCORER to " +
+          "use the deterministic mock scorer."
+      );
+    }
     // Lazy import so the SDK loads only when the LLM scorer is selected.
     const { LlmScorer } = await import("./llm-scorer");
     return new LlmScorer(new MockScorer());

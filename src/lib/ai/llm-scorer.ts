@@ -6,8 +6,16 @@ import type { Scorer, ScoringResult, TalentFeatures } from "./scorer";
 
 /**
  * LLM-backed talent↔role scorer (Anthropic). Same Scorer contract as MockScorer,
- * so runShortlist doesn't change. Falls back to the injected mock on any error
- * or when no API key is configured. Selected via SCORER=llm (see getScorer).
+ * so runShortlist doesn't change. Selected via SCORER=llm (see getScorer).
+ *
+ * A runtime failure — rate limit, network, a refusal, a response that does not
+ * match the schema — degrades to the injected mock rather than failing a brief
+ * in progress. It is logged every time: the previous version swallowed
+ * everything silently, so a casting director received deterministic mock scores
+ * carrying written justifications, indistinguishable from real matching.
+ *
+ * Missing configuration is not handled here. Asking for the LLM scorer without
+ * a key is a deployment error and getScorer refuses it up front.
  */
 
 const ResultSchema = z.object({
@@ -23,7 +31,7 @@ const ResultSchema = z.object({
 });
 
 export class LlmScorer implements Scorer {
-  readonly version = "llm-opus-4.8-v1";
+  readonly version = "llm-opus-5-v1";
   private client = new Anthropic();
 
   constructor(private fallback: Scorer) {}
@@ -34,7 +42,7 @@ export class LlmScorer implements Scorer {
   ): Promise<ScoringResult[]> {
     try {
       const response = await this.client.messages.parse({
-        model: "claude-opus-4-8",
+        model: "claude-opus-5",
         max_tokens: 16000,
         thinking: { type: "adaptive" },
         system:
@@ -55,7 +63,14 @@ export class LlmScorer implements Scorer {
       });
 
       const parsed = response.parsed_output;
-      if (!parsed) return this.fallback.score(role, candidates);
+      if (!parsed) {
+        // No parsed output means the model refused or returned something the
+        // schema rejected. stop_reason tells which; both are worth seeing.
+        console.warn(
+          `[scorer] no structured output (stop_reason: ${response.stop_reason}) — falling back to mock`
+        );
+        return this.fallback.score(role, candidates);
+      }
 
       const byId = new Map(candidates.map((c) => [c.talentId, c.source]));
       return parsed.results
@@ -68,8 +83,11 @@ export class LlmScorer implements Scorer {
           factors: r.factors,
           diversityFlags: r.diversityFlags,
         }));
-    } catch {
-      // Any failure (no key, rate limit, refusal) → deterministic mock.
+    } catch (error) {
+      console.error(
+        "[scorer] LLM scoring failed — falling back to mock:",
+        error instanceof Error ? error.message : error
+      );
       return this.fallback.score(role, candidates);
     }
   }
