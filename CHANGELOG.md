@@ -3,6 +3,26 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.2] - 2026-08-31
+
+### Fixed
+
+- **Se connecter ne menait nulle part.** Le formulaire créait bien la session,
+  puis l'utilisateur restait sur la page de connexion — sans message, donc
+  impossible à distinguer d'un mot de passe refusé. `redirectTo` était passé à
+  NextAuth sans préfixe de locale (`/talents/app`), or NextAuth redirige vers
+  cette valeur telle quelle : il ne connaît pas next-intl. Le routeur client
+  allait chercher la charge RSC de `/talents/app`, le proxy répondait 307 vers
+  `/fr/talents/app`, le routeur ne suivait pas, et rien ne se passait.
+- **Même défaut à l'inscription**, et c'est là qu'il coûtait le plus cher : un
+  anglophone qui créait son compte se retrouvait renvoyé vers l'onboarding
+  français. `/en/talents/inscription` reste désormais en anglais.
+
+  Les destinations sont extraites dans `src/domain/auth-routes.ts` — un module
+  `"use server"` ne peut exporter que des fonctions async, donc rien n'y était
+  testable. Sept tests couvrent les trois locales, les deux portails, et le
+  repli sur la locale par défaut quand la valeur du formulaire est inconnue.
+
 ## [0.3.1.1] - 2026-08-31
 
 ### Fixed

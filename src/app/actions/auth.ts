@@ -7,15 +7,9 @@ import { prisma } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
 import { SignupInput } from "@/domain/auth";
 import { audit } from "@/lib/audit";
+import { appHome, onboardingHome } from "@/domain/auth-routes";
 
 export type AuthState = { error?: ActionError } | undefined;
-
-function appHome(kind: string) {
-  return kind === "CASTING" ? "/casting/app" : "/talents/app";
-}
-function onboardingHome(kind: string) {
-  return kind === "CASTING" ? "/casting/inscription" : "/talents/inscription";
-}
 
 export async function signupAction(
   _prev: AuthState,
@@ -51,7 +45,7 @@ export async function signupAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: onboardingHome(kind),
+      redirectTo: onboardingHome(kind, locale),
     });
   } catch (error) {
     // On success signIn throws a redirect (not an AuthError) — rethrow it.
@@ -70,8 +64,10 @@ export async function loginAction(
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 
+  const locale = String(formData.get("locale") ?? "");
+
   const user = await prisma.user.findUnique({ where: { email } });
-  const redirectTo = user ? appHome(user.kind) : "/talents/app";
+  const redirectTo = appHome(user?.kind ?? "TALENT", locale);
 
   try {
     await signIn("credentials", { email, password, redirectTo });
