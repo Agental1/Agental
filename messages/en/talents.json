@@ -591,7 +591,14 @@
       "take": "Take {n}",
       "framing": "Framing",
       "light": "Light",
-      "sound": "Sound"
+      "sound": "Sound",
+      "tips": {
+        "framing": "Center yourself and leave a little headroom.",
+        "light": "Face a soft light source.",
+        "sound": "Move closer to the mic and cut the background noise.",
+        "tooShort": "Your take is very short — play the whole scene.",
+        "excellent": "Great take — framing, light and sound all there."
+      }
     },
     "subscription": {
       "title": "Subscription",

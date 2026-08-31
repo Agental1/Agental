@@ -3,6 +3,22 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.2.1] - 2026-08-31
+
+### Fixed
+
+- **Les conseils de self-tape s'affichaient en français dans les trois
+  langues.** Un talent enregistre sa prise et lit « Rapproche-toi du micro et
+  coupe les bruits de fond » quelle que soit sa langue — le texte le plus lu de
+  l'écran, puisqu'il apparaît après chaque prise. Le scorer construisait des
+  phrases sur le serveur ; il renvoie maintenant des clés, rendues côté client
+  dans la langue du visiteur. Le type `TipKey` est dérivé du fichier de messages
+  comme `ErrorKey`, donc une clé inexistante échoue au typecheck.
+- **La ligne « Cadrage · Lumière · Son »** au-dessus des conseils était codée en
+  dur alors que les trois clés existaient déjà.
+- **Le paramètre du `.map()` s'appelait `t`**, masquant la fonction de
+  traduction : rien n'aurait pu être traduit à cet endroit sans le renommer.
+
 ## [0.3.2.0] - 2026-08-31
 
 ### Fixed

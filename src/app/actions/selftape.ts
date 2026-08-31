@@ -6,7 +6,11 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { getStorage } from "@/lib/storage";
-import { getQualityScorer, type QualityMetrics } from "@/lib/ai/quality-scorer";
+import {
+  getQualityScorer,
+  type QualityMetrics,
+  type TipKey,
+} from "@/lib/ai/quality-scorer";
 import { toJson } from "@/domain/json";
 
 export type SelfTapeResult = {
@@ -14,7 +18,9 @@ export type SelfTapeResult = {
   error?: ActionError;
   score?: number;
   breakdown?: { framing: number; light: number; sound: number };
-  tips?: string[];
+  // Translation keys, not sentences: the action runs on the server and the
+  // advice is read on the client, in the visitor's language.
+  tips?: TipKey[];
 };
 
 export async function saveSelfTape(

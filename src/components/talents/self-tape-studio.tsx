@@ -299,16 +299,19 @@ export function SelfTapeStudio() {
             <div>
               <p className="font-medium">{t("space.studio.score")}</p>
               <p className="text-sm text-fg-muted">
-                Cadrage {result.breakdown?.framing} · Lumière{" "}
-                {result.breakdown?.light} · Son {result.breakdown?.sound}
+                {t("space.selftape.framing")} {result.breakdown?.framing} ·{" "}
+                {t("space.selftape.light")} {result.breakdown?.light} ·{" "}
+                {t("space.selftape.sound")} {result.breakdown?.sound}
               </p>
             </div>
           </div>
           <ul className="mt-3 space-y-1 text-sm text-fg-muted">
-            {result.tips?.map((t) => (
-              <li key={t} className="flex items-start gap-2">
+            {/* `tip`, not `t` — the map parameter used to shadow the
+                translation function, so nothing here could be translated. */}
+            {result.tips?.map((tip) => (
+              <li key={tip} className="flex items-start gap-2">
                 <Sparkles className="mt-0.5 size-3.5 shrink-0 text-accent" />
-                {t}
+                {t(tip)}
               </li>
             ))}
           </ul>

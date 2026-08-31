@@ -130,14 +130,16 @@ personne ne relance. Le vrai travail est le changement de contrat — faire
 renvoyer au `Scorer` des clés structurées (`{ reasons: ReasonKey[] }`) rendues
 côté client — pas une migration.
 
-**2. Les conseils de self-tape — non persistés.** `quality-scorer.ts:35-39`
-produit cinq chaînes françaises, rendues en `self-tape-studio.tsx:308`. Le
-schéma n'a aucun champ `tips` : `selftape.ts:67-68` ne stocke que `qualityScore`
-et `qualityBreakdown`, des nombres. Les conseils sont recalculés à chaque appel,
-donc **une simple extraction suffit**, sans contrat ni reprise.
+**2. ~~Les conseils de self-tape~~ CORRIGÉ (v0.3.2.1).** Le scorer renvoie
+désormais des clés (`TipKey`, dérivée du fichier de messages comme `ErrorKey`),
+et le client les rend dans la langue du visiteur. Corrigé au passage : la ligne
+« Cadrage · Lumière · Son » juste au-dessus était codée en dur alors que les
+clés existaient, et le paramètre du `.map()` s'appelait `t`, masquant la
+fonction de traduction — rien n'aurait pu être traduit à cet endroit sans le
+renommer.
 
-**Déclencheur :** le point 2 dès la prochaine passe i18n, il est bon marché. Le
-point 1 dès qu'un directeur de casting non francophone ouvre une shortlist.
+**Déclencheur :** le point 1 dès qu'un directeur de casting non francophone
+ouvre une shortlist.
 
 ### `onboarding.ts:146` — la commission réduite n'est jamais appliquée
 

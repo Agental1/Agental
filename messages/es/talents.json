@@ -591,7 +591,14 @@
       "take": "Toma {n}",
       "framing": "Encuadre",
       "light": "Luz",
-      "sound": "Sonido"
+      "sound": "Sonido",
+      "tips": {
+        "framing": "Céntrate y deja algo de aire sobre la cabeza.",
+        "light": "Colócate frente a una fuente de luz suave.",
+        "sound": "Acércate al micrófono y elimina el ruido de fondo.",
+        "tooShort": "Tu toma es muy corta: interpreta la escena entera.",
+        "excellent": "Excelente toma: encuadre, luz y sonido a la altura."
+      }
     },
     "subscription": {
       "title": "Suscripción",

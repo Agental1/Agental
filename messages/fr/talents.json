@@ -591,7 +591,14 @@
       "take": "Prise {n}",
       "framing": "Cadrage",
       "light": "Lumière",
-      "sound": "Son"
+      "sound": "Son",
+      "tips": {
+        "framing": "Centre-toi et laisse un peu d'air au-dessus de la tête.",
+        "light": "Place-toi face à une source de lumière douce.",
+        "sound": "Rapproche-toi du micro et coupe les bruits de fond.",
+        "tooShort": "Ta prise est très courte — joue la scène en entier.",
+        "excellent": "Excellente prise — cadrage, lumière et son au rendez-vous."
+      }
     },
     "subscription": {
       "title": "Abonnement",

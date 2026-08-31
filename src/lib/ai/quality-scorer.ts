@@ -1,8 +1,24 @@
+import talentsMessages from "../../../messages/fr/talents.json";
+
 /**
  * Self-tape quality scoring. Swappable like the match Scorer: the mock derives
  * a score from client-captured framing/light/sound metrics; a real CV/ML
  * scorer can replace it behind the same interface without touching callers.
  */
+
+/**
+ * Advice keys, derived from the French message file rather than typed as
+ * `string` — same reason as ErrorKey in src/domain/action-result.ts: a key that
+ * does not exist fails `bun run typecheck` instead of reaching a talent as a
+ * raw path.
+ *
+ * The scorer returns keys, never sentences. It runs on the server; the advice
+ * is read on the client, so a ready sentence would freeze the language at the
+ * moment the take was scored. It did: these were five French literals, shown to
+ * every talent in every language, after each recording.
+ */
+export type TipKey =
+  `space.selftape.tips.${keyof (typeof talentsMessages)["space"]["selftape"]["tips"]}`;
 export interface QualityMetrics {
   framing: number; // 0..1 (subject centered / rule-of-thirds)
   light: number; // 0..1 (exposure adequacy)
@@ -13,7 +29,7 @@ export interface QualityMetrics {
 export interface QualityResult {
   score: number; // 0..100
   breakdown: { framing: number; light: number; sound: number };
-  tips: string[];
+  tips: TipKey[];
 }
 
 export interface QualityScorer {
@@ -31,12 +47,12 @@ export class MockQualityScorer implements QualityScorer {
     const durationPenalty = m.durationMs < 3000 ? 0.15 : 0;
     const score = Math.round(Math.max(0, raw - durationPenalty) * 100);
 
-    const tips: string[] = [];
-    if (framing < 0.6) tips.push("Centre-toi et laisse un peu d'air au-dessus de la tête.");
-    if (light < 0.6) tips.push("Place-toi face à une source de lumière douce.");
-    if (sound < 0.6) tips.push("Rapproche-toi du micro et coupe les bruits de fond.");
-    if (m.durationMs < 3000) tips.push("Ta prise est très courte — joue la scène en entier.");
-    if (tips.length === 0) tips.push("Excellente prise — cadrage, lumière et son au rendez-vous.");
+    const tips: TipKey[] = [];
+    if (framing < 0.6) tips.push("space.selftape.tips.framing");
+    if (light < 0.6) tips.push("space.selftape.tips.light");
+    if (sound < 0.6) tips.push("space.selftape.tips.sound");
+    if (m.durationMs < 3000) tips.push("space.selftape.tips.tooShort");
+    if (tips.length === 0) tips.push("space.selftape.tips.excellent");
 
     return {
       score,
