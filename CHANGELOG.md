@@ -3,6 +3,37 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.4.1.0] - 2026-08-31
+
+### Fixed
+
+Cinq écrans restaient français dans les trois langues. Les chaînes vivaient
+dans des constantes de module, hors de portée de la garde lexicale.
+
+- **L'assistant de brief** — les sept questions, leurs exemples et les options
+  de genre. C'est le parcours par lequel un directeur de casting crée un projet.
+- **Le tableau de bord talent** — quatre indicateurs, trois suggestions et le
+  message d'accueil.
+- **Les deux écrans d'abonnement** — les descriptions de formules, « Sur devis »
+  et les unités de prix.
+- **La démo interactive** de la page casting — les justifications de la
+  short-list et l'unité de tarif journalier.
+- **« Types de casting »** dans la navigation des landings, à côté de trois
+  appels `t()`. Signalé par la revue de design initiale comme corrigé ; il ne
+  l'avait jamais été.
+
+### Changed
+
+- **L'écran d'abonnement talent vendait encore des promesses retirées.** Il
+  affichait « Auto-candidature IA », « 10 candidatures/j », « 50
+  candidatures/j », « Illimité » — exactement ce que la passe sur le discours
+  tarifaire avait supprimé des fichiers de messages en v0.2.0.0. La version
+  corrigée existait, traduite dans les trois langues, et n'avait jamais été
+  branchée. Elle l'est.
+
+  Même schéma pour le tableau de bord talent, dont les sept libellés traduits
+  attendaient un appelant.
+
 ## [0.4.0.1] - 2026-08-31
 
 ### Fixed

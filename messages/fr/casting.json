@@ -29,7 +29,14 @@
     "sourceExternal": "External",
     "roleHeader": "SHORT-LIST · SÉRIE « MARÉE HAUTE »",
     "roleLine": "Rôle « Maxime » · H · 25–32 · accent breton",
-    "favourite": "Ajouter aux favoris"
+    "favourite": "Ajouter aux favoris",
+    "reasons": {
+      "1": "accent breton natif · fenêtre de tournage OK · droits image OK",
+      "2": "sourcé hors roster · même scoring · dispo confirmée",
+      "3": "physique proche du rôle · self-tape vérifié",
+      "4": "expérience séries · accent régional crédible"
+    },
+    "perDay": "{amount} €/j"
   },
   "benefits": {
     "eyebrow": "Ce que vous gagnez avec Agental",
@@ -330,7 +337,41 @@
       "working": "Je structure votre brief et génère la short-list…",
       "intro": "L'assistant met votre demande en forme. Vous validerez la short-list générée.",
       "introA": "L'assistant met votre demande en forme. Vous validerez la short-list générée",
-      "introB": "source affichée sur chaque profil."
+      "introB": "source affichée sur chaque profil.",
+      "questions": {
+        "title": {
+          "prompt": "Quel est le titre du projet et du rôle ?",
+          "placeholder": "ex. Maxime — série Marée Haute"
+        },
+        "role": {
+          "prompt": "Décrivez le personnage en une phrase.",
+          "placeholder": "Pêcheur breton, la trentaine, taiseux"
+        },
+        "gender": {
+          "prompt": "Genre recherché ?"
+        },
+        "ageRange": {
+          "prompt": "Fourchette d'âge ? (ex. 25-32)",
+          "placeholder": "25-32"
+        },
+        "accent": {
+          "prompt": "Accent ou langue particulière ?",
+          "placeholder": "breton"
+        },
+        "shooting": {
+          "prompt": "Fenêtre de tournage ? (ex. septembre 2026)",
+          "placeholder": "septembre 2026"
+        },
+        "budget": {
+          "prompt": "Budget indicatif par jour (€) ?",
+          "placeholder": "600"
+        }
+      },
+      "genderOptions": {
+        "H": "H",
+        "F": "F",
+        "Indifférent": "Indifférent"
+      }
     },
     "plans": {
       "demo": "Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment."
@@ -362,7 +403,10 @@
       "subtitle": "Une tarification par siège et par volume, pensée pour votre activité.",
       "activeProjects": "Projets actifs",
       "sortedThisMonth": "Candidatures triées ce mois",
-      "quote": "Sur devis"
+      "quote": "Sur devis",
+      "onQuote": "Sur devis",
+      "perSeatMonth": "/siège/mois",
+      "perMonth": "/mois"
     },
     "projects": {
       "subtitle": "Vos projets de casting et vos short-lists.",
@@ -420,6 +464,33 @@
     "newBrief": {
       "title": "Nouveau brief",
       "subtitle": "Décrivez le rôle — l'assistant s'occupe du reste."
+    },
+    "planFeatures": {
+      "FREE": [
+        "1 projet actif",
+        "50 candidatures triées/mois",
+        "Score de base",
+        "Provenance affichée"
+      ],
+      "PRO": [
+        "10 projets actifs",
+        "1 000 candidatures triées/mois",
+        "Score détaillé",
+        "Vérification self-tapes",
+        "Filtres avancés"
+      ],
+      "STUDIO": [
+        "Jusqu'à 5 sièges",
+        "Projets & filtrages illimités",
+        "Intégrations",
+        "Support dédié"
+      ],
+      "ENTERPRISE": [
+        "SSO",
+        "SLA garanti",
+        "API privée",
+        "Grandes maisons"
+      ]
     }
   }
 }

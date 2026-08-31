@@ -12,18 +12,20 @@ type Talent = {
   name: string;
   score: number;
   source: "AGENTAL" | "EXTERNAL";
-  reason: string;
-  rate: string;
+  reasonKey: "1" | "2" | "3" | "4";
+  rate: number;
   city: string;
   available: boolean;
 };
 
 // Deterministic mock shortlist (Phase 1 demo — real scoring lands in Phase 6).
+// Demo data. The reason and the rate unit are keys: this renders on the public
+// casting page, which is served in three languages.
 const SHORTLIST: Talent[] = [
-  { name: "Yann Le Goff", score: 94, source: "AGENTAL", reason: "accent breton natif · fenêtre de tournage OK · droits image OK", rate: "480 €/j", city: "Rennes", available: true },
-  { name: "Malik Benali", score: 89, source: "EXTERNAL", reason: "sourcé hors roster · même scoring · dispo confirmée", rate: "520 €/j", city: "Nantes", available: true },
-  { name: "Erwan Tanguy", score: 86, source: "AGENTAL", reason: "physique proche du rôle · self-tape vérifié", rate: "450 €/j", city: "Brest", available: true },
-  { name: "Gaël Rioux", score: 81, source: "AGENTAL", reason: "expérience séries · accent régional crédible", rate: "500 €/j", city: "Lorient", available: false },
+  { name: "Yann Le Goff", score: 94, source: "AGENTAL", reasonKey: "1", rate: 480, city: "Rennes", available: true },
+  { name: "Malik Benali", score: 89, source: "EXTERNAL", reasonKey: "2", rate: 520, city: "Nantes", available: true },
+  { name: "Erwan Tanguy", score: 86, source: "AGENTAL", reasonKey: "3", rate: 450, city: "Brest", available: true },
+  { name: "Gaël Rioux", score: 81, source: "AGENTAL", reasonKey: "4", rate: 500, city: "Lorient", available: false },
 ];
 
 export function InteractiveDemo() {
@@ -85,7 +87,7 @@ export function InteractiveDemo() {
                     )}
                   </div>
                   <p className="mt-0.5 truncate text-xs text-fg-muted">
-                    {talent.reason}
+                    {t(`reasons.${talent.reasonKey}`)}
                   </p>
                 </div>
                 <div className="hidden shrink-0 text-right text-xs text-fg-muted sm:block">
@@ -93,7 +95,7 @@ export function InteractiveDemo() {
                     <MapPin className="size-3" />
                     {talent.city}
                   </div>
-                  <div className="mt-0.5 font-medium text-fg">{talent.rate}</div>
+                  <div className="mt-0.5 font-medium text-fg">{t("perDay", { amount: talent.rate })}</div>
                 </div>
                 <button
                   className="shrink-0 rounded-sedan p-2 text-fg-subtle transition-colors hover:bg-accent-soft hover:text-accent"

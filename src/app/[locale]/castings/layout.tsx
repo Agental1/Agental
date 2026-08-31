@@ -24,7 +24,7 @@ export default function CastingsLayout({
     { href: "/talents/comment-ca-marche", label: t("nav.how") },
     { href: "/talents/tarifs", label: t("nav.pricing") },
     { href: "/talents/faq", label: t("nav.faq") },
-    { href: "/castings", label: "Types de casting" },
+    { href: "/castings", label: t("nav.castingTypes") },
   ];
 
   return (

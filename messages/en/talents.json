@@ -536,7 +536,11 @@
       "urgent": "Urgent opportunities",
       "complete": "Complete",
       "selftapeHint": "Shoot a first self-tape — we guide you so it stands out.",
-      "view": "View"
+      "view": "View",
+      "welcome": "Welcome, {name}.",
+      "welcomeAnon": "Welcome.",
+      "completenessHint": "Your profile is {percent}% complete — fill it in so the AI can do more with it.",
+      "urgentHint": "{count, plural, one {# opportunity where you rank very high — polish your application.} other {# opportunities where you rank very high — polish your applications.}}"
     },
     "candidatures": {
       "title": "My applications",

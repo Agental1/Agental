@@ -536,7 +536,11 @@
       "urgent": "Opportunités urgentes",
       "complete": "Compléter",
       "selftapeHint": "Tourne un premier self-tape — on te guide pour qu'il te démarque.",
-      "view": "Voir"
+      "view": "Voir",
+      "welcome": "Bienvenue, {name}.",
+      "welcomeAnon": "Bienvenue.",
+      "completenessHint": "Ton profil est complété à {percent} % — enrichis-le pour que l'IA le fasse mieux performer.",
+      "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}"
     },
     "candidatures": {
       "title": "Mes candidatures",

@@ -29,7 +29,14 @@
     "sourceExternal": "External",
     "roleHeader": "LISTA CORTA · SERIE «MARÉE HAUTE»",
     "roleLine": "Papel «Maxime» · H · 25-32 · acento bretón",
-    "favourite": "Añadir a favoritos"
+    "favourite": "Añadir a favoritos",
+    "reasons": {
+      "1": "acento bretón nativo · ventana de rodaje OK · derechos de imagen en regla",
+      "2": "localizado fuera del roster · mismo baremo · disponibilidad confirmada",
+      "3": "físico cercano al papel · self-tape verificado",
+      "4": "experiencia en series · acento regional creíble"
+    },
+    "perDay": "{amount} €/día"
   },
   "benefits": {
     "eyebrow": "Lo que gana con Agental",
@@ -330,7 +337,41 @@
       "working": "Estructurando su briefing y generando la lista corta…",
       "intro": "El asistente da forma a su petición. Usted validará la lista corta generada.",
       "introA": "El asistente da forma a su petición. Usted validará la lista corta generada",
-      "introB": "procedencia visible en cada perfil."
+      "introB": "procedencia visible en cada perfil.",
+      "questions": {
+        "title": {
+          "prompt": "¿Cómo se llaman el proyecto y el papel?",
+          "placeholder": "p. ej. Maxime — serie Marée Haute"
+        },
+        "role": {
+          "prompt": "Describe al personaje en una frase.",
+          "placeholder": "Pescador bretón, treintañero, callado"
+        },
+        "gender": {
+          "prompt": "¿Género buscado?"
+        },
+        "ageRange": {
+          "prompt": "¿Franja de edad? (p. ej. 25-32)",
+          "placeholder": "25-32"
+        },
+        "accent": {
+          "prompt": "¿Algún acento o idioma en particular?",
+          "placeholder": "bretón"
+        },
+        "shooting": {
+          "prompt": "¿Ventana de rodaje? (p. ej. septiembre de 2026)",
+          "placeholder": "septiembre de 2026"
+        },
+        "budget": {
+          "prompt": "¿Presupuesto diario orientativo (€)?",
+          "placeholder": "600"
+        }
+      },
+      "genderOptions": {
+        "H": "H",
+        "F": "M",
+        "Indifférent": "Indistinto"
+      }
     },
     "plans": {
       "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento."
@@ -362,7 +403,10 @@
       "subtitle": "Una tarificación por puesto y por volumen, pensada para su actividad.",
       "activeProjects": "Proyectos activos",
       "sortedThisMonth": "Candidaturas filtradas este mes",
-      "quote": "A medida"
+      "quote": "A medida",
+      "onQuote": "A consultar",
+      "perSeatMonth": "/puesto/mes",
+      "perMonth": "/mes"
     },
     "projects": {
       "subtitle": "Sus proyectos de casting y sus listas cortas.",
@@ -420,6 +464,33 @@
     "newBrief": {
       "title": "Nuevo briefing",
       "subtitle": "Describa el papel: el asistente se encarga del resto."
+    },
+    "planFeatures": {
+      "FREE": [
+        "1 proyecto activo",
+        "50 candidaturas filtradas/mes",
+        "Puntuación básica",
+        "Procedencia visible"
+      ],
+      "PRO": [
+        "10 proyectos activos",
+        "1000 candidaturas filtradas/mes",
+        "Puntuación detallada",
+        "Verificación de self-tapes",
+        "Filtros avanzados"
+      ],
+      "STUDIO": [
+        "Hasta 5 puestos",
+        "Proyectos y filtrado ilimitados",
+        "Integraciones",
+        "Soporte dedicado"
+      ],
+      "ENTERPRISE": [
+        "SSO",
+        "SLA garantizado",
+        "API privada",
+        "Grandes productoras"
+      ]
     }
   }
 }

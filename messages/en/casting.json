@@ -29,7 +29,14 @@
     "sourceExternal": "External",
     "roleHeader": "SHORT-LIST · SERIES 'MARÉE HAUTE'",
     "roleLine": "Role 'Maxime' · M · 25–32 · Breton accent",
-    "favourite": "Add to favourites"
+    "favourite": "Add to favourites",
+    "reasons": {
+      "1": "native Breton accent · shooting window OK · image rights cleared",
+      "2": "sourced off-roster · same scoring · availability confirmed",
+      "3": "look close to the part · self-tape verified",
+      "4": "series experience · credible regional accent"
+    },
+    "perDay": "€{amount}/day"
   },
   "benefits": {
     "eyebrow": "What you gain with Agental",
@@ -330,7 +337,41 @@
       "working": "Structuring your brief and generating the shortlist…",
       "intro": "The assistant shapes your request. You will validate the generated shortlist.",
       "introA": "The assistant shapes your request. You will validate the generated shortlist",
-      "introB": "provenance shown on every profile."
+      "introB": "provenance shown on every profile.",
+      "questions": {
+        "title": {
+          "prompt": "What is the project and role called?",
+          "placeholder": "e.g. Maxime — Marée Haute series"
+        },
+        "role": {
+          "prompt": "Describe the character in one sentence.",
+          "placeholder": "Breton fisherman, thirties, taciturn"
+        },
+        "gender": {
+          "prompt": "Gender sought?"
+        },
+        "ageRange": {
+          "prompt": "Age range? (e.g. 25-32)",
+          "placeholder": "25-32"
+        },
+        "accent": {
+          "prompt": "Any particular accent or language?",
+          "placeholder": "Breton"
+        },
+        "shooting": {
+          "prompt": "Shooting window? (e.g. September 2026)",
+          "placeholder": "September 2026"
+        },
+        "budget": {
+          "prompt": "Indicative daily budget (€)?",
+          "placeholder": "600"
+        }
+      },
+      "genderOptions": {
+        "H": "M",
+        "F": "F",
+        "Indifférent": "Any"
+      }
     },
     "plans": {
       "demo": "Demo mode — no real payment. No commitment, cancel at any time."
@@ -362,7 +403,10 @@
       "subtitle": "Per-seat and per-volume pricing, built around your activity.",
       "activeProjects": "Active projects",
       "sortedThisMonth": "Applications filtered this month",
-      "quote": "On request"
+      "quote": "On request",
+      "onQuote": "On request",
+      "perSeatMonth": "/seat/month",
+      "perMonth": "/month"
     },
     "projects": {
       "subtitle": "Your casting projects and your shortlists.",
@@ -420,6 +464,33 @@
     "newBrief": {
       "title": "New brief",
       "subtitle": "Describe the role — the assistant handles the rest."
+    },
+    "planFeatures": {
+      "FREE": [
+        "1 active project",
+        "50 sorted applications/month",
+        "Basic score",
+        "Provenance shown"
+      ],
+      "PRO": [
+        "10 active projects",
+        "1,000 sorted applications/month",
+        "Detailed score",
+        "Self-tape verification",
+        "Advanced filters"
+      ],
+      "STUDIO": [
+        "Up to 5 seats",
+        "Unlimited projects & filtering",
+        "Integrations",
+        "Dedicated support"
+      ],
+      "ENTERPRISE": [
+        "SSO",
+        "Guaranteed SLA",
+        "Private API",
+        "Large studios"
+      ]
     }
   }
 }

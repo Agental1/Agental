@@ -49,33 +49,37 @@ export default async function TalentsDashboard({
     (c) => (c.matchScore?.score ?? 0) >= 90 && c.status === "SHORTLISTED"
   ).length;
 
+  // Every label below already existed under space.dashboard, translated in the
+  // three locales, with no caller. It was written and never wired up.
   const kpis = [
-    { label: "Candidatures actives", value: active, icon: Send },
-    { label: "Retours en attente", value: shortlisted, icon: Clock },
-    { label: "Prochaines auditions", value: invited, icon: CalendarCheck },
-    { label: "Opportunités urgentes", value: urgent, icon: Sparkles },
+    { label: t("space.dashboard.activeCount"), value: active, icon: Send },
+    { label: t("space.dashboard.pendingCount"), value: shortlisted, icon: Clock },
+    { label: t("space.dashboard.auditions"), value: invited, icon: CalendarCheck },
+    { label: t("space.dashboard.urgent"), value: urgent, icon: Sparkles },
   ];
 
   const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = [];
   if (profile.completenessScore < 100)
     suggestions.push({
-      text: `Ton profil est complété à ${profile.completenessScore}% — enrichis-le pour que l'IA le fasse mieux performer.`,
+      text: t("space.dashboard.completenessHint", {
+        percent: profile.completenessScore,
+      }),
       href: "/talents/app/profil",
-      cta: "Compléter",
+      cta: t("space.dashboard.complete"),
       icon: UserCog,
     });
   if (profile.media.filter((m) => m.type === "SELFTAPE").length === 0)
     suggestions.push({
-      text: "Tourne un premier self-tape — on te guide pour qu'il te démarque.",
+      text: t("space.dashboard.selftapeHint"),
       href: "/talents/app/self-tape",
-      cta: "Self-tape Studio",
+      cta: t("space.selftape.title"),
       icon: Video,
     });
   if (urgent > 0)
     suggestions.push({
-      text: `${urgent} opportunité(s) où tu es très bien classé — soigne ta candidature.`,
+      text: t("space.dashboard.urgentHint", { count: urgent }),
       href: "/talents/app/candidatures",
-      cta: "Voir",
+      cta: t("space.dashboard.view"),
       icon: Sparkles,
     });
 
@@ -84,7 +88,9 @@ export default async function TalentsDashboard({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl font-medium">
-            Bienvenue{profile.stageName ? `, ${profile.stageName}` : ""}.
+            {profile.stageName
+              ? t("space.dashboard.welcome", { name: profile.stageName })
+              : t("space.dashboard.welcomeAnon")}
           </h1>
           <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
         </div>

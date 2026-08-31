@@ -53,7 +53,9 @@ export function BriefAssistant() {
         <div className="space-y-3">
           {BRIEF_QUESTIONS.slice(0, step + (done ? 0 : 1)).map((question) => (
             <div key={question.key} className="space-y-2">
-              <Bubble role="assistant">{question.prompt}</Bubble>
+              <Bubble role="assistant">
+                {t(`space.brief.questions.${question.key}.prompt`)}
+              </Bubble>
               {answers[question.key as keyof BriefAnswers] && (
                 <Bubble role="user">
                   {answers[question.key as keyof BriefAnswers]}
@@ -88,7 +90,9 @@ export function BriefAssistant() {
               <div className="flex flex-wrap gap-2">
                 {q.options!.map((opt) => (
                   <Button key={opt} variant="outline" onClick={() => answer(opt)}>
-                    {opt}
+                    {t(
+                      `space.brief.genderOptions.${opt}` as "space.brief.genderOptions.H"
+                    )}
                   </Button>
                 ))}
               </div>
@@ -104,7 +108,11 @@ export function BriefAssistant() {
                   autoFocus
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
-                  placeholder={q.placeholder}
+                  placeholder={
+                    q.key === "gender"
+                      ? undefined
+                      : t(`space.brief.questions.${q.key}.placeholder`)
+                  }
                   type={q.kind === "number" ? "number" : "text"}
                 />
                 <Button type="submit" disabled={pending}>

@@ -15,13 +15,6 @@ import type { PlanB2B } from "@/domain/enums";
 
 export const metadata: Metadata = { title: "Abonnement" };
 
-const FEATURES: Record<PlanB2B, string[]> = {
-  FREE: ["1 projet actif", "50 candidatures triées/mois", "Score de base", "Provenance affichée"],
-  PRO: ["10 projets actifs", "1 000 candidatures triées/mois", "Score détaillé", "Vérification self-tapes", "Filtres avancés"],
-  STUDIO: ["Jusqu'à 5 sièges", "Projets & filtrages illimités", "Intégrations", "Support dédié"],
-  ENTERPRISE: ["SSO", "SLA garanti", "API privée", "Grandes maisons"],
-};
-
 
 export default async function CastingAbonnementPage({
   params,
@@ -54,9 +47,19 @@ export default async function CastingAbonnementPage({
     return {
       plan: p,
       name: def.plan,
-      price: p === "ENTERPRISE" ? "Sur devis" : euros(def.priceCents, locale),
-      priceUnit: p === "ENTERPRISE" ? "" : def.perSeat ? "/siège/mois" : def.priceCents ? "/mois" : "",
-      features: FEATURES[p],
+      price:
+        p === "ENTERPRISE"
+          ? t("space.subscription.onQuote")
+          : euros(def.priceCents, locale),
+      priceUnit:
+        p === "ENTERPRISE"
+          ? ""
+          : def.perSeat
+            ? t("space.subscription.perSeatMonth")
+            : def.priceCents
+              ? t("space.subscription.perMonth")
+              : "",
+      features: t.raw(`space.planFeatures.${p}`) as string[],
       contactOnly: p === "ENTERPRISE",
     };
   });

@@ -9,14 +9,9 @@ import { RentabiliteWidget } from "@/components/talents/rentabilite-widget";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 
+// Titre d'onglet : encore français, comme sur les 17 autres pages privées.
+// Chantier distinct, voir TODOS.md.
 export const metadata: Metadata = { title: "Abonnement" };
-
-const FEATURES: Record<PlanB2C, string[]> = {
-  FREE: ["Mandat & profil", "Candidatures manuelles", "Castings ciblés"],
-  PRO: ["Auto-candidature IA", "Veille prioritaire", "Self-tape augmenté", "10 candidatures/j"],
-  PREMIUM: ["Tout le Pro", "Coaching IA avancé", "Multi-pays", "50 candidatures/j"],
-  ULTIMATE: ["Tout le Premium", "Gestion presse", "Illimité", "Commission 5%"],
-};
 
 
 export default async function AbonnementPage({
@@ -47,7 +42,11 @@ export default async function AbonnementPage({
     name: B2C_PLANS[p].plan,
     price: euros(B2C_PLANS[p].priceCents, locale),
     commission: percent(B2C_PLANS[p].commissionRate, locale),
-    features: FEATURES[p],
+    // space.planFeatures, not a local map. The map that used to live here
+    // still advertised "Auto-candidature IA" and daily quotas — the promises
+    // the pricing-copy pass removed from the message files. It was rewritten
+    // there and never wired up, so the subscription screen kept selling them.
+    features: t.raw(`space.planFeatures.${p}`) as string[],
   }));
 
   return (

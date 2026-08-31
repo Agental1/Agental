@@ -5,23 +5,41 @@ import type { RoleSpec } from "@/domain/json";
  * answers into a structured RoleSpec; a real LLM can replace it behind the same
  * question/answer contract. Callers drive the questions client-side.
  */
+export type BriefQuestionKey =
+  | "title"
+  | "role"
+  | "gender"
+  | "ageRange"
+  | "accent"
+  | "shooting"
+  | "budget";
+
 export interface BriefQuestion {
-  key: string;
-  prompt: string;
-  placeholder?: string;
+  key: BriefQuestionKey;
   kind: "text" | "number" | "choice";
   options?: string[];
   optional?: boolean;
 }
 
+/**
+ * The wizard's shape, not its words. Prompt and placeholder are looked up from
+ * `casting.space.brief.questions.<key>` by the component that renders them —
+ * they used to live here as French literals, invisible to the leak scan because
+ * a module constant contains no JSX, and a casting director saw them in French
+ * whatever language they had chosen.
+ *
+ * `options` stays as stored values: the gender answer is written into the
+ * RoleSpec, so translating it here would put a localised string in the
+ * database. The label is translated at render time.
+ */
 export const BRIEF_QUESTIONS: BriefQuestion[] = [
-  { key: "title", prompt: "Quel est le titre du projet et du rôle ?", placeholder: "ex. Maxime — série Marée Haute", kind: "text" },
-  { key: "role", prompt: "Décrivez le personnage en une phrase.", placeholder: "Pêcheur breton, la trentaine, taiseux", kind: "text" },
-  { key: "gender", prompt: "Genre recherché ?", kind: "choice", options: ["H", "F", "Indifférent"] },
-  { key: "ageRange", prompt: "Fourchette d'âge ? (ex. 25-32)", placeholder: "25-32", kind: "text" },
-  { key: "accent", prompt: "Accent ou langue particulière ?", placeholder: "breton", kind: "text", optional: true },
-  { key: "shooting", prompt: "Fenêtre de tournage ? (ex. septembre 2026)", placeholder: "septembre 2026", kind: "text", optional: true },
-  { key: "budget", prompt: "Budget indicatif par jour (€) ?", placeholder: "600", kind: "number", optional: true },
+  { key: "title", kind: "text" },
+  { key: "role", kind: "text" },
+  { key: "gender", kind: "choice", options: ["H", "F", "Indifférent"] },
+  { key: "ageRange", kind: "text" },
+  { key: "accent", kind: "text", optional: true },
+  { key: "shooting", kind: "text", optional: true },
+  { key: "budget", kind: "number", optional: true },
 ];
 
 export interface BriefAnswers {
