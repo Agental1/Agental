@@ -3,7 +3,15 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BriefAssistant } from "@/components/casting/brief-assistant";
 
-export const metadata: Metadata = { title: "Nouveau brief" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "casting" });
+  return { title: t("space.newBrief.title") };
+}
 
 export default async function NouveauBriefPage({
   params,

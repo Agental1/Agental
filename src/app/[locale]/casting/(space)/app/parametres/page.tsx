@@ -10,7 +10,15 @@ import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
 
-export const metadata: Metadata = { title: "Paramètres" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "casting" });
+  return { title: t("space.settings.title") };
+}
 
 export default async function CastingParametresPage({
   params,

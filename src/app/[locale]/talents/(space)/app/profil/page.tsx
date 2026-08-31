@@ -7,7 +7,15 @@ import { ProfileEditor } from "@/components/app/profile-editor";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { z } from "zod";
 
-export const metadata: Metadata = { title: "Mon profil" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.profile.title") };
+}
 
 const PrefsShape = z.object({
   autoApply: z.boolean().default(false),

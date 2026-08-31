@@ -16,7 +16,15 @@ import { parseJson, PhysicalTraits } from "@/domain/json";
 import { MatchReasons } from "@/domain/match-reason";
 import { z } from "zod";
 
-export const metadata: Metadata = { title: "Fiche talent" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "casting" });
+  return { title: t("space.talentSheet.title") };
+}
 
 const Factors = z.record(z.string(), z.number());
 

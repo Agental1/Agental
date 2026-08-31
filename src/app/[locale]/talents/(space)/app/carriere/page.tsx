@@ -7,7 +7,15 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = { title: "Ma carrière" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.career.title") };
+}
 
 
 

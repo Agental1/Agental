@@ -9,9 +9,15 @@ import { RentabiliteWidget } from "@/components/talents/rentabilite-widget";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 
-// Titre d'onglet : encore français, comme sur les 17 autres pages privées.
-// Chantier distinct, voir TODOS.md.
-export const metadata: Metadata = { title: "Abonnement" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.subscription.title") };
+}
 
 
 export default async function AbonnementPage({

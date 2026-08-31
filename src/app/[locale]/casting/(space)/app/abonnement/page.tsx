@@ -13,7 +13,15 @@ import { B2B_PLANS } from "@/domain/pricing";
 import { monthlyQuota, activeProjectsQuota } from "@/lib/quotas";
 import type { PlanB2B } from "@/domain/enums";
 
-export const metadata: Metadata = { title: "Abonnement" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "casting" });
+  return { title: t("space.subscription.title") };
+}
 
 
 export default async function CastingAbonnementPage({

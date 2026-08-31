@@ -4,7 +4,15 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db";
 
-export const metadata: Metadata = { title: "Bang — Audit" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "app" });
+  return { title: `Bang — ${t("admin.nav.audit")}` };
+}
 
 export default async function AdminAuditPage({
   params,

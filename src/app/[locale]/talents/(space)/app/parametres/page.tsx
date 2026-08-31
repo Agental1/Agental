@@ -12,7 +12,15 @@ import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
 import { B2C_PLANS } from "@/domain/pricing";
 
-export const metadata: Metadata = { title: "Paramètres" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.settings.title") };
+}
 
 export default async function ParametresPage({
   params,

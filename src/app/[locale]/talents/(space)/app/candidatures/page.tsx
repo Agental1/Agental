@@ -11,7 +11,15 @@ import {
   type CandidatureRow,
 } from "@/components/app/candidatures-list";
 
-export const metadata: Metadata = { title: "Mes candidatures" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.candidatures.title") };
+}
 
 export default async function CandidaturesPage({
   params,

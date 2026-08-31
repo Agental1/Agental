@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/dialog";
 import type { Portal } from "@/lib/utils";
 
+// Statique, et c'est délibéré : le guide de style est une page de
+// développement derrière la garde admin, laissée hors du périmètre de
+// traduction. Les quinze autres pages privées sont passées en
+// generateMetadata localisé ; celle-ci reste en dehors.
 export const metadata: Metadata = { title: "Styleguide" };
 
 const SWATCHES: { label: string; token: string }[] = [

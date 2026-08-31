@@ -9,7 +9,15 @@ import { SelfTapeStudio } from "@/components/talents/self-tape-studio";
 import { parseJson } from "@/domain/json";
 import { z } from "zod";
 
-export const metadata: Metadata = { title: "Self-tape Studio" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.selftape.title") };
+}
 
 const Breakdown = z.object({
   framing: z.number().default(0),

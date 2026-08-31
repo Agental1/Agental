@@ -5,7 +5,15 @@ import { MessageSquare } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
-export const metadata: Metadata = { title: "Messages" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
+  return { title: t("space.messages.title") };
+}
 
 export default async function MessagesPage({
   params,

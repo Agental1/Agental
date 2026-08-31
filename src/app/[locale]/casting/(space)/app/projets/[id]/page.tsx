@@ -13,7 +13,15 @@ import { parseJson, parseStringArray, PhysicalTraits } from "@/domain/json";
 import { MatchReasons } from "@/domain/match-reason";
 import { z } from "zod";
 
-export const metadata: Metadata = { title: "Short-list" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "casting" });
+  return { title: t("space.project.shortlist") };
+}
 
 const RoleShape = z.object({
   role: z.string().optional(),

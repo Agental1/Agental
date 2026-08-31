@@ -14,7 +14,15 @@ import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = { title: "Bang — Supervision" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "app" });
+  return { title: `Bang — ${t("admin.nav.overview")}` };
+}
 
 export default async function AdminDashboard({
   params,

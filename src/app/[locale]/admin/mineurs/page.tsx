@@ -5,7 +5,15 @@ import { ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = { title: "Bang — Mineurs" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: toLocale(locale), namespace: "app" });
+  return { title: `Bang — ${t("admin.nav.minors")}` };
+}
 
 const STATE_LABEL: Record<string, string> = {
   OPENED: "Ouvert",

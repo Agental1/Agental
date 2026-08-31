@@ -3,6 +3,20 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.4.1.1] - 2026-08-31
+
+### Fixed
+
+- **Les titres d'onglet des pages privées étaient français dans les trois
+  langues.** Quinze pages — les deux espaces, l'administration — exportaient un
+  `metadata` statique, forme qui ne peut pas être localisée. Elles passent en
+  `generateMetadata`, la seule forme que la documentation de Next 16 décrit.
+  Presque toutes les clés existaient déjà.
+
+  Le guide de style reste statique : c'est une page de développement derrière la
+  garde admin, laissée hors périmètre de traduction par le plan. La raison est
+  désormais écrite dans le fichier.
+
 ## [0.4.1.0] - 2026-08-31
 
 ### Fixed
