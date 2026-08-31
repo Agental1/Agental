@@ -49,6 +49,7 @@ function splitList(v: string) {
 }
 
 export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
+  const t = useTranslations("talents");
   const [data, setData] = useState(initial);
 
   return (
@@ -56,11 +57,11 @@ export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
       <Completeness value={data.completeness} />
       <Tabs defaultValue="identite">
         <TabsList className="flex-wrap">
-          <TabsTrigger value="identite">Identité</TabsTrigger>
-          <TabsTrigger value="physique">Physique</TabsTrigger>
-          <TabsTrigger value="medias">Médias</TabsTrigger>
-          <TabsTrigger value="specialites">Spécialités</TabsTrigger>
-          <TabsTrigger value="preferences">Préférences</TabsTrigger>
+          <TabsTrigger value="identite">{t("space.profileEditor.tabs.identity")}</TabsTrigger>
+          <TabsTrigger value="physique">{t("space.profileEditor.tabs.physical")}</TabsTrigger>
+          <TabsTrigger value="medias">{t("space.profileEditor.tabs.media")}</TabsTrigger>
+          <TabsTrigger value="specialites">{t("space.profileEditor.tabs.specialties")}</TabsTrigger>
+          <TabsTrigger value="preferences">{t("space.profileEditor.tabs.preferences")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="identite">
@@ -179,21 +180,21 @@ function IdentityTab({ data, setData }: TabProps) {
   const { save, pending, saved, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
-      <Field label="Nom artistique">
+      <Field label={t("space.profileEditor.stageName")}>
         <Input value={data.stageName} onChange={(e) => setData({ ...data, stageName: e.target.value })} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("space.profileEditor.birthDate")}>
           <Input type="date" value={data.birthDate} onChange={(e) => setData({ ...data, birthDate: e.target.value })} />
         </Field>
-        <Field label="Ville">
+        <Field label={t("space.profileEditor.city")}>
           <Input value={data.city} onChange={(e) => setData({ ...data, city: e.target.value })} />
         </Field>
       </div>
-      <Field label="Téléphone">
+      <Field label={t("space.profileEditor.phone")}>
         <Input value={data.phone} onChange={(e) => setData({ ...data, phone: e.target.value })} />
       </Field>
-      <Field label="Bio">
+      <Field label={t("space.profileEditor.bio")}>
         <textarea
           value={data.bio}
           onChange={(e) => setData({ ...data, bio: e.target.value })}
@@ -225,6 +226,7 @@ function IdentityTab({ data, setData }: TabProps) {
 }
 
 function PhysicalTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(saveProfilePhysical);
   const p = data.physical;
   const setP = (patch: Partial<PhysicalTraits>) =>
@@ -232,23 +234,23 @@ function PhysicalTab({ data, setData }: TabProps) {
   return (
     <div className="max-w-xl space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Taille (cm)">
+        <Field label={t("space.profileEditor.height")}>
           <Input type="number" value={p.heightCm ?? ""} onChange={(e) => setP({ heightCm: e.target.value ? Number(e.target.value) : undefined })} />
         </Field>
-        <Field label="Corpulence">
+        <Field label={t("space.profileEditor.build")}>
           <Input value={p.build ?? ""} onChange={(e) => setP({ build: e.target.value })} />
         </Field>
-        <Field label="Cheveux">
+        <Field label={t("space.profileEditor.hair")}>
           <Input value={p.hair ?? ""} onChange={(e) => setP({ hair: e.target.value })} />
         </Field>
-        <Field label="Yeux">
+        <Field label={t("space.profileEditor.eyes")}>
           <Input value={p.eyes ?? ""} onChange={(e) => setP({ eyes: e.target.value })} />
         </Field>
       </div>
-      <Field label="Langues (virgules)">
+      <Field label={t("space.profileEditor.languages")}>
         <Input value={p.languages.join(", ")} onChange={(e) => setP({ languages: splitList(e.target.value) })} />
       </Field>
-      <Field label="Accents (virgules)">
+      <Field label={t("space.profileEditor.accents")}>
         <Input value={p.accents.join(", ")} onChange={(e) => setP({ accents: splitList(e.target.value) })} />
       </Field>
       <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(p, (c) => c != null && setData((d) => ({ ...d, completeness: c })))} />
@@ -257,6 +259,7 @@ function PhysicalTab({ data, setData }: TabProps) {
 }
 
 function SpecialtiesTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const ta = useTranslations("app");
   const { save, pending, saved, error } = useSave(saveProfileSpecialties);
   return (
@@ -286,7 +289,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
           );
         })}
       </div>
-      <Field label="Cachet minimum (€/jour)">
+      <Field label={t("space.profileEditor.minRate")}>
         <Input type="number" value={data.minRateEuros ?? ""} onChange={(e) => setData({ ...data, minRateEuros: e.target.value ? Number(e.target.value) : undefined })} />
       </Field>
       <SaveBar

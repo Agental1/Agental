@@ -630,7 +630,25 @@
       "birthDate": "Date of birth",
       "bioPlaceholder": "A few lines about your path, what makes you unique…",
       "nudity": "I accept roles with nudity",
-      "animals": "I can act with animals"
+      "animals": "I can act with animals",
+      "tabs": {
+        "identity": "Identity",
+        "physical": "Physical",
+        "media": "Media",
+        "specialties": "Specialties",
+        "preferences": "Preferences"
+      },
+      "stageName": "Stage name",
+      "city": "City",
+      "phone": "Phone",
+      "bio": "Bio",
+      "height": "Height (cm)",
+      "build": "Build",
+      "hair": "Hair",
+      "eyes": "Eyes",
+      "languages": "Languages (comma-separated)",
+      "accents": "Accents (comma-separated)",
+      "minRate": "Minimum fee (€/day)"
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",

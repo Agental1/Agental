@@ -630,7 +630,25 @@
       "birthDate": "Date de naissance",
       "bioPlaceholder": "Quelques lignes sur ton parcours, ce qui te rend unique…",
       "nudity": "J'accepte les rôles avec nudité",
-      "animals": "Je peux jouer avec des animaux"
+      "animals": "Je peux jouer avec des animaux",
+      "tabs": {
+        "identity": "Identité",
+        "physical": "Physique",
+        "media": "Médias",
+        "specialties": "Spécialités",
+        "preferences": "Préférences"
+      },
+      "stageName": "Nom artistique",
+      "city": "Ville",
+      "phone": "Téléphone",
+      "bio": "Bio",
+      "height": "Taille (cm)",
+      "build": "Corpulence",
+      "hair": "Cheveux",
+      "eyes": "Yeux",
+      "languages": "Langues (virgules)",
+      "accents": "Accents (virgules)",
+      "minRate": "Cachet minimum (€/jour)"
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",

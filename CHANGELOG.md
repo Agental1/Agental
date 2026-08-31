@@ -3,6 +3,22 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.4] - 2026-08-31
+
+### Fixed
+
+- **L'éditeur de profil restait en français dans les trois langues.** Les cinq
+  onglets et onze libellés de champs étaient codés en dur : un anglophone sur
+  `/en/talents/app/profil` lisait « Identité · Physique · Médias · Spécialités ·
+  Préférences » au-dessus de « Nom artistique », « Corpulence », « Cachet
+  minimum ». Seize chaînes passent dans `space.profileEditor`, traduites en
+  anglais et en espagnol.
+
+  La garde `i18n:check` ne pouvait pas le voir : elle exempte du scan de texte
+  JSX tout fichier qui appelle `useTranslations`, et celui-ci en appelait déjà
+  pour d'autres chaînes. Une exemption par fichier laisse passer les oublis
+  partiels, qui sont le cas le plus courant.
+
 ## [0.3.1.3] - 2026-08-31
 
 ### Fixed
