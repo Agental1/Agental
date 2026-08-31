@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import type { MatchReason } from "@/domain/match-reason";
 import { useState } from "react";
 import { Bot, Hand, MapPin } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -13,7 +14,7 @@ export interface CandidatureRow {
   status: string;
   source: string;
   score: number | null;
-  justification: string | null;
+  reasons: MatchReason[];
   rateEuros: number | null;
   appliedAt: string;
   auto: boolean;
@@ -56,6 +57,7 @@ function statusVariant(s: string) {
 
 export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
   const t = useTranslations("talents");
+  const ta = useTranslations("app");
   const [tab, setTab] = useState("all");
   const group = GROUPS.find((g) => g.key === tab)!;
   const filtered = rows.filter((r) => group.match(r.status));
@@ -91,8 +93,12 @@ export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
                       {r.auto ? "Auto IA" : "Manuelle"}
                     </Badge>
                   </div>
-                  {r.justification && (
-                    <p className="mt-1 text-xs text-fg-muted">{r.justification}</p>
+                  {r.reasons.length > 0 && (
+                    <p className="mt-1 text-xs text-fg-muted">
+                      {r.reasons
+                        .map((x) => ta(`matchReasons.${x.key}`, x.values))
+                        .join(" · ")}
+                    </p>
                   )}
                 </div>
                 {r.rateEuros != null && (

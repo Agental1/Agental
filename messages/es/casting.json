@@ -353,7 +353,9 @@
       "escrowTodo": "Por bloquear"
     },
     "shortlist": {
-      "empty": "Ningún perfil coincide con estos filtros."
+      "empty": "Ningún perfil coincide con estos filtros.",
+      "minor": "Menor",
+      "similarProfile": "perfil similar"
     },
     "subscription": {
       "title": "Suscripción",

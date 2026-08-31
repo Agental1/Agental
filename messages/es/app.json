@@ -168,5 +168,13 @@
       "held": "Bloqueado",
       "toConfirm": "Por confirmar"
     }
+  },
+  "matchReasons": {
+    "accentNative": "Acento {accent} nativo",
+    "ageInRange": "Edad dentro del rango",
+    "languageMatch": "Domina el idioma requerido",
+    "availability": "Disponibilidad confirmada",
+    "imageRights": "Derechos de imagen en regla",
+    "sourcedOffRoster": "Localizado fuera del roster: mismo baremo"
   }
 }

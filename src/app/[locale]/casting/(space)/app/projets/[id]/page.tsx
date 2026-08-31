@@ -10,6 +10,7 @@ import {
   type ShortlistCard,
 } from "@/components/casting/shortlist-board";
 import { parseJson, parseStringArray, PhysicalTraits } from "@/domain/json";
+import { MatchReasons } from "@/domain/match-reason";
 import { z } from "zod";
 
 export const metadata: Metadata = { title: "Short-list" };
@@ -67,7 +68,7 @@ export default async function ProjectShortlistPage({
         id: c.id,
         name: c.artistProfile.stageName,
         score: c.matchScore?.score ?? null,
-        justification: c.matchScore?.justification ?? null,
+        reasons: parseJson(MatchReasons, c.matchScore?.reasons ?? null),
         source: "AGENTAL",
         status: c.status,
         rateEuros: c.estimatedRateCents ? c.estimatedRateCents / 100 : null,
@@ -87,7 +88,7 @@ export default async function ProjectShortlistPage({
       id: c.id,
       name: c.externalTalent?.name ?? "Talent externe",
       score: c.matchScore?.score ?? null,
-      justification: c.matchScore?.justification ?? null,
+      reasons: parseJson(MatchReasons, c.matchScore?.reasons ?? null),
       source: "EXTERNAL",
       status: c.status,
       rateEuros: c.estimatedRateCents ? c.estimatedRateCents / 100 : null,

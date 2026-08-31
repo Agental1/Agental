@@ -291,7 +291,7 @@ model MatchScore {
   id             String   @id @default(cuid())
   candidatureId  String   @unique
   score          Int // 0-100
-  justification  String
+  reasons        String   @default("[]") // JSON: [{key, values?}] — see src/domain/match-reason.ts
   factors        String   @default("{}") // JSON: {physical: .8, availability: 1, …}
   diversityFlags String   @default("[]") // JSON string[]
   scorerVersion  String   @default("mock-v1")

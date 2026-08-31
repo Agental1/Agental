@@ -168,5 +168,13 @@
       "held": "Held",
       "toConfirm": "To confirm"
     }
+  },
+  "matchReasons": {
+    "accentNative": "Native {accent} accent",
+    "ageInRange": "Age within the range",
+    "languageMatch": "Speaks the required language",
+    "availability": "Availability confirmed",
+    "imageRights": "Image rights cleared",
+    "sourcedOffRoster": "Sourced off-roster — same scoring"
   }
 }

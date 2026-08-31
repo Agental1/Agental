@@ -212,14 +212,14 @@ export async function runShortlist(projectId: string): Promise<void> {
       create: {
         candidatureId: cand.id,
         score: r.score,
-        justification: r.justification,
+        reasons: toJson(r.reasons),
         factors: toJson(r.factors),
         diversityFlags: toJson(r.diversityFlags),
         scorerVersion: scorer.version,
       },
       update: {
         score: r.score,
-        justification: r.justification,
+        reasons: toJson(r.reasons),
         factors: toJson(r.factors),
         diversityFlags: toJson(r.diversityFlags),
         scorerVersion: scorer.version,

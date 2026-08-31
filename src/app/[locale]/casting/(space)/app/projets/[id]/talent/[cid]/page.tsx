@@ -13,6 +13,7 @@ import {
   type MinorCaseData,
 } from "@/components/casting/minor-workflow";
 import { parseJson, PhysicalTraits } from "@/domain/json";
+import { MatchReasons } from "@/domain/match-reason";
 import { z } from "zod";
 
 export const metadata: Metadata = { title: "Fiche talent" };
@@ -28,6 +29,8 @@ export default async function FicheTalentPage({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "casting" });
+  // Match reasons live in the neutral namespace — shared with the talents portal.
+  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -129,7 +132,11 @@ export default async function FicheTalentPage({
         <section className="rounded-sedan border border-border bg-surface p-5">
           <h2 className="flex items-center gap-2 font-display text-lg font-medium">
             <Sparkles className="size-4 text-accent" />{t("space.talentSheet.justification")}</h2>
-          <p className="mt-2 text-sm text-fg-muted">{cand.matchScore.justification}</p>
+          <p className="mt-2 text-sm text-fg-muted">
+            {parseJson(MatchReasons, cand.matchScore.reasons)
+              .map((r) => ta(`matchReasons.${r.key}`, r.values))
+              .join(" · ")}
+          </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {Object.entries(factors).map(([k, v]) => (
               <Badge key={k} variant={v >= 0.7 ? "success" : "neutral"}>

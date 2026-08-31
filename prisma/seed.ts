@@ -6,6 +6,7 @@
  * pub 800-3000€/j, voix 200-800€/séance.
  */
 import bcrypt from "bcryptjs";
+import { reason, type MatchReason } from "../src/domain/match-reason";
 import { prisma } from "../src/lib/db";
 import { toJson } from "../src/domain/json";
 
@@ -122,11 +123,23 @@ async function main() {
     });
 
     // Scored shortlist
-    const shortlist: { profileEmail?: string; externalId?: string; source: string; score: number; rate: number; justification: string }[] = [
-      { profileEmail: "yann@demo.agental.co", source: "AGENTAL", score: 94, rate: 480, justification: "Accent breton natif · fenêtre de tournage OK · droits image OK." },
-      { externalId: external.id, source: "EXTERNAL", score: 89, rate: 520, justification: "Sourcé hors roster · même scoring · disponibilité confirmée." },
-      { profileEmail: "erwan@demo.agental.co", source: "AGENTAL", score: 86, rate: 450, justification: "Physique proche du rôle · self-tape vérifié." },
-      { profileEmail: "gael@demo.agental.co", source: "AGENTAL", score: 81, rate: 500, justification: "Expérience séries · accent régional crédible." },
+    // Reason keys, not sentences — the shortlist is read in three languages.
+    const shortlist: {
+      profileEmail?: string;
+      externalId?: string;
+      source: string;
+      score: number;
+      rate: number;
+      reasons: MatchReason[];
+    }[] = [
+      { profileEmail: "yann@demo.agental.co", source: "AGENTAL", score: 94, rate: 480,
+        reasons: [reason("accentNative", { accent: "breton" }), reason("availability"), reason("imageRights")] },
+      { externalId: external.id, source: "EXTERNAL", score: 89, rate: 520,
+        reasons: [reason("availability"), reason("imageRights"), reason("sourcedOffRoster")] },
+      { profileEmail: "erwan@demo.agental.co", source: "AGENTAL", score: 86, rate: 450,
+        reasons: [reason("ageInRange"), reason("availability"), reason("imageRights")] },
+      { profileEmail: "gael@demo.agental.co", source: "AGENTAL", score: 81, rate: 500,
+        reasons: [reason("accentNative", { accent: "breton" }), reason("ageInRange"), reason("availability")] },
     ];
     for (const item of shortlist) {
       const cand = await prisma.candidature.create({
@@ -143,7 +156,7 @@ async function main() {
         data: {
           candidatureId: cand.id,
           score: item.score,
-          justification: item.justification,
+          reasons: toJson(item.reasons),
           factors: toJson({ accent: 0.95, availability: 1, rights: 1 }),
         },
       });

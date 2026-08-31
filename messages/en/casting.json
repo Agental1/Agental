@@ -353,7 +353,9 @@
       "escrowTodo": "To hold"
     },
     "shortlist": {
-      "empty": "No profile matches these filters."
+      "empty": "No profile matches these filters.",
+      "minor": "Minor",
+      "similarProfile": "similar profile"
     },
     "subscription": {
       "title": "Subscription",

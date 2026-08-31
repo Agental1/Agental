@@ -1,4 +1,6 @@
 import { toLocale } from "@/i18n/routing";
+import { parseJson } from "@/domain/json";
+import { MatchReasons } from "@/domain/match-reason";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
@@ -39,7 +41,7 @@ export default async function CandidaturesPage({
     status: c.status,
     source: c.source,
     score: c.matchScore?.score ?? null,
-    justification: c.matchScore?.justification ?? null,
+    reasons: parseJson(MatchReasons, c.matchScore?.reasons ?? null),
     rateEuros: c.estimatedRateCents ? c.estimatedRateCents / 100 : null,
     appliedAt: c.appliedAt.toISOString(),
     auto: c.source === "AGENTAL",

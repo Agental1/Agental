@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import type { MatchReason } from "@/domain/match-reason";
 import { useState, useTransition, useMemo } from "react";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -23,7 +24,7 @@ export interface ShortlistCard {
   id: string;
   name: string;
   score: number | null;
-  justification: string | null;
+  reasons: MatchReason[];
   source: "AGENTAL" | "EXTERNAL";
   status: string;
   rateEuros: number | null;
@@ -130,6 +131,10 @@ export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
 }
 
 function ShortlistItem({ card }: { card: ShortlistCard }) {
+  const t = useTranslations("casting");
+  // Match reasons live in the neutral namespace: the same keys render in the
+  // talents portal too (candidatures-list.tsx).
+  const ta = useTranslations("app");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
@@ -183,13 +188,17 @@ function ShortlistItem({ card }: { card: ShortlistCard }) {
           </Badge>
           {card.isMinor && (
             <Badge variant="warning">
-              <ShieldAlert /> Mineur
+              <ShieldAlert /> {t("space.shortlist.minor")}
             </Badge>
           )}
-          {card.similar && <Badge variant="neutral">profil similaire</Badge>}
+          {card.similar && (
+            <Badge variant="neutral">{t("space.shortlist.similarProfile")}</Badge>
+          )}
         </div>
-        {card.justification && (
-          <p className="mt-1 line-clamp-2 text-xs text-fg-muted">{card.justification}</p>
+        {card.reasons.length > 0 && (
+          <p className="mt-1 line-clamp-2 text-xs text-fg-muted">
+            {card.reasons.map((r) => ta(`matchReasons.${r.key}`, r.values)).join(" · ")}
+          </p>
         )}
         <div className="mt-1.5 flex flex-wrap items-center gap-3 text-xs text-fg-muted">
           {card.city && (

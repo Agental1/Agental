@@ -2,11 +2,17 @@ import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import type { RoleSpec } from "@/domain/json";
+import { MatchReason } from "@/domain/match-reason";
 import type { Scorer, ScoringResult, TalentFeatures } from "./scorer";
 
 /**
  * LLM-backed talent↔role scorer (Anthropic). Same Scorer contract as MockScorer,
  * so runShortlist doesn't change. Selected via SCORER=llm (see getScorer).
+ *
+ * It returns reason keys, not prose. Free prose is what an LLM is best at, and
+ * giving it up is a real cost — but the explanation is persisted and read later
+ * by a casting director, a colleague, and the talent, each in their own
+ * language. A sentence can only be written in one.
  *
  * A runtime failure — rate limit, network, a refusal, a response that does not
  * match the schema — degrades to the injected mock rather than failing a brief
@@ -23,7 +29,7 @@ const ResultSchema = z.object({
     z.object({
       talentId: z.string(),
       score: z.number().int().min(0).max(100),
-      justification: z.string(), // French, human-readable
+      reasons: z.array(MatchReason).max(4),
       factors: z.record(z.string(), z.number()),
       diversityFlags: z.array(z.string()),
     })
@@ -46,12 +52,23 @@ export class LlmScorer implements Scorer {
         max_tokens: 16000,
         thinking: { type: "adaptive" },
         system:
-          "Tu es le moteur de matching d'une agence artistique française. " +
-          "Pour un rôle donné et une liste de talents, attribue à chacun un score de 0 à 100 " +
-          "de pertinence pour le rôle, avec une justification courte et lisible en français " +
-          "(« Classé ici : … »). Pondère fortement l'accent demandé, puis l'âge, la langue, " +
-          "la disponibilité et les droits. Renvoie aussi `factors` (0..1 par critère) et " +
-          "`diversityFlags` (ex. `profil-similaire` si deux profils sont quasi identiques). " +
+          "Tu es le moteur de matching d'une agence artistique. Pour un rôle et " +
+          "une liste de talents, attribue à chacun un score de 0 à 100. Pondère " +
+          "fortement l'accent demandé, puis l'âge, la langue, la disponibilité et " +
+          "les droits.\n\n" +
+          "N'écris aucune phrase d'explication. Renvoie `reasons`, au plus quatre, " +
+          "choisies dans cette liste fermée :\n" +
+          "- accentNative — l'accent demandé est natif. values: { accent }\n" +
+          "- ageInRange — l'âge tombe dans la fourchette\n" +
+          "- languageMatch — la langue demandée est maîtrisée\n" +
+          "- availability — disponibilité confirmée\n" +
+          "- imageRights — droits image en règle\n" +
+          "- sourcedOffRoster — talent sourcé hors roster\n\n" +
+          "Ces clés sont rendues dans la langue du lecteur : une explication " +
+          "rédigée serait figée dans une seule langue et lue par des personnes " +
+          "qui n'y sont pas.\n\n" +
+          "Renvoie aussi `factors` (0..1 par critère) et `diversityFlags` " +
+          "(ex. `profil-similaire` si deux profils sont quasi identiques). " +
           "Reste neutre : même barème pour les talents Agental et externes.",
         messages: [
           {
@@ -79,7 +96,7 @@ export class LlmScorer implements Scorer {
           talentId: r.talentId,
           source: byId.get(r.talentId)!,
           score: r.score,
-          justification: r.justification,
+          reasons: r.reasons,
           factors: r.factors,
           diversityFlags: r.diversityFlags,
         }));

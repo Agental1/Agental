@@ -1,8 +1,9 @@
 import type { RoleSpec } from "@/domain/json";
+import { reason, type MatchReason } from "@/domain/match-reason";
 
 /**
  * Talent↔role matching. Swappable interface: the mock uses weighted feature
- * overlap and emits a human-readable FR justification; a real LLM/ML scorer can
+ * overlap and emits structured reason keys; a real LLM/ML scorer can
  * replace it without touching callers. The features projection + ScoringResult
  * shape are the stable contract (persisted as MatchScore rows).
  */
@@ -23,7 +24,11 @@ export interface ScoringResult {
   talentId: string;
   source: "AGENTAL" | "EXTERNAL";
   score: number; // 0..100
-  justification: string;
+  /**
+   * Why, as keys. Not a sentence: this is persisted and later read in whatever
+   * language the reader uses. See src/domain/match-reason.ts.
+   */
+  reasons: MatchReason[];
   factors: Record<string, number>;
   diversityFlags: string[];
 }
@@ -54,7 +59,7 @@ export class MockScorer implements Scorer {
 
   private one(role: RoleSpec, c: TalentFeatures): ScoringResult {
     const factors: Record<string, number> = {};
-    const reasons: string[] = [];
+    const reasons: MatchReason[] = [];
 
     // Accent (heavily weighted when the role specifies one)
     if (role.accent) {
@@ -62,7 +67,7 @@ export class MockScorer implements Scorer {
         a.toLowerCase().includes(role.accent!.toLowerCase())
       );
       factors.accent = hit ? 1 : 0.2;
-      if (hit) reasons.push(`accent ${role.accent} natif`);
+      if (hit) reasons.push(reason("accentNative", { accent: role.accent }));
     }
 
     // Age fit
@@ -74,7 +79,7 @@ export class MockScorer implements Scorer {
             0,
             1 - Math.min(Math.abs(c.age - role.ageMin), Math.abs(c.age - role.ageMax)) / 10
           );
-      if (inRange) reasons.push("âge dans la fourchette");
+      if (inRange) reasons.push(reason("ageInRange"));
     }
 
     // Language
@@ -83,12 +88,13 @@ export class MockScorer implements Scorer {
         l.toLowerCase().includes(role.language!.toLowerCase())
       );
       factors.language = hit ? 1 : 0.4;
+      if (hit) reasons.push(reason("languageMatch"));
     }
 
     // Baseline availability/rights (assumed OK for roster; verified for external)
     factors.availability = 1;
     factors.rights = 1;
-    reasons.push("disponibilité confirmée", "droits image OK");
+    reasons.push(reason("availability"), reason("imageRights"));
 
     const weights: Record<string, number> = {
       accent: 0.4,
@@ -107,15 +113,17 @@ export class MockScorer implements Scorer {
     }
     const score = Math.round((wsum ? sum / wsum : 0.5) * 100);
 
-    const justification =
-      `Classé ici : ${reasons.slice(0, 3).join(" · ")}.` +
-      (c.source === "EXTERNAL" ? " Sourcé hors roster — même scoring." : "");
+    // Cap the "why" at three so a shortlist card stays scannable, then append
+    // the off-roster note if it applies — it is a provenance disclosure, not a
+    // reason, and must never be the one that gets trimmed.
+    const shown = reasons.slice(0, 3);
+    if (c.source === "EXTERNAL") shown.push(reason("sourcedOffRoster"));
 
     return {
       talentId: c.talentId,
       source: c.source,
       score,
-      justification,
+      reasons: shown,
       factors,
       diversityFlags: [],
     };
