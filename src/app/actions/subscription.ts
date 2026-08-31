@@ -32,8 +32,8 @@ export async function upgradeTalentPlan(plan: string): Promise<UpgradeResult> {
     resourceId: session.user.id,
     after: { plan: parsed.data },
   });
-  revalidatePath("/talents/app/abonnement");
-  revalidatePath("/talents/app");
+  revalidatePath("/[locale]/talents/(space)/app/abonnement", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true, checkoutUrl };
 }
 
@@ -70,7 +70,7 @@ export async function changeOrgPlan(plan: string): Promise<UpgradeResult> {
     resourceId: membership.organizationId,
     after: { plan: parsed.data, seatCount },
   });
-  revalidatePath("/casting/app/abonnement");
-  revalidatePath("/casting/app");
+  revalidatePath("/[locale]/casting/(space)/app/abonnement", "page");
+  revalidatePath("/[locale]/casting/(space)/app", "page");
   return { ok: true, checkoutUrl };
 }

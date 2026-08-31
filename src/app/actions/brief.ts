@@ -272,6 +272,10 @@ export async function actOnCandidature(
     before: { status: cand.status },
     after: { status },
   });
-  revalidatePath(`/casting/app/projets/${cand.projectId}`);
+  // Route pattern, not the one project's URL: revalidatePath matches the file
+  // structure, so a literal path would have to be repeated per locale. This
+  // invalidates every project page instead of one — a re-render nobody sees,
+  // where the previous call matched no route at all and showed stale data.
+  revalidatePath("/[locale]/casting/(space)/app/projets/[id]", "page");
   return { ok: true };
 }

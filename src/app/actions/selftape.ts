@@ -71,7 +71,7 @@ export async function saveSelfTape(
     },
   });
 
-  revalidatePath("/talents/app/self-tape");
+  revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
   return {
     ok: true,
     score: result.score,
@@ -92,6 +92,6 @@ export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   }
   await (await getStorage()).delete(media.storageKey);
   await prisma.media.delete({ where: { id: mediaId } });
-  revalidatePath("/talents/app/self-tape");
+  revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
   return { ok: true };
 }

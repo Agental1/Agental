@@ -51,7 +51,8 @@ export async function openMinorCase(
       resourceId: mc.id,
     });
   }
-  revalidatePath(`/casting/app/projets/${cand.projectId}/talent/${candidatureId}`);
+  // Pattern rather than the resolved URL — see the note in brief.ts.
+  revalidatePath("/[locale]/casting/(space)/app/projets/[id]/talent/[cid]", "page");
   return { ok: true };
 }
 
@@ -97,6 +98,10 @@ export async function advanceMinorCase(
     resourceId: minorCaseId,
     after: data,
   });
-  revalidatePath("/casting/app/projets", "layout");
+  // A minor's file shows on both the project page and the talent page, and
+  // there is no layout under /projets to hang this on — the nearest real layout
+  // file is the casting space itself. Broader than the old "/casting/app/projets"
+  // this replaces, which matched nothing.
+  revalidatePath("/[locale]/casting/(space)", "layout");
   return { ok: true };
 }

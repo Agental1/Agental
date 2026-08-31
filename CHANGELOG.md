@@ -3,6 +3,30 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.3] - 2026-08-31
+
+### Fixed
+
+- **Les 18 appels à `revalidatePath` ne correspondaient à aucune route.** La
+  fonction s'applique à l'arborescence des **fichiers**, pas aux URLs : elle
+  attendait `/[locale]/talents/(space)/app/profil` et recevait
+  `/talents/app/profil`. Vérifié plutôt que supposé — aucun des anciens chemins
+  n'existe sur le disque, tous les nouveaux existent. Un appel qui ne
+  correspond à rien n'émet ni avertissement ni erreur : il ne laisse que des
+  données périmées, ce qui explique qu'ils aient survécu à une revue complète.
+
+### Added
+
+- **Deux gardes ESLint sur `revalidatePath`** : un chemin qui ne commence pas
+  par `/[locale]/` est refusé, et le second argument (`"page"` ou `"layout"`)
+  devient obligatoire, puisque toute route de ce projet contient le segment
+  dynamique `[locale]`. Les deux règles ont été vérifiées sur des appels
+  volontairement fautifs.
+- **Un test qui vérifie que chaque chemin désigne une route réelle.** ESLint ne
+  contrôle que la forme ; c'est un renommage de route qui recréera le problème,
+  et lui seul peut l'attraper. Le test vérifie aussi qu'il trouve bien les
+  appels, pour qu'un passage au vert veuille dire quelque chose.
+
 ## [0.3.1.2] - 2026-08-31
 
 ### Fixed

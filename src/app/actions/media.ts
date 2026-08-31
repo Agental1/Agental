@@ -52,8 +52,8 @@ export async function uploadMedia(formData: FormData): Promise<MediaResult> {
   });
 
   await recomputeCompleteness(profile.id);
-  revalidatePath("/talents/app/profil");
-  revalidatePath("/talents/app");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true, id: media.id };
 }
 
@@ -68,7 +68,7 @@ export async function deleteMedia(mediaId: string): Promise<MediaResult> {
   await storage.delete(media.storageKey);
   await prisma.media.delete({ where: { id: mediaId } });
   await recomputeCompleteness(profile.id);
-  revalidatePath("/talents/app/profil");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }
 
@@ -86,6 +86,6 @@ export async function setPrimaryMedia(mediaId: string): Promise<MediaResult> {
     }),
     prisma.media.update({ where: { id: mediaId }, data: { isPrimary: true } }),
   ]);
-  revalidatePath("/talents/app/profil");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }

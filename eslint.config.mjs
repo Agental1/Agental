@@ -37,6 +37,29 @@ const eslintConfig = defineConfig([
           ],
         },
       ],
+      // revalidatePath matches the route FILE structure, not the URL. Every
+      // route in this app lives under [locale], and most under a (space) or
+      // (site) group, so a path like "/talents/app/profil" matches no file and
+      // the call does nothing. It fails silently — no warning, no error, just
+      // stale data — which is how 18 of them survived until someone measured.
+      //
+      // A dynamic segment also makes the second argument mandatory, and
+      // "/[locale]/..." always contains one.
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "CallExpression[callee.name='revalidatePath'] > Literal[value=/^\\/(?!\\[locale\\])/]",
+          message:
+            "revalidatePath takes a route file path: start it with /[locale]/ and include any (group) segments, e.g. \"/[locale]/talents/(space)/app/profil\". A URL path matches nothing and silently does nothing.",
+        },
+        {
+          selector:
+            "CallExpression[callee.name='revalidatePath'][arguments.length=1]",
+          message:
+            "revalidatePath needs its second argument (\"page\" or \"layout\") — every route here is under the dynamic [locale] segment, which makes it required.",
+        },
+      ],
     },
   },
 ]);

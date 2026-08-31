@@ -33,8 +33,8 @@ function isMinorFrom(birthDate?: string): boolean {
 
 async function done(profileId: string): Promise<SaveResult> {
   const completeness = await recomputeCompleteness(profileId);
-  revalidatePath("/talents/app/profil");
-  revalidatePath("/talents/app");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true, completeness };
 }
 
@@ -113,7 +113,7 @@ export async function savePreferences(input: unknown): Promise<SaveResult> {
     where: { id: profile.id },
     data: { preferences: toJson(parsed.data) },
   });
-  revalidatePath("/talents/app/profil");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }
 
@@ -133,7 +133,7 @@ export async function addAvailability(input: unknown): Promise<SaveResult> {
       zones: toJson(d.zones),
     },
   });
-  revalidatePath("/talents/app/profil");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }
 
@@ -143,6 +143,6 @@ export async function deleteAvailability(id: string): Promise<SaveResult> {
   await prisma.availability.deleteMany({
     where: { id, profileId: profile.id },
   });
-  revalidatePath("/talents/app/profil");
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }
