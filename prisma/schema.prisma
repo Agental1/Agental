@@ -1,8 +1,8 @@
-// Agental — provider-agnostic Prisma schema.
-// Runs on SQLite locally; swaps to PostgreSQL (Neon) in prod by changing the
-// datasource provider + DATABASE_URL. Enums are Strings validated by Zod in
-// src/domain; JSON blobs and scalar lists are Strings (SQLite has no native
-// enum / Json / scalar-list). Money is stored as integer cents.
+// Agental — provider-agnostic Prisma schema, running on PostgreSQL (Supabase).
+// It was authored against SQLite and deliberately kept portable: enums are
+// Strings validated by Zod in src/domain, JSON blobs and scalar lists are
+// Strings, money is integer cents. That portability is why moving to Postgres
+// changed the datasource and nothing else — no model was touched.
 //
 // CRITICAL DOMAIN RULE: Mandat (free legal representation) is structurally
 // separate from Subscription (optional paid tech service). Mandat has no price
@@ -14,7 +14,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ─────────────────────────── Identity & auth (Auth.js) ───────────────────────

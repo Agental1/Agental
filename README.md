@@ -5,7 +5,8 @@ Agence artistique nativement augmentée par IA. Deux portails sur une seule base
 - **Talents** (B2C, tutoiement, peau claire) — `/[locale]/talents/**`
 - **Casting** (B2B, vouvoiement, peau sombre) — `/[locale]/casting/**`
 
-Next.js 16 (App Router, webpack), next-intl, Prisma 7 + libSQL/SQLite, Tailwind v4, Vitest, bun.
+Next.js 16 (App Router, webpack), next-intl, Prisma 7 + PostgreSQL (Supabase), Tailwind v4,
+Vitest, bun.
 
 > **Lisez `AGENTS.md` avant d'écrire du code.** Cette version de Next.js diffère des
 > conventions courantes ; la doc de référence est embarquée dans
@@ -17,16 +18,26 @@ Prérequis : [bun](https://bun.sh) ≥ 1.2. Node n'est pas nécessaire.
 
 ```bash
 bun install                       # `postinstall` lance prisma generate
-cp .env.example .env              # puis renseigner AUTH_SECRET
+cp .env.example .env              # puis renseigner les 4 valeurs ci-dessous
 openssl rand -base64 32           # une valeur pour AUTH_SECRET
-bun run db:migrate                # crée dev.db et applique les migrations
+bun run db:migrate                # applique les migrations sur votre base
 bun run db:seed                   # jeu de démo FR (idempotent)
 bun run dev                       # http://localhost:3000
 ```
 
+Il faut une base PostgreSQL. La production tourne sur Supabase et le développement
+local vise la même chose : un environnement local qui exerce un autre moteur que la
+production ne prouve rien sur la production. Récupérez les deux chaînes de connexion
+dans Supabase → Project Settings → Database :
+
+- `DATABASE_URL` — **Transaction pooler**, port 6543. C'est ce que lit l'application.
+- `DIRECT_URL` — connexion directe, port 5432. Seul `prisma migrate` s'en sert : le
+  pooler ne supporte pas les instructions de session dont le DDL a besoin.
+
 `bun install` seul ne suffit pas : `src/generated/` est gitignoré et le client Prisma est
-généré au `postinstall`. Sans `.env`, `prisma` échoue sur
-`PrismaConfigEnvError: Cannot resolve environment variable: DATABASE_URL`.
+généré au `postinstall`. Sans `DATABASE_URL`, l'application refuse de démarrer avec un
+message qui dit quoi faire — elle retombait avant sur un fichier SQLite absent, ce qui
+donnait un déploiement d'apparence saine qui échouait à la première requête.
 
 ### Comptes de démonstration
 
@@ -52,7 +63,7 @@ surfaces protégées sont inatteignables sur une base fraîche.
 | `bun run lint` | ESLint |
 | `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
 | `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
-| `bun run db:migrate` / `db:seed` / `db:studio` | Prisma |
+| `bun run db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
 
 ### Tests

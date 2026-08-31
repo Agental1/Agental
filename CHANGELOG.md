@@ -3,6 +3,34 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.0.0] - 2026-08-31
+
+### Changed
+
+- **La base passe de SQLite à PostgreSQL (Supabase),** en local comme en
+  production. Le schéma avait été écrit portable exprès — pas d'enum natif, pas
+  de `Json`, pas de liste scalaire, montants en centimes entiers — donc seul le
+  `datasource` change : aucun modèle n'est touché. L'adaptateur `@prisma/adapter-libsql`
+  devient `@prisma/adapter-pg`.
+- **Les migrations SQLite sont remplacées par une migration Postgres unique.**
+  Les trois précédentes étaient du DDL SQLite, inapplicable sur Postgres ;
+  aucune base de production n'existait encore, donc rien n'est perdu. 27 modèles,
+  27 tables, vérifié.
+- **Deux chaînes de connexion, pas une.** `DATABASE_URL` vise le pooler de
+  transactions (port 6543), que l'application utilise parce qu'une fonction
+  serverless ouvre une connexion par invocation. `DIRECT_URL` vise la connexion
+  directe (port 5432), que seul `prisma migrate` utilise : le pooler ne supporte
+  pas les instructions de session dont le DDL a besoin.
+
+### Fixed
+
+- **Une base absente ne passe plus inaperçue.** `src/lib/db.ts` retombait sur
+  `file:./dev.db`, un fichier gitignoré donc absent de tout déploiement : le
+  site démarrait en paraissant sain et échouait à la première requête. La
+  variable est désormais lue sans valeur de repli, et le message d'erreur dit
+  quoi faire. Le build échoue franchement si elle manque, au lieu de livrer une
+  application qui ne peut pas répondre.
+
 ## [0.2.0.2] - 2026-08-31
 
 ### Fixed
