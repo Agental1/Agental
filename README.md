@@ -5,8 +5,8 @@ Agence artistique nativement augmentée par IA. Deux portails sur une seule base
 - **Talents** (B2C, tutoiement, peau claire) — `/[locale]/talents/**`
 - **Casting** (B2B, vouvoiement, peau sombre) — `/[locale]/casting/**`
 
-Next.js 16 (App Router, webpack), next-intl, Prisma 7 + PostgreSQL (Supabase), Tailwind v4,
-Vitest, bun.
+Next.js 16 (App Router, webpack), next-intl, Prisma 7 + PostgreSQL (Supabase), Cloudflare R2
+pour les médias, Tailwind v4, Vitest, bun.
 
 > **Lisez `AGENTS.md` avant d'écrire du code.** Cette version de Next.js diffère des
 > conventions courantes ; la doc de référence est embarquée dans
@@ -33,6 +33,12 @@ dans Supabase → Project Settings → Database :
 - `DATABASE_URL` — **Transaction pooler**, port 6543. C'est ce que lit l'application.
 - `DIRECT_URL` — connexion directe, port 5432. Seul `prisma migrate` s'en sert : le
   pooler ne supporte pas les instructions de session dont le DDL a besoin.
+
+Les médias (photos, bandes démo, self-tapes) vont sur Cloudflare R2 en production.
+En local, laissez les quatre variables `R2_*` vides : les fichiers atterrissent dans
+`.uploads/`, ce qui convient au développement. Renseignez-les toutes ou aucune —
+une configuration partielle est refusée au démarrage plutôt que de retomber
+silencieusement sur un disque que l'hébergeur efface à chaque déploiement.
 
 `bun install` seul ne suffit pas : `src/generated/` est gitignoré et le client Prisma est
 généré au `postinstall`. Sans `DATABASE_URL`, l'application refuse de démarrer avec un

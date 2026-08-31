@@ -43,6 +43,24 @@ export async function GET(
   }
 
   const storage = await getStorage();
+
+  // Authorisation is settled above. Backends that can serve the bytes
+  // themselves get to: proxying a 50 MB self-tape through a serverless
+  // function means holding it in function memory and again in the response,
+  // for no benefit. The signed URL expires in minutes, so a copied link is
+  // not a permanent public handle on someone's audition tape.
+  if (storage.signedUrl) {
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: await storage.signedUrl(media.storageKey),
+        // Never cache the redirect itself: it outlives the URL it points at,
+        // and a cached 302 would send the browser to an expired signature.
+        "Cache-Control": "private, no-store",
+      },
+    });
+  }
+
   const obj = await storage.get(media.storageKey);
   if (!obj) return new Response("Not found", { status: 404 });
 

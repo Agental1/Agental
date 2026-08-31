@@ -19,20 +19,24 @@ affiche les données du compte de démo.
 
 **Corrigé :** v0.3.0.0 (2026-08-31).
 
-### Infrastructure — le stockage média ne survit pas à Vercel
+### ~~Infrastructure — le stockage ne survit pas à Vercel~~ CORRIGÉ
 
-**La moitié base est faite** : Postgres sur Supabase (eu-west-1), en local comme
-en production, migrations appliquées. Reste le stockage de fichiers.
+Les deux moitiés sont faites : Postgres sur Supabase (eu-west-1) pour les
+données, Cloudflare R2 (bucket `agental-media`, EU) pour les fichiers.
+`src/lib/storage/local.ts` reste le chemin de développement ; les quatre
+variables `R2_*` sélectionnent `R2Storage` en production, et une configuration
+partielle est refusée au lieu de retomber silencieusement sur un disque
+éphémère.
 
-`src/lib/storage/local.ts:5` écrit dans `<cwd>/.uploads`. Le système de fichiers
-Vercel est éphémère hors `/tmp` : **les self-tapes et les photos disparaîtraient
-à chaque redéploiement**. L'interface échangeable existe déjà et annonce le swap
-en commentaire (`src/lib/storage/index.ts` → R2/S3).
+Les lectures passent par une URL signée de 5 minutes plutôt que par la
+fonction : un self-tape de 50 Mo n'a plus à tenir en mémoire d'une fonction
+serverless puis à y être recopié pour la réponse.
 
-Le site est en ligne sur `www.agental.co`, donc ce n'est plus hypothétique : le
-premier talent qui téléverse une bande démo la perdra au déploiement suivant.
+Vérifié contre le vrai bucket, pas déduit : écriture, relecture octet pour
+octet, `fetch` de l'URL signée en 200 avec contenu identique, suppression, et
+une clé absente qui renvoie `null` sans lever d'exception.
 
-**Déclencheur :** avant d'ouvrir l'inscription au public.
+**Corrigé :** v0.3.0.0 (base) et v0.3.1.0 (fichiers), 2026-08-31.
 
 ### ~~/api/media/[id] sans authentification~~ CORRIGÉ
 

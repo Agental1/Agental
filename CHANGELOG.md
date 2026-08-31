@@ -3,6 +3,36 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.0] - 2026-08-31
+
+### Added
+
+- **Stockage des médias sur Cloudflare R2.** Photos, bandes démo et self-tapes
+  étaient écrits dans `<cwd>/.uploads` : sur un hébergement serverless, le
+  premier redéploiement les effaçait. L'interface `Storage` existait déjà et
+  annonçait ce remplacement ; c'est un adaptateur de plus derrière elle, pas une
+  refonte. Sélection par variables d'environnement, donc une préversion peut
+  viser le même bucket sans changer une ligne de code.
+- **Lecture par URL signée.** `/api/media/[id]` vérifie l'autorisation comme
+  avant, puis redirige vers une URL R2 valable 5 minutes au lieu de faire
+  transiter les octets. Un self-tape de 50 Mo n'a plus à tenir dans la mémoire
+  d'une fonction, ni à être recopié dans la réponse. La redirection elle-même
+  n'est jamais mise en cache : elle survivrait à la signature qu'elle porte.
+
+  Bucket `agental-media`, localisation EU, pour rester avec la base Supabase
+  eu-west-1. Vérifié contre le vrai bucket : écriture, relecture octet pour
+  octet, `fetch` de l'URL signée en 200, suppression.
+
+### Changed
+
+- **Une configuration de stockage partielle est refusée.** Trois variables R2
+  sur quatre, c'est une faute de frappe ; retomber sur le disque local dans ce
+  cas « fonctionnerait » jusqu'au premier fichier disparu. En production, aucune
+  configuration du tout est la même erreur, un cran plus tôt. Le message nomme
+  les variables manquantes.
+- Les dépendances `@prisma/adapter-libsql` et `@libsql/client`, devenues
+  inutilisées avec le passage à Postgres, sont retirées.
+
 ## [0.3.0.0] - 2026-08-31
 
 ### Changed
