@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import type { MatchReason } from "@/domain/match-reason";
+import type { CandidatureStatus } from "@/domain/enums";
 import { useState } from "react";
 import { Bot, Hand, MapPin } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -11,7 +12,7 @@ import { cn } from "@/lib/utils";
 export interface CandidatureRow {
   id: string;
   projectTitle: string;
-  status: string;
+  status: CandidatureStatus;
   source: string;
   score: number | null;
   reasons: MatchReason[];
@@ -20,33 +21,22 @@ export interface CandidatureRow {
   auto: boolean;
 }
 
-const GROUPS: { key: string; label: string; match: (s: string) => boolean }[] = [
-  { key: "all", label: "Toutes", match: () => true },
-  { key: "sent", label: "Envoyées", match: (s) => s === "NEW" },
+/**
+ * Filter tabs. The label is looked up from `key` rather than carried here:
+ * a literal in a module-level constant is invisible to the leak scan, which
+ * only reads JSX, and these five stayed French through a full i18n pass.
+ */
+const GROUPS: { key: string; match: (s: string) => boolean }[] = [
+  { key: "all", match: () => true },
+  { key: "sent", match: (s) => s === "NEW" },
   {
     key: "short",
-    label: "Shortlistées",
     match: (s) =>
       ["SHORTLISTED", "STARRED", "INVITED", "SELFTAPE_REQUESTED"].includes(s),
   },
-  { key: "won", label: "Contractualisées", match: (s) => s === "CONTRACTED" },
-  {
-    key: "closed",
-    label: "Sans suite",
-    match: (s) => ["REJECTED", "EXCLUDED"].includes(s),
-  },
+  { key: "won", match: (s) => s === "CONTRACTED" },
+  { key: "closed", match: (s) => ["REJECTED", "EXCLUDED"].includes(s) },
 ];
-
-const STATUS_LABEL: Record<string, string> = {
-  NEW: "Envoyée",
-  SHORTLISTED: "Shortlistée",
-  STARRED: "Retenue",
-  INVITED: "Invitée en audition",
-  SELFTAPE_REQUESTED: "Self-tape demandé",
-  CONTRACTED: "Contractualisée",
-  REJECTED: "Sans suite",
-  EXCLUDED: "Écartée",
-};
 
 function statusVariant(s: string) {
   if (["CONTRACTED", "STARRED", "INVITED"].includes(s)) return "success" as const;
@@ -67,7 +57,7 @@ export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
       <TabsList className="flex-wrap">
         {GROUPS.map((g) => (
           <TabsTrigger key={g.key} value={g.key}>
-            {g.label}
+            {t(`space.candidatures.groups.${g.key}` as "space.candidatures.groups.all")}
           </TabsTrigger>
         ))}
       </TabsList>
@@ -86,11 +76,15 @@ export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-medium">{r.projectTitle}</span>
                     <Badge variant={statusVariant(r.status)}>
-                      {STATUS_LABEL[r.status] ?? r.status}
+                      {t(`space.candidatures.status.${r.status}`)}
                     </Badge>
                     <Badge variant="neutral">
                       {r.auto ? <Bot /> : <Hand />}
-                      {r.auto ? "Auto IA" : "Manuelle"}
+                      {t(
+                        r.auto
+                          ? "space.candidatures.origin.auto"
+                          : "space.candidatures.origin.manual"
+                      )}
                     </Badge>
                   </div>
                   {r.reasons.length > 0 && (

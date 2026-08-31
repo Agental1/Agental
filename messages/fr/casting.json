@@ -398,7 +398,11 @@
     },
     "project": {
       "shortlist": "Short-list",
-      "externalTalent": "Talent externe"
+      "externalTalent": "Talent externe",
+      "roleNamed": "Rôle « {role} »",
+      "ageRange": "{min}–{max} ans",
+      "accentWanted": "accent {accent}",
+      "profilesKept": "{count, plural, one {# profil retenu} other {# profils retenus}}"
     },
     "talentSheet": {
       "title": "Fiche talent",

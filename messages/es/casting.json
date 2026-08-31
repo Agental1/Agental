@@ -398,7 +398,11 @@
     },
     "project": {
       "shortlist": "Lista corta",
-      "externalTalent": "Talento externo"
+      "externalTalent": "Talento externo",
+      "roleNamed": "Papel «{role}»",
+      "ageRange": "{min}–{max} años",
+      "accentWanted": "acento {accent}",
+      "profilesKept": "{count, plural, one {# perfil preseleccionado} other {# perfiles preseleccionados}}"
     },
     "talentSheet": {
       "title": "Ficha del talento",

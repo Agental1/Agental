@@ -41,6 +41,7 @@ export const CandidatureStatus = z.enum([
   "CONTRACTED",
   "REJECTED",
 ]);
+export type CandidatureStatus = z.infer<typeof CandidatureStatus>;
 
 export const SpecialtyKind = z.enum([
   "figuration",

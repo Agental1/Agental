@@ -542,7 +542,28 @@
       "title": "My applications",
       "subtitle": "Factual and kind — every status, explained.",
       "empty": "No applications yet.",
-      "emptyList": "No applications here yet. Roles will appear as soon as an application is opened for you."
+      "emptyList": "No applications here yet. Roles will appear as soon as an application is opened for you.",
+      "origin": {
+        "auto": "By AI",
+        "manual": "Manual"
+      },
+      "status": {
+        "NEW": "Sent",
+        "SHORTLISTED": "Shortlisted",
+        "STARRED": "Kept",
+        "INVITED": "Invited to audition",
+        "SELFTAPE_REQUESTED": "Self-tape requested",
+        "CONTRACTED": "Contracted",
+        "REJECTED": "Not moving forward",
+        "EXCLUDED": "Set aside"
+      },
+      "groups": {
+        "all": "All",
+        "sent": "Sent",
+        "short": "Shortlisted",
+        "won": "Contracted",
+        "closed": "Closed"
+      }
     },
     "career": {
       "title": "My career",

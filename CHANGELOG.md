@@ -3,6 +3,26 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.4.0.1] - 2026-08-31
+
+### Fixed
+
+- **L'en-tête d'un projet de casting restait français** dans les trois langues :
+  « Rôle « Maxime » · 25–32 ans · accent breton · 4 profils retenus ». Il était
+  assemblé par concaténation, ce qui ne peut pas marcher : les guillemets
+  changent de forme selon la langue (« » / “ ” ), « 25–32 ans » se dit « ages
+  25–32 », et le nombre de profils demande une règle de pluriel.
+- **La liste de candidatures d'un talent était française de bout en bout** alors
+  que le fichier appelait déjà `useTranslations` : les cinq onglets de filtre,
+  les huit libellés de statut et le badge « Auto IA / Manuelle ». Statuts et
+  onglets vivaient dans des constantes de module, hors de toute portée que la
+  garde lexicale inspecte.
+
+  Les libellés de statut sont écrits du point de vue du talent — « Envoyée »,
+  « Invitée en audition », « Sans suite » — là où `app.candidatureStatus`, qui
+  n'a aucun utilisateur, les nomme côté casting. Cette perspective est du choix
+  éditorial : elle est traduite, pas écrasée.
+
 ## [0.4.0.0] - 2026-08-31
 
 ### Changed

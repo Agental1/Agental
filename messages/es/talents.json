@@ -542,7 +542,28 @@
       "title": "Mis candidaturas",
       "subtitle": "Con datos y con tacto: cada estado, explicado.",
       "empty": "Aún no hay candidaturas.",
-      "emptyList": "Aún no hay candidaturas. Los papeles aparecerán en cuanto se abra una candidatura para ti."
+      "emptyList": "Aún no hay candidaturas. Los papeles aparecerán en cuanto se abra una candidatura para ti.",
+      "origin": {
+        "auto": "Por IA",
+        "manual": "Manual"
+      },
+      "status": {
+        "NEW": "Enviada",
+        "SHORTLISTED": "Preseleccionada",
+        "STARRED": "Retenida",
+        "INVITED": "Convocada a audición",
+        "SELFTAPE_REQUESTED": "Self-tape solicitado",
+        "CONTRACTED": "Contratada",
+        "REJECTED": "Sin continuidad",
+        "EXCLUDED": "Descartada"
+      },
+      "groups": {
+        "all": "Todas",
+        "sent": "Enviadas",
+        "short": "Preseleccionadas",
+        "won": "Contratadas",
+        "closed": "Sin continuidad"
+      }
     },
     "career": {
       "title": "Mi carrera",

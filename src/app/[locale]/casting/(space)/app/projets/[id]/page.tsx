@@ -108,11 +108,25 @@ export default async function ProjectShortlistPage({
           <h1 className="font-display text-3xl font-medium">{project.title}</h1>
           <Badge variant="accent">{t("space.project.shortlist")}</Badge>
         </div>
+        {/*
+          Assembled from separate messages rather than concatenated fragments:
+          the quote marks around a role name differ per language (« » / “ ” / « »),
+          the age range reads "25–32 ans" but "ages 25–32", and the profile count
+          needs a plural rule. None of that survives string concatenation.
+        */}
         <p className="mt-1 text-fg-muted">
-          Rôle « {role.role} »
-          {role.ageMin != null && ` · ${role.ageMin}–${role.ageMax} ans`}
-          {role.accent && ` · accent ${role.accent}`} · {cards.length} profils
-          retenus
+          {[
+            t("space.project.roleNamed", { role: role.role ?? "" }),
+            role.ageMin != null && role.ageMax != null
+              ? t("space.project.ageRange", { min: role.ageMin, max: role.ageMax })
+              : null,
+            role.accent
+              ? t("space.project.accentWanted", { accent: role.accent })
+              : null,
+            t("space.project.profilesKept", { count: cards.length }),
+          ]
+            .filter(Boolean)
+            .join(" · ")}
         </p>
       </div>
 

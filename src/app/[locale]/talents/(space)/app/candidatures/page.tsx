@@ -1,6 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import { parseJson } from "@/domain/json";
 import { MatchReasons } from "@/domain/match-reason";
+import { CandidatureStatus } from "@/domain/enums";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
@@ -38,7 +39,10 @@ export default async function CandidaturesPage({
   const rows: CandidatureRow[] = candidatures.map((c) => ({
     id: c.id,
     projectTitle: c.project.title,
-    status: c.status,
+    // Statuses are String columns validated by Zod at the domain boundary
+    // (the house pattern). Narrowing here is what lets the label lookup be a
+    // typed key rather than a cast.
+    status: CandidatureStatus.catch("NEW").parse(c.status),
     source: c.source,
     score: c.matchScore?.score ?? null,
     reasons: parseJson(MatchReasons, c.matchScore?.reasons ?? null),

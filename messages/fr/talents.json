@@ -542,7 +542,28 @@
       "title": "Mes candidatures",
       "subtitle": "Factuel et bienveillant — chaque statut, expliqué.",
       "empty": "Aucune candidature pour l'instant.",
-      "emptyList": "Aucune candidature ici pour l'instant. Tu verras apparaître les rôles dès qu'une candidature est ouverte pour toi."
+      "emptyList": "Aucune candidature ici pour l'instant. Tu verras apparaître les rôles dès qu'une candidature est ouverte pour toi.",
+      "origin": {
+        "auto": "Auto IA",
+        "manual": "Manuelle"
+      },
+      "status": {
+        "NEW": "Envoyée",
+        "SHORTLISTED": "Shortlistée",
+        "STARRED": "Retenue",
+        "INVITED": "Invitée en audition",
+        "SELFTAPE_REQUESTED": "Self-tape demandé",
+        "CONTRACTED": "Contractualisée",
+        "REJECTED": "Sans suite",
+        "EXCLUDED": "Écartée"
+      },
+      "groups": {
+        "all": "Toutes",
+        "sent": "Envoyées",
+        "short": "Shortlistées",
+        "won": "Contractualisées",
+        "closed": "Sans suite"
+      }
     },
     "career": {
       "title": "Ma carrière",
