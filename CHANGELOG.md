@@ -3,6 +3,30 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.5] - 2026-08-31
+
+### Fixed
+
+- **Le widget de rentabilité de l'abonnement était en français partout.** Phrase
+  d'introduction, les quatre en-têtes du tableau et la mention « (actuel) ».
+- **La commission s'affichait « 10 %% ».** `percent()` émet déjà le signe, et le
+  gabarit en ajoutait un second. Visible dans les trois langues.
+
+### Changed
+
+- **La garde `i18n:check` ne s'arrête plus au premier `useTranslations`.** Elle
+  exemptait du scan de texte JSX tout fichier qui en appelait un, sur
+  l'hypothèse qu'un tel fichier était traduit. La traduction partielle est le
+  cas courant, pas l'exception : c'est ainsi que l'éditeur de profil a gardé
+  seize chaînes françaises tout en étant rapporté propre. Les commentaires sont
+  maintenant retirés avant l'analyse — le motif de texte JSX traverse les
+  retours à la ligne, donc un bloc de commentaire entre `>` et `<` se lisait
+  comme du texte affiché.
+
+  Restent deux signalements, tous deux assumés : le guide de style interne, non
+  traduit et derrière la garde admin, et `global-error.tsx`, qui vit hors du
+  provider intl et ne peut pas l'être.
+
 ## [0.3.1.4] - 2026-08-31
 
 ### Fixed

@@ -662,7 +662,15 @@
       "title": "Rentabilité de l'abonnement",
       "atVolume": "À ton volume actuel, ta formule",
       "save": "À ton volume, la formule {plan} te ferait économiser {amount} par an.",
-      "best": "À ton volume actuel, ta formule {plan} est déjà la plus avantageuse — inutile de payer plus."
+      "best": "À ton volume actuel, ta formule {plan} est déjà la plus avantageuse — inutile de payer plus.",
+      "intro": "Sur un volume annuel estimé de <strong>{amount}</strong> de cachets, voici le coût total (commission + abonnement) par formule.",
+      "columns": {
+        "plan": "Formule",
+        "commission": "Commission",
+        "subscription": "Abonnement",
+        "total": "Total / an"
+      },
+      "current": "(actuel)"
     },
     "studio": {
       "enableCamera": "Activer la caméra",

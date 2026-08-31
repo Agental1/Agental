@@ -41,19 +41,30 @@ export function RentabiliteWidget({
         <h2 className="font-display text-lg font-medium">{t("space.profitability.title")}</h2>
       </div>
       <p className="mt-1 text-sm text-fg-muted">
-        Sur un volume annuel estimé de{" "}
-        <span className="font-medium text-fg">{euros(annualCachetCents, locale)}</span> de
-        cachets, voici le coût total (commission + abonnement) par formule.
+        {t.rich("space.profitability.intro", {
+          amount: euros(annualCachetCents, locale),
+          strong: (chunks) => (
+            <span className="font-medium text-fg">{chunks}</span>
+          ),
+        })}
       </p>
 
       <div className="mt-4 overflow-hidden rounded-sedan border border-border">
         <table className="w-full text-sm">
           <thead className="bg-surface-2/60 text-left text-fg-muted">
             <tr>
-              <th className="px-3 py-2 font-medium">Formule</th>
-              <th className="px-3 py-2 text-right font-medium">Commission</th>
-              <th className="px-3 py-2 text-right font-medium">Abonnement</th>
-              <th className="px-3 py-2 text-right font-medium">Total / an</th>
+              <th className="px-3 py-2 font-medium">
+                {t("space.profitability.columns.plan")}
+              </th>
+              <th className="px-3 py-2 text-right font-medium">
+                {t("space.profitability.columns.commission")}
+              </th>
+              <th className="px-3 py-2 text-right font-medium">
+                {t("space.profitability.columns.subscription")}
+              </th>
+              <th className="px-3 py-2 text-right font-medium">
+                {t("space.profitability.columns.total")}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -68,11 +79,13 @@ export function RentabiliteWidget({
                 <td className="px-3 py-2">
                   {r.def.plan}
                   {r.plan === currentPlan && (
-                    <span className="ml-1 text-xs text-fg-subtle">(actuel)</span>
+                    <span className="ml-1 text-xs text-fg-subtle">
+                      {t("space.profitability.current")}
+                    </span>
                   )}
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
-                  {euros(r.commission, locale)} ({percent(r.def.commissionRate, locale)}%)
+                  {euros(r.commission, locale)} ({percent(r.def.commissionRate, locale)})
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
                   {euros(r.sub, locale)}

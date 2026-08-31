@@ -662,7 +662,15 @@
       "title": "Subscription payback",
       "atVolume": "At your current volume, your plan",
       "save": "At your volume, the {plan} plan would save you {amount} a year.",
-      "best": "At your current volume, your {plan} plan is already the best value — no need to pay more."
+      "best": "At your current volume, your {plan} plan is already the best value — no need to pay more.",
+      "intro": "On an estimated annual volume of <strong>{amount}</strong> in fees, here is the total cost (commission + subscription) for each plan.",
+      "columns": {
+        "plan": "Plan",
+        "commission": "Commission",
+        "subscription": "Subscription",
+        "total": "Total / year"
+      },
+      "current": "(current)"
     },
     "studio": {
       "enableCamera": "Enable camera",

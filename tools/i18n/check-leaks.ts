@@ -117,18 +117,27 @@ async function* walk(dir: string): AsyncGenerator<string> {
   }
 }
 
+/**
+ * Comments are not user-facing, and they produce false positives: the JSX text
+ * pattern spans newlines, so a multi-line block comment sitting between a `>`
+ * and a `<` reads as rendered text.
+ */
+function stripComments(source: string): string {
+  return source
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/^\s*\/\/.*$/gm, "");
+}
+
 async function checkLeaks(): Promise<void> {
   const hits = new Map<string, string[]>();
   for await (const file of walk(join(ROOT, "src"))) {
-    const source = await readFile(file, "utf8");
-    if (/useTranslations|getTranslations/.test(source)) {
-      // Translated files can still leak through attributes.
-      const found = [...source.matchAll(ATTRS), ...source.matchAll(SR_ONLY)]
-        .map((m) => m[1])
-        .filter((v) => FRENCH_MARKERS.test(v));
-      if (found.length) hits.set(relative(ROOT, file), found);
-      continue;
-    }
+    // Every file gets the same scan, translated or not. The previous version
+    // skipped JSX text in any file calling useTranslations, on the assumption
+    // that such a file was done. Partial translation is the common case, not
+    // the exception: profile-editor.tsx called useTranslations for some strings
+    // while five tab labels and eleven field labels stayed hardcoded French,
+    // and this guard reported the file clean for months.
+    const source = stripComments(await readFile(file, "utf8"));
     const found = [
       ...source.matchAll(ATTRS),
       ...source.matchAll(SR_ONLY),

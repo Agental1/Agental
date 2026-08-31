@@ -662,7 +662,15 @@
       "title": "Rentabilidad de la suscripción",
       "atVolume": "Con tu volumen actual, tu modalidad",
       "save": "Con tu volumen, la modalidad {plan} te ahorraría {amount} al año.",
-      "best": "Con tu volumen actual, tu modalidad {plan} ya es la más ventajosa: no hace falta pagar más."
+      "best": "Con tu volumen actual, tu modalidad {plan} ya es la más ventajosa: no hace falta pagar más.",
+      "intro": "Sobre un volumen anual estimado de <strong>{amount}</strong> en cachés, este es el coste total (comisión + suscripción) por plan.",
+      "columns": {
+        "plan": "Plan",
+        "commission": "Comisión",
+        "subscription": "Suscripción",
+        "total": "Total / año"
+      },
+      "current": "(actual)"
     },
     "studio": {
       "enableCamera": "Activar la cámara",
