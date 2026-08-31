@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.2.0.2] - 2026-08-31
+
+### Fixed
+
+- **Chaque canonical pointait vers une redirection.** Le domaine apex
+  `agental.co` répond 308 vers `www.agental.co`, mais l'origine par défaut de
+  `src/lib/seo.ts` était l'apex : les 57 URLs du sitemap, les `canonical`, les
+  `hreflang` et les URLs Open Graph déclaraient tous une adresse que le site ne
+  sert pas. Une page qui se déclare canonique là où elle redirige se contredit.
+  L'origine par défaut devient `https://www.agental.co`, réglable comme avant
+  par `NEXT_PUBLIC_SITE_URL`.
+
 ## [0.2.0.1] - 2026-08-31
 
 ### Fixed

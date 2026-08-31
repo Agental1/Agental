@@ -7,12 +7,17 @@ import { routing } from "@/i18n/routing";
  * inlined in three files as `agental.fr`, which is a parked domain the project
  * does not own — every canonical and hreflang pointed at a third party.
  *
+ * The `www` host is not cosmetic: the apex answers 308 to www, so declaring
+ * `https://agental.co/...` canonical would point every canonical, hreflang and
+ * sitemap entry at a URL that immediately redirects — a page declaring itself
+ * canonical at an address it does not serve.
+ *
  * Override per environment (Vercel previews must not claim production
  * canonicals) via NEXT_PUBLIC_SITE_URL. Trailing slashes are stripped so
  * `${SITE}${path}` never doubles up.
  */
 export const SITE = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://agental.co"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.agental.co"
 ).replace(/\/+$/, "");
 
 /**
