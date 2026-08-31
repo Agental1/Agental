@@ -86,30 +86,58 @@ brief en cours, mais il est journalisé à chaque fois. Le modèle passe à
 
 **Corrigé :** v0.3.2.0 (2026-08-31).
 
-### B16 — `ExternalTalent` n'a pas de colonne de tenant
+### B16 — `ExternalTalent` n'a pas de colonne de tenant — VÉRIFIÉ le 2026-08-31
 
-`src/app/actions/brief.ts:102` fait `prisma.externalTalent.findMany()` sans
-filtre. Chaque organisation de casting voit donc **toute** personne hors-roster
-de la base, avec un score IA et une justification écrite. Ce n'est pas un `where`
-manquant : le modèle n'a pas de `organizationId` (`prisma/schema.prisma:303-311`).
-Migration de schéma plus reprise de données.
+Le constat structurel tient. `prisma/schema.prisma` : le modèle a `id`, `name`,
+`agency`, `data`, `createdAt` et rien d'autre — **aucune colonne
+d'organisation**. `src/app/actions/brief.ts:105` fait
+`prisma.externalTalent.findMany()` **sans le moindre filtre**. Les lignes
+retenues deviennent des `Candidature` sur le projet du demandeur, et
+`projets/[id]/page.tsx:84-88` en rend le `name` et le `data`.
 
-**Déclencheur :** avant d'ouvrir un second marché, ou toute revue RGPD.
+**Mais l'impact décrit ne peut pas se produire aujourd'hui.** Aucun chemin de
+code ne crée d'`ExternalTalent` : le seul point de création du dépôt est
+`prisma/seed.ts:81`, et la base de production en contient une ligne. Il n'y a
+pas encore de fonctionnalité de sourcing. Le défaut est donc réel et dormant,
+pas actif — il devient une fuite le jour où l'ingestion existe, pas avant.
 
-### E-C4 — Le français est persisté en base, hors d'atteinte de l'i18n
+**Trouvé en vérifiant, absent du constat d'origine :** `data` porte, de l'aveu
+du schéma, « minimal PII / features » — des données personnelles de personnes
+qui ne se sont jamais inscrites. C'est une question RGPD distincte de la
+question de tenant, et elle se pose dès la première ligne ingérée, même sans
+problème de cloisonnement.
 
-`src/app/actions/brief.ts:164` écrit `MatchScore.justification`, une chaîne
-générée en français par `src/lib/ai/scorer.ts:110` ou par le prompt système de
-`llm-scorer.ts:37-45`, qui exige explicitement du français. Rendue brute dans
-`shortlist-board.tsx:192`. Même schéma côté Talents avec les `tips` de
-`quality-scorer.ts:35-39`.
+**Déclencheur :** avant d'écrire la moindre ligne de sourcing hors-roster. La
+colonne et le filtre coûtent quelques minutes maintenant, une migration avec
+reprise de données plus tard.
 
-**Aucune extraction ne peut l'atteindre** : le correctif est de faire renvoyer au
-contrat `Scorer` une justification **structurée** (`{ reasons: ReasonKey[] }`)
-rendue côté client, plus une stratégie de reprise des lignes existantes.
+### E-C4 — Le français hors d'atteinte de l'i18n — VÉRIFIÉ, et c'est deux problèmes
 
-**Déclencheur :** dès qu'un directeur de casting non francophone ouvre une
-shortlist.
+Le constat tient, mais il mélangeait deux choses dont le coût n'a rien à voir.
+
+**1. Les justifications de matching — persistées.** `src/lib/ai/scorer.ts:111`
+assemble `Classé ici : …` à partir de fragments français codés en dur
+(`:65` « accent … natif », `:77` « âge dans la fourchette », `:91`
+« disponibilité confirmée », « droits image OK »), et le prompt système de
+`llm-scorer.ts` exige explicitement du français. `brief.ts:215` écrit ça dans
+`MatchScore.justification`, et `shortlist-board.tsx:192` le rend tel quel. Un
+directeur de casting anglophone lit du français dans sa shortlist.
+
+**Mais la reprise de données est bien plus petite qu'annoncé.** `brief.ts:220`
+est un `upsert` dont la branche `update` **réécrit** `justification` : relancer
+un matching régénère le texte. Seules restent figées les lignes de projets que
+personne ne relance. Le vrai travail est le changement de contrat — faire
+renvoyer au `Scorer` des clés structurées (`{ reasons: ReasonKey[] }`) rendues
+côté client — pas une migration.
+
+**2. Les conseils de self-tape — non persistés.** `quality-scorer.ts:35-39`
+produit cinq chaînes françaises, rendues en `self-tape-studio.tsx:308`. Le
+schéma n'a aucun champ `tips` : `selftape.ts:67-68` ne stocke que `qualityScore`
+et `qualityBreakdown`, des nombres. Les conseils sont recalculés à chaque appel,
+donc **une simple extraction suffit**, sans contrat ni reprise.
+
+**Déclencheur :** le point 2 dès la prochaine passe i18n, il est bon marché. Le
+point 1 dès qu'un directeur de casting non francophone ouvre une shortlist.
 
 ### `onboarding.ts:146` — la commission réduite n'est jamais appliquée
 
