@@ -1,6 +1,7 @@
 "use server";
 
 import { err, type ActionError } from "@/domain/action-result";
+import { reconcileShortlist } from "@/domain/shortlist";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { revalidatePath } from "next/cache";
@@ -158,10 +159,8 @@ export async function runShortlist(projectId: string): Promise<void> {
   // adding one would need a migration this change deliberately avoids, so the
   // reconciliation is done in code.
   //
-  // NEW and SHORTLISTED are the states the matcher itself sets, so a re-run may
-  // replace them. Every other state means a human acted, and survives.
-  const MACHINE_OWNED = ["NEW", "SHORTLISTED"];
-
+  // The rule itself lives in domain/shortlist.ts so it can be unit-tested
+  // without a database; see tests/domain/shortlist.test.ts.
   const existing = await prisma.candidature.findMany({
     where: { projectId },
     select: {
@@ -171,21 +170,12 @@ export async function runShortlist(projectId: string): Promise<void> {
       status: true,
     },
   });
-  const talentIdOf = (c: { artistProfileId: string | null; externalTalentId: string | null }) =>
-    c.artistProfileId ?? c.externalTalentId;
 
-  const priorByTalent = new Map(
-    existing.flatMap((c) => {
-      const key = talentIdOf(c);
-      return key ? ([[key, c]] as const) : [];
-    })
+  const { stale, keep: priorByTalent } = reconcileShortlist(
+    existing,
+    scored.map((r) => r.talentId)
   );
-  const keptTalentIds = new Set(scored.map((r) => r.talentId));
 
-  const stale = existing.filter((c) => {
-    const key = talentIdOf(c);
-    return key !== null && !keptTalentIds.has(key) && MACHINE_OWNED.includes(c.status);
-  });
   if (stale.length > 0) {
     // MatchScore cascades on delete (schema.prisma:300).
     await prisma.candidature.deleteMany({
