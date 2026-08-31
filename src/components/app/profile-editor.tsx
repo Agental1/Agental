@@ -70,7 +70,16 @@ export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
           <PhysicalTab data={data} setData={setData} />
         </TabsContent>
         <TabsContent value="medias">
-          <MediaManager media={data.media} />
+          {/*
+            `initial`, not `data`: media is not part of the draft this editor
+            holds. `data` comes from useState(initial), which reads its argument
+            only on the first mount, so every later server render — the one
+            router.refresh() fetches after an upload or a delete — was thrown
+            away and the gallery kept showing its first snapshot. The form
+            fields below genuinely are a draft and stay on `data`; media is
+            server-owned and mutated by its own actions.
+          */}
+          <MediaManager media={initial.media} />
         </TabsContent>
         <TabsContent value="specialites">
           <SpecialtiesTab data={data} setData={setData} />

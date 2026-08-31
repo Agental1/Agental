@@ -3,6 +3,23 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.3.1.1] - 2026-08-31
+
+### Fixed
+
+- **La galerie de médias ne se mettait pas à jour après un ajout ou une
+  suppression.** Le talent téléversait sa photo, ne la voyait pas apparaître, et
+  recommençait. `ProfileEditor` faisait `useState(initial)` puis passait
+  `data.media` à la galerie : `useState` ne lit son argument qu'au premier
+  montage, donc chaque rendu serveur suivant — celui que `router.refresh()` va
+  chercher après l'action — était jeté, et la galerie restait sur son premier
+  instantané. Elle lit désormais `initial.media` directement. Les champs du
+  formulaire, eux, sont bien un brouillon et restent sur `data`.
+
+  Ni `revalidatePath` ni `router.refresh()` n'étaient en cause : vérifié en
+  comparant une charge RSC fraîche du serveur, qui contenait déjà le nouveau
+  média, au DOM, qui ne l'avait pas.
+
 ## [0.3.1.0] - 2026-08-31
 
 ### Added
