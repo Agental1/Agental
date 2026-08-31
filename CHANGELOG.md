@@ -3,6 +3,19 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.2.0.1] - 2026-08-31
+
+### Fixed
+
+- **Le déploiement échouait avant même de compiler.** `prisma.config.ts`
+  résolvait `DATABASE_URL` avec le helper `env()` de `prisma/config`, qui lève
+  une exception au chargement de la configuration quand la variable est absente.
+  Comme `postinstall` lance `prisma generate`, `bun install` sortait en 1 sur
+  tout hôte de build — là où aucun `.env` n'existe — et le build ne démarrait
+  jamais. `prisma generate` n'a pourtant besoin d'aucune base : seuls `migrate`
+  et `db push` en ont besoin, et ils tournent là où la variable est définie. La
+  configuration retombe désormais sur le même défaut que `src/lib/db.ts`.
+
 ## [0.2.0.0] - 2026-08-31
 
 Le site devient réellement trilingue, du premier écran au tableau de bord, et
