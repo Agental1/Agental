@@ -8,13 +8,41 @@ une intention différée est une intention perdue.
 
 ## Bloquant avant tout lancement réel
 
+### AUTH_SECRET et DATABASE_URL absents de Vercel — connexion morte en production
+
+Mesuré sur le déploiement du 2026-08-31, une fois le build réparé :
+
+```
+$ curl -s https://www.agental.co/api/auth/session
+{"message":"There was a problem with the server configuration. …"}   # 500
+```
+
+C'est `MissingSecret` : `src/auth.ts:13` passe `process.env.AUTH_SECRET` tel
+quel à Auth.js, qui refuse de démarrer sans lui en production. **Personne ne
+peut se connecter ni s'inscrire.** Les pages statiques, elles, sont servies
+normalement — un build vert ne prouve donc rien sur l'exécution.
+
+`DATABASE_URL` est indissociable : `src/lib/db.ts:13` retombe sur
+`file:./dev.db`, un fichier gitignoré qui n'existe pas dans le déploiement, sur
+un système de fichiers en lecture seule. Aucune étape de déploiement ne lance
+`prisma migrate deploy` non plus, donc même une base fournie serait vide. Rien
+n'est vérifiable tant que `AUTH_SECRET` bloque : toutes les routes qui lisent la
+base sont derrière l'authentification.
+
+**Action :** définir `AUTH_SECRET` (`openssl rand -base64 32`) et un
+`DATABASE_URL` pointant sur une base hébergée dans les variables du projet
+Vercel, puis appliquer les migrations. Voir l'entrée d'infrastructure ci-dessous
+pour le choix de base.
+
+**Déclencheur :** immédiat — la production est en ligne et non fonctionnelle.
+
 ### Infrastructure — le stockage média ne survit pas à Vercel
 
 `prisma/schema.prisma` déclare `provider = "sqlite"` avec un `dev.db` commité, et
 `src/lib/storage/local.ts:5` écrit dans `<cwd>/.uploads`. Le système de fichiers
 Vercel est éphémère hors `/tmp` : **les self-tapes disparaîtraient à chaque
-redéploiement**. `agental.co` pointe déjà sur un projet Vercel (404
-`DEPLOYMENT_NOT_FOUND` au 2026-08-30), donc la cible est connue.
+redéploiement**. Le site est déployé depuis le 2026-08-31 sur
+`www.agental.co`, donc la cible n'est plus hypothétique.
 
 Les interfaces échangeables existent déjà et annoncent le swap en commentaire :
 `src/lib/storage/index.ts` (→ R2/S3) et `src/lib/db.ts` (→ Postgres/Turso).
