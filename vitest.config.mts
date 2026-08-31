@@ -3,11 +3,15 @@ import { defineConfig } from "vitest/config";
 /**
  * Unit tests for the logic the type checker cannot vouch for.
  *
- * Scope is deliberate: pure domain, lib and data functions, plus the access
- * rule of the media route with Prisma stubbed. React components and pages are
- * covered by the browser-level guards instead (`bun run a11y:check`, `bun run
- * i18n:check`), which catch what unit tests structurally cannot — rendered
- * sizes, contrast, and language leaks.
+ * Scope is deliberate: pure domain, lib and data functions, plus the media
+ * access rule — and that one runs against the REAL database, not a stub. The
+ * risk there is the shape of the membership query, so a mocked Prisma would
+ * only assert the mock; tests/api/media-access.test.ts builds two
+ * organisations and checks the wrong one is refused, cleaning up in afterAll.
+ *
+ * React components and pages are covered by the browser-level guards instead
+ * (`bun run a11y:check`, `bun run i18n:check`), which catch what unit tests
+ * structurally cannot — rendered sizes, contrast, and language leaks.
  *
  * `.mts` rather than `.ts`: the config is ESM, and as `.ts` it is loaded as
  * CommonJS and warns on every run.
