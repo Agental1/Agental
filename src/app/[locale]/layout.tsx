@@ -58,8 +58,13 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale: rawLocale } = await params;
-  const locale = toLocale(rawLocale);
-  if (!hasLocale(routing.locales, locale)) notFound();
+  // hasLocale narrows on the RAW segment. Coercing with toLocale() first made
+  // this guard dead code — an unknown segment became the default locale, so the
+  // condition was never true and notFound() could not fire. The proxy happens
+  // to redirect unknown prefixes today, but that is a second line of defence,
+  // and this one has to actually defend.
+  if (!hasLocale(routing.locales, rawLocale)) notFound();
+  const locale = rawLocale;
   setRequestLocale(locale);
 
   return (

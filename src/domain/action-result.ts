@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type appMessages from "../../messages/fr/app.json";
+import appMessages from "../../messages/fr/app.json";
 
 /**
  * Valid error keys, derived from the French message file rather than typed as
@@ -41,21 +41,29 @@ export function err(
  * the first issue's message is already a key. Rules with no custom message fall
  * through to the global map below, which yields `errors.invalidInput`.
  */
+const KNOWN_ERROR_KEYS: ReadonlySet<string> = new Set(
+  Object.keys(appMessages.errors).map((k) => `errors.${k}`)
+);
+
 export function zodError(error: z.ZodError): ActionError {
   const first = error.issues[0]?.message;
+  // Membership check, not just a `startsWith` prefix test. Schema messages are
+  // plain strings, so the compiler cannot vet them: a typo like
+  // "errors.stagNameRequired" would pass a prefix test, get cast to ErrorKey,
+  // and then miss at translation time — degrading to the last path segment in
+  // front of a user. Checking the real key set turns that into the intended
+  // generic message instead.
   return err(
-    first && first.startsWith("errors.")
+    first && KNOWN_ERROR_KEYS.has(first)
       ? (first as ErrorKey)
       : "errors.invalidInput"
   );
 }
 
-/**
- * Global fallback for built-in Zod messages.
- *
- * Without this, a rule like `.int().min(40).max(260)` produces Zod's own
- * English string ("Too small: expected number to be >=40"), which has no key
- * and would be shown verbatim to a French or Spanish user. Key-ifying only the
- * custom messages would have left that hole open by construction.
- */
-z.config({ customError: () => "errors.invalidInput" });
+// A global z.config({ customError }) used to live here. It was removed on
+// review: redundant, because zodError() already maps any non-key message to
+// errors.invalidInput, and harmful, because it replaced Zod's diagnostic text
+// for EVERY schema in the app — including domain/json.ts, which parses
+// DB-stored JSON — with a string that says nothing to whoever reads the log.
+// It also only applied once this module happened to be imported, so the
+// messages depended on the module graph.

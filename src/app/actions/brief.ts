@@ -148,29 +148,92 @@ export async function runShortlist(projectId: string): Promise<void> {
     .sort((a, b) => b.score - a.score)
     .slice(0, 12);
 
-  // Replace previous candidatures for this project.
-  await prisma.candidature.deleteMany({ where: { projectId } });
+  // Re-running the matching used to `deleteMany` every candidature of the
+  // project and recreate them from scratch, which silently destroyed the
+  // casting director's work: shortlist statuses, the timeline and appliedAt all
+  // went with it. A director who re-ran a brief lost every decision they had
+  // made on it, with no warning and nothing to undo.
+  //
+  // There is no unique index on (projectId, talent) to upsert against, and
+  // adding one would need a migration this change deliberately avoids, so the
+  // reconciliation is done in code.
+  //
+  // NEW and SHORTLISTED are the states the matcher itself sets, so a re-run may
+  // replace them. Every other state means a human acted, and survives.
+  const MACHINE_OWNED = ["NEW", "SHORTLISTED"];
+
+  const existing = await prisma.candidature.findMany({
+    where: { projectId },
+    select: {
+      id: true,
+      artistProfileId: true,
+      externalTalentId: true,
+      status: true,
+    },
+  });
+  const talentIdOf = (c: { artistProfileId: string | null; externalTalentId: string | null }) =>
+    c.artistProfileId ?? c.externalTalentId;
+
+  const priorByTalent = new Map(
+    existing.flatMap((c) => {
+      const key = talentIdOf(c);
+      return key ? ([[key, c]] as const) : [];
+    })
+  );
+  const keptTalentIds = new Set(scored.map((r) => r.talentId));
+
+  const stale = existing.filter((c) => {
+    const key = talentIdOf(c);
+    return key !== null && !keptTalentIds.has(key) && MACHINE_OWNED.includes(c.status);
+  });
+  if (stale.length > 0) {
+    // MatchScore cascades on delete (schema.prisma:300).
+    await prisma.candidature.deleteMany({
+      where: { id: { in: stale.map((c) => c.id) } },
+    });
+  }
+
   for (const r of scored) {
     const isAgental = r.source === "AGENTAL";
     const feat = features.find((f) => f.talentId === r.talentId)!;
-    const cand = await prisma.candidature.create({
-      data: {
-        projectId,
-        artistProfileId: isAgental ? r.talentId : null,
-        externalTalentId: isAgental ? null : r.talentId,
-        source: r.source,
-        status: "SHORTLISTED",
-        estimatedRateCents: feat.minRateEuros ? feat.minRateEuros * 100 : null,
-      },
-    });
-    await prisma.matchScore.create({
-      data: {
+    const estimatedRateCents = feat.minRateEuros ? feat.minRateEuros * 100 : null;
+    const prior = priorByTalent.get(r.talentId);
+
+    // status, timeline and appliedAt are deliberately NOT written on an
+    // existing row: they are the director's, not the matcher's.
+    const cand = prior
+      ? await prisma.candidature.update({
+          where: { id: prior.id },
+          data: { estimatedRateCents },
+        })
+      : await prisma.candidature.create({
+          data: {
+            projectId,
+            artistProfileId: isAgental ? r.talentId : null,
+            externalTalentId: isAgental ? null : r.talentId,
+            source: r.source,
+            status: "SHORTLISTED",
+            estimatedRateCents,
+          },
+        });
+
+    await prisma.matchScore.upsert({
+      where: { candidatureId: cand.id },
+      create: {
         candidatureId: cand.id,
         score: r.score,
         justification: r.justification,
         factors: toJson(r.factors),
         diversityFlags: toJson(r.diversityFlags),
         scorerVersion: scorer.version,
+      },
+      update: {
+        score: r.score,
+        justification: r.justification,
+        factors: toJson(r.factors),
+        diversityFlags: toJson(r.diversityFlags),
+        scorerVersion: scorer.version,
+        computedAt: new Date(),
       },
     });
   }

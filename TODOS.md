@@ -106,11 +106,17 @@ un talent inscrit n'est jamais recontacté par quoi que ce soit.
 
 **Déclencheur :** quand vous décidez si l'auto-candidature est un vrai produit.
 
-### `brief.ts:150` — relancer un matching détruit le travail
+### ~~`brief.ts:150` — relancer un matching détruit le travail~~ CORRIGÉ
 
-`candidature.deleteMany({ where: { projectId } })` avant recréation efface
-statuts de shortlist, notes et historique. **Corrigé au lot #2** (remplacé par un
-upsert par talent) — entrée conservée pour mémoire.
+Le `deleteMany` avant recréation effaçait statuts de shortlist, timeline et
+`appliedAt`. Corrigé lors de la revue `/review` du 2026-08-31, pas au lot #2
+comme cette entrée l'affirmait à tort : la revue a constaté que le correctif
+n'avait jamais été écrit.
+
+La reconciliation se fait en code, faute d'index unique sur (projectId, talent)
+et parce qu'ajouter une migration était hors périmètre. Les statuts NEW et
+SHORTLISTED appartiennent au matcher et peuvent être remplacés ; tout autre
+statut signifie qu'un humain a décidé, et survit à une relance.
 
 ---
 
