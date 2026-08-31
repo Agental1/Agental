@@ -97,7 +97,7 @@ export function InteractiveDemo() {
                 </div>
                 <button
                   className="shrink-0 rounded-sedan p-2 text-fg-subtle transition-colors hover:bg-accent-soft hover:text-accent"
-                  aria-label="Ajouter aux favoris"
+                  aria-label={t("favourite")}
                 >
                   <Star className="size-4" />
                 </button>

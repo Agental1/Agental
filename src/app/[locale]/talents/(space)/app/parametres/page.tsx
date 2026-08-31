@@ -1,5 +1,7 @@
+import { date } from "@/lib/format";
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShieldCheck, CreditCard, UserCog, LogOut } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -17,8 +19,10 @@ export default async function ParametresPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -35,33 +39,30 @@ export default async function ParametresPage({
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Paramètres</h1>
-        <p className="text-fg-muted">Ton compte, ton mandat, ton abonnement.</p>
+        <h1 className="font-display text-3xl font-medium">{t("space.settings.title")}</h1>
+        <p className="text-fg-muted">{t("space.settings.subtitle")}</p>
       </div>
 
       <Section icon={UserCog} title="Compte">
         <Row label="Email" value={session.user.email ?? "—"} />
         <Row label="Nom artistique" value={profile?.stageName ?? "—"} />
         <Button asChild variant="outline" size="sm">
-          <Link href="/talents/app/profil">Modifier mon profil</Link>
+          <Link href="/talents/app/profil">{t("space.settings.editProfile")}</Link>
         </Button>
       </Section>
 
-      <Section icon={ShieldCheck} title="Mandat de représentation">
+      <Section icon={ShieldCheck} title={t("space.settings.mandat")}>
         <div className="flex items-center gap-2">
           <Badge variant="success">
             {profile?.mandat?.status === "ACTIVE" ? "Actif" : "Inactif"}
           </Badge>
           {profile?.mandat?.signedAt && (
             <span className="text-sm text-fg-muted">
-              Signé le {profile.mandat.signedAt.toLocaleDateString("fr-FR")}
+              Signé le {date(profile.mandat.signedAt, locale)}
             </span>
           )}
         </div>
-        <p className="text-sm text-fg-muted">
-          Gratuit, résiliable à tout moment. C&apos;est lui qui te fait
-          représenter — indépendamment de tout abonnement.
-        </p>
+        <p className="text-sm text-fg-muted">{t("space.settings.mandatNote")}</p>
       </Section>
 
       <Section icon={CreditCard} title="Abonnement">
@@ -72,12 +73,9 @@ export default async function ParametresPage({
             {Math.round(planDef.commissionRate * 100)}%
           </span>
         </div>
-        <p className="text-sm text-fg-muted">
-          Service technologique optionnel. Il n&apos;achète jamais un accès aux
-          opportunités.
-        </p>
+        <p className="text-sm text-fg-muted">{t("space.settings.subNote")}</p>
         <Button variant="outline" size="sm" disabled>
-          Gérer l&apos;abonnement (bientôt)
+          {t("space.settings.manageSub")}
         </Button>
       </Section>
 

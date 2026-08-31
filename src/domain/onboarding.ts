@@ -4,7 +4,7 @@ import { SpecialtyKind, SpecialtyLevel } from "./enums";
 /* ── Talents onboarding (5 steps) ─────────────────────────────────────────── */
 
 export const IdentityStep = z.object({
-  stageName: z.string().min(2, "Ton nom artistique est requis."),
+  stageName: z.string().min(2, "errors.stageNameRequired"),
   legalName: z.string().optional(),
   phone: z.string().optional(),
   city: z.string().optional(),
@@ -30,7 +30,7 @@ export const SpecialtiesStep = z.object({
         level: SpecialtyLevel.default("BEGINNER"),
       })
     )
-    .min(1, "Choisis au moins une spécialité."),
+    .min(1, "errors.specialtyRequired"),
   mobilityCountries: z.array(z.string()).default(["FR"]),
   minRateEuros: z.coerce.number().min(0).optional(),
 });
@@ -38,17 +38,17 @@ export type SpecialtiesStep = z.infer<typeof SpecialtiesStep>;
 
 export const MandatStep = z.object({
   accept: z.literal(true, {
-    message: "Tu dois accepter le mandat pour être représenté.",
+    message: "errors.mandatRequired",
   }),
 });
 
 /* ── Casting onboarding (3 steps) ─────────────────────────────────────────── */
 
 export const CastingIdentityStep = z.object({
-  organizationName: z.string().min(2, "Le nom de votre structure est requis."),
+  organizationName: z.string().min(2, "errors.orgNameRequired"),
   siret: z
     .string()
-    .regex(/^\d{14}$/, "Le SIRET doit comporter 14 chiffres.")
+    .regex(/^\d{14}$/, "errors.siretFormat")
     .optional()
     .or(z.literal("")),
   contactName: z.string().optional(),
@@ -58,7 +58,7 @@ export type CastingIdentityStep = z.infer<typeof CastingIdentityStep>;
 export const CastingScopeStep = z.object({
   projectTypes: z
     .array(z.string())
-    .min(1, "Sélectionnez au moins un type de projet."),
+    .min(1, "errors.projectTypeRequired"),
   zones: z.array(z.string()).default([]),
 });
 export type CastingScopeStep = z.infer<typeof CastingScopeStep>;

@@ -1,6 +1,7 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
@@ -10,7 +11,15 @@ import { CastingOnboardingWizard } from "@/components/onboarding/casting-onboard
 import { parseJson } from "@/domain/json";
 import { z } from "zod";
 
-export const metadata: Metadata = { title: "Tester gratuitement" };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const tm = await getTranslations({ locale: toLocale(rawLocale), namespace: "casting" });
+  return { title: tm("signup.metaTitle") };
+}
 
 const ScopeShape = z.object({
   projectTypes: z.array(z.string()).default([]),
@@ -22,8 +31,10 @@ export default async function CastingSignupPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
   const session = await auth();
 
   if (!session?.user?.id || session.user.kind !== "CASTING") {
@@ -31,22 +42,20 @@ export default async function CastingSignupPage({
       <div className="mx-auto max-w-sm px-4 py-16">
         <div className="mb-6 space-y-1 text-center">
           <h1 className="font-display text-2xl font-medium">
-            Créez votre compte casting
+            {t("signup.title")}
           </h1>
-          <p className="text-sm text-fg-muted">
-            Gratuit, sans carte bancaire. Un projet actif offert.
-          </p>
+          <p className="text-sm text-fg-muted">{t("signup.subtitle")}</p>
         </div>
         <AuthForm
           action={signupAction}
-          submitLabel="Créer mon compte"
+          submitLabel={t("signup.submit")}
           kind="CASTING"
           locale={locale}
         />
         <p className="mt-6 text-center text-sm text-fg-muted">
-          Déjà inscrit ?{" "}
-          <Link href="/connexion" className="text-accent hover:underline">
-            Se connecter
+          {t("signup.already")}{" "}
+          <Link href="/connexion" className="inline-flex min-h-11 items-center md:min-h-0 text-accent hover:underline">
+            {t("signup.signIn")}
           </Link>
         </p>
       </div>
@@ -60,7 +69,7 @@ export default async function CastingSignupPage({
 
   // Already onboarded (org exists + email verified) → app.
   if (membership && session.user && (await isVerified(session.user.id))) {
-    redirect("/casting/app");
+    return redirect({ href: "/casting/app", locale });
   }
 
   const scope = membership

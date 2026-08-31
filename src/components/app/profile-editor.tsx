@@ -1,5 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { SpecialtyKind } from "@/domain/enums";
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import { Check, Loader2, Sparkles } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -15,16 +19,10 @@ import {
   savePreferences,
 } from "@/app/actions/profile";
 
-const SPECIALTIES = [
-  { kind: "figuration", label: "Figuration" },
-  { kind: "silhouette", label: "Silhouette" },
-  { kind: "seconds-roles", label: "Seconds rôles" },
-  { kind: "publicite", label: "Publicité" },
-  { kind: "photo", label: "Photo" },
-  { kind: "voix", label: "Voix & doublage" },
-  { kind: "enfants", label: "Enfants & ados" },
-  { kind: "createurs", label: "Créateurs" },
-];
+// Same source as the onboarding wizard: the Zod enum the database stores.
+// These two lists used to be duplicated verbatim, so a label edit in one drifted
+// silently from the other.
+const SPECIALTY_KINDS = SpecialtyKind.options;
 
 export interface ProfileEditorData {
   stageName: string;
@@ -86,13 +84,12 @@ export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
 }
 
 function Completeness({ value }: { value: number }) {
+  const t = useTranslations("talents");
   return (
     <div className="rounded-sedan border border-border bg-surface p-4">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-2 text-sm font-medium">
-          <Sparkles className="size-4 text-accent" />
-          Complétude du profil
-        </span>
+          <Sparkles className="size-4 text-accent" />{t("space.profileEditor.completeness")}</span>
         <span className="font-display text-lg">{value}%</span>
       </div>
       <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
@@ -102,10 +99,7 @@ function Completeness({ value }: { value: number }) {
         />
       </div>
       {value < 100 && (
-        <p className="mt-2 text-xs text-fg-muted">
-          Ton profil gagnerait à être complété — plus il est riche, plus l&apos;IA
-          le fait performer.
-        </p>
+        <p className="mt-2 text-xs text-fg-muted">{t("space.profileEditor.completenessHint")}</p>
       )}
     </div>
   );
@@ -116,16 +110,16 @@ type TabProps = {
   setData: React.Dispatch<React.SetStateAction<ProfileEditorData>>;
 };
 
-function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: string; completeness?: number }>) {
+function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionError; completeness?: number }>) {
   const [pending, start] = useTransition();
   const [saved, setSaved] = useState(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
   function save(input: unknown, onDone?: (c?: number) => void) {
     setError(undefined);
     setSaved(false);
     start(async () => {
       const res = await fn(input);
-      if (!res.ok) return setError(res.error ?? "Erreur.");
+      if (!res.ok) return setError(res.error ?? err("errors.generic"));
       setSaved(true);
       onDone?.(res.completeness);
       setTimeout(() => setSaved(false), 2000);
@@ -142,9 +136,10 @@ function SaveBar({
 }: {
   pending: boolean;
   saved: boolean;
-  error?: string;
+  error?: ActionError;
   onSave: () => void;
 }) {
+  const errorText = useActionErrorText();
   return (
     <div className="flex items-center gap-3 pt-2">
       <Button onClick={onSave} disabled={pending}>
@@ -156,7 +151,7 @@ function SaveBar({
           <Check className="size-4" /> Enregistré
         </span>
       )}
-      {error && <span className="text-sm text-danger">{error}</span>}
+      {error && <span className="text-sm text-danger">{errorText(error)}</span>}
     </div>
   );
 }
@@ -171,6 +166,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function IdentityTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
@@ -178,7 +174,7 @@ function IdentityTab({ data, setData }: TabProps) {
         <Input value={data.stageName} onChange={(e) => setData({ ...data, stageName: e.target.value })} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Date de naissance">
+        <Field label={t("space.profileEditor.birthDate")}>
           <Input type="date" value={data.birthDate} onChange={(e) => setData({ ...data, birthDate: e.target.value })} />
         </Field>
         <Field label="Ville">
@@ -195,7 +191,7 @@ function IdentityTab({ data, setData }: TabProps) {
           rows={4}
           maxLength={600}
           className="w-full rounded-sedan border border-border bg-surface px-3 py-2 text-sm text-fg placeholder:text-fg-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
-          placeholder="Quelques lignes sur ton parcours, ce qui te rend unique…"
+          placeholder={t("space.profileEditor.bioPlaceholder")}
         />
       </Field>
       <SaveBar
@@ -252,22 +248,23 @@ function PhysicalTab({ data, setData }: TabProps) {
 }
 
 function SpecialtiesTab({ data, setData }: TabProps) {
+  const ta = useTranslations("app");
   const { save, pending, saved, error } = useSave(saveProfileSpecialties);
   return (
     <div className="max-w-xl space-y-4">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {SPECIALTIES.map((s) => {
-          const active = data.specialties.includes(s.kind);
+        {SPECIALTY_KINDS.map((kind) => {
+          const active = data.specialties.includes(kind);
           return (
             <button
-              key={s.kind}
+              key={kind}
               type="button"
               onClick={() =>
                 setData({
                   ...data,
                   specialties: active
-                    ? data.specialties.filter((k) => k !== s.kind)
-                    : [...data.specialties, s.kind],
+                    ? data.specialties.filter((k) => k !== kind)
+                    : [...data.specialties, kind],
                 })
               }
               className={cn(
@@ -275,7 +272,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
                 active ? "border-accent bg-accent-soft text-accent" : "border-border hover:border-accent"
               )}
             >
-              {s.label}
+              {ta(`specialties.${kind}`)}
             </button>
           );
         })}
@@ -303,18 +300,26 @@ function SpecialtiesTab({ data, setData }: TabProps) {
 }
 
 function PreferencesTab({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(savePreferences);
   const pr = data.preferences;
   const setPr = (patch: Partial<ProfileEditorData["preferences"]>) =>
     setData({ ...data, preferences: { ...pr, ...patch } });
   return (
     <div className="max-w-xl space-y-4">
-      <Toggle label="Auto-candidature par l'IA" hint="L'IA postule pour toi (Pro)" checked={pr.autoApply} onChange={(v) => setPr({ autoApply: v })} />
-      <Field label="Plafond de candidatures / jour">
-        <Input type="number" value={pr.dailyCap ?? ""} onChange={(e) => setPr({ dailyCap: e.target.value ? Number(e.target.value) : undefined })} />
-      </Field>
-      <Toggle label="J'accepte les rôles avec nudité" checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
-      <Toggle label="Je peux jouer avec des animaux" checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
+      {/* The "auto-application" toggle and the daily cap field were removed
+          here, not reworded. Both promised behaviour the product does not have:
+          dailyCandidatureLimit (src/domain/pricing.ts) has zero readers in all
+          of src/, Candidature rows are only ever created by the casting-side
+          shortlist flow (actions/brief.ts), and there is no talent-facing apply
+          screen at all. Removing the same claim from the pricing page while
+          leaving it as a live control inside the paid product would just move
+          the problem somewhere harder to see.
+
+          The `autoApply` and `dailyCap` fields stay in the data model, so
+          nothing is lost the day the feature actually ships. */}
+      <Toggle label={t("space.profileEditor.nudity")} checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
+      <Toggle label={t("space.profileEditor.animals")} checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
       <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(pr)} />
     </div>
   );

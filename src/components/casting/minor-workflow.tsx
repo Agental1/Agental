@@ -1,7 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { ShieldAlert, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ export function MinorWorkflow({
   candidatureId: string;
   minorCase: MinorCaseData | null;
 }) {
+  const t = useTranslations("casting");
   const router = useRouter();
   const [pending, start] = useTransition();
   const run = (fn: () => Promise<unknown>) =>
@@ -35,16 +37,12 @@ export function MinorWorkflow({
     <div className="rounded-sedan border border-warning/40 bg-warning/5 p-5">
       <div className="flex items-center gap-2">
         <ShieldAlert className="size-5 text-warning" />
-        <h2 className="font-display text-lg font-medium">
-          Protection du mineur
-        </h2>
+        <h2 className="font-display text-lg font-medium">{t("space.minors.title")}</h2>
         {minorCase?.state === "READY" && (
           <Badge variant="success">Prêt à convoquer</Badge>
         )}
       </div>
-      <p className="mt-1 text-sm text-fg-muted">
-        Dispositif légal français appliqué à la lettre avant toute convocation.
-      </p>
+      <p className="mt-1 text-sm text-fg-muted">{t("space.minors.subtitle")}</p>
 
       {!minorCase ? (
         <Button
@@ -59,19 +57,19 @@ export function MinorWorkflow({
         <ul className="mt-4 space-y-2">
           <StepRow
             done={minorCase.prefectoralAuthStatus === "GRANTED"}
-            label="Autorisation de la commission départementale"
+            label={t("space.minors.authLabel")}
             status={
               minorCase.prefectoralAuthStatus === "GRANTED"
-                ? "Accordée"
+                ? t("space.minors.authGranted")
                 : minorCase.prefectoralAuthStatus === "REQUESTED"
-                  ? "Demandée"
-                  : "À demander"
+                  ? t("space.minors.authRequested")
+                  : t("space.minors.authTodo")
             }
             action={
               minorCase.prefectoralAuthStatus === "NONE"
-                ? { label: "Demander", fn: () => advanceMinorCase(minorCase.id, "requestAuth") }
+                ? { label: t("space.minors.request"), fn: () => advanceMinorCase(minorCase.id, "requestAuth") }
                 : minorCase.prefectoralAuthStatus === "REQUESTED"
-                  ? { label: "Marquer accordée", fn: () => advanceMinorCase(minorCase.id, "grantAuth") }
+                  ? { label: t("space.minors.markGranted"), fn: () => advanceMinorCase(minorCase.id, "grantAuth") }
                   : undefined
             }
             pending={pending}
@@ -79,11 +77,11 @@ export function MinorWorkflow({
           />
           <StepRow
             done={minorCase.parentalPresence}
-            label="Présence parentale (casting & tournage)"
-            status={minorCase.parentalPresence ? "Confirmée" : "À confirmer"}
+            label={t("space.minors.parentalLabel")}
+            status={minorCase.parentalPresence ? t("space.minors.parentalOk") : t("space.minors.parentalTodo")}
             action={
               !minorCase.parentalPresence
-                ? { label: "Confirmer", fn: () => advanceMinorCase(minorCase.id, "confirmParental") }
+                ? { label: t("space.minors.confirm"), fn: () => advanceMinorCase(minorCase.id, "confirmParental") }
                 : undefined
             }
             pending={pending}
@@ -91,8 +89,8 @@ export function MinorWorkflow({
           />
           <StepRow
             done={minorCase.escrowStatus === "HELD"}
-            label={`Séquestre de ${minorCase.escrowPercent}% du cachet jusqu'à la majorité`}
-            status={minorCase.escrowStatus === "HELD" ? "Bloqué" : "À bloquer"}
+            label={t("space.minors.escrowLabel", { percent: minorCase.escrowPercent })}
+            status={minorCase.escrowStatus === "HELD" ? t("space.minors.escrowHeld") : t("space.minors.escrowTodo")}
             action={
               minorCase.escrowStatus !== "HELD"
                 ? { label: "Bloquer", fn: () => advanceMinorCase(minorCase.id, "holdEscrow") }

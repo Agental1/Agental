@@ -1,5 +1,6 @@
 "use server";
 
+import { err, type ActionError } from "@/domain/action-result";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -10,7 +11,7 @@ import { toJson } from "@/domain/json";
 
 export type SelfTapeResult = {
   ok: boolean;
-  error?: string;
+  error?: ActionError;
   score?: number;
   breakdown?: { framing: number; light: number; sound: number };
   tips?: string[];
@@ -21,22 +22,22 @@ export async function saveSelfTape(
 ): Promise<SelfTapeResult> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
-    return { ok: false, error: "Non autorisé." };
+    return { ok: false, error: err("errors.unauthorized") };
   }
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
   });
-  if (!profile) return { ok: false, error: "Profil introuvable." };
+  if (!profile) return { ok: false, error: err("errors.profileNotFound") };
 
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    return { ok: false, error: "Aucune vidéo enregistrée." };
+    return { ok: false, error: err("errors.noVideo") };
   }
   let metrics: QualityMetrics;
   try {
     metrics = JSON.parse(String(formData.get("metrics") ?? "{}"));
   } catch {
-    return { ok: false, error: "Métriques invalides." };
+    return { ok: false, error: err("errors.invalidMetrics") };
   }
   const lowBandwidth = formData.get("lowBandwidth") === "true";
 
@@ -81,13 +82,13 @@ export async function saveSelfTape(
 
 export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   const session = await auth();
-  if (!session?.user?.id) return { ok: false, error: "Non autorisé." };
+  if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
   });
   const media = await prisma.media.findUnique({ where: { id: mediaId } });
   if (!profile || !media || media.profileId !== profile.id) {
-    return { ok: false, error: "Introuvable." };
+    return { ok: false, error: err("errors.notFound") };
   }
   await (await getStorage()).delete(media.storageKey);
   await prisma.media.delete({ where: { id: mediaId } });

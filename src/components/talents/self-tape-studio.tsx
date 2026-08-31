@@ -1,7 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { useActionErrorText } from "@/components/app/action-error";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import {
   Video,
   Circle,
@@ -23,6 +25,8 @@ import type { QualityMetrics } from "@/lib/ai/quality-scorer";
 type Phase = "idle" | "ready" | "recording" | "processing" | "done" | "denied";
 
 export function SelfTapeStudio() {
+  const t = useTranslations("talents");
+  const errorText = useActionErrorText();
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -213,15 +217,13 @@ export function SelfTapeStudio() {
           {phase === "idle" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-creme">
               <Video className="size-8 opacity-70" />
-              <Button onClick={enableCamera}>Activer la caméra</Button>
+              <Button onClick={enableCamera}>{t("space.studio.enableCamera")}</Button>
             </div>
           )}
           {phase === "denied" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center text-creme">
               <AlertTriangle className="size-7 text-abricot" />
-              <p className="text-sm">
-                Caméra indisponible. Passe en mode dégradé et importe une vidéo.
-              </p>
+              <p className="text-sm">{t("space.studio.cameraUnavailable")}</p>
             </div>
           )}
           {phase === "recording" && (
@@ -256,8 +258,7 @@ export function SelfTapeStudio() {
 
           {phase === "ready" && (
             <Button className="w-full" onClick={startRecording}>
-              <Circle className="size-4 fill-current" /> Lancer la prise
-            </Button>
+              <Circle className="size-4 fill-current" />{t("space.studio.record")}</Button>
           )}
           {phase === "recording" && (
             <Button variant="danger" className="w-full" onClick={stopRecording}>
@@ -266,14 +267,12 @@ export function SelfTapeStudio() {
           )}
           {(phase === "processing" || pending) && (
             <div className="flex items-center gap-2 text-sm text-fg-muted">
-              <Loader2 className="size-4 animate-spin" /> Analyse de ta prise…
-            </div>
+              <Loader2 className="size-4 animate-spin" />{t("space.studio.analysing")}</div>
           )}
 
           {(phase === "denied" || phase === "done") && (
             <label className="flex cursor-pointer items-center justify-center gap-2 rounded-sedan border border-dashed border-border p-3 text-sm text-fg-muted hover:border-accent">
-              <Upload className="size-4" /> Importer une vidéo
-              <input
+              <Upload className="size-4" />{t("space.studio.import")}<input
                 type="file"
                 accept="video/*"
                 className="hidden"
@@ -298,7 +297,7 @@ export function SelfTapeStudio() {
               {result.score}
             </div>
             <div>
-              <p className="font-medium">Score qualité de ta prise</p>
+              <p className="font-medium">{t("space.studio.score")}</p>
               <p className="text-sm text-fg-muted">
                 Cadrage {result.breakdown?.framing} · Lumière{" "}
                 {result.breakdown?.light} · Son {result.breakdown?.sound}
@@ -326,7 +325,7 @@ export function SelfTapeStudio() {
         </div>
       )}
       {phase === "done" && result && !result.ok && (
-        <p className="text-sm text-danger">{result.error}</p>
+        <p className="text-sm text-danger">{errorText(result.error)}</p>
       )}
     </div>
   );

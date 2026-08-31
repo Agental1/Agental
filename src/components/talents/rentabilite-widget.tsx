@@ -1,10 +1,12 @@
+import { useTranslations } from "next-intl";
 import { TrendingDown, Info } from "lucide-react";
-import { B2C_PLANS, commissionPct } from "@/domain/pricing";
+import { useLocale } from "next-intl";
+import { B2C_PLANS } from "@/domain/pricing";
+import { euros, percent } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { PlanB2C } from "@/domain/enums";
 
-const euros = (cents: number) =>
-  Math.round(cents / 100).toLocaleString("fr-FR") + " €";
+
 
 /**
  * Honest subscription arbitrage: for a given annual cachet volume, total yearly
@@ -18,6 +20,10 @@ export function RentabiliteWidget({
   annualCachetCents: number;
   currentPlan: PlanB2C;
 }) {
+  const t = useTranslations("talents");
+  // useLocale() rather than a prop: this renders inside the Talents workspace,
+  // where every caller would otherwise have to thread the locale down by hand.
+  const locale = useLocale();
   const rows = (Object.keys(B2C_PLANS) as PlanB2C[]).map((plan) => {
     const def = B2C_PLANS[plan];
     const commission = Math.round(annualCachetCents * def.commissionRate);
@@ -32,13 +38,11 @@ export function RentabiliteWidget({
     <div className="rounded-sedan border border-border bg-surface p-5">
       <div className="flex items-center gap-2">
         <TrendingDown className="size-5 text-accent" />
-        <h2 className="font-display text-lg font-medium">
-          Rentabilité de l&apos;abonnement
-        </h2>
+        <h2 className="font-display text-lg font-medium">{t("space.profitability.title")}</h2>
       </div>
       <p className="mt-1 text-sm text-fg-muted">
         Sur un volume annuel estimé de{" "}
-        <span className="font-medium text-fg">{euros(annualCachetCents)}</span> de
+        <span className="font-medium text-fg">{euros(annualCachetCents, locale)}</span> de
         cachets, voici le coût total (commission + abonnement) par formule.
       </p>
 
@@ -68,12 +72,12 @@ export function RentabiliteWidget({
                   )}
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
-                  {euros(r.commission)} ({commissionPct(r.def.commissionRate)}%)
+                  {euros(r.commission, locale)} ({percent(r.def.commissionRate, locale)}%)
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
-                  {euros(r.sub)}
+                  {euros(r.sub, locale)}
                 </td>
-                <td className="px-3 py-2 text-right">{euros(r.total)}</td>
+                <td className="px-3 py-2 text-right">{euros(r.total, locale)}</td>
               </tr>
             ))}
           </tbody>
@@ -84,15 +88,14 @@ export function RentabiliteWidget({
         <Info className="mt-0.5 size-4 shrink-0 text-accent" />
         {saving > 0 ? (
           <span>
-            À ton volume, la formule{" "}
-            <span className="font-medium">{best.def.plan}</span> te ferait
-            économiser <span className="font-medium text-success">{euros(saving)}</span>{" "}
-            par an.
+            {t("space.profitability.save", {
+              plan: best.def.plan,
+              amount: euros(saving, locale),
+            })}
           </span>
         ) : (
           <span className="text-fg-muted">
-            À ton volume actuel, ta formule <span className="font-medium">{currentPlan}</span>{" "}
-            est déjà la plus avantageuse — inutile de payer plus.
+            {t("space.profitability.best", { plan: currentPlan })}
           </span>
         )}
       </p>

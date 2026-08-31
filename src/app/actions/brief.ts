@@ -1,6 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { err, type ActionError } from "@/domain/action-result";
+import { reconcileShortlist } from "@/domain/shortlist";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -16,7 +19,7 @@ import { incrementUsage } from "@/lib/quotas";
 import { parseJson, toJson, PhysicalTraits } from "@/domain/json";
 import { z } from "zod";
 
-export type BriefActionResult = { ok: boolean; error?: string; upgrade?: boolean };
+export type BriefActionResult = { ok: boolean; error?: ActionError; upgrade?: boolean };
 
 async function ownerOrg() {
   const session = await auth();
@@ -33,7 +36,7 @@ async function ownerOrg() {
 /** Create a project from brief answers, then run the scorer to build the shortlist. */
 export async function createBrief(answers: BriefAnswers): Promise<BriefActionResult> {
   const ctx = await ownerOrg();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
 
   // Quota (B2B active projects).
   const limit = b2bLimit(ctx.org.plan as never, "activeProjects");
@@ -48,7 +51,7 @@ export async function createBrief(answers: BriefAnswers): Promise<BriefActionRes
       return {
         ok: false,
         upgrade: true,
-        error: `Ton plan ${ctx.org.plan} permet ${limit} projet(s) actif(s). Passe au plan supérieur pour en ouvrir plus.`,
+        error: err("errors.quotaExceeded", { plan: ctx.org.plan, limit: limit ?? 0 }),
       };
     }
   }
@@ -74,7 +77,7 @@ export async function createBrief(answers: BriefAnswers): Promise<BriefActionRes
   });
 
   await runShortlist(project.id);
-  redirect(`/casting/app/projets/${project.id}`);
+  return redirect({ href: `/casting/app/projets/${project.id}`, locale: await getLocale() });
 }
 
 /** Score roster + external talents against the role and persist candidatures. */
@@ -146,29 +149,81 @@ export async function runShortlist(projectId: string): Promise<void> {
     .sort((a, b) => b.score - a.score)
     .slice(0, 12);
 
-  // Replace previous candidatures for this project.
-  await prisma.candidature.deleteMany({ where: { projectId } });
+  // Re-running the matching used to `deleteMany` every candidature of the
+  // project and recreate them from scratch, which silently destroyed the
+  // casting director's work: shortlist statuses, the timeline and appliedAt all
+  // went with it. A director who re-ran a brief lost every decision they had
+  // made on it, with no warning and nothing to undo.
+  //
+  // There is no unique index on (projectId, talent) to upsert against, and
+  // adding one would need a migration this change deliberately avoids, so the
+  // reconciliation is done in code.
+  //
+  // The rule itself lives in domain/shortlist.ts so it can be unit-tested
+  // without a database; see tests/domain/shortlist.test.ts.
+  const existing = await prisma.candidature.findMany({
+    where: { projectId },
+    select: {
+      id: true,
+      artistProfileId: true,
+      externalTalentId: true,
+      status: true,
+    },
+  });
+
+  const { stale, keep: priorByTalent } = reconcileShortlist(
+    existing,
+    scored.map((r) => r.talentId)
+  );
+
+  if (stale.length > 0) {
+    // MatchScore cascades on delete (schema.prisma:300).
+    await prisma.candidature.deleteMany({
+      where: { id: { in: stale.map((c) => c.id) } },
+    });
+  }
+
   for (const r of scored) {
     const isAgental = r.source === "AGENTAL";
     const feat = features.find((f) => f.talentId === r.talentId)!;
-    const cand = await prisma.candidature.create({
-      data: {
-        projectId,
-        artistProfileId: isAgental ? r.talentId : null,
-        externalTalentId: isAgental ? null : r.talentId,
-        source: r.source,
-        status: "SHORTLISTED",
-        estimatedRateCents: feat.minRateEuros ? feat.minRateEuros * 100 : null,
-      },
-    });
-    await prisma.matchScore.create({
-      data: {
+    const estimatedRateCents = feat.minRateEuros ? feat.minRateEuros * 100 : null;
+    const prior = priorByTalent.get(r.talentId);
+
+    // status, timeline and appliedAt are deliberately NOT written on an
+    // existing row: they are the director's, not the matcher's.
+    const cand = prior
+      ? await prisma.candidature.update({
+          where: { id: prior.id },
+          data: { estimatedRateCents },
+        })
+      : await prisma.candidature.create({
+          data: {
+            projectId,
+            artistProfileId: isAgental ? r.talentId : null,
+            externalTalentId: isAgental ? null : r.talentId,
+            source: r.source,
+            status: "SHORTLISTED",
+            estimatedRateCents,
+          },
+        });
+
+    await prisma.matchScore.upsert({
+      where: { candidatureId: cand.id },
+      create: {
         candidatureId: cand.id,
         score: r.score,
         justification: r.justification,
         factors: toJson(r.factors),
         diversityFlags: toJson(r.diversityFlags),
         scorerVersion: scorer.version,
+      },
+      update: {
+        score: r.score,
+        justification: r.justification,
+        factors: toJson(r.factors),
+        diversityFlags: toJson(r.diversityFlags),
+        scorerVersion: scorer.version,
+        computedAt: new Date(),
       },
     });
   }
@@ -195,13 +250,13 @@ export async function actOnCandidature(
   action: keyof typeof NEXT_STATUS
 ): Promise<BriefActionResult> {
   const ctx = await ownerOrg();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
   const cand = await prisma.candidature.findUnique({
     where: { id: candidatureId },
     include: { project: true },
   });
   if (!cand || cand.project.organizationId !== ctx.org.id) {
-    return { ok: false, error: "Candidature introuvable." };
+    return { ok: false, error: err("errors.candidatureNotFound") };
   }
   const status = NEXT_STATUS[action];
   await prisma.candidature.update({

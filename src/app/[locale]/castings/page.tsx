@@ -1,22 +1,30 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { PageHero } from "@/components/marketing/page-hero";
-import { CASTING_TYPES } from "@/data/casting-types";
+import { CASTING_TYPES, formatCachet } from "@/data/casting-types";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   const t = await getTranslations({
     locale,
-    namespace: "talents.castingLandings.index.meta",
+    namespace: "talents.castingLandings",
   });
-  return { title: t("title"), description: t("description") };
+  return seo({
+    locale,
+    path: "/castings",
+    title: t("index.meta.title"),
+    description: t("index.meta.description"),
+  });
 }
 
 export default async function CastingsIndex({
@@ -24,19 +32,22 @@ export default async function CastingsIndex({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
-  return <IndexContent />;
+  return <IndexContent locale={locale} />;
 }
 
-function IndexContent() {
-  const t = useTranslations("talents.castingLandings.index");
+function IndexContent({ locale }: { locale: string }) {
+  const t = useTranslations("talents.castingLandings");
+  // Copy now lives in messages; only structure and figures stay in the data file.
+  const tt = useTranslations("talents.castingTypes");
   return (
     <>
       <PageHero
-        eyebrow={t("eyebrow")}
-        title={t("title")}
-        subtitle={t("subtitle")}
+        eyebrow={t("index.eyebrow")}
+        title={t("index.title")}
+        subtitle={t("index.subtitle")}
       />
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -46,12 +57,15 @@ function IndexContent() {
               href={`/castings/${type.slug}`}
               className="group flex flex-col rounded-sedan border border-border bg-surface p-6 transition-colors hover:border-accent"
             >
-              <h2 className="font-display text-xl font-medium">{type.name}</h2>
+              <h2 className="font-display text-xl font-medium">
+                {tt(`${type.slug}.name`)}
+              </h2>
               <p className="mt-1.5 flex-1 text-sm text-fg-muted">
-                {type.tagline}
+                {tt(`${type.slug}.tagline`)}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
-                {type.cachet} {type.cachetUnit}
+                {formatCachet(type, locale, tt("units.variable"))}{" "}
+                {tt(`units.${type.cachetUnit}`)}
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </span>
             </Link>

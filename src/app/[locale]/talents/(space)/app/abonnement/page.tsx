@@ -1,10 +1,12 @@
+import { euros, percent } from "@/lib/format";
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
 import { RentabiliteWidget } from "@/components/talents/rentabilite-widget";
-import { B2C_PLANS, commissionPct } from "@/domain/pricing";
+import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 
 export const metadata: Metadata = { title: "Abonnement" };
@@ -16,15 +18,16 @@ const FEATURES: Record<PlanB2C, string[]> = {
   ULTIMATE: ["Tout le Premium", "Gestion presse", "Illimité", "Commission 5%"],
 };
 
-const euros = (c: number) => (c / 100).toFixed(0) + " €";
 
 export default async function AbonnementPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "talents" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -42,19 +45,16 @@ export default async function AbonnementPage({
   const plans: PlanCard[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p) => ({
     plan: p,
     name: B2C_PLANS[p].plan,
-    price: euros(B2C_PLANS[p].priceCents),
-    commission: `${commissionPct(B2C_PLANS[p].commissionRate)} %`,
+    price: euros(B2C_PLANS[p].priceCents, locale),
+    commission: percent(B2C_PLANS[p].commissionRate, locale),
     features: FEATURES[p],
   }));
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Abonnement</h1>
-        <p className="text-fg-muted">
-          Un service optionnel qui récompense ta progression. Le mandat reste
-          gratuit.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
+        <p className="text-fg-muted">{t("space.subscription.subtitle")}</p>
       </div>
 
       <PlanSelector plans={plans} current={current} />

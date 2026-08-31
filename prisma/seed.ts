@@ -22,10 +22,10 @@ type RosterSpec = {
 };
 
 const ROSTER: RosterSpec[] = [
-  { email: "yann@demo.agental.fr", stageName: "Yann Le Goff", city: "Rennes", birthDate: "1994-03-12", specialties: ["seconds-roles"], accents: ["breton"], minRate: 480 },
-  { email: "erwan@demo.agental.fr", stageName: "Erwan Tanguy", city: "Brest", birthDate: "1992-07-02", specialties: ["seconds-roles", "figuration"], accents: ["breton"], minRate: 450 },
-  { email: "gael@demo.agental.fr", stageName: "Gaël Rioux", city: "Lorient", birthDate: "1990-11-20", specialties: ["seconds-roles"], accents: ["breton"], minRate: 500 },
-  { email: "amina@demo.agental.fr", stageName: "Amina B.", city: "Marseille", birthDate: "1991-05-09", specialties: ["publicite", "voix"], accents: [], minRate: 800 },
+  { email: "yann@demo.agental.co", stageName: "Yann Le Goff", city: "Rennes", birthDate: "1994-03-12", specialties: ["seconds-roles"], accents: ["breton"], minRate: 480 },
+  { email: "erwan@demo.agental.co", stageName: "Erwan Tanguy", city: "Brest", birthDate: "1992-07-02", specialties: ["seconds-roles", "figuration"], accents: ["breton"], minRate: 450 },
+  { email: "gael@demo.agental.co", stageName: "Gaël Rioux", city: "Lorient", birthDate: "1990-11-20", specialties: ["seconds-roles"], accents: ["breton"], minRate: 500 },
+  { email: "amina@demo.agental.co", stageName: "Amina B.", city: "Marseille", birthDate: "1991-05-09", specialties: ["publicite", "voix"], accents: [], minRate: 800 },
 ];
 
 async function upsertTalent(spec: RosterSpec) {
@@ -91,8 +91,8 @@ async function main() {
 
   // Demo casting org + project (the "Marée Haute" brief)
   const owner = await prisma.user.upsert({
-    where: { email: "demo-casting@demo.agental.fr" },
-    create: { email: "demo-casting@demo.agental.fr", passwordHash: PASSWORD_HASH, kind: "CASTING", emailVerified: new Date() },
+    where: { email: "demo-casting@demo.agental.co" },
+    create: { email: "demo-casting@demo.agental.co", passwordHash: PASSWORD_HASH, kind: "CASTING", emailVerified: new Date() },
     update: {},
   });
   let org = await prisma.organization.findFirst({ where: { name: "Marée Haute (démo)" } });
@@ -123,10 +123,10 @@ async function main() {
 
     // Scored shortlist
     const shortlist: { profileEmail?: string; externalId?: string; source: string; score: number; rate: number; justification: string }[] = [
-      { profileEmail: "yann@demo.agental.fr", source: "AGENTAL", score: 94, rate: 480, justification: "Accent breton natif · fenêtre de tournage OK · droits image OK." },
+      { profileEmail: "yann@demo.agental.co", source: "AGENTAL", score: 94, rate: 480, justification: "Accent breton natif · fenêtre de tournage OK · droits image OK." },
       { externalId: external.id, source: "EXTERNAL", score: 89, rate: 520, justification: "Sourcé hors roster · même scoring · disponibilité confirmée." },
-      { profileEmail: "erwan@demo.agental.fr", source: "AGENTAL", score: 86, rate: 450, justification: "Physique proche du rôle · self-tape vérifié." },
-      { profileEmail: "gael@demo.agental.fr", source: "AGENTAL", score: 81, rate: 500, justification: "Expérience séries · accent régional crédible." },
+      { profileEmail: "erwan@demo.agental.co", source: "AGENTAL", score: 86, rate: 450, justification: "Physique proche du rôle · self-tape vérifié." },
+      { profileEmail: "gael@demo.agental.co", source: "AGENTAL", score: 81, rate: 500, justification: "Expérience séries · accent régional crédible." },
     ];
     for (const item of shortlist) {
       const cand = await prisma.candidature.create({
@@ -151,7 +151,7 @@ async function main() {
   }
 
   // Career entries for one talent (paid roles with commission)
-  const yannId = profiles["yann@demo.agental.fr"];
+  const yannId = profiles["yann@demo.agental.co"];
   const existingCareer = await prisma.careerEntry.count({ where: { profileId: yannId } });
   if (existingCareer === 0) {
     await prisma.careerEntry.createMany({
@@ -162,6 +162,21 @@ async function main() {
     });
   }
 
+  // Admin demo account. The admin guard (src/app/[locale]/admin/layout.tsx)
+  // fronts /admin, and after this plan also /styleguide and /studio — without a
+  // seeded admin none of them is reachable on a fresh database.
+  await prisma.user.upsert({
+    where: { email: "demo-admin@demo.agental.co" },
+    create: {
+      email: "demo-admin@demo.agental.co",
+      passwordHash: PASSWORD_HASH,
+      kind: "TALENT",
+      isAdmin: true,
+      emailVerified: new Date(),
+    },
+    update: { isAdmin: true },
+  });
+
   const counts = {
     users: await prisma.user.count(),
     profiles: await prisma.artistProfile.count(),
@@ -171,6 +186,10 @@ async function main() {
     matchScores: await prisma.matchScore.count(),
   };
   console.log("Seed done:", counts);
+  console.log("Demo logins (password: demo1234):");
+  console.log("  talent  yann@demo.agental.co");
+  console.log("  casting demo-casting@demo.agental.co");
+  console.log("  admin   demo-admin@demo.agental.co");
   await prisma.$disconnect();
 }
 

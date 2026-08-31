@@ -1,0 +1,49 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "Cómo funciona",
+    "castingTypes": "Tipos de casting",
+    "pricing": "Tarifas",
+    "faq": "Preguntas frecuentes",
+    "about": "Quiénes somos",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "skipToContent": "Ir al contenido"
+  },
+  "footer": {
+    "tagline": "La primera agencia artística concebida con IA desde el principio.",
+    "legalTitle": "Marco legal",
+    "prefectorale": "Agencia artística declarada ante la prefectura",
+    "rgpd": "RGPD",
+    "mentions": "Aviso legal",
+    "cgu": "Condiciones de uso",
+    "rights": "© {year} Agental. Todos los derechos reservados.",
+    "sections": {
+      "product": "Producto",
+      "company": "Agental",
+      "legal": "Legal"
+    }
+  },
+  "locale": {
+    "fr": "Français",
+    "en": "English",
+    "switch": "Idioma",
+    "es": "Español"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "Volver al inicio",
+    "backCastings": "Ver los cástines"
+  },
+  "error": {
+    "title": "Algo ha salido mal",
+    "body": "Se ha registrado el incidente. Reintentar suele bastar.",
+    "retry": "Reintentar",
+    "backHome": "Volver al inicio"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "La primera agencia artística concebida con IA desde el principio. Un agente real y regulado, con una IA que trabaja para ti."
+  }
+}

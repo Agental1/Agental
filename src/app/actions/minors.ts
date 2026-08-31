@@ -1,11 +1,12 @@
 "use server";
 
+import { err, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 
-export type MinorResult = { ok: boolean; error?: string };
+export type MinorResult = { ok: boolean; error?: ActionError };
 
 async function ownerCtx() {
   const session = await auth();
@@ -23,13 +24,13 @@ export async function openMinorCase(
   candidatureId: string
 ): Promise<MinorResult> {
   const ctx = await ownerCtx();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
   const cand = await prisma.candidature.findUnique({
     where: { id: candidatureId },
     include: { project: true, artistProfile: true },
   });
   if (!cand?.artistProfile || cand.project.organizationId !== ctx.orgId) {
-    return { ok: false, error: "Introuvable." };
+    return { ok: false, error: err("errors.notFound") };
   }
   const existing = await prisma.minorCase.findUnique({
     where: { artistProfileId: cand.artistProfile.id },
@@ -66,9 +67,9 @@ export async function advanceMinorCase(
   step: keyof typeof STEPS
 ): Promise<MinorResult> {
   const ctx = await ownerCtx();
-  if (!ctx) return { ok: false, error: "Non autorisé." };
+  if (!ctx) return { ok: false, error: err("errors.unauthorized") };
   const mc = await prisma.minorCase.findUnique({ where: { id: minorCaseId } });
-  if (!mc) return { ok: false, error: "Dossier introuvable." };
+  if (!mc) return { ok: false, error: err("errors.caseNotFound") };
 
   const data = { ...STEPS[step] } as Record<string, unknown>;
   const updated = await prisma.minorCase.update({

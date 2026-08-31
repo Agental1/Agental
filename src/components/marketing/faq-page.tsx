@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "./page-hero";
 import { FaqAccordion, type FaqGroup } from "./faq-accordion";
+import { faqPageLd, jsonLd, type FaqItem } from "@/lib/seo";
 
 /** Shared FAQ page body, driven by a portal namespace. */
 export function FaqPage({
@@ -15,9 +16,16 @@ export function FaqPage({
 }) {
   const t = useTranslations(namespace);
   const groups = t.raw("groups") as FaqGroup[];
+  // Same source as the rendered accordion: structured data that drifts from the
+  // visible page is a reason for Google to distrust the rest of the markup.
+  const items: FaqItem[] = groups.flatMap((g) => g.items as FaqItem[]);
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqPageLd(items)) }}
+      />
       <PageHero
         eyebrow={t("hero.eyebrow")}
         title={t("hero.title")}

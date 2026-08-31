@@ -1,4 +1,6 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { ShieldCheck } from "lucide-react";
@@ -10,12 +12,18 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   const t = await getTranslations({
     locale,
-    namespace: "talents.pricingPage.meta",
+    namespace: "talents.pricingPage",
   });
-  return { title: t("title"), description: t("description") };
+  return seo({
+    locale,
+    path: "/talents/tarifs",
+    title: t("meta.title"),
+    description: t("meta.description"),
+  });
 }
 
 export default async function Page({
@@ -23,7 +31,8 @@ export default async function Page({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   return <TarifsContent />;
 }

@@ -1,3 +1,4 @@
+import { toLocale } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
@@ -11,7 +12,8 @@ export default function CastingLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = use(params);
+  const { locale: rawLocale } = use(params);
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
 
   const t = useTranslations("common");
@@ -35,7 +37,7 @@ export default function CastingLayout({
         cta={{ href: "/casting/inscription", label: tc("nav.cta") }}
         crossLink={{ href: "/talents", label: tc("nav.crossLink") }}
       />
-      <main className="flex-1">{children}</main>
+      <main id="main" className="flex-1">{children}</main>
       <MarketingFooter home="/casting" nav={nav} />
     </div>
   );

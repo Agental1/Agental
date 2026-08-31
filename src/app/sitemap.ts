@@ -1,10 +1,15 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { CASTING_TYPE_SLUGS } from "@/data/casting-types";
+import { localeUrl, localeAlternates } from "@/lib/seo";
 
-const BASE = "https://agental.fr";
-
+/**
+ * Public, indexable paths, without a locale prefix. Everything behind auth
+ * (/talents/app, /casting/app, /admin, /connexion) is deliberately absent and
+ * is also disallowed in robots.ts.
+ */
 const PATHS = [
+  "/",
   "/talents",
   "/talents/comment-ca-marche",
   "/talents/tarifs",
@@ -18,23 +23,16 @@ const PATHS = [
   ...CASTING_TYPE_SLUGS.map((s) => `/castings/${s}`),
 ];
 
-/** Build a locale-prefixed URL (default locale has no prefix — localePrefix "as-needed"). */
-function url(locale: string, path: string): string {
-  const prefix = locale === routing.defaultLocale ? "" : `/${locale}`;
-  return `${BASE}${prefix}${path}`;
-}
-
 export default function sitemap(): MetadataRoute.Sitemap {
   return PATHS.flatMap((path) =>
     routing.locales.map((locale) => ({
-      url: url(locale, path),
+      url: localeUrl(locale, path),
       changeFrequency: "weekly" as const,
       priority: path === "/talents" || path === "/casting" ? 1 : 0.7,
-      alternates: {
-        languages: Object.fromEntries(
-          routing.locales.map((l) => [l, url(l, path)])
-        ),
-      },
+      // URL building is shared with the metadata helpers on purpose: two
+      // builders that drift produce hreflang pointing at pages that do not
+      // exist, and nothing fails loudly when they do.
+      alternates: { languages: localeAlternates(path) },
     }))
   );
 }

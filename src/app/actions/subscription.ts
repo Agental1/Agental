@@ -1,5 +1,6 @@
 "use server";
 
+import { err, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -7,16 +8,16 @@ import { audit } from "@/lib/audit";
 import { getBilling } from "@/lib/billing";
 import { PlanB2C, PlanB2B } from "@/domain/enums";
 
-export type UpgradeResult = { ok: boolean; error?: string; checkoutUrl?: string };
+export type UpgradeResult = { ok: boolean; error?: ActionError; checkoutUrl?: string };
 
 /** B2C: change the artist's subscription plan (mock = instant, no payment). */
 export async function upgradeTalentPlan(plan: string): Promise<UpgradeResult> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
-    return { ok: false, error: "Non autorisé." };
+    return { ok: false, error: err("errors.unauthorized") };
   }
   const parsed = PlanB2C.safeParse(plan);
-  if (!parsed.success) return { ok: false, error: "Plan invalide." };
+  if (!parsed.success) return { ok: false, error: err("errors.invalidPlan") };
 
   const billing = await getBilling();
   const { checkoutUrl } = await billing.changePlan({
@@ -40,15 +41,15 @@ export async function upgradeTalentPlan(plan: string): Promise<UpgradeResult> {
 export async function changeOrgPlan(plan: string): Promise<UpgradeResult> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "CASTING") {
-    return { ok: false, error: "Non autorisé." };
+    return { ok: false, error: err("errors.unauthorized") };
   }
   const parsed = PlanB2B.safeParse(plan);
-  if (!parsed.success) return { ok: false, error: "Plan invalide." };
+  if (!parsed.success) return { ok: false, error: err("errors.invalidPlan") };
 
   const membership = await prisma.membership.findFirst({
     where: { userId: session.user.id, role: "OWNER" },
   });
-  if (!membership) return { ok: false, error: "Organisation introuvable." };
+  if (!membership) return { ok: false, error: err("errors.orgNotFound") };
 
   const seatCount = await prisma.seat.count({
     where: { organizationId: membership.organizationId, status: "ACTIVE" },

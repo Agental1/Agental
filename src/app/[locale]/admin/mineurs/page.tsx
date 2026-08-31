@@ -1,5 +1,6 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +19,10 @@ export default async function AdminMinorsPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "app" });
 
   const cases = await prisma.minorCase.findMany({
     orderBy: { updatedAt: "desc" },
@@ -29,28 +32,26 @@ export default async function AdminMinorsPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Dossiers mineurs</h1>
-        <p className="text-fg-muted">
-          Autorisation préfectorale, séquestre 90 %, présence parentale.
-        </p>
+        <h1 className="font-display text-3xl font-medium">{t("admin.minors.title")}</h1>
+        <p className="text-fg-muted">{t("admin.minors.subtitle")}</p>
       </div>
 
       {cases.length === 0 ? (
         <div className="rounded-sedan border border-dashed border-border bg-surface/60 p-10 text-center">
           <ShieldCheck className="mx-auto size-8 text-success" />
-          <p className="mt-3 text-sm text-fg-muted">Aucun dossier mineur ouvert.</p>
+          <p className="mt-3 text-sm text-fg-muted">{t("admin.minors.empty")}</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-sedan border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-2/60 text-left text-fg-muted">
               <tr>
-                <th className="px-4 py-3 font-medium">Talent</th>
-                <th className="px-4 py-3 font-medium">Projet</th>
-                <th className="px-4 py-3 font-medium">Préfectorale</th>
-                <th className="px-4 py-3 font-medium">Séquestre</th>
-                <th className="px-4 py-3 font-medium">Parental</th>
-                <th className="px-4 py-3 font-medium">État</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.talent")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.project")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.prefectoral")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.escrow")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.parental")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.minors.state")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

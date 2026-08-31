@@ -18,7 +18,11 @@ export function MarketingFooter({
     <footer className="mt-auto border-t border-border bg-surface-2/40">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
         <div className="space-y-3">
-          <Link href={home} aria-label="Agental">
+          <Link
+            href={home}
+            aria-label="Agental"
+            className="inline-flex min-h-11 items-center md:min-h-6"
+          >
             <AgentalLogo />
           </Link>
           <p className="max-w-xs text-sm text-fg-muted">
@@ -34,12 +38,12 @@ export function MarketingFooter({
           <h4 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
             {t("footer.sections.product")}
           </h4>
-          <ul className="space-y-1.5">
+          <ul>
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-fg-muted transition-colors hover:text-fg"
+                  className="inline-flex min-h-11 items-center md:min-h-6 text-sm text-fg-muted transition-colors hover:text-fg"
                 >
                   {item.label}
                 </Link>
@@ -52,10 +56,14 @@ export function MarketingFooter({
           <h4 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
             {t("footer.sections.legal")}
           </h4>
-          <ul className="space-y-1.5 text-sm text-fg-muted">
-            <li>{t("footer.mentions")}</li>
-            <li>{t("footer.rgpd")}</li>
-            <li>{t("footer.cgu")}</li>
+          {/* These three are plain text, not links: /mentions-legales, /cgu and
+              /confidentialite do not exist yet. Rendering them as links would
+              promise pages that 404. A declared French agency does need them —
+              flagged rather than faked, since the copy is legal text. */}
+          <ul className="text-sm text-fg-muted">
+            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.mentions")}</li>
+            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.rgpd")}</li>
+            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.cgu")}</li>
           </ul>
         </div>
       </div>

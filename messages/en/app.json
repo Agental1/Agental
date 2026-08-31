@@ -1,0 +1,172 @@
+{
+  "actions": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "edit": "Edit",
+    "add": "Add",
+    "send": "Send",
+    "retry": "Try again",
+    "upload": "Upload",
+    "download": "Download",
+    "copy": "Copy",
+    "search": "Search",
+    "filter": "Filter",
+    "seeAll": "See all",
+    "seeMore": "See more",
+    "logout": "Sign out"
+  },
+  "states": {
+    "loading": "Loading…",
+    "empty": "Nothing to show yet",
+    "error": "Something went wrong",
+    "saved": "Saved",
+    "required": "Required field",
+    "optional": "optional",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "status": {
+    "draft": "Draft",
+    "active": "Active",
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "refused": "Declined",
+    "archived": "Archived",
+    "paid": "Paid",
+    "signed": "Signed",
+    "verified": "Verified"
+  },
+  "errors": {
+    "generic": "Something went wrong.",
+    "unauthorized": "You need to be signed in.",
+    "forbidden": "Access denied.",
+    "notFound": "Not found.",
+    "quotaExceeded": "Your {plan} plan allows {limit} active project(s). Upgrade to open more.",
+    "invalidInput": "Check the form fields.",
+    "uploadFailed": "Upload failed.",
+    "signatureFailed": "Signing failed. Try again.",
+    "emailTaken": "An account already exists with this email.",
+    "signInAfterSignup": "Account created, but sign-in failed. Try again.",
+    "badCredentials": "Wrong email or password.",
+    "orgNotFound": "Organisation not found.",
+    "caseNotFound": "Case not found.",
+    "candidatureNotFound": "Application not found.",
+    "stageNameRequired": "Your stage name is required.",
+    "specialtyRequired": "Pick at least one specialty.",
+    "mandatRequired": "You must accept the mandate to be represented.",
+    "orgNameRequired": "Your organisation name is required.",
+    "siretFormat": "The SIRET must be 14 digits.",
+    "projectTypeRequired": "Select at least one project type.",
+    "emailInvalid": "Invalid email address.",
+    "passwordTooShort": "8 characters minimum.",
+    "invalidPlan": "Invalid plan.",
+    "invalidMediaType": "Invalid media type.",
+    "profileNotFound": "Profile not found.",
+    "invalidMetrics": "Invalid metrics.",
+    "invalidMedia": "Invalid media.",
+    "mediaNotFound": "Media not found.",
+    "fileTooLarge": "File too large (50 MB max).",
+    "noVideo": "No video recorded.",
+    "noFile": "No file.",
+    "deleteFailed": "Deletion failed.",
+    "confirmFailed": "Confirmation failed. Try again."
+  },
+  "auth": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "first.last@example.com",
+    "passwordPlaceholder": "8 characters minimum"
+  },
+  "specialties": {
+    "figuration": "Background acting",
+    "silhouette": "Walk-on",
+    "seconds-roles": "Supporting roles",
+    "publicite": "Commercials",
+    "photo": "Photo",
+    "voix": "Voice & dubbing",
+    "enfants": "Children & teens",
+    "createurs": "Creators"
+  },
+  "levels": {
+    "BEGINNER": "Beginner",
+    "INTERMEDIATE": "Intermediate",
+    "CONFIRMED": "Experienced"
+  },
+  "projectTypes": {
+    "long": "Feature film",
+    "serie": "Series",
+    "pub": "Commercial",
+    "court": "Short film",
+    "theatre": "Theatre",
+    "clip": "Music video"
+  },
+  "candidatureStatus": {
+    "NEW": "New",
+    "SHORTLISTED": "Shortlisted",
+    "STARRED": "Starred",
+    "EXCLUDED": "Excluded",
+    "SELFTAPE_REQUESTED": "Self-tape requested",
+    "INVITED": "Invited",
+    "CONTRACTED": "Contracted",
+    "REJECTED": "Not selected"
+  },
+  "mandatStatus": {
+    "ACTIVE": "Active",
+    "REVOKED": "Revoked",
+    "INACTIVE": "Inactive"
+  },
+  "admin": {
+    "title": "Supervision",
+    "subtitle": "Internal back-office — steering, compliance and audit.",
+    "nav": {
+      "overview": "Supervision",
+      "audit": "Audit trail",
+      "minors": "Minor cases"
+    },
+    "stats": {
+      "artists": "Artists",
+      "activeProfiles": "Active profiles",
+      "castingDirectors": "Casting directors",
+      "orgs": "Organisations",
+      "projects": "Projects",
+      "candidatures": "Applications"
+    },
+    "minorsTodo": "Minor cases to handle",
+    "minorsTodoBody": "Authorisations, escrow and parental presence to validate.",
+    "recent": "Recent activity",
+    "noActivity": "No activity.",
+    "audit": {
+      "title": "Audit trail",
+      "subtitle": "Every decision and action, traced — neutrality proven.",
+      "date": "Date",
+      "action": "Action",
+      "resource": "Resource",
+      "actor": "Actor"
+    },
+    "minors": {
+      "title": "Minor cases",
+      "subtitle": "Prefectoral authorisation, 90% escrow, parental presence.",
+      "empty": "No open minor case.",
+      "talent": "Talent",
+      "project": "Project",
+      "prefectoral": "Prefectoral",
+      "escrow": "Escrow",
+      "parental": "Parental",
+      "state": "State",
+      "open": "Open",
+      "waiting": "Documents pending",
+      "ready": "Ready",
+      "held": "Held",
+      "toConfirm": "To confirm"
+    }
+  }
+}

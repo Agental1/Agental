@@ -1,7 +1,9 @@
 "use server";
 
+import { zodError, type ActionError } from "@/domain/action-result";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -12,12 +14,12 @@ import {
 } from "@/domain/onboarding";
 import { toJson } from "@/domain/json";
 
-export type StepResult = { ok: boolean; error?: string };
+export type StepResult = { ok: boolean; error?: ActionError };
 
 async function requireTalentUserId(): Promise<string> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale: await getLocale() });
   }
   return session.user.id;
 }
@@ -46,7 +48,7 @@ export async function saveIdentity(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = IdentityStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const d = parsed.data;
   await prisma.artistProfile.update({
@@ -67,7 +69,7 @@ export async function savePhysical(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = PhysicalStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   await prisma.artistProfile.update({
     where: { userId },
@@ -80,7 +82,7 @@ export async function saveSpecialties(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = SpecialtiesStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const profile = await prisma.artistProfile.findUniqueOrThrow({
     where: { userId },
@@ -161,7 +163,7 @@ export async function signMandat(): Promise<void> {
     after: { signedAt: mandat.signedAt, ip },
   });
 
-  redirect("/talents/app");
+  return redirect({ href: "/talents/app", locale: await getLocale() });
 }
 
 async function computeCompleteness(profileId: string): Promise<number> {

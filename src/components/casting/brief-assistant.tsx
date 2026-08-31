@@ -1,5 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import { Sparkles, Send, Loader2, ArrowRight, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,11 +12,13 @@ import { BRIEF_QUESTIONS, type BriefAnswers } from "@/lib/ai/brief-assistant";
 import { createBrief } from "@/app/actions/brief";
 
 export function BriefAssistant() {
+  const t = useTranslations("casting");
+  const errorText = useActionErrorText();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<BriefAnswers>({});
   const [value, setValue] = useState("");
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<{ message: string; upgrade?: boolean }>();
+  const [error, setError] = useState<{ error: ActionError; upgrade?: boolean }>();
 
   const q = BRIEF_QUESTIONS[step];
   const done = step >= BRIEF_QUESTIONS.length;
@@ -35,7 +40,7 @@ export function BriefAssistant() {
       const res = await createBrief(final);
       // On success createBrief redirects; only errors return here.
       if (res && !res.ok) {
-        setError({ message: res.error ?? "Erreur.", upgrade: res.upgrade });
+        setError({ error: res.error ?? err("errors.generic"), upgrade: res.upgrade });
         setStep(BRIEF_QUESTIONS.length - 1);
       }
     });
@@ -59,9 +64,7 @@ export function BriefAssistant() {
           {done && !error && (
             <Bubble role="assistant">
               <span className="flex items-center gap-2">
-                <Loader2 className="size-4 animate-spin" /> Je structure votre
-                brief et génère la short-list…
-              </span>
+                <Loader2 className="size-4 animate-spin" />{t("space.brief.working")}</span>
             </Bubble>
           )}
         </div>
@@ -74,7 +77,7 @@ export function BriefAssistant() {
             )}
           >
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-            <span>{error.message}</span>
+            <span>{errorText(error.error)}</span>
           </div>
         )}
 
@@ -115,9 +118,8 @@ export function BriefAssistant() {
 
       <p className="mt-3 flex items-center gap-2 text-xs text-fg-subtle">
         <Sparkles className="size-3.5 text-accent" />
-        L&apos;assistant met votre demande en forme. Vous validerez la short-list
-        générée <ArrowRight className="size-3" /> source affichée sur chaque
-        profil.
+        {t("space.brief.introA")} <ArrowRight className="size-3" />{" "}
+        {t("space.brief.introB")}
       </p>
     </div>
   );

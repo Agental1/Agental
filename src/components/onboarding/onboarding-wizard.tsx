@@ -1,5 +1,9 @@
 "use client";
 
+import { SpecialtyKind } from "@/domain/enums";
+import { useTranslations } from "next-intl";
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
 import {
   Check,
@@ -21,18 +25,15 @@ import {
   signMandat,
 } from "@/app/actions/onboarding";
 
-const SPECIALTIES: { kind: string; label: string }[] = [
-  { kind: "figuration", label: "Figuration" },
-  { kind: "silhouette", label: "Silhouette" },
-  { kind: "seconds-roles", label: "Seconds rôles" },
-  { kind: "publicite", label: "Publicité" },
-  { kind: "photo", label: "Photo" },
-  { kind: "voix", label: "Voix & doublage" },
-  { kind: "enfants", label: "Enfants & ados" },
-  { kind: "createurs", label: "Créateurs" },
-];
+/**
+ * Specialty kinds come from the Zod enum, which is what the database stores.
+ * Only their labels are translated (app.specialties.<kind>), and the kind is
+ * never touched — this list used to be duplicated verbatim here and in
+ * profile-editor.tsx, so a label edit in one place silently diverged.
+ */
+const SPECIALTY_KINDS = SpecialtyKind.options;
 
-const STEPS = ["Identité", "Physique", "Médias", "Spécialités", "Mandat"];
+const STEP_KEYS = ["identity", "physical", "media", "specialties", "mandat"] as const;
 
 export interface OnboardingInitial {
   stageName: string;
@@ -47,9 +48,12 @@ export interface OnboardingInitial {
 }
 
 export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
+  const t = useTranslations("talents");
+  const ta = useTranslations("app");
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initial);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
 
   function set<K extends keyof OnboardingInitial>(
@@ -59,17 +63,17 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
     setData((d) => ({ ...d, [key]: value }));
   }
 
-  function next(save?: () => Promise<{ ok: boolean; error?: string }>) {
+  function next(save?: () => Promise<{ ok: boolean; error?: ActionError }>) {
     setError(undefined);
     startTransition(async () => {
       if (save) {
         const res = await save();
         if (!res.ok) {
-          setError(res.error ?? "Une erreur est survenue.");
+          setError(res.error ?? err("errors.generic"));
           return;
         }
       }
-      setStep((s) => Math.min(STEPS.length - 1, s + 1));
+      setStep((s) => Math.min(STEP_KEYS.length - 1, s + 1));
     });
   }
 
@@ -79,43 +83,43 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 
       {error && (
         <p role="alert" className="mt-4 text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
 
       <div className="mt-6">
         {step === 0 && (
-          <Step title="Qui es-tu ?" subtitle="On commence par les bases.">
-            <Field label="Nom artistique" required>
+          <Step title={t("onboarding.identity.title")} subtitle={t("onboarding.identity.subtitle")}>
+            <Field label={t("onboarding.identity.stageName")} required>
               <Input
                 value={data.stageName}
                 onChange={(e) => set("stageName", e.target.value)}
-                placeholder="Ton nom de scène"
+                placeholder={t("onboarding.identity.stageNamePlaceholder")}
               />
             </Field>
-            <Field label="Nom civil (privé)">
+            <Field label={t("onboarding.identity.legalName")}>
               <Input
                 value={data.legalName}
                 onChange={(e) => set("legalName", e.target.value)}
               />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Date de naissance">
+              <Field label={t("onboarding.identity.birthDate")}>
                 <Input
                   type="date"
                   value={data.birthDate}
                   onChange={(e) => set("birthDate", e.target.value)}
                 />
               </Field>
-              <Field label="Ville">
+              <Field label={t("onboarding.identity.city")}>
                 <Input
                   value={data.city}
                   onChange={(e) => set("city", e.target.value)}
-                  placeholder="Lyon"
+                  placeholder={t("onboarding.identity.cityPlaceholder")}
                 />
               </Field>
             </div>
-            <Field label="Téléphone">
+            <Field label={t("onboarding.identity.phone")}>
               <Input
                 value={data.phone}
                 onChange={(e) => set("phone", e.target.value)}
@@ -140,11 +144,11 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 
         {step === 1 && (
           <Step
-            title="Ton physique"
-            subtitle="Ce que les castings recherchent. Tout est optionnel."
+            title={t("onboarding.physical.title")}
+            subtitle={t("onboarding.physical.subtitle")}
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Taille (cm)">
+              <Field label={t("onboarding.physical.height")}>
                 <Input
                   type="number"
                   value={data.physical.heightCm ?? ""}
@@ -158,16 +162,16 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                   }
                 />
               </Field>
-              <Field label="Corpulence">
+              <Field label={t("onboarding.physical.build")}>
                 <Input
                   value={data.physical.build ?? ""}
                   onChange={(e) =>
                     set("physical", { ...data.physical, build: e.target.value })
                   }
-                  placeholder="mince, athlétique…"
+                  placeholder={t("onboarding.physical.buildPlaceholder")}
                 />
               </Field>
-              <Field label="Cheveux">
+              <Field label={t("onboarding.physical.hair")}>
                 <Input
                   value={data.physical.hair ?? ""}
                   onChange={(e) =>
@@ -175,7 +179,7 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                   }
                 />
               </Field>
-              <Field label="Yeux">
+              <Field label={t("onboarding.physical.eyes")}>
                 <Input
                   value={data.physical.eyes ?? ""}
                   onChange={(e) =>
@@ -184,7 +188,7 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                 />
               </Field>
             </div>
-            <Field label="Langues (séparées par des virgules)">
+            <Field label={t("onboarding.physical.languages")}>
               <Input
                 value={data.physical.languages.join(", ")}
                 onChange={(e) =>
@@ -193,10 +197,10 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                     languages: splitList(e.target.value),
                   })
                 }
-                placeholder="français, anglais"
+                placeholder={t("onboarding.physical.languagesPlaceholder")}
               />
             </Field>
-            <Field label="Accents">
+            <Field label={t("onboarding.physical.accents")}>
               <Input
                 value={data.physical.accents.join(", ")}
                 onChange={(e) =>
@@ -205,7 +209,7 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                     accents: splitList(e.target.value),
                   })
                 }
-                placeholder="breton, marseillais"
+                placeholder={t("onboarding.physical.accentsPlaceholder")}
               />
             </Field>
             <Nav
@@ -218,20 +222,17 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 
         {step === 2 && (
           <Step
-            title="Tes médias"
-            subtitle="Photos, reel, voix — ce qui te met en valeur."
+            title={t("onboarding.media.title")}
+            subtitle={t("onboarding.media.subtitle")}
           >
             <div className="flex items-start gap-3 rounded-sedan border border-border bg-surface-2/60 p-4 text-sm text-fg-muted">
               <Info className="mt-0.5 size-4 shrink-0 text-accent" />
-              <p>
-                Un reel filmé au téléphone suffit pour commencer. Tu ajouteras
-                tes médias depuis ton profil, juste après ton inscription.
-              </p>
+              <p>{t("onboarding.media.note")}</p>
             </div>
             <Nav
               pending={pending}
               onBack={() => setStep(1)}
-              nextLabel="Passer cette étape"
+              nextLabel={t("onboarding.media.skip")}
               onNext={() => next()}
             />
           </Step>
@@ -239,22 +240,22 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 
         {step === 3 && (
           <Step
-            title="Tes spécialités"
-            subtitle="Choisis ce qui te correspond — au moins une."
+            title={t("onboarding.specialties.title")}
+            subtitle={t("onboarding.specialties.subtitle")}
           >
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {SPECIALTIES.map((s) => {
-                const active = data.specialties.includes(s.kind);
+              {SPECIALTY_KINDS.map((kind) => {
+                const active = data.specialties.includes(kind);
                 return (
                   <button
-                    key={s.kind}
+                    key={kind}
                     type="button"
                     onClick={() =>
                       set(
                         "specialties",
                         active
-                          ? data.specialties.filter((k) => k !== s.kind)
-                          : [...data.specialties, s.kind]
+                          ? data.specialties.filter((k) => k !== kind)
+                          : [...data.specialties, kind]
                       )
                     }
                     className={cn(
@@ -264,12 +265,12 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
                         : "border-border hover:border-accent"
                     )}
                   >
-                    {s.label}
+                    {ta(`specialties.${kind}`)}
                   </button>
                 );
               })}
             </div>
-            <Field label="Cachet minimum (€/jour, optionnel)">
+            <Field label={t("onboarding.specialties.minRate")}>
               <Input
                 type="number"
                 value={data.minRateEuros ?? ""}
@@ -310,37 +311,34 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
 }
 
 function MandatStep() {
+  const t = useTranslations("talents");
+  const errorText = useActionErrorText();
   const [accept, setAccept] = useState(false);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
 
   return (
     <Step
-      title="Ton mandat de représentation"
-      subtitle="La dernière étape — et tu es représenté."
+      title={t("onboarding.mandat.title")}
+      subtitle={t("onboarding.mandat.subtitle")}
     >
       <div className="space-y-3 rounded-sedan border border-border bg-surface p-5">
         <div className="flex items-center gap-2 text-accent">
           <ShieldCheck className="size-5" />
           <span className="font-medium text-fg">
-            Gratuit. Sans engagement de ta part. Résiliable quand tu veux.
+            {t("onboarding.mandat.free")}
           </span>
         </div>
         <ul className="space-y-2 text-sm text-fg-muted">
-          {[
-            "C'est le contrat standard entre un artiste et son agent, encadré par la loi française.",
-            "Agental te représente et négocie pour toi. La commission ne s'applique qu'aux cachets décrochés.",
-            "Tes médias restent à toi. Tes données sont protégées (RGPD).",
-            "L'abonnement payant est un autre choix, plus tard — jamais mêlé au mandat.",
-          ].map((t) => (
-            <li key={t} className="flex items-start gap-2">
+          {(t.raw("onboarding.mandat.points") as string[]).map((point) => (
+            <li key={point} className="flex items-start gap-2">
               <Check className="mt-0.5 size-4 shrink-0 text-success" />
-              {t}
+              {point}
             </li>
           ))}
         </ul>
         <Badge variant="neutral">
-          <Info className="size-3" /> Lire le mandat complet
+          <Info className="size-3" /> {t("onboarding.mandat.read")}
         </Badge>
       </div>
 
@@ -351,15 +349,12 @@ function MandatStep() {
           onChange={(e) => setAccept(e.target.checked)}
           className="mt-0.5 size-4 accent-[var(--accent)]"
         />
-        <span>
-          J&apos;accepte le mandat de représentation et je demande à Agental de
-          me représenter.
-        </span>
+        <span>{t("onboarding.mandat.accept")}</span>
       </label>
 
       {error && (
         <p role="alert" className="mt-2 text-sm text-danger">
-          {error}
+          {errorText(error)}
         </p>
       )}
 
@@ -384,13 +379,13 @@ function MandatStep() {
               ) {
                 throw e;
               }
-              setError("La signature a échoué. Réessaie.");
+              setError(err("errors.signatureFailed"));
             }
           })
         }
       >
         {pending && <Loader2 className="size-4 animate-spin" />}
-        Signer et activer mon compte
+        {t("onboarding.mandat.submit")}
       </Button>
     </Step>
   );
@@ -399,10 +394,11 @@ function MandatStep() {
 /* ── small building blocks ──────────────────────────────────────────────── */
 
 function Progress({ step }: { step: number }) {
+  const t = useTranslations("talents");
   return (
     <div className="flex items-center gap-2">
-      {STEPS.map((label, i) => (
-        <div key={label} className="flex flex-1 flex-col gap-1.5">
+      {STEP_KEYS.map((key, i) => (
+        <div key={key} className="flex flex-1 flex-col gap-1.5">
           <div
             className={cn(
               "h-1 rounded-full",
@@ -415,7 +411,7 @@ function Progress({ step }: { step: number }) {
               i === step ? "font-medium text-fg" : "text-fg-subtle"
             )}
           >
-            {label}
+            {t(`onboarding.steps.${key}`)}
           </span>
         </div>
       ))}
@@ -467,25 +463,26 @@ function Nav({
   onNext,
   onBack,
   pending,
-  nextLabel = "Continuer",
+  nextLabel,
 }: {
   onNext: () => void;
   onBack?: () => void;
   pending: boolean;
   nextLabel?: string;
 }) {
+  const t = useTranslations("talents");
   return (
     <div className="flex items-center justify-between pt-2">
       {onBack ? (
         <Button variant="ghost" onClick={onBack} disabled={pending}>
-          <ArrowLeft /> Retour
+          <ArrowLeft /> {t("onboarding.back")}
         </Button>
       ) : (
         <span />
       )}
       <Button onClick={onNext} disabled={pending}>
         {pending ? <Loader2 className="size-4 animate-spin" /> : null}
-        {nextLabel} {!pending && <ArrowRight />}
+        {nextLabel ?? t("onboarding.continue")} {!pending && <ArrowRight />}
       </Button>
     </div>
   );

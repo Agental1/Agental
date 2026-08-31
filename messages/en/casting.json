@@ -28,25 +28,47 @@
     "sourceAgental": "Agental",
     "sourceExternal": "External",
     "roleHeader": "SHORT-LIST · SERIES 'MARÉE HAUTE'",
-    "roleLine": "Role 'Maxime' · M · 25–32 · Breton accent"
+    "roleLine": "Role 'Maxime' · M · 25–32 · Breton accent",
+    "favourite": "Add to favourites"
   },
   "benefits": {
     "eyebrow": "What you gain with Agental",
     "title": "Quality, not quantity.",
     "items": [
-      { "title": "A short selection, usable right away", "body": "Three times more relevant profiles, zero noise." },
-      { "title": "Profiles ready to call in", "body": "Self-tapes, availability and rights already verified." },
-      { "title": "A ranking you understand", "body": "Every profile is ranked with a readable justification." },
-      { "title": "Neutrality you can verify", "body": "The same scoring for everyone, source displayed, traceable history." }
+      {
+        "title": "A short selection, usable right away",
+        "body": "Three times more relevant profiles, zero noise."
+      },
+      {
+        "title": "Profiles ready to call in",
+        "body": "Self-tapes, availability and rights already verified."
+      },
+      {
+        "title": "A ranking you understand",
+        "body": "Every profile is ranked with a readable justification."
+      },
+      {
+        "title": "Neutrality you can verify",
+        "body": "The same scoring for everyone, source displayed, traceable history."
+      }
     ]
   },
   "neutrality": {
     "eyebrow": "Neutrality",
     "title": "Neutrality, proven in the product",
     "items": [
-      { "title": "The source on every profile", "body": "Agental or external, always visible." },
-      { "title": "The same calculation for all", "body": "The same criteria, whatever the source." },
-      { "title": "A consultable history", "body": "Every ranking decision stays traceable." }
+      {
+        "title": "The source on every profile",
+        "body": "Agental or external, always visible."
+      },
+      {
+        "title": "The same calculation for all",
+        "body": "The same criteria, whatever the source."
+      },
+      {
+        "title": "A consultable history",
+        "body": "Every ranking decision stays traceable."
+      }
     ]
   },
   "steps": {
@@ -54,17 +76,35 @@
     "title": "Your casting, in three steps",
     "cta": "See the full details",
     "items": [
-      { "title": "Describe the role", "body": "A conversational assistant structures your brief." },
-      { "title": "Receive your short-list", "body": "A short selection, calibrated for relevance." },
-      { "title": "Decide and call in", "body": "Self-tapes, availability and rights are already verified." }
+      {
+        "title": "Describe the role",
+        "body": "A conversational assistant structures your brief."
+      },
+      {
+        "title": "Receive your short-list",
+        "body": "A short selection, calibrated for relevance."
+      },
+      {
+        "title": "Decide and call in",
+        "body": "Self-tapes, availability and rights are already verified."
+      }
     ]
   },
   "testimonials": {
     "title": "They cast with Agental",
     "items": [
-      { "quote": "A short short-list, usable from the very first minute.", "author": "Casting director, feature films, Paris" },
-      { "quote": "We save considerable time on the first pass.", "author": "Independent production company, series" },
-      { "quote": "The source displayed on every profile won us over.", "author": "Advertising agency, in-house casting" }
+      {
+        "quote": "A short short-list, usable from the very first minute.",
+        "author": "Casting director, feature films, Paris"
+      },
+      {
+        "quote": "We save considerable time on the first pass.",
+        "author": "Independent production company, series"
+      },
+      {
+        "quote": "The source displayed on every profile won us over.",
+        "author": "Advertising agency, in-house casting"
+      }
     ]
   },
   "pricing": {
@@ -73,10 +113,56 @@
     "note": "No commitment. Change plan or cancel anytime.",
     "recommended": "RECOMMENDED",
     "plans": [
-      { "name": "Free", "price": "€0", "priceUnit": "", "cta": "Try", "features": ["1 active project", "50 filtered applications per month", "Base score", "Source shown on every talent"] },
-      { "name": "Pro", "price": "€99", "priceUnit": "/seat/month", "cta": "Choose Pro", "features": ["10 active projects", "1,000 filtered applications/month", "Detailed score and explanation", "Self-tape verification", "Full dashboard", "Advanced filters and sorting"] },
-      { "name": "Studio", "price": "€299", "priceUnit": "/month", "cta": "Choose", "features": ["Up to 5 seats", "Unlimited projects and selections", "Integrations", "Dedicated support"] },
-      { "name": "Enterprise", "price": "On request", "priceUnit": "", "cta": "Contact us", "features": ["Large houses and studios", "SSO", "Guaranteed SLA", "Private API"] }
+      {
+        "name": "Free",
+        "price": "€0",
+        "priceUnit": "",
+        "cta": "Try",
+        "features": [
+          "1 active project",
+          "50 filtered applications per month",
+          "Base score",
+          "Source shown on every talent"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "€99",
+        "priceUnit": "/seat/month",
+        "cta": "Choose Pro",
+        "features": [
+          "10 active projects",
+          "1,000 filtered applications/month",
+          "Detailed score and explanation",
+          "Self-tape verification",
+          "Full dashboard",
+          "Advanced filters and sorting"
+        ]
+      },
+      {
+        "name": "Studio",
+        "price": "€299",
+        "priceUnit": "/month",
+        "cta": "Choose",
+        "features": [
+          "Up to 5 seats",
+          "Unlimited projects and selections",
+          "Integrations",
+          "Dedicated support"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "price": "On request",
+        "priceUnit": "",
+        "cta": "Contact us",
+        "features": [
+          "Large houses and studios",
+          "SSO",
+          "Guaranteed SLA",
+          "Private API"
+        ]
+      }
     ]
   },
   "finalCta": {
@@ -85,40 +171,249 @@
     "ctaSecondary": "Request a demo"
   },
   "how": {
-    "meta": { "title": "How it works — Agental Casting", "description": "From brief to call-in: how Agental filters 90% of applications to present you only the truly relevant profiles." },
-    "hero": { "eyebrow": "How it works", "title": "How Agental Casting works", "subtitle": "A brief structured in minutes, a calibrated short-list, profiles ready to decide on. Neutrality proven in the product." },
+    "meta": {
+      "title": "How it works — Agental Casting",
+      "description": "From brief to call-in: how Agental filters 90% of applications to present you only the truly relevant profiles."
+    },
+    "hero": {
+      "eyebrow": "How it works",
+      "title": "How Agental Casting works",
+      "subtitle": "A brief structured in minutes, a calibrated short-list, profiles ready to decide on. Neutrality proven in the product."
+    },
     "sections": [
-      { "title": "A brief structured in minutes", "body": "A conversational assistant shapes your request: role, gender, age range, physical type, language, accent, constraints, shooting window, location and budget. You validate a clear preview." },
-      { "title": "A cascading selection, calibrated for relevance", "body": "The AI discards off-topic applications and ranks the remaining profiles by your criteria. You receive a short short-list, not a directory." },
-      { "title": "Profiles ready to decide on", "body": "Self-tapes, availability and image rights are verified upstream. Each profile shows a score and a readable justification." },
-      { "title": "You keep control, neutrality is guaranteed", "body": "The source (Agental or external) is shown on every talent, the same calculation applies to all, and every ranking decision stays traceable." }
+      {
+        "title": "A brief structured in minutes",
+        "body": "A conversational assistant shapes your request: role, gender, age range, physical type, language, accent, constraints, shooting window, location and budget. You validate a clear preview."
+      },
+      {
+        "title": "A cascading selection, calibrated for relevance",
+        "body": "The AI discards off-topic applications and ranks the remaining profiles by your criteria. You receive a short short-list, not a directory."
+      },
+      {
+        "title": "Profiles ready to decide on",
+        "body": "Self-tapes, availability and image rights are verified upstream. Each profile shows a score and a readable justification."
+      },
+      {
+        "title": "You keep control, neutrality is guaranteed",
+        "body": "The source (Agental or external) is shown on every talent, the same calculation applies to all, and every ranking decision stays traceable."
+      }
     ],
     "cta": "Try for free"
   },
   "pricingPage": {
-    "meta": { "title": "Pricing — Agental Casting", "description": "Per-seat and per-volume pricing, built for your casting activity. No commitment." },
-    "hero": { "eyebrow": "Pricing", "title": "Pricing built for your casting volume", "subtitle": "Start for free, no credit card. Step up when the value is proven." }
+    "meta": {
+      "title": "Pricing — Agental Casting",
+      "description": "Per-seat and per-volume pricing, built for your casting activity. No commitment."
+    },
+    "hero": {
+      "eyebrow": "Pricing",
+      "title": "Pricing built for your casting volume",
+      "subtitle": "Start for free, no credit card. Step up when the value is proven."
+    }
   },
   "faq": {
-    "meta": { "title": "FAQ — Agental Casting", "description": "Your questions about scoring, neutrality, verified self-tapes and Agental Casting pricing." },
-    "hero": { "eyebrow": "FAQ", "title": "Frequently asked questions", "subtitle": "The essentials on how it works, neutrality and pricing. A specific question? Get in touch." },
+    "meta": {
+      "title": "FAQ — Agental Casting",
+      "description": "Your questions about scoring, neutrality, verified self-tapes and Agental Casting pricing."
+    },
+    "hero": {
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions",
+      "subtitle": "The essentials on how it works, neutrality and pricing. A specific question? Get in touch."
+    },
     "cta": "Try for free",
     "groups": [
-      { "title": "How it works", "items": [
-        { "q": "What does 'filter 90% of applications' mean?", "a": "The AI discards profiles that don't match your brief, to present you only the truly relevant candidates. It's a time saver, not an opaque sort: every ranking is justified." },
-        { "q": "How does scoring work?", "a": "Each talent receives a score from 0 to 100 with a readable justification (accent, availability, rights, distance to the ideal profile). The same calculation applies to every profile." },
-        { "q": "Are self-tapes verified?", "a": "Yes, from the Pro plan: framing, quality and fit to the role are checked before they reach you." }
-      ] },
-      { "title": "Neutrality", "items": [
-        { "q": "What is the 'source' badge?", "a": "It shows whether a talent is represented by Agental or sourced off-roster (external). Provenance is always visible, to prove the ranking isn't biased." },
-        { "q": "Are Agental talents favoured?", "a": "No. The same scoring and criteria apply whatever the source. An external talent can rank ahead of an Agental one." },
-        { "q": "Can I audit the ranking decisions?", "a": "Yes. Every decision stays traced and consultable: the audit trail is built into the product." }
-      ] },
-      { "title": "Accounts and pricing", "items": [
-        { "q": "Does the free plan need a credit card?", "a": "No. The Free plan opens 1 active project and 50 filtered applications per month, no credit card." },
-        { "q": "How does per-seat pricing work?", "a": "The Pro plan is billed per active seat per month. You add or remove seats to match your team; Studio covers up to 5 seats." },
-        { "q": "Can I cancel anytime?", "a": "Yes. No commitment: change plan or cancel whenever you like." }
-      ] }
+      {
+        "title": "How it works",
+        "items": [
+          {
+            "q": "What does 'filter 90% of applications' mean?",
+            "a": "The AI discards profiles that don't match your brief, to present you only the truly relevant candidates. It's a time saver, not an opaque sort: every ranking is justified."
+          },
+          {
+            "q": "How does scoring work?",
+            "a": "Each talent receives a score from 0 to 100 with a readable justification (accent, availability, rights, distance to the ideal profile). The same calculation applies to every profile."
+          },
+          {
+            "q": "Are self-tapes verified?",
+            "a": "Yes, from the Pro plan: framing, quality and fit to the role are checked before they reach you."
+          }
+        ]
+      },
+      {
+        "title": "Neutrality",
+        "items": [
+          {
+            "q": "What is the 'source' badge?",
+            "a": "It shows whether a talent is represented by Agental or sourced off-roster (external). Provenance is always visible, to prove the ranking isn't biased."
+          },
+          {
+            "q": "Are Agental talents favoured?",
+            "a": "No. The same scoring and criteria apply whatever the source. An external talent can rank ahead of an Agental one."
+          },
+          {
+            "q": "Can I audit the ranking decisions?",
+            "a": "Yes. Every decision stays traced and consultable: the audit trail is built into the product."
+          }
+        ]
+      },
+      {
+        "title": "Accounts and pricing",
+        "items": [
+          {
+            "q": "Does the free plan need a credit card?",
+            "a": "No. The Free plan opens 1 active project and 50 filtered applications per month, no credit card."
+          },
+          {
+            "q": "How does per-seat pricing work?",
+            "a": "The Pro plan is billed per active seat per month. You add or remove seats to match your team; Studio covers up to 5 seats."
+          },
+          {
+            "q": "Can I cancel anytime?",
+            "a": "Yes. No commitment: change plan or cancel whenever you like."
+          }
+        ]
+      }
     ]
+  },
+  "notFound": {
+    "title": "This page is no longer in the running.",
+    "body": "The link may be old, or the page was renamed. Your projects remain available from your workspace."
+  },
+  "signup": {
+    "metaTitle": "Try it free",
+    "title": "Create your casting account",
+    "subtitle": "Free, no card required. One active project included.",
+    "submit": "Create my account",
+    "already": "Already registered?",
+    "signIn": "Sign in"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identity",
+      "scope": "Scope",
+      "verify": "Verification"
+    },
+    "identity": {
+      "title": "Your organisation",
+      "subtitle": "We verify your professional identity.",
+      "orgName": "Organisation name",
+      "orgNamePlaceholder": "Production company, agency, studio…",
+      "siret": "SIRET (14 digits)",
+      "siretNote": "A valid SIRET triggers immediate verification. Otherwise your account stays pending review."
+    },
+    "scope": {
+      "title": "Your scope",
+      "subtitle": "So we can calibrate the profiles we show you.",
+      "projectTypes": "Project types",
+      "zones": "Areas covered (comma separated)",
+      "zonesPlaceholder": "Paris, Lyon, nationwide"
+    },
+    "verify": {
+      "title": "Last step",
+      "subtitle": "Confirm your email to reach your projects.",
+      "sent": "A confirmation email has been sent to you.",
+      "demo": "For this demo, click below to confirm and activate your free workspace (1 active project, 50 filtered applications per month).",
+      "submit": "Confirm and open my projects"
+    },
+    "back": "Back",
+    "continue": "Continue"
+  },
+  "space": {
+    "nav": {
+      "projects": "Projects",
+      "subscription": "Subscription",
+      "settings": "Settings",
+      "account": "My account"
+    },
+    "brief": {
+      "working": "Structuring your brief and generating the shortlist…",
+      "intro": "The assistant shapes your request. You will validate the generated shortlist.",
+      "introA": "The assistant shapes your request. You will validate the generated shortlist",
+      "introB": "provenance shown on every profile."
+    },
+    "plans": {
+      "demo": "Demo mode — no real payment. No commitment, cancel at any time."
+    },
+    "minors": {
+      "title": "Minor protection",
+      "subtitle": "The French legal framework applied to the letter before any call-back.",
+      "authLabel": "Authorisation from the departmental commission",
+      "authGranted": "Granted",
+      "authRequested": "Requested",
+      "authTodo": "To request",
+      "request": "Request",
+      "markGranted": "Mark as granted",
+      "parentalLabel": "Parental presence (casting & shoot)",
+      "parentalOk": "Confirmed",
+      "parentalTodo": "To confirm",
+      "confirm": "Confirm",
+      "escrowLabel": "{percent}% of the fee held in escrow until adulthood",
+      "escrowHeld": "Held",
+      "escrowTodo": "To hold"
+    },
+    "shortlist": {
+      "empty": "No profile matches these filters."
+    },
+    "subscription": {
+      "title": "Subscription",
+      "subtitle": "Per-seat and per-volume pricing, built around your activity.",
+      "activeProjects": "Active projects",
+      "sortedThisMonth": "Applications filtered this month",
+      "quote": "On request"
+    },
+    "projects": {
+      "subtitle": "Your casting projects and your shortlists.",
+      "siretVerified": "SIRET verified",
+      "siretPending": "SIRET pending",
+      "newBrief": "New brief",
+      "firstTitle": "Create your first brief",
+      "firstBody": "Describe a role to our assistant: it shapes your request and generates a calibrated shortlist.",
+      "yours": "Your projects",
+      "open": "Open projects",
+      "shortlisting": "Shortlists in progress",
+      "shortlisted": "Shortlisted talents"
+    },
+    "projectStatus": {
+      "DRAFT": "Draft",
+      "OPEN": "Open",
+      "SHORTLISTING": "Shortlisting",
+      "CLOSED": "Closed"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Your organisation, your seats, your subscription.",
+      "org": "Organisation",
+      "name": "Name",
+      "siret": "SIRET",
+      "seats": "Seats",
+      "activeSeats": "Active seats",
+      "subscription": "Subscription",
+      "plan": "Plan",
+      "verified": "Verified",
+      "pending": "Pending",
+      "manageSub": "Manage subscription"
+    },
+    "project": {
+      "shortlist": "Shortlist",
+      "externalTalent": "External talent"
+    },
+    "talentSheet": {
+      "title": "Talent sheet",
+      "back": "Back to the shortlist",
+      "languages": "Languages",
+      "accents": "Accents",
+      "height": "Height",
+      "specialties": "Specialties",
+      "minor": "Minor",
+      "available": "Available",
+      "justification": "Ranking rationale",
+      "audit": "Audit trail",
+      "auditNote": "Every ranking decision and action is traced here."
+    },
+    "newBrief": {
+      "title": "New brief",
+      "subtitle": "Describe the role — the assistant handles the rest."
+    }
   }
 }

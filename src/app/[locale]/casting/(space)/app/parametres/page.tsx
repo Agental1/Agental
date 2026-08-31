@@ -1,5 +1,6 @@
+import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Building2, ShieldCheck, CreditCard, LogOut, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -16,8 +17,10 @@ export default async function CastingParametresPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -32,8 +35,8 @@ export default async function CastingParametresPage({
   return (
     <div className="max-w-2xl space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium">Paramètres</h1>
-        <p className="text-fg-muted">Votre structure, vos sièges, votre abonnement.</p>
+        <h1 className="font-display text-3xl font-medium">{t("space.settings.title")}</h1>
+        <p className="text-fg-muted">{t("space.settings.subtitle")}</p>
       </div>
 
       <Section icon={Building2} title="Structure">
@@ -41,9 +44,9 @@ export default async function CastingParametresPage({
         <Row label="SIRET" value={org.siret ?? "—"} />
         <div className="flex items-center gap-2">
           {org.siretStatus === "VERIFIED" ? (
-            <Badge variant="success"><ShieldCheck /> Vérifié</Badge>
+            <Badge variant="success"><ShieldCheck />{t("space.settings.verified")}</Badge>
           ) : (
-            <Badge variant="warning">En attente</Badge>
+            <Badge variant="warning">{t("space.settings.pending")}</Badge>
           )}
         </div>
       </Section>
@@ -55,7 +58,7 @@ export default async function CastingParametresPage({
       <Section icon={CreditCard} title="Abonnement">
         <Row label="Plan" value={org.plan} />
         <Button asChild variant="outline" size="sm">
-          <Link href="/casting/app/abonnement">Gérer l&apos;abonnement</Link>
+          <Link href="/casting/app/abonnement">{t("space.settings.manageSub")}</Link>
         </Button>
       </Section>
 

@@ -2,8 +2,8 @@ import { z } from "zod";
 import { UserKind } from "./enums";
 
 export const SignupInput = z.object({
-  email: z.string().email("Adresse email invalide."),
-  password: z.string().min(8, "8 caractères minimum."),
+  email: z.string().email("errors.emailInvalid"),
+  password: z.string().min(8, "errors.passwordTooShort"),
   kind: UserKind,
   locale: z.string().default("fr"),
 });

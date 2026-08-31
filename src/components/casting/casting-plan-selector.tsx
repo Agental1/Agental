@@ -1,7 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,17 +29,19 @@ export function CastingPlanSelector({
   current: string;
   seatCount: number;
 }) {
+  const t = useTranslations("casting");
   const router = useRouter();
   const [pending, start] = useTransition();
-  const [busy, setBusy] = useState<string>();
-  const [error, setError] = useState<string>();
+  const [busy, setBusy] = useState<string | undefined>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
 
   function choose(plan: string) {
     setBusy(plan);
     setError(undefined);
     start(async () => {
       const res = await changeOrgPlan(plan);
-      if (!res.ok) setError(res.error ?? "Erreur.");
+      if (!res.ok) setError(res.error ?? err("errors.generic"));
       else if (res.checkoutUrl) window.location.href = res.checkoutUrl;
       else router.refresh();
       setBusy(undefined);
@@ -91,10 +96,8 @@ export function CastingPlanSelector({
           );
         })}
       </div>
-      {error && <p className="text-sm text-danger">{error}</p>}
-      <p className="text-xs text-fg-subtle">
-        Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment.
-      </p>
+      {error && <p className="text-sm text-danger">{errorText(error)}</p>}
+      <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
     </div>
   );
 }

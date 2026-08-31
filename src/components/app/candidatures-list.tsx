@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Bot, Hand, MapPin } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -54,6 +55,7 @@ function statusVariant(s: string) {
 }
 
 export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
+  const t = useTranslations("talents");
   const [tab, setTab] = useState("all");
   const group = GROUPS.find((g) => g.key === tab)!;
   const filtered = rows.filter((r) => group.match(r.status));
@@ -69,10 +71,7 @@ export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
       </TabsList>
       <TabsContent value={tab}>
         {filtered.length === 0 ? (
-          <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-8 text-center text-sm text-fg-muted">
-            Aucune candidature ici pour l&apos;instant. L&apos;IA veille et postule
-            pour toi dès qu&apos;un rôle te correspond.
-          </p>
+          <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-8 text-center text-sm text-fg-muted">{t("space.candidatures.emptyList")}</p>
         ) : (
           <ul className="space-y-3">
             {filtered.map((r) => (

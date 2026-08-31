@@ -15,20 +15,47 @@
     "ctaSecondary": "See how it works"
   },
   "proof": {
-    "regulated": { "title": "A real, regulated agent.", "body": "A written mandate governed by French law." },
-    "ai": { "title": "An AI that works 24/7.", "body": "Scouting, applications and follow-up while you perform." },
-    "free": { "title": "Free to get started.", "body": "You pay nothing to be represented." }
+    "regulated": {
+      "title": "A real, regulated agent.",
+      "body": "A written mandate governed by French law."
+    },
+    "ai": {
+      "title": "An AI that works 24/7.",
+      "body": "Scouting, applications and follow-up while you perform."
+    },
+    "free": {
+      "title": "Free to get started.",
+      "body": "You pay nothing to be represented."
+    }
   },
   "why": {
     "eyebrow": "Why Agental",
     "title": "An agency that truly works for you",
     "items": [
-      { "title": "A real agent who represents you", "body": "A written mandate, governed by law. Not another listings site: an agency." },
-      { "title": "The agent works while you perform", "body": "Casting watch, applications, follow-ups and tracking — continuously." },
-      { "title": "We find the roles that fit you", "body": "No more scrolling through irrelevant castings. We target what truly matches." },
-      { "title": "We coach you to stand out", "body": "Self-tapes, portfolio, media choices: we optimise what makes the difference." },
-      { "title": "You keep more as you rise", "body": "A decreasing commission: the further you go, the more you keep." },
-      { "title": "Every profile has a strength", "body": "We highlight what makes you unique, not a mould." }
+      {
+        "title": "A real agent who represents you",
+        "body": "A written mandate, governed by law. Not another listings site: an agency."
+      },
+      {
+        "title": "The agent works while you perform",
+        "body": "Casting watch, applications, follow-ups and tracking — continuously."
+      },
+      {
+        "title": "We find the roles that fit you",
+        "body": "No more scrolling through irrelevant castings. We target what truly matches."
+      },
+      {
+        "title": "We coach you to stand out",
+        "body": "Self-tapes, portfolio, media choices: we optimise what makes the difference."
+      },
+      {
+        "title": "You keep more as you rise",
+        "body": "A decreasing commission: the further you go, the more you keep."
+      },
+      {
+        "title": "Every profile has a strength",
+        "body": "We highlight what makes you unique, not a mould."
+      }
     ]
   },
   "steps": {
@@ -36,11 +63,26 @@
     "title": "Joining Agental, in five steps",
     "cta": "See the full details",
     "items": [
-      { "title": "Create your profile", "body": "Identity, physique, media, specialties and availability." },
-      { "title": "Sign your mandate", "body": "Free, governed by law, cancellable anytime." },
-      { "title": "Let the AI work", "body": "It spots the castings made for you." },
-      { "title": "Shoot your self-tapes", "body": "We guide you so they make you stand out." },
-      { "title": "Land your roles", "body": "We negotiate, secure the deal, and pay you your fee." }
+      {
+        "title": "Create your profile",
+        "body": "Identity, physique, media, specialties and availability."
+      },
+      {
+        "title": "Sign your mandate",
+        "body": "Free, governed by law, cancellable anytime."
+      },
+      {
+        "title": "Let the AI work",
+        "body": "It spots the castings made for you."
+      },
+      {
+        "title": "Shoot your self-tapes",
+        "body": "We guide you so they make you stand out."
+      },
+      {
+        "title": "Land your roles",
+        "body": "We negotiate, secure the deal, and pay you your fee."
+      }
     ]
   },
   "selftape": {
@@ -62,18 +104,67 @@
     "commission": "commission {rate}",
     "popular": "POPULAR",
     "plans": [
-      { "name": "Free", "price": "€0", "commission": "10%", "cta": "Get started", "features": ["Representation mandate", "Full profile", "Manual applications", "Access to targeted castings"] },
-      { "name": "Pro", "price": "€19", "commission": "10%", "cta": "Choose", "features": ["Everything in Free", "AI auto-applications", "Priority AI watch", "Augmented Self-tape Studio", "Priority support", "Up to 10 applications/day"] },
-      { "name": "Premium", "price": "€49", "commission": "7.5%", "cta": "Choose", "features": ["Everything in Pro", "Advanced AI coaching", "Multi-country mobility", "Up to 50 applications/day"] },
-      { "name": "Ultimate", "price": "€79", "commission": "5%", "cta": "Choose", "features": ["Everything in Premium", "Automated press management", "Unlimited applications", "Commission reduced to 5%"] }
+      {
+        "name": "Free",
+        "price": "€0",
+        "commission": "10%",
+        "cta": "Get started",
+        "features": [
+          "Representation mandate",
+          "Full profile and media",
+          "Self-tape Studio",
+          "Career and earnings tracking"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "€19",
+        "commission": "10%",
+        "cta": "Choose",
+        "features": [
+          "Everything in Free",
+          "AI feedback on your self-tapes",
+          "Messaging with your agent",
+          "Priority support"
+        ]
+      },
+      {
+        "name": "Premium",
+        "price": "€49",
+        "commission": "7.5%",
+        "cta": "Choose",
+        "features": [
+          "Everything in Pro",
+          "Commission down to 7.5%"
+        ]
+      },
+      {
+        "name": "Ultimate",
+        "price": "€79",
+        "commission": "5%",
+        "cta": "Choose",
+        "features": [
+          "Everything in Premium",
+          "Commission down to 5%"
+        ]
+      }
     ]
   },
   "testimonials": {
     "title": "They joined Agental",
     "items": [
-      { "quote": "They search for me, I focus on my craft.", "author": "Sofiane, 22 — extra and small roles, Lyon" },
-      { "quote": "Three new castings that truly match me, every week.", "author": "Amina, 34 — advertising and voice, Marseille" },
-      { "quote": "My self-tape changed everything. They showed me how to shoot it.", "author": "Lucas, 41 — supporting roles, Lille" }
+      {
+        "quote": "They search for me, I focus on my craft.",
+        "author": "Sofiane, 22 — extra and small roles, Lyon"
+      },
+      {
+        "quote": "Three new castings that truly match me, every week.",
+        "author": "Amina, 34 — advertising and voice, Marseille"
+      },
+      {
+        "quote": "My self-tape changed everything. They showed me how to shoot it.",
+        "author": "Lucas, 41 — supporting roles, Lille"
+      }
     ]
   },
   "minors": {
@@ -93,69 +184,178 @@
     "ctaSecondary": "Ask a question"
   },
   "how": {
-    "meta": { "title": "How it works — Agental Talents", "description": "From creating your profile to receiving your fee: how Agental represents you and works for you, step by step." },
-    "hero": { "eyebrow": "How it works", "title": "How Agental works, for artists", "subtitle": "A real agent who represents you, an AI working for you continuously. Here's the journey, jargon-free." },
+    "meta": {
+      "title": "How it works — Agental Talents",
+      "description": "From creating your profile to receiving your fee: how Agental represents you and works for you, step by step."
+    },
+    "hero": {
+      "eyebrow": "How it works",
+      "title": "How Agental works, for artists",
+      "subtitle": "A real agent who represents you, an AI working for you continuously. Here's the journey, jargon-free."
+    },
     "sections": [
-      { "title": "A profile that reflects you", "body": "You add your identity, physique, media, specialties and availability. Every industry field is explained in plain language — no need to know casting vocabulary." },
-      { "title": "The contract that gets you represented", "body": "You sign your representation mandate: the standard contract between an artist and their agent, governed by French law. Free, no commitment on your side, cancellable anytime." },
-      { "title": "A watch that never stops", "body": "The AI monitors castings 24/7 and spots the ones that truly match you. No more irrelevant listings: we find the roles that fit." },
-      { "title": "The studio that builds your confidence", "body": "The Self-tape Studio guides you on framing, lighting and sound, with a vocal coach. Even shot on a phone, your self-tape can change everything." },
-      { "title": "From selection to fee", "body": "When you're picked, we negotiate, secure the contract and pay you your fee. Your commission drops as you rise." }
+      {
+        "title": "A profile that reflects you",
+        "body": "You add your identity, physique, media, specialties and availability. Every industry field is explained in plain language — no need to know casting vocabulary."
+      },
+      {
+        "title": "The contract that gets you represented",
+        "body": "You sign your representation mandate: the standard contract between an artist and their agent, governed by French law. Free, no commitment on your side, cancellable anytime."
+      },
+      {
+        "title": "A watch that never stops",
+        "body": "The AI monitors castings 24/7 and spots the ones that truly match you. No more irrelevant listings: we find the roles that fit."
+      },
+      {
+        "title": "The studio that builds your confidence",
+        "body": "The Self-tape Studio guides you on framing, lighting and sound, with a vocal coach. Even shot on a phone, your self-tape can change everything."
+      },
+      {
+        "title": "From selection to fee",
+        "body": "When you're picked, we negotiate, secure the contract and pay you your fee. Your commission drops as you rise."
+      }
     ],
     "cta": "Become a member"
   },
   "pricingPage": {
-    "meta": { "title": "Pricing — Agental Talents", "description": "The representation mandate is free. The subscription, optional, rewards your progress with a decreasing commission." },
-    "hero": { "eyebrow": "Pricing", "title": "Pricing that rewards your progress", "subtitle": "The representation mandate is free and separate. The subscription is an optional technology service — never a toll to opportunities." }
+    "meta": {
+      "title": "Pricing — Agental Talents",
+      "description": "The representation mandate is free. The subscription, optional, rewards your progress with a decreasing commission."
+    },
+    "hero": {
+      "eyebrow": "Pricing",
+      "title": "Pricing that rewards your progress",
+      "subtitle": "The representation mandate is free and separate. The subscription is an optional technology service — never a toll to opportunities."
+    }
   },
   "faq": {
-    "meta": { "title": "FAQ — Agental Talents", "description": "Your questions about Agental: the agency, the mandate, the commission and how it works day to day." },
-    "hero": { "eyebrow": "FAQ", "title": "Artists' frequently asked questions", "subtitle": "Everything you want to know before getting started. Another question? Write to us." },
+    "meta": {
+      "title": "FAQ — Agental Talents",
+      "description": "Your questions about Agental: the agency, the mandate, the commission and how it works day to day."
+    },
+    "hero": {
+      "eyebrow": "FAQ",
+      "title": "Artists' frequently asked questions",
+      "subtitle": "Everything you want to know before getting started. Another question? Write to us."
+    },
     "cta": "Become a member for free",
     "groups": [
-      { "title": "The essentials", "items": [
-        { "q": "What is Agental?", "a": "A real, regulated artist agency whose entire operational work — scouting, applications, follow-up, coaching — is augmented by AI. We represent you; the AI works for you 24/7." },
-        { "q": "Is it a real agency or a listings platform?", "a": "A real agency: written mandate, official registration, professional liability. Not a listings site where you apply on your own." },
-        { "q": "How much does it cost to start?", "a": "Nothing. The representation mandate is free and the Free plan lets you be represented without paying. The paid subscription is optional." },
-        { "q": "Do I need experience to sign up?", "a": "No. Agental is precisely for the profiles underserved by traditional agencies. A reel filmed on your phone is enough to start." }
-      ] },
-      { "title": "The mandate and commission", "items": [
-        { "q": "What is the representation mandate?", "a": "It's the standard contract between an artist and their agent, governed by French law. It authorises us to represent you and negotiate for you. Free, no commitment on your side." },
-        { "q": "How much commission does Agental take?", "a": "10% on Free and Pro, 7.5% on Premium, 5% on Ultimate. The more you rise, the more you keep." },
-        { "q": "Is the commission on top of the subscription?", "a": "The mandate (free) and its possible commission are separate from the subscription (optional). The subscription funds tech services; it never buys access to opportunities." },
-        { "q": "Can I cancel my mandate?", "a": "Yes, with a short notice and without having to justify it. You stay free." }
-      ] },
-      { "title": "Day to day", "items": [
-        { "q": "How does the AI find roles for me?", "a": "It cross-references your profile (physique, specialties, languages, accents, availability) with open castings and suggests the ones that truly match." },
-        { "q": "Do I keep control of my applications?", "a": "Yes. You set your preferences (project types, mobility, caps) and can approve or decline. The AI suggests, you decide." },
-        { "q": "Does the subscription give me privileged access to castings?", "a": "No. Opportunities go through the mandate, which is free. The subscription unlocks tools (auto-application, coaching), not a fast pass." },
-        { "q": "What happens if I stop paying?", "a": "You automatically move back to the free plan. You remain represented." },
-        { "q": "Does it work on a basic phone?", "a": "Yes. The Self-tape Studio has a degraded mode designed for modest devices and slow connections." }
-      ] }
+      {
+        "title": "The essentials",
+        "items": [
+          {
+            "q": "What is Agental?",
+            "a": "A real, regulated talent agency whose operational work — follow-up, preparation, coaching — is augmented by AI. We represent you; the tools work alongside you."
+          },
+          {
+            "q": "Is it a real agency or a listings platform?",
+            "a": "A real agency: written mandate, official registration, professional liability. Not a listings site where you apply on your own."
+          },
+          {
+            "q": "How much does it cost to start?",
+            "a": "Nothing. The representation mandate is free and the Free plan lets you be represented without paying. The paid subscription is optional."
+          },
+          {
+            "q": "Do I need experience to sign up?",
+            "a": "No. Agental is precisely for the profiles underserved by traditional agencies. A reel filmed on your phone is enough to start."
+          }
+        ]
+      },
+      {
+        "title": "The mandate and commission",
+        "items": [
+          {
+            "q": "What is the representation mandate?",
+            "a": "It's the standard contract between an artist and their agent, governed by French law. It authorises us to represent you and negotiate for you. Free, no commitment on your side."
+          },
+          {
+            "q": "How much commission does Agental take?",
+            "a": "10% on Free and Pro, 7.5% on Premium, 5% on Ultimate. The more you rise, the more you keep."
+          },
+          {
+            "q": "Is the commission on top of the subscription?",
+            "a": "The mandate (free) and its possible commission are separate from the subscription (optional). The subscription funds tech services; it never buys access to opportunities."
+          },
+          {
+            "q": "Can I cancel my mandate?",
+            "a": "Yes, with a short notice and without having to justify it. You stay free."
+          }
+        ]
+      },
+      {
+        "title": "Day to day",
+        "items": [
+          {
+            "q": "How does the AI find roles for me?",
+            "a": "It cross-references your profile (physique, specialties, languages, accents, availability) with open castings and suggests the ones that truly match."
+          },
+          {
+            "q": "Do I keep control of my applications?",
+            "a": "Yes. You set your preferences — project types, mobility, minimum fee — and nothing is committed in your name without your agreement. You decide, always."
+          },
+          {
+            "q": "Does the subscription give me privileged access to castings?",
+            "a": "No. Opportunities go through the mandate, which is free. The subscription lowers the commission and unlocks tools, never a fast pass."
+          },
+          {
+            "q": "What happens if I stop paying?",
+            "a": "You automatically move back to the free plan. You remain represented."
+          },
+          {
+            "q": "Does it work on a basic phone?",
+            "a": "Yes. The Self-tape Studio has a degraded mode designed for modest devices and slow connections."
+          }
+        ]
+      }
     ]
   },
   "about": {
-    "meta": { "title": "About us — Agental", "description": "An idea born at the dinner table: democratising access to artistic representation through a real agent augmented by AI." },
-    "hero": { "eyebrow": "About us", "title": "An idea born at the table", "subtitle": "Agental was born from a simple conviction: talent is everywhere, representation is not. We wanted to change that." },
+    "meta": {
+      "title": "About us — Agental",
+      "description": "An idea born at the dinner table: democratising access to artistic representation through a real agent augmented by AI."
+    },
+    "hero": {
+      "eyebrow": "About us",
+      "title": "An idea born at the table",
+      "subtitle": "Agental was born from a simple conviction: talent is everywhere, representation is not. We wanted to change that."
+    },
     "story": [
       "Too many wonderful profiles never had access to an agent: too young, too far from big cities, too 'atypical' for established agencies. Yet castings are looking for them.",
       "We built an agency that does a real agent's work — mandate, negotiation, career defence — but whose watch, scoring and follow-up run 24/7 thanks to AI. The warmth of an agent, the power of software."
     ],
     "valuesTitle": "What brings us together",
     "values": [
-      { "title": "Democratise", "body": "Give access to representation to underserved profiles, without jargon or intimidating contracts." },
-      { "title": "Transparency", "body": "We always explain why. The AI is an assistant in service of humans, never a black box." },
-      { "title": "Respect", "body": "Your media stay yours. Your data is protected. So is your freedom to leave." }
+      {
+        "title": "Democratise",
+        "body": "Give access to representation to underserved profiles, without jargon or intimidating contracts."
+      },
+      {
+        "title": "Transparency",
+        "body": "We always explain why. The AI is an assistant in service of humans, never a black box."
+      },
+      {
+        "title": "Respect",
+        "body": "Your media stay yours. Your data is protected. So is your freedom to leave."
+      }
     ],
     "foundersTitle": "The team",
     "founders": [
-      { "name": "Jérôme", "role": "the father" },
-      { "name": "Vadim", "role": "in Paris" }
+      {
+        "name": "Jérôme",
+        "role": "the father"
+      },
+      {
+        "name": "Vadim",
+        "role": "in Paris"
+      }
     ]
   },
   "castingLandings": {
     "index": {
-      "meta": { "title": "All casting types — Agental Talents", "description": "Extras, silhouette, supporting roles, advertising, photo, voice, children, creators: find the casting type made for you and let Agental represent you." },
+      "meta": {
+        "title": "All casting types — Agental Talents",
+        "description": "Extras, silhouette, supporting roles, advertising, photo, voice, children, creators: find the casting type made for you and let Agental represent you."
+      },
       "eyebrow": "Casting types",
       "title": "Find the casting made for you",
       "subtitle": "Whatever your profile, there's a place. Pick a world, we find the roles that match."
@@ -172,6 +372,287 @@
       "We find the listings that truly match you",
       "We optimise your portfolio and self-tapes",
       "We negotiate and secure your fee"
-    ]
+    ],
+    "othersTitle": "Other casting types"
+  },
+  "notFound": {
+    "title": "This page has left the set.",
+    "body": "The link may be old, or the page was renamed. Your castings are still where you left them."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Background acting",
+      "h1": "Background acting casting",
+      "tagline": "The way into film and television. No experience required.",
+      "audience": "You want to be on screen, see how a set works and build a first credit. Every profile, every age, anywhere in France."
+    },
+    "silhouette": {
+      "name": "Walk-on",
+      "h1": "Walk-on casting",
+      "tagline": "A step up from background: one gesture, one presence that registers.",
+      "audience": "You have a look, a bearing or a precise action to play on camera. A silent but visible role, usually better paid than background work."
+    },
+    "seconds-roles": {
+      "name": "Supporting roles",
+      "h1": "Supporting role casting",
+      "tagline": "Lines, a character, series and feature films.",
+      "audience": "You act, you have (or are building) some experience, and you want speaking parts in series, drama and film."
+    },
+    "publicite": {
+      "name": "Commercials",
+      "h1": "Commercial casting",
+      "tagline": "The best-paid shoots, open to every profile.",
+      "audience": "A face, a family, an athlete, a senior, a child, expert hands… Advertising looks for real people, not models. High fees and negotiated image rights."
+    },
+    "photo": {
+      "name": "Photo",
+      "h1": "Photo casting",
+      "tagline": "Campaigns, catalogues, editorial: your image, put to work.",
+      "audience": "You are at ease in front of the lens for commercial or editorial shoots. Authentic faces, every type and every age."
+    },
+    "voix-doublage": {
+      "name": "Voice & dubbing",
+      "h1": "Voice and dubbing casting",
+      "tagline": "Your voice is enough: ads, dubbing, narration, e-learning.",
+      "audience": "You have a voice that carries, an accent, a language or a particular timbre. The work happens in a studio, often without travelling far."
+    },
+    "enfants": {
+      "name": "Children & teens",
+      "h1": "Children and teen casting",
+      "tagline": "A strict protective framework, so they can act safely.",
+      "audience": "Your child wants to be on set? Background, commercials, series: the opportunities exist, inside a protective legal framework we apply to the letter."
+    },
+    "createurs": {
+      "name": "Content creators",
+      "h1": "Content creator casting",
+      "tagline": "Your audience and your ease on camera are casting assets.",
+      "audience": "You already create content and want to monetise your presence: placements, brand campaigns, hybrid formats. We structure and negotiate for you."
+    },
+    "units": {
+      "day": "/ day",
+      "session": "/ session",
+      "project": "project-based",
+      "variable": "Varies"
+    }
+  },
+  "login": {
+    "metaTitle": "Sign in",
+    "title": "Good to see you again",
+    "subtitle": "Sign in to your Agental space.",
+    "submit": "Sign in",
+    "noAccount": "No account yet?",
+    "signUp": "Become a member"
+  },
+  "signup": {
+    "metaTitle": "Become a member",
+    "title": "Create your artist account",
+    "subtitle": "Free. We represent you, the AI works for you.",
+    "submit": "Create my account",
+    "already": "Already a member?",
+    "signIn": "Sign in"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identity",
+      "physical": "Physical",
+      "media": "Media",
+      "specialties": "Specialties",
+      "mandat": "Mandate"
+    },
+    "identity": {
+      "title": "Who are you?",
+      "subtitle": "Let's start with the basics.",
+      "stageName": "Stage name",
+      "stageNamePlaceholder": "Your stage name",
+      "legalName": "Legal name (private)",
+      "birthDate": "Date of birth",
+      "city": "City",
+      "cityPlaceholder": "Lyon",
+      "phone": "Phone"
+    },
+    "physical": {
+      "title": "Your look",
+      "subtitle": "What casting directors look for. All optional.",
+      "height": "Height (cm)",
+      "build": "Build",
+      "buildPlaceholder": "slim, athletic…",
+      "hair": "Hair",
+      "eyes": "Eyes",
+      "languages": "Languages (comma separated)",
+      "languagesPlaceholder": "French, English",
+      "accents": "Accents",
+      "accentsPlaceholder": "Breton, Marseille"
+    },
+    "media": {
+      "title": "Your media",
+      "subtitle": "Photos, reel, voice — whatever shows you best.",
+      "note": "A reel shot on a phone is enough to start. You can add media from your profile right after signing up.",
+      "skip": "Skip this step"
+    },
+    "specialties": {
+      "title": "Your specialties",
+      "subtitle": "Pick what fits you — at least one.",
+      "minRate": "Minimum fee (€/day, optional)"
+    },
+    "mandat": {
+      "title": "Your representation mandate",
+      "subtitle": "One last step and you are represented.",
+      "free": "Free. No commitment on your side. Cancel whenever you want.",
+      "read": "Read the full mandate",
+      "accept": "I accept the representation mandate and ask Agental to represent me.",
+      "points": [
+        "It is the standard contract between an artist and their agent, framed by French law.",
+        "Agental represents you and negotiates for you. Commission applies only to fees you actually land.",
+        "Your media stays yours. Your data is protected (GDPR).",
+        "The paid subscription is a separate choice, later — never mixed with the mandate."
+      ],
+      "submit": "Sign and activate my account"
+    },
+    "back": "Back",
+    "continue": "Continue"
+  },
+  "space": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "candidatures": "Applications",
+      "selftape": "Self-tape",
+      "career": "Career",
+      "subscription": "Subscription",
+      "messages": "Messages",
+      "settings": "Settings",
+      "account": "My account"
+    },
+    "dashboard": {
+      "tagline": "We look for you, you focus on your craft.",
+      "represented": "Represented",
+      "plan": "{plan} plan",
+      "recent": "Recent applications",
+      "empty": "Roles that match you will appear here as soon as an application is opened for you.",
+      "suggestions": "AI suggestions",
+      "activeCount": "Active applications",
+      "pendingCount": "Awaiting feedback",
+      "auditions": "Upcoming auditions",
+      "urgent": "Urgent opportunities",
+      "complete": "Complete",
+      "selftapeHint": "Shoot a first self-tape — we guide you so it stands out.",
+      "view": "View"
+    },
+    "candidatures": {
+      "title": "My applications",
+      "subtitle": "Factual and kind — every status, explained.",
+      "empty": "No applications yet.",
+      "emptyList": "No applications here yet. Roles will appear as soon as an application is opened for you."
+    },
+    "career": {
+      "title": "My career",
+      "subtitle": "Your roles, your fees, your progress.",
+      "empty": "Your role history will appear here from your first fee.",
+      "role": "Role",
+      "date": "Date",
+      "fee": "Fee",
+      "commission": "Commission",
+      "status": "Status",
+      "gross": "Gross fees",
+      "net": "Net received",
+      "agencyCommission": "Agental commission",
+      "paid": "Paid",
+      "pending": "Pending"
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Your conversations with Agental and casting teams.",
+      "empty": "No messages yet. When a casting team takes an interest in your profile, or your agent has news, it lands here.",
+      "conversation": "Conversation"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Your account, your mandate, your subscription.",
+      "account": "Account",
+      "email": "Email",
+      "stageName": "Stage name",
+      "mandat": "Representation mandate",
+      "subscription": "Subscription",
+      "editProfile": "Edit my profile",
+      "mandatNote": "Free, cancellable at any time. It is what makes you represented — independently of any subscription.",
+      "subNote": "Optional technology service. It never buys access to opportunities.",
+      "manageSub": "Manage subscription (soon)",
+      "signedOn": "Signed on {date}"
+    },
+    "profile": {
+      "title": "My profile",
+      "subtitle": "A profile that looks like you — that is what the AI matches on."
+    },
+    "selftape": {
+      "title": "Self-tape Studio",
+      "subtitle": "Your self-tape can change everything. We help you nail it — framing, light and sound in real time.",
+      "takes": "Your takes",
+      "degraded": "Reduced mode",
+      "take": "Take {n}",
+      "framing": "Framing",
+      "light": "Light",
+      "sound": "Sound"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "subtitle": "An optional service that rewards your progress. The mandate stays free."
+    },
+    "planFeatures": {
+      "FREE": [
+        "Mandate & profile",
+        "Full profile and media",
+        "Self-tape Studio",
+        "Career tracking"
+      ],
+      "PRO": [
+        "Everything in Free",
+        "AI feedback on your self-tapes",
+        "Messaging with your agent",
+        "Priority support"
+      ],
+      "PREMIUM": [
+        "Everything in Pro",
+        "Commission down to 7.5%"
+      ],
+      "ULTIMATE": [
+        "Everything in Premium",
+        "Commission down to 5%"
+      ]
+    },
+    "media": {
+      "drop": "Drop your photos, reels or voice here — a reel shot on a phone is enough.",
+      "setPrimary": "Set as primary",
+      "delete": "Delete"
+    },
+    "profileEditor": {
+      "completeness": "Profile completeness",
+      "completenessHint": "Your profile would benefit from more detail — the richer it is, the better it surfaces in searches.",
+      "birthDate": "Date of birth",
+      "bioPlaceholder": "A few lines about your path, what makes you unique…",
+      "nudity": "I accept roles with nudity",
+      "animals": "I can act with animals"
+    },
+    "rgpd": {
+      "intro": "You can export all your data, or permanently delete your account.",
+      "delete": "Delete my account",
+      "confirm": "Confirm deletion?"
+    },
+    "plans": {
+      "demo": "Demo mode — no real payment. The representation mandate stays free and separate whatever your plan."
+    },
+    "profitability": {
+      "title": "Subscription payback",
+      "atVolume": "At your current volume, your plan",
+      "save": "At your volume, the {plan} plan would save you {amount} a year.",
+      "best": "At your current volume, your {plan} plan is already the best value — no need to pay more."
+    },
+    "studio": {
+      "enableCamera": "Enable camera",
+      "cameraUnavailable": "Camera unavailable. Switch to reduced mode and upload a video.",
+      "record": "Start the take",
+      "analysing": "Analysing your take…",
+      "import": "Upload a video",
+      "score": "Quality score for your take"
+    }
   }
 }

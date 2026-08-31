@@ -1,4 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
+import { toLocale } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   FolderKanban,
   CheckCircle2,
@@ -25,8 +26,10 @@ export default async function CastingProjectsDashboard({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = toLocale(rawLocale);
   setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "casting" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -49,21 +52,19 @@ export default async function CastingProjectsDashboard({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl font-medium">{org?.name}</h1>
-          <p className="text-fg-muted">Vos projets de casting et vos short-lists.</p>
+          <p className="text-fg-muted">{t("space.projects.subtitle")}</p>
         </div>
         <div className="flex items-center gap-2">
           {verified ? (
             <Badge variant="success">
-              <ShieldCheck /> SIRET vérifié
-            </Badge>
+              <ShieldCheck />{t("space.projects.siretVerified")}</Badge>
           ) : (
-            <Badge variant="warning">SIRET en attente</Badge>
+            <Badge variant="warning">{t("space.projects.siretPending")}</Badge>
           )}
           <Badge variant="neutral">Plan {org?.plan}</Badge>
           <Button asChild size="sm">
             <Link href="/casting/app/projets/nouveau">
-              <Plus /> Nouveau brief
-            </Link>
+              <Plus />{t("space.projects.newBrief")}</Link>
           </Button>
         </div>
       </div>
@@ -85,22 +86,16 @@ export default async function CastingProjectsDashboard({
       {projects.length === 0 ? (
         <div className="rounded-sedan border border-dashed border-border bg-surface/60 p-10 text-center">
           <FolderKanban className="mx-auto size-8 text-accent" />
-          <h2 className="mt-3 font-display text-xl font-medium">
-            Créez votre premier brief
-          </h2>
-          <p className="mx-auto mt-1 max-w-md text-sm text-fg-muted">
-            Décrivez un rôle à notre assistant : il structure votre demande et
-            génère une short-list calibrée, source affichée sur chaque profil.
-          </p>
+          <h2 className="mt-3 font-display text-xl font-medium">{t("space.projects.firstTitle")}</h2>
+          <p className="mx-auto mt-1 max-w-md text-sm text-fg-muted">{t("space.projects.firstBody")}</p>
           <Button asChild className="mt-5">
             <Link href="/casting/app/projets/nouveau">
-              <Plus /> Nouveau brief
-            </Link>
+              <Plus />{t("space.projects.newBrief")}</Link>
           </Button>
         </div>
       ) : (
         <div className="space-y-3">
-          <h2 className="font-display text-xl font-medium">Vos projets</h2>
+          <h2 className="font-display text-xl font-medium">{t("space.projects.yours")}</h2>
           <ul className="divide-y divide-border overflow-hidden rounded-sedan border border-border bg-surface">
             {projects.map((p) => (
               <li key={p.id}>

@@ -52,11 +52,26 @@
   --surface-2: var(--ivoire);
   --fg: var(--espresso);
   --fg-muted: var(--brungrise);
-  --fg-subtle: var(--taupe);
+  /* --taupe measured 3.02:1 on crème, well under AA for the 12px legal text it
+     carries. This value clears 4.5:1 on BOTH grounds it actually sits on:
+     5.55:1 on --bg (crème) and 4.83:1 on --surface-2 (ivoire). The first
+     candidate, #7d6f5c, passed on crème at 4.45 and failed on ivoire at 3.87.
+     Cost, stated rather than hidden: --fg-subtle (5.55) and --fg-muted (5.81)
+     are now close, so the three-tier text hierarchy reads as two on this skin.
+     Buying the separation back means larger small text, not lighter colour. */
+  --fg-subtle: #6e6050;
   --border: var(--greige);
   --border-strong: var(--taupe);
-  --accent: var(--cognac);
-  --accent-hover: var(--chocolat);
+  /* Named --field-border, not --border-input: Tailwind resolves border-border
+     before border-border-input, so the longer name silently fell back to the
+     decorative value. WCAG 1.4.11 wants 3:1 for a control boundary; --greige gives 1.65:1, so
+     form fields had no visible edge. Decorative borders keep --border. */
+  --field-border: var(--taupe);
+  /* Was --cognac: crème on cognac measures 3.94:1, under the 4.5:1 AA floor for
+     14px text — and this is the default CTA on every marketing page. Chocolat
+     measures 7.53:1, and lifts text-accent (link variant, eyebrows) with it. */
+  --accent: var(--chocolat);
+  --accent-hover: var(--cognac);
   --accent-fg: var(--creme);
   --accent-2: var(--terracotta);
   --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
@@ -74,9 +89,15 @@
   --surface-2: var(--marine);
   --fg: var(--creme);
   --fg-muted: var(--greige);
-  --fg-subtle: var(--taupe);
+  /* --taupe on the marine surfaces measures 3.48:1, under AA. Greige lifts it
+     to 6.6:1 while staying below --fg-muted in weight. */
+  --fg-subtle: var(--greige);
   --border: color-mix(in srgb, var(--ardoise) 55%, var(--marineprof));
   --border-strong: var(--ardoise);
+  /* The dark skin was worse: a form field was a barely-darker rectangle on a
+     dark ground at 1.70:1. Raw --ardoise only reaches 2.06:1 on --surface, so
+     the boundary needs its own lighter value: 3.54:1, clearing 1.4.11. */
+  --field-border: #5680a8;
   --accent: var(--abricot);
   --accent-hover: var(--orangebrule);
   --accent-fg: var(--encre);
@@ -95,11 +116,15 @@
   --surface-2: var(--ivoire);
   --fg: var(--espresso);
   --fg-muted: var(--brungrise);
-  --fg-subtle: var(--taupe);
+  --fg-subtle: #6e6050;
   --border: var(--greige);
   --border-strong: var(--taupe);
-  --accent: var(--cognac);
-  --accent-hover: var(--chocolat);
+  --field-border: var(--taupe);
+  /* Was --cognac: crème on cognac measures 3.94:1, under the 4.5:1 AA floor for
+     14px text — and this is the default CTA on every marketing page. Chocolat
+     measures 7.53:1, and lifts text-accent (link variant, eyebrows) with it. */
+  --accent: var(--chocolat);
+  --accent-hover: var(--cognac);
   --accent-fg: var(--creme);
   --accent-2: var(--terracotta);
   --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
@@ -118,6 +143,7 @@
   --color-fg-muted: var(--fg-muted);
   --color-fg-subtle: var(--fg-subtle);
   --color-border: var(--border);
+  --color-field: var(--field-border);
   --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
@@ -135,8 +161,15 @@
   --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
 }
 
-* {
-  border-color: var(--border);
+/* Default border colour for every element, so components never have to repeat
+   it. It has to live in @layer base: unlayered, it sits after the utilities in
+   source order and wins on equal specificity, which silently defeated
+   `border-field` on form fields — the border stayed decorative-grey at 1.65:1
+   however the class was named. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
 html {

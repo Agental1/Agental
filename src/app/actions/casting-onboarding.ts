@@ -1,18 +1,20 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { err, zodError, type ActionError } from "@/domain/action-result";
+import { getLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { CastingIdentityStep, CastingScopeStep } from "@/domain/onboarding";
 import { toJson } from "@/domain/json";
 
-export type StepResult = { ok: boolean; error?: string; orgId?: string };
+export type StepResult = { ok: boolean; error?: ActionError; orgId?: string };
 
 async function requireCastingUserId(): Promise<string> {
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "CASTING") {
-    redirect("/connexion");
+    return redirect({ href: "/connexion", locale: await getLocale() });
   }
   return session.user.id;
 }
@@ -38,7 +40,7 @@ export async function saveCastingIdentity(input: unknown): Promise<StepResult> {
   const userId = await requireCastingUserId();
   const parsed = CastingIdentityStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const d = parsed.data;
   const siret = d.siret || undefined;
@@ -99,10 +101,10 @@ export async function saveCastingScope(input: unknown): Promise<StepResult> {
   const userId = await requireCastingUserId();
   const parsed = CastingScopeStep.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message };
+    return { ok: false, error: zodError(parsed.error) };
   }
   const org = await findOwnedOrg(userId);
-  if (!org) return { ok: false, error: "Organisation introuvable." };
+  if (!org) return { ok: false, error: err("errors.orgNotFound") };
   await prisma.organization.update({
     where: { id: org.id },
     data: { scope: toJson(parsed.data) },
@@ -114,7 +116,7 @@ export async function saveCastingScope(input: unknown): Promise<StepResult> {
 export async function finalizeCastingOnboarding(): Promise<void> {
   const userId = await requireCastingUserId();
   const org = await findOwnedOrg(userId);
-  if (!org) redirect("/casting/inscription");
+  if (!org) return redirect({ href: "/casting/inscription", locale: await getLocale() });
 
   await prisma.user.update({
     where: { id: userId },
@@ -127,5 +129,5 @@ export async function finalizeCastingOnboarding(): Promise<void> {
     resourceType: "Organization",
     resourceId: org.id,
   });
-  redirect("/casting/app");
+  return redirect({ href: "/casting/app", locale: await getLocale() });
 }

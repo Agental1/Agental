@@ -1,7 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState, useTransition, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import {
   Star,
   Ban,
@@ -41,6 +42,7 @@ const SORTS = [
 ] as const;
 
 export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
+  const t = useTranslations("casting");
   const [minScore, setMinScore] = useState(0);
   const [source, setSource] = useState<"all" | "AGENTAL" | "EXTERNAL">("all");
   const [sort, setSort] = useState<(typeof SORTS)[number]["key"]>("score");
@@ -115,9 +117,7 @@ export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
       </div>
 
       {visible.length === 0 ? (
-        <p className="rounded-sedan border border-dashed border-border p-8 text-center text-sm text-fg-muted">
-          Aucun profil ne correspond à ces filtres.
-        </p>
+        <p className="rounded-sedan border border-dashed border-border p-8 text-center text-sm text-fg-muted">{t("space.shortlist.empty")}</p>
       ) : (
         <ul className="grid gap-3 md:grid-cols-2">
           {visible.map((c) => (

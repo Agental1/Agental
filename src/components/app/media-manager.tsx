@@ -1,7 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+import { useActionErrorText } from "@/components/app/action-error";
+import { err, type ActionError } from "@/domain/action-result";
 import { useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import {
   Upload,
   Trash2,
@@ -30,10 +33,12 @@ function typeForMime(mime: string): "PHOTO" | "VIDEO" | "AUDIO" {
 }
 
 export function MediaManager({ media }: { media: MediaItem[] }) {
+  const t = useTranslations("talents");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
 
   function onFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -45,7 +50,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         fd.set("type", typeForMime(file.type));
         const res = await uploadMedia(fd);
         if (!res.ok) {
-          setError(res.error ?? "Échec de l'upload.");
+          setError(res.error ?? err("errors.uploadFailed"));
           break;
         }
       }
@@ -64,10 +69,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         className="flex flex-col items-center justify-center gap-2 rounded-sedan border-2 border-dashed border-border bg-surface-2/40 p-8 text-center"
       >
         <Upload className="size-6 text-accent" />
-        <p className="text-sm text-fg-muted">
-          Glisse tes photos, reels ou voix ici — un reel filmé au téléphone
-          suffit.
-        </p>
+        <p className="text-sm text-fg-muted">{t("space.media.drop")}</p>
         <input
           ref={inputRef}
           type="file"
@@ -87,7 +89,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         </Button>
       </div>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-danger">{errorText(error)}</p>}
 
       {media.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -107,6 +109,7 @@ function MediaCard({
   media: MediaItem;
   onChanged: () => void;
 }) {
+  const t = useTranslations("talents");
   const [pending, startTransition] = useTransition();
   return (
     <div className="group relative overflow-hidden rounded-sedan border border-border bg-surface">
@@ -139,7 +142,7 @@ function MediaCard({
       >
         {media.type === "PHOTO" && !media.isPrimary && (
           <button
-            aria-label="Définir comme principale"
+            aria-label={t("space.media.setPrimary")}
             disabled={pending}
             onClick={() =>
               startTransition(async () => {
@@ -153,7 +156,7 @@ function MediaCard({
           </button>
         )}
         <button
-          aria-label="Supprimer"
+          aria-label={t("space.media.delete")}
           disabled={pending}
           onClick={() =>
             startTransition(async () => {

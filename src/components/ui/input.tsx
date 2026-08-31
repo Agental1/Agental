@@ -5,7 +5,10 @@ export function Input({ className, ...props }: React.ComponentProps<"input">) {
   return (
     <input
       className={cn(
-        "flex h-10 w-full rounded-sedan border border-border bg-surface px-3 py-2 text-sm text-fg",
+        "flex h-11 w-full rounded-sedan border border-field bg-surface px-3 py-2 text-fg",
+        // 16px on mobile: below that, iOS Safari zooms the page on focus, which
+        // is a worse mobile defect than the target size ever was.
+        "text-base sm:h-10 sm:text-sm",
         "placeholder:text-fg-subtle shadow-sm transition-colors",
         "focus-visible:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-ring/40",
         "disabled:cursor-not-allowed disabled:opacity-50",
