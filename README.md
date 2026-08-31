@@ -47,12 +47,25 @@ protégées sont inatteignables sur une base fraîche.
 |----------|-------|
 | `bun run dev` | Serveur de développement |
 | `bun run build` / `start` | Build de production et service |
+| `bun run test` | Tests unitaires et d'intégration (Vitest) |
 | `bun run typecheck` | `tsc --noEmit` |
 | `bun run lint` | ESLint |
 | `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
 | `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
 | `bun run db:migrate` / `db:seed` / `db:studio` | Prisma |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
+
+### Tests
+
+`tests/` couvre la logique que le typage ne peut pas garantir : la réconciliation
+des shortlists, la conversion des erreurs de server action, le formatage `Intl`
+par locale et la construction des URLs SEO. `tests/api/media-access.test.ts` est
+un test d'intégration contre la vraie base — le risque y est la forme de la
+requête d'appartenance, qu'un mock Prisma ne prouverait pas. Il crée ses lignes
+sous un préfixe et les supprime en `afterAll`.
+
+Ce qu'un test unitaire ne peut pas atteindre est couvert par les deux gardes
+navigateur ci-dessous : tailles rendues, contraste, fuites de langue.
 
 ### Garde d'accessibilité
 

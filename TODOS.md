@@ -21,6 +21,16 @@ Les interfaces échangeables existent déjà et annoncent le swap en commentaire
 
 **Déclencheur :** avant le premier déploiement qui accepte un upload réel.
 
+### ~~/api/media/[id] sans authentification~~ CORRIGÉ
+
+Le handler diffusait n'importe quelle ligne `Media` à qui connaissait un id.
+Corrigé lors de la revue du 2026-08-31 : lecture réservée au talent
+propriétaire, aux organisations ayant une candidature sur le profil, et à
+l'administration. Couvert par `tests/api/media-access.test.ts`, qui vérifie
+notamment qu'une organisation tierce est refusée.
+
+**Corrigé :** v0.2.0.0 (2026-08-31).
+
 ### Mentions légales, CGU, politique de confidentialité
 
 `src/components/marketing/footer.tsx` rend ces trois entrées en texte inerte :
@@ -117,6 +127,9 @@ La reconciliation se fait en code, faute d'index unique sur (projectId, talent)
 et parce qu'ajouter une migration était hors périmètre. Les statuts NEW et
 SHORTLISTED appartiennent au matcher et peuvent être remplacés ; tout autre
 statut signifie qu'un humain a décidé, et survit à une relance.
+
+**Corrigé :** v0.2.0.0 (2026-08-31). Couvert par
+`tests/domain/shortlist.test.ts`.
 
 ---
 
