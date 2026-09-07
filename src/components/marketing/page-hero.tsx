@@ -1,37 +1,60 @@
 import { cn } from "@/lib/utils";
+import { Eyebrow } from "./eyebrow";
+import { Section } from "./section";
 
-/** Simple marketing page header: eyebrow + title + optional subtitle. */
+/**
+ * Marketing page header: eyebrow + title + optional subtitle.
+ *
+ * Left-aligned by default. The previous version hardcoded `text-center`, but
+ * five of the six subpages in the mockups are left-aligned — only the final
+ * CTA style centres. `align` is a prop rather than a second component because
+ * every subpage and all nine SEO landings already route through this one.
+ */
 export function PageHero({
   eyebrow,
   title,
   subtitle,
+  align = "left",
+  width = "prose",
   className,
   children,
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  align?: "left" | "center";
+  width?: "site" | "narrow" | "prose";
   className?: string;
   children?: React.ReactNode;
 }) {
+  const centered = align === "center";
   return (
-    <section className={cn("border-b border-border", className)}>
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 md:py-20">
-        {eyebrow && (
-          <span className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">
-            {eyebrow}
-          </span>
+    <Section
+      width={width}
+      rhythm="compact"
+      className={cn("border-b border-border", className)}
+      innerClassName={cn(centered && "text-center")}
+    >
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h1
+        className={cn(
+          "text-[clamp(30px,4.4vw,50px)] font-bold leading-[1.05] tracking-[-0.02em]",
+          eyebrow && "mt-4"
         )}
-        <h1 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight sm:text-5xl">
-          {title}
-        </h1>
-        {subtitle && (
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-fg-muted">
-            {subtitle}
-          </p>
-        )}
-        {children && <div className="mt-6">{children}</div>}
-      </div>
-    </section>
+      >
+        {title}
+      </h1>
+      {subtitle && (
+        <p
+          className={cn(
+            "mt-4 max-w-[58ch] text-[clamp(16px,1.6vw,19px)] leading-relaxed text-fg-muted",
+            centered && "mx-auto"
+          )}
+        >
+          {subtitle}
+        </p>
+      )}
+      {children && <div className="mt-7">{children}</div>}
+    </Section>
   );
 }

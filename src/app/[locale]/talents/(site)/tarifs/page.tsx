@@ -5,6 +5,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { ShieldCheck } from "lucide-react";
 import { PageHero } from "@/components/marketing/page-hero";
+import { Section } from "@/components/marketing/section";
 import { TalentsPricingGrid } from "@/components/marketing/pricing-grids";
 
 export async function generateMetadata({
@@ -47,13 +48,14 @@ function TarifsContent() {
         title={t("hero.title")}
         subtitle={t("hero.subtitle")}
       />
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="mb-8 flex items-start gap-3 rounded-sedan border border-border bg-accent-soft/50 p-4 text-sm">
+      <Section rhythm="major">
+        <div className="mb-8 flex items-start gap-3 rounded-sedan-lg border border-border bg-accent-soft/50 p-4 text-sm">
           <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" />
           <p className="text-fg-muted">{tp("note")}</p>
         </div>
         <TalentsPricingGrid />
-      </section>
+        <p className="mt-8 font-mono text-[11px] text-fg-subtle">{t("note")}</p>
+      </Section>
     </>
   );
 }

@@ -11,7 +11,7 @@
     "eyebrow": "Regulated artist agency · transparent scoring",
     "title": "Casting, finally at the right scale.",
     "titleEmph": "The short-list, made for you.",
-    "subtitle": "We filter 90% of applications to present you only the profiles that are truly relevant.",
+    "subtitle": "Receive a tight selection of talents relevant to your role, with availability, rights and self-tapes already verified. Every profile shows its source, every ranking explains itself. You decide faster, on better ground.",
     "ctaPrimary": "Try for free",
     "ctaSecondary": "See a demo",
     "note": "Free plan, no credit card. One active project on us."
@@ -43,20 +43,28 @@
     "title": "Quality, not quantity.",
     "items": [
       {
-        "title": "A short selection, usable right away",
-        "body": "Three times more relevant profiles, zero noise."
+        "title": "A short list you can act on immediately",
+        "body": "Our technology sifts every application and sets aside everything outside the frame of your role, close to 90% of the volume. You open a tight short-list, ready to use."
+      },
+      {
+        "title": "Three times more relevant profiles",
+        "body": "For each role, our method aims to surface three times more genuinely suitable profiles than the usual channels. You spend less time filtering and more time choosing."
       },
       {
         "title": "Profiles ready to call in",
-        "body": "Self-tapes, availability and rights already verified."
+        "body": "Verified self-tapes, availability confirmed against your shooting dates, image rights validated: every profile arrives documented and actionable."
       },
       {
         "title": "A ranking you understand",
-        "body": "Every profile is ranked with a readable justification."
+        "body": "Every talent shows a score and the reason for its position. You know why a profile rises, and you keep the hand to reorder the list as you see fit."
       },
       {
-        "title": "Neutrality you can verify",
-        "body": "The same scoring for everyone, source displayed, traceable history."
+        "title": "Neutrality you can check",
+        "body": "Every talent states its provenance, Agental or external. The score is computed the same way for all of them, the decision history stays consultable, and one filter isolates external talents in a click."
+      },
+      {
+        "title": "Real time back",
+        "body": "An assistant puts your brief into shape in minutes. The selection then builds itself. You get hours back on every project."
       }
     ]
   },
@@ -76,7 +84,8 @@
         "title": "A consultable history",
         "body": "Every ranking decision stays traceable."
       }
-    ]
+    ],
+    "body": "Can an agency that represents talents present them to you impartially? Our answer sits in the product. Every profile states its provenance. The score is computed the same way for a talent represented by Agental and for an external one. You see the reason behind each ranking, and a filter shows external profiles only whenever you want. You check for yourself."
   },
   "steps": {
     "eyebrow": "In three steps",
@@ -85,11 +94,11 @@
     "items": [
       {
         "title": "Describe the role",
-        "body": "A conversational assistant structures your brief."
+        "body": "A conversational assistant puts your brief into shape."
       },
       {
         "title": "Receive your short-list",
-        "body": "A short selection, calibrated for relevance."
+        "body": "The selection discards what is off-brief, scores each profile and explains its ranking."
       },
       {
         "title": "Decide and call in",
@@ -101,15 +110,15 @@
     "title": "They cast with Agental",
     "items": [
       {
-        "quote": "A short short-list, usable from the very first minute.",
+        "quote": "I receive short, relevant short-lists. Seeing the reason behind each ranking saves me a considerable amount of time, and the displayed provenance removes any ambiguity about neutrality.",
         "author": "Casting director, feature films, Paris"
       },
       {
-        "quote": "We save considerable time on the first pass.",
+        "quote": "Verifying availability and image rights upfront changes the way we work. Files arrive ready, we decide faster.",
         "author": "Independent production company, series"
       },
       {
-        "quote": "The source displayed on every profile won us over.",
+        "quote": "For background work and commercial roles, the volume was unmanageable. The selection made casting legible again.",
         "author": "Advertising agency, in-house casting"
       }
     ]
@@ -173,9 +182,10 @@
     ]
   },
   "finalCta": {
-    "title": "Ready to receive short-lists that save you time?",
+    "title": "Ready for short-lists that give you time back?",
     "ctaPrimary": "Try for free",
-    "ctaSecondary": "Request a demo"
+    "ctaSecondary": "Request a demo",
+    "body": "Create your account for free and launch your first brief in minutes. One active project is on us, no card required."
   },
   "how": {
     "meta": {
@@ -190,22 +200,26 @@
     "sections": [
       {
         "title": "A brief structured in minutes",
-        "body": "A conversational assistant shapes your request: role, gender, age range, physical type, language, accent, constraints, shooting window, location and budget. You validate a clear preview."
+        "body": "A conversational assistant asks the right questions and structures your request: role, gender where relevant, age range, physical type, language, accent, constraints, shooting window, location and budget. You attach your material, script, sides or visual references. You validate a clear preview before launching."
       },
       {
         "title": "A cascading selection, calibrated for relevance",
-        "body": "The AI discards off-topic applications and ranks the remaining profiles by your criteria. You receive a short short-list, not a directory."
+        "body": "Your profiles are analysed in several passes. The first applies your strict criteria: language, age, mobility, availability. The second compares each retained profile with your ideal role and gives it a reasoned score. The last keeps only profiles above your relevance threshold, with a diversity rule that stops ten identical profiles reaching you."
       },
       {
         "title": "Profiles ready to decide on",
-        "body": "Self-tapes, availability and image rights are verified upstream. Each profile shows a score and a readable justification."
+        "body": "Every talent in your short-list arrives documented. Faithful, unretouched photo, score, provenance, estimated rate, confirmed availability. You open the full file: media, the self-tape for this role if one was shot, measurements, accents, languages, experience, and the precise reason for the match with your brief."
       },
       {
         "title": "You keep control, neutrality is guaranteed",
-        "body": "The source (Agental or external) is shown on every talent, the same calculation applies to all, and every ranking decision stays traceable."
+        "body": "Availability is confirmed by the talent, image rights are validated, and self-tapes are verified. For a role involving a minor, a reinforced path guides you and displays the applicable protections. You decide on complete files, avoiding last-minute surprises."
       }
     ],
-    "cta": "Try for free"
+    "cta": "Try for free",
+    "summary": {
+      "title": "You keep control, neutrality is guaranteed",
+      "body": "The score is a starting point, and the decision is entirely yours. You reorder, you exclude, you add. Each talent's provenance stays visible, and the decision history lets you understand every ranking. An “external talents only” filter is available at any time."
+    }
   },
   "pricingPage": {
     "meta": {
@@ -216,7 +230,8 @@
       "eyebrow": "Pricing",
       "title": "Pricing built for your casting volume",
       "subtitle": "Start for free, no credit card. Step up when the value is proven."
-    }
+    },
+    "note": "No commitment. Change tier or return to the free plan whenever you want."
   },
   "faq": {
     "meta": {

@@ -194,7 +194,7 @@ export function SelfTapeStudio() {
     <div className="space-y-5">
       <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
         {/* Stage */}
-        <div className="relative aspect-video overflow-hidden rounded-sedan border border-border bg-noirchaud">
+        <div className="relative aspect-video overflow-hidden rounded-sedan border border-border bg-black">
           <video
             ref={videoRef}
             muted
@@ -208,27 +208,27 @@ export function SelfTapeStudio() {
               {/* rule-of-thirds */}
               <div className="absolute inset-0 grid grid-cols-3 grid-rows-3">
                 {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="border border-creme/15" />
+                  <div key={i} className="border border-white/15" />
                 ))}
               </div>
             </div>
           )}
 
           {phase === "idle" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-creme">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white">
               <Video className="size-8 opacity-70" />
               <Button onClick={enableCamera}>{t("space.studio.enableCamera")}</Button>
             </div>
           )}
           {phase === "denied" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center text-creme">
-              <AlertTriangle className="size-7 text-abricot" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center text-white">
+              <AlertTriangle className="size-7 text-warning" />
               <p className="text-sm">{t("space.studio.cameraUnavailable")}</p>
             </div>
           )}
           {phase === "recording" && (
-            <div className="absolute left-3 top-3 flex items-center gap-2 rounded-full bg-noirchaud/70 px-3 py-1 text-xs text-creme">
-              <span className="size-2 animate-pulse rounded-full bg-erreur" />
+            <div className="absolute left-3 top-3 flex items-center gap-2 rounded-full bg-black/70 px-3 py-1 text-xs text-white">
+              <span className="size-2 animate-pulse rounded-full bg-danger" />
               REC
             </div>
           )}

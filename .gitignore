@@ -58,3 +58,11 @@ next-env.d.ts
 
 # Local media storage (dev)
 /.uploads/
+
+# design mockups + extraction output
+# The bundled mockups and the portrait zips are 59 MB of source material that
+# git cannot delta. Only the derivatives under src/assets/portraits/ ship.
+/New LP/
+/.assets/
+/tools/extract/out/
+/public/fonts/

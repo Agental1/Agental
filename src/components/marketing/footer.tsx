@@ -12,11 +12,13 @@ export function MarketingFooter({
   nav: NavItem[];
 }) {
   const t = useTranslations("common");
-  const year = 2026;
+  // Was hardcoded to 2026. Statically rendered pages freeze this at build time,
+  // which is fine and still beats a literal that silently goes stale.
+  const year = new Date().getFullYear();
 
   return (
     <footer className="mt-auto border-t border-border bg-surface-2/40">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,4vw,40px)] py-14 md:grid-cols-[1.5fr_1fr_1fr]">
         <div className="space-y-3">
           <Link
             href={home}
@@ -35,7 +37,7 @@ export function MarketingFooter({
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
+          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">
             {t("footer.sections.product")}
           </h4>
           <ul>
@@ -53,7 +55,7 @@ export function MarketingFooter({
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
+          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">
             {t("footer.sections.legal")}
           </h4>
           {/* These three are plain text, not links: /mentions-legales, /cgu and
@@ -68,7 +70,7 @@ export function MarketingFooter({
         </div>
       </div>
       <div className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-4 py-4 text-xs text-fg-subtle sm:px-6">
+        <div className="mx-auto max-w-site px-[clamp(16px,4vw,40px)] py-4 font-mono text-[11px] text-fg-subtle">
           {t("footer.rights", { year })}
         </div>
       </div>

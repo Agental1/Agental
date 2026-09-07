@@ -21,20 +21,35 @@ export function AgentalMark({
   );
 }
 
-/** Star + wordmark lockup. */
+/**
+ * Star + wordmark lockup.
+ *
+ * The mockups set the wordmark as widely tracked uppercase, with the portal
+ * name trailing it at a lighter weight and half opacity: `AGENTAL TALENTS`.
+ * `portal` is optional so the 404 page and the auth screens, which belong to
+ * no portal, still render a bare `AGENTAL`.
+ */
 export function AgentalLogo({
   className,
   wordmark = true,
+  portal,
 }: {
   className?: string;
   wordmark?: boolean;
+  /** Second word of the lockup, e.g. "Talents". Rendered uppercase. */
+  portal?: string;
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-2", className)}>
-      <AgentalMark className="h-6 w-auto text-accent" />
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
+      <AgentalMark className="h-[26px] w-auto text-accent" />
       {wordmark && (
-        <span className="font-display text-xl font-medium tracking-tight text-fg">
+        <span className="text-[19px] font-semibold uppercase leading-none tracking-[0.13em] text-fg">
           Agental
+          {portal && (
+            <span className="ml-2 font-medium tracking-[0.09em] text-fg/50">
+              {portal}
+            </span>
+          )}
         </span>
       )}
     </span>

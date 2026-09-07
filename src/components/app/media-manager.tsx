@@ -136,7 +136,7 @@ function MediaCard({
       )}
       <div
         className={cn(
-          "absolute inset-x-0 bottom-0 flex items-center justify-end gap-1 bg-noirchaud/60 p-1.5",
+          "absolute inset-x-0 bottom-0 flex items-center justify-end gap-1 bg-black/60 p-1.5",
           "opacity-0 transition-opacity group-hover:opacity-100"
         )}
       >
@@ -150,7 +150,7 @@ function MediaCard({
                 onChanged();
               })
             }
-            className="rounded p-1.5 text-creme hover:bg-white/20"
+            className="rounded p-1.5 text-white hover:bg-white/20"
           >
             <Star className="size-4" />
           </button>
@@ -164,7 +164,7 @@ function MediaCard({
               onChanged();
             })
           }
-          className="rounded p-1.5 text-creme hover:bg-white/20"
+          className="rounded p-1.5 text-white hover:bg-white/20"
         >
           {pending ? (
             <Loader2 className="size-4 animate-spin" />

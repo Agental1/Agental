@@ -43,6 +43,15 @@ export const CandidatureStatus = z.enum([
 ]);
 export type CandidatureStatus = z.infer<typeof CandidatureStatus>;
 
+/**
+ * Les specialites qu'un talent declare. Doit rester alignee sur les slugs de
+ * `CASTING_TYPES` (src/data/casting-types.ts) : chaque landing SEO invite le
+ * visiteur a s'inscrire dans sa discipline, et une discipline absente d'ici est
+ * refusee par `TalentOnboardingInput` sans que la page publique le sache.
+ *
+ * Divergence connue et anterieure : "voix" ici, "voix-doublage" cote slug. Le
+ * libelle est le meme des deux cotes, seule la cle differe.
+ */
 export const SpecialtyKind = z.enum([
   "figuration",
   "silhouette",
@@ -52,6 +61,7 @@ export const SpecialtyKind = z.enum([
   "voix",
   "enfants",
   "createurs",
+  "performeurs",
 ]);
 export type SpecialtyKind = z.infer<typeof SpecialtyKind>;
 

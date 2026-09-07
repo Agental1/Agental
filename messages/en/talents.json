@@ -10,9 +10,17 @@
   "hero": {
     "title": "Focus on your craft.",
     "titleEmph": "We handle the rest.",
-    "subtitle": "The first artist agency natively augmented by AI. A real agent who represents you, an AI that works for you 24/7.",
+    "subtitle": "A real agent who represents you, and an AI working 24/7: casting watch, applications, follow-up. We look for the roles made for you, and we coach you so your application lands as close as possible to what the role asks for. Background work, silhouette, commercials, voice, dubbing, content creation: we know what makes you singular, and we put it where it counts.",
     "ctaPrimary": "Become a member",
-    "ctaSecondary": "See how it works"
+    "ctaSecondary": "See how it works",
+    "eyebrow": "The new-generation artist agency",
+    "note": "Free mandate. No commitment. Cancel whenever you want.",
+    "collage": [
+      "boy, 17",
+      "woman, 23",
+      "woman, 35",
+      "man, 45"
+    ]
   },
   "proof": {
     "regulated": {
@@ -34,29 +42,30 @@
     "items": [
       {
         "title": "A real agent who represents you",
-        "body": "A written mandate, governed by law. Not another listings site: an agency."
+        "body": "You sign a representation mandate, like any artist with their agent. We defend you, we negotiate your contracts, we check that everything is legal. Representation is free, and you can end it whenever you want."
       },
       {
         "title": "The agent works while you perform",
-        "body": "Casting watch, applications, follow-ups and tracking — continuously."
+        "body": "Our AI watches castings continuously, spots the ones that genuinely match you, and prepares your applications. You keep control of everything, and you gain hours every week."
       },
       {
         "title": "We find the roles that fit you",
-        "body": "No more scrolling through irrelevant castings. We target what truly matches."
+        "body": "You receive castings chosen for your profile, your age, your typology, your languages and your availability. Relevance comes before volume, so you stop losing time on listings that miss the point."
       },
       {
         "title": "We coach you to stand out",
-        "body": "Self-tapes, portfolio, media choices: we optimise what makes the difference."
+        "body": "We know what makes you singular, and we put it in the right place. Our Self-tape Studio guides you on framing, lighting, sound and performance, so every submission looks like you and aims true."
       },
       {
         "title": "You keep more as you rise",
-        "body": "A decreasing commission: the further you go, the more you keep."
+        "body": "Our commission decreases. Choose a higher plan and you keep a larger share of your fee, from 10% down to 5%. You stay free to keep the free plan for as long as you like."
       },
       {
         "title": "Every profile has a strength",
-        "body": "We highlight what makes you unique, not a mould."
+        "body": "Productions look for real, varied personalities, for camera as much as for voice. We identify what sets you apart — your look, your accent, your presence, your timbre — and we make the case for it. Your singularity becomes an argument."
       }
-    ]
+    ],
+    "lead": "Most performers have never had access to an agent. Agental changes that. We represent the profiles conventional agencies leave aside, with the same standards and a real mandate."
   },
   "steps": {
     "eyebrow": "In five steps",
@@ -89,12 +98,15 @@
     "eyebrow": "Self-tape Studio",
     "title": "Your self-tape can change everything. We help you nail it.",
     "hint": "framing · lighting · sound OK",
-    "cta": "Discover the Self-tape Studio"
+    "cta": "Discover the Self-tape Studio",
+    "body": "The self-tape has become the way into almost every casting. Our built-in studio works with you during the take: framing, lighting, sound, the rhythm of the performance. A vocal coach shows you how to sound right when the role asks for an accent. You shoot several versions, you compare, you keep the best.",
+    "offline": "It also works on a basic phone and a slow connection. A lightweight mode lets you record anywhere, then receive your notes once the video is sent."
   },
   "commission": {
     "eyebrow": "Decreasing commission",
     "title": "The further you go, the more you keep",
-    "cta": "See detailed pricing"
+    "cta": "See detailed pricing",
+    "body": "Your subscription and your agent's commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
   },
   "pricing": {
     "eyebrow": "Pricing",
@@ -154,15 +166,15 @@
     "title": "They joined Agental",
     "items": [
       {
-        "quote": "They search for me, I focus on my craft.",
+        "quote": "I grew up far from the capital and thought acting was not for me. Three months with Agental and I had shot in two series. The app tells me when a role matches, and the studio taught me to film my self-tapes properly.",
         "author": "Sofiane, 22 — extra and small roles, Lyon"
       },
       {
-        "quote": "Three new castings that truly match me, every week.",
+        "quote": "I was paying for three different platforms and spending my evenings sorting listings. Now everything arrives filtered. I focus on my auditions, the agent handles the rest.",
         "author": "Amina, 34 — advertising and voice, Marseille"
       },
       {
-        "quote": "My self-tape changed everything. They showed me how to shoot it.",
+        "quote": "What convinced me was the mandate. It is a real agency, with a real contract, not a site selling hope. And a commission that drops as you rise changes everything over a year.",
         "author": "Lucas, 41 — supporting roles, Lille"
       }
     ]
@@ -176,12 +188,14 @@
       "Reading of the script by the parent",
       "Medical check-up before the shoot",
       "90% of the fee held until majority"
-    ]
+    ],
+    "body": "Are you the parent of a child who dreams of performing? We apply every protection French law provides: authorisation from the departmental commission, parental presence at casting and on set, reading of the script by the parent, a medical check-up, and 90% of the fee set aside in a blocked account until majority. Every step is tracked and documented."
   },
   "finalCta": {
     "title": "Ready to be represented?",
     "ctaPrimary": "Become a member",
-    "ctaSecondary": "Ask a question"
+    "ctaSecondary": "Ask a question",
+    "body": "Creating your profile takes a few minutes. The mandate is free, with no commitment, and you can leave whenever you want. Your talent deserves an agent who works for you."
   },
   "how": {
     "meta": {
@@ -196,26 +210,30 @@
     "sections": [
       {
         "title": "A profile that reflects you",
-        "body": "You add your identity, physique, media, specialties and availability. Every industry field is explained in plain language — no need to know casting vocabulary."
+        "body": "You fill in your stage identity, your physical profile, your media, your specialities and your availability. Every technical term is explained in plain language, so you do not need the trade's jargon to begin. A reel shot on a phone is enough to start."
       },
       {
         "title": "The contract that gets you represented",
-        "body": "You sign your representation mandate: the standard contract between an artist and their agent, governed by French law. Free, no commitment on your side, cancellable anytime."
+        "body": "The mandate is the contract every artist signs with their agent. It is governed by French law. It is free, carries no commitment on your side, and can be ended whenever you want. By signing it you authorise us to represent you, to look for roles for you and to negotiate your contracts."
       },
       {
         "title": "A watch that never stops",
-        "body": "The AI monitors castings 24/7 and spots the ones that truly match you. No more irrelevant listings: we find the roles that fit."
+        "body": "Our system watches casting listings continuously, in France and internationally. It compares each listing with your profile and spots the ones that genuinely match: your age, your typology, your languages, your area, your availability. You receive targeted proposals without searching yourself."
       },
       {
         "title": "The studio that builds your confidence",
-        "body": "The Self-tape Studio guides you on framing, lighting and sound, with a vocal coach. Even shot on a phone, your self-tape can change everything."
+        "body": "When a role asks for a self-tape, our studio works with you during the take. It guides you on framing, lighting and sound in real time. A vocal coach lets you hear the right intonation when the role calls for an accent. You record several versions, compare them, and send the best straight from the app."
       },
       {
         "title": "From selection to fee",
-        "body": "When you're picked, we negotiate, secure the contract and pay you your fee. Your commission drops as you rise."
+        "body": "Once you are selected, we take over the contractual side. We negotiate your fee and your terms, we check that the contract is legal, and we follow the shoot. Agental collects your fee, withholds its commission, and pays your share within seven days of actual payment."
       }
     ],
-    "cta": "Become a member"
+    "cta": "Become a member",
+    "summary": {
+      "title": "In short",
+      "body": "The whole path at a glance: profile, mandate, AI watch, self-tape, contract. You keep control at every step, and a human always checks contracts before signature."
+    }
   },
   "pricingPage": {
     "meta": {
@@ -226,7 +244,8 @@
       "eyebrow": "Pricing",
       "title": "Pricing that rewards your progress",
       "subtitle": "The representation mandate is free and separate. The subscription is an optional technology service — never a toll to opportunities."
-    }
+    },
+    "note": "No commitment. Change plan or go back to free whenever you want."
   },
   "faq": {
     "meta": {
@@ -316,39 +335,44 @@
     },
     "hero": {
       "eyebrow": "About us",
-      "title": "An idea born at the table",
-      "subtitle": "Agental was born from a simple conviction: talent is everywhere, representation is not. We wanted to change that."
+      "title": "Who we are",
+      "subtitle": "Agental is a new-generation artist agency. Behind the technology there is a family, a conviction, and an idea born around a table."
     },
-    "story": [
-      "Too many wonderful profiles never had access to an agent: too young, too far from big cities, too 'atypical' for established agencies. Yet castings are looking for them.",
-      "We built an agency that does a real agent's work — mandate, negotiation, career defence — but whose watch, scoring and follow-up run 24/7 thanks to AI. The warmth of an agent, the power of software."
-    ],
-    "valuesTitle": "What brings us together",
-    "values": [
-      {
-        "title": "Democratise",
-        "body": "Give access to representation to underserved profiles, without jargon or intimidating contracts."
-      },
-      {
-        "title": "Transparency",
-        "body": "We always explain why. The AI is an assistant in service of humans, never a black box."
-      },
-      {
-        "title": "Respect",
-        "body": "Your media stay yours. Your data is protected. So is your freedom to leave."
-      }
-    ],
-    "foundersTitle": "The team",
-    "founders": [
-      {
-        "name": "Jérôme",
-        "role": "the father"
-      },
-      {
-        "name": "Vadim",
-        "role": "in Paris"
-      }
-    ]
+    "origin": {
+      "title": "An idea born at the table",
+      "body": "It started over lunch, between a father and his son. Talking about the trade, we ended up putting words to the same observation, from both sides at once. On one side, all those performers who never step out of the shadows for want of being seen at the right moment. All those young people who dream of acting and know neither where nor how to find a good agent. On the other, all those producers and casting directors who could be better supported in their search, to find the rare profile and match people to roles more finely. We thought we could make things better for everyone. Agental was born from that conversation."
+    },
+    "team": {
+      "title": "What brings us together",
+      "lead": "We are a team that knows both banks of this trade, the artists' and the company's.",
+      "members": [
+        {
+          "name": "Jérôme",
+          "role": "the father",
+          "body": "Serial entrepreneur. He has founded and grown companies on both sides of the Atlantic, and knows what it takes to turn an intuition into a product that stands up."
+        },
+        {
+          "name": "Vadim",
+          "role": "in Paris",
+          "body": "He started very young with background work in short films and music videos, before landing larger roles in comedies. He knows from the inside what a beginning artist's path looks like."
+        },
+        {
+          "name": "Solal",
+          "role": "in Los Angeles",
+          "body": "Studying engineering at USC. He brings the view of technology, and of a generation that grew up with it."
+        }
+      ]
+    },
+    "stance": {
+      "title": "Where we stand",
+      "body": "We believe an accent, an origin or a singular look are strengths, because productions are looking for real and varied personalities. We believe serious representation can be open to everyone, and free to begin with. And we believe technology must stay in the service of people, with clarity. That is why Agental is natively augmented by AI. That AI works continuously, to spot the roles that genuinely match an artist and to help casting directors find the right profiles faster. A regulated agent stays in charge, and every AI decision can be explained."
+    },
+    "mission": {
+      "title": "Our mission",
+      "body": "To make artistic representation open to everyone, and to make the search for talent fairer and more effective. On both sides, we want the right encounters to finally happen.",
+      "ctaPrimary": "Become a member",
+      "ctaSecondary": "Discover Agental Casting"
+    }
   },
   "castingLandings": {
     "index": {
@@ -366,14 +390,9 @@
     "cachetsTitle": "Indicative fees in France",
     "cachetsNote": "Indicative ranges, varying by project, production and experience.",
     "startTitle": "How to start",
-    "startBody": "Create your profile for free, sign your mandate, and let the AI spot the castings made for you.",
     "cta": "Become a member",
-    "benefits": [
-      "We find the listings that truly match you",
-      "We optimise your portfolio and self-tapes",
-      "We negotiate and secure your fee"
-    ],
-    "othersTitle": "Other casting types"
+    "othersTitle": "Other casting types",
+    "faqTitle": "Frequently asked questions"
   },
   "notFound": {
     "title": "This page has left the set.",
@@ -384,49 +403,252 @@
       "name": "Background acting",
       "h1": "Background acting casting",
       "tagline": "The way into film and television. No experience required.",
-      "audience": "You want to be on screen, see how a set works and build a first credit. Every profile, every age, anywhere in France."
+      "audience": "You want to be on screen, see how a set works and build a first credit. Every profile, every age, anywhere in France.",
+      "chapo": "Background work means appearing on screen in a film, a series, a commercial or a music video, with no lines to perform. A silhouette is a noticed piece of background work, where your face or a specific action stands out. These are often the first steps in the trade, and an excellent way to understand a set.",
+      "apporte": "We represent you with a real mandate, free of charge. Our AI spots the background castings that match your profile and your area, and alerts you as soon as an urgent role comes up. When a self-tape is asked for, we coach you so that it is clean and sets you apart. Your visibility grows, and you can move on to silhouette roles and then small speaking parts.",
+      "steps": [
+        "Create your profile and add a few photos.",
+        "Sign your free mandate.",
+        "Receive your first targeted background castings."
+      ],
+      "faq": [
+        {
+          "q": "Do you need experience to do background work?",
+          "a": "No. Background work is open to beginners. It is often the first step of a career."
+        },
+        {
+          "q": "Do you have to live in the capital?",
+          "a": "No. Shoots happen all over the country. You state your mobility, and we propose roles you can reach from home."
+        },
+        {
+          "q": "Is background work paid?",
+          "a": "Yes. A background fee usually sits between 80 and 180 euros a day."
+        },
+        {
+          "q": "How do you move from background work to small roles?",
+          "a": "By building your profile and your self-tapes. We coach you to move towards roles with lines."
+        }
+      ]
     },
     "silhouette": {
       "name": "Walk-on",
       "h1": "Walk-on casting",
       "tagline": "A step up from background: one gesture, one presence that registers.",
-      "audience": "You have a look, a bearing or a precise action to play on camera. A silent but visible role, usually better paid than background work."
+      "audience": "You have a look, a bearing or a precise action to play on camera. A silent but visible role, usually better paid than background work.",
+      "chapo": "A silhouette is a noticed piece of background work: your face is distinguishable, or you carry out a specific action on screen. It is the step just above background work, often better paid, and the most natural way through to roles with lines.",
+      "apporte": "We target the silhouette roles that match your typology and your area, and we alert you fast because they often go out at short notice. We coach you on the self-tape when one is asked for, and we put forward what makes you recognisable on screen. We negotiate your fee and check your image rights.",
+      "steps": [
+        "Create your profile and take care over your front and profile photos.",
+        "Sign your free mandate.",
+        "Receive silhouette roles targeted on your area."
+      ],
+      "faq": [
+        {
+          "q": "How does it differ from background work?",
+          "a": "In background work you populate the scene without being identifiable. In a silhouette, your face or your action is distinguished on screen."
+        },
+        {
+          "q": "Is a silhouette better paid?",
+          "a": "Often yes. The fee generally exceeds a background one, and a particular constraint can raise it further."
+        },
+        {
+          "q": "Do you need experience?",
+          "a": "No, but a first background experience helps you feel at ease on set."
+        }
+      ]
     },
     "seconds-roles": {
       "name": "Supporting roles",
       "h1": "Supporting role casting",
       "tagline": "Lines, a character, series and feature films.",
-      "audience": "You act, you have (or are building) some experience, and you want speaking parts in series, drama and film."
+      "audience": "You act, you have (or are building) some experience, and you want speaking parts in series, drama and film.",
+      "chapo": "A small or supporting role is a character with lines, present in one or several scenes, without being the lead. These roles are the heart of casting volume, and a solid path to building an acting career.",
+      "apporte": "We represent you and target the small-role castings made for your profile. Our AI compares each listing with your age, your typology, your accents and your languages. We coach you on your self-tapes so your application lands as close as possible to what the role expects, and we put forward what sets you apart. We negotiate your contract and secure your fee.",
+      "steps": [
+        "Create a complete profile, with a reel if you have one.",
+        "Sign your free mandate.",
+        "Receive targeted small-role castings and shoot your coached self-tapes."
+      ],
+      "faq": [
+        {
+          "q": "What is the difference between a small role and background work?",
+          "a": "A small role has lines to perform. Background work appears on screen without lines."
+        },
+        {
+          "q": "Do you need acting training?",
+          "a": "Useful, but not required. Many performers progress through practice and good self-tape coaching."
+        },
+        {
+          "q": "What does a small role in a series pay?",
+          "a": "Often between 350 and 800 euros a day, depending on the project."
+        }
+      ]
     },
     "publicite": {
       "name": "Commercials",
       "h1": "Commercial casting",
       "tagline": "The best-paid shoots, open to every profile.",
-      "audience": "A face, a family, an athlete, a senior, a child, expert hands… Advertising looks for real people, not models. High fees and negotiated image rights."
+      "audience": "A face, a family, an athlete, a senior, a child, expert hands… Advertising looks for real people, not models. High fees and negotiated image rights.",
+      "chapo": "Commercial casting recruits faces and silhouettes for brand campaigns, on television, online or in print. It is one of the best-paid segments of the trade, and it looks for a wide variety of profiles, from couples to families, from athletes to distinctive faces.",
+      "apporte": "We target the commercial castings suited to your profile and alert you quickly, because these castings often move fast. We coach you on your self-tape so it is clean and convincing. We check image rights, a key point in advertising, and we negotiate your fee and the broadcast terms.",
+      "steps": [
+        "Create your profile and take care over your photos.",
+        "Sign your free mandate.",
+        "Receive targeted, fast-moving commercial castings."
+      ],
+      "faq": [
+        {
+          "q": "Are commercial castings well paid?",
+          "a": "Yes. A commercial fee often sits between 800 and 3,000 euros a day, excluding broadcast rights."
+        },
+        {
+          "q": "What are image rights in advertising?",
+          "a": "The agreement to use your image for the campaign's broadcast. We check and negotiate those rights for you."
+        },
+        {
+          "q": "Do you need experience?",
+          "a": "No. Advertising looks above all for credible and varied profiles."
+        }
+      ]
     },
     "photo": {
       "name": "Photo",
       "h1": "Photo casting",
       "tagline": "Campaigns, catalogues, editorial: your image, put to work.",
-      "audience": "You are at ease in front of the lens for commercial or editorial shoots. Authentic faces, every type and every age."
+      "audience": "You are at ease in front of the lens for commercial or editorial shoots. Authentic faces, every type and every age.",
+      "chapo": "Photo casting recruits models and faces for advertising shoots, brand campaigns, catalogues and editorials. It addresses a wide variety of profiles, well beyond the standards of classic modelling.",
+      "apporte": "We spot the photo castings that match you, we handle your image rights, and we negotiate your terms. We advise you on your profile visuals so they serve you best. Your singular look is an asset, and we put it forward.",
+      "steps": [
+        "Create your profile with varied photos.",
+        "Sign your free mandate.",
+        "Receive targeted photo and fashion castings."
+      ],
+      "faq": [
+        {
+          "q": "Do you need to be a professional model?",
+          "a": "No. Photography and fashion increasingly look for varied and authentic profiles."
+        },
+        {
+          "q": "Who handles my image rights?",
+          "a": "Agental checks and negotiates your image rights for each project."
+        },
+        {
+          "q": "Which photos should go in my profile?",
+          "a": "Sharp, varied photos. We advise you on what shows you best."
+        }
+      ]
     },
     "voix-doublage": {
       "name": "Voice & dubbing",
       "h1": "Voice and dubbing casting",
       "tagline": "Your voice is enough: ads, dubbing, narration, e-learning.",
-      "audience": "You have a voice that carries, an accent, a language or a particular timbre. The work happens in a studio, often without travelling far."
+      "audience": "You have a voice that carries, an accent, a language or a particular timbre. The work happens in a studio, often without travelling far.",
+      "chapo": "Voice casting recruits performers and voices for dubbing, radio advertising, e-learning, audiobooks and synthetic voices. It is a trade in its own right, which values timbre, diction and the ability to act with the voice alone.",
+      "apporte": "We target the voice castings suited to your timbre and your languages. Our vocal coach helps you prepare your auditions and adjust your interpretation, including for requested accents. We negotiate your sessions and secure your rights.",
+      "steps": [
+        "Create your profile and record a voice sample.",
+        "Sign your free mandate.",
+        "Receive targeted voice and dubbing castings."
+      ],
+      "faq": [
+        {
+          "q": "Do you need a studio to start?",
+          "a": "No. A clean recording with headphones and a microphone is enough for your first auditions."
+        },
+        {
+          "q": "What does a voice session pay?",
+          "a": "Often between 200 and 800 euros, depending on the project and the rights."
+        },
+        {
+          "q": "Are accents a plus?",
+          "a": "Yes. Accents and languages clearly widen your opportunities."
+        }
+      ]
     },
     "enfants": {
       "name": "Children & teens",
       "h1": "Children and teen casting",
       "tagline": "A strict protective framework, so they can act safely.",
-      "audience": "Your child wants to be on set? Background, commercials, series: the opportunities exist, inside a protective legal framework we apply to the letter."
+      "audience": "Your child wants to be on set? Background, commercials, series: the opportunities exist, inside a protective legal framework we apply to the letter.",
+      "chapo": "Children's casting recruits young people under 16 for cinema, series, fashion and advertising. In France this field is strictly governed by law to protect the child. Agental applies every one of those protections and supports parents at each step.",
+      "apporte": "We spot the castings suited to your child, we assemble the regulatory files, and we make sure every protection is respected. You keep control and visibility over everything.",
+      "steps": [
+        "Create your child's profile with your parental consent.",
+        "Sign the mandate, free of charge.",
+        "Receive supervised and tracked castings."
+      ],
+      "faq": [
+        {
+          "q": "Is it legal to have my child perform?",
+          "a": "Yes, within a strict framework. An authorisation from the departmental commission is mandatory, and Agental handles the file."
+        },
+        {
+          "q": "What happens to the money my child earns?",
+          "a": "90% of the fee is deposited in a blocked account at the Caisse des dépôts until majority."
+        },
+        {
+          "q": "Do I have to be present?",
+          "a": "Yes. Parental presence is mandatory at casting and on set."
+        },
+        {
+          "q": "Can my child shoot at night?",
+          "a": "Night shoots are forbidden for under-16s, except under a tightly governed exemption."
+        }
+      ]
     },
     "createurs": {
       "name": "Content creators",
       "h1": "Content creator casting",
       "tagline": "Your audience and your ease on camera are casting assets.",
-      "audience": "You already create content and want to monetise your presence: placements, brand campaigns, hybrid formats. We structure and negotiate for you."
+      "audience": "You already create content and want to monetise your presence: placements, brand campaigns, hybrid formats. We structure and negotiate for you.",
+      "chapo": "Content-creator casting connects creators active on TikTok, YouTube, Instagram and Twitch with brands and productions. Advertisers look for authentic creators to carry their campaigns, and this market is growing fast.",
+      "apporte": "We represent you and target the collaboration opportunities suited to your editorial line and your audience. We negotiate your terms, we check the contracts, and we help you professionalise your activity while keeping your creative freedom.",
+      "steps": [
+        "Create your profile and connect your channels.",
+        "Sign your free mandate.",
+        "Receive targeted collaboration proposals."
+      ],
+      "faq": [
+        {
+          "q": "Is there a minimum follower count?",
+          "a": "No. Your niche and your authenticity count as much as the size of your audience."
+        },
+        {
+          "q": "Does Agental take a commission on my collaborations?",
+          "a": "On contracts landed through Agental, yes, according to your plan's decreasing commission. Your personal activity stays yours."
+        },
+        {
+          "q": "Do I keep my creative freedom?",
+          "a": "Yes. We defend your interests, you keep the hand on your content."
+        }
+      ]
+    },
+    "performeurs": {
+      "name": "Performers & stage",
+      "h1": "Casting for performers and stage artists",
+      "tagline": "Dance, music, magic, circus, hosting, stunt work: your discipline is a role.",
+      "audience": "For every stage artist who wants access to more opportunities and representation by an agent. Your discipline, your level and your versatility are your assets.",
+      "chapo": "Performer casting recruits stage artists for events, shows, music videos, shoots and hosting. It covers a wide diversity of disciplines: dance, music, magic, circus, hosting, stunt work and many more.",
+      "apporte": "We target the castings suited to your discipline and your area, we negotiate your terms, and we secure your contracts. We put your specific skills forward with productions and events.",
+      "steps": [
+        "Create your profile and present your discipline and your videos.",
+        "Sign your free mandate.",
+        "Receive castings suited to your art."
+      ],
+      "faq": [
+        {
+          "q": "Which disciplines are covered?",
+          "a": "Dance, music, magic, circus, hosting, stunt work, and many other stage practices."
+        },
+        {
+          "q": "Can I list several disciplines?",
+          "a": "Yes. Your versatility widens your opportunities."
+        },
+        {
+          "q": "Do you need a professional level?",
+          "a": "Your actual level is valued as it is. We target the opportunities that suit it."
+        }
+      ]
     },
     "units": {
       "day": "/ day",
@@ -712,5 +934,10 @@
       "import": "Upload a video",
       "score": "Quality score for your take"
     }
+  },
+  "responseRate": {
+    "title": "Applications that get answers",
+    "body": "Our method aims at one simple goal: that your applications get far more replies. By targeting the right roles and caring for every submission, we aim to triple your response rate compared with sending in bulk.",
+    "disclaimer": "A method objective, measured and improved continuously."
   }
 }

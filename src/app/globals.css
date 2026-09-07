@@ -11,6 +11,10 @@
 :root {
   /* --- Palette brute (charte) --- */
   /* Neutres */
+  /* Le blanc des maquettes n'est pas #ffffff : il est tiede. Sur la peau
+     Talents il ameliore le contraste plutot que de le degrader — --fg-subtle
+     passe de 5.55:1 sur creme a 5.94:1 ici, --fg-muted a 6.22:1. */
+  --blancchaud: #fffcf5;
   --creme: #f8f4ec;
   --ivoire: #ede4d5;
   --greige: #cdbfa8;
@@ -31,6 +35,9 @@
   --abricot: #f0a06a;
   --orangebrule: #de6b34;
   --terracotta: #b24e22;
+  /* Terracotta assombri, pour le survol du CTA sur la peau sombre : voir le
+     commentaire de --cta-hover cote Casting. */
+  --terracottafonce: #a0451e;
   /* Verts */
   --sauge: #8fa588;
   --bouteille: #3f5e4c;
@@ -40,27 +47,45 @@
   --alerte: #c9821e;
   --erreur: #c0432e;
 
-  /* Rayon signature */
-  --sedan: 0.6rem;
+  /* Rayon signature.
+     Retune de 0.6rem (9.6px) a 0.75rem (12px) : les maquettes n'utilisent
+     jamais 9.6px, et `rounded-sedan` a 111 sites d'appel. Changer la valeur
+     les fait tous glisser vers la bonne mesure sans toucher une ligne de TSX.
+     Les freres couvrent le reste de l'echelle relevee dans les maquettes
+     (10 / 14 / 18 / 22px) ; 11, 13 et 20px s'y alignent a l'oeil. */
+  --sedan-sm: 0.625rem;
+  --sedan: 0.75rem;
+  --sedan-lg: 0.875rem;
+  --sedan-xl: 1.125rem;
+  --sedan-2xl: 1.375rem;
+
+  /* Largeur de conteneur des maquettes. max-w-6xl (1152px) etait une
+     approximation ; le canevas mesure 1200. */
+  --container-site: 75rem;
 }
 
 /* --- Couche sémantique : peau Talents (B2C, clair & chaud) --- */
 [data-portal="talents"] {
   color-scheme: light;
   --bg: var(--creme);
-  --surface: #ffffff;
+  --surface: var(--blancchaud);
   --surface-2: var(--ivoire);
   --fg: var(--espresso);
   --fg-muted: var(--brungrise);
   /* --taupe measured 3.02:1 on crème, well under AA for the 12px legal text it
-     carries. This value clears 4.5:1 on BOTH grounds it actually sits on:
-     5.55:1 on --bg (crème) and 4.83:1 on --surface-2 (ivoire). The first
+     carries. This value clears 4.5:1 on the three grounds it actually sits on:
+     5.55:1 on --bg (crème), 4.83:1 on --surface-2 (ivoire), and 5.94:1 on
+     --surface since that moved from #ffffff to --blancchaud. The first
      candidate, #7d6f5c, passed on crème at 4.45 and failed on ivoire at 3.87.
      Cost, stated rather than hidden: --fg-subtle (5.55) and --fg-muted (5.81)
      are now close, so the three-tier text hierarchy reads as two on this skin.
      Buying the separation back means larger small text, not lighter colour. */
   --fg-subtle: #6e6050;
-  --border: var(--greige);
+  /* Purely decorative, per the --field-border note below. Opaque --greige
+     measured 1.65:1 and drew a harder line than the mockups do; a 10% ink
+     tint lands at 1.20:1, which is the weight the card grid is drawn at.
+     Anything load-bearing uses --field-border or --border-strong instead. */
+  --border: color-mix(in srgb, var(--espresso) 10%, transparent);
   --border-strong: var(--taupe);
   /* Named --field-border, not --border-input: Tailwind resolves border-border
      before border-border-input, so the longer name silently fell back to the
@@ -79,6 +104,34 @@
   --success: var(--succes);
   --warning: var(--alerte);
   --danger: var(--erreur);
+
+  /* --- Remplissage CTA, separe du texte accent ---
+     Les maquettes remplissent chaque bouton principal en terracotta. C'est un
+     bon FOND (blanc dessus = 5.24:1) et un mauvais TEXTE (4.16:1 sur ivoire,
+     sous le plancher AA). --accent reste donc le role TEXTE — eyebrows, liens,
+     glyphes — en chocolat, et le remplissage prend son propre role. Le cognac
+     de la maquette pour les eyebrows a ete rejete : 3.94:1 sur creme. */
+  --cta: var(--terracotta);
+  --cta-hover: var(--chocolat);
+  --cta-fg: #ffffff;
+
+  /* --- Bande inversee ---
+     La refonte compte cinq bandes sombres. Elles etaient ecrites en classes de
+     palette brute (bg-espresso, text-creme) qui ne rendent RIEN : @theme inline
+     n'expose que des roles, il n'existe aucun --color-espresso. D'ou un vrai
+     role. L'inverse d'une peau, c'est le fond de l'autre. 15.28:1. */
+  --surface-inverse: var(--noirchaud);
+  --fg-inverse: var(--creme);
+  --fg-inverse-muted: color-mix(in srgb, var(--creme) 75%, var(--noirchaud));
+  /* Sur la bande inversee, --success et --border n'ont plus le bon fond sous
+     eux. Mesure : le vert de cette peau (#2e7d5b) sur noirchaud tombe a 3.35:1,
+     et une bordure a 25 % d'encre a 2.18:1 — sous le plancher de 3:1 que la
+     WCAG 1.4.11 demande a un graphique porteur de sens et au contour d'un
+     controle. C'est la meme faute que --field-border a corrigee sur les champs
+     de formulaire, refaite sur l'autre fond. On prend le vert de la peau
+     d'en face (8.95:1) et une bordure a 55 % (5.51:1). */
+  --success-inverse: #9fc7a8;
+  --border-inverse: color-mix(in srgb, var(--creme) 55%, var(--noirchaud));
 }
 
 /* --- Couche sémantique : peau Casting (B2B, sombre & sobre) --- */
@@ -104,20 +157,45 @@
   --accent-2: var(--ardoise);
   --accent-soft: color-mix(in srgb, var(--ardoise) 30%, var(--marineprof));
   --ring: var(--abricot);
-  --success: color-mix(in srgb, var(--succes) 78%, white);
+  /* Etait color-mix(--succes 78%, white) = #5c9a7f, qui mesure 4.48:1 sur
+     --surface : sous AA, de peu, et c'est la couleur des coches de validation
+     de la short-list. La valeur des maquettes atteint 7.86:1 sur --surface,
+     9.06:1 sur --bg et 6.17:1 sur --surface-2. */
+  --success: #9fc7a8;
   --warning: color-mix(in srgb, var(--alerte) 82%, white);
   --danger: color-mix(in srgb, var(--erreur) 82%, white);
+
+  /* Le CTA reste terracotta sur les deux peaux : les maquettes ne le font pas
+     varier, et le blanc dessus mesure 5.24:1 au repos.
+     Le survol, lui, ne suivait pas. Il pointait sur --orangebrule, plus CLAIR
+     que le terracotta : blanc dessus = 3.36:1, sous le plancher AA de 4.5, sur
+     chaque bouton principal du portail B2B et pendant tout le temps ou le
+     pointeur reste dessus. La peau Talents n'avait pas le probleme parce
+     qu'elle assombrit vers le chocolat (8.26:1). On assombrit ici aussi :
+     6.24:1. Un survol doit foncer, pas eclaircir, quand le texte est blanc. */
+  --cta: var(--terracotta);
+  --cta-hover: var(--terracottafonce);
+  --cta-fg: #ffffff;
+
+  --surface-inverse: var(--creme);
+  --fg-inverse: var(--noirchaud);
+  --fg-inverse-muted: color-mix(in srgb, var(--noirchaud) 75%, var(--creme));
+  /* Symetrique : #9fc7a8 sur creme mesure 1.71:1, le pire de tout le diff —
+     et ce sont les coches qui disent quelles fonctionnalites sont incluses.
+     Le vert de la peau d'en face donne 4.56:1, la bordure a 55 % donne 3.71:1. */
+  --success-inverse: var(--succes);
+  --border-inverse: color-mix(in srgb, var(--noirchaud) 55%, var(--creme));
 }
 
 /* Défaut si aucun portail défini : peau Talents */
 :root:not([data-portal]) {
   --bg: var(--creme);
-  --surface: #ffffff;
+  --surface: var(--blancchaud);
   --surface-2: var(--ivoire);
   --fg: var(--espresso);
   --fg-muted: var(--brungrise);
   --fg-subtle: #6e6050;
-  --border: var(--greige);
+  --border: color-mix(in srgb, var(--espresso) 10%, transparent);
   --border-strong: var(--taupe);
   --field-border: var(--taupe);
   /* Was --cognac: crème on cognac measures 3.94:1, under the 4.5:1 AA floor for
@@ -132,6 +210,14 @@
   --success: var(--succes);
   --warning: var(--alerte);
   --danger: var(--erreur);
+  --cta: var(--terracotta);
+  --cta-hover: var(--chocolat);
+  --cta-fg: #ffffff;
+  --surface-inverse: var(--noirchaud);
+  --fg-inverse: var(--creme);
+  --fg-inverse-muted: color-mix(in srgb, var(--creme) 75%, var(--noirchaud));
+  --success-inverse: #9fc7a8;
+  --border-inverse: color-mix(in srgb, var(--creme) 55%, var(--noirchaud));
 }
 
 /* --- Exposition aux utilitaires Tailwind (inline = suit la cascade data-portal) --- */
@@ -154,11 +240,31 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-cta-fg: var(--cta-fg);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-fg-inverse: var(--fg-inverse);
+  --color-fg-inverse-muted: var(--fg-inverse-muted);
+  --color-success-inverse: var(--success-inverse);
+  --color-border-inverse: var(--border-inverse);
 
+  --radius-sedan-sm: var(--sedan-sm);
   --radius-sedan: var(--sedan);
+  --radius-sedan-lg: var(--sedan-lg);
+  --radius-sedan-xl: var(--sedan-xl);
+  --radius-sedan-2xl: var(--sedan-2xl);
 
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
-  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --container-site: var(--container-site);
+
+  --font-sans: var(--font-instrument), "Instrument Sans", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+  /* Deprecie : alias sur --font-sans. Les maquettes n'ont pas de serif.
+     Le perimetre marketing n'en compte plus aucune occurrence ; les 59 qui
+     restent, dans 37 fichiers, sont toutes dans l'admin, l'onboarding et les
+     deux espaces authentifies. Les retirer est un chantier a part entiere, pas
+     un effet de bord de la refonte publique. En attendant, elles rendent. */
+  --font-display: var(--font-sans);
 }
 
 /* Default border colour for every element, so components never have to repeat

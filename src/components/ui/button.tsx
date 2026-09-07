@@ -4,14 +4,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sedan font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg]:size-[1.1em]",
+  "inline-flex max-w-full items-center justify-center gap-2 whitespace-nowrap rounded-sedan font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg]:size-[1.1em]",
   {
     variants: {
       variant: {
-        primary:
-          "bg-accent text-accent-fg hover:bg-accent-hover shadow-sm",
+        // --cta, not --accent: terracotta is a valid fill (white on it is
+        // 5.24:1) but an invalid text colour (4.16:1 on ivoire). --accent stays
+        // the text role. This one line moves every primary CTA on the site.
+        primary: "bg-cta text-cta-fg hover:bg-cta-hover shadow-sm",
         secondary:
-          "bg-surface text-fg border border-border hover:bg-surface-2",
+          "bg-surface text-fg border border-border-strong/40 hover:bg-surface-2",
         outline:
           "border border-border-strong text-fg hover:bg-accent-soft",
         ghost: "text-fg hover:bg-surface-2",
@@ -19,9 +21,11 @@ const buttonVariants = cva(
         danger: "bg-danger text-white hover:opacity-90",
       },
       size: {
-        sm: "h-8 px-3 text-sm",
-        md: "h-10 px-4 text-sm",
-        lg: "h-12 px-6 text-base",
+        // Mockup metrics: 14.5px/11px 20px, 15px/13px 24px, 16px/15px 28px.
+        // Heights stay >= the 24px WCAG 2.5.8 floor tools/a11y checks; lg is 48.
+        sm: "h-9 rounded-sedan-sm px-5 text-[14.5px]",
+        md: "h-11 px-6 text-[15px]",
+        lg: "h-12 px-7 text-base",
         icon: "size-10",
       },
     },

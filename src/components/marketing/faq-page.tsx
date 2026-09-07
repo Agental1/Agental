@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "./page-hero";
+import { Section } from "./section";
 import { FaqAccordion, type FaqGroup } from "./faq-accordion";
 import { faqPageLd, jsonLd, type FaqItem } from "@/lib/seo";
 
@@ -31,16 +32,16 @@ export function FaqPage({
         title={t("hero.title")}
         subtitle={t("hero.subtitle")}
       />
-      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <Section width="prose" rhythm="major">
         <FaqAccordion groups={groups} />
-        <div className="mt-12 text-center">
+        <div className="mt-10">
           <Button asChild size="lg">
             <Link href={ctaHref}>
               {t("cta")} <ArrowRight />
             </Link>
           </Button>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

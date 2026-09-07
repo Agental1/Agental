@@ -5,6 +5,12 @@
  */
 export const PALETTE: Record<string, string> = {
   // Neutres
+  /**
+   * blancchaud sits 10.4 away from #ffffff in RGB and 13.9 from crème, so
+   * `nearestToken`'s tolerance of 12 silently resolved it to `white` and threw
+   * the warm tint away. It needs its own entry, not a nearest-match.
+   */
+  "#fffcf5": "blancchaud",
   "#f8f4ec": "creme",
   "#ede4d5": "ivoire",
   "#cdbfa8": "greige",

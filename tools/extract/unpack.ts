@@ -41,9 +41,18 @@ function scriptBlock(html: string, type: string): string | null {
   return m ? m[1].trim() : null;
 }
 
+/**
+ * Largest asset we will materialise. The real ones are woff2 subsets measured in
+ * tens of KB; this only exists so a crafted export cannot expand a few KB of
+ * base64 into whatever it likes and take the process out before the write.
+ */
+const MAX_ASSET_BYTES = 8 * 1024 * 1024;
+
 export function decodeEntry(entry: ManifestEntry): Buffer {
   const raw = Buffer.from(entry.data, "base64");
-  return entry.compressed ? gunzipSync(raw) : raw;
+  return entry.compressed
+    ? gunzipSync(raw, { maxOutputLength: MAX_ASSET_BYTES })
+    : raw;
 }
 
 export interface UnpackResult {
@@ -72,6 +81,17 @@ export function unpack(
 
   const fonts: UnpackResult["fonts"] = [];
   for (const [uuid, entry] of Object.entries(manifest)) {
+    // The key comes straight out of the designer's file and is used as a
+    // filename. `join()` normalises "..", it does not confine — a key of
+    // "../../../x" would write outside fontsDir. The extension is force-appended
+    // below, so the worst case is a stray .woff2 somewhere, but "somewhere" is
+    // the part worth closing.
+    if (!/^[A-Za-z0-9_-]+$/.test(uuid)) {
+      throw new Error(
+        `Refusing manifest key ${JSON.stringify(uuid.slice(0, 40))}: ` +
+          `asset ids must match /^[A-Za-z0-9_-]+$/`
+      );
+    }
     const ext = MIME_EXT[entry.mime] ?? "bin";
     if (ext === "woff2" || ext === "woff") {
       const bytes = decodeEntry(entry);
@@ -84,6 +104,11 @@ export function unpack(
     } else {
       // JS runtime / other assets: strip references (we rebuild in React).
       // Drop <script src="uuid"></script> tags entirely.
+      // Safe to interpolate: the key was validated against
+      // /^[A-Za-z0-9_-]+$/ above, so it carries no regex metacharacter. Kept as
+      // a pattern rather than a literal split because attribute order in the
+      // export is not guaranteed, and [^>]* handles that where an exact string
+      // would silently leave the tag behind.
       template = template
         .split(new RegExp(`<script[^>]*src="${uuid}"[^>]*>\\s*</script>`, "g"))
         .join("");

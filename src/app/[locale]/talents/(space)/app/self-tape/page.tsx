@@ -84,7 +84,7 @@ export default async function SelfTapePage({
                   <video
                     src={`/api/media/${take.mediaId}`}
                     controls
-                    className="mt-3 aspect-video w-full rounded-sedan bg-noirchaud object-cover"
+                    className="mt-3 aspect-video w-full rounded-sedan bg-black object-cover"
                   />
                   <p className="mt-2 text-xs text-fg-muted">
                     {t("space.selftape.framing")} {b.framing} ·{" "}

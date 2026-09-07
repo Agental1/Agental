@@ -43,6 +43,9 @@ const PATHS = [
   "/casting/faq",
   "/castings",
   "/castings/figuration",
+  // The ninth landing, added with the New LP redesign. Its layout differs from
+  // the others (chapô band, per-type FAQ), so it earns its own row here.
+  "/castings/performeurs",
   "/connexion",
   "/talents/inscription",
   "/casting/inscription",

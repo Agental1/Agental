@@ -4,6 +4,7 @@ import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { PageHero } from "@/components/marketing/page-hero";
+import { Section } from "@/components/marketing/section";
 import { CastingPricingGrid } from "@/components/marketing/pricing-grids";
 
 export async function generateMetadata({
@@ -46,10 +47,10 @@ function TarifsContent() {
         title={t("hero.title")}
         subtitle={t("hero.subtitle")}
       />
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <Section rhythm="major">
         <CastingPricingGrid />
         <p className="mt-6 text-sm text-fg-subtle">{tp("note")}</p>
-      </section>
+      </Section>
     </>
   );
 }

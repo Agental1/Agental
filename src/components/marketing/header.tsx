@@ -16,6 +16,7 @@ export interface NavItem {
 }
 
 export function MarketingHeader({
+  portal,
   home,
   nav,
   cta,
@@ -58,31 +59,37 @@ export function MarketingHeader({
       >
         {t("nav.skipToContent")}
       </a>
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-[clamp(16px,4vw,40px)]">
         <Link href={home} className="shrink-0" aria-label="Agental">
-          <AgentalLogo />
+          {/* `portal` was accepted and then ignored. The mockups put the portal
+              name in the lockup, which is also the fastest way for a visitor to
+              tell the two sides of the site apart. */}
+          <AgentalLogo portal={portal === "casting" ? "Casting" : "Talents"} />
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-5 md:flex lg:gap-6">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="inline-flex min-h-6 items-center text-sm text-fg-muted transition-colors hover:text-fg"
+              className="inline-flex min-h-6 items-center whitespace-nowrap text-[14.5px] text-fg-muted transition-colors hover:text-fg"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden shrink-0 items-center gap-4 md:flex">
+          {/* Hidden below lg: with five nav items, the locale switcher and the
+              CTA, this is the first thing that has to give at 1024-1280. It
+              stays reachable in the burger panel and in the footer. */}
           <Link
             href={crossLink.href}
-            className="inline-flex min-h-6 items-center text-sm text-fg-subtle transition-colors hover:text-fg"
+            className="hidden min-h-6 items-center whitespace-nowrap text-sm text-fg-subtle transition-colors hover:text-fg lg:inline-flex"
           >
             {crossLink.label}
           </Link>
-          <LocaleSwitcher />
+          <LocaleSwitcher compact />
           <Button asChild size="sm">
             <Link href={cta.href}>{cta.label}</Link>
           </Button>
@@ -105,7 +112,7 @@ export function MarketingHeader({
 
       {open && (
         <div id="mobile-nav" className="border-t border-border bg-bg md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-4">
+          <nav className="mx-auto flex max-w-site flex-col gap-1 px-[clamp(16px,4vw,40px)] py-4">
             {nav.map((item) => (
               <Link
                 key={item.href}

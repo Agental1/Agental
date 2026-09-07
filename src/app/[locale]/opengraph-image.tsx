@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
-import { toLocale } from "@/i18n/routing";
+import { routing, toLocale } from "@/i18n/routing";
 
 /**
  * Shared Open Graph card for every page under [locale].
@@ -16,6 +16,16 @@ import { toLocale } from "@/i18n/routing";
  */
 export const alt = "Agental";
 export const size = { width: 1200, height: 630 };
+/**
+ * Les routes de metadonnees n'heritent PAS du generateStaticParams du layout.
+ * Sans celui-ci, la carte OG etait `ƒ` dans la sortie de build : satori et resvg
+ * rendaient trois images fixes de 1200x630 a chaque partage, dans une fonction,
+ * a froid. Les robots des reseaux abandonnent bien avant l'hebergeur.
+ */
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export const contentType = "image/png";
 
 export default async function Image({
@@ -30,10 +40,14 @@ export default async function Image({
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "common" });
 
-  // Talents skin (globals.css): crème ground, espresso ink, cognac accent.
+  // Talents skin (globals.css): crème ground, espresso ink, terracotta CTA.
+  // Was cognac. The site's fill accent moved to terracotta with the redesign,
+  // and a social card that keeps the old accent stops matching the page it
+  // links to — the one place nobody notices the drift, because nobody loads
+  // their own OG image.
   const CREME = "#f8f4ec";
   const ESPRESSO = "#3a2f26";
-  const COGNAC = "#a96b3c";
+  const TERRACOTTA = "#b24e22";
   const TAUPE = "#9a8b76";
 
   return new ImageResponse(
@@ -54,7 +68,7 @@ export default async function Image({
         <svg width="72" height="100" viewBox="0 0 100 140">
           <path
             d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-            fill={COGNAC}
+            fill={TERRACOTTA}
           />
         </svg>
 
@@ -70,7 +84,7 @@ export default async function Image({
             {t("meta.description")}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ fontSize: 30, color: COGNAC, fontWeight: 600 }}>
+            <div style={{ fontSize: 30, color: TERRACOTTA, fontWeight: 600 }}>
               Agental
             </div>
             <div style={{ fontSize: 26, color: TAUPE }}>

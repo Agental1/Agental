@@ -11,7 +11,7 @@
     "eyebrow": "Agencia artística regulada · puntuación transparente",
     "title": "El casting, por fin a la escala correcta.",
     "titleEmph": "La lista corta, hecha para usted.",
-    "subtitle": "Filtramos el 90 % de las candidaturas para presentarle únicamente los perfiles realmente pertinentes.",
+    "subtitle": "Recibe una selección ajustada de talentos pertinentes para tu papel, con disponibilidad, derechos y self-tapes ya verificados. Cada perfil muestra su origen y cada clasificación se explica. Decides más rápido y sobre mejores bases.",
     "ctaPrimary": "Probar gratis",
     "ctaSecondary": "Ver una demo",
     "note": "Modalidad gratuita, sin tarjeta bancaria. Un proyecto activo de regalo."
@@ -43,20 +43,28 @@
     "title": "Calidad, no cantidad.",
     "items": [
       {
-        "title": "Una selección corta, utilizable de inmediato",
-        "body": "El triple de perfiles pertinentes, cero ruido."
+        "title": "Una selección corta y utilizable de inmediato",
+        "body": "Nuestra tecnología criba las candidaturas y aparta todo lo que se sale del marco de tu papel, cerca del 90 % del volumen. Abres una short-list ajustada y lista para usar."
+      },
+      {
+        "title": "Tres veces más perfiles pertinentes",
+        "body": "Para cada papel, nuestro método busca hacer emerger tres veces más perfiles realmente adecuados que los canales habituales. Pasas menos tiempo filtrando y más eligiendo."
       },
       {
         "title": "Perfiles listos para convocar",
-        "body": "Self-tapes, disponibilidad y derechos ya verificados."
+        "body": "Self-tapes verificados, disponibilidad confirmada para tus fechas de rodaje, derechos de imagen validados: cada perfil llega documentado y accionable."
       },
       {
-        "title": "Una clasificación que usted entiende",
-        "body": "Cada perfil se clasifica con una justificación legible."
+        "title": "Una clasificación que entiendes",
+        "body": "Cada talento muestra una puntuación y la razón de su posición. Sabes por qué sube un perfil y mantienes la mano para reordenar la lista como quieras."
       },
       {
-        "title": "Una neutralidad que se puede comprobar",
-        "body": "La misma puntuación para todos, procedencia visible, historial trazable."
+        "title": "Una neutralidad que se comprueba",
+        "body": "Cada talento indica su origen, Agental o externo. La puntuación se calcula igual para todos, el historial de decisiones queda consultable y un filtro aísla los talentos externos en un clic."
+      },
+      {
+        "title": "Tiempo recuperado de verdad",
+        "body": "Un asistente da forma a tu brief en unos minutos. La selección se construye después sola. Recuperas horas en cada proyecto."
       }
     ]
   },
@@ -76,7 +84,8 @@
         "title": "Un historial consultable",
         "body": "Cada decisión de clasificación queda trazada."
       }
-    ]
+    ],
+    "body": "¿Puede una agencia que representa talentos presentártelos con total imparcialidad? Nuestra respuesta está en el producto. Cada perfil indica su origen. La puntuación se calcula igual para un talento representado por Agental y para uno externo. Ves la razón de cada clasificación y un filtro muestra solo los perfiles externos cuando lo desees. Lo compruebas por ti mismo."
   },
   "steps": {
     "eyebrow": "En tres tiempos",
@@ -85,11 +94,11 @@
     "items": [
       {
         "title": "Describa el papel",
-        "body": "Un asistente conversacional da forma a su briefing."
+        "body": "Un asistente conversacional da forma a tu brief."
       },
       {
         "title": "Reciba su lista corta",
-        "body": "Una selección corta, calibrada para la pertinencia."
+        "body": "La selección descarta lo que no viene al caso, puntúa cada perfil y explica su clasificación."
       },
       {
         "title": "Decida y convoque",
@@ -101,15 +110,15 @@
     "title": "Hacen casting con Agental",
     "items": [
       {
-        "quote": "Una lista corta, utilizable desde el primer minuto.",
+        "quote": "Recibo short-lists cortas y pertinentes. Ver la razón de cada clasificación me ahorra muchísimo tiempo, y el origen mostrado despeja cualquier ambigüedad sobre la neutralidad.",
         "author": "Directora de casting, largometrajes, París"
       },
       {
-        "quote": "Ganamos muchísimo tiempo en la primera criba.",
+        "quote": "Verificar la disponibilidad y los derechos de imagen por adelantado cambia nuestra forma de trabajar. Los expedientes llegan listos y decidimos más rápido.",
         "author": "Productora independiente, series"
       },
       {
-        "quote": "La procedencia visible en cada perfil nos convenció.",
+        "quote": "Para la figuración y los papeles de publicidad, el volumen era inmanejable. La selección nos ha devuelto un casting legible.",
         "author": "Agencia de publicidad, casting interno"
       }
     ]
@@ -173,9 +182,10 @@
     ]
   },
   "finalCta": {
-    "title": "¿Listo para recibir listas cortas que le ahorren tiempo?",
+    "title": "¿Listo para recibir short-lists que te devuelvan tiempo?",
     "ctaPrimary": "Probar gratis",
-    "ctaSecondary": "Solicitar una demo"
+    "ctaSecondary": "Solicitar una demo",
+    "body": "Crea tu cuenta gratis y lanza tu primer brief en unos minutos. Un proyecto activo es gratuito, sin tarjeta bancaria."
   },
   "how": {
     "meta": {
@@ -190,22 +200,26 @@
     "sections": [
       {
         "title": "Un briefing estructurado en unos minutos",
-        "body": "Un asistente conversacional da forma a su petición: papel, sexo, franja de edad, tipo físico, idioma, acento, restricciones, ventana de rodaje, lugar y presupuesto. Usted valida una vista previa clara."
+        "body": "Un asistente conversacional te hace las preguntas adecuadas y estructura tu petición: papel, sexo si es pertinente, franja de edad, tipo físico, idioma, acento, restricciones, ventana de rodaje, lugar y presupuesto. Adjuntas tu material, guion, sides o referencias visuales. Validas una vista previa clara antes de lanzar."
       },
       {
         "title": "Una selección en cascada, calibrada para la pertinencia",
-        "body": "La IA descarta las candidaturas fuera de lugar y clasifica los perfiles restantes según sus criterios. Recibe una lista corta, no un directorio."
+        "body": "Tus perfiles se analizan en varias pasadas. La primera aplica tus criterios estrictos: idioma, edad, movilidad, disponibilidad. La segunda compara cada perfil retenido con tu papel ideal y le asigna una puntuación argumentada. La última solo conserva los perfiles por encima de tu umbral de pertinencia, con una regla de diversidad que evita presentarte diez perfiles idénticos."
       },
       {
         "title": "Perfiles listos para decidir",
-        "body": "Self-tapes, disponibilidad y derechos de imagen se verifican de antemano. Cada perfil muestra una puntuación y una justificación legible."
+        "body": "Cada talento de tu short-list llega documentado. Foto fiel y sin retocar, puntuación, origen, tarifa estimada, disponibilidad confirmada. Consultas su ficha completa: medios, self-tape para ese papel si se ha grabado, medidas, acentos, idiomas, experiencia y la razón precisa de su correspondencia con tu brief."
       },
       {
         "title": "Usted mantiene el control, la neutralidad está garantizada",
-        "body": "La procedencia (Agental o externa) se muestra en cada talento, el mismo cálculo se aplica a todos, y cada decisión de clasificación queda trazada."
+        "body": "El talento confirma la disponibilidad, los derechos de imagen se validan y los self-tapes se verifican. Para un papel que implica a un menor, un recorrido reforzado te acompaña y muestra las protecciones aplicables. Decides sobre expedientes completos y evitas las malas sorpresas de última hora."
       }
     ],
-    "cta": "Probar gratis"
+    "cta": "Probar gratis",
+    "summary": {
+      "title": "Mantienes el control, la neutralidad está garantizada",
+      "body": "La puntuación es un punto de partida y la decisión es enteramente tuya. Reordenas, excluyes, añades. El origen de cada talento sigue visible y el historial de decisiones te permite entender cada clasificación. Un filtro «solo talentos externos» está disponible en todo momento."
+    }
   },
   "pricingPage": {
     "meta": {
@@ -216,7 +230,8 @@
       "eyebrow": "Tarifas",
       "title": "Una tarificación pensada para su volumen de casting",
       "subtitle": "Empiece gratis, sin tarjeta bancaria. Suba de nivel cuando el valor esté demostrado."
-    }
+    },
+    "note": "Sin compromiso. Cambias de nivel o vuelves al plan gratuito cuando quieras."
   },
   "faq": {
     "meta": {

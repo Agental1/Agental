@@ -10,9 +10,17 @@
   "hero": {
     "title": "Concentre-toi sur ton jeu.",
     "titleEmph": "On s'occupe du reste.",
-    "subtitle": "La première agence artistique nativement augmentée par IA. Un vrai agent qui te représente, une IA qui travaille pour toi 24/7.",
+    "subtitle": "Un vrai agent qui te représente, et une IA qui bosse 24/7 : veille des castings, candidatures, suivi. On cherche les rôles faits pour toi, et on te coache pour que ta candidature colle au plus près de ce qui est attendu. Figuration, silhouette, pub, voix, doublage, création de contenu : on sait ce qui te rend singulier, et on le met en avant là où ça compte.",
     "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Voir comment ça marche"
+    "ctaSecondary": "Voir comment ça marche",
+    "eyebrow": "L'agence artistique nouvelle génération",
+    "note": "Mandat gratuit. Sans engagement. Résiliable quand tu veux.",
+    "collage": [
+      "fille, 9 ans",
+      "femme, 25 ans",
+      "homme, 30 ans",
+      "homme, 50 ans"
+    ]
   },
   "proof": {
     "regulated": {
@@ -34,29 +42,30 @@
     "items": [
       {
         "title": "Un vrai agent qui te représente",
-        "body": "Mandat écrit, encadré par la loi. Pas un énième site d'annonces : une agence."
+        "body": "Tu signes un mandat de représentation, comme tout artiste avec son agent. On te défend, on négocie tes contrats, on vérifie que tout est légal. La représentation est gratuite, et tu peux la résilier quand tu le souhaites."
       },
       {
         "title": "L'agent travaille pendant que tu joues",
-        "body": "Veille des castings, candidatures, relances et suivi — en continu."
+        "body": "Notre IA surveille les castings en continu, repère ceux qui te correspondent vraiment, et prépare tes candidatures. Tu gardes la main sur tout, et tu gagnes des heures chaque semaine."
       },
       {
         "title": "On te trouve les rôles qui te vont",
-        "body": "Fini de scroller des castings hors sujet. On cible ce qui te correspond vraiment."
+        "body": "Tu reçois des castings choisis pour ton profil, ton âge, ta typologie, tes langues et tes disponibilités. La pertinence passe avant le volume, donc tu ne perds plus de temps sur des annonces hors sujet."
       },
       {
         "title": "On te coache pour te démarquer",
-        "body": "Self-tapes, dossier, choix des médias : on optimise ce qui fait la différence."
+        "body": "On sait ce qui te rend singulier, et on le met en avant au bon endroit. Notre Self-tape Studio te guide sur le cadrage, la lumière, le son et le jeu, pour que chaque envoi te ressemble et vise juste."
       },
       {
         "title": "Tu gardes plus quand tu montes",
-        "body": "Commission dégressive : plus tu avances, plus tu gardes."
+        "body": "Notre commission est dégressive. En choisissant un abonnement supérieur, tu conserves une plus grande part de ton cachet, de 10 % jusqu'à 5 %. Tu restes libre de garder la formule gratuite aussi longtemps que tu veux."
       },
       {
         "title": "Chaque profil a une force",
-        "body": "On valorise ce qui te rend unique, pas un moule."
+        "body": "Les productions cherchent des personnalités vraies et variées, pour la caméra comme pour la voix. On identifie ce qui te distingue, ton allure, ton accent, ta présence, ton timbre, et on le fait valoir. Ta singularité devient un argument."
       }
-    ]
+    ],
+    "lead": "La plupart des artistes n'ont jamais eu accès à un agent. Agental change ça. On représente les profils que les agences classiques laissent de côté, avec les mêmes exigences et un vrai mandat."
   },
   "steps": {
     "eyebrow": "En cinq étapes",
@@ -89,12 +98,15 @@
     "eyebrow": "Self-tape Studio",
     "title": "Ton self-tape peut tout changer. On t'aide à le réussir.",
     "hint": "cadrage · lumière · son OK",
-    "cta": "Découvrir le Self-tape Studio"
+    "cta": "Découvrir le Self-tape Studio",
+    "body": "Le self-tape est devenu la porte d'entrée de presque tous les castings. Notre studio intégré t'accompagne pendant la prise : cadrage, lumière, son, rythme du jeu. Un coach vocal te montre comment sonner juste si le rôle demande un accent. Tu tournes plusieurs versions, tu compares, tu gardes la meilleure.",
+    "offline": "Ça marche aussi sur un téléphone simple et une connexion lente. Un mode allégé te permet d'enregistrer partout, puis de recevoir tes conseils une fois la vidéo envoyée."
   },
   "commission": {
     "eyebrow": "Commission dégressive",
     "title": "Plus tu avances, plus tu gardes",
-    "cta": "Voir les tarifs en détail"
+    "cta": "Voir les tarifs en détail",
+    "body": "Ton abonnement et la commission de ton agent sont deux choses séparées. La représentation reste gratuite. Si tu choisis un abonnement pour accéder à plus d'outils, ta commission baisse en même temps. C'est un modèle aligné sur ta réussite."
   },
   "pricing": {
     "eyebrow": "Tarifs",
@@ -154,15 +166,15 @@
     "title": "Ils ont rejoint Agental",
     "items": [
       {
-        "quote": "On cherche pour toi, tu te concentres sur ton jeu.",
+        "quote": "J'ai grandi loin de Paris et je pensais que devenir acteur, ce n'était pas pour moi. En trois mois avec Agental, j'ai tourné dans deux séries. L'appli me prévient quand un rôle me correspond, et le studio m'a appris à filmer mes self-tapes correctement.",
         "author": "Sofiane, 22 ans — figuration et petits rôles, Lyon"
       },
       {
-        "quote": "Trois nouvelles annonces qui me correspondent vraiment, chaque semaine.",
+        "quote": "Je payais trois abonnements à des plateformes différentes et je passais mes soirées à trier des annonces. Là, tout arrive filtré. Je me concentre sur mes essais, l'agent s'occupe du reste.",
         "author": "Amina, 34 ans — publicité et voix, Marseille"
       },
       {
-        "quote": "Mon self-tape a tout changé. On m'a montré comment le tourner.",
+        "quote": "Ce qui m'a convaincu, c'est le mandat. C'est une vraie agence, avec un vrai contrat, pas un site qui vend de l'espoir. Et la commission qui baisse quand on monte, ça change tout sur une année.",
         "author": "Lucas, 41 ans — seconds rôles, Lille"
       }
     ]
@@ -176,12 +188,14 @@
       "Lecture du script par le parent",
       "Visite médicale avant le tournage",
       "90 % du cachet bloqué jusqu'à la majorité"
-    ]
+    ],
+    "body": "Tu es parent d'un enfant qui rêve de jouer ? On applique toutes les protections prévues par la loi française : autorisation de la commission départementale, présence parentale au casting et au tournage, lecture du script par le parent, visite médicale, et mise de côté de 90 % du cachet sur un compte bloqué jusqu'à la majorité. Chaque étape est suivie et documentée."
   },
   "finalCta": {
     "title": "Prêt à être représenté ?",
     "ctaPrimary": "Devenir membre",
-    "ctaSecondary": "Poser une question"
+    "ctaSecondary": "Poser une question",
+    "body": "Créer ton profil prend quelques minutes. Le mandat est gratuit, sans engagement, et tu peux partir quand tu veux. Ton talent mérite un agent qui travaille pour toi."
   },
   "how": {
     "meta": {
@@ -196,26 +210,30 @@
     "sections": [
       {
         "title": "Un profil qui te ressemble",
-        "body": "Tu renseignes ton identité, ton physique, tes médias, tes spécialités et tes disponibilités. Chaque champ métier est expliqué en clair — pas besoin de connaître le vocabulaire du casting."
+        "body": "Tu renseignes ton identité artistique, ton profil physique, tes médias, tes spécialités et tes disponibilités. Chaque terme technique est expliqué en clair, donc pas besoin de connaître le jargon du métier pour commencer. Un reel filmé au téléphone suffit pour démarrer."
       },
       {
         "title": "Le contrat qui te fait représenter",
-        "body": "Tu signes ton mandat de représentation : c'est le contrat standard entre un artiste et son agent, encadré par la loi française. Gratuit, sans engagement de ta part, résiliable quand tu veux."
+        "body": "Le mandat, c'est le contrat que signe tout artiste avec son agent. Il est encadré par la loi française. Il est gratuit, sans engagement de ta part, et résiliable quand tu veux. En le signant, tu nous autorises à te représenter, à chercher des rôles pour toi et à négocier tes contrats."
       },
       {
         "title": "Une veille qui ne s'arrête jamais",
-        "body": "L'IA surveille les castings 24/7 et repère ceux qui te correspondent vraiment. Fini de scroller des annonces hors sujet : on te trouve les rôles qui te vont."
+        "body": "Notre système surveille les annonces de casting en continu, en France et à l'international. Il compare chaque annonce à ton profil et repère celles qui te correspondent vraiment : ton âge, ta typologie, tes langues, ta zone, tes disponibilités. Tu reçois des propositions ciblées, sans avoir à chercher toi-même."
       },
       {
         "title": "Le studio qui te met en confiance",
-        "body": "Le Self-tape Studio te guide au cadrage, à la lumière et au son, avec un coach vocal. Même filmé au téléphone, ton self-tape peut tout changer."
+        "body": "Quand un rôle demande un self-tape, notre studio t'accompagne pendant la prise. Il te guide sur le cadrage, la lumière et le son en temps réel. Un coach vocal te fait entendre la bonne intonation si le rôle demande un accent. Tu enregistres plusieurs versions, tu les compares, et tu envoies la meilleure directement depuis l'appli."
       },
       {
         "title": "De la sélection au cachet",
-        "body": "Quand tu es retenu, on négocie, on sécurise le contrat et on te reverse ton cachet. Ta commission baisse à mesure que tu montes."
+        "body": "Quand tu es retenu, on prend le relais sur la partie contractuelle. On négocie ton cachet et tes conditions, on vérifie que le contrat est légal, et on suit le tournage. Agental encaisse ton cachet, retient sa commission, et te reverse ta part sous sept jours après paiement effectif."
       }
     ],
-    "cta": "Devenir membre"
+    "cta": "Devenir membre",
+    "summary": {
+      "title": "En résumé",
+      "body": "Le parcours complet, d'un coup d'œil : profil, mandat, veille IA, self-tape, contrat. Tu gardes le contrôle à chaque étape, et un humain vérifie toujours les contrats avant signature."
+    }
   },
   "pricingPage": {
     "meta": {
@@ -226,7 +244,8 @@
       "eyebrow": "Tarifs",
       "title": "Des tarifs qui récompensent ta progression",
       "subtitle": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service technologique optionnel — jamais un péage vers les opportunités."
-    }
+    },
+    "note": "Sans engagement. Tu changes de formule ou tu reviens au gratuit quand tu veux."
   },
   "faq": {
     "meta": {
@@ -316,39 +335,44 @@
     },
     "hero": {
       "eyebrow": "Qui sommes-nous",
-      "title": "Une idée née à table",
-      "subtitle": "Agental est né d'une conviction simple : le talent est partout, la représentation ne l'est pas. On voulait changer ça."
+      "title": "Qui sommes-nous",
+      "subtitle": "Agental est une agence artistique de nouvelle génération. Derrière la technologie, il y a une famille, une conviction, et une idée née autour d'une table."
     },
-    "story": [
-      "Trop de profils formidables n'ont jamais eu accès à un agent : trop jeunes, trop loin des grandes villes, trop « atypiques » pour les agences établies. Pourtant, les castings les cherchent.",
-      "Nous avons construit une agence qui fait le travail d'un vrai agent — mandat, négociation, défense de carrière — mais dont la veille, le scoring et le suivi tournent 24/7 grâce à une IA. La chaleur d'un agent, la puissance d'un logiciel."
-    ],
-    "valuesTitle": "Ce qui nous rassemble",
-    "values": [
-      {
-        "title": "Démocratiser",
-        "body": "Donner accès à la représentation aux profils sous-servis, sans barrière de jargon ni de contrat intimidant."
-      },
-      {
-        "title": "Transparence",
-        "body": "On explique toujours pourquoi. L'IA est un assistant au service de l'humain, jamais une boîte noire."
-      },
-      {
-        "title": "Respect",
-        "body": "Tes médias restent à toi. Tes données sont protégées. Ta liberté de partir aussi."
-      }
-    ],
-    "foundersTitle": "L'équipe",
-    "founders": [
-      {
-        "name": "Jérôme",
-        "role": "le père"
-      },
-      {
-        "name": "Vadim",
-        "role": "à Paris"
-      }
-    ]
+    "origin": {
+      "title": "Une idée née à table",
+      "body": "Tout est parti d'un déjeuner, entre un père et son fils. En discutant du métier, on a fini par mettre des mots sur un même constat, des deux côtés à la fois. D'un côté, tous ces talents et ces performeurs qui ne sortent jamais de l'ombre, faute d'être vus au bon moment. Tous ces jeunes qui rêvent de jouer et qui ne savent ni où ni comment trouver un bon agent. De l'autre, tous ces producteurs et ces directeurs de casting qui pourraient être mieux épaulés dans leurs recherches, pour dénicher la perle rare et faire correspondre plus finement les profils aux rôles. On s'est dit qu'on pouvait améliorer les choses pour tout le monde. C'est de cette conversation qu'est née Agental."
+    },
+    "team": {
+      "title": "Ce qui nous rassemble",
+      "lead": "Nous formons une équipe qui connaît les deux rives du métier, celle des artistes et celle de l'entreprise.",
+      "members": [
+        {
+          "name": "Jérôme",
+          "role": "le père",
+          "body": "Entrepreneur en série. Il a créé et développé des sociétés des deux côtés de l'Atlantique, et sait ce qu'il faut pour transformer une intuition en produit qui tient debout."
+        },
+        {
+          "name": "Vadim",
+          "role": "à Paris",
+          "body": "Très jeune, il a commencé par de la figuration dans des courts métrages et des clips, avant d'obtenir des rôles plus importants dans des comédies. Il connaît de l'intérieur le chemin d'un artiste qui débute."
+        },
+        {
+          "name": "Solal",
+          "role": "à Los Angeles",
+          "body": "Étudie l'ingénierie à USC. Il apporte le regard de la technologie et d'une génération qui a grandi avec elle."
+        }
+      ]
+    },
+    "stance": {
+      "title": "Notre parti pris",
+      "body": "Nous croyons qu'un accent, une origine ou une allure singulière sont des forces, parce que les productions cherchent des personnalités vraies et variées. Nous croyons qu'une représentation sérieuse peut être accessible à tous, et gratuite pour commencer. Et nous croyons que la technologie doit rester au service de l'humain, avec clarté. C'est pourquoi Agental est nativement augmentée par IA. Cette intelligence artificielle travaille en continu, pour repérer les rôles qui correspondent vraiment à un artiste et pour aider les directeurs de casting à trouver les bons profils plus vite. Un agent régulé reste aux commandes, et chaque décision de l'IA peut s'expliquer."
+    },
+    "mission": {
+      "title": "Notre mission",
+      "body": "Rendre la représentation artistique accessible à tous, et rendre la recherche de talents plus juste et plus efficace. D'un côté comme de l'autre, nous voulons que les bonnes rencontres aient enfin lieu.",
+      "ctaPrimary": "Devenir membre",
+      "ctaSecondary": "Découvrir Agental Casting"
+    }
   },
   "castingLandings": {
     "index": {
@@ -366,14 +390,9 @@
     "cachetsTitle": "Cachets indicatifs en France",
     "cachetsNote": "Fourchettes indicatives, variables selon le projet, la production et l'expérience.",
     "startTitle": "Comment commencer",
-    "startBody": "Crée ton profil gratuitement, signe ton mandat, et laisse l'IA repérer les castings faits pour toi.",
     "cta": "Devenir membre",
-    "benefits": [
-      "On te trouve les annonces qui te correspondent vraiment",
-      "On optimise ton dossier et tes self-tapes",
-      "On négocie et on sécurise ton cachet"
-    ],
-    "othersTitle": "Autres types de casting"
+    "othersTitle": "Autres types de casting",
+    "faqTitle": "Questions fréquentes"
   },
   "notFound": {
     "title": "Cette page a quitté le plateau.",
@@ -384,49 +403,252 @@
       "name": "Figuration",
       "h1": "Casting figuration",
       "tagline": "Le point d'entrée du cinéma et de la télé. Aucune expérience requise.",
-      "audience": "Tu veux apparaître à l'écran, découvrir les plateaux et te constituer une première expérience. Tous profils, tous âges, partout en France."
+      "audience": "Tu veux apparaître à l'écran, découvrir les plateaux et te constituer une première expérience. Tous profils, tous âges, partout en France.",
+      "chapo": "La figuration consiste à apparaître à l'image dans un film, une série, une publicité ou un clip, sans texte à jouer. La silhouette est une figuration remarquée, où l'on distingue ton visage ou une action précise. Ce sont souvent les premiers pas dans le métier, et un excellent moyen de comprendre un plateau de tournage.",
+      "apporte": "On te représente avec un vrai mandat, gratuit. Notre IA repère les castings de figuration qui correspondent à ton profil et à ta zone, et te prévient dès qu'un rôle urgent se présente. Quand un self-tape est demandé, on te coache pour qu'il soit propre et te démarque. Tu montes en visibilité, et tu peux évoluer vers des rôles de silhouette puis des petits rôles.",
+      "steps": [
+        "Crée ton profil et ajoute quelques photos.",
+        "Signe ton mandat gratuit.",
+        "Reçois tes premiers castings de figuration ciblés."
+      ],
+      "faq": [
+        {
+          "q": "Faut-il de l'expérience pour être figurant ?",
+          "a": "Non. La figuration est accessible aux débutants. C'est souvent la première étape d'une carrière."
+        },
+        {
+          "q": "Faut-il habiter Paris ?",
+          "a": "Non. Des tournages ont lieu partout en France. Tu indiques ta mobilité, et on te propose des rôles accessibles depuis chez toi."
+        },
+        {
+          "q": "La figuration est-elle payée ?",
+          "a": "Oui. Un cachet de figuration se situe le plus souvent entre 80 et 180 euros par jour."
+        },
+        {
+          "q": "Comment passer de la figuration aux petits rôles ?",
+          "a": "En construisant ton profil et tes self-tapes. On te coache pour évoluer vers des rôles avec texte."
+        }
+      ]
     },
     "silhouette": {
       "name": "Silhouette",
       "h1": "Casting silhouette",
       "tagline": "Un cran au-dessus de la figuration : un geste, une présence remarquée.",
-      "audience": "Tu as une présence, une allure ou une action précise à jouer à l'image. Un rôle muet mais visible, souvent mieux rémunéré que la figuration."
+      "audience": "Tu as une présence, une allure ou une action précise à jouer à l'image. Un rôle muet mais visible, souvent mieux rémunéré que la figuration.",
+      "chapo": "La silhouette est une figuration remarquée : on distingue ton visage, ou tu accomplis une action précise à l'image. C'est le palier juste au-dessus de la figuration, souvent mieux rémunéré, et le passage le plus naturel vers les rôles avec texte.",
+      "apporte": "On cible les rôles de silhouette qui correspondent à ta typologie et à ta zone, et on te prévient vite car ils partent souvent en urgence. On te coache sur le self-tape quand il est demandé, et on met en avant ce qui te rend reconnaissable à l'image. On négocie ton cachet et on vérifie tes droits image.",
+      "steps": [
+        "Crée ton profil et soigne tes photos de face et de profil.",
+        "Signe ton mandat gratuit.",
+        "Reçois des rôles de silhouette ciblés sur ta zone."
+      ],
+      "faq": [
+        {
+          "q": "Quelle différence avec la figuration ?",
+          "a": "En figuration, tu peuples la scène sans être identifiable. En silhouette, ton visage ou ton action est distingué à l'image."
+        },
+        {
+          "q": "La silhouette est-elle mieux payée ?",
+          "a": "Souvent oui. Le cachet dépasse généralement celui de la figuration, et une sujétion particulière peut le relever encore."
+        },
+        {
+          "q": "Faut-il de l'expérience ?",
+          "a": "Non, mais une première expérience de figuration aide à être à l'aise sur le plateau."
+        }
+      ]
     },
     "seconds-roles": {
       "name": "Seconds rôles",
       "h1": "Casting seconds rôles",
       "tagline": "Du texte, un personnage, des séries et des longs métrages.",
-      "audience": "Tu joues, tu as (ou construis) une petite expérience, et tu veux décrocher des rôles parlants dans les séries, la fiction et le cinéma."
+      "audience": "Tu joues, tu as (ou construis) une petite expérience, et tu veux décrocher des rôles parlants dans les séries, la fiction et le cinéma.",
+      "chapo": "Un petit rôle ou un second rôle est un personnage avec du texte, présent sur une ou plusieurs scènes, sans être le premier rôle. Ces rôles sont le cœur du volume de casting en France, et une voie solide pour construire une carrière d'acteur.",
+      "apporte": "On te représente et on cible les castings de petits rôles faits pour ton profil. Notre IA compare chaque annonce à ton âge, ta typologie, tes accents et tes langues. On te coache sur tes self-tapes pour que ta candidature colle au plus près de ce que le rôle attend, et on met en avant ce qui te distingue. On négocie ton contrat et on sécurise ton cachet.",
+      "steps": [
+        "Crée un profil complet, avec un reel si tu en as un.",
+        "Signe ton mandat gratuit.",
+        "Reçois des castings de petits rôles ciblés et tourne tes self-tapes coachés."
+      ],
+      "faq": [
+        {
+          "q": "Quelle différence entre petit rôle et figuration ?",
+          "a": "Le petit rôle a du texte à jouer. La figuration apparaît à l'image sans texte."
+        },
+        {
+          "q": "Faut-il une formation d'acteur ?",
+          "a": "Utile, mais pas obligatoire. Beaucoup de comédiens progressent par la pratique et un bon coaching de self-tape."
+        },
+        {
+          "q": "Combien rapporte un petit rôle en série ?",
+          "a": "Souvent entre 350 et 800 euros par jour, selon le projet."
+        }
+      ]
     },
     "publicite": {
       "name": "Publicité",
       "h1": "Casting publicité",
       "tagline": "Les tournages les mieux payés, pour tous les profils.",
-      "audience": "Visage, famille, sportif, senior, enfant, main experte… La pub cherche du vrai, pas des mannequins. Des cachets élevés et des droits d'image négociés."
+      "audience": "Visage, famille, sportif, senior, enfant, main experte… La pub cherche du vrai, pas des mannequins. Des cachets élevés et des droits d'image négociés.",
+      "chapo": "Le casting publicitaire recrute des visages et des silhouettes pour des campagnes de marques, à la télévision, en ligne ou en affichage. C'est l'un des segments les mieux rémunérés du métier, et il recherche une grande variété de profils, du couple à la famille, du sportif au visage typé.",
+      "apporte": "On cible les castings pub adaptés à ton profil et on te prévient vite, car ces castings vont souvent vite. On te coache sur ton self-tape pour qu'il soit net et convaincant. On vérifie les droits image, un point clé en publicité, et on négocie ton cachet et les conditions de diffusion.",
+      "steps": [
+        "Crée ton profil et soigne tes photos.",
+        "Signe ton mandat gratuit.",
+        "Reçois des castings pub ciblés et réactifs."
+      ],
+      "faq": [
+        {
+          "q": "Les castings pub sont-ils bien payés ?",
+          "a": "Oui. Un cachet pub se situe souvent entre 800 et 3 000 euros par jour, hors droits de diffusion."
+        },
+        {
+          "q": "Que sont les droits image en pub ?",
+          "a": "L'accord d'utilisation de ton image pour la diffusion de la campagne. On vérifie et on négocie ces droits pour toi."
+        },
+        {
+          "q": "Faut-il de l'expérience ?",
+          "a": "Non. La pub recherche avant tout des profils crédibles et variés."
+        }
+      ]
     },
     "photo": {
       "name": "Photo",
       "h1": "Casting photo",
       "tagline": "Campagnes, catalogues, éditoriaux : ton image, valorisée.",
-      "audience": "Tu es à l'aise devant l'objectif pour des shootings commerciaux ou éditoriaux. Des visages authentiques, de tous types et de tous âges."
+      "audience": "Tu es à l'aise devant l'objectif pour des shootings commerciaux ou éditoriaux. Des visages authentiques, de tous types et de tous âges.",
+      "chapo": "Le casting photo recrute des modèles et des visages pour des shootings publicitaires, des campagnes de marque, des catalogues et des éditoriaux. Il s'adresse à une grande variété de profils, bien au-delà des standards du mannequinat classique.",
+      "apporte": "On repère les castings photo qui te correspondent, on gère tes droits image, et on négocie tes conditions. On te conseille sur les visuels de ton profil pour qu'ils te servent au mieux. Ton allure singulière est un atout, et on le met en avant.",
+      "steps": [
+        "Crée ton profil avec des photos variées.",
+        "Signe ton mandat gratuit.",
+        "Reçois des castings photo et mode ciblés."
+      ],
+      "faq": [
+        {
+          "q": "Faut-il être mannequin professionnel ?",
+          "a": "Non. La photo et la mode recherchent de plus en plus des profils variés et authentiques."
+        },
+        {
+          "q": "Qui gère mes droits image ?",
+          "a": "Agental vérifie et négocie tes droits image pour chaque projet."
+        },
+        {
+          "q": "Quelles photos mettre dans mon profil ?",
+          "a": "Des photos nettes et variées. On te conseille sur ce qui te met en valeur."
+        }
+      ]
     },
     "voix-doublage": {
       "name": "Voix & doublage",
       "h1": "Casting voix et doublage",
       "tagline": "Ta voix suffit : pub, doublage, narration, e-learning.",
-      "audience": "Tu as une voix qui porte, un accent, une langue ou un timbre particulier. Le travail se fait en studio, souvent sans jamais te déplacer loin."
+      "audience": "Tu as une voix qui porte, un accent, une langue ou un timbre particulier. Le travail se fait en studio, souvent sans jamais te déplacer loin.",
+      "chapo": "Le casting voix recrute des comédiens et des voix pour le doublage, la publicité radio, l'e-learning, les livres audio et les voix de synthèse. C'est un métier à part entière, qui valorise le timbre, la diction et la capacité à jouer avec la voix seule.",
+      "apporte": "On cible les castings voix adaptés à ton timbre et à tes langues. Notre coach vocal t'aide à préparer tes essais et à ajuster ton interprétation, y compris pour les accents demandés. On négocie tes séances et on sécurise tes droits.",
+      "steps": [
+        "Crée ton profil et enregistre un échantillon de voix.",
+        "Signe ton mandat gratuit.",
+        "Reçois des castings voix et doublage ciblés."
+      ],
+      "faq": [
+        {
+          "q": "Faut-il un studio pour commencer ?",
+          "a": "Non. Un enregistrement propre au casque et au micro suffit pour tes premiers essais."
+        },
+        {
+          "q": "Combien rapporte une séance de voix ?",
+          "a": "Souvent entre 200 et 800 euros, selon le projet et les droits."
+        },
+        {
+          "q": "Les accents sont-ils un plus ?",
+          "a": "Oui. Les accents et les langues élargissent nettement tes opportunités."
+        }
+      ]
     },
     "enfants": {
       "name": "Enfants & ados",
       "h1": "Casting enfants et ados",
       "tagline": "Un cadre protecteur strict, pour jouer en toute sécurité.",
-      "audience": "Ton enfant veut tourner ? Figuration, pub, séries : les opportunités existent, encadrées par un dispositif légal protecteur que nous appliquons à la lettre."
+      "audience": "Ton enfant veut tourner ? Figuration, pub, séries : les opportunités existent, encadrées par un dispositif légal protecteur que nous appliquons à la lettre.",
+      "chapo": "Le casting enfants recrute des jeunes de moins de 16 ans pour le cinéma, les séries, la mode et la publicité. En France, ce domaine est strictement encadré par la loi pour protéger l'enfant. Agental applique l'intégralité de ces protections et accompagne les parents à chaque étape.",
+      "apporte": "On repère les castings adaptés à ton enfant, on constitue les dossiers réglementaires, et on veille au respect de chaque protection. Tu gardes le contrôle et la visibilité sur tout.",
+      "steps": [
+        "Crée le profil de ton enfant avec ton accord parental.",
+        "Signe le mandat, gratuit.",
+        "Reçois des castings encadrés et suivis."
+      ],
+      "faq": [
+        {
+          "q": "Est-ce légal de faire jouer mon enfant ?",
+          "a": "Oui, dans un cadre strict. Une autorisation de la commission départementale est obligatoire, et Agental s'occupe du dossier."
+        },
+        {
+          "q": "Que devient l'argent gagné par mon enfant ?",
+          "a": "90 % du cachet est consigné sur un compte bloqué à la Caisse des dépôts jusqu'à sa majorité."
+        },
+        {
+          "q": "Dois-je être présent ?",
+          "a": "Oui. La présence parentale est obligatoire au casting et au tournage."
+        },
+        {
+          "q": "Mon enfant peut-il tourner le soir ?",
+          "a": "Les tournages de nuit sont interdits pour les moins de 16 ans, sauf dérogation très encadrée."
+        }
+      ]
     },
     "createurs": {
       "name": "Créateurs de contenu",
       "h1": "Casting créateurs de contenu",
       "tagline": "Ton audience et ton naturel sont un atout de casting.",
-      "audience": "Tu crées déjà du contenu et tu veux monétiser ta présence : placements, campagnes de marque, formats hybrides. On structure et on négocie pour toi."
+      "audience": "Tu crées déjà du contenu et tu veux monétiser ta présence : placements, campagnes de marque, formats hybrides. On structure et on négocie pour toi.",
+      "chapo": "Le casting de créateurs de contenu met en relation les créateurs actifs sur TikTok, YouTube, Instagram et Twitch avec des marques et des productions. Les annonceurs recherchent des créateurs authentiques pour porter leurs campagnes, et ce marché grandit vite.",
+      "apporte": "On te représente et on cible les opportunités de collaboration adaptées à ta ligne éditoriale et à ton audience. On négocie tes conditions, on vérifie les contrats, et on t'aide à professionnaliser ton activité tout en gardant ta liberté créative.",
+      "steps": [
+        "Crée ton profil et relie tes réseaux.",
+        "Signe ton mandat gratuit.",
+        "Reçois des propositions de collaboration ciblées."
+      ],
+      "faq": [
+        {
+          "q": "Faut-il un nombre minimum d'abonnés ?",
+          "a": "Non. Ta niche et ton authenticité comptent autant que ta taille d'audience."
+        },
+        {
+          "q": "Agental prend-il une commission sur mes collaborations ?",
+          "a": "Sur les contrats décrochés via Agental, oui, selon la commission dégressive de ton plan. Ton activité personnelle reste la tienne."
+        },
+        {
+          "q": "Je garde ma liberté créative ?",
+          "a": "Oui. On défend tes intérêts, tu gardes la main sur ton contenu."
+        }
+      ]
+    },
+    "performeurs": {
+      "name": "Performeurs & scène",
+      "h1": "Casting performeurs et artistes de scène",
+      "tagline": "Danse, musique, magie, cirque, animation, cascade : ta discipline est un rôle.",
+      "audience": "À tous les artistes de scène qui veulent accéder à davantage d'opportunités et être représentés par un agent. Ta discipline, ton niveau et ta polyvalence sont tes atouts.",
+      "chapo": "Le casting de performeurs recrute des artistes de scène pour des événements, des spectacles, des clips, des tournages et des animations. Il couvre une grande diversité de disciplines : danse, musique, magie, cirque, animation, cascade et bien d'autres.",
+      "apporte": "On cible les castings adaptés à ta discipline et à ta zone, on négocie tes conditions, et on sécurise tes contrats. On valorise tes compétences spécifiques auprès des productions et des événements.",
+      "steps": [
+        "Crée ton profil et présente ta discipline et tes vidéos.",
+        "Signe ton mandat gratuit.",
+        "Reçois des castings adaptés à ton art."
+      ],
+      "faq": [
+        {
+          "q": "Quelles disciplines sont concernées ?",
+          "a": "Danse, musique, magie, cirque, animation, cascade, et de nombreuses autres pratiques de scène."
+        },
+        {
+          "q": "Puis-je indiquer plusieurs disciplines ?",
+          "a": "Oui. Ta polyvalence élargit tes opportunités."
+        },
+        {
+          "q": "Faut-il un niveau professionnel ?",
+          "a": "Ton niveau réel est valorisé tel quel. On cible les opportunités adaptées."
+        }
+      ]
     },
     "units": {
       "day": "/ jour",
@@ -712,5 +934,10 @@
       "import": "Importer une vidéo",
       "score": "Score qualité de ta prise"
     }
+  },
+  "responseRate": {
+    "title": "Des candidatures qui décrochent des réponses",
+    "body": "Notre méthode vise un objectif simple : que tes candidatures reçoivent bien plus de réponses. En ciblant les bons rôles et en soignant chaque dossier, on cherche à multiplier par trois ton taux de réponse par rapport à un envoi en masse.",
+    "disclaimer": "Objectif de méthode, mesuré et amélioré en continu."
   }
 }

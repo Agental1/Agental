@@ -3,6 +3,7 @@ import { Sparkles, Star, Check, Circle } from "lucide-react";
 import { PortalTheme } from "@/components/portal-theme";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Eyebrow } from "@/components/marketing/eyebrow";
 import {
   Card,
   CardHeader,
@@ -36,6 +37,8 @@ const SWATCHES: { label: string; token: string }[] = [
   { label: "surface-2", token: "bg-surface-2" },
   { label: "accent", token: "bg-accent" },
   { label: "accent-2", token: "bg-accent-2" },
+  { label: "cta", token: "bg-cta" },
+  { label: "surface-inverse", token: "bg-surface-inverse" },
   { label: "success", token: "bg-success" },
   { label: "warning", token: "bg-warning" },
   { label: "danger", token: "bg-danger" },
@@ -93,13 +96,35 @@ function Showcase({ portal }: { portal: Portal }) {
       </Section>
 
       <Section title="Typographie">
-        <p className="font-display text-3xl leading-tight">
+        <Eyebrow className="block">
+          Eyebrow en JetBrains Mono
+        </Eyebrow>
+        <p className="text-3xl font-bold leading-[1.05] tracking-[-0.02em]">
           Concentre-toi sur ton jeu.
         </p>
         <p className="text-base text-fg-muted">
-          Corps de texte en Inter — On s&apos;occupe du reste. Veille,
+          Corps de texte en Instrument Sans — On s&apos;occupe du reste. Veille,
           candidatures et suivi pendant que tu joues.
         </p>
+      </Section>
+
+      <Section title="Rayons">
+        <div className="flex flex-wrap gap-3">
+          {[
+            ["sedan-sm", "rounded-sedan-sm"],
+            ["sedan", "rounded-sedan"],
+            ["sedan-lg", "rounded-sedan-lg"],
+            ["sedan-xl", "rounded-sedan-xl"],
+            ["sedan-2xl", "rounded-sedan-2xl"],
+          ].map(([label, cls]) => (
+            <div key={label} className="space-y-1 text-center">
+              <div
+                className={`size-16 border border-border-strong bg-surface-2 ${cls}`}
+              />
+              <p className="font-mono text-[10px] text-fg-subtle">{label}</p>
+            </div>
+          ))}
+        </div>
       </Section>
 
       <Section title="Boutons">
@@ -131,6 +156,7 @@ function Showcase({ portal }: { portal: Portal }) {
           <Badge variant="neutral">
             <Circle /> External
           </Badge>
+          <Badge variant="mono">Short-list prête</Badge>
         </div>
       </Section>
 

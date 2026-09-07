@@ -23,6 +23,9 @@ import { Badge } from "@/components/ui/badge";
 import { AgentalMark } from "@/components/brand/logo";
 import { InteractiveDemo } from "@/components/casting/interactive-demo";
 import { cn } from "@/lib/utils";
+import { Eyebrow } from "@/components/marketing/eyebrow";
+import { Section } from "@/components/marketing/section";
+import { InverseBand } from "@/components/marketing/inverse-band";
 
 export async function generateMetadata({
   params,
@@ -48,14 +51,6 @@ type Plan = {
   cta: string;
   features: string[];
 };
-
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">
-      {children}
-    </span>
-  );
-}
 
 export default async function CastingLanding({
   params,
@@ -95,66 +90,68 @@ export default async function CastingLanding({
 function Hero() {
   const t = useTranslations("casting.hero");
   return (
-    <section className="relative overflow-hidden border-b border-border">
-      <div className="pointer-events-none absolute -left-40 -top-40 size-[32rem] rounded-full bg-accent-2/20 blur-3xl" />
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 md:grid-cols-[0.95fr_1.05fr] md:py-24">
-        <div className="space-y-6">
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h1 className="font-display text-4xl font-medium leading-[1.08] tracking-tight sm:text-5xl">
-            {t("title")}{" "}
-            <span className="text-accent">{t("titleEmph")}</span>
-          </h1>
-          <p className="max-w-lg text-lg text-fg-muted">{t("subtitle")}</p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/casting/inscription">
-                {t("ctaPrimary")} <ArrowRight />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/casting/comment-ca-marche">{t("ctaSecondary")}</Link>
-            </Button>
-          </div>
-          <p className="text-sm text-fg-subtle">{t("note")}</p>
+    <Section
+      rhythm="none"
+      innerClassName="grid items-center gap-12 py-[clamp(40px,6vw,84px)] md:grid-cols-[0.95fr_1.05fr]"
+    >
+      <div>
+        <Eyebrow>{t("eyebrow")}</Eyebrow>
+        <h1 className="mt-4 text-[clamp(36px,5.6vw,62px)] font-bold leading-[1.03] tracking-[-0.02em]">
+          {t("title")} {t("titleEmph")}
+        </h1>
+        <p className="mt-5 max-w-[56ch] text-[clamp(16px,1.6vw,19px)] leading-relaxed text-fg-muted">
+          {t("subtitle")}
+        </p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link href="/casting/inscription">
+              {t("ctaPrimary")} <ArrowRight />
+            </Link>
+          </Button>
+          <Button asChild variant="secondary" size="lg">
+            <Link href="/casting/comment-ca-marche">{t("ctaSecondary")}</Link>
+          </Button>
         </div>
-        <InteractiveDemo />
+        <p className="mt-4 font-mono text-[11px] text-fg-subtle">{t("note")}</p>
       </div>
-    </section>
+      <InteractiveDemo />
+    </Section>
   );
 }
 
 function Benefits() {
   const t = useTranslations("casting.benefits");
   const items = t.raw("items") as Item[];
-  const icons = [Layers, BadgeCheck, ListChecks, Scale];
+  // Six icons since the mockups grew this grid from four items to six.
+  const icons = [Layers, ListChecks, BadgeCheck, Scale, ShieldCheck, History];
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-      <div className="max-w-2xl space-y-3">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h2 className="font-display text-3xl font-medium sm:text-4xl">
-          {t("title")}
-        </h2>
-      </div>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+    <Section rhythm="major">
+      <Eyebrow>{t("eyebrow")}</Eyebrow>
+      <h2 className="mt-4 text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
+        {t("title")}
+      </h2>
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, i) => {
           const Icon = icons[i % icons.length];
           return (
             <div
               key={item.title}
-              className="flex gap-4 rounded-sedan border border-border bg-surface p-6"
+              className="rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,26px)]"
             >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-sedan bg-accent-soft text-accent">
+              <span className="flex size-11 items-center justify-center rounded-sedan bg-surface-2 text-accent">
                 <Icon className="size-5" />
               </span>
-              <div>
-                <h3 className="font-medium">{item.title}</h3>
-                <p className="mt-1 text-sm text-fg-muted">{item.body}</p>
-              </div>
+              <h3 className="mt-4 text-[18px] font-bold leading-tight">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-fg-muted">
+                {item.body}
+              </p>
             </div>
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -163,34 +160,32 @@ function Neutrality() {
   const items = t.raw("items") as Item[];
   const icons = [Fingerprint, Scale, History];
   return (
-    <section className="border-y border-border bg-surface/40">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="flex items-center gap-3">
-          <ShieldCheck className="size-6 text-accent" />
-          <div className="space-y-1">
-            <Eyebrow>{t("eyebrow")}</Eyebrow>
-            <h2 className="font-display text-3xl font-medium sm:text-4xl">
-              {t("title")}
-            </h2>
-          </div>
-        </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {items.map((item, i) => {
-            const Icon = icons[i % icons.length];
-            return (
-              <div
-                key={item.title}
-                className="rounded-sedan border border-border bg-surface p-6"
-              >
-                <Icon className="size-5 text-accent" />
-                <h3 className="mt-3 font-medium">{item.title}</h3>
-                <p className="mt-1 text-sm text-fg-muted">{item.body}</p>
-              </div>
-            );
-          })}
-        </div>
+    <Section tone="band" rhythm="band">
+      <Eyebrow>{t("eyebrow")}</Eyebrow>
+      <h2 className="mt-4 max-w-[24ch] text-[clamp(24px,3.2vw,38px)] font-bold leading-[1.08] tracking-[-0.02em]">
+        {t("title")}
+      </h2>
+      <p className="mt-5 max-w-[74ch] leading-relaxed text-fg-muted">
+        {t("body")}
+      </p>
+      <div className="mt-9 grid gap-5 md:grid-cols-3">
+        {items.map((item, i) => {
+          const Icon = icons[i % icons.length];
+          return (
+            <div
+              key={item.title}
+              className="rounded-sedan-lg border border-border bg-surface p-5"
+            >
+              <Icon className="size-5 text-accent" />
+              <h3 className="mt-3 text-[15px] font-bold">{item.title}</h3>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-fg-muted">
+                {item.body}
+              </p>
+            </div>
+          );
+        })}
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -199,39 +194,38 @@ function Steps() {
   const items = t.raw("items") as Item[];
   const icons = [FileText, Sparkles, Users];
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="max-w-2xl space-y-3">
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h2 className="font-display text-3xl font-medium sm:text-4xl">
-            {t("title")}
-          </h2>
-        </div>
-        <Button asChild variant="link">
-          <Link href="/casting/comment-ca-marche">
-            {t("cta")} <ArrowRight />
-          </Link>
-        </Button>
-      </div>
-      <ol className="mt-10 grid gap-5 md:grid-cols-3">
+    <Section rhythm="major">
+      <h2 className="text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
+        {t("title")}
+      </h2>
+      <ol className="mt-9 grid gap-5 md:grid-cols-3">
         {items.map((item, i) => {
           const Icon = icons[i];
           return (
             <li
               key={item.title}
-              className="rounded-sedan border border-border bg-surface p-6"
+              className="rounded-sedan-lg border border-border bg-surface p-[clamp(20px,3vw,26px)]"
             >
               <div className="flex items-center gap-3 text-accent">
-                <span className="font-display text-3xl">{i + 1}</span>
+                <span className="font-mono text-[18px] font-bold">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <Icon className="size-5" />
               </div>
-              <h3 className="mt-3 font-medium">{item.title}</h3>
-              <p className="mt-1 text-sm text-fg-muted">{item.body}</p>
+              <h3 className="mt-3 text-[16px] font-bold">{item.title}</h3>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-fg-muted">
+                {item.body}
+              </p>
             </li>
           );
         })}
       </ol>
-    </section>
+      <Button asChild variant="secondary" className="mt-8">
+        <Link href="/casting/comment-ca-marche">
+          {t("cta")} <ArrowRight />
+        </Link>
+      </Button>
+    </Section>
   );
 }
 
@@ -239,28 +233,26 @@ function Testimonials() {
   const t = useTranslations("casting.testimonials");
   const items = t.raw("items") as { quote: string; author: string }[];
   return (
-    <section className="border-y border-border bg-surface/40">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <h2 className="font-display text-3xl font-medium sm:text-4xl">
-          {t("title")}
-        </h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {items.map((item) => (
-            <figure
-              key={item.author}
-              className="rounded-sedan border border-border bg-surface p-6"
-            >
-              <blockquote className="font-display text-lg leading-snug">
-                « {item.quote} »
-              </blockquote>
-              <figcaption className="mt-4 text-sm text-fg-muted">
-                {item.author}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+    <Section tone="band" rhythm="band">
+      <h2 className="text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
+        {t("title")}
+      </h2>
+      <div className="mt-9 grid gap-5 md:grid-cols-3">
+        {items.map((item) => (
+          <figure
+            key={item.author}
+            className="flex flex-col rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,26px)]"
+          >
+            <blockquote className="flex-1 text-[15px] italic leading-relaxed">
+              « {item.quote} »
+            </blockquote>
+            <figcaption className="mt-5 text-[13.5px] text-fg-muted">
+              {item.author}
+            </figcaption>
+          </figure>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -268,13 +260,11 @@ function Pricing() {
   const t = useTranslations("casting.pricing");
   const plans = t.raw("plans") as Plan[];
   return (
-    <section id="tarifs" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-      <div className="max-w-2xl space-y-3">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h2 className="font-display text-3xl font-medium sm:text-4xl">
-          {t("title")}
-        </h2>
-      </div>
+    <Section id="tarifs" rhythm="major">
+      <Eyebrow>{t("eyebrow")}</Eyebrow>
+      <h2 className="mt-4 text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
+        {t("title")}
+      </h2>
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {plans.map((plan, i) => {
           const recommended = i === 1;
@@ -282,20 +272,27 @@ function Pricing() {
             <div
               key={plan.name}
               className={cn(
-                "flex flex-col rounded-sedan border bg-surface p-6",
+                "flex flex-col rounded-sedan-xl border p-[clamp(20px,3vw,26px)]",
                 recommended
-                  ? "border-accent ring-1 ring-accent"
-                  : "border-border"
+                  ? "border-transparent bg-surface-inverse text-fg-inverse"
+                  : "border-border bg-surface"
               )}
             >
-              <div className="flex items-center justify-between">
-                <h3 className="font-display text-xl">{plan.name}</h3>
-                {recommended && <Badge variant="solid">{t("recommended")}</Badge>}
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-bold">{plan.name}</h3>
+                {recommended && <Badge variant="mono">{t("recommended")}</Badge>}
               </div>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="font-display text-3xl">{plan.price}</span>
+              <div className="mt-3 flex items-baseline gap-1.5">
+                <span className="font-mono text-[32px] font-bold leading-none">
+                  {plan.price}
+                </span>
                 {plan.priceUnit && (
-                  <span className="text-sm text-fg-muted">
+                  <span
+                    className={cn(
+                      "text-sm",
+                      recommended ? "text-fg-inverse-muted" : "text-fg-muted"
+                    )}
+                  >
                     {plan.priceUnit}
                   </span>
                 )}
@@ -303,8 +300,19 @@ function Pricing() {
               <ul className="mt-5 flex-1 space-y-2">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm">
-                    <Check className="mt-0.5 size-4 shrink-0 text-success" />
-                    <span className="text-fg-muted">{f}</span>
+                    <Check
+                      className={cn(
+                        "mt-0.5 size-4 shrink-0",
+                        recommended ? "text-success-inverse" : "text-success"
+                      )}
+                    />
+                    <span
+                      className={
+                        recommended ? "text-fg-inverse-muted" : "text-fg-muted"
+                      }
+                    >
+                      {f}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -320,30 +328,38 @@ function Pricing() {
         })}
       </div>
       <p className="mt-6 text-sm text-fg-subtle">{t("note")}</p>
-    </section>
+    </Section>
   );
 }
 
 function FinalCta() {
   const t = useTranslations("casting.finalCta");
   return (
-    <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-      <div className="relative overflow-hidden rounded-sedan border border-accent-2/40 bg-surface px-8 py-16 text-center">
-        <AgentalMark className="mx-auto h-10 w-auto text-accent" />
-        <h2 className="mx-auto mt-5 max-w-2xl font-display text-3xl font-medium sm:text-4xl">
+    <Section width="narrow" rhythm="major">
+      <InverseBand>
+        <AgentalMark className="mx-auto h-10 w-auto text-cta" />
+        <h2 className="mx-auto mt-5 max-w-[22ch] text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
           {t("title")}
         </h2>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <p className="mx-auto mt-4 max-w-[54ch] leading-relaxed text-fg-inverse-muted">
+          {t("body")}
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg">
             <Link href="/casting/inscription">
               {t("ctaPrimary")} <ArrowRight />
             </Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
+          <Button
+            asChild
+            size="lg"
+            variant="secondary"
+            className="border-border-inverse bg-transparent text-fg-inverse hover:bg-fg-inverse/10"
+          >
             <Link href="/casting/comment-ca-marche">{t("ctaSecondary")}</Link>
           </Button>
         </div>
-      </div>
-    </section>
+      </InverseBand>
+    </Section>
   );
 }

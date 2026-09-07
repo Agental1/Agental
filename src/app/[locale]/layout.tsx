@@ -2,23 +2,32 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Fraunces, Inter } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { routing, toLocale } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
 import "../globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+/**
+ * Instrument Sans carries everything, headings included — the mockups have no
+ * serif. `axes` is deliberately absent: Instrument Sans exposes a `wdth` axis
+ * we never vary, and requesting it ships a larger file for nothing.
+ *
+ * latin-ext is not optional: it carries the accented glyphs the French and
+ * Spanish copy is full of.
+ */
+const instrument = Instrument_Sans({
+  variable: "--font-instrument",
   subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+/** Eyebrows, step numerals, prices, scores — every uppercase-tracked or
+ *  numeric run in the mockups is monospaced. */
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin", "latin-ext"],
   display: "swap",
-  axes: ["SOFT", "WONK", "opsz"],
 });
 
 /**
@@ -71,7 +80,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${fraunces.variable} h-full`}
+      className={`${instrument.variable} ${jetbrains.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {/* Organization node, emitted once for the whole site. */}

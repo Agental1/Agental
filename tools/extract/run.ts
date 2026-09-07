@@ -17,16 +17,24 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const APP_ROOT = join(HERE, "..", ".."); // app/
 const PARENT = join(APP_ROOT, ".."); // _Agental/
 
+/**
+ * The current mockups. They live in `New LP/` INSIDE the repo, not beside it,
+ * so these are resolved relative to APP_ROOT — `resolveInput` checks the given
+ * path before falling back to PARENT, which is what the older "(validé)" set
+ * needed. Keep them repo-relative or `--all` silently finds nothing.
+ */
 const KNOWN = [
-  "Agental Talents (hors-ligne) (validé).html",
-  "Agental Casting (hors-ligne) (validé).html",
-  "Agental - Landings casting (hors-ligne validé).html",
-  "Agental - Contenu & Images (hors-ligne).html",
+  "New LP/Agental Talents (hors-ligne) (2).html",
+  "New LP/Agental Casting (hors-ligne) (2).html",
+  "New LP/Agental - Landings casting (hors-ligne).html",
 ];
 
-// Editorial/asset reference sheet — not a product portal; uses off-palette
-// tints on purpose, so it is processed & reported but does NOT gate the run.
-const REFERENCE_SLUGS = new Set(["agental-contenu-images-hors-ligne"]);
+// Escape hatch for a non-portal input (an editorial or asset reference sheet
+// that uses off-palette tints on purpose): still processed and reported, but it
+// does not gate the run on the 90% coverage threshold. Empty today — the three
+// KNOWN inputs are all product portals and all gated. The old entry named a
+// file that is no longer in KNOWN.
+const REFERENCE_SLUGS = new Set<string>();
 
 function slugify(name: string): string {
   return basename(name, ".html")
@@ -166,7 +174,7 @@ function main() {
   const args = process.argv.slice(2);
   const files =
     args.length === 0 || args[0] === "--all"
-      ? KNOWN.map((f) => join(PARENT, f))
+      ? KNOWN.map((f) => join(APP_ROOT, f))
       : args.map(resolveInput);
 
   const summaries: { pct: number; gated: boolean }[] = [];

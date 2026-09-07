@@ -13,6 +13,9 @@ const badgeVariants = cva(
         warning: "bg-transparent text-warning border-warning/40",
         danger: "bg-transparent text-danger border-danger/40",
         solid: "bg-accent text-accent-fg border-transparent",
+        // The mockups set every pill in monospaced uppercase with wide
+        // tracking — provenance chips, POPULAIRE, SHORT-LIST PRÊTE.
+        mono: "bg-surface-2 text-fg-muted border-border font-mono text-[10px] uppercase tracking-[0.06em]",
       },
     },
     defaultVariants: { variant: "neutral" },

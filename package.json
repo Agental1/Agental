@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
@@ -17,7 +17,8 @@
     "db:seed": "bun prisma/seed.ts",
     "db:studio": "prisma studio",
     "i18n:check": "bun tools/i18n/check-leaks.ts",
-    "a11y:check": "bun tools/a11y/touch-targets.ts"
+    "a11y:check": "bun tools/a11y/touch-targets.ts",
+    "assets:portraits": "bun tools/assets/portraits.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.1",
@@ -55,6 +56,7 @@
     "eslint-config-next": "16.2.10",
     "playwright": "^1.62.1",
     "prisma": "^7.8.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.11"

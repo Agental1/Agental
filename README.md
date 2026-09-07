@@ -71,15 +71,23 @@ surfaces protégées sont inatteignables sur une base fraîche.
 | `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
 | `bun run db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
+| `bun run assets:portraits` | Portraits par locale : sources dans `.assets/` (non versionné) → WebP dans `src/assets/portraits/` |
 
 ### Tests
 
 `tests/` couvre la logique que le typage ne peut pas garantir : la réconciliation
 des shortlists, la conversion des erreurs de server action, le formatage `Intl`
-par locale et la construction des URLs SEO. `tests/api/media-access.test.ts` est
-un test d'intégration contre la vraie base — le risque y est la forme de la
-requête d'appartenance, qu'un mock Prisma ne prouverait pas. Il crée ses lignes
-sous un préfixe et les supprime en `afterAll`.
+par locale et la construction des URLs SEO. S'y ajoutent deux invariants entre
+modules que rien ne relie dans le code : `tests/domain/specialties.test.ts` exige
+qu'à chaque landing SEO de `src/data/casting-types.ts` réponde une spécialité du
+`SpecialtyKind` de `src/domain/enums.ts` — un slug ajouté d'un seul côté livre une
+page indexée que le formulaire d'inscription refuse — et
+`tests/data/portraits.test.ts` exige une légende par portrait dans
+`messages/<locale>/talents.json` et une image par tranche d'âge, dans les trois
+locales. `tests/api/media-access.test.ts` est un test d'intégration contre la
+vraie base — le risque y est la forme de la requête d'appartenance, qu'un mock
+Prisma ne prouverait pas. Il crée ses lignes sous un préfixe et les supprime en
+`afterAll`.
 
 Ce qu'un test unitaire ne peut pas atteindre est couvert par les deux gardes
 navigateur ci-dessous : tailles rendues, contraste, fuites de langue.

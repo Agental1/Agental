@@ -3,6 +3,77 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.0.0] - 2026-09-06
+
+Refonte du site public d'après les maquettes New LP, dans les trois langues.
+
+### Added
+
+- **Des visages sur le site.** Le collage du hero Talents affichait quatre cases
+  vides avec une légende ; il montre maintenant quatre portraits, différents
+  selon la langue : un visiteur sur `/fr` ne voit pas les mêmes personnes que
+  sur `/en` ou `/es`. Les cartes du hub `/castings` et le chapô de chaque
+  landing SEO sont illustrés par tranche d'âge.
+
+- **Une neuvième landing de casting : « Performeurs & scène ».** Danse, musique,
+  magie, cirque, animation, cascade. Elle apporte aussi la spécialité
+  correspondante à l'inscription : un performeur arrivé par Google peut
+  désormais s'inscrire dans sa discipline.
+
+- **Une FAQ sur chaque landing SEO**, avec ses données structurées, là où ces
+  pages étaient entièrement en texte suivi.
+
+- **Une section « Des candidatures qui décrochent des réponses »** sur la landing
+  Talents, avec sa réserve de méthode affichée.
+
+### Changed
+
+- **Toute la typographie du site public.** Instrument Sans remplace Inter et
+  Fraunces ; les intitulés de section, les numéros d'étape et les montants
+  passent en JetBrains Mono. Les titres gagnent en poids et se resserrent.
+
+- **Les textes des deux portails sont nettement plus précis** : cachets
+  indicatifs, méthode, protections légales des mineurs. Écrits en français puis
+  traduits en anglais et en espagnol.
+
+- **La page « Qui sommes-nous »** raconte l'origine du projet et présente trois
+  personnes au lieu de deux.
+
+- **Le sélecteur de langue** affiche `FR · EN · ES` au lieu des noms complets sur
+  écran large : le header tenait sur deux lignes et se réempilait.
+
+### Fixed
+
+- **La bande finale de la landing Talents était invisible.** Elle était écrite
+  avec des classes de couleur qui ne rendent rien : la feuille de styles
+  n'expose que des rôles, et `bg-espresso` n'en est pas un. Vingt-quatre classes
+  de ce type existaient dans le dépôt, dont l'overlay des fenêtres modales, qui
+  n'assombrissait donc rien, et la pastille d'enregistrement du studio
+  self-tape, qui n'avait aucun remplissage.
+
+- **Le bouton principal du portail Casting devenait illisible au survol.** Le
+  texte blanc tombait à 3,36:1 sur la couleur de survol, sous le plancher
+  d'accessibilité, parce que celle-ci était plus claire que la couleur de repos.
+
+- **Les coches des formules tarifaires étaient presque invisibles** sur la carte
+  mise en avant du portail Casting : 1,71:1, alors qu'elles sont la seule chose
+  qui indique ce qu'une formule inclut.
+
+- **Les coches de validation des short-lists** échouaient déjà l'accessibilité
+  avant cette version (4,48:1) ; le vert retenu monte à 7,86:1.
+
+- **Les pages FAQ n'avaient plus qu'un seul titre**, ce qui supprimait la
+  navigation par titres au lecteur d'écran sur les deux pages les plus longues
+  du site.
+
+- **Le site débordait de 58 pixels sur mobile** sur la landing Talents.
+
+- **Les liens de langue mesuraient 23,92 pixels de large**, sous le plancher de
+  24 imposé aux cibles tactiles.
+
+- **La carte de partage sur les réseaux était fabriquée à chaque partage** au
+  lieu d'être générée une fois : les robots abandonnaient avant la fin.
+
 ## [0.4.1.1] - 2026-08-31
 
 ### Fixed

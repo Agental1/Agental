@@ -5,6 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
+/**
+ * The highlighted card sits on --surface-inverse, so its secondary text needs
+ * the inverse muted role rather than --fg-muted, which would be unreadable.
+ *
+ * Colour ONLY. It used to also carry `text-sm`, which meant `cn()` — twMerge —
+ * resolved the font-size conflict in its favour and silently rendered the 11px
+ * commission line at 14px. A helper that names one axis must not smuggle another.
+ */
+function muted(onInverse: boolean): string {
+  return onInverse ? "text-fg-inverse-muted" : "text-fg-muted";
+}
+
 type TalentsPlan = {
   name: string;
   price: string;
@@ -32,28 +44,35 @@ export function TalentsPricingGrid() {
           <div
             key={plan.name}
             className={cn(
-              "flex flex-col rounded-sedan border bg-surface p-6",
+              "flex flex-col rounded-sedan-xl border p-[clamp(20px,3vw,26px)]",
               popular
-                ? "border-accent shadow-md ring-1 ring-accent"
-                : "border-border shadow-sm"
+                ? "border-transparent bg-surface-inverse text-fg-inverse"
+                : "border-border bg-surface"
             )}
           >
-            <div className="flex items-center justify-between">
-              <h3 className="font-display text-xl">{plan.name}</h3>
-              {popular && <Badge variant="solid">{t("popular")}</Badge>}
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-lg font-bold">{plan.name}</h3>
+              {popular && <Badge variant="mono">{t("popular")}</Badge>}
             </div>
-            <div className="mt-3 flex items-baseline gap-1">
-              <span className="font-display text-3xl">{plan.price}</span>
-              <span className="text-sm text-fg-muted">/{t("perMonth")}</span>
+            <div className="mt-3 flex items-baseline gap-1.5">
+              <span className="font-mono text-[32px] font-bold leading-none">
+                {plan.price}
+              </span>
+              <span className={cn("text-sm", muted(popular))}>/{t("perMonth")}</span>
             </div>
-            <p className="mt-1 text-xs text-fg-subtle">
+            <p className={cn("mt-1.5 font-mono text-[11px]", muted(popular))}>
               {t("commission", { rate: plan.commission })}
             </p>
             <ul className="mt-5 flex-1 space-y-2">
               {plan.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check className="mt-0.5 size-4 shrink-0 text-success" />
-                  <span className="text-fg-muted">{f}</span>
+                  <Check
+                    className={cn(
+                      "mt-0.5 size-4 shrink-0",
+                      popular ? "text-success-inverse" : "text-success"
+                    )}
+                  />
+                  <span className={muted(popular)}>{f}</span>
                 </li>
               ))}
             </ul>
@@ -83,25 +102,34 @@ export function CastingPricingGrid() {
           <div
             key={plan.name}
             className={cn(
-              "flex flex-col rounded-sedan border bg-surface p-6",
-              recommended ? "border-accent ring-1 ring-accent" : "border-border"
+              "flex flex-col rounded-sedan-xl border p-[clamp(20px,3vw,26px)]",
+              recommended
+                ? "border-transparent bg-surface-inverse text-fg-inverse"
+                : "border-border bg-surface"
             )}
           >
-            <div className="flex items-center justify-between">
-              <h3 className="font-display text-xl">{plan.name}</h3>
-              {recommended && <Badge variant="solid">{t("recommended")}</Badge>}
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-lg font-bold">{plan.name}</h3>
+              {recommended && <Badge variant="mono">{t("recommended")}</Badge>}
             </div>
-            <div className="mt-3 flex items-baseline gap-1">
-              <span className="font-display text-3xl">{plan.price}</span>
+            <div className="mt-3 flex items-baseline gap-1.5">
+              <span className="font-mono text-[32px] font-bold leading-none">
+                {plan.price}
+              </span>
               {plan.priceUnit && (
-                <span className="text-sm text-fg-muted">{plan.priceUnit}</span>
+                <span className={cn("text-sm", muted(recommended))}>{plan.priceUnit}</span>
               )}
             </div>
             <ul className="mt-5 flex-1 space-y-2">
               {plan.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check className="mt-0.5 size-4 shrink-0 text-success" />
-                  <span className="text-fg-muted">{f}</span>
+                  <Check
+                    className={cn(
+                      "mt-0.5 size-4 shrink-0",
+                      recommended ? "text-success-inverse" : "text-success"
+                    )}
+                  />
+                  <span className={muted(recommended)}>{f}</span>
                 </li>
               ))}
             </ul>

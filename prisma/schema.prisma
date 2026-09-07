@@ -110,7 +110,7 @@ model ArtistProfile {
 model Specialty {
   id        String @id @default(cuid())
   profileId String
-  kind      String // figuration | silhouette | seconds-roles | publicite | photo | voix | enfants | createurs
+  kind      String // voir SpecialtyKind dans src/domain/enums.ts — la liste y est la source de verite
   level     String @default("BEGINNER") // BEGINNER | INTERMEDIATE | CONFIRMED
   tags      String @default("[]") // JSON string[]
 
