@@ -29,6 +29,16 @@ export function eurosExact(cents: number, locale: string): string {
   }).format(cents / 100);
 }
 
+/**
+ * Plain integer with locale digit grouping, e.g. 1240 → "1 240" (fr) /
+ * "1,240" (en). The casting demo shipped this figure as the literal string
+ * "1 240" in JSX, so /en and /es rendered French thin-space grouping — the
+ * exact leak this module exists to close, and one no word-list can catch.
+ */
+export function integer(value: number, locale: string): string {
+  return new Intl.NumberFormat(locale).format(value);
+}
+
 /** Date only, e.g. "22/05/2026" (fr) / "05/22/2026" (en). */
 export function date(value: Date, locale: string): string {
   return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(value);

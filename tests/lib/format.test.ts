@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { date, dateTime, euros, eurosExact, percent } from "@/lib/format";
+import { date, dateTime, euros, eurosExact, integer, percent } from "@/lib/format";
 import { formatCachet, getCastingType } from "@/data/casting-types";
 
 /**
@@ -85,5 +85,19 @@ describe("formatCachet", () => {
     expect(formatCachet(figuration, "fr", "Variable")).not.toBe(
       formatCachet(figuration, "en", "Varies")
     );
+  });
+});
+
+describe("integer", () => {
+  it("groups digits the way the locale does, not the way French does", () => {
+    // The casting demo used to hardcode "1 240" in JSX, so /en shipped French
+    // thin-space grouping. Compare against Intl rather than a literal: ICU
+    // swaps its space characters between versions.
+    expect(integer(1240, "fr")).toBe(new Intl.NumberFormat("fr").format(1240));
+    expect(integer(1240, "en")).toBe(new Intl.NumberFormat("en").format(1240));
+  });
+
+  it("actually differs between French and English", () => {
+    expect(integer(1240, "fr")).not.toBe(integer(1240, "en"));
   });
 });

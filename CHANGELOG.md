@@ -3,6 +3,26 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.1.0] - 2026-09-07
+
+### Changed
+
+- **La carte de démo du portail casting adopte le langage visuel des maquettes.**
+  C'est le premier écran que voit un directeur de casting, et c'était le dernier
+  bloc resté à l'ancien style après la refonte : la sélection s'affiche
+  maintenant avec un bandeau de résultat, un score en gros chiffres et une barre
+  qui en donne la mesure d'un coup d'œil.
+
+### Fixed
+
+- **Le compteur de profils s'affiche au format de la langue lue.** « 1 240 » en
+  français, « 1,240 » en anglais, « 1240 » en espagnol. La valeur était écrite en
+  dur au format français, donc les visiteurs anglophones et hispanophones
+  voyaient une espace de groupement qui n'existe pas chez eux.
+
+- **Le badge « dispo » était en français sur les trois versions du site.** Il
+  affiche désormais « available » sur `/en` et « disponible » sur `/es`.
+
 ## [0.5.0.0] - 2026-09-06
 
 Refonte du site public d'après les maquettes New LP, dans les trois langues.
