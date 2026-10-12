@@ -37,7 +37,10 @@ export function InteractiveDemo() {
   const [generated, setGenerated] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-sedan-2xl border border-border bg-surface shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]">
+    <div
+      data-demo="casting-demo"
+      className="overflow-hidden rounded-sedan-2xl border border-border bg-surface shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]"
+    >
       <div className="px-[clamp(16px,3vw,20px)] pb-4 pt-[clamp(16px,3vw,20px)]">
         <p className="font-mono text-[10.5px] uppercase tracking-[0.08em] text-fg-subtle">
           {t("roleHeader")}
@@ -48,18 +51,19 @@ export function InteractiveDemo() {
 
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <Input
+            data-demo="casting-brief-input"
             defaultValue={t("roleLine")}
             aria-label={t("briefLabel")}
             className="flex-1"
           />
-          <Button onClick={() => setGenerated(true)}>
+          <Button data-demo="casting-generate" onClick={() => setGenerated(true)}>
             <Sparkles /> {t("generate")}
           </Button>
         </div>
       </div>
 
       {generated && (
-        <>
+        <div data-demo="casting-result">
           {/* Bandeau de résultat : le fond n'est pas décoratif, il sépare le
               brief de la sélection qu'il a produite. */}
           <div className="flex items-center gap-2.5 border-y border-border bg-accent/[0.06] px-[clamp(16px,3vw,20px)] py-3">
@@ -154,7 +158,7 @@ export function InteractiveDemo() {
               </li>
             ))}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );
@@ -174,6 +178,7 @@ function SourceChip({
 }) {
   return (
     <span
+      data-demo="source-chip"
       className={cn(
         "rounded-sedan-sm px-1.5 py-0.5 font-mono text-[10px] uppercase leading-none tracking-[0.05em] text-fg",
         source === "AGENTAL" ? "bg-success/25" : "bg-fg/10"

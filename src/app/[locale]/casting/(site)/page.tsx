@@ -160,7 +160,7 @@ function Neutrality() {
   const items = t.raw("items") as Item[];
   const icons = [Fingerprint, Scale, History];
   return (
-    <Section tone="band" rhythm="band">
+    <Section data-demo="casting-neutrality" tone="band" rhythm="band">
       <Eyebrow>{t("eyebrow")}</Eyebrow>
       <h2 className="mt-4 max-w-[24ch] text-[clamp(24px,3.2vw,38px)] font-bold leading-[1.08] tracking-[-0.02em]">
         {t("title")}

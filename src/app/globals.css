@@ -294,3 +294,20 @@ body {
 ::selection {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
 }
+
+/* --- Mode démo (?demo) — src/components/demo ------------------------------
+   Pendant la prise : pas de curseur à l'écran, et pas de défilement doux, qui
+   se battrait avec les interpolations image par image du lecteur. L'élément
+   commenté par la légende est cerclé à la couleur CTA de la peau courante. */
+html[data-demo="running"],
+html[data-demo="end"] {
+  scroll-behavior: auto;
+}
+html[data-demo="running"] *,
+html[data-demo="end"] * {
+  cursor: none !important;
+}
+[data-demo-hl] {
+  outline: 3px solid var(--cta);
+  outline-offset: 4px;
+}

@@ -6,6 +6,7 @@ import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { routing, toLocale } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
+import { DemoMode } from "@/components/demo/demo-mode";
 import "../globals.css";
 
 /**
@@ -88,7 +89,11 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(organizationLd(locale)) }}
         />
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          {children}
+          {/* `?demo`: scripted tour for screen recording. Inert otherwise. */}
+          <DemoMode />
+        </NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

@@ -3,6 +3,24 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [Unreleased]
+
+### Added
+
+- **Un mode démo pour enregistrer une vidéo du produit : `?demo`.** Ouvrez
+  `/en/talents?demo`, lancez l'enregistrement d'écran, cliquez une fois : une
+  visite scriptée d'environ 35 secondes enchaîne la landing Talents (les cinq
+  étapes, le studio self-tape) puis la landing Casting, où le brief de la carte
+  de démo est retapé, la short-list générée et la source de chaque profil
+  mise en avant, avant un écran de fin. Légendes en bas d'écran, cartes de
+  chapitre plein écran, curseur masqué. `R` relance la prise, `Échap` quitte
+  le mode. Tout ce que la caméra filme entre les cartes est l'interface réelle :
+  le lecteur ne fait que défiler, cerner, taper et cliquer sur les éléments
+  marqués `data-demo="…"`. Les noms et scores de la carte de démo portent la
+  mention « Demo data » à l'écran et sur l'écran de fin. Sans le paramètre,
+  rien ne change pour les visiteurs : le lecteur est un chunk chargé à la
+  demande. La visite est en anglais et force `/en`.
+
 ## [0.5.1.0] - 2026-09-07
 
 ### Changed

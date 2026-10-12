@@ -106,6 +106,21 @@ l'écart de confort sans le rendre bloquant. `--base <url>` vise un autre
 serveur : le lancer contre `next dev` est lent, la compilation à froid de
 chaque route dépassant le délai ; préférez `bun run build && bun run start`.
 
+## Mode démo (`?demo`)
+
+Une visite scriptée du site public pour l'enregistrement d'écran (points
+d'étape, vidéos de pitch). Ouvrez `/en/talents?demo` — en local ou en
+production —, démarrez l'enregistreur, cliquez n'importe où. Environ 35 s ;
+`R` relance, `Échap` quitte. Aucune base de données ni connexion n'est
+nécessaire : la visite ne passe que par les landings.
+
+- `src/components/demo/demo-script.ts` — les scènes, légendes et durées. C'est
+  le seul fichier à toucher pour changer la prise.
+- `src/components/demo/demo-player.tsx` — le lecteur (légendes, cartes,
+  primitives `goto`, `scrollTo`, `highlight`, `type`, `click`).
+- Les pages portent des ancres `data-demo="…"`. Renommer ou retirer une ancre
+  arrête la visite avec `[demo] element not found` dans la console.
+
 ## Internationalisation
 
 Trois locales, définies dans `src/i18n/routing.ts` : `fr` (défaut), `en`, `es`. **Chaque

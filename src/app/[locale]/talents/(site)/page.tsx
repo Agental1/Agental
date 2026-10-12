@@ -96,6 +96,7 @@ function Hero() {
   const t = useTranslations("talents.hero");
   return (
     <Section
+      data-demo="talents-hero"
       rhythm="none"
       innerClassName="grid gap-12 py-[clamp(40px,6vw,84px)] md:grid-cols-[1.05fr_0.95fr] md:items-center"
     >
@@ -268,7 +269,7 @@ function Steps() {
       <h2 className="max-w-[22ch] text-[clamp(26px,3.8vw,44px)] font-bold leading-[1.05] tracking-[-0.02em]">
         {t("title")}
       </h2>
-      <ol className="mt-10 grid gap-4 md:grid-cols-5">
+      <ol data-demo="talents-steps" className="mt-10 grid gap-4 md:grid-cols-5">
         {items.map((item, i) => {
           const Icon = STEP_ICONS[i % STEP_ICONS.length];
           return (
@@ -304,7 +305,7 @@ function Steps() {
 function SelfTape() {
   const t = useTranslations("talents.selftape");
   return (
-    <Section tone="band" rhythm="band">
+    <Section data-demo="talents-selftape" tone="band" rhythm="band">
       <div className="grid gap-10 md:grid-cols-2 md:items-center">
         <div>
           <Eyebrow>{t("eyebrow")}</Eyebrow>
