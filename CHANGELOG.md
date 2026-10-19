@@ -5,6 +5,25 @@ Toutes les évolutions notables de ce projet. Format inspiré de
 
 ## [Unreleased]
 
+### Changed
+
+- **v1 redesign ("Spotlight"), from the design team's four reference boards.**
+  New token layer in `globals.css`: neutral paper ground, true ink, and one
+  signal colour (spike tape) for marks only; Talents stays light, Casting is the
+  dark stage. Geist Sans / Geist Mono replace Instrument Sans / JetBrains Mono,
+  self-hosted through the `geist` package. Pill buttons, floating pill header
+  with a Sign in link, footer with an edge-to-edge wordmark. Both landings are
+  rebuilt: split wordmark over a dark stage panel (a followspot on a performer
+  for Talents, the live shortlist demo for Casting), a casting-type contact
+  sheet, hairline-framed benefit cards, numbered steps, a commission table.
+  Shared blocks live in `src/components/marketing/blocks.tsx`. Every other page
+  inherits the new tokens without code changes.
+- **`/` is now a two-door entry** (Talents / Casting) instead of a redirect to
+  Talents (proposal for decision D18).
+- **English only, unprefixed URLs** (decision D2). FR/ES messages, portraits
+  and the locale switcher are removed; message types derive from `messages/en`.
+  `/fr/*` and `/es/*` answer 308 to the unprefixed page.
+
 ### Added
 
 - **Un mode démo pour enregistrer une vidéo du produit : `?demo`.** Ouvrez

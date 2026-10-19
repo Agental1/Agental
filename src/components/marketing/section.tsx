@@ -18,9 +18,9 @@ const WIDTHS = {
 
 const RHYTHM = {
   /** Major section break. */
-  major: "py-[clamp(52px,7vw,96px)]",
+  major: "py-[clamp(64px,9vw,136px)]",
   /** Banded section, slightly tighter. */
-  band: "py-[clamp(44px,6vw,80px)]",
+  band: "py-[clamp(56px,7vw,112px)]",
   /** Compact: reassurance strips, sub-blocks. */
   compact: "py-[clamp(40px,5vw,72px)]",
   /** No vertical padding — caller owns it. */
@@ -29,7 +29,7 @@ const RHYTHM = {
 
 const TONES = {
   plain: "",
-  band: "bg-surface-2/50 border-y border-border",
+  band: "bg-surface border-y border-border",
 } as const;
 
 export function Section({
@@ -50,7 +50,7 @@ export function Section({
     <section className={cn(TONES[tone], className)} {...props}>
       <div
         className={cn(
-          "mx-auto px-[clamp(16px,4vw,40px)]",
+          "mx-auto px-[clamp(16px,3vw,40px)]",
           WIDTHS[width],
           RHYTHM[rhythm],
           innerClassName

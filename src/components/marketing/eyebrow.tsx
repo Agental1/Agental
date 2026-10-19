@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
  * real <h4> headings, and this renders a <span>; changing that would flatten the
  * footer's document outline to save four class names.
  *
- * Colour is --accent, never --cta: the mockups tint eyebrows cognac, which
- * measures 3.94:1 on crème and fails AA. --accent is chocolat, 7.53:1 on crème
- * and 8.06:1 on --surface.
+ * v1 redesign: a small outlined pill with a spike-tape dot, after the
+ * "Appearance matters" chip on the reference boards. Sentence case, not
+ * tracked caps — the label reads, it does not shout.
  */
 export function Eyebrow({
   className,
@@ -34,7 +34,7 @@ export function Eyebrow({
   return (
     <Tag
       className={cn(
-        "font-mono text-[11px] uppercase leading-none tracking-[0.14em] text-accent",
+        "inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 font-mono text-[11.5px] leading-none tracking-[-0.01em] text-fg-muted before:size-1.5 before:shrink-0 before:rounded-full before:bg-signal before:content-['']",
         className
       )}
       {...props}

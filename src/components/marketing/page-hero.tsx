@@ -38,8 +38,9 @@ export function PageHero({
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <h1
         className={cn(
-          "text-[clamp(30px,4.4vw,50px)] font-bold leading-[1.05] tracking-[-0.02em]",
-          eyebrow && "mt-4"
+          "display-md max-w-[18ch]",
+          centered && "mx-auto",
+          eyebrow && "mt-5"
         )}
       >
         {title}

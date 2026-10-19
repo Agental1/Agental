@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/** Agental four-point star — inherits currentColor (accent per skin). */
+/** Agental four-point star — inherits currentColor (spike tape by default). */
 export function AgentalMark({
   className,
   ...props
@@ -24,8 +24,8 @@ export function AgentalMark({
 /**
  * Star + wordmark lockup.
  *
- * The mockups set the wordmark as widely tracked uppercase, with the portal
- * name trailing it at a lighter weight and half opacity: `AGENTAL TALENTS`.
+ * v1 redesign: the wordmark is set like the display type — Geist, tight,
+ * sentence case — with the portal name trailing at lighter weight: `Agental Talents`.
  * `portal` is optional so the 404 page and the auth screens, which belong to
  * no portal, still render a bare `AGENTAL`.
  */
@@ -41,12 +41,12 @@ export function AgentalLogo({
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <AgentalMark className="h-[26px] w-auto text-accent" />
+      <AgentalMark className="h-[22px] w-auto text-signal" />
       {wordmark && (
-        <span className="text-[19px] font-semibold uppercase leading-none tracking-[0.13em] text-fg">
+        <span className="text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
           Agental
           {portal && (
-            <span className="ml-2 font-medium tracking-[0.09em] text-fg/50">
+            <span className="ml-1.5 font-normal tracking-[-0.03em] text-fg/45">
               {portal}
             </span>
           )}

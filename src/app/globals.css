@@ -8,216 +8,115 @@
    Aucun composant ne doit lire une couleur brute : uniquement les rôles.
    ============================================================================= */
 
+/* =============================================================================
+   Agental v1 redesign (2026-10) — "Spotlight" system.
+   References: the design team's four boards (Orchard Studio works grid, Alture
+   studio hero, Glow-up evidence cards, Metafore numbered cards).
+
+   Neutral paper ground, true ink, one signal colour borrowed from the set:
+   spike tape, the fluorescent tape crews put on the floor to mark where an
+   actor stands. It marks things — the logo star, live states, the current
+   item — and never fills large areas.
+   ============================================================================= */
+
 :root {
-  /* --- Palette brute (charte) --- */
-  /* Neutres */
-  /* Le blanc des maquettes n'est pas #ffffff : il est tiede. Sur la peau
-     Talents il ameliore le contraste plutot que de le degrader — --fg-subtle
-     passe de 5.55:1 sur creme a 5.94:1 ici, --fg-muted a 6.22:1. */
-  --blancchaud: #fffcf5;
-  --creme: #f8f4ec;
-  --ivoire: #ede4d5;
-  --greige: #cdbfa8;
-  --taupe: #9a8b76;
-  --brungrise: #6b5d4c;
-  --espresso: #3a2f26;
-  --noirchaud: #241c16;
-  /* Bruns chauds */
-  --camel: #c68a5b;
-  --cognac: #a96b3c;
-  --chocolat: #6e4527;
-  /* Marines */
-  --ardoise: #3c5a7a;
-  --marine: #1f3a5c;
-  --marineprof: #142942;
-  --encre: #0e1d30;
-  /* Oranges */
-  --abricot: #f0a06a;
-  --orangebrule: #de6b34;
-  --terracotta: #b24e22;
-  /* Terracotta assombri, pour le survol du CTA sur la peau sombre : voir le
-     commentaire de --cta-hover cote Casting. */
-  --terracottafonce: #a0451e;
-  /* Verts */
-  --sauge: #8fa588;
-  --bouteille: #3f5e4c;
-  --foret: #263b2e;
-  /* Sémantiques (partagées) */
-  --succes: #2e7d5b;
-  --alerte: #c9821e;
-  --erreur: #c0432e;
+  /* --- Raw palette --- */
+  --paper: #ecece8;
+  --sheet: #fafaf7;
+  --fog: #e1e1dc;
+  --graphite: #55554f;
+  --pewter: #6b6b65;
+  --ash: #8a8a84;
+  --ink: #0e0e0e;
+  --stage: #171716;
+  --stage-2: #22221f;
+  --chalk: #f2f2ee;
+  /* Spike tape: decorative fill only (2.9:1 on paper). */
+  --spike: #ff5317;
+  /* Spike, darkened until it can carry text: 5.3:1 on white, 4.7:1 on paper. */
+  --spike-ink: #a8360a;
+  /* Spike, lifted for text on the dark stage: 7.1:1 on --ink. */
+  --spike-glow: #ff7a45;
+  --go: #1f7a4d;
+  --go-glow: #8fd19e;
+  --hold: #a86300;
+  --stop: #c02c1e;
 
-  /* Rayon signature.
-     Retune de 0.6rem (9.6px) a 0.75rem (12px) : les maquettes n'utilisent
-     jamais 9.6px, et `rounded-sedan` a 111 sites d'appel. Changer la valeur
-     les fait tous glisser vers la bonne mesure sans toucher une ligne de TSX.
-     Les freres couvrent le reste de l'echelle relevee dans les maquettes
-     (10 / 14 / 18 / 22px) ; 11, 13 et 20px s'y alignent a l'oeil. */
+  /* Radii: small controls, cards, panels. Pills use rounded-full. */
   --sedan-sm: 0.625rem;
-  --sedan: 0.75rem;
-  --sedan-lg: 0.875rem;
-  --sedan-xl: 1.125rem;
-  --sedan-2xl: 1.375rem;
+  --sedan: 0.875rem;
+  --sedan-lg: 1.125rem;
+  --sedan-xl: 1.5rem;
+  --sedan-2xl: 2rem;
 
-  /* Largeur de conteneur des maquettes. max-w-6xl (1152px) etait une
-     approximation ; le canevas mesure 1200. */
-  --container-site: 75rem;
+  /* Editorial width: the references run nearly edge to edge. */
+  --container-site: 90rem;
 }
 
-/* --- Couche sémantique : peau Talents (B2C, clair & chaud) --- */
-[data-portal="talents"] {
+/* --- Talents skin: light paper --- */
+[data-portal="talents"],
+:root:not([data-portal]) {
   color-scheme: light;
-  --bg: var(--creme);
-  --surface: var(--blancchaud);
-  --surface-2: var(--ivoire);
-  --fg: var(--espresso);
-  --fg-muted: var(--brungrise);
-  /* --taupe measured 3.02:1 on crème, well under AA for the 12px legal text it
-     carries. This value clears 4.5:1 on the three grounds it actually sits on:
-     5.55:1 on --bg (crème), 4.83:1 on --surface-2 (ivoire), and 5.94:1 on
-     --surface since that moved from #ffffff to --blancchaud. The first
-     candidate, #7d6f5c, passed on crème at 4.45 and failed on ivoire at 3.87.
-     Cost, stated rather than hidden: --fg-subtle (5.55) and --fg-muted (5.81)
-     are now close, so the three-tier text hierarchy reads as two on this skin.
-     Buying the separation back means larger small text, not lighter colour. */
-  --fg-subtle: #6e6050;
-  /* Purely decorative, per the --field-border note below. Opaque --greige
-     measured 1.65:1 and drew a harder line than the mockups do; a 10% ink
-     tint lands at 1.20:1, which is the weight the card grid is drawn at.
-     Anything load-bearing uses --field-border or --border-strong instead. */
-  --border: color-mix(in srgb, var(--espresso) 10%, transparent);
-  --border-strong: var(--taupe);
-  /* Named --field-border, not --border-input: Tailwind resolves border-border
-     before border-border-input, so the longer name silently fell back to the
-     decorative value. WCAG 1.4.11 wants 3:1 for a control boundary; --greige gives 1.65:1, so
-     form fields had no visible edge. Decorative borders keep --border. */
-  --field-border: var(--taupe);
-  /* Was --cognac: crème on cognac measures 3.94:1, under the 4.5:1 AA floor for
-     14px text — and this is the default CTA on every marketing page. Chocolat
-     measures 7.53:1, and lifts text-accent (link variant, eyebrows) with it. */
-  --accent: var(--chocolat);
-  --accent-hover: var(--cognac);
-  --accent-fg: var(--creme);
-  --accent-2: var(--terracotta);
-  --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
-  --ring: var(--cognac);
-  --success: var(--succes);
-  --warning: var(--alerte);
-  --danger: var(--erreur);
-
-  /* --- Remplissage CTA, separe du texte accent ---
-     Les maquettes remplissent chaque bouton principal en terracotta. C'est un
-     bon FOND (blanc dessus = 5.24:1) et un mauvais TEXTE (4.16:1 sur ivoire,
-     sous le plancher AA). --accent reste donc le role TEXTE — eyebrows, liens,
-     glyphes — en chocolat, et le remplissage prend son propre role. Le cognac
-     de la maquette pour les eyebrows a ete rejete : 3.94:1 sur creme. */
-  --cta: var(--terracotta);
-  --cta-hover: var(--chocolat);
-  --cta-fg: #ffffff;
-
-  /* --- Bande inversee ---
-     La refonte compte cinq bandes sombres. Elles etaient ecrites en classes de
-     palette brute (bg-espresso, text-creme) qui ne rendent RIEN : @theme inline
-     n'expose que des roles, il n'existe aucun --color-espresso. D'ou un vrai
-     role. L'inverse d'une peau, c'est le fond de l'autre. 15.28:1. */
-  --surface-inverse: var(--noirchaud);
-  --fg-inverse: var(--creme);
-  --fg-inverse-muted: color-mix(in srgb, var(--creme) 75%, var(--noirchaud));
-  /* Sur la bande inversee, --success et --border n'ont plus le bon fond sous
-     eux. Mesure : le vert de cette peau (#2e7d5b) sur noirchaud tombe a 3.35:1,
-     et une bordure a 25 % d'encre a 2.18:1 — sous le plancher de 3:1 que la
-     WCAG 1.4.11 demande a un graphique porteur de sens et au contour d'un
-     controle. C'est la meme faute que --field-border a corrigee sur les champs
-     de formulaire, refaite sur l'autre fond. On prend le vert de la peau
-     d'en face (8.95:1) et une bordure a 55 % (5.51:1). */
-  --success-inverse: #9fc7a8;
-  --border-inverse: color-mix(in srgb, var(--creme) 55%, var(--noirchaud));
+  --bg: var(--paper);
+  --surface: var(--sheet);
+  --surface-2: var(--fog);
+  --fg: var(--ink);
+  --fg-muted: var(--graphite);
+  --fg-subtle: var(--pewter);
+  --border: color-mix(in srgb, var(--ink) 11%, transparent);
+  --border-strong: var(--ash);
+  --field-border: var(--ash);
+  --accent: var(--spike-ink);
+  --accent-hover: var(--ink);
+  --accent-fg: #ffffff;
+  --accent-2: var(--spike);
+  --accent-soft: color-mix(in srgb, var(--spike) 12%, var(--sheet));
+  --ring: var(--spike-ink);
+  --success: var(--go);
+  --warning: var(--hold);
+  --danger: var(--stop);
+  --signal: var(--spike);
+  /* Primary actions are ink pills, as on every reference board. */
+  --cta: var(--ink);
+  --cta-hover: #2b2b29;
+  --cta-fg: var(--sheet);
+  --surface-inverse: var(--ink);
+  --fg-inverse: var(--chalk);
+  --fg-inverse-muted: #a3a39c;
+  --success-inverse: var(--go-glow);
+  --border-inverse: color-mix(in srgb, var(--chalk) 42%, var(--ink));
 }
 
-/* --- Couche sémantique : peau Casting (B2B, sombre & sobre) --- */
+/* --- Casting skin: the stage (dark) --- */
 [data-portal="casting"] {
   color-scheme: dark;
-  --bg: var(--encre);
-  --surface: var(--marineprof);
-  --surface-2: var(--marine);
-  --fg: var(--creme);
-  --fg-muted: var(--greige);
-  /* --taupe on the marine surfaces measures 3.48:1, under AA. Greige lifts it
-     to 6.6:1 while staying below --fg-muted in weight. */
-  --fg-subtle: var(--greige);
-  --border: color-mix(in srgb, var(--ardoise) 55%, var(--marineprof));
-  --border-strong: var(--ardoise);
-  /* The dark skin was worse: a form field was a barely-darker rectangle on a
-     dark ground at 1.70:1. Raw --ardoise only reaches 2.06:1 on --surface, so
-     the boundary needs its own lighter value: 3.54:1, clearing 1.4.11. */
-  --field-border: #5680a8;
-  --accent: var(--abricot);
-  --accent-hover: var(--orangebrule);
-  --accent-fg: var(--encre);
-  --accent-2: var(--ardoise);
-  --accent-soft: color-mix(in srgb, var(--ardoise) 30%, var(--marineprof));
-  --ring: var(--abricot);
-  /* Etait color-mix(--succes 78%, white) = #5c9a7f, qui mesure 4.48:1 sur
-     --surface : sous AA, de peu, et c'est la couleur des coches de validation
-     de la short-list. La valeur des maquettes atteint 7.86:1 sur --surface,
-     9.06:1 sur --bg et 6.17:1 sur --surface-2. */
-  --success: #9fc7a8;
-  --warning: color-mix(in srgb, var(--alerte) 82%, white);
-  --danger: color-mix(in srgb, var(--erreur) 82%, white);
-
-  /* Le CTA reste terracotta sur les deux peaux : les maquettes ne le font pas
-     varier, et le blanc dessus mesure 5.24:1 au repos.
-     Le survol, lui, ne suivait pas. Il pointait sur --orangebrule, plus CLAIR
-     que le terracotta : blanc dessus = 3.36:1, sous le plancher AA de 4.5, sur
-     chaque bouton principal du portail B2B et pendant tout le temps ou le
-     pointeur reste dessus. La peau Talents n'avait pas le probleme parce
-     qu'elle assombrit vers le chocolat (8.26:1). On assombrit ici aussi :
-     6.24:1. Un survol doit foncer, pas eclaircir, quand le texte est blanc. */
-  --cta: var(--terracotta);
-  --cta-hover: var(--terracottafonce);
-  --cta-fg: #ffffff;
-
-  --surface-inverse: var(--creme);
-  --fg-inverse: var(--noirchaud);
-  --fg-inverse-muted: color-mix(in srgb, var(--noirchaud) 75%, var(--creme));
-  /* Symetrique : #9fc7a8 sur creme mesure 1.71:1, le pire de tout le diff —
-     et ce sont les coches qui disent quelles fonctionnalites sont incluses.
-     Le vert de la peau d'en face donne 4.56:1, la bordure a 55 % donne 3.71:1. */
-  --success-inverse: var(--succes);
-  --border-inverse: color-mix(in srgb, var(--noirchaud) 55%, var(--creme));
-}
-
-/* Défaut si aucun portail défini : peau Talents */
-:root:not([data-portal]) {
-  --bg: var(--creme);
-  --surface: var(--blancchaud);
-  --surface-2: var(--ivoire);
-  --fg: var(--espresso);
-  --fg-muted: var(--brungrise);
-  --fg-subtle: #6e6050;
-  --border: color-mix(in srgb, var(--espresso) 10%, transparent);
-  --border-strong: var(--taupe);
-  --field-border: var(--taupe);
-  /* Was --cognac: crème on cognac measures 3.94:1, under the 4.5:1 AA floor for
-     14px text — and this is the default CTA on every marketing page. Chocolat
-     measures 7.53:1, and lifts text-accent (link variant, eyebrows) with it. */
-  --accent: var(--chocolat);
-  --accent-hover: var(--cognac);
-  --accent-fg: var(--creme);
-  --accent-2: var(--terracotta);
-  --accent-soft: color-mix(in srgb, var(--camel) 18%, var(--creme));
-  --ring: var(--cognac);
-  --success: var(--succes);
-  --warning: var(--alerte);
-  --danger: var(--erreur);
-  --cta: var(--terracotta);
-  --cta-hover: var(--chocolat);
-  --cta-fg: #ffffff;
-  --surface-inverse: var(--noirchaud);
-  --fg-inverse: var(--creme);
-  --fg-inverse-muted: color-mix(in srgb, var(--creme) 75%, var(--noirchaud));
-  --success-inverse: #9fc7a8;
-  --border-inverse: color-mix(in srgb, var(--creme) 55%, var(--noirchaud));
+  --bg: var(--ink);
+  --surface: var(--stage);
+  --surface-2: var(--stage-2);
+  --fg: var(--chalk);
+  --fg-muted: #b4b4ad;
+  --fg-subtle: #9a9a93;
+  --border: color-mix(in srgb, var(--chalk) 11%, transparent);
+  --border-strong: #6a6a64;
+  --field-border: #7a7a73;
+  --accent: var(--spike-glow);
+  --accent-hover: #ff9466;
+  --accent-fg: var(--ink);
+  --accent-2: #6a6a64;
+  --accent-soft: color-mix(in srgb, var(--spike) 16%, var(--stage));
+  --ring: var(--spike-glow);
+  --success: var(--go-glow);
+  --warning: #f0b45a;
+  --danger: #ff7b6b;
+  --signal: var(--spike);
+  --cta: var(--chalk);
+  --cta-hover: #ffffff;
+  --cta-fg: var(--ink);
+  --surface-inverse: var(--chalk);
+  --fg-inverse: var(--ink);
+  --fg-inverse-muted: var(--graphite);
+  --success-inverse: var(--go);
+  --border-inverse: color-mix(in srgb, var(--ink) 40%, var(--chalk));
 }
 
 /* --- Exposition aux utilitaires Tailwind (inline = suit la cascade data-portal) --- */
@@ -248,6 +147,7 @@
   --color-fg-inverse-muted: var(--fg-inverse-muted);
   --color-success-inverse: var(--success-inverse);
   --color-border-inverse: var(--border-inverse);
+  --color-signal: var(--signal);
 
   --radius-sedan-sm: var(--sedan-sm);
   --radius-sedan: var(--sedan);
@@ -257,8 +157,8 @@
 
   --container-site: var(--container-site);
 
-  --font-sans: var(--font-instrument), "Instrument Sans", system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: var(--font-geist-sans), "Geist", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   /* Deprecie : alias sur --font-sans. Les maquettes n'ont pas de serif.
      Le perimetre marketing n'en compte plus aucune occurrence ; les 59 qui
      restent, dans 37 fichiers, sont toutes dans l'admin, l'onboarding et les
@@ -286,7 +186,8 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.55;
+  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -310,4 +211,55 @@ html[data-demo="end"] * {
 [data-demo-hl] {
   outline: 3px solid var(--cta);
   outline-offset: 4px;
+}
+
+/* --- Display type ------------------------------------------------------------
+   The one loud thing on every page. Geist at 600 with tracking pulled in hard,
+   the way the reference boards set "Works" and "Alture Studio". */
+@utility display-xl {
+  font-size: clamp(3.5rem, 10.5vw, 11.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.065em;
+  font-weight: 600;
+}
+@utility display-lg {
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+}
+@utility display-md {
+  font-size: clamp(2rem, 4.4vw, 3.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+
+/* --- The stage --------------------------------------------------------------
+   The hero panel: a dark set with one followspot. Pure CSS, no image. */
+.stage-light {
+  background:
+    radial-gradient(60% 75% at 62% -8%, rgb(255 244 228 / 0.55), transparent 62%),
+    radial-gradient(38% 46% at 64% 70%, rgb(255 83 23 / 0.32), transparent 70%),
+    radial-gradient(70% 60% at 10% 110%, rgb(120 120 140 / 0.22), transparent 70%),
+    var(--ink);
+}
+.stage-beam {
+  background: conic-gradient(from 168deg at 62% -12%, transparent 0deg, rgb(255 246 232 / 0.28) 10deg, rgb(255 246 232 / 0.06) 22deg, transparent 30deg);
+  filter: blur(14px);
+}
+.stage-grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.18;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spot-sweep {
+    animation: spot-sweep 2.4s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  }
+  @keyframes spot-sweep {
+    from { opacity: 0; transform: translateX(-18%) rotate(-4deg); }
+    to { opacity: 1; transform: none; }
+  }
 }
