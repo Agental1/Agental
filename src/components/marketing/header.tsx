@@ -6,7 +6,6 @@ import { Menu, X, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { AgentalLogo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
-import { LocaleSwitcher } from "./locale-switcher";
 import { cn } from "@/lib/utils";
 import type { Portal } from "@/lib/utils";
 
@@ -89,7 +88,6 @@ export function MarketingHeader({
           >
             {crossLink.label}
           </Link>
-          <LocaleSwitcher compact />
           <Button asChild size="sm">
             <Link href={cta.href}>{cta.label}</Link>
           </Button>
@@ -133,7 +131,7 @@ export function MarketingHeader({
               {crossLink.label} <ArrowRight className="size-3.5" />
             </Link>
             <div className="flex items-center justify-between px-3 pt-3">
-              <LocaleSwitcher />
+              <span />
               <Button asChild size="sm">
                 <Link href={cta.href} onClick={() => setOpen(false)}>
                   {cta.label}

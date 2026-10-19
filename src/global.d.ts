@@ -1,11 +1,11 @@
 import type { routing } from "@/i18n/routing";
-import type common from "../messages/fr/common.json";
-import type talents from "../messages/fr/talents.json";
-import type casting from "../messages/fr/casting.json";
-import type app from "../messages/fr/app.json";
+import type common from "../messages/en/common.json";
+import type talents from "../messages/en/talents.json";
+import type casting from "../messages/en/casting.json";
+import type app from "../messages/en/app.json";
 
 /**
- * Type-level contract for translations. French is the reference locale: its
+ * Type-level contract for translations. English is the only locale: its
  * message files define the key space, so a typo in `t("...")` or a key missing
  * from a namespace fails `bun run typecheck` instead of rendering the raw key
  * path to a visitor.

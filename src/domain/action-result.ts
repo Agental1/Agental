@@ -1,5 +1,5 @@
 import { z } from "zod";
-import appMessages from "../../messages/fr/app.json";
+import appMessages from "../../messages/en/app.json";
 
 /**
  * Valid error keys, derived from the French message file rather than typed as

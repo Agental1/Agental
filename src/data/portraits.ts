@@ -1,5 +1,5 @@
 /**
- * Locale-matched portraits. STRUCTURE ONLY — no copy.
+ * Portraits (US set — the site is English only). STRUCTURE ONLY — no copy.
  *
  * Every caption lives in messages/<locale>/talents.json under `hero.collage`,
  * for the same reason casting-types.ts
@@ -22,16 +22,6 @@
 import type { StaticImageData } from "next/image";
 import type { Locale } from "@/i18n/routing";
 
-import frHero1 from "@/assets/portraits/fr/hero-1.webp";
-import frHero2 from "@/assets/portraits/fr/hero-2.webp";
-import frHero3 from "@/assets/portraits/fr/hero-3.webp";
-import frHero4 from "@/assets/portraits/fr/hero-4.webp";
-import frEnfant from "@/assets/portraits/fr/age-enfant.webp";
-import frAdolescent from "@/assets/portraits/fr/age-adolescent.webp";
-import frJeuneAdulte from "@/assets/portraits/fr/age-jeune-adulte.webp";
-import frAdulte from "@/assets/portraits/fr/age-adulte.webp";
-import frSenior from "@/assets/portraits/fr/age-senior.webp";
-import frSeniorPlus from "@/assets/portraits/fr/age-senior-plus.webp";
 
 import enHero1 from "@/assets/portraits/en/hero-1.webp";
 import enHero2 from "@/assets/portraits/en/hero-2.webp";
@@ -44,16 +34,6 @@ import enAdulte from "@/assets/portraits/en/age-adulte.webp";
 import enSenior from "@/assets/portraits/en/age-senior.webp";
 import enSeniorPlus from "@/assets/portraits/en/age-senior-plus.webp";
 
-import esHero1 from "@/assets/portraits/es/hero-1.webp";
-import esHero2 from "@/assets/portraits/es/hero-2.webp";
-import esHero3 from "@/assets/portraits/es/hero-3.webp";
-import esHero4 from "@/assets/portraits/es/hero-4.webp";
-import esEnfant from "@/assets/portraits/es/age-enfant.webp";
-import esAdolescent from "@/assets/portraits/es/age-adolescent.webp";
-import esJeuneAdulte from "@/assets/portraits/es/age-jeune-adulte.webp";
-import esAdulte from "@/assets/portraits/es/age-adulte.webp";
-import esSenior from "@/assets/portraits/es/age-senior.webp";
-import esSeniorPlus from "@/assets/portraits/es/age-senior-plus.webp";
 
 /**
  * Age bands, ascending. A literal union for the same reason
@@ -80,17 +60,6 @@ export interface LocalePortraits {
  * typecheck until its portraits exist — rather than rendering an empty collage.
  */
 export const PORTRAITS: Record<Locale, LocalePortraits> = {
-  fr: {
-    hero: [frHero1, frHero2, frHero3, frHero4],
-    ages: {
-      enfant: frEnfant,
-      adolescent: frAdolescent,
-      "jeune-adulte": frJeuneAdulte,
-      adulte: frAdulte,
-      senior: frSenior,
-      "senior-plus": frSeniorPlus,
-    },
-  },
   en: {
     hero: [enHero1, enHero2, enHero3, enHero4],
     ages: {
@@ -100,17 +69,6 @@ export const PORTRAITS: Record<Locale, LocalePortraits> = {
       adulte: enAdulte,
       senior: enSenior,
       "senior-plus": enSeniorPlus,
-    },
-  },
-  es: {
-    hero: [esHero1, esHero2, esHero3, esHero4],
-    ages: {
-      enfant: esEnfant,
-      adolescent: esAdolescent,
-      "jeune-adulte": esJeuneAdulte,
-      adulte: esAdulte,
-      senior: esSenior,
-      "senior-plus": esSeniorPlus,
     },
   },
 };

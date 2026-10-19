@@ -8,17 +8,16 @@ import { routing, toLocale } from "@/i18n/routing";
  * exist, and nothing fails loudly when they do. These pin the shape.
  */
 describe("localeUrl", () => {
-  it("always carries the locale prefix, default locale included", () => {
-    expect(localeUrl("fr", "/talents")).toBe(`${SITE}/fr/talents`);
-    expect(localeUrl("en", "/talents")).toBe(`${SITE}/en/talents`);
+  it("emits unprefixed URLs (English only, localePrefix: never)", () => {
+    expect(localeUrl("en", "/talents")).toBe(`${SITE}/talents`);
   });
 
-  it("collapses the root path instead of emitting a trailing slash", () => {
-    expect(localeUrl("fr", "/")).toBe(`${SITE}/fr`);
+  it("maps the root path to the site root", () => {
+    expect(localeUrl("en", "/")).toBe(`${SITE}/`);
   });
 
   it("never doubles a slash", () => {
-    expect(localeUrl("es", "/castings/")).not.toContain("//castings");
+    expect(localeUrl("en", "/castings/")).not.toContain("//castings");
   });
 });
 

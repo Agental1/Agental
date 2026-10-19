@@ -28,12 +28,17 @@ export const SITE = (
  * two URL builders that drift produce hreflang pointing at pages that do not
  * exist, and nothing fails loudly when they do.
  */
-export function localeUrl(locale: string, path: string): string {
+export function localeUrl(_locale: string, path: string): string {
+  // English only, no prefix: the locale no longer appears in public URLs. The
+  // parameter stays so callers do not change if a second language returns.
   const clean = path === "/" ? "" : path.replace(/\/+$/, "");
-  return `${SITE}/${locale}${clean}`;
+  return `${SITE}${clean || "/"}`;
 }
 
-/** Every locale's URL for a path, plus x-default on the default locale. */
+/**
+ * hreflang map. With one locale there is nothing to alternate between, so this
+ * only emits the single language and x-default — both the same URL.
+ */
 export function localeAlternates(path: string): Record<string, string> {
   return {
     ...Object.fromEntries(routing.locales.map((l) => [l, localeUrl(l, path)])),
@@ -69,7 +74,7 @@ export function seo(opts: {
   // every page setting `openGraph` through this helper, Next emitted no
   // og:image at all — an explicit openGraph object wins over the file
   // convention for that field. One card per locale, one deterministic URL.
-  const image = `${SITE}/${locale}/opengraph-image`;
+  const image = `${SITE}/opengraph-image`;
 
   return {
     title,
@@ -116,7 +121,7 @@ export function organizationLd(locale: string): Record<string, unknown> {
     url: localeUrl(locale, "/"),
     logo: `${SITE}/icon.svg`,
     description:
-      "Agence artistique régulée dont le travail opérationnel est augmenté par l'IA.",
+      "A licensed talent agency whose day-to-day work is run by AI.",
   };
 }
 
@@ -157,7 +162,7 @@ export function serviceLd(opts: {
     description: opts.description,
     url: localeUrl(opts.locale, opts.path),
     provider: { "@type": "Organization", name: "Agental", url: SITE },
-    areaServed: { "@type": "Country", name: "France" },
+    areaServed: { "@type": "Country", name: "United States" },
   };
 }
 

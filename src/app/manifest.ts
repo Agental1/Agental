@@ -17,11 +17,11 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Agental",
     description:
       "La première agence artistique nativement augmentée par IA. Un vrai agent régulé, une IA qui travaille pour toi.",
-    start_url: "/fr/talents",
+    start_url: "/talents",
     display: "standalone",
     background_color: "#f8f4ec",
     theme_color: "#6e4527",
-    lang: "fr",
+    lang: "en",
     icons: [
       { src: "/icon", sizes: "512x512", type: "image/png", purpose: "any" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png" },

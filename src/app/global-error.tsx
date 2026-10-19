@@ -27,7 +27,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html lang="fr">
+    <html lang="en">
       <body
         style={{
           margin: 0,
