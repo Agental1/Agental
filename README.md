@@ -123,10 +123,12 @@ nécessaire : la visite ne passe que par les landings.
 
 ## Internationalisation
 
-Trois locales, définies dans `src/i18n/routing.ts` : `fr` (défaut), `en`, `es`. **Chaque
-locale porte son préfixe**, le français compris — les URLs sont `/fr/talents`,
-`/en/talents`, `/es/talents`, et aucune route non préfixée n'existe. Une URL sans préfixe
-est négociée vers la langue du visiteur.
+**English only** (decision D2, 2026-10). `src/i18n/routing.ts` declares a single `en`
+locale with `localePrefix: "never"`: public URLs carry no prefix (`/talents`, not
+`/en/talents`) and the proxy rewrites them onto the internal `[locale]` segment.
+next-intl stays so a language can return without touching every page. Legacy
+`/fr/*` and `/es/*` URLs get a 308 to the unprefixed page; `/en/*` is redirected by
+next-intl itself.
 
 Cette négociation vit dans `src/proxy.ts` — pas `src/middleware.ts` : Next 16 a renommé la
 convention de fichier. C'est le seul endroit où la locale d'une requête est résolue.

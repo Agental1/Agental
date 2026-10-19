@@ -1,4 +1,5 @@
 import createMiddleware from "next-intl/middleware";
+import { NextResponse, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
 
 /**
@@ -13,7 +14,26 @@ import { routing } from "./i18n/routing";
  * this (Next resolves redirects at step 2, proxy at step 3) and would strip that
  * negotiation, so there are none.
  */
-export default createMiddleware(routing);
+const intl = createMiddleware(routing);
+
+/**
+ * The site used to serve /fr, /en and /es. French and Spanish are gone
+ * (decision log D2), but those URLs are indexed and shared, so they get a
+ * permanent redirect to the unprefixed English page instead of a 404.
+ * next-intl already handles /en/* itself.
+ */
+const LEGACY_PREFIX = /^\/(fr|es)(?=\/|$)/;
+
+export default function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+  if (LEGACY_PREFIX.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(LEGACY_PREFIX, "") || "/";
+    url.search = search;
+    return NextResponse.redirect(url, 308);
+  }
+  return intl(request);
+}
 
 export const config = {
   /**

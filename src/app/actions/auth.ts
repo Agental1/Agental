@@ -45,7 +45,7 @@ export async function signupAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: onboardingHome(kind, locale),
+      redirectTo: onboardingHome(kind),
     });
   } catch (error) {
     // On success signIn throws a redirect (not an AuthError) — rethrow it.
@@ -64,10 +64,8 @@ export async function loginAction(
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 
-  const locale = String(formData.get("locale") ?? "");
-
   const user = await prisma.user.findUnique({ where: { email } });
-  const redirectTo = appHome(user?.kind ?? "TALENT", locale);
+  const redirectTo = appHome(user?.kind ?? "TALENT");
 
   try {
     await signIn("credentials", { email, password, redirectTo });

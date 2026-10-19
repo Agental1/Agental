@@ -8,25 +8,19 @@ import { appHome, onboardingHome } from "@/domain/auth-routes";
  */
 describe("appHome", () => {
   it("sends talents and casting users to their own portal", () => {
-    expect(appHome("TALENT", "en")).toBe("/talents/app");
-    expect(appHome("CASTING", "en")).toBe("/casting/app");
-  });
-
-  it("ignores whatever arrives in the locale field", () => {
-    // The value comes from a hidden form field: user input on its way into a
-    // redirect target.
-    expect(appHome("TALENT", "../../evil")).toBe("/talents/app");
+    expect(appHome("TALENT")).toBe("/talents/app");
+    expect(appHome("CASTING")).toBe("/casting/app");
   });
 
   it("treats an unknown kind as a talent instead of throwing", () => {
-    expect(appHome("", "en")).toBe("/talents/app");
+    expect(appHome("")).toBe("/talents/app");
   });
 });
 
 describe("onboardingHome", () => {
   it("never returns a path the router cannot resolve", () => {
     for (const kind of ["TALENT", "CASTING"]) {
-      expect(onboardingHome(kind, "en")).toMatch(
+      expect(onboardingHome(kind)).toMatch(
         /^\/(talents|casting)\/inscription$/
       );
     }
