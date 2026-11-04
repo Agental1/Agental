@@ -77,7 +77,8 @@
     "noVideo": "没有录制视频。",
     "noFile": "没有文件。",
     "deleteFailed": "删除失败。",
-    "confirmFailed": "确认失败，请重试。"
+    "confirmFailed": "确认失败，请重试。",
+    "billingUnavailable": "付费方案暂未开放。"
   },
   "auth": {
     "name": "姓名",

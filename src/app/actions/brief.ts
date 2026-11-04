@@ -80,8 +80,14 @@ export async function createBrief(answers: BriefAnswers): Promise<BriefActionRes
   return redirect({ href: `/casting/app/projets/${project.id}`, locale: await getLocale() });
 }
 
-/** Score roster + external talents against the role and persist candidatures. */
-export async function runShortlist(projectId: string): Promise<void> {
+/**
+ * Score roster + external talents against the role and persist candidatures.
+ *
+ * NOT exported on purpose: every export of a "use server" file is a public
+ * endpoint callable with no login. This runs only from createBrief, after the
+ * caller's organisation has been established.
+ */
+async function runShortlist(projectId: string): Promise<void> {
   const project = await prisma.project.findUniqueOrThrow({
     where: { id: projectId },
   });

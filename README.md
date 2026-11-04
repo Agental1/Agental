@@ -47,7 +47,7 @@ donnait un déploiement d'apparence saine qui échouait à la première requête
 
 ### Comptes de démonstration
 
-Mot de passe commun : `demo1234`.
+Mot de passe commun : `demo1234`. Le seed refuse de tourner sans `ALLOW_DEMO_SEED=true` (déjà posé par `bun run db:seed`) : ne le lancez jamais contre une base réelle. `bun run db:purge-demo` retire ces comptes d'une base (simulation par défaut, `-- --apply` pour supprimer).
 
 | Rôle | Email |
 |------|-------|

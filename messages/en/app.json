@@ -77,7 +77,8 @@
     "noVideo": "No video recorded.",
     "noFile": "No file.",
     "deleteFailed": "Deletion failed.",
-    "confirmFailed": "Confirmation failed. Try again."
+    "confirmFailed": "Confirmation failed. Try again.",
+    "billingUnavailable": "Paid plans are not available yet."
   },
   "auth": {
     "name": "Name",

@@ -77,7 +77,8 @@
     "noVideo": "Ningún vídeo grabado.",
     "noFile": "Ningún archivo.",
     "deleteFailed": "La eliminación ha fallado.",
-    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo."
+    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo.",
+    "billingUnavailable": "Los planes de pago aún no están disponibles."
   },
   "auth": {
     "name": "Nombre",

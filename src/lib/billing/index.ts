@@ -13,8 +13,21 @@ export interface ChangePlanInput {
 }
 
 export interface Billing {
+  /** false for the dev mock: plan changes are applied with no payment. */
+  readonly live: boolean;
   /** Apply a plan change. Returns a checkout URL when a real provider needs one. */
   changePlan(input: ChangePlanInput): Promise<{ checkoutUrl?: string }>;
+}
+
+/**
+ * May this plan change go through? The mock grants any plan for free, so in
+ * production it is refused for paid plans unless ALLOW_MOCK_BILLING=true is set
+ * on purpose (a private beta, say). Real billing replaces this check.
+ */
+export function paidPlanAllowed(billing: Billing, priceCents: number): boolean {
+  if (billing.live || priceCents === 0) return true;
+  if (process.env.NODE_ENV !== "production") return true;
+  return process.env.ALLOW_MOCK_BILLING === "true";
 }
 
 let cached: Billing | null = null;

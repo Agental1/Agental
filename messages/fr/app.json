@@ -77,7 +77,8 @@
     "noVideo": "Aucune vidéo enregistrée.",
     "noFile": "Aucun fichier.",
     "deleteFailed": "La suppression a échoué.",
-    "confirmFailed": "La confirmation a échoué. Réessayez."
+    "confirmFailed": "La confirmation a échoué. Réessayez.",
+    "billingUnavailable": "Les offres payantes ne sont pas encore disponibles."
   },
   "auth": {
     "name": "Nom",
