@@ -939,5 +939,23 @@
     "title": "Candidaturas que consiguen respuesta",
     "body": "Nuestro método persigue un objetivo simple: que tus candidaturas reciban muchas más respuestas. Apuntando a los papeles adecuados y cuidando cada expediente, buscamos triplicar tu tasa de respuesta frente a un envío masivo.",
     "disclaimer": "Objetivo de método, medido y mejorado de forma continua."
+  },
+  "landing": {
+    "agentCard": {
+      "title": "Tu agente",
+      "body": "Busca los papeles hechos para ti, día y noche."
+    },
+    "faces": {
+      "title": "Cada cara tiene su papel.",
+      "lead": "Figuración, silueta, publicidad, voz, niños, creadores, escena. Dinos qué quieres hacer y lo buscamos contigo.",
+      "typesLabel": "Tipos de casting",
+      "note": "Retratos ilustrativos de personas ficticias."
+    },
+    "commissionHead": {
+      "plan": "Plan",
+      "price": "Al mes",
+      "commission": "Comisión"
+    },
+    "take": "Toma {n}"
   }
 }

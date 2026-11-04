@@ -939,5 +939,23 @@
     "title": "Des candidatures qui décrochent des réponses",
     "body": "Notre méthode vise un objectif simple : que tes candidatures reçoivent bien plus de réponses. En ciblant les bons rôles et en soignant chaque dossier, on cherche à multiplier par trois ton taux de réponse par rapport à un envoi en masse.",
     "disclaimer": "Objectif de méthode, mesuré et amélioré en continu."
+  },
+  "landing": {
+    "agentCard": {
+      "title": "Ton agent",
+      "body": "Il cherche les rôles faits pour toi, jour et nuit."
+    },
+    "faces": {
+      "title": "Tous les visages ont leur rôle.",
+      "lead": "Figuration, silhouettes, pub, voix, enfants, créateurs, scène. Dis-nous ce que tu veux jouer, on le cherche avec toi.",
+      "typesLabel": "Types de casting",
+      "note": "Portraits d’illustration de personnes fictives."
+    },
+    "commissionHead": {
+      "plan": "Formule",
+      "price": "Par mois",
+      "commission": "Commission"
+    },
+    "take": "Prise {n}"
   }
 }

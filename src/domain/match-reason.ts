@@ -1,5 +1,5 @@
 import { z } from "zod";
-import appMessages from "../../messages/fr/app.json";
+import appMessages from "../../messages/en/app.json";
 
 /**
  * Why a talent was matched, as keys rather than a sentence.

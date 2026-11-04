@@ -19,7 +19,7 @@ export async function signupAction(
     email: formData.get("email"),
     password: formData.get("password"),
     kind: formData.get("kind"),
-    locale: formData.get("locale") || "fr",
+    locale: formData.get("locale") || "en",
   });
   if (!parsed.success) {
     return { error: zodError(parsed.error) ?? "Données invalides." };

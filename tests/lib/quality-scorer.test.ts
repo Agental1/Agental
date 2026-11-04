@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MockQualityScorer, type TipKey } from "@/lib/ai/quality-scorer";
-import frTalents from "../../messages/fr/talents.json";
+import frTalents from "../../messages/en/talents.json";
 
 /**
  * The advice a talent reads after every recording. It used to be five French

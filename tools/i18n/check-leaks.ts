@@ -5,7 +5,7 @@
  *   bun run i18n:check --parity     key parity only
  *   bun run i18n:check --leaks      source-literal scan only
  *
- * Parity is the hard signal: French is the reference locale, and any key it has
+ * Parity is the hard signal: English is the reference locale, and any key it has
  * that another locale lacks is a message a visitor will not see translated.
  *
  * The literal scan is deliberately a WARNING, never a failure. A word list
@@ -18,7 +18,7 @@ import { join, relative } from "node:path";
 
 const ROOT = new URL("../..", import.meta.url).pathname.replace(/\/$/, "");
 const MESSAGES = join(ROOT, "messages");
-const REFERENCE = "fr";
+const REFERENCE = "en";
 
 type Json = { [k: string]: Json | string | string[] };
 

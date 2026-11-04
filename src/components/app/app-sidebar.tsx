@@ -85,7 +85,7 @@ export function AppSidebar({
       </nav>
       <div className="border-t border-border pt-3">
         <p className="truncate px-3 text-xs text-fg-subtle">{userLabel}</p>
-        {/* The promise is "trilingual from landing to dashboard"; without this
+        {/* The promise is "multilingual from landing to dashboard"; without this
             the language could not be changed once signed in. */}
         <LocaleSwitcher className="mt-2 px-3" />
         <form action={logoutAction}>

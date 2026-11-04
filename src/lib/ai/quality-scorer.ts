@@ -1,4 +1,4 @@
-import talentsMessages from "../../../messages/fr/talents.json";
+import talentsMessages from "../../../messages/en/talents.json";
 
 /**
  * Self-tape quality scoring. Swappable like the match Scorer: the mock derives

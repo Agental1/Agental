@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { jsonLd, localeAlternates, localeUrl, seo, SITE } from "@/lib/seo";
-import { routing, toLocale } from "@/i18n/routing";
+import { LANG_TAG, routing, toLocale } from "@/i18n/routing";
 
 /**
  * URL building is shared between the sitemap and the metadata helpers on
@@ -26,7 +26,7 @@ describe("localeAlternates", () => {
   it("covers every routed locale plus x-default", () => {
     const alt = localeAlternates("/talents");
     for (const locale of routing.locales) {
-      expect(alt[locale]).toBe(localeUrl(locale, "/talents"));
+      expect(alt[LANG_TAG[locale]]).toBe(localeUrl(locale, "/talents"));
     }
     expect(Object.keys(alt)).toHaveLength(routing.locales.length + 1);
   });
@@ -35,6 +35,14 @@ describe("localeAlternates", () => {
     expect(localeAlternates("/talents")["x-default"]).toBe(
       localeUrl(routing.defaultLocale, "/talents")
     );
+  });
+});
+
+describe("hreflang tags", () => {
+  it("tags Chinese by script, while its URL keeps the short segment", () => {
+    const alt = localeAlternates("/talents");
+    expect(alt["zh-Hans"]).toBe(`${SITE}/zh/talents`);
+    expect(alt).not.toHaveProperty("zh");
   });
 });
 

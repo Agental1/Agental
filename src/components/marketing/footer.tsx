@@ -1,51 +1,47 @@
 import { useTranslations } from "next-intl";
-import { ShieldCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { AgentalLogo } from "@/components/brand/logo";
+import { AgentalMark } from "@/components/brand/logo";
 import type { NavItem } from "./header";
 
+/**
+ * Footer (v1 redesign). Link columns on top; the wordmark set edge to edge at
+ * the bottom, cropped by the page edge, after the Alture board.
+ *
+ * Legal entries stay plain text: their pages and copy belong to the founders
+ * (decision log D20), and a link to a page that does not exist is worse than
+ * no link.
+ */
 export function MarketingFooter({
-  home,
   nav,
 }: {
   home: string;
   nav: NavItem[];
 }) {
   const t = useTranslations("common");
-  // Was hardcoded to 2026. Statically rendered pages freeze this at build time,
-  // which is fine and still beats a literal that silently goes stale.
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-border bg-surface-2/40">
-      <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,4vw,40px)] py-14 md:grid-cols-[1.5fr_1fr_1fr]">
-        <div className="space-y-3">
-          <Link
-            href={home}
-            aria-label="Agental"
-            className="inline-flex min-h-11 items-center md:min-h-6"
-          >
-            <AgentalLogo />
-          </Link>
-          <p className="max-w-xs text-sm text-fg-muted">
+    <footer className="mt-auto overflow-hidden border-t border-border">
+      <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] pb-10 pt-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="max-w-sm">
+          <p className="text-[clamp(20px,2vw,26px)] font-medium leading-[1.15] tracking-[-0.035em]">
             {t("footer.tagline")}
           </p>
-          <p className="flex items-center gap-1.5 text-xs text-fg-subtle">
-            <ShieldCheck className="size-3.5" />
+          <p className="mt-4 text-[13px] text-fg-subtle">
             {t("footer.prefectorale")}
           </p>
         </div>
 
-        <div className="space-y-2">
-          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">
+        <div>
+          <h4 className="text-[13px] text-fg-subtle">
             {t("footer.sections.product")}
           </h4>
-          <ul>
+          <ul className="mt-3">
             {nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="inline-flex min-h-11 items-center md:min-h-6 text-sm text-fg-muted transition-colors hover:text-fg"
+                  className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg transition-colors hover:text-fg-muted"
                 >
                   {item.label}
                 </Link>
@@ -54,25 +50,66 @@ export function MarketingFooter({
           </ul>
         </div>
 
-        <div className="space-y-2">
-          <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-subtle">
+        <div>
+          <h4 className="text-[13px] text-fg-subtle">
+            {t("footer.sections.company")}
+          </h4>
+          <ul className="mt-3">
+            <li>
+              <Link
+                href="/talents"
+                className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg hover:text-fg-muted"
+              >
+                Agental Talents
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/casting"
+                className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg hover:text-fg-muted"
+              >
+                Agental Casting
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/connexion"
+                className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg hover:text-fg-muted"
+              >
+                {t("nav.signIn")}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-[13px] text-fg-subtle">
             {t("footer.sections.legal")}
           </h4>
-          {/* These three are plain text, not links: /mentions-legales, /cgu and
-              /confidentialite do not exist yet. Rendering them as links would
-              promise pages that 404. A declared French agency does need them —
-              flagged rather than faked, since the copy is legal text. */}
-          <ul className="text-sm text-fg-muted">
-            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.mentions")}</li>
-            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.rgpd")}</li>
-            <li className="flex min-h-11 items-center md:min-h-6">{t("footer.cgu")}</li>
+          <ul className="mt-3 text-[15px] text-fg-muted">
+            <li className="flex min-h-9 items-center">{t("footer.mentions")}</li>
+            <li className="flex min-h-9 items-center">{t("footer.rgpd")}</li>
+            <li className="flex min-h-9 items-center">{t("footer.cgu")}</li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-border">
-        <div className="mx-auto max-w-site px-[clamp(16px,4vw,40px)] py-4 font-mono text-[11px] text-fg-subtle">
-          {t("footer.rights", { year })}
-        </div>
+
+      <div className="mx-auto flex max-w-site items-center justify-between px-[clamp(16px,3vw,40px)] pb-4 text-[12.5px] text-fg-subtle">
+        <span>{t("footer.rights", { year })}</span>
+        <a href="#main" className="inline-flex min-h-6 items-center hover:text-fg">
+          {t("footer.backToTop")}
+        </a>
+      </div>
+
+      {/* Decorative: the accessible name of the brand is in the header. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none relative flex select-none items-end justify-center px-[clamp(8px,1.5vw,24px)]"
+      >
+        <span className="brand-type translate-y-[0.1em] whitespace-nowrap text-[clamp(5rem,24vw,24rem)] font-semibold leading-[0.8] tracking-[-0.075em] text-fg">
+          Agental
+        </span>
+        <AgentalMark className="absolute right-[clamp(12px,3vw,48px)] top-[8%] h-[clamp(28px,5vw,80px)] w-auto text-signal" />
       </div>
     </footer>
   );

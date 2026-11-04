@@ -76,9 +76,21 @@ export interface LocalePortraits {
 }
 
 /**
- * Keyed by Locale, so adding a fourth locale to `routing.locales` fails the
+ * Keyed by Locale, so adding a locale to `routing.locales` fails the
  * typecheck until its portraits exist — rather than rendering an empty collage.
  */
+const EN_SET: LocalePortraits = {
+  hero: [enHero1, enHero2, enHero3, enHero4],
+  ages: {
+    enfant: enEnfant,
+    adolescent: enAdolescent,
+    "jeune-adulte": enJeuneAdulte,
+    adulte: enAdulte,
+    senior: enSenior,
+    "senior-plus": enSeniorPlus,
+  },
+};
+
 export const PORTRAITS: Record<Locale, LocalePortraits> = {
   fr: {
     hero: [frHero1, frHero2, frHero3, frHero4],
@@ -91,17 +103,13 @@ export const PORTRAITS: Record<Locale, LocalePortraits> = {
       "senior-plus": frSeniorPlus,
     },
   },
-  en: {
-    hero: [enHero1, enHero2, enHero3, enHero4],
-    ages: {
-      enfant: enEnfant,
-      adolescent: enAdolescent,
-      "jeune-adulte": enJeuneAdulte,
-      adulte: enAdulte,
-      senior: enSenior,
-      "senior-plus": enSeniorPlus,
-    },
-  },
+  en: EN_SET,
+  /**
+   * No Chinese-market set yet: /zh reuses the English (US) faces, and its
+   * captions in messages/zh/talents.json describe those same photos. Replace
+   * when a set is shot for the Chinese-speaking audience.
+   */
+  zh: EN_SET,
   es: {
     hero: [esHero1, esHero2, esHero3, esHero4],
     ages: {

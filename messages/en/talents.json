@@ -939,5 +939,23 @@
     "title": "Applications that get answers",
     "body": "Our method aims at one simple goal: that your applications get far more replies. By targeting the right roles and caring for every submission, we aim to triple your response rate compared with sending in bulk.",
     "disclaimer": "A method objective, measured and improved continuously."
+  },
+  "landing": {
+    "agentCard": {
+      "title": "Your agent",
+      "body": "Looking for roles that fit you, day and night."
+    },
+    "faces": {
+      "title": "Every kind of face gets cast.",
+      "lead": "Background, walk-ons, commercials, voice, kids, creators, stage. Tell us the work you want and we look for it with you.",
+      "typesLabel": "Casting types",
+      "note": "Illustrative portraits of fictional people."
+    },
+    "commissionHead": {
+      "plan": "Plan",
+      "price": "Per month",
+      "commission": "Commission"
+    },
+    "take": "Take {n}"
   }
 }

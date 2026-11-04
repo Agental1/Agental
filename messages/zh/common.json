@@ -1,0 +1,58 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "如何运作",
+    "castingTypes": "选角类型",
+    "pricing": "价格",
+    "faq": "常见问题",
+    "about": "关于我们",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "skipToContent": "跳到正文",
+    "signIn": "登录"
+  },
+  "footer": {
+    "tagline": "首家原生由 AI 加持的艺人经纪公司。",
+    "legalTitle": "法律信息",
+    "prefectorale": "已在法国主管部门登记的艺人经纪公司",
+    "rgpd": "GDPR 隐私",
+    "mentions": "法律声明",
+    "cgu": "使用条款",
+    "rights": "© {year} Agental。保留所有权利。",
+    "sections": {
+      "product": "产品",
+      "company": "Agental",
+      "legal": "法律信息"
+    },
+    "backToTop": "回到顶部"
+  },
+  "locale": {
+    "switch": "语言",
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "zh": "中文"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "返回首页",
+    "backCastings": "浏览选角"
+  },
+  "error": {
+    "title": "出了点问题",
+    "body": "问题已记录。重试一次通常就能解决。",
+    "retry": "重试",
+    "backHome": "返回首页"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "从第一天起就围绕 AI 打造的艺人经纪公司。真正受监管的经纪人，加上为你工作的 AI。"
+  },
+  "entry": {
+    "talents": "我是演员",
+    "casting": "我负责选角",
+    "enterTalents": "进入 Agental Talents",
+    "enterCasting": "进入 Agental Casting"
+  }
+}

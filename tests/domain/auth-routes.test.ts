@@ -50,13 +50,14 @@ describe("onboardingHome", () => {
     // switched to French the moment they created an account.
     expect(onboardingHome("TALENT", "en")).toBe("/en/talents/inscription");
     expect(onboardingHome("CASTING", "es")).toBe("/es/casting/inscription");
+    expect(onboardingHome("TALENT", "zh")).toBe("/zh/talents/inscription");
   });
 
   it("never returns a path the router cannot resolve", () => {
     for (const locale of routing.locales) {
       for (const kind of ["TALENT", "CASTING"]) {
         expect(onboardingHome(kind, locale)).toMatch(
-          /^\/(fr|en|es)\/(talents|casting)\/inscription$/
+          /^\/(en|fr|es|zh)\/(talents|casting)\/inscription$/
         );
       }
     }

@@ -5,7 +5,7 @@ export const SignupInput = z.object({
   email: z.string().email("errors.emailInvalid"),
   password: z.string().min(8, "errors.passwordTooShort"),
   kind: UserKind,
-  locale: z.string().default("fr"),
+  locale: z.string().default("en"),
 });
 export type SignupInput = z.infer<typeof SignupInput>;
 

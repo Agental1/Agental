@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Menu, X, ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Menu, X } from "lucide-react";
+import { Link, usePathname } from "@/i18n/navigation";
 import { AgentalLogo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { LocaleSwitcher } from "./locale-switcher";
@@ -15,6 +15,13 @@ export interface NavItem {
   label: string;
 }
 
+/**
+ * Floating pill navigation (v1 redesign, after the Orchard Studio board).
+ *
+ * The bar is a rounded capsule that floats over the page rather than a
+ * full-width strip, so the giant display type underneath keeps the whole
+ * width. Sign-in sits in the pill: it was missing from every marketing page.
+ */
 export function MarketingHeader({
   portal,
   home,
@@ -30,12 +37,9 @@ export function MarketingHeader({
 }) {
   const [open, setOpen] = useState(false);
   const t = useTranslations("common");
+  const pathname = usePathname();
   const burgerRef = useRef<HTMLButtonElement>(null);
 
-  // The panel had aria-expanded and nothing else: no Escape, no way back to the
-  // trigger, and no link between the button and the panel it controls. Radix
-  // Dialog would give all of this, but it would also change the visual
-  // behaviour; this is the ten-minute version that fixes the semantics.
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
@@ -49,48 +53,52 @@ export function MarketingHeader({
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg/85 backdrop-blur-md">
-      {/* Keyboard users otherwise tab through the logo, five nav links, the
-          cross-link, three locale links and the CTA before reaching content —
-          on every page. WCAG 2.4.1. */}
+    <header className="sticky top-0 z-40 px-[clamp(12px,2vw,24px)] pt-3">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-sedan focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-fg"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-cta focus:px-4 focus:py-2 focus:text-cta-fg"
       >
         {t("nav.skipToContent")}
       </a>
-      <div className="mx-auto flex h-16 max-w-site items-center justify-between gap-4 px-[clamp(16px,4vw,40px)]">
+      <div className="mx-auto flex h-14 max-w-[78rem] items-center justify-between gap-3 rounded-full border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
         <Link href={home} className="shrink-0" aria-label="Agental">
-          {/* `portal` was accepted and then ignored. The mockups put the portal
-              name in the lockup, which is also the fastest way for a visitor to
-              tell the two sides of the site apart. */}
           <AgentalLogo portal={portal === "casting" ? "Casting" : "Talents"} />
         </Link>
 
-        <nav className="hidden items-center gap-5 md:flex lg:gap-6">
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="inline-flex min-h-6 items-center whitespace-nowrap text-[14.5px] text-fg-muted transition-colors hover:text-fg"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
+          {nav.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[14px] text-fg-muted transition-colors hover:text-fg",
+                  active && "bg-surface-2 text-fg"
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-4 md:flex">
-          {/* Hidden below lg: with five nav items, the locale switcher and the
-              CTA, this is the first thing that has to give at 1024-1280. It
-              stays reachable in the burger panel and in the footer. */}
+        <div className="hidden shrink-0 items-center gap-1 md:flex">
           <Link
             href={crossLink.href}
-            className="hidden min-h-6 items-center whitespace-nowrap text-sm text-fg-subtle transition-colors hover:text-fg lg:inline-flex"
+            className="hidden h-9 items-center whitespace-nowrap rounded-full px-3 text-[13.5px] text-fg-subtle transition-colors hover:text-fg 2xl:inline-flex"
           >
             {crossLink.label}
           </Link>
           <LocaleSwitcher compact />
-          <Button asChild size="sm">
+          <Link
+            href="/connexion"
+            className="inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[14px] text-fg transition-colors hover:bg-surface-2"
+          >
+            {t("nav.signIn")}
+          </Link>
+          <Button asChild size="sm" className="h-10 px-5">
             <Link href={cta.href}>{cta.label}</Link>
           </Button>
         </div>
@@ -99,9 +107,7 @@ export function MarketingHeader({
           ref={burgerRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
-          // 36x36 before. It clears the 24px AA floor, but it is the only way
-          // into navigation on mobile and it was missed one-handed.
-          className="md:hidden inline-flex min-h-11 min-w-11 items-center justify-center rounded-sedan p-2.5 text-fg hover:bg-surface-2"
+          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-fg hover:bg-surface-2 xl:hidden"
           aria-label={t(open ? "nav.closeMenu" : "nav.openMenu")}
           aria-controls="mobile-nav"
           aria-expanded={open}
@@ -111,14 +117,17 @@ export function MarketingHeader({
       </div>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-border bg-bg md:hidden">
-          <nav className="mx-auto flex max-w-site flex-col gap-1 px-[clamp(16px,4vw,40px)] py-4">
+        <div
+          id="mobile-nav"
+          className="mx-auto mt-2 max-w-[78rem] rounded-sedan-xl border border-border bg-surface p-2 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.45)] xl:hidden"
+        >
+          <nav className="flex flex-col">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex min-h-11 items-center rounded-sedan px-3 py-2 text-fg-muted hover:bg-surface-2 hover:text-fg"
+                className="flex min-h-12 items-center rounded-sedan px-4 text-[17px] tracking-[-0.02em] text-fg hover:bg-surface-2"
               >
                 {item.label}
               </Link>
@@ -126,15 +135,18 @@ export function MarketingHeader({
             <Link
               href={crossLink.href}
               onClick={() => setOpen(false)}
-              className={cn(
-                "mt-1 flex min-h-11 items-center gap-1 rounded-sedan px-3 py-2 text-sm text-fg-subtle hover:bg-surface-2"
-              )}
+              className="flex min-h-12 items-center rounded-sedan px-4 text-[15px] text-fg-subtle hover:bg-surface-2"
             >
-              {crossLink.label} <ArrowRight className="size-3.5" />
+              {crossLink.label}
             </Link>
-            <div className="flex items-center justify-between px-3 pt-3">
-              <LocaleSwitcher />
-              <Button asChild size="sm">
+            <LocaleSwitcher className="mt-2 border-t border-border px-1 pt-3" />
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border p-2 pt-4 md:hidden">
+              <Button asChild variant="secondary">
+                <Link href="/connexion" onClick={() => setOpen(false)}>
+                  {t("nav.signIn")}
+                </Link>
+              </Button>
+              <Button asChild>
                 <Link href={cta.href} onClick={() => setOpen(false)}>
                   {cta.label}
                 </Link>

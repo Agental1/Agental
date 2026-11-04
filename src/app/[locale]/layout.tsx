@@ -2,35 +2,20 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import { routing, toLocale } from "@/i18n/routing";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { routing, toLocale, LANG_TAG } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
 import { DemoMode } from "@/components/demo/demo-mode";
 import "../globals.css";
 
 /**
- * Instrument Sans carries everything, headings included — the mockups have no
- * serif. `axes` is deliberately absent: Instrument Sans exposes a `wdth` axis
- * we never vary, and requesting it ships a larger file for nothing.
- *
- * latin-ext is not optional: it carries the accented glyphs the French and
- * Spanish copy is full of.
+ * Geist Sans carries everything, display included; Geist Mono only for figures
+ * that must line up (prices, scores, percentages). Self-hosted through the
+ * `geist` package rather than next/font/google: no build-time call to Google,
+ * and no third-party font request from the visitor's browser.
  */
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
-/** Eyebrows, step numerals, prices, scores — every uppercase-tracked or
- *  numeric run in the mockups is monospaced. */
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
 /**
  * Site-wide metadata, per locale.
  *
@@ -79,9 +64,9 @@ export default async function LocaleLayout({
 
   return (
     <html
-      lang={locale}
+      lang={LANG_TAG[locale]}
       data-scroll-behavior="smooth"
-      className={`${instrument.variable} ${jetbrains.variable} h-full`}
+      className={`${GeistSans.variable} ${GeistMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {/* Organization node, emitted once for the whole site. */}

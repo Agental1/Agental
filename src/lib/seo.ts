@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
+import { routing, LANG_TAG } from "@/i18n/routing";
 
 /**
  * Canonical origin for every absolute URL the app emits (metadataBase, sitemap,
@@ -33,10 +33,16 @@ export function localeUrl(locale: string, path: string): string {
   return `${SITE}/${locale}${clean}`;
 }
 
-/** Every locale's URL for a path, plus x-default on the default locale. */
+/**
+ * Every locale's URL for a path, keyed by hreflang tag, plus x-default on the
+ * default locale. Keys are BCP 47 tags ("zh-Hans"), values are routed URLs
+ * ("/zh/…"): the two are not the same string for Chinese.
+ */
 export function localeAlternates(path: string): Record<string, string> {
   return {
-    ...Object.fromEntries(routing.locales.map((l) => [l, localeUrl(l, path)])),
+    ...Object.fromEntries(
+      routing.locales.map((l) => [LANG_TAG[l], localeUrl(l, path)])
+    ),
     "x-default": localeUrl(routing.defaultLocale, path),
   };
 }
@@ -116,7 +122,7 @@ export function organizationLd(locale: string): Record<string, unknown> {
     url: localeUrl(locale, "/"),
     logo: `${SITE}/icon.svg`,
     description:
-      "Agence artistique régulée dont le travail opérationnel est augmenté par l'IA.",
+      "A licensed talent agency whose day-to-day work is run by AI.",
   };
 }
 
@@ -157,7 +163,7 @@ export function serviceLd(opts: {
     description: opts.description,
     url: localeUrl(opts.locale, opts.path),
     provider: { "@type": "Organization", name: "Agental", url: SITE },
-    areaServed: { "@type": "Country", name: "France" },
+    areaServed: { "@type": "Country", name: "United States" },
   };
 }
 
