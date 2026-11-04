@@ -1,0 +1,512 @@
+{
+  "meta": {
+    "title": "Agental Casting — El filtro de IA cualificado para sus cástines",
+    "description": "Reciba los mejores talentos, no los más numerosos. Una lista corta, verificada y lista para convocar. Puntuación transparente, procedencia visible."
+  },
+  "nav": {
+    "cta": "Probar gratis",
+    "crossLink": "¿Es usted artista?"
+  },
+  "hero": {
+    "eyebrow": "Agencia artística regulada · puntuación transparente",
+    "title": "El casting, por fin a la escala correcta.",
+    "titleEmph": "La lista corta, hecha para usted.",
+    "subtitle": "Recibe una selección ajustada de talentos pertinentes para tu papel, con disponibilidad, derechos y self-tapes ya verificados. Cada perfil muestra su origen y cada clasificación se explica. Decides más rápido y sobre mejores bases.",
+    "ctaPrimary": "Probar gratis",
+    "ctaSecondary": "Ver una demo",
+    "note": "Modalidad gratuita, sin tarjeta bancaria. Un proyecto activo de regalo."
+  },
+  "demo": {
+    "eyebrow": "Demo interactiva",
+    "title": "Un briefing. Una lista corta.",
+    "subtitle": "Describa el papel, el asistente da forma a su briefing y la lista corta se genera, con la procedencia de cada perfil a la vista.",
+    "briefLabel": "Su papel",
+    "briefPlaceholder": "p. ej. «Maxime», hombre, 25-32 años, acento bretón, disponible en septiembre",
+    "generate": "Generar la lista corta",
+    "reviewed": "perfiles revisados",
+    "retained": "{count} seleccionados",
+    "sourceAgental": "Agental",
+    "sourceExternal": "External",
+    "roleHeader": "LISTA CORTA · SERIE «MARÉE HAUTE»",
+    "roleLine": "Papel «Maxime» · H · 25-32 · acento bretón",
+    "favourite": "Añadir a favoritos",
+    "available": "disponible",
+    "reasons": {
+      "1": "acento bretón nativo · ventana de rodaje OK · derechos de imagen en regla",
+      "2": "localizado fuera del roster · mismo baremo · disponibilidad confirmada",
+      "3": "físico cercano al papel · self-tape verificado",
+      "4": "experiencia en series · acento regional creíble"
+    },
+    "perDay": "{amount} €/día"
+  },
+  "benefits": {
+    "eyebrow": "Lo que gana con Agental",
+    "title": "Calidad, no cantidad.",
+    "items": [
+      {
+        "title": "Una selección corta y utilizable de inmediato",
+        "body": "Nuestra tecnología criba las candidaturas y aparta todo lo que se sale del marco de tu papel, cerca del 90 % del volumen. Abres una short-list ajustada y lista para usar."
+      },
+      {
+        "title": "Tres veces más perfiles pertinentes",
+        "body": "Para cada papel, nuestro método busca hacer emerger tres veces más perfiles realmente adecuados que los canales habituales. Pasas menos tiempo filtrando y más eligiendo."
+      },
+      {
+        "title": "Perfiles listos para convocar",
+        "body": "Self-tapes verificados, disponibilidad confirmada para tus fechas de rodaje, derechos de imagen validados: cada perfil llega documentado y accionable."
+      },
+      {
+        "title": "Una clasificación que entiendes",
+        "body": "Cada talento muestra una puntuación y la razón de su posición. Sabes por qué sube un perfil y mantienes la mano para reordenar la lista como quieras."
+      },
+      {
+        "title": "Una neutralidad que se comprueba",
+        "body": "Cada talento indica su origen, Agental o externo. La puntuación se calcula igual para todos, el historial de decisiones queda consultable y un filtro aísla los talentos externos en un clic."
+      },
+      {
+        "title": "Tiempo recuperado de verdad",
+        "body": "Un asistente da forma a tu brief en unos minutos. La selección se construye después sola. Recuperas horas en cada proyecto."
+      }
+    ]
+  },
+  "neutrality": {
+    "eyebrow": "Neutralidad",
+    "title": "La neutralidad, demostrada en el producto",
+    "items": [
+      {
+        "title": "La procedencia en cada perfil",
+        "body": "Agental o externo, siempre visible."
+      },
+      {
+        "title": "El mismo cálculo para todos",
+        "body": "Los mismos criterios, sea cual sea la procedencia."
+      },
+      {
+        "title": "Un historial consultable",
+        "body": "Cada decisión de clasificación queda trazada."
+      }
+    ],
+    "body": "¿Puede una agencia que representa talentos presentártelos con total imparcialidad? Nuestra respuesta está en el producto. Cada perfil indica su origen. La puntuación se calcula igual para un talento representado por Agental y para uno externo. Ves la razón de cada clasificación y un filtro muestra solo los perfiles externos cuando lo desees. Lo compruebas por ti mismo."
+  },
+  "steps": {
+    "eyebrow": "En tres tiempos",
+    "title": "Su casting, en tres tiempos",
+    "cta": "Ver el detalle completo",
+    "items": [
+      {
+        "title": "Describa el papel",
+        "body": "Un asistente conversacional da forma a tu brief."
+      },
+      {
+        "title": "Reciba su lista corta",
+        "body": "La selección descarta lo que no viene al caso, puntúa cada perfil y explica su clasificación."
+      },
+      {
+        "title": "Decida y convoque",
+        "body": "Self-tapes, disponibilidad y derechos ya están verificados."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Hacen casting con Agental",
+    "items": [
+      {
+        "quote": "Recibo short-lists cortas y pertinentes. Ver la razón de cada clasificación me ahorra muchísimo tiempo, y el origen mostrado despeja cualquier ambigüedad sobre la neutralidad.",
+        "author": "Directora de casting, largometrajes, París"
+      },
+      {
+        "quote": "Verificar la disponibilidad y los derechos de imagen por adelantado cambia nuestra forma de trabajar. Los expedientes llegan listos y decidimos más rápido.",
+        "author": "Productora independiente, series"
+      },
+      {
+        "quote": "Para la figuración y los papeles de publicidad, el volumen era inmanejable. La selección nos ha devuelto un casting legible.",
+        "author": "Agencia de publicidad, casting interno"
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Tarifas",
+    "title": "Una tarificación pensada para su volumen de casting",
+    "note": "Sin compromiso. Cambia de modalidad o cancela cuando quiera.",
+    "recommended": "RECOMENDADO",
+    "plans": [
+      {
+        "name": "Free",
+        "price": "0 €",
+        "priceUnit": "",
+        "cta": "Probar",
+        "features": [
+          "1 proyecto activo",
+          "50 candidaturas filtradas al mes",
+          "Puntuación básica",
+          "Procedencia visible en cada talento"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "99 €",
+        "priceUnit": "/puesto/mes",
+        "cta": "Elegir Pro",
+        "features": [
+          "10 proyectos activos",
+          "1 000 candidaturas filtradas al mes",
+          "Puntuación detallada y explicación",
+          "Verificación de los self-tapes",
+          "Panel completo",
+          "Filtros y ordenación avanzados"
+        ]
+      },
+      {
+        "name": "Studio",
+        "price": "299 €",
+        "priceUnit": "/mes",
+        "cta": "Elegir",
+        "features": [
+          "Hasta 5 puestos",
+          "Proyectos y selecciones ilimitados",
+          "Integraciones",
+          "Soporte dedicado"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "price": "A medida",
+        "priceUnit": "",
+        "cta": "Contáctenos",
+        "features": [
+          "Grandes productoras y estudios",
+          "SSO",
+          "SLA garantizado",
+          "API privada"
+        ]
+      }
+    ]
+  },
+  "finalCta": {
+    "title": "¿Listo para recibir short-lists que te devuelvan tiempo?",
+    "ctaPrimary": "Probar gratis",
+    "ctaSecondary": "Solicitar una demo",
+    "body": "Crea tu cuenta gratis y lanza tu primer brief en unos minutos. Un proyecto activo es gratuito, sin tarjeta bancaria."
+  },
+  "how": {
+    "meta": {
+      "title": "Cómo funciona — Agental Casting",
+      "description": "Del briefing a la convocatoria: cómo Agental filtra el 90 % de las candidaturas para presentarle solo los perfiles realmente pertinentes."
+    },
+    "hero": {
+      "eyebrow": "Cómo funciona",
+      "title": "Cómo funciona Agental Casting",
+      "subtitle": "Un briefing estructurado en unos minutos, una lista corta calibrada, perfiles listos para decidir. La neutralidad demostrada en el producto."
+    },
+    "sections": [
+      {
+        "title": "Un briefing estructurado en unos minutos",
+        "body": "Un asistente conversacional te hace las preguntas adecuadas y estructura tu petición: papel, sexo si es pertinente, franja de edad, tipo físico, idioma, acento, restricciones, ventana de rodaje, lugar y presupuesto. Adjuntas tu material, guion, sides o referencias visuales. Validas una vista previa clara antes de lanzar."
+      },
+      {
+        "title": "Una selección en cascada, calibrada para la pertinencia",
+        "body": "Tus perfiles se analizan en varias pasadas. La primera aplica tus criterios estrictos: idioma, edad, movilidad, disponibilidad. La segunda compara cada perfil retenido con tu papel ideal y le asigna una puntuación argumentada. La última solo conserva los perfiles por encima de tu umbral de pertinencia, con una regla de diversidad que evita presentarte diez perfiles idénticos."
+      },
+      {
+        "title": "Perfiles listos para decidir",
+        "body": "Cada talento de tu short-list llega documentado. Foto fiel y sin retocar, puntuación, origen, tarifa estimada, disponibilidad confirmada. Consultas su ficha completa: medios, self-tape para ese papel si se ha grabado, medidas, acentos, idiomas, experiencia y la razón precisa de su correspondencia con tu brief."
+      },
+      {
+        "title": "Usted mantiene el control, la neutralidad está garantizada",
+        "body": "El talento confirma la disponibilidad, los derechos de imagen se validan y los self-tapes se verifican. Para un papel que implica a un menor, un recorrido reforzado te acompaña y muestra las protecciones aplicables. Decides sobre expedientes completos y evitas las malas sorpresas de última hora."
+      }
+    ],
+    "cta": "Probar gratis",
+    "summary": {
+      "title": "Mantienes el control, la neutralidad está garantizada",
+      "body": "La puntuación es un punto de partida y la decisión es enteramente tuya. Reordenas, excluyes, añades. El origen de cada talento sigue visible y el historial de decisiones te permite entender cada clasificación. Un filtro «solo talentos externos» está disponible en todo momento."
+    }
+  },
+  "pricingPage": {
+    "meta": {
+      "title": "Tarifas — Agental Casting",
+      "description": "Una tarificación por puesto y por volumen, pensada para su actividad de casting. Sin compromiso."
+    },
+    "hero": {
+      "eyebrow": "Tarifas",
+      "title": "Una tarificación pensada para su volumen de casting",
+      "subtitle": "Empiece gratis, sin tarjeta bancaria. Suba de nivel cuando el valor esté demostrado."
+    },
+    "note": "Sin compromiso. Cambias de nivel o vuelves al plan gratuito cuando quieras."
+  },
+  "faq": {
+    "meta": {
+      "title": "Preguntas frecuentes — Agental Casting",
+      "description": "Sus dudas sobre la puntuación, la neutralidad, los self-tapes verificados y la tarificación de Agental Casting."
+    },
+    "hero": {
+      "eyebrow": "Preguntas frecuentes",
+      "title": "Preguntas frecuentes",
+      "subtitle": "Lo esencial sobre el funcionamiento, la neutralidad y la tarificación. ¿Una duda concreta? Contáctenos."
+    },
+    "cta": "Probar gratis",
+    "groups": [
+      {
+        "title": "El funcionamiento",
+        "items": [
+          {
+            "q": "¿Qué significa «filtrar el 90 % de las candidaturas»?",
+            "a": "La IA descarta los perfiles que no se corresponden con su briefing para presentarle solo a los candidatos realmente pertinentes. Es un ahorro de tiempo, no una criba opaca: cada clasificación está justificada."
+          },
+          {
+            "q": "¿Cómo funciona la puntuación?",
+            "a": "Cada talento recibe una puntuación de 0 a 100 acompañada de una justificación legible (acento, disponibilidad, derechos, distancia al perfil ideal). El mismo cálculo se aplica a todos los perfiles."
+          },
+          {
+            "q": "¿Se verifican los self-tapes?",
+            "a": "Sí, a partir del plan Pro: encuadre, calidad y adecuación al papel se controlan antes de presentárselos."
+          }
+        ]
+      },
+      {
+        "title": "La neutralidad",
+        "items": [
+          {
+            "q": "¿Qué es la etiqueta de «procedencia»?",
+            "a": "Indica si un talento está representado por Agental o proviene de fuera del roster (external). La procedencia siempre es visible, para demostrar que la clasificación no está sesgada."
+          },
+          {
+            "q": "¿Los talentos de Agental salen favorecidos?",
+            "a": "No. La misma puntuación y los mismos criterios se aplican sea cual sea la procedencia. Un talento externo puede clasificarse por delante de uno de Agental."
+          },
+          {
+            "q": "¿Puedo auditar las decisiones de clasificación?",
+            "a": "Sí. Cada decisión queda trazada y es consultable: el registro de auditoría está integrado en el producto."
+          }
+        ]
+      },
+      {
+        "title": "Cuentas y tarifas",
+        "items": [
+          {
+            "q": "¿La modalidad gratuita requiere tarjeta bancaria?",
+            "a": "No. El plan Free abre 1 proyecto activo y 50 candidaturas filtradas al mes, sin tarjeta bancaria."
+          },
+          {
+            "q": "¿Cómo funciona la tarificación por puesto?",
+            "a": "El plan Pro se factura por puesto activo y por mes. Añade o quita puestos según su equipo; Studio cubre hasta 5 puestos."
+          },
+          {
+            "q": "¿Puedo cancelar en cualquier momento?",
+            "a": "Sí. Sin compromiso: cambia de modalidad o cancela cuando lo desee."
+          }
+        ]
+      }
+    ]
+  },
+  "notFound": {
+    "title": "Esta página ya no está en el casting.",
+    "body": "Puede que el enlace sea antiguo o que la página haya cambiado de nombre. Sus proyectos siguen disponibles en su espacio."
+  },
+  "signup": {
+    "metaTitle": "Probar gratis",
+    "title": "Cree su cuenta de casting",
+    "subtitle": "Gratis, sin tarjeta bancaria. Un proyecto activo incluido.",
+    "submit": "Crear mi cuenta",
+    "already": "¿Ya está registrado?",
+    "signIn": "Iniciar sesión"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identidad",
+      "scope": "Ámbito",
+      "verify": "Verificación"
+    },
+    "identity": {
+      "title": "Su estructura",
+      "subtitle": "Verificamos su identidad profesional.",
+      "orgName": "Nombre de la estructura",
+      "orgNamePlaceholder": "Productora, agencia, estudio…",
+      "siret": "SIRET (14 dígitos)",
+      "siretNote": "Un SIRET válido activa la verificación inmediata. Si no, su cuenta queda pendiente de revisión."
+    },
+    "scope": {
+      "title": "Su ámbito",
+      "subtitle": "Para calibrar los perfiles que le presentamos.",
+      "projectTypes": "Tipos de proyecto",
+      "zones": "Zonas de actuación (separadas por comas)",
+      "zonesPlaceholder": "París, Lyon, nacional"
+    },
+    "verify": {
+      "title": "Último paso",
+      "subtitle": "Confirme su correo para acceder a sus proyectos.",
+      "sent": "Se le ha enviado un correo de confirmación.",
+      "demo": "Para esta demo, haga clic abajo para confirmar y activar su espacio gratuito (1 proyecto activo, 50 candidaturas filtradas al mes).",
+      "submit": "Confirmar y acceder a mis proyectos"
+    },
+    "back": "Volver",
+    "continue": "Continuar"
+  },
+  "space": {
+    "nav": {
+      "projects": "Proyectos",
+      "subscription": "Suscripción",
+      "settings": "Ajustes",
+      "account": "Mi cuenta"
+    },
+    "brief": {
+      "working": "Estructurando su briefing y generando la lista corta…",
+      "intro": "El asistente da forma a su petición. Usted validará la lista corta generada.",
+      "introA": "El asistente da forma a su petición. Usted validará la lista corta generada",
+      "introB": "procedencia visible en cada perfil.",
+      "questions": {
+        "title": {
+          "prompt": "¿Cómo se llaman el proyecto y el papel?",
+          "placeholder": "p. ej. Maxime — serie Marée Haute"
+        },
+        "role": {
+          "prompt": "Describe al personaje en una frase.",
+          "placeholder": "Pescador bretón, treintañero, callado"
+        },
+        "gender": {
+          "prompt": "¿Género buscado?"
+        },
+        "ageRange": {
+          "prompt": "¿Franja de edad? (p. ej. 25-32)",
+          "placeholder": "25-32"
+        },
+        "accent": {
+          "prompt": "¿Algún acento o idioma en particular?",
+          "placeholder": "bretón"
+        },
+        "shooting": {
+          "prompt": "¿Ventana de rodaje? (p. ej. septiembre de 2026)",
+          "placeholder": "septiembre de 2026"
+        },
+        "budget": {
+          "prompt": "¿Presupuesto diario orientativo (€)?",
+          "placeholder": "600"
+        }
+      },
+      "genderOptions": {
+        "H": "H",
+        "F": "M",
+        "Indifférent": "Indistinto"
+      }
+    },
+    "plans": {
+      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento."
+    },
+    "minors": {
+      "title": "Protección del menor",
+      "subtitle": "Marco legal francés aplicado al pie de la letra antes de cualquier convocatoria.",
+      "authLabel": "Autorización de la comisión departamental",
+      "authGranted": "Concedida",
+      "authRequested": "Solicitada",
+      "authTodo": "Por solicitar",
+      "request": "Solicitar",
+      "markGranted": "Marcar como concedida",
+      "parentalLabel": "Presencia parental (casting y rodaje)",
+      "parentalOk": "Confirmada",
+      "parentalTodo": "Por confirmar",
+      "confirm": "Confirmar",
+      "escrowLabel": "{percent} % del caché bloqueado hasta la mayoría de edad",
+      "escrowHeld": "Bloqueado",
+      "escrowTodo": "Por bloquear"
+    },
+    "shortlist": {
+      "empty": "Ningún perfil coincide con estos filtros.",
+      "minor": "Menor",
+      "similarProfile": "perfil similar"
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "subtitle": "Una tarificación por puesto y por volumen, pensada para su actividad.",
+      "activeProjects": "Proyectos activos",
+      "sortedThisMonth": "Candidaturas filtradas este mes",
+      "quote": "A medida",
+      "onQuote": "A consultar",
+      "perSeatMonth": "/puesto/mes",
+      "perMonth": "/mes"
+    },
+    "projects": {
+      "subtitle": "Sus proyectos de casting y sus listas cortas.",
+      "siretVerified": "SIRET verificado",
+      "siretPending": "SIRET pendiente",
+      "newBrief": "Nuevo briefing",
+      "firstTitle": "Cree su primer briefing",
+      "firstBody": "Describa un papel a nuestro asistente: da forma a su petición y genera una lista corta calibrada.",
+      "yours": "Sus proyectos",
+      "open": "Proyectos abiertos",
+      "shortlisting": "Listas cortas en curso",
+      "shortlisted": "Talentos preseleccionados"
+    },
+    "projectStatus": {
+      "DRAFT": "Borrador",
+      "OPEN": "Abierto",
+      "SHORTLISTING": "Lista corta",
+      "CLOSED": "Cerrado"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "subtitle": "Su estructura, sus puestos, su suscripción.",
+      "org": "Estructura",
+      "name": "Nombre",
+      "siret": "SIRET",
+      "seats": "Puestos",
+      "activeSeats": "Puestos activos",
+      "subscription": "Suscripción",
+      "plan": "Plan",
+      "verified": "Verificado",
+      "pending": "Pendiente",
+      "manageSub": "Gestionar la suscripción"
+    },
+    "project": {
+      "shortlist": "Lista corta",
+      "externalTalent": "Talento externo",
+      "roleNamed": "Papel «{role}»",
+      "ageRange": "{min}–{max} años",
+      "accentWanted": "acento {accent}",
+      "profilesKept": "{count, plural, one {# perfil preseleccionado} other {# perfiles preseleccionados}}"
+    },
+    "talentSheet": {
+      "title": "Ficha del talento",
+      "back": "Volver a la lista corta",
+      "languages": "Idiomas",
+      "accents": "Acentos",
+      "height": "Estatura",
+      "specialties": "Especialidades",
+      "minor": "Menor",
+      "available": "Disponible",
+      "justification": "Justificación de la clasificación",
+      "audit": "Registro de auditoría",
+      "auditNote": "Cada decisión de clasificación y cada acción quedan trazadas aquí."
+    },
+    "newBrief": {
+      "title": "Nuevo briefing",
+      "subtitle": "Describa el papel: el asistente se encarga del resto."
+    },
+    "planFeatures": {
+      "FREE": [
+        "1 proyecto activo",
+        "50 candidaturas filtradas/mes",
+        "Puntuación básica",
+        "Procedencia visible"
+      ],
+      "PRO": [
+        "10 proyectos activos",
+        "1000 candidaturas filtradas/mes",
+        "Puntuación detallada",
+        "Verificación de self-tapes",
+        "Filtros avanzados"
+      ],
+      "STUDIO": [
+        "Hasta 5 puestos",
+        "Proyectos y filtrado ilimitados",
+        "Integraciones",
+        "Soporte dedicado"
+      ],
+      "ENTERPRISE": [
+        "SSO",
+        "SLA garantizado",
+        "API privada",
+        "Grandes productoras"
+      ]
+    }
+  }
+}

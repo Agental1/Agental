@@ -1,0 +1,181 @@
+{
+  "actions": {
+    "save": "保存",
+    "saving": "正在保存…",
+    "cancel": "取消",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "delete": "删除",
+    "confirm": "确认",
+    "close": "关闭",
+    "edit": "编辑",
+    "add": "添加",
+    "send": "发送",
+    "retry": "重试",
+    "upload": "上传",
+    "download": "下载",
+    "copy": "复制",
+    "search": "搜索",
+    "filter": "筛选",
+    "seeAll": "查看全部",
+    "seeMore": "查看更多",
+    "logout": "退出登录"
+  },
+  "states": {
+    "loading": "加载中…",
+    "empty": "暂时还没有内容",
+    "error": "出了点问题",
+    "saved": "已保存",
+    "required": "必填项",
+    "optional": "选填",
+    "none": "无",
+    "yes": "是",
+    "no": "否"
+  },
+  "status": {
+    "draft": "草稿",
+    "active": "进行中",
+    "pending": "待处理",
+    "accepted": "已接受",
+    "refused": "已拒绝",
+    "archived": "已归档",
+    "paid": "已支付",
+    "signed": "已签署",
+    "verified": "已验证"
+  },
+  "errors": {
+    "generic": "出了点问题。",
+    "unauthorized": "请先登录。",
+    "forbidden": "无权访问。",
+    "notFound": "未找到。",
+    "quotaExceeded": "{plan} 方案最多允许 {limit} 个进行中的项目。升级方案即可开启更多。",
+    "invalidInput": "请检查表单字段。",
+    "uploadFailed": "上传失败。",
+    "signatureFailed": "签署失败，请重试。",
+    "emailTaken": "该邮箱已注册账号。",
+    "signInAfterSignup": "账号已创建，但登录失败，请重试。",
+    "badCredentials": "邮箱或密码错误。",
+    "orgNotFound": "未找到该机构。",
+    "caseNotFound": "未找到该档案。",
+    "candidatureNotFound": "未找到该申请。",
+    "stageNameRequired": "请填写艺名。",
+    "specialtyRequired": "请至少选择一个专长。",
+    "mandatRequired": "需要接受经纪委托才能被代理。",
+    "orgNameRequired": "请填写机构名称。",
+    "siretFormat": "SIRET 编号必须为 14 位数字。",
+    "projectTypeRequired": "请至少选择一种项目类型。",
+    "emailInvalid": "邮箱地址无效。",
+    "passwordTooShort": "至少 8 个字符。",
+    "invalidPlan": "方案无效。",
+    "invalidMediaType": "媒体类型无效。",
+    "profileNotFound": "未找到该资料。",
+    "invalidMetrics": "数据无效。",
+    "invalidMedia": "媒体文件无效。",
+    "mediaNotFound": "未找到该媒体文件。",
+    "fileTooLarge": "文件过大（最大 50 MB）。",
+    "noVideo": "没有录制视频。",
+    "noFile": "没有文件。",
+    "deleteFailed": "删除失败。",
+    "confirmFailed": "确认失败，请重试。"
+  },
+  "auth": {
+    "name": "姓名",
+    "email": "邮箱",
+    "password": "密码",
+    "emailPlaceholder": "name@example.com",
+    "passwordPlaceholder": "至少 8 个字符"
+  },
+  "specialties": {
+    "figuration": "群众演员",
+    "silhouette": "特约群演",
+    "seconds-roles": "配角",
+    "publicite": "广告",
+    "photo": "平面拍摄",
+    "voix": "配音",
+    "enfants": "儿童与青少年",
+    "createurs": "内容创作者",
+    "performeurs": "表演者与舞台"
+  },
+  "levels": {
+    "BEGINNER": "新人",
+    "INTERMEDIATE": "有一定经验",
+    "CONFIRMED": "经验丰富"
+  },
+  "projectTypes": {
+    "long": "电影长片",
+    "serie": "剧集",
+    "pub": "广告",
+    "court": "短片",
+    "theatre": "戏剧",
+    "clip": "音乐 MV"
+  },
+  "candidatureStatus": {
+    "NEW": "新申请",
+    "SHORTLISTED": "已入围",
+    "STARRED": "已标星",
+    "EXCLUDED": "已排除",
+    "SELFTAPE_REQUESTED": "已请求自录试镜",
+    "INVITED": "已邀请",
+    "CONTRACTED": "已签约",
+    "REJECTED": "未入选"
+  },
+  "mandatStatus": {
+    "ACTIVE": "生效中",
+    "REVOKED": "已撤销",
+    "INACTIVE": "未生效"
+  },
+  "admin": {
+    "title": "监管后台",
+    "subtitle": "内部后台：运营管理、合规与审计。",
+    "nav": {
+      "overview": "总览",
+      "audit": "审计记录",
+      "minors": "未成年人档案"
+    },
+    "stats": {
+      "artists": "艺人",
+      "activeProfiles": "活跃资料",
+      "castingDirectors": "选角导演",
+      "orgs": "机构",
+      "projects": "项目",
+      "candidatures": "申请"
+    },
+    "minorsTodo": "待处理的未成年人档案",
+    "minorsTodoBody": "需要核验的许可、托管账户和家长陪同。",
+    "recent": "最近动态",
+    "noActivity": "暂无动态。",
+    "audit": {
+      "title": "审计记录",
+      "subtitle": "每个决定、每次操作都有记录，中立性有据可查。",
+      "date": "日期",
+      "action": "操作",
+      "resource": "对象",
+      "actor": "操作人"
+    },
+    "minors": {
+      "title": "未成年人档案",
+      "subtitle": "省级许可、90% 片酬托管、家长陪同。",
+      "empty": "没有未结的未成年人档案。",
+      "talent": "艺人",
+      "project": "项目",
+      "prefectoral": "省级许可",
+      "escrow": "托管",
+      "parental": "家长",
+      "state": "状态",
+      "open": "未结",
+      "waiting": "等待材料",
+      "ready": "已就绪",
+      "held": "已托管",
+      "toConfirm": "待确认"
+    }
+  },
+  "matchReasons": {
+    "accentNative": "母语级 {accent} 口音",
+    "ageInRange": "年龄在要求范围内",
+    "languageMatch": "会说所需语言",
+    "availability": "档期已确认",
+    "imageRights": "肖像权已确认",
+    "sourcedOffRoster": "来自外部渠道，评分标准相同"
+  }
+}

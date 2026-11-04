@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
+import { routing, LANG_TAG } from "@/i18n/routing";
 
 /**
  * Canonical origin for every absolute URL the app emits (metadataBase, sitemap,
@@ -28,20 +28,21 @@ export const SITE = (
  * two URL builders that drift produce hreflang pointing at pages that do not
  * exist, and nothing fails loudly when they do.
  */
-export function localeUrl(_locale: string, path: string): string {
-  // English only, no prefix: the locale no longer appears in public URLs. The
-  // parameter stays so callers do not change if a second language returns.
+export function localeUrl(locale: string, path: string): string {
   const clean = path === "/" ? "" : path.replace(/\/+$/, "");
-  return `${SITE}${clean || "/"}`;
+  return `${SITE}/${locale}${clean}`;
 }
 
 /**
- * hreflang map. With one locale there is nothing to alternate between, so this
- * only emits the single language and x-default — both the same URL.
+ * Every locale's URL for a path, keyed by hreflang tag, plus x-default on the
+ * default locale. Keys are BCP 47 tags ("zh-Hans"), values are routed URLs
+ * ("/zh/…"): the two are not the same string for Chinese.
  */
 export function localeAlternates(path: string): Record<string, string> {
   return {
-    ...Object.fromEntries(routing.locales.map((l) => [l, localeUrl(l, path)])),
+    ...Object.fromEntries(
+      routing.locales.map((l) => [LANG_TAG[l], localeUrl(l, path)])
+    ),
     "x-default": localeUrl(routing.defaultLocale, path),
   };
 }
@@ -74,7 +75,7 @@ export function seo(opts: {
   // every page setting `openGraph` through this helper, Next emitted no
   // og:image at all — an explicit openGraph object wins over the file
   // convention for that field. One card per locale, one deterministic URL.
-  const image = `${SITE}/opengraph-image`;
+  const image = `${SITE}/${locale}/opengraph-image`;
 
   return {
     title,

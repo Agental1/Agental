@@ -1,0 +1,961 @@
+{
+  "meta": {
+    "title": "Agental Talents — Un agente de verdad, aumentado por IA",
+    "description": "Concéntrate en tu interpretación, del resto nos ocupamos nosotros. Un agente real y regulado, una IA que trabaja 24/7, gratis para empezar."
+  },
+  "nav": {
+    "cta": "Hazte miembro",
+    "crossLink": "¿Eres director de casting?"
+  },
+  "hero": {
+    "title": "Concéntrate en tu interpretación.",
+    "titleEmph": "Del resto nos ocupamos nosotros.",
+    "subtitle": "Un agente real que te representa y una IA que trabaja 24/7: vigilancia de castings, candidaturas y seguimiento. Buscamos los papeles hechos para ti y te preparamos para que tu candidatura se ajuste al máximo a lo que se pide. Figuración, silueta, publicidad, voz, doblaje, creación de contenido: sabemos qué te hace singular y lo ponemos donde cuenta.",
+    "ctaPrimary": "Hazte miembro",
+    "ctaSecondary": "Ver cómo funciona",
+    "eyebrow": "La agencia artística de nueva generación",
+    "note": "Mandato gratuito. Sin compromiso. Cancelable cuando quieras.",
+    "collage": [
+      "chico, 18 años",
+      "mujer, 28 años",
+      "hombre, 35 años",
+      "mujer, 40 años"
+    ]
+  },
+  "proof": {
+    "regulated": {
+      "title": "Un agente real y regulado.",
+      "body": "Mandato escrito, amparado por la ley francesa."
+    },
+    "ai": {
+      "title": "Una IA que trabaja 24/7.",
+      "body": "Seguimiento y preparación mientras tú actúas."
+    },
+    "free": {
+      "title": "Gratis para empezar.",
+      "body": "No pagas nada por estar representado."
+    }
+  },
+  "why": {
+    "eyebrow": "Por qué Agental",
+    "title": "Una agencia que trabaja de verdad para ti",
+    "items": [
+      {
+        "title": "Un agente real que te representa",
+        "body": "Firmas un mandato de representación, como cualquier artista con su agente. Te defendemos, negociamos tus contratos y verificamos que todo sea legal. La representación es gratuita y puedes rescindirla cuando quieras."
+      },
+      {
+        "title": "El agente trabaja mientras tú actúas",
+        "body": "Nuestra IA vigila los castings de forma continua, detecta los que de verdad encajan contigo y prepara tus candidaturas. Tú mantienes el control de todo y ganas horas cada semana."
+      },
+      {
+        "title": "Te buscamos los papeles que encajan contigo",
+        "body": "Recibes castings elegidos para tu perfil, tu edad, tu tipología, tus idiomas y tu disponibilidad. La pertinencia va antes que el volumen, así que dejas de perder tiempo con anuncios que no vienen al caso."
+      },
+      {
+        "title": "Te preparamos para destacar",
+        "body": "Sabemos qué te hace singular y lo situamos en el lugar adecuado. Nuestro Self-tape Studio te guía en el encuadre, la luz, el sonido y la interpretación, para que cada envío se te parezca y dé en el blanco."
+      },
+      {
+        "title": "Cuanto más avanzas, más te quedas",
+        "body": "Nuestra comisión es decreciente. Si eliges una suscripción superior, conservas una parte mayor de tu caché, del 10 % hasta el 5 %. Puedes quedarte en el plan gratuito todo el tiempo que quieras."
+      },
+      {
+        "title": "Cada perfil tiene su fuerza",
+        "body": "Las producciones buscan personalidades auténticas y variadas, tanto para cámara como para voz. Identificamos lo que te distingue — tu porte, tu acento, tu presencia, tu timbre — y lo defendemos. Tu singularidad se convierte en un argumento."
+      }
+    ],
+    "lead": "La mayoría de los artistas nunca ha tenido acceso a un agente. Agental lo cambia. Representamos los perfiles que las agencias clásicas dejan de lado, con las mismas exigencias y un mandato real."
+  },
+  "steps": {
+    "eyebrow": "En cinco pasos",
+    "title": "Unirte a Agental, en cinco pasos",
+    "cta": "Ver el detalle completo",
+    "items": [
+      {
+        "title": "Crea tu perfil",
+        "body": "Identidad, físico, material, especialidades y disponibilidad."
+      },
+      {
+        "title": "Firma tu mandato",
+        "body": "Gratis, amparado por la ley, cancelable en cualquier momento."
+      },
+      {
+        "title": "Deja trabajar a la IA",
+        "body": "Detecta los cástines hechos para ti."
+      },
+      {
+        "title": "Graba tus self-tapes",
+        "body": "Te guiamos para que destaquen."
+      },
+      {
+        "title": "Consigue tus papeles",
+        "body": "Negociamos, aseguramos y te abonamos tu caché."
+      }
+    ]
+  },
+  "selftape": {
+    "eyebrow": "Self-tape Studio",
+    "title": "Tu self-tape puede cambiarlo todo. Te ayudamos a bordarlo.",
+    "hint": "encuadre · luz · sonido correctos",
+    "cta": "Descubrir el Self-tape Studio",
+    "body": "El self-tape se ha convertido en la puerta de entrada de casi todos los castings. Nuestro estudio integrado te acompaña durante la toma: encuadre, luz, sonido, ritmo de la interpretación. Un coach vocal te enseña a sonar justo si el papel pide un acento. Grabas varias versiones, comparas y te quedas con la mejor.",
+    "offline": "También funciona con un teléfono sencillo y una conexión lenta. Un modo ligero te permite grabar en cualquier sitio y recibir después los consejos, una vez enviado el vídeo."
+  },
+  "commission": {
+    "eyebrow": "Comisión decreciente",
+    "title": "Cuanto más avanzas, más te quedas",
+    "cta": "Ver las tarifas en detalle",
+    "body": "Tu suscripción y la comisión de tu agente son dos cosas separadas. La representación sigue siendo gratuita. Si eliges una suscripción para acceder a más herramientas, tu comisión baja al mismo tiempo. Es un modelo alineado con tu éxito."
+  },
+  "pricing": {
+    "eyebrow": "Tarifas",
+    "title": "Tarifas que premian tu progresión",
+    "note": "El mandato de representación es gratuito e independiente. La suscripción es un servicio opcional.",
+    "perMonth": "al mes",
+    "commission": "comisión {rate}",
+    "popular": "POPULAR",
+    "plans": [
+      {
+        "name": "Free",
+        "price": "0 €",
+        "commission": "10 %",
+        "cta": "Empezar",
+        "features": [
+          "Mandato de representación",
+          "Perfil completo y medios",
+          "Self-tape Studio",
+          "Seguimiento de carrera e ingresos"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": "19 €",
+        "commission": "10 %",
+        "cta": "Elegir",
+        "features": [
+          "Todo lo de Free",
+          "Comentarios de IA sobre tus self-tapes",
+          "Mensajería con tu agente",
+          "Soporte prioritario"
+        ]
+      },
+      {
+        "name": "Premium",
+        "price": "49 €",
+        "commission": "7,5 %",
+        "cta": "Elegir",
+        "features": [
+          "Todo lo de Pro",
+          "Comisión reducida al 7,5 %"
+        ]
+      },
+      {
+        "name": "Ultimate",
+        "price": "79 €",
+        "commission": "5 %",
+        "cta": "Elegir",
+        "features": [
+          "Todo lo de Premium",
+          "Comisión reducida al 5 %"
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Se han unido a Agental",
+    "items": [
+      {
+        "quote": "Crecí lejos de la capital y pensaba que ser actor no era para mí. En tres meses con Agental he rodado en dos series. La aplicación me avisa cuando un papel encaja conmigo, y el estudio me enseñó a grabar bien mis self-tapes.",
+        "author": "Sofiane, 22 años — figuración y papeles pequeños, Lyon"
+      },
+      {
+        "quote": "Pagaba tres suscripciones a plataformas distintas y me pasaba las noches filtrando anuncios. Ahora todo llega filtrado. Me concentro en mis pruebas y el agente se ocupa del resto.",
+        "author": "Amina, 34 años — publicidad y voz, Marsella"
+      },
+      {
+        "quote": "Lo que me convenció fue el mandato. Es una agencia de verdad, con un contrato de verdad, no una web que vende esperanza. Y que la comisión baje según subes lo cambia todo en un año.",
+        "author": "Lucas, 41 años — papeles secundarios, Lille"
+      }
+    ]
+  },
+  "minors": {
+    "title": "Un marco protector para los jóvenes talentos",
+    "cta": "Saber más sobre la protección de menores",
+    "items": [
+      "Autorización de la comisión departamental",
+      "Presencia parental en el casting y en el rodaje",
+      "Lectura del guion por parte del progenitor",
+      "Reconocimiento médico antes del rodaje",
+      "90 % del caché bloqueado hasta la mayoría de edad"
+    ],
+    "body": "¿Eres madre o padre de un niño que sueña con actuar? Aplicamos todas las protecciones previstas por la ley francesa: autorización de la comisión departamental, presencia parental en el casting y en el rodaje, lectura del guion por parte del progenitor, reconocimiento médico y reserva del 90 % del caché en una cuenta bloqueada hasta la mayoría de edad. Cada paso se sigue y se documenta."
+  },
+  "finalCta": {
+    "title": "¿Listo para estar representado?",
+    "ctaPrimary": "Hazte miembro",
+    "ctaSecondary": "Hacer una pregunta",
+    "body": "Crear tu perfil lleva unos minutos. El mandato es gratuito, sin compromiso, y puedes irte cuando quieras. Tu talento merece un agente que trabaje para ti."
+  },
+  "how": {
+    "meta": {
+      "title": "Cómo funciona — Agental Talents",
+      "description": "De la creación de tu perfil al cobro de tu caché: cómo Agental te representa y trabaja para ti, paso a paso."
+    },
+    "hero": {
+      "eyebrow": "Cómo funciona",
+      "title": "Cómo funciona Agental, desde el lado del artista",
+      "subtitle": "Un agente real que te representa, una IA que trabaja para ti sin parar. Este es el recorrido, sin jerga."
+    },
+    "sections": [
+      {
+        "title": "Un perfil que se parece a ti",
+        "body": "Rellenas tu identidad artística, tu perfil físico, tus medios, tus especialidades y tu disponibilidad. Cada término técnico se explica en lenguaje claro, así que no hace falta conocer la jerga del oficio para empezar. Un reel grabado con el móvil basta para arrancar."
+      },
+      {
+        "title": "El contrato que te hace estar representado",
+        "body": "El mandato es el contrato que firma todo artista con su agente. Está regulado por la ley francesa. Es gratuito, sin compromiso por tu parte y rescindible cuando quieras. Al firmarlo nos autorizas a representarte, a buscar papeles para ti y a negociar tus contratos."
+      },
+      {
+        "title": "Un seguimiento que no se detiene nunca",
+        "body": "Nuestro sistema vigila los anuncios de casting de forma continua, en Francia y a nivel internacional. Compara cada anuncio con tu perfil y detecta los que de verdad encajan contigo: tu edad, tu tipología, tus idiomas, tu zona, tu disponibilidad. Recibes propuestas específicas sin tener que buscar tú."
+      },
+      {
+        "title": "El estudio que te da confianza",
+        "body": "Cuando un papel pide un self-tape, nuestro estudio te acompaña durante la toma. Te guía en el encuadre, la luz y el sonido en tiempo real. Un coach vocal te hace oír la entonación adecuada si el papel exige un acento. Grabas varias versiones, las comparas y envías la mejor directamente desde la aplicación."
+      },
+      {
+        "title": "De la selección al caché",
+        "body": "Cuando te seleccionan, tomamos el relevo en la parte contractual. Negociamos tu caché y tus condiciones, verificamos que el contrato sea legal y hacemos el seguimiento del rodaje. Agental cobra tu caché, retiene su comisión y te transfiere tu parte en un plazo de siete días desde el pago efectivo."
+      }
+    ],
+    "cta": "Hazte miembro",
+    "summary": {
+      "title": "En resumen",
+      "body": "El recorrido completo de un vistazo: perfil, mandato, vigilancia con IA, self-tape, contrato. Mantienes el control en cada paso y una persona revisa siempre los contratos antes de firmar."
+    }
+  },
+  "pricingPage": {
+    "meta": {
+      "title": "Tarifas — Agental Talents",
+      "description": "El mandato de representación es gratuito. La suscripción, opcional, premia tu progresión con una comisión decreciente."
+    },
+    "hero": {
+      "eyebrow": "Tarifas",
+      "title": "Tarifas que premian tu progresión",
+      "subtitle": "El mandato de representación es gratuito e independiente. La suscripción es un servicio tecnológico opcional, nunca un peaje hacia las oportunidades."
+    },
+    "note": "Sin compromiso. Cambias de plan o vuelves al gratuito cuando quieras."
+  },
+  "faq": {
+    "meta": {
+      "title": "Preguntas frecuentes — Agental Talents",
+      "description": "Tus dudas sobre Agental: la agencia, el mandato, la comisión y el funcionamiento del día a día."
+    },
+    "hero": {
+      "eyebrow": "Preguntas frecuentes",
+      "title": "Preguntas frecuentes de los artistas",
+      "subtitle": "Todo lo que quieres saber antes de empezar. ¿Otra duda? Escríbenos."
+    },
+    "cta": "Hazte miembro gratis",
+    "groups": [
+      {
+        "title": "Lo esencial",
+        "items": [
+          {
+            "q": "¿Qué es Agental?",
+            "a": "Una agencia artística real y regulada, cuyo trabajo operativo —seguimiento, preparación, acompañamiento— está aumentado por una IA. Te representamos; las herramientas trabajan contigo."
+          },
+          {
+            "q": "¿Es una agencia de verdad o un portal de anuncios?",
+            "a": "Una agencia de verdad: mandato escrito, declaración ante la prefectura, responsabilidad profesional. No un portal donde te presentas tú solo."
+          },
+          {
+            "q": "¿Cuánto cuesta empezar?",
+            "a": "Nada. El mandato de representación es gratuito y la modalidad Free te permite estar representado sin pagar. La suscripción de pago es opcional."
+          },
+          {
+            "q": "¿Hace falta experiencia para inscribirse?",
+            "a": "No. Agental se dirige precisamente a los perfiles peor atendidos por las agencias clásicas. Un vídeo grabado con el móvil basta para empezar."
+          }
+        ]
+      },
+      {
+        "title": "El mandato y la comisión",
+        "items": [
+          {
+            "q": "¿Qué es el mandato de representación?",
+            "a": "Es el contrato estándar entre un artista y su agente, amparado por la ley francesa. Nos autoriza a representarte y a negociar por ti. Gratuito, sin compromiso por tu parte."
+          },
+          {
+            "q": "¿Qué comisión se lleva Agental?",
+            "a": "10 % en Free y Pro, 7,5 % en Premium, 5 % en Ultimate. Cuanto más progresas, más conservas."
+          },
+          {
+            "q": "¿La comisión se suma a la suscripción?",
+            "a": "El mandato (gratuito) y su eventual comisión son independientes de la suscripción (opcional). La suscripción financia servicios tecnológicos; nunca compra acceso a las oportunidades."
+          },
+          {
+            "q": "¿Puedo cancelar mi mandato?",
+            "a": "Sí, con un preaviso breve y sin tener que justificarte. Sigues siendo libre."
+          }
+        ]
+      },
+      {
+        "title": "El día a día",
+        "items": [
+          {
+            "q": "¿Cómo encuentra la IA papeles para mí?",
+            "a": "Cruza tu perfil (físico, especialidades, idiomas, acentos, disponibilidad) con los cástines abiertos y te propone los que encajan de verdad contigo."
+          },
+          {
+            "q": "¿Mantengo el control de mis candidaturas?",
+            "a": "Sí. Tú defines tus preferencias —tipos de proyecto, movilidad, caché mínimo— y nada se compromete en tu nombre sin tu acuerdo. Decides tú, siempre."
+          },
+          {
+            "q": "¿La suscripción me da acceso privilegiado a los cástines?",
+            "a": "No. Las oportunidades pasan por el mandato, que es gratuito. La suscripción reduce la comisión y desbloquea herramientas, nunca un atajo."
+          },
+          {
+            "q": "¿Qué pasa si dejo de pagar?",
+            "a": "Vuelves automáticamente a la modalidad gratuita. Sigues estando representado."
+          },
+          {
+            "q": "¿Funciona en un móvil sencillo?",
+            "a": "Sí. El Self-tape Studio tiene un modo reducido pensado para terminales modestos y conexiones lentas."
+          }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "meta": {
+      "title": "Quiénes somos — Agental",
+      "description": "Una idea nacida en la mesa de casa: democratizar el acceso a la representación artística con un agente real aumentado por IA."
+    },
+    "hero": {
+      "eyebrow": "Quiénes somos",
+      "title": "Quiénes somos",
+      "subtitle": "Agental es una agencia artística de nueva generación. Detrás de la tecnología hay una familia, una convicción y una idea nacida alrededor de una mesa."
+    },
+    "origin": {
+      "title": "Una idea nacida en la mesa",
+      "body": "Todo empezó en una comida, entre un padre y su hijo. Hablando del oficio, acabamos poniendo palabras a una misma constatación, desde los dos lados a la vez. Por un lado, todos esos talentos y performers que nunca salen de la sombra por no ser vistos en el momento adecuado. Todos esos jóvenes que sueñan con actuar y no saben ni dónde ni cómo encontrar un buen agente. Por otro, todos esos productores y directores de casting a quienes se podría apoyar mejor en su búsqueda, para dar con el perfil raro y ajustar mejor las personas a los papeles. Pensamos que podíamos mejorar las cosas para todos. De esa conversación nació Agental."
+    },
+    "team": {
+      "title": "Lo que nos une",
+      "lead": "Formamos un equipo que conoce las dos orillas del oficio, la de los artistas y la de la empresa.",
+      "members": [
+        {
+          "name": "Jérôme",
+          "role": "el padre",
+          "body": "Emprendedor en serie. Ha creado y hecho crecer empresas a ambos lados del Atlántico, y sabe qué hace falta para convertir una intuición en un producto que se sostiene."
+        },
+        {
+          "name": "Vadim",
+          "role": "en París",
+          "body": "Muy joven empezó haciendo figuración en cortometrajes y videoclips, antes de conseguir papeles más importantes en comedias. Conoce desde dentro el camino de un artista que empieza."
+        },
+        {
+          "name": "Solal",
+          "role": "en Los Ángeles",
+          "body": "Estudia ingeniería en la USC. Aporta la mirada de la tecnología y de una generación que ha crecido con ella."
+        }
+      ]
+    },
+    "stance": {
+      "title": "Nuestra postura",
+      "body": "Creemos que un acento, un origen o un aspecto singular son fortalezas, porque las producciones buscan personalidades auténticas y variadas. Creemos que una representación seria puede estar al alcance de todos y ser gratuita para empezar. Y creemos que la tecnología debe seguir al servicio de las personas, con claridad. Por eso Agental está concebida con IA desde el principio. Esa inteligencia artificial trabaja de forma continua, para detectar los papeles que de verdad encajan con un artista y para ayudar a los directores de casting a encontrar antes los perfiles adecuados. Un agente regulado sigue al mando y cada decisión de la IA puede explicarse."
+    },
+    "mission": {
+      "title": "Nuestra misión",
+      "body": "Hacer que la representación artística esté al alcance de todos, y que la búsqueda de talento sea más justa y más eficaz. En ambos lados, queremos que los buenos encuentros ocurran por fin.",
+      "ctaPrimary": "Hazte miembro",
+      "ctaSecondary": "Descubrir Agental Casting"
+    }
+  },
+  "castingLandings": {
+    "index": {
+      "meta": {
+        "title": "Todos los tipos de casting — Agental Talents",
+        "description": "Figuración, figuración especial, papeles secundarios, publicidad, foto, voz, niños, creadores: encuentra el tipo de casting hecho para ti y deja que Agental te represente."
+      },
+      "eyebrow": "Tipos de casting",
+      "title": "Encuentra el casting hecho para ti",
+      "subtitle": "Sea cual sea tu perfil, hay un sitio para ti. Elige un ámbito y te buscamos los papeles que encajan contigo."
+    },
+    "audienceTitle": "A quién va dirigido",
+    "benefitsTitle": "Lo que Agental te aporta",
+    "protectionTitle": "El marco protector aplicado",
+    "cachetsTitle": "Cachés orientativos en Francia",
+    "cachetsNote": "Horquillas orientativas, variables según el proyecto, la producción y la experiencia.",
+    "startTitle": "Cómo empezar",
+    "cta": "Hazte miembro",
+    "othersTitle": "Otros tipos de casting",
+    "faqTitle": "Preguntas frecuentes"
+  },
+  "notFound": {
+    "title": "Esta página ha dejado el plató.",
+    "body": "Puede que el enlace sea antiguo o que la página haya cambiado de nombre. Tus cástines siguen ahí."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Figuración",
+      "h1": "Casting de figuración",
+      "tagline": "La puerta de entrada al cine y la televisión. Sin experiencia previa.",
+      "audience": "Quieres aparecer en pantalla, conocer los rodajes y conseguir tu primera experiencia. Todos los perfiles, todas las edades.",
+      "chapo": "La figuración consiste en aparecer en pantalla en una película, una serie, un anuncio o un videoclip, sin texto que interpretar. La silueta es una figuración destacada, en la que se distingue tu rostro o una acción precisa. Suelen ser los primeros pasos en el oficio y una manera excelente de entender un rodaje.",
+      "apporte": "Te representamos con un mandato real y gratuito. Nuestra IA detecta los castings de figuración que encajan con tu perfil y tu zona, y te avisa en cuanto surge un papel urgente. Cuando se pide un self-tape, te preparamos para que quede limpio y te distinga. Ganas visibilidad y puedes evolucionar hacia papeles de silueta y después pequeños papeles.",
+      "steps": [
+        "Crea tu perfil y añade algunas fotos.",
+        "Firma tu mandato gratuito.",
+        "Recibe tus primeros castings de figuración específicos."
+      ],
+      "faq": [
+        {
+          "q": "¿Hace falta experiencia para ser figurante?",
+          "a": "No. La figuración está abierta a principiantes. Suele ser la primera etapa de una carrera."
+        },
+        {
+          "q": "¿Hay que vivir en la capital?",
+          "a": "No. Se ruedan proyectos por todo el país. Indicas tu movilidad y te proponemos papeles accesibles desde tu casa."
+        },
+        {
+          "q": "¿La figuración está pagada?",
+          "a": "Sí. Un caché de figuración se sitúa normalmente entre 80 y 180 euros al día."
+        },
+        {
+          "q": "¿Cómo se pasa de la figuración a los pequeños papeles?",
+          "a": "Construyendo tu perfil y tus self-tapes. Te preparamos para evolucionar hacia papeles con texto."
+        }
+      ]
+    },
+    "silhouette": {
+      "name": "Figuración especial",
+      "h1": "Casting de figuración especial",
+      "tagline": "Un paso por encima de la figuración: un gesto, una presencia que se nota.",
+      "audience": "Tienes presencia, un porte o una acción concreta que interpretar ante la cámara. Un papel mudo pero visible, y mejor pagado que la figuración.",
+      "chapo": "La silueta es una figuración destacada: se distingue tu rostro o realizas una acción precisa en pantalla. Es el escalón justo por encima de la figuración, a menudo mejor pagado, y el paso más natural hacia los papeles con texto.",
+      "apporte": "Apuntamos a los papeles de silueta que encajan con tu tipología y tu zona, y te avisamos rápido porque suelen salir con urgencia. Te preparamos para el self-tape cuando se pide y destacamos lo que te hace reconocible en pantalla. Negociamos tu caché y verificamos tus derechos de imagen.",
+      "steps": [
+        "Crea tu perfil y cuida tus fotos de frente y de perfil.",
+        "Firma tu mandato gratuito.",
+        "Recibe papeles de silueta específicos de tu zona."
+      ],
+      "faq": [
+        {
+          "q": "¿Qué diferencia hay con la figuración?",
+          "a": "En figuración pueblas la escena sin ser identificable. En silueta, tu rostro o tu acción se distingue en pantalla."
+        },
+        {
+          "q": "¿La silueta está mejor pagada?",
+          "a": "A menudo sí. El caché supera por lo general al de figuración, y una exigencia particular puede elevarlo más."
+        },
+        {
+          "q": "¿Hace falta experiencia?",
+          "a": "No, pero una primera experiencia de figuración ayuda a sentirse cómodo en el rodaje."
+        }
+      ]
+    },
+    "seconds-roles": {
+      "name": "Papeles secundarios",
+      "h1": "Casting de papeles secundarios",
+      "tagline": "Texto, un personaje, series y largometrajes.",
+      "audience": "Actúas, tienes (o estás construyendo) algo de experiencia y quieres papeles con diálogo en series, ficción y cine.",
+      "chapo": "Un pequeño papel o un papel secundario es un personaje con texto, presente en una o varias escenas, sin ser el protagonista. Estos papeles son el grueso del volumen de casting y una vía sólida para construir una carrera de actor.",
+      "apporte": "Te representamos y apuntamos a los castings de pequeños papeles hechos para tu perfil. Nuestra IA compara cada anuncio con tu edad, tu tipología, tus acentos y tus idiomas. Te preparamos los self-tapes para que tu candidatura se ajuste al máximo a lo que espera el papel, y destacamos lo que te distingue. Negociamos tu contrato y aseguramos tu caché.",
+      "steps": [
+        "Crea un perfil completo, con un reel si lo tienes.",
+        "Firma tu mandato gratuito.",
+        "Recibe castings de pequeños papeles específicos y graba tus self-tapes preparados."
+      ],
+      "faq": [
+        {
+          "q": "¿Qué diferencia hay entre un pequeño papel y la figuración?",
+          "a": "El pequeño papel tiene texto que interpretar. La figuración aparece en pantalla sin texto."
+        },
+        {
+          "q": "¿Hace falta formación de actor?",
+          "a": "Útil, pero no obligatoria. Muchos intérpretes progresan con la práctica y una buena preparación de self-tape."
+        },
+        {
+          "q": "¿Cuánto se cobra por un pequeño papel en una serie?",
+          "a": "A menudo entre 350 y 800 euros al día, según el proyecto."
+        }
+      ]
+    },
+    "publicite": {
+      "name": "Publicidad",
+      "h1": "Casting de publicidad",
+      "tagline": "Los rodajes mejor pagados, para todos los perfiles.",
+      "audience": "Un rostro, una familia, un deportista, un sénior, un niño, unas manos expertas… La publicidad busca gente real, no modelos. Caché alto y derechos de imagen negociados.",
+      "chapo": "El casting publicitario recluta rostros y siluetas para campañas de marca, en televisión, en línea o en exterior. Es uno de los segmentos mejor pagados del oficio y busca una gran variedad de perfiles, de la pareja a la familia, del deportista al rostro característico.",
+      "apporte": "Apuntamos a los castings de publicidad adecuados a tu perfil y te avisamos rápido, porque suelen ir deprisa. Te preparamos el self-tape para que sea nítido y convincente. Verificamos los derechos de imagen, un punto clave en publicidad, y negociamos tu caché y las condiciones de difusión.",
+      "steps": [
+        "Crea tu perfil y cuida tus fotos.",
+        "Firma tu mandato gratuito.",
+        "Recibe castings de publicidad específicos y ágiles."
+      ],
+      "faq": [
+        {
+          "q": "¿Los castings de publicidad están bien pagados?",
+          "a": "Sí. Un caché publicitario se sitúa a menudo entre 800 y 3.000 euros al día, sin contar los derechos de difusión."
+        },
+        {
+          "q": "¿Qué son los derechos de imagen en publicidad?",
+          "a": "El acuerdo de uso de tu imagen para la difusión de la campaña. Verificamos y negociamos esos derechos por ti."
+        },
+        {
+          "q": "¿Hace falta experiencia?",
+          "a": "No. La publicidad busca sobre todo perfiles creíbles y variados."
+        }
+      ]
+    },
+    "photo": {
+      "name": "Fotografía",
+      "h1": "Casting de fotografía",
+      "tagline": "Campañas, catálogos, editoriales: tu imagen, valorizada.",
+      "audience": "Te desenvuelves bien ante el objetivo en sesiones comerciales o editoriales. Rostros auténticos, de todo tipo y de todas las edades.",
+      "chapo": "El casting de fotografía recluta modelos y rostros para sesiones publicitarias, campañas de marca, catálogos y editoriales. Se dirige a una gran variedad de perfiles, mucho más allá de los estándares del modelaje clásico.",
+      "apporte": "Detectamos los castings de fotografía que encajan contigo, gestionamos tus derechos de imagen y negociamos tus condiciones. Te aconsejamos sobre los visuales de tu perfil para que te sirvan lo mejor posible. Tu aspecto singular es una baza y lo destacamos.",
+      "steps": [
+        "Crea tu perfil con fotos variadas.",
+        "Firma tu mandato gratuito.",
+        "Recibe castings de fotografía y moda específicos."
+      ],
+      "faq": [
+        {
+          "q": "¿Hay que ser modelo profesional?",
+          "a": "No. La fotografía y la moda buscan cada vez más perfiles variados y auténticos."
+        },
+        {
+          "q": "¿Quién gestiona mis derechos de imagen?",
+          "a": "Agental verifica y negocia tus derechos de imagen en cada proyecto."
+        },
+        {
+          "q": "¿Qué fotos debo poner en mi perfil?",
+          "a": "Fotos nítidas y variadas. Te aconsejamos sobre lo que mejor te presenta."
+        }
+      ]
+    },
+    "voix-doublage": {
+      "name": "Voz y doblaje",
+      "h1": "Casting de voz y doblaje",
+      "tagline": "Con tu voz basta: publicidad, doblaje, narración, e-learning.",
+      "audience": "Tienes una voz que llega, un acento, un idioma o un timbre particular. El trabajo se hace en estudio, a menudo sin desplazarte lejos.",
+      "chapo": "El casting de voz recluta intérpretes y voces para doblaje, publicidad radiofónica, e-learning, audiolibros y voces sintéticas. Es un oficio en sí mismo, que valora el timbre, la dicción y la capacidad de interpretar solo con la voz.",
+      "apporte": "Apuntamos a los castings de voz adecuados a tu timbre y a tus idiomas. Nuestro coach vocal te ayuda a preparar tus pruebas y a ajustar tu interpretación, también para los acentos que se pidan. Negociamos tus sesiones y aseguramos tus derechos.",
+      "steps": [
+        "Crea tu perfil y graba una muestra de voz.",
+        "Firma tu mandato gratuito.",
+        "Recibe castings de voz y doblaje específicos."
+      ],
+      "faq": [
+        {
+          "q": "¿Hace falta un estudio para empezar?",
+          "a": "No. Una grabación limpia con auriculares y micrófono basta para tus primeras pruebas."
+        },
+        {
+          "q": "¿Cuánto se cobra por una sesión de voz?",
+          "a": "A menudo entre 200 y 800 euros, según el proyecto y los derechos."
+        },
+        {
+          "q": "¿Los acentos son una ventaja?",
+          "a": "Sí. Los acentos y los idiomas amplían claramente tus oportunidades."
+        }
+      ]
+    },
+    "enfants": {
+      "name": "Niños y adolescentes",
+      "h1": "Casting de niños y adolescentes",
+      "tagline": "Un marco protector estricto, para actuar con total seguridad.",
+      "audience": "¿Tu hijo quiere rodar? Figuración, publicidad, series: las oportunidades existen, dentro de un marco legal protector que aplicamos al pie de la letra.",
+      "chapo": "El casting infantil recluta a menores de 16 años para cine, series, moda y publicidad. En Francia este ámbito está estrictamente regulado por la ley para proteger al menor. Agental aplica la totalidad de esas protecciones y acompaña a las familias en cada paso.",
+      "apporte": "Detectamos los castings adecuados para tu hijo o hija, preparamos los expedientes reglamentarios y velamos por el respeto de cada protección. Mantienes el control y la visibilidad sobre todo.",
+      "steps": [
+        "Crea el perfil de tu hijo o hija con tu consentimiento parental.",
+        "Firma el mandato, gratuito.",
+        "Recibe castings supervisados y con seguimiento."
+      ],
+      "faq": [
+        {
+          "q": "¿Es legal que mi hijo actúe?",
+          "a": "Sí, dentro de un marco estricto. Es obligatoria una autorización de la comisión departamental, y Agental se ocupa del expediente."
+        },
+        {
+          "q": "¿Qué pasa con el dinero que gana mi hijo?",
+          "a": "El 90 % del caché se consigna en una cuenta bloqueada en la Caisse des dépôts hasta la mayoría de edad."
+        },
+        {
+          "q": "¿Tengo que estar presente?",
+          "a": "Sí. La presencia parental es obligatoria en el casting y en el rodaje."
+        },
+        {
+          "q": "¿Puede mi hijo rodar de noche?",
+          "a": "Los rodajes nocturnos están prohibidos para menores de 16 años, salvo excepción muy regulada."
+        }
+      ]
+    },
+    "createurs": {
+      "name": "Creadores de contenido",
+      "h1": "Casting de creadores de contenido",
+      "tagline": "Tu audiencia y tu naturalidad son una baza de casting.",
+      "audience": "Ya creas contenido y quieres monetizar tu presencia: menciones, campañas de marca, formatos híbridos. Lo estructuramos y lo negociamos por ti.",
+      "chapo": "El casting de creadores de contenido pone en contacto a creadores activos en TikTok, YouTube, Instagram y Twitch con marcas y producciones. Los anunciantes buscan creadores auténticos para llevar sus campañas, y este mercado crece deprisa.",
+      "apporte": "Te representamos y apuntamos a las oportunidades de colaboración adecuadas a tu línea editorial y a tu audiencia. Negociamos tus condiciones, verificamos los contratos y te ayudamos a profesionalizar tu actividad conservando tu libertad creativa.",
+      "steps": [
+        "Crea tu perfil y conecta tus redes.",
+        "Firma tu mandato gratuito.",
+        "Recibe propuestas de colaboración específicas."
+      ],
+      "faq": [
+        {
+          "q": "¿Hace falta un número mínimo de seguidores?",
+          "a": "No. Tu nicho y tu autenticidad cuentan tanto como el tamaño de tu audiencia."
+        },
+        {
+          "q": "¿Agental cobra comisión por mis colaboraciones?",
+          "a": "Sobre los contratos conseguidos a través de Agental, sí, según la comisión decreciente de tu plan. Tu actividad personal sigue siendo tuya."
+        },
+        {
+          "q": "¿Conservo mi libertad creativa?",
+          "a": "Sí. Defendemos tus intereses y tú mantienes la mano sobre tu contenido."
+        }
+      ]
+    },
+    "performeurs": {
+      "name": "Performers y escena",
+      "h1": "Casting de performers y artistas de escena",
+      "tagline": "Danza, música, magia, circo, animación, especialistas: tu disciplina es un papel.",
+      "audience": "Para todos los artistas de escena que quieran acceder a más oportunidades y ser representados por un agente. Tu disciplina, tu nivel y tu polivalencia son tus bazas.",
+      "chapo": "El casting de performers recluta artistas de escena para eventos, espectáculos, videoclips, rodajes y animaciones. Cubre una gran diversidad de disciplinas: danza, música, magia, circo, animación, especialistas y muchas más.",
+      "apporte": "Apuntamos a los castings adecuados a tu disciplina y a tu zona, negociamos tus condiciones y aseguramos tus contratos. Ponemos en valor tus competencias específicas ante producciones y eventos.",
+      "steps": [
+        "Crea tu perfil y presenta tu disciplina y tus vídeos.",
+        "Firma tu mandato gratuito.",
+        "Recibe castings adaptados a tu arte."
+      ],
+      "faq": [
+        {
+          "q": "¿Qué disciplinas se incluyen?",
+          "a": "Danza, música, magia, circo, animación, especialistas y muchas otras prácticas escénicas."
+        },
+        {
+          "q": "¿Puedo indicar varias disciplinas?",
+          "a": "Sí. Tu polivalencia amplía tus oportunidades."
+        },
+        {
+          "q": "¿Hace falta nivel profesional?",
+          "a": "Tu nivel real se valora tal cual. Apuntamos a las oportunidades que le corresponden."
+        }
+      ]
+    },
+    "units": {
+      "day": "/ día",
+      "session": "/ sesión",
+      "project": "según proyecto",
+      "variable": "Variable"
+    }
+  },
+  "login": {
+    "metaTitle": "Iniciar sesión",
+    "title": "Me alegra verte de nuevo",
+    "subtitle": "Inicia sesión en tu espacio Agental.",
+    "submit": "Iniciar sesión",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "signUp": "Hazte miembro"
+  },
+  "signup": {
+    "metaTitle": "Hazte miembro",
+    "title": "Crea tu cuenta de artista",
+    "subtitle": "Gratis. Te representamos, la IA trabaja para ti.",
+    "submit": "Crear mi cuenta",
+    "already": "¿Ya eres miembro?",
+    "signIn": "Iniciar sesión"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Identidad",
+      "physical": "Físico",
+      "media": "Medios",
+      "specialties": "Especialidades",
+      "mandat": "Mandato"
+    },
+    "identity": {
+      "title": "¿Quién eres?",
+      "subtitle": "Empecemos por lo básico.",
+      "stageName": "Nombre artístico",
+      "stageNamePlaceholder": "Tu nombre artístico",
+      "legalName": "Nombre civil (privado)",
+      "birthDate": "Fecha de nacimiento",
+      "city": "Ciudad",
+      "cityPlaceholder": "Lyon",
+      "phone": "Teléfono"
+    },
+    "physical": {
+      "title": "Tu físico",
+      "subtitle": "Lo que buscan los cástines. Todo es opcional.",
+      "height": "Estatura (cm)",
+      "build": "Complexión",
+      "buildPlaceholder": "delgada, atlética…",
+      "hair": "Cabello",
+      "eyes": "Ojos",
+      "languages": "Idiomas (separados por comas)",
+      "languagesPlaceholder": "francés, inglés",
+      "accents": "Acentos",
+      "accentsPlaceholder": "bretón, marsellés"
+    },
+    "media": {
+      "title": "Tus medios",
+      "subtitle": "Fotos, vídeo, voz: lo que mejor te muestre.",
+      "note": "Un vídeo grabado con el móvil basta para empezar. Podrás añadir material desde tu perfil justo después de registrarte.",
+      "skip": "Saltar este paso"
+    },
+    "specialties": {
+      "title": "Tus especialidades",
+      "subtitle": "Elige lo que encaja contigo, al menos una.",
+      "minRate": "Caché mínimo (€/día, opcional)"
+    },
+    "mandat": {
+      "title": "Tu mandato de representación",
+      "subtitle": "Un último paso y ya estás representado.",
+      "free": "Gratis. Sin compromiso por tu parte. Cancelable cuando quieras.",
+      "read": "Leer el mandato completo",
+      "accept": "Acepto el mandato de representación y pido a Agental que me represente.",
+      "points": [
+        "Es el contrato estándar entre un artista y su agente, amparado por la ley francesa.",
+        "Agental te representa y negocia por ti. La comisión solo se aplica a los cachés conseguidos.",
+        "Tu material sigue siendo tuyo. Tus datos están protegidos (RGPD).",
+        "La suscripción de pago es otra decisión, más adelante, nunca mezclada con el mandato."
+      ],
+      "submit": "Firmar y activar mi cuenta"
+    },
+    "back": "Volver",
+    "continue": "Continuar"
+  },
+  "space": {
+    "nav": {
+      "dashboard": "Panel",
+      "profile": "Perfil",
+      "candidatures": "Candidaturas",
+      "selftape": "Self-tape",
+      "career": "Carrera",
+      "subscription": "Suscripción",
+      "messages": "Mensajes",
+      "settings": "Ajustes",
+      "account": "Mi cuenta"
+    },
+    "dashboard": {
+      "tagline": "Buscamos por ti, tú te concentras en tu interpretación.",
+      "represented": "Representado",
+      "plan": "Plan {plan}",
+      "recent": "Candidaturas recientes",
+      "empty": "Aquí verás los papeles que encajan contigo en cuanto se abra una candidatura para ti.",
+      "suggestions": "Sugerencias de la IA",
+      "activeCount": "Candidaturas activas",
+      "pendingCount": "Respuestas pendientes",
+      "auditions": "Próximas audiciones",
+      "urgent": "Oportunidades urgentes",
+      "complete": "Completar",
+      "selftapeHint": "Graba un primer self-tape: te guiamos para que destaque.",
+      "view": "Ver",
+      "welcome": "Bienvenido, {name}.",
+      "welcomeAnon": "Bienvenido.",
+      "completenessHint": "Tu perfil está completo al {percent} % — complétalo para que la IA lo aproveche mejor.",
+      "urgentHint": "{count, plural, one {# oportunidad donde estás muy bien posicionado: cuida tu candidatura.} other {# oportunidades donde estás muy bien posicionado: cuida tus candidaturas.}}"
+    },
+    "candidatures": {
+      "title": "Mis candidaturas",
+      "subtitle": "Con datos y con tacto: cada estado, explicado.",
+      "empty": "Aún no hay candidaturas.",
+      "emptyList": "Aún no hay candidaturas. Los papeles aparecerán en cuanto se abra una candidatura para ti.",
+      "origin": {
+        "auto": "Por IA",
+        "manual": "Manual"
+      },
+      "status": {
+        "NEW": "Enviada",
+        "SHORTLISTED": "Preseleccionada",
+        "STARRED": "Retenida",
+        "INVITED": "Convocada a audición",
+        "SELFTAPE_REQUESTED": "Self-tape solicitado",
+        "CONTRACTED": "Contratada",
+        "REJECTED": "Sin continuidad",
+        "EXCLUDED": "Descartada"
+      },
+      "groups": {
+        "all": "Todas",
+        "sent": "Enviadas",
+        "short": "Preseleccionadas",
+        "won": "Contratadas",
+        "closed": "Sin continuidad"
+      }
+    },
+    "career": {
+      "title": "Mi carrera",
+      "subtitle": "Tus papeles, tus cachés, tu progresión.",
+      "empty": "Tu historial de papeles aparecerá aquí a partir de tu primer caché.",
+      "role": "Papel",
+      "date": "Fecha",
+      "fee": "Caché",
+      "commission": "Comisión",
+      "status": "Estado",
+      "gross": "Cachés brutos",
+      "net": "Neto percibido",
+      "agencyCommission": "Comisión Agental",
+      "paid": "Pagado",
+      "pending": "Pendiente"
+    },
+    "messages": {
+      "title": "Mensajes",
+      "subtitle": "Tus conversaciones con Agental y con los cástines.",
+      "empty": "Todavía no hay mensajes. Cuando un casting se interese por tu perfil, o tu agente tenga novedades, aparecerá aquí.",
+      "conversation": "Conversación"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "subtitle": "Tu cuenta, tu mandato, tu suscripción.",
+      "account": "Cuenta",
+      "email": "Correo electrónico",
+      "stageName": "Nombre artístico",
+      "mandat": "Mandato de representación",
+      "subscription": "Suscripción",
+      "editProfile": "Editar mi perfil",
+      "mandatNote": "Gratuito, cancelable en cualquier momento. Es lo que te hace estar representado, con independencia de cualquier suscripción.",
+      "subNote": "Servicio tecnológico opcional. Nunca compra acceso a las oportunidades.",
+      "manageSub": "Gestionar la suscripción (próximamente)",
+      "signedOn": "Firmado el {date}"
+    },
+    "profile": {
+      "title": "Mi perfil",
+      "subtitle": "Un perfil que se parece a ti: es lo que la IA usa para encontrar encajes."
+    },
+    "selftape": {
+      "title": "Self-tape Studio",
+      "subtitle": "Tu self-tape puede cambiarlo todo. Te ayudamos a bordarlo: encuadre, luz y sonido en tiempo real.",
+      "takes": "Tus tomas",
+      "degraded": "Modo reducido",
+      "take": "Toma {n}",
+      "framing": "Encuadre",
+      "light": "Luz",
+      "sound": "Sonido",
+      "tips": {
+        "framing": "Céntrate y deja algo de aire sobre la cabeza.",
+        "light": "Colócate frente a una fuente de luz suave.",
+        "sound": "Acércate al micrófono y elimina el ruido de fondo.",
+        "tooShort": "Tu toma es muy corta: interpreta la escena entera.",
+        "excellent": "Excelente toma: encuadre, luz y sonido a la altura."
+      }
+    },
+    "subscription": {
+      "title": "Suscripción",
+      "subtitle": "Un servicio opcional que premia tu progresión. El mandato sigue siendo gratuito."
+    },
+    "planFeatures": {
+      "FREE": [
+        "Mandato y perfil",
+        "Perfil completo y medios",
+        "Self-tape Studio",
+        "Seguimiento de carrera"
+      ],
+      "PRO": [
+        "Todo lo de Free",
+        "Comentarios de IA sobre tus self-tapes",
+        "Mensajería con tu agente",
+        "Soporte prioritario"
+      ],
+      "PREMIUM": [
+        "Todo lo de Pro",
+        "Comisión reducida al 7,5 %"
+      ],
+      "ULTIMATE": [
+        "Todo lo de Premium",
+        "Comisión reducida al 5 %"
+      ]
+    },
+    "media": {
+      "drop": "Arrastra aquí tus fotos, vídeos o voz: un vídeo grabado con el móvil basta.",
+      "setPrimary": "Definir como principal",
+      "delete": "Eliminar"
+    },
+    "profileEditor": {
+      "completeness": "Completitud del perfil",
+      "completenessHint": "A tu perfil le vendría bien más detalle: cuanto más completo, mejor aparece en las búsquedas.",
+      "birthDate": "Fecha de nacimiento",
+      "bioPlaceholder": "Unas líneas sobre tu trayectoria, lo que te hace único…",
+      "nudity": "Acepto papeles con desnudo",
+      "animals": "Puedo actuar con animales",
+      "tabs": {
+        "identity": "Identidad",
+        "physical": "Físico",
+        "media": "Medios",
+        "specialties": "Especialidades",
+        "preferences": "Preferencias"
+      },
+      "stageName": "Nombre artístico",
+      "city": "Ciudad",
+      "phone": "Teléfono",
+      "bio": "Bio",
+      "height": "Altura (cm)",
+      "build": "Complexión",
+      "hair": "Cabello",
+      "eyes": "Ojos",
+      "languages": "Idiomas (separados por comas)",
+      "accents": "Acentos (separados por comas)",
+      "minRate": "Caché mínimo (€/día)"
+    },
+    "rgpd": {
+      "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",
+      "delete": "Eliminar mi cuenta",
+      "confirm": "¿Confirmar la eliminación?"
+    },
+    "plans": {
+      "demo": "Modo demo: ningún pago real. El mandato de representación sigue siendo gratuito e independiente, sea cual sea tu plan."
+    },
+    "profitability": {
+      "title": "Rentabilidad de la suscripción",
+      "atVolume": "Con tu volumen actual, tu modalidad",
+      "save": "Con tu volumen, la modalidad {plan} te ahorraría {amount} al año.",
+      "best": "Con tu volumen actual, tu modalidad {plan} ya es la más ventajosa: no hace falta pagar más.",
+      "intro": "Sobre un volumen anual estimado de <strong>{amount}</strong> en cachés, este es el coste total (comisión + suscripción) por plan.",
+      "columns": {
+        "plan": "Plan",
+        "commission": "Comisión",
+        "subscription": "Suscripción",
+        "total": "Total / año"
+      },
+      "current": "(actual)"
+    },
+    "studio": {
+      "enableCamera": "Activar la cámara",
+      "cameraUnavailable": "Cámara no disponible. Cambia al modo reducido e importa un vídeo.",
+      "record": "Iniciar la toma",
+      "analysing": "Analizando tu toma…",
+      "import": "Importar un vídeo",
+      "score": "Puntuación de calidad de tu toma"
+    }
+  },
+  "responseRate": {
+    "title": "Candidaturas que consiguen respuesta",
+    "body": "Nuestro método persigue un objetivo simple: que tus candidaturas reciban muchas más respuestas. Apuntando a los papeles adecuados y cuidando cada expediente, buscamos triplicar tu tasa de respuesta frente a un envío masivo.",
+    "disclaimer": "Objetivo de método, medido y mejorado de forma continua."
+  },
+  "landing": {
+    "agentCard": {
+      "title": "Tu agente",
+      "body": "Busca los papeles hechos para ti, día y noche."
+    },
+    "faces": {
+      "title": "Cada cara tiene su papel.",
+      "lead": "Figuración, silueta, publicidad, voz, niños, creadores, escena. Dinos qué quieres hacer y lo buscamos contigo.",
+      "typesLabel": "Tipos de casting",
+      "note": "Retratos ilustrativos de personas ficticias."
+    },
+    "commissionHead": {
+      "plan": "Plan",
+      "price": "Al mes",
+      "commission": "Comisión"
+    },
+    "take": "Toma {n}"
+  }
+}

@@ -83,7 +83,7 @@ qu'à chaque landing SEO de `src/data/casting-types.ts` réponde une spécialit�
 `SpecialtyKind` de `src/domain/enums.ts` — un slug ajouté d'un seul côté livre une
 page indexée que le formulaire d'inscription refuse — et
 `tests/data/portraits.test.ts` exige une légende par portrait dans
-`messages/<locale>/talents.json` et une image par tranche d'âge, dans les trois
+`messages/<locale>/talents.json` et une image par tranche d'âge, dans les quatre
 locales. `tests/api/media-access.test.ts` est un test d'intégration contre la
 vraie base — le risque y est la forme de la requête d'appartenance, qu'un mock
 Prisma ne prouverait pas. Il crée ses lignes sous un préfixe et les supprime en
@@ -123,12 +123,17 @@ nécessaire : la visite ne passe que par les landings.
 
 ## Internationalisation
 
-**English only** (decision D2, 2026-10). `src/i18n/routing.ts` declares a single `en`
-locale with `localePrefix: "never"`: public URLs carry no prefix (`/talents`, not
-`/en/talents`) and the proxy rewrites them onto the internal `[locale]` segment.
-next-intl stays so a language can return without touching every page. Legacy
-`/fr/*` and `/es/*` URLs get a 308 to the unprefixed page; `/en/*` is redirected by
-next-intl itself.
+Quatre locales, définies dans `src/i18n/routing.ts` : `en` (défaut), `fr`, `es`, `zh`
+(chinois simplifié). **Chaque locale porte son préfixe**, l'anglais compris — les URLs
+sont `/en/talents`, `/fr/talents`, `/es/talents`, `/zh/talents`, et aucune route non
+préfixée n'existe. Une URL sans préfixe est négociée vers la langue du visiteur ; à
+défaut, l'anglais. Le segment d'URL reste court (`zh`) mais `<html lang>` et hreflang
+portent l'écriture (`zh-Hans`) : voir `LANG_TAG` dans le même fichier.
+
+Le chinois a ses propres règles typographiques dans `globals.css` (section *Chinese
+typesetting*) : pas d'interlettrage négatif, interlignage plus ouvert, titres coupés
+aux signes de ponctuation plutôt qu'entre deux idéogrammes. Un wordmark latin qui doit
+garder son interlettrage serré porte la classe `brand-type`.
 
 Cette négociation vit dans `src/proxy.ts` — pas `src/middleware.ts` : Next 16 a renommé la
 convention de fichier. C'est le seul endroit où la locale d'une requête est résolue.
@@ -136,11 +141,11 @@ N'ajoutez pas de `redirects()` équivalents dans `next.config.ts` : Next les app
 le proxy et court-circuiterait la négociation.
 
 Les messages vivent dans `messages/<locale>/` et sont découpés par **registre**, pas par
-page : `talents.json` tutoie, `casting.json` vouvoie, `common.json` est neutre, `app.json`
+page : `talents.json` tutoie (« 你 » en chinois), `casting.json` vouvoie (« 您 »), `common.json` est neutre, `app.json`
 sert l'application connectée (actions, états, erreurs). Choisir le mauvais namespace produit
 du texte au mauvais ton.
 
-`src/global.d.ts` type les messages depuis le français : une clé absente ou mal
+`src/global.d.ts` type les messages depuis l'anglais (locale par défaut) : une clé absente ou mal
 orthographiée échoue au `typecheck` au lieu de s'afficher à un visiteur.
 
 **N'importez jamais** `redirect`, `useRouter`, `usePathname` de `next/navigation`, ni
@@ -149,7 +154,7 @@ Utilisez `@/i18n/navigation`. Une règle ESLint le fait respecter.
 
 **Les server actions renvoient une clé, jamais une phrase.** Un message traduit sur le
 serveur fige la langue au moment où l'action s'exécute. Renvoyez `err("errors.…")` depuis
-`src/domain/action-result.ts` — les clés sont typées depuis `messages/fr/app.json`, donc une
+`src/domain/action-result.ts` — les clés sont typées depuis `messages/en/app.json`, donc une
 clé inexistante échoue au `typecheck` — et laissez `<ActionErrorMessage>`
 (`src/components/app/action-error.tsx`) la traduire côté client, où la locale active est
 connue.

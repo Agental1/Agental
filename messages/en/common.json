@@ -27,10 +27,11 @@
     "backToTop": "Back to top"
   },
   "locale": {
-    "fr": "Français",
-    "en": "English",
     "switch": "Language",
-    "es": "Español"
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "zh": "中文"
   },
   "notFound": {
     "code": "404",

@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { AgentalLogo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
+import { LocaleSwitcher } from "./locale-switcher";
 import { cn } from "@/lib/utils";
 import type { Portal } from "@/lib/utils";
 
@@ -59,12 +60,12 @@ export function MarketingHeader({
       >
         {t("nav.skipToContent")}
       </a>
-      <div className="mx-auto flex h-14 max-w-[64rem] items-center justify-between gap-4 rounded-full border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex h-14 max-w-[78rem] items-center justify-between gap-3 rounded-full border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
         <Link href={home} className="shrink-0" aria-label="Agental">
           <AgentalLogo portal={portal === "casting" ? "Casting" : "Talents"} />
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
           {nav.map((item) => {
             const active = pathname === item.href;
             return (
@@ -86,10 +87,11 @@ export function MarketingHeader({
         <div className="hidden shrink-0 items-center gap-1 md:flex">
           <Link
             href={crossLink.href}
-            className="hidden h-9 items-center whitespace-nowrap rounded-full px-3 text-[13.5px] text-fg-subtle transition-colors hover:text-fg xl:inline-flex"
+            className="hidden h-9 items-center whitespace-nowrap rounded-full px-3 text-[13.5px] text-fg-subtle transition-colors hover:text-fg 2xl:inline-flex"
           >
             {crossLink.label}
           </Link>
+          <LocaleSwitcher compact />
           <Link
             href="/connexion"
             className="inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[14px] text-fg transition-colors hover:bg-surface-2"
@@ -105,7 +107,7 @@ export function MarketingHeader({
           ref={burgerRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-11 items-center justify-center rounded-full text-fg hover:bg-surface-2 md:hidden"
+          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-fg hover:bg-surface-2 xl:hidden"
           aria-label={t(open ? "nav.closeMenu" : "nav.openMenu")}
           aria-controls="mobile-nav"
           aria-expanded={open}
@@ -117,7 +119,7 @@ export function MarketingHeader({
       {open && (
         <div
           id="mobile-nav"
-          className="mx-auto mt-2 max-w-[64rem] rounded-sedan-xl border border-border bg-surface p-2 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.45)] md:hidden"
+          className="mx-auto mt-2 max-w-[78rem] rounded-sedan-xl border border-border bg-surface p-2 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.45)] xl:hidden"
         >
           <nav className="flex flex-col">
             {nav.map((item) => (
@@ -137,7 +139,8 @@ export function MarketingHeader({
             >
               {crossLink.label}
             </Link>
-            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border p-2 pt-4">
+            <LocaleSwitcher className="mt-2 border-t border-border px-1 pt-3" />
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border p-2 pt-4 md:hidden">
               <Button asChild variant="secondary">
                 <Link href="/connexion" onClick={() => setOpen(false)}>
                   {t("nav.signIn")}

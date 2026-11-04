@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 /**
  * `?demo` — a scripted ~35-second tour of the public site, for screen
  * recording (weekly program updates, pitch videos). Open
- * `/talents?demo`, start the recorder, click once.
+ * `/en/talents?demo`, start the recorder, click once.
  *
  * This gate is all that ships to normal visitors: the player and its script
  * are a separate chunk, loaded only when the query parameter is present.

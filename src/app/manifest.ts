@@ -17,7 +17,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Agental",
     description:
       "La première agence artistique nativement augmentée par IA. Un vrai agent régulé, une IA qui travaille pour toi.",
-    start_url: "/talents",
+    start_url: "/en/talents",
     display: "standalone",
     background_color: "#f8f4ec",
     theme_color: "#6e4527",

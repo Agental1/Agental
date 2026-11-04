@@ -7,22 +7,34 @@ Toutes les évolutions notables de ce projet. Format inspiré de
 
 ### Changed
 
-- **v1 redesign ("Spotlight"), from the design team's four reference boards.**
-  New token layer in `globals.css`: neutral paper ground, true ink, and one
-  signal colour (spike tape) for marks only; Talents stays light, Casting is the
-  dark stage. Geist Sans / Geist Mono replace Instrument Sans / JetBrains Mono,
-  self-hosted through the `geist` package. Pill buttons, floating pill header
-  with a Sign in link, footer with an edge-to-edge wordmark. Both landings are
-  rebuilt: split wordmark over a dark stage panel (a followspot on a performer
-  for Talents, the live shortlist demo for Casting), a casting-type contact
-  sheet, hairline-framed benefit cards, numbered steps, a commission table.
-  Shared blocks live in `src/components/marketing/blocks.tsx`. Every other page
-  inherits the new tokens without code changes.
-- **`/` is now a two-door entry** (Talents / Casting) instead of a redirect to
-  Talents (proposal for decision D18).
-- **English only, unprefixed URLs** (decision D2). FR/ES messages, portraits
-  and the locale switcher are removed; message types derive from `messages/en`.
-  `/fr/*` and `/es/*` answer 308 to the unprefixed page.
+- **Refonte v1 (« Spotlight »), d'après les quatre planches de référence de
+  l'équipe design.** Nouvelle couche de tokens dans `globals.css` : fond papier
+  neutre, encre franche et une seule couleur signal (le gaffer de plateau),
+  réservée aux marques ; Talents reste clair, Casting devient la scène sombre.
+  Geist Sans / Geist Mono remplacent Instrument Sans / JetBrains Mono, servies
+  par le paquet `geist` (aucun appel à Google Fonts au build). Boutons pilule,
+  en-tête flottant en pilule avec un lien « Se connecter », pied de page avec
+  le wordmark bord à bord. Les deux landings sont reconstruites : wordmark
+  scindé au-dessus d'un panneau de scène (une poursuite sur un comédien côté
+  Talents, la démo de short-list en direct côté Casting), planche-contact des
+  types de casting, cartes encadrées en filets, étapes numérotées, tableau des
+  commissions. Les blocs partagés vivent dans
+  `src/components/marketing/blocks.tsx`. Les autres pages héritent des tokens
+  sans modification de code.
+- **`/<locale>` devient une entrée à deux portes** (Talents / Casting) au lieu
+  de rediriger vers Talents (proposition pour la décision D18).
+- **Quatre locales : anglais (défaut), français, espagnol, chinois.** Chaque
+  locale garde son préfixe (`/en`, `/fr`, `/es`, `/zh`) ; une URL sans préfixe
+  est négociée vers la langue du visiteur, l'anglais à défaut. Les types de
+  messages dérivent de `messages/en`. Le chinois est nouveau : toutes les clés
+  sont traduites (Talents dit « 你 », Casting « 您 »), `<html lang>` et
+  hreflang portent `zh-Hans`, et `globals.css` contient des règles de
+  composition chinoise (pas d'interlettrage négatif, interlignage ouvert,
+  titres coupés à la ponctuation). `/zh` reprend les portraits US en attendant
+  un jeu dédié.
+- **Le sélecteur de langue devient un menu globe dans l'en-tête**, et une
+  liste complète des noms natifs dans le menu mobile, les écrans de connexion
+  et la barre latérale de l'application.
 
 ### Added
 

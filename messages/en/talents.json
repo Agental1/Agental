@@ -955,6 +955,7 @@
       "plan": "Plan",
       "price": "Per month",
       "commission": "Commission"
-    }
+    },
+    "take": "Take {n}"
   }
 }

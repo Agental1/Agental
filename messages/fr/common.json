@@ -1,0 +1,58 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "Comment ça marche",
+    "castingTypes": "Types de casting",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "about": "Qui sommes-nous",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "skipToContent": "Aller au contenu",
+    "signIn": "Se connecter"
+  },
+  "footer": {
+    "tagline": "La première agence artistique nativement augmentée par IA.",
+    "legalTitle": "Cadre légal",
+    "prefectorale": "Agence artistique déclarée en préfecture",
+    "rgpd": "RGPD",
+    "mentions": "Mentions légales",
+    "cgu": "CGU",
+    "rights": "© {year} Agental. Tous droits réservés.",
+    "sections": {
+      "product": "Produit",
+      "company": "Agental",
+      "legal": "Légal"
+    },
+    "backToTop": "Haut de page"
+  },
+  "locale": {
+    "switch": "Langue",
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "zh": "中文"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "Retour à l'accueil",
+    "backCastings": "Voir les castings"
+  },
+  "error": {
+    "title": "Quelque chose s'est mal passé",
+    "body": "L'incident a été enregistré. Réessayer suffit souvent.",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'accueil"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "La première agence artistique nativement augmentée par IA. Un vrai agent régulé, une IA qui travaille pour toi."
+  },
+  "entry": {
+    "talents": "Je suis artiste",
+    "casting": "Je fais du casting",
+    "enterTalents": "Entrer dans Agental Talents",
+    "enterCasting": "Entrer dans Agental Casting"
+  }
+}

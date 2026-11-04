@@ -4,7 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { routing, toLocale } from "@/i18n/routing";
+import { routing, toLocale, LANG_TAG } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
 import { DemoMode } from "@/components/demo/demo-mode";
@@ -64,7 +64,7 @@ export default async function LocaleLayout({
 
   return (
     <html
-      lang={locale}
+      lang={LANG_TAG[locale]}
       data-scroll-behavior="smooth"
       className={`${GeistSans.variable} ${GeistMono.variable} h-full`}
     >
