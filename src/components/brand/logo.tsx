@@ -43,10 +43,10 @@ export function AgentalLogo({
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <AgentalMark className="h-[22px] w-auto text-signal" />
       {wordmark && (
-        <span className="text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
+        <span className="brand-type text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
           Agental
           {portal && (
-            <span className="ml-1.5 font-normal tracking-[-0.03em] text-fg/45">
+            <span className="brand-type ml-1.5 font-normal tracking-[-0.03em] text-fg/45">
               {portal}
             </span>
           )}

@@ -106,7 +106,7 @@ export function MarketingFooter({
         aria-hidden="true"
         className="pointer-events-none relative flex select-none items-end justify-center px-[clamp(8px,1.5vw,24px)]"
       >
-        <span className="translate-y-[0.1em] whitespace-nowrap text-[clamp(5rem,24vw,24rem)] font-semibold leading-[0.8] tracking-[-0.075em] text-fg">
+        <span className="brand-type translate-y-[0.1em] whitespace-nowrap text-[clamp(5rem,24vw,24rem)] font-semibold leading-[0.8] tracking-[-0.075em] text-fg">
           Agental
         </span>
         <AgentalMark className="absolute right-[clamp(12px,3vw,48px)] top-[8%] h-[clamp(28px,5vw,80px)] w-auto text-signal" />

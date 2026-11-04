@@ -126,7 +126,7 @@ function Door({
         </span>
       </div>
       <div className="flex items-end justify-between gap-4">
-        <span className="text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.8] tracking-[-0.065em]">
+        <span className="brand-type text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.8] tracking-[-0.065em]">
           {word}
         </span>
         <AgentalMark className="mb-2 h-[clamp(24px,3vw,40px)] w-auto text-signal" />

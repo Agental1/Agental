@@ -139,7 +139,7 @@ function Hero() {
           {/* Spike-tape mark on the floor, where the performer stands. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-[7%] right-[calc(4%+min(31%,280px))] -z-10 md:right-[40%]"
+            className="pointer-events-none absolute bottom-[7%] right-[40%] -z-10 hidden md:block"
           >
             <span className="absolute h-[6px] w-14 -translate-x-1/2 rotate-[24deg] rounded-[1px] bg-signal shadow-[0_0_18px_rgb(255_83_23/0.6)]" />
             <span className="absolute h-[6px] w-14 -translate-x-1/2 -rotate-[24deg] rounded-[1px] bg-signal shadow-[0_0_18px_rgb(255_83_23/0.6)]" />
@@ -377,6 +377,7 @@ function Steps() {
 
 function SelfTape() {
   const t = useTranslations("talents.selftape");
+  const tl = useTranslations("talents.landing");
   const portraits = PORTRAITS[toLocale(useLocale())].hero;
   return (
     <Section data-demo="talents-selftape" rhythm="major" className="border-t border-border">
@@ -427,7 +428,7 @@ function SelfTape() {
               <span className="size-2 animate-pulse rounded-full bg-signal motion-reduce:animate-none" />
               REC 00:42
             </span>
-            <span className="text-white/70">Take 3</span>
+            <span className="text-white/70">{tl("take", { n: 3 })}</span>
           </div>
           <figcaption className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-black/60 px-3.5 py-2 text-[12.5px] text-white backdrop-blur-md">
             <Check className="size-3.5 text-[#8fd19e]" />

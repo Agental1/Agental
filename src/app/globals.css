@@ -157,7 +157,10 @@
 
   --container-site: var(--container-site);
 
-  --font-sans: var(--font-geist-sans), "Geist", system-ui, sans-serif;
+  /* Geist has no CJK glyphs. Chinese falls through to the platform's own
+     Simplified Chinese face; Latin inside a Chinese page stays Geist. */
+  --font-sans: var(--font-geist-sans), "Geist", "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
   /* Deprecie : alias sur --font-sans. Les maquettes n'ont pas de serif.
      Le perimetre marketing n'en compte plus aucune occurrence ; les 59 qui
@@ -262,4 +265,54 @@ html[data-demo="end"] * {
     from { opacity: 0; transform: translateX(-18%) rotate(-4deg); }
     to { opacity: 1; transform: none; }
   }
+}
+
+/* --- Chinese typesetting ------------------------------------------------------
+   The display system is tuned for Latin: tight negative tracking, sub-1 line
+   heights and widths in `ch`. Each of those breaks Chinese.
+     - Negative tracking crushes square glyphs into each other.
+     - A 0.86 line height makes full-height ideographs collide across lines.
+     - 1ch is the width of "0" (~0.55em), so a 12ch heading holds six
+       ideographs and wraps mid-phrase.
+   These rules undo that for /zh only, unlayered so they win over utilities.
+   `.brand-type` opts out: the Latin wordmark keeps its own tracking. */
+:lang(zh-Hans) [class*="tracking-[-"]:not(.brand-type),
+:lang(zh-Hans) :is(.display-xl, .display-lg, .display-md):not(.brand-type) {
+  letter-spacing: 0;
+}
+:lang(zh-Hans) :is(.display-xl, .display-lg, .display-md):not(.brand-type),
+:lang(zh-Hans) [class*="leading-[0."]:not(.brand-type) {
+  line-height: 1.15;
+}
+:lang(zh-Hans) :is(h1, h2, h3)[class*="ch]"] {
+  max-width: 16em;
+}
+:lang(zh-Hans) :is(h1, h2, h3) {
+  font-weight: 600;
+  /* Chinese may break between any two ideographs, which splits phrases
+     ("终于有 / 了合适"). keep-all only breaks at punctuation and spaces; if a
+     phrase is still wider than its column, overflow-wrap breaks it anyway
+     rather than overflowing. */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+:lang(zh-Hans) h1:not(.brand-type)[class*="text-[clamp"] {
+  font-size: clamp(2rem, 3.9vw, 3.5rem);
+}
+:lang(zh-Hans) body {
+  line-break: strict;
+  line-height: 1.7;
+}
+/* Ideographs fill the whole em box, so at the same size they read about a
+   sixth larger than Latin. Display sizes come down to compensate. */
+:lang(zh-Hans) .display-lg:not(.brand-type) {
+  font-size: clamp(2.2rem, 5.8vw, 5.25rem);
+}
+:lang(zh-Hans) .display-md:not(.brand-type) {
+  font-size: clamp(1.8rem, 3.7vw, 3.1rem);
+}
+/* Small labels are monospaced for Latin; a monospaced fallback for Chinese
+   does not exist, so the label falls back to the sans. */
+:lang(zh-Hans) .eyebrow {
+  font-family: var(--font-sans);
 }

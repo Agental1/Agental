@@ -40,15 +40,17 @@ export default async function Image({
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "common" });
 
-  // Talents skin (globals.css): crème ground, espresso ink, terracotta CTA.
-  // Was cognac. The site's fill accent moved to terracotta with the redesign,
-  // and a social card that keeps the old accent stops matching the page it
-  // links to — the one place nobody notices the drift, because nobody loads
-  // their own OG image.
-  const CREME = "#f8f4ec";
-  const ESPRESSO = "#3a2f26";
-  const TERRACOTTA = "#b24e22";
-  const TAUPE = "#9a8b76";
+  // v1 redesign palette (globals.css): paper ground, ink, spike-tape mark.
+  // The social card has to follow the page it links to; nobody loads their own
+  // OG image, so drift here goes unnoticed.
+  //
+  // Chinese glyphs are not in the default Satori font. ImageResponse fetches a
+  // Noto subset for them from Google Fonts at build time, so /zh's card needs
+  // network access during the build (Vercel has it).
+  const CREME = "#ecece8";
+  const ESPRESSO = "#0e0e0e";
+  const TERRACOTTA = "#ff5317";
+  const TAUPE = "#6b6b65";
 
   return new ImageResponse(
     (
@@ -84,7 +86,7 @@ export default async function Image({
             {t("meta.description")}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ fontSize: 30, color: TERRACOTTA, fontWeight: 600 }}>
+            <div style={{ fontSize: 30, color: ESPRESSO, fontWeight: 600 }}>
               Agental
             </div>
             <div style={{ fontSize: 26, color: TAUPE }}>

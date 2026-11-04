@@ -1,4 +1,6 @@
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 /**
@@ -98,12 +100,22 @@ export function NumberedSteps({
   );
 }
 
+/** Quotation marks by language: French and Spanish use guillemets, French
+ *  with the narrow no-break space inside them. */
+const QUOTES: Record<Locale, [string, string]> = {
+  en: ["\u201C", "\u201D"],
+  fr: ["\u00AB\u202F", "\u202F\u00BB"],
+  es: ["\u00AB", "\u00BB"],
+  zh: ["\u201C", "\u201D"],
+};
+
 /** Testimonial cards: quiet sheets, quote first, attribution at the foot. */
 export function QuoteCards({
   items,
 }: {
   items: { quote: string; author: string }[];
 }) {
+  const [open, close] = QUOTES[useLocale() as Locale];
   return (
     <div className="grid gap-2.5 md:grid-cols-3">
       {items.map((item) => (
@@ -112,7 +124,9 @@ export function QuoteCards({
           className="flex flex-col justify-between gap-10 rounded-sedan-xl border border-border bg-surface p-[clamp(22px,2.6vw,32px)]"
         >
           <blockquote className="text-[17px] leading-[1.45] tracking-[-0.015em]">
-            “{item.quote}”
+            {open}
+            {item.quote}
+            {close}
           </blockquote>
           <figcaption className="text-[13.5px] text-fg-muted">{item.author}</figcaption>
         </figure>
@@ -168,7 +182,7 @@ export function SplitWordmark({ portal }: { portal: string }) {
   return (
     <p
       aria-hidden="true"
-      className="display-xl flex items-baseline justify-between gap-6 px-[clamp(4px,1vw,16px)] pb-[clamp(10px,1.4vw,18px)] pt-[clamp(28px,4vw,48px)]"
+      className="display-xl brand-type flex items-baseline justify-between gap-6 px-[clamp(4px,1vw,16px)] pb-[clamp(10px,1.4vw,18px)] pt-[clamp(28px,4vw,48px)]"
     >
       <span>Agental</span>
       <span className="hidden text-fg/25 sm:inline">{portal}</span>

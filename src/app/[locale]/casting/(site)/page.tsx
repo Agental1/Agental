@@ -157,6 +157,7 @@ function Benefits() {
  */
 function Neutrality() {
   const t = useTranslations("casting.neutrality");
+  const td = useTranslations("casting.demo");
   const items = t.raw("items") as Item[];
   return (
     <Section data-demo="casting-neutrality" rhythm="major" className="border-t border-border">
@@ -187,10 +188,10 @@ function Neutrality() {
       {/* What the badges look like on a shortlist row. */}
       <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-[12.5px]">
-          <span className="size-1.5 rounded-full bg-signal" /> Agental
+          <span className="size-1.5 rounded-full bg-signal" /> {td("sourceAgental")}
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-[12.5px]">
-          <span className="size-1.5 rounded-full bg-fg-subtle" /> External
+          <span className="size-1.5 rounded-full bg-fg-subtle" /> {td("sourceExternal")}
         </span>
       </div>
     </Section>
