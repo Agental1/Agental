@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "backend/**",
   ]),
   {
     // `redirect` from next/navigation drops the active locale. Under
