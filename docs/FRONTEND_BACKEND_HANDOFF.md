@@ -57,3 +57,25 @@ None recorded yet.
 - `AgentalLogo` no longer takes a `mark` prop; it always draws the A monogram.
 - New message groups: `common.entry.{line,createTalents,createCasting}`, `common.pricing.details`, `common.app.*`. The signed-in pages gain keys under `talents.space.*`, `casting.space.*` and `app.*` for strings that were hard-coded (F3.6).
 - Radix portals render outside the themed root, so a dialog used in the Casting app needs `data-portal="casting"` on its content to get the dark theme (see `plan-switcher.tsx`).
+
+## Round 2 split and contracts (agreed 2026-11-19)
+
+The backend session takes all server work for round 2 on `feat/round2-server` (stacked on `feat/auth-onboarding`, merged into `frontend-redesign` slice by slice). The front end creates no migrations, buckets or policies.
+
+Where the app differs from the round 2 brief, by agreement:
+- Storage stays on the private Cloudflare R2 bucket, behind `uploadMedia`.
+- Google and Apple run on Auth.js. `OAuthButtons` renders nothing when a provider has no keys, so no public "enabled" flag is needed. `docs/OAUTH_SETUP.md` is written by the backend session with the Auth.js callback URLs.
+- A password account and a later Google sign-in with the same email reach the same account (linking, with safeguards).
+
+| Area | Contract the UI builds against | UI task |
+|---|---|---|
+| Uploads (E2) | `uploadMedia(file, { type, destination?, durationSec?, metrics?, onProgress?, signal? })` in `src/lib/media-upload.ts`, returning `{ ok: true, mediaId }` or `{ ok: false, error }`; `deleteRecording(mediaId)` in `src/app/actions/uploads.ts`; `listRecordings(profileId, { destination? })` in `src/lib/recordings.ts` (each with `url` = `/api/media/<id>`, never public); limits in `UPLOAD_LIMITS` (`src/domain/uploads.ts`: video 150 MB, photo 15 MB); errors `uploadTooLarge`, `uploadTypeNotAllowed`, `uploadQuota`, `uploadFailed`. Pass the recorder's real blob type. | E1, E3 |
+| First run (F4.1) | `User.onboardingCompletedAt`; first landing is `/talents/app/profil?welcome=1` (casting: `/casting/app?welcome=1`); `completeFirstRun()` in `src/app/actions/onboarding.ts`. Show the tutorial when `?welcome=1` is present. | F4.2 |
+| Consent (B2) | `saveConsent({ analytics, marketing })` in `src/app/actions/consent.ts`; `getConsent()` in `src/lib/consent.ts`. Before an account exists: first-party cookie `agental.consent` holding `{"v":1,"analytics":false,"marketing":false}`; sign-up copies it onto the user. | B2 |
+| Student code (F4.3) | `redeemStudentCode(code)` in `src/app/actions/student.ts`; errors `studentCodeInvalid`, `studentCodeExpired`, `studentCodeUsedUp`, `tooManyAttempts`. Needs a signed-in user: keep the typed code at sign-up and call it once the account exists. | F4.3 |
+| Limelight (D5) | In `src/app/actions/sites.ts`: `saveSite({ siteId?, template, content })`, `startSiteCheckout({ siteId, offer })` (mock billing: `billingUnavailable` in production, paid at once in dev), `publishSite(siteId)`, `requestStudentPrice()`, `decideStudentPrice(requestId, decision)`. Plan and Pro end date through `getTalentPlan(userId)` in `src/lib/billing/entitlement.ts`. Prices, the 4 months and `studentPriceUsd` (null until set) come from `LIMELIGHT`. | D1 to D4 |
+| Emails (B1) | `requestEmailVerification()`, `verifyEmail(token)`, `requestPasswordReset(email)`, `resetPassword(token, password)` in `src/app/actions/account-email.ts`. Emails are logged, not sent, until `RESEND_API_KEY` exists. Last slice. | F5.2, F5.3 |
+
+n8n stays unconnected in this round; the Limelight request webhook contract is the existing one in `src/app/actions/limelight.ts`.
+
+For the G3 deploy, the backend session is adding a guarded step that applies pending Prisma migrations during production builds. Nobody runs SQL by hand.
