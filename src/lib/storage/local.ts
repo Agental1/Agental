@@ -39,4 +39,37 @@ export class LocalStorage implements Storage {
     await fs.rm(file, { force: true });
     await fs.rm(file + META, { force: true });
   }
+
+  async head(key: string): Promise<{ size: number; mime: string } | null> {
+    const file = this.full(key);
+    try {
+      const stat = await fs.stat(file);
+      if (!stat.isFile()) return null;
+      const mime = await fs
+        .readFile(file + META, "utf8")
+        .catch(() => "application/octet-stream");
+      return { size: stat.size, mime };
+    } catch {
+      return null;
+    }
+  }
+
+  async list(prefix: string): Promise<string[]> {
+    const dir = this.full(prefix);
+    let names: string[];
+    try {
+      names = await fs.readdir(dir, { recursive: true });
+    } catch {
+      return [];
+    }
+    const keys: string[] = [];
+    for (const name of names) {
+      if (name.endsWith(META)) continue;
+      const stat = await fs.stat(path.join(dir, name)).catch(() => null);
+      if (stat?.isFile()) {
+        keys.push(path.posix.join(prefix, name.split(path.sep).join("/")));
+      }
+    }
+    return keys;
+  }
 }

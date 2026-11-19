@@ -13,6 +13,7 @@ import {
   type TipKey,
 } from "@/lib/ai/quality-scorer";
 import { toJson } from "@/domain/json";
+import { baseMime, storageKeyFor } from "@/domain/uploads";
 
 export type SelfTapeResult = {
   ok: boolean;
@@ -48,16 +49,24 @@ export async function saveSelfTape(
   }
   const lowBandwidth = formData.get("lowBandwidth") === "true";
 
+  // Legacy path, kept until the studio moves to uploadMedia() in
+  // src/lib/media-upload.ts: the file travels in this action's body, which
+  // the platform caps at a few MB.
   const bytes = Buffer.from(await file.arrayBuffer());
-  const key = `selftape/${profile.id}/${randomUUID()}`;
-  await (await getStorage()).put(key, bytes, file.type || "video/webm");
+  // Safari records MP4 and labels it so; only an unlabelled blob is assumed WebM.
+  const mime = baseMime(file.type) || "video/webm";
+  const key = storageKeyFor("SELFTAPE", profile.id, randomUUID(), mime);
+  await (await getStorage()).put(key, bytes, mime);
 
   const media = await prisma.media.create({
     data: {
       profileId: profile.id,
       type: "SELFTAPE",
       storageKey: key,
-      mime: file.type || "video/webm",
+      mime,
+      // Private to the talent until they choose to submit it.
+      destination: "library",
+      sizeBytes: bytes.length,
     },
   });
 
@@ -101,8 +110,12 @@ export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   if (!profile || !media || media.profileId !== profile.id) {
     return { ok: false, error: err("errors.notFound") };
   }
-  await (await getStorage()).delete(media.storageKey);
+  // Row first, then the file: a failure leaves an orphan object, never a row
+  // that points at a file that is gone.
   await prisma.media.delete({ where: { id: mediaId } });
+  await (await getStorage()).delete(media.storageKey).catch((error) => {
+    console.error("[selftape] stored object not removed", { mediaId, error });
+  });
   await recomputeCompleteness(profile.id);
   revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
   revalidatePath("/[locale]/talents/(space)/app", "page");
