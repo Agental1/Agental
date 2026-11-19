@@ -134,7 +134,7 @@ export function TalentsPricingGrid({
             cta={plan.cta}
             href="/talents/inscription"
             details={tc("details")}
-            lines={[t("commission", { rate: plan.commission }), ...plan.features]}
+            lines={plan.features}
             highlighted={i === 1}
             expanded={expanded}
           />

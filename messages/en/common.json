@@ -15,7 +15,7 @@
   "footer": {
     "tagline": "The first artist agency natively augmented by AI.",
     "legalTitle": "Legal",
-    "prefectorale": "Artist agency registered with the French authorities",
+    "prefectorale": "U.S. beta. Representation services are not part of the beta.",
     "rgpd": "GDPR",
     "mentions": "Legal notice",
     "cgu": "Terms",
@@ -48,7 +48,7 @@
   "meta": {
     "title": "Agental",
     "template": "%s · Agental",
-    "description": "The first talent agency built around AI from day one. A real regulated agent, with AI working for you."
+    "description": "Agental helps performers build their profile and prepare their casting materials, and helps casting teams find the right people. In beta."
   },
   "entry": {
     "talents": "I’m a performer",
@@ -104,7 +104,7 @@
   "home": {
     "what": {
       "title": "What is Agental",
-      "body": "Agental is an AI-powered talent agency. Each performer gets an AI agent that finds roles that fit and prepares submissions the performer approves. Casting directors receive ranked shortlists with the reasoning shown, and representation goes through a licensed partner agency.",
+      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is not part of the beta.",
       "facts": [
         {
           "title": "Free to join",

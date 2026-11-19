@@ -14,6 +14,7 @@ export function LimelightBlock({ className }: { className?: string }) {
   const t = useTranslations("common.home.limelight");
   const tb = useTranslations("talents.limelight.band");
   const tf = useTranslations("talents.limelight.frame");
+  const th = useTranslations("talents.limelight.hero");
   const path = `/talents/${LIMELIGHT.slug}`;
 
   return (
@@ -32,6 +33,12 @@ export function LimelightBlock({ className }: { className?: string }) {
           <Button asChild size="lg">
             <Link href={`${path}#try`}>{t("try")}</Link>
           </Button>
+          <Link
+            href={`${path}/exemple`}
+            className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+          >
+            {th("explore")}
+          </Link>
           <Link
             href={`${path}#start`}
             className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"

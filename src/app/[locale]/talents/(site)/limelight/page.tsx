@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { useLocale, useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Check, ChevronDown } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { JumpToForm } from "@/components/talents/jump-to-form";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { LimelightContactForm } from "@/components/talents/limelight-contact-form";
 import { SampleSite } from "@/components/talents/sample-site";
@@ -93,7 +95,7 @@ function Preview() {
           the preview sits beside both. */}
       <div className="grid gap-x-[clamp(32px,5vw,64px)] gap-y-[clamp(24px,3vw,36px)] lg:grid-cols-[1fr_1.15fr] lg:items-center">
         <div className="lg:self-end">
-          <h1 className="display-xl max-w-[9ch]">{t("title")}</h1>
+          <h1 className="max-w-[16ch] text-[clamp(2.25rem,2.6vw+1.25rem,3.75rem)] leading-[1.02] tracking-[-0.03em]">{t("title")}</h1>
           <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-fg-muted">{t("note")}</p>
           {BETA.limelight && <p className="mt-2 max-w-[46ch] text-[13.5px] text-fg-subtle">{tb("beta.limelight")}</p>}
         </div>
@@ -122,6 +124,15 @@ function Preview() {
               </li>
             ))}
           </ol>
+          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <JumpToForm target="request-heading" label={t("request")} />
+            <Link
+              href={`${PATH}/exemple`}
+              className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+            >
+              {t("explore")}
+            </Link>
+          </div>
         </div>
 
         {/* What you get: the same sample site, on a desktop and on a phone. */}
@@ -173,7 +184,9 @@ function Start() {
   return (
     <section id="start" className="scroll-mt-24 border-t border-border bg-surface/70">
       <div className="mx-auto max-w-site px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,88px)]">
-        <h2 className="display-md">{t("contact.title")}</h2>
+        <h2 id="request-heading" tabIndex={-1} className="display-md scroll-mt-28 outline-none">
+          {t("contact.title")}
+        </h2>
         <p className="mt-3 max-w-[64ch] text-fg-muted">{t("offers.lead")}</p>
 
         <div className="mt-6 grid gap-[clamp(24px,3vw,48px)] lg:grid-cols-[1fr_1.1fr]">
@@ -196,6 +209,9 @@ function Start() {
                       {usd(LIMELIGHT.plans[key].priceUsd)}
                     </span>
                     <span className="text-[14px] text-fg-muted">{t("offers.oneTime")}</span>
+                  </p>
+                  <p className="mt-1.5 text-[14px] text-fg-muted">
+                    {t("offers.renewalShort", { price: usd(LIMELIGHT.plans[key].renewalUsdPerYear) })}
                   </p>
                   <p className="mt-3 text-[14.5px] font-bold text-accent">
                     {t("offers.proIncluded", { months: LIMELIGHT.includedProMonths })}

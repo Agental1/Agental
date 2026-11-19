@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
@@ -8,6 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { TemplateArt } from "@/components/talents/template-art";
+import { SamplePortfolio } from "@/components/talents/sample-portfolio";
 import {
   LIMELIGHT_DRAFT_KEY,
   LIMELIGHT_TEMPLATES,
@@ -61,6 +62,7 @@ export function LimelightStudio({
   accountHref: string;
 }) {
   const t = useTranslations("talents.limelight");
+  const ts = useTranslations("talents.limelight.sample");
   const items = t.raw("templates.items") as Item[];
   const router = useRouter();
   const id = useId();
@@ -69,6 +71,8 @@ export function LimelightStudio({
   const [name, setName] = useState("");
   const [headline, setHeadline] = useState("");
   const [preview, setPreview] = useState<number | null>(null);
+  // The card that opened the preview, so closing it returns focus there.
+  const openerRef = useRef<HTMLButtonElement | null>(null);
   const [saved, setSaved] = useState(false);
 
   // A draft from an earlier visit, or from before the account was created.
@@ -116,14 +120,17 @@ export function LimelightStudio({
             <li key={item.name} className="w-[min(78vw,20rem)] shrink-0 snap-start">
               <button
                 type="button"
-                onClick={() => setPreview(i)}
+                onClick={(e) => {
+                  openerRef.current = e.currentTarget;
+                  setPreview(i);
+                }}
                 aria-label={t("row.open", { name: item.name })}
                 className={cn(
                   "pressable block w-full overflow-hidden rounded-sedan-xl border bg-surface text-left [--hover-scale:1.02] [--press-scale:1.04]",
                   LIMELIGHT_TEMPLATES[i] === template ? "border-accent" : "border-border"
                 )}
               >
-                <TemplateArt template={LIMELIGHT_TEMPLATES[i]} name={item.performer} headline={item.role} />
+                <TemplateArt template={LIMELIGHT_TEMPLATES[i]} name={ts("name")} headline={ts("role")} />
                 <span className="block p-4">
                   <span className="block font-bold">{item.name}</span>
                   <span className="mt-0.5 block text-[14px] text-fg-muted">{item.fit}</span>
@@ -133,7 +140,7 @@ export function LimelightStudio({
           ))}
         </ul>
         <p className="mx-auto max-w-site px-[clamp(16px,3vw,40px)] pb-[clamp(28px,3.5vw,48px)] text-[13px] text-fg-subtle">
-          {t("row.hint")} {t("templates.caption")}
+          {t("row.hint")}
         </p>
       </section>
 
@@ -144,6 +151,10 @@ export function LimelightStudio({
           <DialogPrimitive.Content
             data-portal="talents"
             aria-describedby={undefined}
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              openerRef.current?.focus();
+            }}
             className="enter fixed inset-2 z-50 flex flex-col overflow-hidden rounded-sedan-2xl border border-border bg-surface bg-none text-fg shadow-xl outline-none sm:inset-6"
           >
             {preview !== null && (
@@ -151,7 +162,7 @@ export function LimelightStudio({
                 <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-6">
                   <div className="min-w-0">
                     <DialogPrimitive.Title className="truncate text-[1.25rem] font-bold">
-                      {items[preview].name}
+                      {ts("dialogTitle", { template: items[preview].name })}
                     </DialogPrimitive.Title>
                     <p className="truncate text-[14px] text-fg-muted">{items[preview].fit}</p>
                   </div>
@@ -165,14 +176,11 @@ export function LimelightStudio({
                     </DialogPrimitive.Close>
                   </div>
                 </div>
-                <div className="flex min-h-0 flex-1 items-center justify-center overflow-auto bg-surface-2 p-3 sm:p-8">
-                  <div className="ll-frame w-full max-w-[min(100%,calc((100svh-12rem)*4/3))]">
-                    <TemplateArt
-                      template={LIMELIGHT_TEMPLATES[preview]}
-                      name={name.trim() || items[preview].performer}
-                      headline={headline.trim() || items[preview].role}
-                    />
-                  </div>
+                <div className="min-h-0 flex-1 overflow-auto bg-surface-2 p-3 sm:p-6">
+                  <SamplePortfolio
+                    template={LIMELIGHT_TEMPLATES[preview]}
+                    className="mx-auto max-w-[72rem]"
+                  />
                 </div>
               </>
             )}

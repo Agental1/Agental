@@ -71,9 +71,7 @@ export function PlanSelector({
                 <span className="font-display text-2xl">{p.price}</span>
                 <span className="text-xs text-fg-muted">{t("space.plans.perMonth")}</span>
               </div>
-              <p className="mt-0.5 text-xs text-fg-subtle">
-                {t("pricing.commission", { rate: p.commission })}
-              </p>
+              
               <ul className="mt-4 flex-1 space-y-1.5">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs">

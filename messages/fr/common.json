@@ -48,7 +48,7 @@
   "meta": {
     "title": "Agental",
     "template": "%s · Agental",
-    "description": "La première agence artistique nativement augmentée par IA. Un vrai agent régulé, une IA qui travaille pour toi."
+    "description": "Agental aide les artistes à créer leur profil et à préparer leurs éléments de casting, et aide les équipes de casting à trouver les bonnes personnes. En version bêta."
   },
   "entry": {
     "talents": "Je suis artiste",
@@ -104,7 +104,7 @@
   "home": {
     "what": {
       "title": "Agental, c’est quoi",
-      "body": "Agental est une agence artistique propulsée par l’IA. Chaque artiste a un agent IA qui trouve les rôles qui lui correspondent et prépare des candidatures que l’artiste valide. Les directeurs de casting reçoivent des short-lists classées, avec les raisons affichées, et la représentation passe par une agence partenaire licenciée.",
+      "body": "Agental est une plateforme propulsée par l’IA pour les artistes et les équipes de casting, en version bêta. Chaque artiste crée un profil avec ses photos, son CV, sa bande démo et ses self-tapes, et un assistant IA prépare des brouillons de candidature que l’artiste valide avant tout envoi. Les équipes de casting reçoivent des short-lists classées, avec les raisons affichées. La représentation ne fait pas partie de la bêta.",
       "facts": [
         {
           "title": "Inscription gratuite",

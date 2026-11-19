@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Agental Talents — Un vrai agent, augmenté par IA",
-    "description": "Concentre-toi sur ton jeu, on s'occupe du reste. Un vrai agent régulé, une IA qui bosse 24/7, gratuit pour commencer."
+    "description": "Crée ton profil d’artiste : photos, CV, bande démo et self-tapes au même endroit. Gratuit pendant la bêta."
   },
   "nav": {
     "cta": "Devenir membre",
@@ -10,11 +10,11 @@
   "hero": {
     "title": "Concentre-toi sur ton jeu.",
     "titleEmph": "On s'occupe du reste.",
-    "subtitle": "Un vrai agent qui te représente, et une IA qui bosse 24/7 : veille des castings, candidatures, suivi. On cherche les rôles faits pour toi, et on te coache pour que ta candidature colle au plus près de ce qui est attendu. Figuration, silhouette, pub, voix, doublage, création de contenu : on sait ce qui te rend singulier, et on le met en avant là où ça compte.",
+    "subtitle": "Un seul profil pour tes photos, ton CV, ta bande démo et tes self-tapes. Prépare tes éléments de casting dès maintenant ; quand les candidatures ouvriront, tu valideras chaque brouillon avant tout envoi.",
     "ctaPrimary": "Devenir membre",
     "ctaSecondary": "Voir comment ça marche",
     "eyebrow": "L'agence artistique nouvelle génération",
-    "note": "Mandat gratuit. Sans engagement. Résiliable quand tu veux.",
+    "note": "Gratuit pendant la bêta. Ensuite : trois courtes étapes pour créer ton profil.",
     "collage": [
       "fille, 9 ans",
       "femme, 25 ans",
@@ -24,16 +24,16 @@
   },
   "proof": {
     "regulated": {
-      "title": "Un vrai agent, régulé.",
-      "body": "Mandat écrit encadré par la loi française."
+      "title": "Tes éléments au même endroit.",
+      "body": "Photos, CV, bande démo et self-tapes, dans un profil que tu maîtrises."
     },
     "ai": {
-      "title": "Une IA qui bosse 24/7.",
-      "body": "Veille, candidatures et suivi pendant que tu joues."
+      "title": "Des brouillons que tu valides.",
+      "body": "Quand les candidatures ouvriront, rien ne partira sans ton accord."
     },
     "free": {
-      "title": "Gratuit pour commencer.",
-      "body": "Tu ne paies rien pour être représenté."
+      "title": "Gratuit pendant la bêta.",
+      "body": "Créer ton profil ne coûte rien."
     }
   },
   "why": {
@@ -41,8 +41,8 @@
     "title": "Une agence qui travaille vraiment pour toi",
     "items": [
       {
-        "title": "Un vrai agent qui te représente",
-        "body": "Tu signes un mandat de représentation, comme tout artiste avec son agent. On te défend, on négocie tes contrats, on vérifie que tout est légal. La représentation est gratuite, et tu peux la résilier quand tu le souhaites."
+        "title": "Un profil qui travaille pour toi",
+        "body": "Tes photos, ton CV, ta bande démo et tes spécialités dans un profil que tu maîtrises. Tu choisis quoi montrer, et quand."
       },
       {
         "title": "L'agent travaille pendant que tu joues",
@@ -57,15 +57,15 @@
         "body": "On sait ce qui te rend singulier, et on le met en avant au bon endroit. Notre Self-tape Studio te guide sur le cadrage, la lumière, le son et le jeu, pour que chaque envoi te ressemble et vise juste."
       },
       {
-        "title": "Tu gardes plus quand tu montes",
-        "body": "Notre commission est dégressive. En choisissant un abonnement supérieur, tu conserves une plus grande part de ton cachet, de 10 % jusqu'à 5 %. Tu restes libre de garder la formule gratuite aussi longtemps que tu veux."
+        "title": "La représentation ne fait pas partie de la bêta",
+        "body": "Pendant la bêta, Agental ne représente pas les artistes et ne prend aucune commission. Un éventuel futur contrat de représentation sera un document distinct, que tu liras et choisiras d’accepter, à part de toute formule ou de tout site web."
       },
       {
         "title": "Chaque profil a une force",
         "body": "Les productions cherchent des personnalités vraies et variées, pour la caméra comme pour la voix. On identifie ce qui te distingue, ton allure, ton accent, ta présence, ton timbre, et on le fait valoir. Ta singularité devient un argument."
       }
     ],
-    "lead": "La plupart des artistes n'ont jamais eu accès à un agent. Agental change ça. On représente les profils que les agences classiques laissent de côté, avec les mêmes exigences et un vrai mandat."
+    "lead": "Un profil qui montre ce qui te rend singulier, et des outils pour t’aider à te préparer."
   },
   "steps": {
     "eyebrow": "En cinq étapes",
@@ -77,8 +77,8 @@
         "body": "Identité, physique, médias, spécialités et disponibilités."
       },
       {
-        "title": "Signe ton mandat",
-        "body": "Gratuit, encadré par la loi, résiliable à tout moment."
+        "title": "Ajoute tes éléments",
+        "body": "Photos, CV, une bande démo ou un self-tape."
       },
       {
         "title": "Laisse l'IA travailler",
@@ -89,8 +89,8 @@
         "body": "On te guide pour qu'ils te démarquent."
       },
       {
-        "title": "Décroche tes rôles",
-        "body": "On négocie, on sécurise, on te reverse ton cachet."
+        "title": "Valide tes brouillons",
+        "body": "Quand les candidatures ouvriront, tu valideras chaque brouillon avant tout envoi."
       }
     ]
   },
@@ -111,7 +111,7 @@
   "pricing": {
     "eyebrow": "Tarifs",
     "title": "Des tarifs qui récompensent ta progression",
-    "note": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service optionnel.",
+    "note": "Toutes les formules sont optionnelles. La représentation ne fait pas partie de la bêta.",
     "perMonth": "par mois",
     "commission": "commission {rate}",
     "popular": "Populaire",
@@ -122,9 +122,8 @@
         "commission": "10 %",
         "cta": "Commencer",
         "features": [
-          "Mandat de représentation",
-          "Profil complet et médias",
-          "Self-tape Studio",
+          "Profil, photos et bande démo",
+          "Bande démo & self-tape",
           "Suivi de carrière et de revenus"
         ]
       },
@@ -136,7 +135,7 @@
         "features": [
           "Tout le Free",
           "Retours IA sur tes self-tapes",
-          "Messagerie avec ton agent",
+          "Réponses plus rapides de l’équipe Agental",
           "Support prioritaire"
         ]
       },
@@ -146,8 +145,7 @@
         "commission": "7,5 %",
         "cta": "Choisir",
         "features": [
-          "Tout le Pro",
-          "Commission réduite à 7,5 %"
+          "Tout le Pro"
         ]
       },
       {
@@ -156,8 +154,7 @@
         "commission": "5 %",
         "cta": "Choisir",
         "features": [
-          "Tout le Premium",
-          "Commission réduite à 5 %"
+          "Tout le Premium"
         ]
       }
     ]
@@ -238,12 +235,12 @@
   "pricingPage": {
     "meta": {
       "title": "Tarifs — Agental Talents",
-      "description": "Le mandat de représentation est gratuit. L'abonnement, optionnel, récompense ta progression avec une commission dégressive."
+      "description": "Les formules Agental pour les artistes. Gratuit pendant la bêta ; les formules payantes sont optionnelles."
     },
     "hero": {
       "eyebrow": "Tarifs",
       "title": "Des tarifs qui récompensent ta progression",
-      "subtitle": "Le mandat de représentation est gratuit et séparé. L'abonnement est un service technologique optionnel — jamais un péage vers les opportunités."
+      "subtitle": "La formule Free couvre ton profil et tes médias. Les formules payantes ajoutent des outils et ne sont jamais un péage vers les opportunités."
     },
     "note": "Sans engagement. Tu changes de formule ou tu reviens au gratuit quand tu veux."
   },
@@ -264,15 +261,15 @@
         "items": [
           {
             "q": "Qu'est-ce qu'Agental ?",
-            "a": "Une vraie agence artistique, régulée, dont le travail opérationnel — suivi, préparation, coaching — est augmenté par une IA. On te représente ; les outils travaillent avec toi."
+            "a": "Une plateforme pour les artistes, en version bêta. Tu crées ton profil, tu gardes tes photos, ton CV, ta bande démo et tes self-tapes au même endroit, et tu prépares tes éléments de casting. Les brouillons de candidature attendent toujours ta validation."
           },
           {
-            "q": "Est-ce une vraie agence ou une plateforme d'annonces ?",
-            "a": "Une vraie agence : mandat écrit, déclaration en préfecture, responsabilité professionnelle. Pas un site d'annonces où tu postules seul."
+            "q": "Est-ce qu’Agental me représente ?",
+            "a": "Pas pendant la bêta. Agental n’agit pas comme ton agent et ne prend aucune commission. Si la représentation ouvre plus tard, elle passera par un contrat écrit distinct que tu choisiras d’accepter."
           },
           {
             "q": "Combien ça coûte de commencer ?",
-            "a": "Rien. Le mandat de représentation est gratuit et la formule Free te permet d'être représenté sans payer. L'abonnement payant est optionnel."
+            "a": "Rien. La formule Free couvre ton profil et tes médias. Les formules payantes et les sites Limelight sont optionnels et ne conditionnent jamais l’accès aux auditions ni aux candidatures."
           },
           {
             "q": "Faut-il de l'expérience pour s'inscrire ?",
@@ -331,12 +328,12 @@
   "about": {
     "meta": {
       "title": "Qui sommes-nous — Agental",
-      "description": "Une idée née à table : démocratiser l'accès à la représentation artistique grâce à un vrai agent augmenté par l'IA."
+      "description": "Une idée née à table, entre un père et son fils : aider chaque artiste à être vu, avec des outils au service des personnes."
     },
     "hero": {
       "eyebrow": "Qui sommes-nous",
       "title": "Qui sommes-nous",
-      "subtitle": "Agental est une agence artistique de nouvelle génération. Derrière la technologie, il y a une famille, une conviction, et une idée née autour d'une table."
+      "subtitle": "Agental crée des outils pour les artistes et les équipes de casting. Derrière la technologie, il y a une famille, une conviction et une idée née autour d’une table."
     },
     "origin": {
       "title": "Une idée née à table",
@@ -344,11 +341,11 @@
     },
     "stance": {
       "title": "Notre parti pris",
-      "body": "Nous croyons qu'un accent, une origine ou une allure singulière sont des forces, parce que les productions cherchent des personnalités vraies et variées. Nous croyons qu'une représentation sérieuse peut être accessible à tous, et gratuite pour commencer. Et nous croyons que la technologie doit rester au service de l'humain, avec clarté. C'est pourquoi Agental est nativement augmentée par IA. Cette intelligence artificielle travaille en continu, pour repérer les rôles qui correspondent vraiment à un artiste et pour aider les directeurs de casting à trouver les bons profils plus vite. Un agent régulé reste aux commandes, et chaque décision de l'IA peut s'expliquer."
+      "body": "Nous croyons qu’un accent, une origine ou un physique singulier sont des forces, parce que les productions cherchent des personnalités vraies et variées. Nous croyons qu’un bon départ doit être ouvert à tous, et gratuit. Et nous croyons que la technologie doit rester au service des personnes, avec clarté : Agental utilise l’IA pour aider les artistes à se préparer et les équipes de casting à trouver plus vite les bons profils, et chacune de ses suggestions peut être expliquée. Ce sont des personnes qui décident."
     },
     "mission": {
       "title": "Notre mission",
-      "body": "Rendre la représentation artistique accessible à tous, et rendre la recherche de talents plus juste et plus efficace. D'un côté comme de l'autre, nous voulons que les bonnes rencontres aient enfin lieu.",
+      "body": "Aider chaque artiste à être vu, et rendre la recherche de talents plus juste et plus efficace. Des deux côtés, nous voulons que les bonnes rencontres aient enfin lieu.",
       "ctaPrimary": "Devenir membre",
       "ctaSecondary": "Découvrir Agental Casting"
     }
@@ -647,7 +644,7 @@
   "signup": {
     "metaTitle": "Devenir membre",
     "title": "Crée ton compte artiste",
-    "subtitle": "Gratuit. On te représente, l'IA travaille pour toi.",
+    "subtitle": "Crée ton profil et prépare tes éléments de casting.",
     "submit": "Créer mon compte",
     "already": "Déjà membre ?",
     "signIn": "Se connecter"
@@ -674,10 +671,10 @@
       "height": "Taille (facultatif)"
     },
     "mandat": {
-      "title": "Ton mandat de représentation",
-      "subtitle": "Dernière étape avant ta représentation.",
+      "title": "À propos du mandat de représentation",
+      "subtitle": "Le mandat de représentation sera disponible ultérieurement. Tu peux compléter ton profil dès maintenant.",
       "free": "Gratuit. Sans engagement de ta part. Résiliable quand tu veux.",
-      "read": "Lire le mandat complet",
+      "read": "À propos du mandat",
       "accept": "J'accepte le mandat de représentation et je demande à Agental de me représenter.",
       "points": [
         "C'est le contrat standard entre un artiste et son agent, encadré par la loi française.",
@@ -685,7 +682,7 @@
         "Tes médias restent à toi. Tes données sont protégées (RGPD).",
         "L'abonnement payant est un autre choix, plus tard — jamais mêlé au mandat."
       ],
-      "submit": "Signer et activer mon compte"
+      "submit": "Continuer vers mon profil"
     },
     "back": "Retour",
     "continue": "Continuer"
@@ -797,7 +794,7 @@
       "subNote": "Service technologique optionnel. Il n'achète jamais un accès aux opportunités.",
       "manageSub": "Gérer l'abonnement (bientôt)",
       "signedOn": "Signé le {date}",
-      "planSummary": "{price} par mois · commission {rate}"
+      "planSummary": "{price} par mois"
     },
     "profile": {
       "title": "Mon profil",
@@ -827,24 +824,21 @@
     },
     "planFeatures": {
       "FREE": [
-        "Mandat & profil",
-        "Profil complet et médias",
-        "Self-tape Studio",
+        "Profil, photos et bande démo",
+        "Bande démo & self-tape",
         "Suivi de carrière"
       ],
       "PRO": [
         "Tout le Free",
         "Retours IA sur tes self-tapes",
-        "Messagerie avec ton agent",
+        "Réponses plus rapides de l’équipe Agental",
         "Support prioritaire"
       ],
       "PREMIUM": [
-        "Tout le Pro",
-        "Commission réduite à 7,5 %"
+        "Tout le Pro"
       ],
       "ULTIMATE": [
-        "Tout le Premium",
-        "Commission réduite à 5 %"
+        "Tout le Premium"
       ]
     },
     "media": {
@@ -969,22 +963,24 @@
     },
     "hero": {
       "eyebrow": "Limelight by Agental",
-      "title": "Ton nom en lumière.",
+      "title": "Tes photos, ton CV et ta bande démo en un seul lien.",
       "subtitle": "Envoie-nous tes photos, ta bande démo et quelques lignes sur ton travail. On construit un site qu'un directeur de casting ouvre en un clic, et tu te l'appropries. Pour les comédiens, et pour tous les artistes au-delà.",
       "ctaPrimary": "Créer mon site",
       "ctaSecondary": "Voir les offres",
-      "note": "Paiement unique dès 99 $. Première année d'hébergement incluse.",
-      "scrollHint": "Fais défiler pour le voir se construire"
+      "note": "Nous créons ton site portfolio à partir de tes éléments. Tu vérifies l’aperçu avant sa mise en ligne.",
+      "scrollHint": "Fais défiler pour le voir se construire",
+      "request": "Demander mon site",
+      "explore": "Découvrir un exemple"
     },
     "frame": {
       "address": "tonnom.agental.site",
       "name": "Maya Okafor",
-      "role": "Comédienne, Los Angeles",
-      "line": "Seconds rôles et publicité. Bilingue anglais et espagnol.",
+      "role": "Comédienne écran et scène, Los Angeles",
+      "line": "Écran et scène. Anglais et espagnol.",
       "reel": "Voir la démo",
       "resume": "CV",
       "contact": "Contact",
-      "caption": "Exemple de site pour une artiste fictive."
+      "caption": "Exemple fictif"
     },
     "how": {
       "title": "Trois étapes jusqu'à ton site",
@@ -1006,43 +1002,43 @@
     "templates": {
       "title": "Choisis ton style",
       "lead": "Chaque modèle existe en plusieurs thèmes de couleur pensés pour mettre en valeur un portrait. Ton site garde ses propres couleurs, distinctes de celles d'Agental.",
-      "caption": "Exemples de sites avec des artistes fictifs.",
+      "caption": "Exemple fictif",
       "items": [
         {
           "name": "Marquee",
           "fit": "Ton nom en grand, sur un portrait fort",
           "performer": "Maya Okafor",
-          "role": "Comédienne"
+          "role": "Comédienne écran et scène, Los Angeles"
         },
         {
           "name": "Planche-contact",
           "fit": "Pensé pour une belle série de photos",
-          "performer": "Daniel Reyes",
-          "role": "Comédien et mannequin"
+          "performer": "Maya Okafor",
+          "role": "Comédienne écran et scène, Los Angeles"
         },
         {
           "name": "Démo d'abord",
           "fit": "Ta bande démo démarre dès l'ouverture",
-          "performer": "Iris Chen",
-          "role": "Comédienne"
+          "performer": "Maya Okafor",
+          "role": "Comédienne écran et scène, Los Angeles"
         },
         {
           "name": "Entrée des artistes",
           "fit": "Théâtre, critiques et presse",
-          "performer": "Theo Marchand",
-          "role": "Comédien de théâtre"
+          "performer": "Maya Okafor",
+          "role": "Comédienne écran et scène, Los Angeles"
         },
         {
           "name": "Cabine voix",
           "fit": "Tes démos audio en premier",
-          "performer": "June Parker",
-          "role": "Comédienne voix"
+          "performer": "Maya Okafor",
+          "role": "Comédienne écran et scène, Los Angeles"
         },
         {
           "name": "Studio",
           "fit": "Clair et net, pour la pub et le print",
-          "performer": "Sam Adler",
-          "role": "Talent publicitaire"
+          "performer": "Maya Okafor",
+          "role": "Comédienne écran et scène, Los Angeles"
         }
       ]
     },
@@ -1088,7 +1084,8 @@
       "studentPrice": "Tarif étudiant : {price}",
       "studentPending": "Tarif étudiant : bientôt annoncé.",
       "proIncluded": "Comprend {months} mois d’Agental Pro, offerts.",
-      "websitesPro": "Chaque site comprend {months} mois d’Agental Pro."
+      "websitesPro": "Chaque site comprend {months} mois d’Agental Pro.",
+      "renewalShort": "Puis {price} par an pour l’hébergement"
     },
     "faq": {
       "title": "Les questions qu'on nous pose",
@@ -1120,11 +1117,11 @@
       ]
     },
     "contact": {
-      "title": "Lance ton site",
-      "lead": "Dis-nous qui tu es et ce qu'il te faut. On te répond par email avec la suite, ou on t'appelle si tu préfères. Tu pourras envoyer tes photos une fois qu'on aura échangé.",
+      "title": "Demander mon site",
+      "lead": "Dis-nous qui tu es et ce dont tu as besoin. Nous t’enverrons les prochaines étapes par e-mail. Si tu es prêt à lancer ton site, tu peux demander un appel.",
       "name": "Ton nom",
       "email": "Email",
-      "discipline": "Ce que tu fais",
+      "discipline": "Type de travail",
       "disciplines": {
         "actor": "Comédie",
         "musician": "Musique",
@@ -1135,7 +1132,7 @@
         "creator": "Création de contenu",
         "other": "Autre chose"
       },
-      "need": "Ce qu'il te faut",
+      "need": "Ce dont tu as besoin",
       "needs": {
         "new": "Un nouveau site",
         "redo": "Refaire mon site",
@@ -1148,19 +1145,20 @@
         "custom": "Sur mesure",
         "unsure": "Aide-moi à choisir"
       },
-      "contactPref": "Comment te joindre",
+      "contactPref": "Comment te joindre ?",
       "prefs": {
-        "email": "Email",
-        "call": "Appel téléphonique"
+        "email": "M’envoyer les prochaines étapes par e-mail",
+        "call": "Demander un appel"
       },
-      "phone": "Téléphone (si tu préfères un appel)",
+      "phone": "Numéro de téléphone pour l’appel",
       "message": "Quelque chose à nous dire ?",
       "messageHint": "Les liens vers ta bande démo, IMDb ou tes réseaux nous aident beaucoup.",
-      "submit": "Envoyer",
+      "submit": "Demander mon site",
       "sending": "Envoi…",
-      "successTitle": "Merci, c'est bien reçu.",
-      "successBody": "On te répond à {email}.",
-      "privacy": "On utilise tes coordonnées uniquement pour te répondre."
+      "successTitle": "Ta demande est enregistrée.",
+      "successBody": "Nous enverrons les prochaines étapes à {email}.",
+      "privacy": "On utilise tes coordonnées uniquement pour te répondre.",
+      "terms": "{essential} : {essentialPrice} une fois, puis {essentialRenewal} par an pour l’hébergement après la première année. {signature} : {signaturePrice} une fois, puis {signatureRenewal} par an pour l’hébergement et le domaine. Les deux incluent {months} mois d’Agental Pro. Prix en dollars américains."
     },
     "footerNote": "Acheter un site est facultatif et n'est jamais une condition pour rejoindre Agental ou être présenté aux directeurs de casting.",
     "try": {
@@ -1206,6 +1204,52 @@
       "hostingUntil": "Hébergement inclus jusqu’au {date}.",
       "edit": "Changer de modèle ou de texte",
       "proUntil": "Agental Pro inclus jusqu’au {date}."
+    },
+    "sample": {
+      "label": "Exemple fictif",
+      "name": "Maya Okafor",
+      "role": "Comédienne écran et scène, Los Angeles",
+      "bio": "Maya travaille entre l’écran et la scène à Los Angeles. Elle aime les rôles ancrés, portés par les personnages, et passe facilement de l’anglais à l’espagnol sur un tournage.",
+      "languages": "Anglais, espagnol",
+      "languagesLabel": "Langues",
+      "resume": "3 courts métrages, 1 long métrage indépendant, 2 productions théâtrales",
+      "resumeLabel": "CV d’exemple",
+      "tabs": {
+        "overview": "Présentation",
+        "credits": "Rôles",
+        "reel": "Bande démo"
+      },
+      "credits": [
+        {
+          "role": "Nina",
+          "billing": "Second rôle",
+          "title": "The Lucent Room",
+          "year": "2026",
+          "kind": "Long métrage"
+        },
+        {
+          "role": "Elena",
+          "billing": "Rôle principal",
+          "title": "Last Tram to Alder Street",
+          "year": "2025",
+          "kind": "Court métrage"
+        },
+        {
+          "role": "Rosa",
+          "billing": "Ensemble",
+          "title": "A Window for the Tide",
+          "year": "2024",
+          "kind": "Théâtre"
+        }
+      ],
+      "reelLayout": "Aperçu de mise en page. Ta bande démo s’affiche ici une fois ajoutée.",
+      "contact": "Contact",
+      "contactNote": "Les coordonnées n’apparaissent que si tu choisis de les afficher.",
+      "close": "Fermer l’aperçu",
+      "dialogTitle": "Modèle {template}, exemple fictif",
+      "pageTitle": "Portfolio d’exemple",
+      "back": "Retour à Limelight",
+      "useTemplate": "Demander ce modèle"
     }
   },
   "stepsDemo": {

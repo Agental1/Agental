@@ -6,9 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { getTalentPlan } from "@/lib/billing/entitlement";
 import { date } from "@/lib/format";
-import { prisma } from "@/lib/db";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
-import { RentabiliteWidget } from "@/components/talents/rentabilite-widget";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 
@@ -35,16 +33,9 @@ export default async function AbonnementPage({
 
   const session = await auth();
   if (!session?.user?.id) return null;
-  const [effective, career, profile] = await Promise.all([
-    getTalentPlan(session.user.id),
-    prisma.careerEntry.findMany({
-      where: { profile: { userId: session.user.id } },
-    }),
-    prisma.artistProfile.findUnique({ where: { userId: session.user.id } }),
-  ]);
+  const effective = await getTalentPlan(session.user.id);
 
   const current = effective.plan;
-  const annualCachetCents = career.reduce((s, e) => s + e.cachetCents, 0);
 
   // Display names come from the messages, in the order of the B2C_PLANS table.
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
@@ -74,10 +65,6 @@ export default async function AbonnementPage({
 
       <PlanSelector plans={plans} current={current} />
 
-      <RentabiliteWidget
-        annualCachetCents={Math.max(annualCachetCents, profile?.minRateCents ? profile.minRateCents * 20 : 0)}
-        currentPlan={current}
-      />
     </div>
   );
 }

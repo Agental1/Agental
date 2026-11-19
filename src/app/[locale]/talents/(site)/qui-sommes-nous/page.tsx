@@ -50,7 +50,9 @@ function AboutContent() {
         subtitle={t("hero.subtitle")}
       />
 
-      <Section width="prose" rhythm="major">
+      {/* The story sits on a soft band so it reads as its own chapter; the
+          sections after it share one rhythm, split by a thin rule. */}
+      <Section width="prose" rhythm="compact" tone="band">
         <h2 className="text-[clamp(24px,3.2vw,38px)] font-bold leading-[1.1] tracking-[-0.02em]">
           {t("origin.title")}
         </h2>
@@ -59,15 +61,18 @@ function AboutContent() {
         </p>
       </Section>
 
-      <Section width="prose" rhythm="major">
+      <Section width="prose" rhythm="compact">
         <h2 className="text-[clamp(24px,3.2vw,38px)] font-bold leading-[1.1] tracking-[-0.02em]">
           {t("stance.title")}
         </h2>
         <p className="mt-4 text-[17px] leading-relaxed text-fg-muted">
           {t("stance.body")}
         </p>
+      </Section>
 
-        <InverseBand className="mt-12">
+      <Section width="prose" rhythm="none" innerClassName="pb-[clamp(40px,5vw,72px)]">
+        <hr className="mb-[clamp(28px,3.5vw,48px)] border-border" />
+        <InverseBand>
           <h2 className="text-[clamp(22px,3vw,32px)] font-bold leading-[1.1] tracking-[-0.02em]">
             {t("mission.title")}
           </h2>
@@ -76,7 +81,7 @@ function AboutContent() {
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button asChild size="lg">
-              <Link href="/talents/inscription">
+              <Link href="/talents#account">
                 {t("mission.ctaPrimary")} <ArrowRight />
               </Link>
             </Button>
