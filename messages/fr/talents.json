@@ -342,27 +342,6 @@
       "title": "Une idée née à table",
       "body": "Tout est parti d'un déjeuner, entre un père et son fils. En discutant du métier, on a fini par mettre des mots sur un même constat, des deux côtés à la fois. D'un côté, tous ces talents et ces performeurs qui ne sortent jamais de l'ombre, faute d'être vus au bon moment. Tous ces jeunes qui rêvent de jouer et qui ne savent ni où ni comment trouver un bon agent. De l'autre, tous ces producteurs et ces directeurs de casting qui pourraient être mieux épaulés dans leurs recherches, pour dénicher la perle rare et faire correspondre plus finement les profils aux rôles. On s'est dit qu'on pouvait améliorer les choses pour tout le monde. C'est de cette conversation qu'est née Agental."
     },
-    "team": {
-      "title": "Ce qui nous rassemble",
-      "lead": "Nous formons une équipe qui connaît les deux rives du métier, celle des artistes et celle de l'entreprise.",
-      "members": [
-        {
-          "name": "Jérôme",
-          "role": "le père",
-          "body": "Entrepreneur en série. Il a créé et développé des sociétés des deux côtés de l'Atlantique, et sait ce qu'il faut pour transformer une intuition en produit qui tient debout."
-        },
-        {
-          "name": "Vadim",
-          "role": "à Paris",
-          "body": "Très jeune, il a commencé par de la figuration dans des courts métrages et des clips, avant d'obtenir des rôles plus importants dans des comédies. Il connaît de l'intérieur le chemin d'un artiste qui débute."
-        },
-        {
-          "name": "Solal",
-          "role": "à Los Angeles",
-          "body": "Étudie l'ingénierie à USC. Il apporte le regard de la technologie et d'une génération qui a grandi avec elle."
-        }
-      ]
-    },
     "stance": {
       "title": "Notre parti pris",
       "body": "Nous croyons qu'un accent, une origine ou une allure singulière sont des forces, parce que les productions cherchent des personnalités vraies et variées. Nous croyons qu'une représentation sérieuse peut être accessible à tous, et gratuite pour commencer. Et nous croyons que la technologie doit rester au service de l'humain, avec clarté. C'est pourquoi Agental est nativement augmentée par IA. Cette intelligence artificielle travaille en continu, pour repérer les rôles qui correspondent vraiment à un artiste et pour aider les directeurs de casting à trouver les bons profils plus vite. Un agent régulé reste aux commandes, et chaque décision de l'IA peut s'expliquer."
@@ -957,5 +936,222 @@
       "commission": "Commission"
     },
     "take": "Prise {n}"
+  },
+  "limelight": {
+    "nav": "Sites web",
+    "meta": {
+      "title": "Limelight by Agental : un site web pour chaque artiste",
+      "description": "Envoie tes photos, ta bande démo et quelques lignes sur ton travail. On construit ton site d'artiste dès 99 $, première année d'hébergement incluse."
+    },
+    "band": {
+      "title": "Besoin d'un site ? On le construit avec toi.",
+      "body": "Limelight transforme tes photos, ta bande démo et ton parcours en un site qu'un directeur de casting ouvre en un clic. Dès 99 $.",
+      "cta": "Découvrir Limelight"
+    },
+    "hero": {
+      "eyebrow": "Limelight by Agental",
+      "title": "Ton nom en lumière.",
+      "subtitle": "Envoie-nous tes photos, ta bande démo et quelques lignes sur ton travail. On construit un site qu'un directeur de casting ouvre en un clic, et tu te l'appropries. Pour les comédiens, et pour tous les artistes au-delà.",
+      "ctaPrimary": "Créer mon site",
+      "ctaSecondary": "Voir les offres",
+      "note": "Paiement unique dès 99 $. Première année d'hébergement incluse.",
+      "scrollHint": "Fais défiler pour le voir se construire"
+    },
+    "frame": {
+      "address": "tonnom.agental.site",
+      "name": "Maya Okafor",
+      "role": "Comédienne, Los Angeles",
+      "line": "Seconds rôles et publicité. Bilingue anglais et espagnol.",
+      "reel": "Voir la démo",
+      "resume": "CV",
+      "contact": "Contact",
+      "caption": "Exemple de site pour une artiste fictive."
+    },
+    "how": {
+      "title": "Trois étapes jusqu'à ton site",
+      "steps": [
+        {
+          "title": "Partage tes photos et ton parcours",
+          "body": "Envoie 3 à 12 photos, le lien de ta bande démo et tes réponses à trois courtes questions sur ton travail."
+        },
+        {
+          "title": "On prépare ton site",
+          "body": "On choisit la mise en page qui sert tes photos et on rédige ta bio à partir de tes propres réponses. Tu reçois un aperçu privé."
+        },
+        {
+          "title": "Relis et publie",
+          "body": "Change un mot, remplace une photo, puis publie. Ton site est en ligne à ta propre adresse."
+        }
+      ]
+    },
+    "templates": {
+      "title": "Choisis ton style",
+      "lead": "Chaque modèle existe en plusieurs thèmes de couleur pensés pour mettre en valeur un portrait. Ton site garde ses propres couleurs, distinctes de celles d'Agental.",
+      "caption": "Exemples de sites avec des artistes fictifs.",
+      "items": [
+        {
+          "name": "Marquee",
+          "fit": "Ton nom en grand, sur un portrait fort",
+          "performer": "Maya Okafor",
+          "role": "Comédienne"
+        },
+        {
+          "name": "Planche-contact",
+          "fit": "Pensé pour une belle série de photos",
+          "performer": "Daniel Reyes",
+          "role": "Comédien et mannequin"
+        },
+        {
+          "name": "Démo d'abord",
+          "fit": "Ta bande démo démarre dès l'ouverture",
+          "performer": "Iris Chen",
+          "role": "Comédienne"
+        },
+        {
+          "name": "Entrée des artistes",
+          "fit": "Théâtre, critiques et presse",
+          "performer": "Theo Marchand",
+          "role": "Comédien de théâtre"
+        },
+        {
+          "name": "Cabine voix",
+          "fit": "Tes démos audio en premier",
+          "performer": "June Parker",
+          "role": "Comédienne voix"
+        },
+        {
+          "name": "Studio",
+          "fit": "Clair et net, pour la pub et le print",
+          "performer": "Sam Adler",
+          "role": "Talent publicitaire"
+        }
+      ]
+    },
+    "offers": {
+      "title": "Deux façons d'avoir ton site",
+      "lead": "Tu paies une fois pour le construire. La première année d'hébergement est incluse, et tu ne paies qu'après avoir validé ton aperçu.",
+      "oneTime": "paiement unique",
+      "essential": {
+        "name": "Essentiel",
+        "price": "99 $",
+        "summary": "Une page qui dit tout.",
+        "features": [
+          "Portrait, bio, bande démo, CV et formulaire de contact",
+          "Ton adresse : tonnom.agental.site",
+          "Trois modèles au choix",
+          "Tu le modifies toi-même quand tu veux",
+          "Une session de retouches avec l'équipe"
+        ],
+        "renewal": "Hébergement après la première année : 49 $ par an. Résiliable à tout moment depuis ton espace.",
+        "cta": "Commencer avec Essentiel"
+      },
+      "signature": {
+        "name": "Signature",
+        "price": "199 $",
+        "summary": "Un site complet qui grandit avec ta carrière.",
+        "features": [
+          "Galerie, filmographie, presse et autres sections",
+          "Ton propre nom de domaine, première année incluse",
+          "Tous les modèles et tous les thèmes de couleur",
+          "Démos audio et morceaux pour la voix et la musique",
+          "Trois sessions de retouches avec l'équipe"
+        ],
+        "renewal": "Hébergement et domaine après la première année : 79 $ par an. Résiliable à tout moment depuis ton espace.",
+        "cta": "Commencer avec Signature"
+      },
+      "custom": {
+        "title": "Autre chose en tête ?",
+        "body": "Un dossier de presse pour un groupe, un site en plusieurs langues, une page pour un duo. Parle-nous-en.",
+        "cta": "Nous écrire"
+      },
+      "usd": "Prix en dollars américains."
+    },
+    "faq": {
+      "title": "Les questions qu'on nous pose",
+      "items": [
+        {
+          "q": "À qui appartiennent mon site et mes photos ?",
+          "a": "À toi. Tes photos, tes textes et ton nom de domaine t'appartiennent."
+        },
+        {
+          "q": "Faut-il être membre d'Agental ?",
+          "a": "Limelight est ouvert à tous les artistes. Acheter un site est facultatif et n'a aucun effet sur ton adhésion à Agental ni sur ta présentation aux directeurs de casting."
+        },
+        {
+          "q": "Allez-vous retoucher mes portraits ?",
+          "a": "On recadre, on redimensionne et on compresse tes photos pour qu'elles se chargent vite. Ton visage reste tel qu'il est : le casting doit te reconnaître en audition."
+        },
+        {
+          "q": "Combien de temps faut-il ?",
+          "a": "Ça dépend de ce que tu nous envoies. On te confirme le délai au départ, et tu vois un aperçu privé avant toute mise en ligne."
+        },
+        {
+          "q": "Que se passe-t-il après la première année ?",
+          "a": "L'hébergement se renouvelle à 49 $ par an pour Essentiel et 79 $ par an pour Signature. Tu peux résilier depuis ton espace avant le renouvellement."
+        },
+        {
+          "q": "Je suis musicien, danseur ou comédien voix. C'est pour moi ?",
+          "a": "Oui. Les modèles partent des comédiens et prévoient des sections pour les démos audio, les morceaux, la chorégraphie et la voix. Dis-nous ce que tu fais, on adapte le site."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Lance ton site",
+      "lead": "Dis-nous qui tu es et ce qu'il te faut. On te répond par email avec la suite, ou on t'appelle si tu préfères. Tu pourras envoyer tes photos une fois qu'on aura échangé.",
+      "name": "Ton nom",
+      "email": "Email",
+      "discipline": "Ce que tu fais",
+      "disciplines": {
+        "actor": "Comédie",
+        "musician": "Musique",
+        "dancer": "Danse",
+        "voice": "Voix",
+        "model": "Mannequinat",
+        "comedian": "Humour",
+        "creator": "Création de contenu",
+        "other": "Autre chose"
+      },
+      "need": "Ce qu'il te faut",
+      "needs": {
+        "new": "Un nouveau site",
+        "redo": "Refaire mon site",
+        "unsure": "J'hésite encore"
+      },
+      "budget": "Quelle offre",
+      "budgets": {
+        "essential": "Essentiel, 99 $",
+        "signature": "Signature, 199 $",
+        "custom": "Sur mesure",
+        "unsure": "Aide-moi à choisir"
+      },
+      "contactPref": "Comment te joindre",
+      "prefs": {
+        "email": "Email",
+        "call": "Appel téléphonique"
+      },
+      "phone": "Téléphone (si tu préfères un appel)",
+      "message": "Quelque chose à nous dire ?",
+      "messageHint": "Les liens vers ta bande démo, IMDb ou tes réseaux nous aident beaucoup.",
+      "submit": "Envoyer",
+      "sending": "Envoi…",
+      "successTitle": "Merci, c'est bien reçu.",
+      "successBody": "On te répond à {email}.",
+      "privacy": "On utilise tes coordonnées uniquement pour te répondre."
+    },
+    "footerNote": "Acheter un site est facultatif et n'est jamais une condition pour rejoindre Agental ou être présenté aux directeurs de casting."
+  },
+  "stepsDemo": {
+    "illustration": "Illustration",
+    "next": "Étape suivante",
+    "profileStrength": "Force du profil",
+    "mandateTitle": "Mandat de représentation",
+    "signed": "Signé",
+    "aiTitle": "Nouveaux rôles pour toi",
+    "fitStrong": "Correspond très bien",
+    "fitGood": "Correspond bien",
+    "awaitingOk": "En attente de ton accord",
+    "bookedTitle": "Rôle décroché",
+    "bookedBody": "Ton agent a confirmé les dates et t’a envoyé le contrat.",
+    "progress": "Étape {n} sur {total}"
   }
 }

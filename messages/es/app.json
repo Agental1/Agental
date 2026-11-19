@@ -77,7 +77,11 @@
     "noVideo": "Ningún vídeo grabado.",
     "noFile": "Ningún archivo.",
     "deleteFailed": "La eliminación ha fallado.",
-    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo."
+    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo.",
+    "billingUnavailable": "Los planes de pago aún no están disponibles.",
+    "limelightContactRequired": "Añade tu nombre para saber a quién responder.",
+    "limelightSendFailed": "Tu mensaje no se envió. Inténtalo de nuevo en un momento o escríbenos por email.",
+    "limelightTooMany": "Demasiados mensajes desde esta conexión. Inténtalo de nuevo en unos minutos."
   },
   "auth": {
     "name": "Nombre",

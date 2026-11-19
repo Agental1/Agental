@@ -342,27 +342,6 @@
       "title": "An idea born at the table",
       "body": "It started over lunch, between a father and his son. Talking about the trade, we ended up putting words to the same observation, from both sides at once. On one side, all those performers who never step out of the shadows for want of being seen at the right moment. All those young people who dream of acting and know neither where nor how to find a good agent. On the other, all those producers and casting directors who could be better supported in their search, to find the rare profile and match people to roles more finely. We thought we could make things better for everyone. Agental was born from that conversation."
     },
-    "team": {
-      "title": "What brings us together",
-      "lead": "We are a team that knows both banks of this trade, the artists' and the company's.",
-      "members": [
-        {
-          "name": "Jérôme",
-          "role": "the father",
-          "body": "Serial entrepreneur. He has founded and grown companies on both sides of the Atlantic, and knows what it takes to turn an intuition into a product that stands up."
-        },
-        {
-          "name": "Vadim",
-          "role": "in Paris",
-          "body": "He started very young with background work in short films and music videos, before landing larger roles in comedies. He knows from the inside what a beginning artist's path looks like."
-        },
-        {
-          "name": "Solal",
-          "role": "in Los Angeles",
-          "body": "Studying engineering at USC. He brings the view of technology, and of a generation that grew up with it."
-        }
-      ]
-    },
     "stance": {
       "title": "Where we stand",
       "body": "We believe an accent, an origin or a singular look are strengths, because productions are looking for real and varied personalities. We believe serious representation can be open to everyone, and free to begin with. And we believe technology must stay in the service of people, with clarity. That is why Agental is natively augmented by AI. That AI works continuously, to spot the roles that genuinely match an artist and to help casting directors find the right profiles faster. A regulated agent stays in charge, and every AI decision can be explained."
@@ -957,5 +936,222 @@
       "commission": "Commission"
     },
     "take": "Take {n}"
+  },
+  "limelight": {
+    "nav": "Websites",
+    "meta": {
+      "title": "Limelight by Agental: a website for every performer",
+      "description": "Send your photos, your reel and a few lines about your work. We build your performer website from $99, first year of hosting included."
+    },
+    "band": {
+      "title": "Need a website? We'll build it with you.",
+      "body": "Limelight turns your photos, your reel and your story into a site casting directors can open in one click. From $99.",
+      "cta": "See Limelight"
+    },
+    "hero": {
+      "eyebrow": "Limelight by Agental",
+      "title": "Your name in lights.",
+      "subtitle": "Send us your photos, your reel and a few lines about your work. We build a website casting directors can open in one click, and you make it yours. For actors, and every performer beyond.",
+      "ctaPrimary": "Build my site",
+      "ctaSecondary": "See the offers",
+      "note": "One-time price from $99. First year of hosting included.",
+      "scrollHint": "Scroll to watch it build"
+    },
+    "frame": {
+      "address": "yourname.agental.site",
+      "name": "Maya Okafor",
+      "role": "Actor, Los Angeles",
+      "line": "Co-star and commercial work. Bilingual in English and Spanish.",
+      "reel": "Watch reel",
+      "resume": "Résumé",
+      "contact": "Contact",
+      "caption": "Sample site for a fictional performer."
+    },
+    "how": {
+      "title": "Three steps to your site",
+      "steps": [
+        {
+          "title": "Share your photos and story",
+          "body": "Send 3 to 12 photos, your reel link, and answers to three short questions about your work."
+        },
+        {
+          "title": "We draft your site",
+          "body": "We pick the layout that suits your photos and draft your bio from your own answers. You get a private preview."
+        },
+        {
+          "title": "Review and publish",
+          "body": "Change any word, swap any photo, then publish. Your site goes live at your own address."
+        }
+      ]
+    },
+    "templates": {
+      "title": "Pick a look",
+      "lead": "Each template comes in several color themes chosen to flatter headshots. Your site keeps its own colors, separate from Agental's.",
+      "caption": "Sample sites with fictional performers.",
+      "items": [
+        {
+          "name": "Marquee",
+          "fit": "Your name, big, over one strong headshot",
+          "performer": "Maya Okafor",
+          "role": "Actor"
+        },
+        {
+          "name": "Contact sheet",
+          "fit": "Made for a deep set of photos",
+          "performer": "Daniel Reyes",
+          "role": "Actor and model"
+        },
+        {
+          "name": "Reel first",
+          "fit": "Your reel plays as the page opens",
+          "performer": "Iris Chen",
+          "role": "Actor"
+        },
+        {
+          "name": "Stage door",
+          "fit": "Theater credits, reviews and press",
+          "performer": "Theo Marchand",
+          "role": "Stage actor"
+        },
+        {
+          "name": "Voice booth",
+          "fit": "Audio demos up front",
+          "performer": "June Parker",
+          "role": "Voice actor"
+        },
+        {
+          "name": "Studio",
+          "fit": "Clean and bright, for commercial and print",
+          "performer": "Sam Adler",
+          "role": "Commercial talent"
+        }
+      ]
+    },
+    "offers": {
+      "title": "Two ways to get your site",
+      "lead": "Pay once to build it. The first year of hosting is included, and you pay only after you approve your preview.",
+      "oneTime": "one-time",
+      "essential": {
+        "name": "Essential",
+        "price": "$99",
+        "summary": "One page that says it all.",
+        "features": [
+          "Headshot, bio, reel, résumé and a contact form",
+          "Your address: yourname.agental.site",
+          "Three templates to choose from",
+          "Edit it yourself any time",
+          "One review round with our team"
+        ],
+        "renewal": "Hosting after year one: $49 a year. Cancel any time from your dashboard.",
+        "cta": "Start with Essential"
+      },
+      "signature": {
+        "name": "Signature",
+        "price": "$199",
+        "summary": "A full site that grows with your career.",
+        "features": [
+          "Gallery, credits, press and more sections",
+          "Your own domain, first year included",
+          "Every template and color theme",
+          "Audio demos and tracks for voice and music",
+          "Three review rounds with our team"
+        ],
+        "renewal": "Hosting and domain after year one: $79 a year. Cancel any time from your dashboard.",
+        "cta": "Start with Signature"
+      },
+      "custom": {
+        "title": "Something else in mind?",
+        "body": "An EPK for a band, a site in several languages, a page for a duo. Tell us about it.",
+        "cta": "Talk to us"
+      },
+      "usd": "Prices in US dollars."
+    },
+    "faq": {
+      "title": "Questions performers ask",
+      "items": [
+        {
+          "q": "Who owns my site and photos?",
+          "a": "You do. Your photos, your words and your domain belong to you."
+        },
+        {
+          "q": "Do I need to be an Agental member?",
+          "a": "Limelight is open to every performer. Buying a site is optional, and it has no effect on joining Agental or being presented to casting."
+        },
+        {
+          "q": "Will you retouch my headshots?",
+          "a": "We crop, resize and compress your photos so they load fast. Faces stay exactly as they are, because casting needs to recognize you in the room."
+        },
+        {
+          "q": "How long does it take?",
+          "a": "It depends on what you send us. We confirm the timing when you start, and you see a private preview before anything goes live."
+        },
+        {
+          "q": "What happens after the first year?",
+          "a": "Hosting renews at $49 a year for Essential and $79 a year for Signature. You can cancel from your dashboard before it renews."
+        },
+        {
+          "q": "I'm a musician, dancer or voice actor. Is this for me?",
+          "a": "Yes. Templates start with actors and include sections for audio demos, tracks, choreography and voice work. Tell us what you do and we'll fit the site to it."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Start your site",
+      "lead": "Tell us who you are and what you need. We reply by email with next steps, or call you if you prefer. You can send photos once we've talked.",
+      "name": "Your name",
+      "email": "Email",
+      "discipline": "What you do",
+      "disciplines": {
+        "actor": "Actor",
+        "musician": "Musician",
+        "dancer": "Dancer",
+        "voice": "Voice actor",
+        "model": "Model",
+        "comedian": "Comedian",
+        "creator": "Content creator",
+        "other": "Something else"
+      },
+      "need": "What you need",
+      "needs": {
+        "new": "A new website",
+        "redo": "Redo my website",
+        "unsure": "Still deciding"
+      },
+      "budget": "Which offer",
+      "budgets": {
+        "essential": "Essential, $99",
+        "signature": "Signature, $199",
+        "custom": "Something custom",
+        "unsure": "Help me choose"
+      },
+      "contactPref": "Best way to reach you",
+      "prefs": {
+        "email": "Email",
+        "call": "Phone call"
+      },
+      "phone": "Phone (if you'd like a call)",
+      "message": "Anything we should know?",
+      "messageHint": "Links to your reel, IMDb or social accounts help a lot.",
+      "submit": "Send",
+      "sending": "Sending…",
+      "successTitle": "Thanks, we have it.",
+      "successBody": "We'll reply at {email}.",
+      "privacy": "We use your details only to reply to you."
+    },
+    "footerNote": "Buying a site is optional and never a condition for joining Agental or being presented to casting."
+  },
+  "stepsDemo": {
+    "illustration": "Illustration",
+    "next": "Next step",
+    "profileStrength": "Profile strength",
+    "mandateTitle": "Representation mandate",
+    "signed": "Signed",
+    "aiTitle": "New roles for you",
+    "fitStrong": "Strong fit",
+    "fitGood": "Good fit",
+    "awaitingOk": "Waiting for your OK",
+    "bookedTitle": "Booked",
+    "bookedBody": "Your agent confirmed the dates and sent you the contract.",
+    "progress": "Step {n} of {total}"
   }
 }

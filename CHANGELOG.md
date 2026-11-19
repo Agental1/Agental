@@ -7,6 +7,52 @@ Toutes les évolutions notables de ce projet. Format inspiré de
 
 ### Changed
 
+- **Portail Talents : système « Green room » (2026-11).** Le portail Talents passe
+  au sable `#ece3d3` et au blanc, avec un seul accent vert `#1f5c47` réservé aux
+  actions. Titres en Big Shoulders Display (police condensée d'affiche),
+  texte en Instrument Sans, toutes deux auto-hébergées depuis `src/assets/fonts`
+  (licence OFL, aucun appel à Google). Boutons rectangulaires (6 px) et en-tête
+  à angles de 12 px sur Talents ; le repère de ruban en T remplace l'étoile à
+  quatre branches côté Talents. Le portail Casting est inchangé : les nouvelles
+  valeurs vivent dans un bloc `[data-portal="talents"]` dédié (comparaison
+  visuelle avant/après de la landing Casting identique).
+- **Mouvement au défilement sur les pages Talents.** Une bande de ruban se pose
+  sous chaque titre de section, les portraits se révèlent comme au labo, et le
+  panneau de scène dérive au défilement. Animations CSS pilotées par le scroll,
+  repli par `IntersectionObserver` (`src/components/talents/scroll-motion.tsx`)
+  pour les navigateurs sans support, états finaux sous `prefers-reduced-motion`.
+- **Sélecteur Talents | Casting dans l'en-tête, des deux côtés, à toutes les
+  largeurs.** Il remplace le lien « Are you a casting director? », qui ne
+  s'affichait qu'à partir de 1536 px de large : sur un portable ou un téléphone,
+  on ne trouvait pas l'autre portail.
+- **Lien « Limelight by Agental » dans le pied de page**, des deux côtés, à
+  côté d'Agental Talents et d'Agental Casting. Suite côté backend :
+  `docs/BACKEND_NEXT_STEPS.md`.
+- **Landing Talents allégée.** « Devenir membre » et « Voir comment ça marche »
+  sont dans le panneau de scène, dès le premier écran ; le grand wordmark
+  au-dessus du panneau et la bande de neuf portraits sont retirés (les types de
+  casting restent, en liens). Les cinq étapes deviennent un parcours cliquable
+  (`src/components/talents/join-steps.tsx`) : boutons radio natifs et `:has()`,
+  donc clavier, sans JavaScript, et une illustration par étape.
+- **Page « Qui sommes-nous » : section équipe retirée** (« Ce qui nous
+  rassemble » et les trois prénoms), dans les quatre langues.
+
+### Added
+
+- **Limelight by Agental, `/[locale]/talents/limelight`.** Page de l'offre de
+  sites web pour les artistes : maquette de site qui se construit au défilement,
+  trois étapes, planche-contact de six modèles qui défile à l'horizontale en
+  section épinglée, deux offres (Essentiel 99 $, Signature 199 $, hébergement
+  renouvelé à 49 $ ou 79 $ par an après la première année), FAQ et formulaire
+  « Lance ton site ». Le nom, le slug et les prix vivent dans
+  `src/domain/limelight.ts`. Le formulaire passe par la server action
+  `src/app/actions/limelight.ts`, qui transmet au workflow n8n signé en
+  HMAC-SHA256 quand `LIMELIGHT_LEADS_WEBHOOK_URL` et `N8N_SIGNING_SECRET` sont
+  posés, et ne fait que journaliser sinon. Champ piège anti-robots, limite de
+  cinq envois par visiteur et par dix minutes, longueurs plafonnées. Paiement en ligne non branché :
+  à ouvrir après l'avis de l'avocat. Lien « Sites web » dans la navigation
+  Talents et bandeau d'appel sur la landing.
+
 - **Refonte v1 (« Spotlight »), d'après les quatre planches de référence de
   l'équipe design.** Nouvelle couche de tokens dans `globals.css` : fond papier
   neutre, encre franche et une seule couleur signal (le gaffer de plateau),

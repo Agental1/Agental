@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import localFont from "next/font/local";
 import { routing, toLocale, LANG_TAG } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
@@ -16,6 +17,26 @@ import "../globals.css";
  * `geist` package rather than next/font/google: no build-time call to Google,
  * and no third-party font request from the visitor's browser.
  */
+/**
+ * Talents typefaces (2026-11): Instrument Sans for reading, Big Shoulders
+ * Display for headlines, a condensed marquee face from the billing block of a
+ * film poster. Self-hosted from the Fontsource builds in src/assets/fonts (OFL),
+ * so the no-Google rule above still holds. Only the Talents skin uses them.
+ */
+const instrument = localFont({
+  // The Latin subset covers English, French and Spanish (é, ñ, œ included).
+  src: "../../assets/fonts/instrument-sans-latin-wght-normal.woff2",
+  weight: "400 700",
+  variable: "--font-instrument",
+  display: "swap",
+});
+const marquee = localFont({
+  src: "../../assets/fonts/big-shoulders-display-latin-wght-normal.woff2",
+  weight: "100 900",
+  variable: "--font-marquee",
+  display: "swap",
+});
+
 /**
  * Site-wide metadata, per locale.
  *
@@ -66,7 +87,7 @@ export default async function LocaleLayout({
     <html
       lang={LANG_TAG[locale]}
       data-scroll-behavior="smooth"
-      className={`${GeistSans.variable} ${GeistMono.variable} h-full`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${instrument.variable} ${marquee.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {/* Organization node, emitted once for the whole site. */}

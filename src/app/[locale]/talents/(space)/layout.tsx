@@ -55,7 +55,7 @@ export default async function TalentsAppLayout({
           }))}
           header={
             <Link href="/talents/app" aria-label="Agental">
-              <AgentalLogo />
+              <AgentalLogo mark="tape" />
             </Link>
           }
           userLabel={session.user.email ?? t("space.nav.account")}

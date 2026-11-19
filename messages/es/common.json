@@ -9,7 +9,8 @@
     "openMenu": "Abrir el menú",
     "closeMenu": "Cerrar el menú",
     "skipToContent": "Ir al contenido",
-    "signIn": "Iniciar sesión"
+    "signIn": "Iniciar sesión",
+    "portalSwitch": "Cambiar entre Agental Talents y Agental Casting"
   },
   "footer": {
     "tagline": "La primera agencia artística concebida con IA desde el principio.",

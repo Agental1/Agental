@@ -56,14 +56,42 @@ export function MarketingHeader({
     <header className="sticky top-0 z-40 px-[clamp(12px,2vw,24px)] pt-3">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-full focus:bg-cta focus:px-4 focus:py-2 focus:text-cta-fg"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-[var(--btn-radius)] focus:bg-cta focus:px-4 focus:py-2 focus:text-cta-fg"
       >
         {t("nav.skipToContent")}
       </a>
-      <div className="mx-auto flex h-14 max-w-[78rem] items-center justify-between gap-3 rounded-full border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
-        <Link href={home} className="shrink-0" aria-label="Agental">
-          <AgentalLogo portal={portal === "casting" ? "Casting" : "Talents"} />
-        </Link>
+      <div className="mx-auto flex h-14 max-w-[78rem] items-center justify-between gap-3 rounded-[var(--chrome-radius)] border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href={home} className="shrink-0" aria-label="Agental">
+            <AgentalLogo mark={portal === "casting" ? "star" : "tape"} />
+          </Link>
+          {/* Talents | Casting: the two halves of Agental, one tap apart, at
+              every width. It replaces a text link that only showed on screens
+              1536px and wider, so most visitors never found the other side. */}
+          <nav
+            aria-label={t("nav.portalSwitch")}
+            className="flex shrink-0 items-center rounded-[var(--btn-radius)] border border-border bg-surface-2/70 p-0.5"
+          >
+            {(["talents", "casting"] as const).map((side) => {
+              const active = (portal ?? "talents") === side;
+              return (
+                <Link
+                  key={side}
+                  href={active ? home : crossLink.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "inline-flex h-9 items-center rounded-[calc(var(--btn-radius)-2px)] px-3 text-[13.5px] transition-colors",
+                    active
+                      ? "bg-surface font-medium text-fg shadow-[0_1px_2px_rgb(0_0_0/0.08)]"
+                      : "text-fg-muted hover:text-fg"
+                  )}
+                >
+                  {side === "talents" ? "Talents" : "Casting"}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
         <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
           {nav.map((item) => {
@@ -74,7 +102,7 @@ export function MarketingHeader({
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[14px] text-fg-muted transition-colors hover:text-fg",
+                  "inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] text-fg-muted transition-colors hover:text-fg",
                   active && "bg-surface-2 text-fg"
                 )}
               >
@@ -85,16 +113,10 @@ export function MarketingHeader({
         </nav>
 
         <div className="hidden shrink-0 items-center gap-1 md:flex">
-          <Link
-            href={crossLink.href}
-            className="hidden h-9 items-center whitespace-nowrap rounded-full px-3 text-[13.5px] text-fg-subtle transition-colors hover:text-fg 2xl:inline-flex"
-          >
-            {crossLink.label}
-          </Link>
           <LocaleSwitcher compact />
           <Link
             href="/connexion"
-            className="inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[14px] text-fg transition-colors hover:bg-surface-2"
+            className="inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] text-fg transition-colors hover:bg-surface-2"
           >
             {t("nav.signIn")}
           </Link>
@@ -107,7 +129,7 @@ export function MarketingHeader({
           ref={burgerRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-fg hover:bg-surface-2 xl:hidden"
+          className="inline-flex size-11 shrink-0 items-center justify-center rounded-[var(--btn-radius)] text-fg hover:bg-surface-2 xl:hidden"
           aria-label={t(open ? "nav.closeMenu" : "nav.openMenu")}
           aria-controls="mobile-nav"
           aria-expanded={open}

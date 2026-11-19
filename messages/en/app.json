@@ -77,7 +77,11 @@
     "noVideo": "No video recorded.",
     "noFile": "No file.",
     "deleteFailed": "Deletion failed.",
-    "confirmFailed": "Confirmation failed. Try again."
+    "confirmFailed": "Confirmation failed. Try again.",
+    "billingUnavailable": "Paid plans are not available yet.",
+    "limelightContactRequired": "Add your name so we know who to reply to.",
+    "limelightSendFailed": "Your message didn’t go through. Try again in a moment, or email us.",
+    "limelightTooMany": "Too many messages from this connection. Try again in a few minutes."
   },
   "auth": {
     "name": "Name",

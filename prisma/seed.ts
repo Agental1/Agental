@@ -10,6 +10,18 @@ import { reason, type MatchReason } from "../src/domain/match-reason";
 import { prisma } from "../src/lib/db";
 import { toJson } from "../src/domain/json";
 
+// The seed creates well-known accounts (including an admin) with a public
+// password. Never let it run against a real database by accident.
+if (process.env.ALLOW_DEMO_SEED !== "true") {
+  throw new Error(
+    "Refusing to seed demo accounts. They include an admin with a published password. " +
+      "Run with ALLOW_DEMO_SEED=true against a LOCAL or TEST database only."
+  );
+}
+if (process.env.NODE_ENV === "production") {
+  throw new Error("Refusing to seed demo accounts with NODE_ENV=production.");
+}
+
 const PASSWORD_HASH = bcrypt.hashSync("demo1234", 10);
 
 type RosterSpec = {

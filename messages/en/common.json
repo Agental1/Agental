@@ -9,7 +9,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "skipToContent": "Skip to content",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "portalSwitch": "Switch between Agental Talents and Agental Casting"
   },
   "footer": {
     "tagline": "The first artist agency natively augmented by AI.",

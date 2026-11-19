@@ -22,6 +22,28 @@ export function AgentalMark({
 }
 
 /**
+ * Talents mark (2026-11): the T of spike tape an actor hits on set. Replaces
+ * the four-point star on the Talents side, which reads as the generic AI
+ * "sparkle". Casting keeps the star. Inherits currentColor.
+ */
+export function TapeMark({
+  className,
+  ...props
+}: React.ComponentProps<"svg">) {
+  return (
+    <svg
+      viewBox="0 0 32 28"
+      className={cn("inline-block", className)}
+      aria-hidden="true"
+      {...props}
+    >
+      <rect x="0" y="0" width="32" height="8" rx="1" fill="currentColor" />
+      <rect x="12" y="6" width="8" height="22" rx="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+/**
  * Star + wordmark lockup.
  *
  * v1 redesign: the wordmark is set like the display type — Geist, tight,
@@ -33,15 +55,22 @@ export function AgentalLogo({
   className,
   wordmark = true,
   portal,
+  mark = portal === "Talents" ? "tape" : "star",
 }: {
   className?: string;
   wordmark?: boolean;
   /** Second word of the lockup, e.g. "Talents". Rendered uppercase. */
   portal?: string;
+  /** "tape" on every Talents surface, "star" everywhere else. */
+  mark?: "tape" | "star";
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <AgentalMark className="h-[22px] w-auto text-signal" />
+      {mark === "tape" ? (
+        <TapeMark className="h-[18px] w-auto text-accent" />
+      ) : (
+        <AgentalMark className="h-[22px] w-auto text-signal" />
+      )}
       {wordmark && (
         <span className="brand-type text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
           Agental

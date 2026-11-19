@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
-import { getBilling } from "@/lib/billing";
+import { getBilling, paidPlanAllowed } from "@/lib/billing";
+import { B2C_PLANS, B2B_PLANS } from "@/domain/pricing";
 import { PlanB2C, PlanB2B } from "@/domain/enums";
 
 export type UpgradeResult = { ok: boolean; error?: ActionError; checkoutUrl?: string };
@@ -20,6 +21,9 @@ export async function upgradeTalentPlan(plan: string): Promise<UpgradeResult> {
   if (!parsed.success) return { ok: false, error: err("errors.invalidPlan") };
 
   const billing = await getBilling();
+  if (!paidPlanAllowed(billing, B2C_PLANS[parsed.data].priceCents)) {
+    return { ok: false, error: err("errors.billingUnavailable") };
+  }
   const { checkoutUrl } = await billing.changePlan({
     subjectType: "ARTIST",
     subjectId: session.user.id,
@@ -56,6 +60,9 @@ export async function changeOrgPlan(plan: string): Promise<UpgradeResult> {
   });
 
   const billing = await getBilling();
+  if (!paidPlanAllowed(billing, B2B_PLANS[parsed.data].priceCents)) {
+    return { ok: false, error: err("errors.billingUnavailable") };
+  }
   const { checkoutUrl } = await billing.changePlan({
     subjectType: "ORG",
     subjectId: membership.organizationId,

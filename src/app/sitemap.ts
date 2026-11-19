@@ -15,6 +15,7 @@ const PATHS = [
   "/talents/tarifs",
   "/talents/faq",
   "/talents/qui-sommes-nous",
+  "/talents/limelight",
   "/casting",
   "/casting/comment-ca-marche",
   "/casting/tarifs",

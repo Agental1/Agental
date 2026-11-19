@@ -8,6 +8,8 @@ import type { Billing, ChangePlanInput } from "./index";
  * plans the price is seatCount × per-seat price. Real charges come from Stripe.
  */
 export class MockBilling implements Billing {
+  readonly live = false;
+
   async changePlan(input: ChangePlanInput): Promise<{ checkoutUrl?: string }> {
     if (input.subjectType === "ARTIST") {
       const def = B2C_PLANS[input.plan as PlanB2C];

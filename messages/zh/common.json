@@ -9,7 +9,8 @@
     "openMenu": "打开菜单",
     "closeMenu": "关闭菜单",
     "skipToContent": "跳到正文",
-    "signIn": "登录"
+    "signIn": "登录",
+    "portalSwitch": "在 Agental Talents 与 Agental Casting 之间切换"
   },
   "footer": {
     "tagline": "首家原生由 AI 加持的艺人经纪公司。",
