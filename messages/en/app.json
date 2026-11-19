@@ -77,7 +77,10 @@
     "noVideo": "No video recorded.",
     "noFile": "No file.",
     "deleteFailed": "Deletion failed.",
-    "confirmFailed": "Confirmation failed. Try again."
+    "confirmFailed": "Confirmation failed. Try again.",
+    "dealInvalid": "That answer could not be read. Please try again.",
+    "dealNotFound": "This deal is no longer waiting for your answer.",
+    "dealSendFailed": "Your answer could not be sent. Please try again in a few minutes."
   },
   "auth": {
     "name": "Name",

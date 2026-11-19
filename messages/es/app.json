@@ -77,7 +77,10 @@
     "noVideo": "Ningún vídeo grabado.",
     "noFile": "Ningún archivo.",
     "deleteFailed": "La eliminación ha fallado.",
-    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo."
+    "confirmFailed": "La confirmación ha fallado. Inténtelo de nuevo.",
+    "dealInvalid": "No pudimos leer tu respuesta. Inténtalo de nuevo.",
+    "dealNotFound": "Esta propuesta ya no espera tu respuesta.",
+    "dealSendFailed": "No pudimos enviar tu respuesta. Inténtalo de nuevo en unos minutos."
   },
   "auth": {
     "name": "Nombre",

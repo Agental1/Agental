@@ -14,6 +14,8 @@ import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { DealsPanel } from "@/components/talents/deals-panel";
+import { listPendingDeals } from "@/lib/n8n/deals";
 
 export default async function TalentsDashboard({
   params,
@@ -36,6 +38,10 @@ export default async function TalentsDashboard({
     },
   });
   if (!profile) return null;
+
+  // Deals the agent negotiated, waiting for this talent's yes. Off until the
+  // n8n webhook variables are set; a failed call shows a note, never an error page.
+  const dealsResult = await listPendingDeals(profile.id);
 
   const cands = profile.candidatures;
   const active = cands.filter((c) =>
@@ -112,6 +118,13 @@ export default async function TalentsDashboard({
           </div>
         ))}
       </div>
+
+      {dealsResult.status === "ok" && <DealsPanel deals={dealsResult.deals} />}
+      {dealsResult.status === "error" && (
+        <p className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-4 text-sm text-fg-muted">
+          {t("space.dashboard.deals.unavailable")}
+        </p>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section className="space-y-3">

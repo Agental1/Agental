@@ -762,7 +762,20 @@
       "welcome": "欢迎，{name}。",
       "welcomeAnon": "欢迎。",
       "completenessHint": "你的资料已完成 {percent}%。补充完整，AI 就能为你做更多。",
-      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}"
+      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}",
+      "deals": {
+        "title": "等待你答复的邀约",
+        "intro": "这些邀约由你的经纪人谈妥。在你接受之前，一切都不会确认。",
+        "empty": "目前没有等待你答复的邀约。",
+        "untitled": "未命名邀约",
+        "openDoc": "打开邀约文件",
+        "commentLabel": "给经纪人的备注（可选）",
+        "accept": "接受",
+        "decline": "拒绝",
+        "accepted": "已接受。你的经纪人会与制作方确认。",
+        "declined": "已拒绝。你的经纪人会通知制作方。",
+        "unavailable": "暂时无法加载你的邀约，请几分钟后再试。"
+      }
     },
     "candidatures": {
       "title": "我的申请",
