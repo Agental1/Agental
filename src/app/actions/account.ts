@@ -36,9 +36,12 @@ export async function exportMyData(): Promise<ExportResult> {
   });
   if (!user) return { ok: false, error: err("errors.notFound") };
 
-  const subscription = await prisma.subscription.findUnique({
-    where: { subjectId: userId },
-  });
+  const [subscription, sites, siteOrders, studentPriceRequest] = await Promise.all([
+    prisma.subscription.findUnique({ where: { subjectId: userId } }),
+    prisma.site.findMany({ where: { userId } }),
+    prisma.siteOrder.findMany({ where: { userId } }),
+    prisma.studentPriceRequest.findUnique({ where: { userId } }),
+  ]);
 
   // Redact secrets.
   const { passwordHash: _drop, ...safeUser } = user;
@@ -57,6 +60,9 @@ export async function exportMyData(): Promise<ExportResult> {
       exportedAt: new Date().toISOString(),
       user: safeUser,
       subscription,
+      sites,
+      siteOrders,
+      studentPriceRequest,
     },
   };
 }

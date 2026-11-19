@@ -1,5 +1,10 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+// The reset route lives under /api, outside the locale tree, so the
+// locale-aware redirect cannot address it.
+// eslint-disable-next-line no-restricted-imports
+import { redirect as nextRedirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
@@ -57,7 +62,14 @@ export default async function ContinuePage({
   }
 
   const pending = await readPendingCookie();
-  if (!pending) return redirect({ href: "/connexion", locale });
+  if (!pending) {
+    // A session cookie with no session behind it (deleted account, or
+    // sessions cut off): clear it, or the visitor keeps being sent here.
+    if (await hasSessionCookie()) {
+      return nextRedirect(`/api/session/reset?locale=${locale}`);
+    }
+    return redirect({ href: "/connexion", locale });
+  }
 
   const t = await getTranslations({ locale, namespace: "app" });
   return (
@@ -89,6 +101,14 @@ export default async function ContinuePage({
         ))}
       </div>
     </div>
+  );
+}
+
+/** Auth.js names its session cookie with a __Secure- prefix on https. */
+async function hasSessionCookie(): Promise<boolean> {
+  const jar = await cookies();
+  return ["authjs.session-token", "__Secure-authjs.session-token"].some(
+    (name) => jar.has(name) || jar.has(`${name}.0`)
   );
 }
 

@@ -81,10 +81,13 @@ function isUniqueViolation(error: unknown): boolean {
   );
 }
 
+/**
+ * Media shows on the dashboard, the profile and the recordings page. The
+ * layout pattern refreshes every page of the talent app in one call, and
+ * keeps working when one of those pages is renamed.
+ */
 function revalidateMediaPages() {
-  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
-  revalidatePath("/[locale]/talents/(space)/app/reel-self-tape", "page");
-  revalidatePath("/[locale]/talents/(space)/app", "page");
+  revalidatePath("/[locale]/talents/(space)", "layout");
 }
 
 export async function createUpload(input: unknown): Promise<CreateUploadResult> {
