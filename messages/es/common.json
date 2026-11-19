@@ -160,5 +160,67 @@
     "final": {
       "title": "¿Listo para empezar?"
     }
+  },
+  "consent": {
+    "title": "Tus opciones de cookies",
+    "lead": "Agental necesita unas pocas cookies para funcionar. Las demás están desactivadas hasta que las actives, y puedes cambiarlo cuando quieras en Ajustes.",
+    "necessary": "Estrictamente necesarias",
+    "necessaryBody": "Inicio de sesión, seguridad, idioma y esta elección. Siempre activas.",
+    "analytics": "Analítica",
+    "analyticsBody": "Nos ayuda a ver qué páginas se usan. Hoy no se instala ninguna.",
+    "marketing": "Marketing",
+    "marketingBody": "Serviría para medir nuestros anuncios. Hoy no se instala ninguna.",
+    "alwaysOn": "Siempre activas",
+    "acceptAll": "Aceptar todas",
+    "reject": "Rechazar las no esenciales",
+    "manage": "Gestionar preferencias",
+    "saveChoice": "Guardar mi elección",
+    "back": "Atrás",
+    "settingsTitle": "Preferencias de cookies",
+    "saved": "Tu elección está guardada.",
+    "continue": "Continuar"
+  },
+  "tour": {
+    "start": "Empieza aquí",
+    "title": "Cómo funciona",
+    "step": "Paso {n} de {total}",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "done": "Entendido",
+    "skip": "Omitir",
+    "replay": "Repetir la visita",
+    "open": "Abrir {page}",
+    "talent": [
+      {
+        "title": "Completa tu perfil",
+        "body": "Tus fotos, tu reel y tus datos son lo primero que ven los directores de casting. Un perfil más completo aparece en más búsquedas."
+      },
+      {
+        "title": "Tu panel",
+        "body": "Tu estado y lo siguiente que hacer, en un solo lugar. Las sugerencias de la IA van primero."
+      },
+      {
+        "title": "Consulta tus candidaturas",
+        "body": "Cada papel que tu agente preparó para ti, con su estado. Tú apruebas cada candidatura antes de enviarla."
+      },
+      {
+        "title": "Suscripciones",
+        "body": "El plan gratuito incluye: {free}. Pro, por {price} al mes, añade: {pro}. Los estudiantes universitarios pueden obtener un descuento."
+      }
+    ],
+    "casting": [
+      {
+        "title": "Publica tu primer papel",
+        "body": "Describe el papel en unas líneas. El asistente lo convierte en un brief claro."
+      },
+      {
+        "title": "Lee tu lista corta",
+        "body": "Los perfiles llegan ordenados, cada uno con su puntuación y sus razones."
+      },
+      {
+        "title": "Suscripción",
+        "body": "El plan gratuito incluye: {free}. Pro, por {price} por puesto y al mes, añade: {pro}."
+      }
+    ]
   }
 }

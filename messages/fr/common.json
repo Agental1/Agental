@@ -160,5 +160,67 @@
     "final": {
       "title": "Prêt à commencer ?"
     }
+  },
+  "consent": {
+    "title": "Tes choix de cookies",
+    "lead": "Agental a besoin de quelques cookies pour fonctionner. Les autres sont désactivés tant que tu ne les actives pas, et tu peux changer d’avis à tout moment dans les Paramètres.",
+    "necessary": "Strictement nécessaires",
+    "necessaryBody": "Connexion, sécurité, langue et ce choix. Toujours actifs.",
+    "analytics": "Mesure d’audience",
+    "analyticsBody": "Nous aide à voir quelles pages sont utilisées. Aucun cookie de ce type aujourd’hui.",
+    "marketing": "Marketing",
+    "marketingBody": "Servirait à mesurer nos publicités. Aucun cookie de ce type aujourd’hui.",
+    "alwaysOn": "Toujours actifs",
+    "acceptAll": "Tout accepter",
+    "reject": "Refuser les non essentiels",
+    "manage": "Gérer mes préférences",
+    "saveChoice": "Enregistrer mon choix",
+    "back": "Retour",
+    "settingsTitle": "Préférences de cookies",
+    "saved": "Ton choix est enregistré.",
+    "continue": "Continuer"
+  },
+  "tour": {
+    "start": "Commence ici",
+    "title": "Comment ça marche",
+    "step": "Étape {n} sur {total}",
+    "next": "Suivant",
+    "back": "Retour",
+    "done": "Compris",
+    "skip": "Passer",
+    "replay": "Revoir la visite",
+    "open": "Ouvrir {page}",
+    "talent": [
+      {
+        "title": "Complète ton profil",
+        "body": "Tes photos, ta bande démo et tes informations sont ce que les directeurs de casting voient en premier. Un profil complet ressort dans plus de recherches."
+      },
+      {
+        "title": "Ton tableau de bord",
+        "body": "Ton statut et la prochaine chose à faire, au même endroit. Les suggestions de l’IA arrivent en premier."
+      },
+      {
+        "title": "Consulte tes candidatures",
+        "body": "Chaque rôle préparé par ton agent, avec son statut. Tu valides chaque candidature avant son envoi."
+      },
+      {
+        "title": "Abonnements",
+        "body": "La formule gratuite comprend : {free}. Pro, à {price} par mois, ajoute : {pro}. Les étudiants peuvent obtenir une réduction."
+      }
+    ],
+    "casting": [
+      {
+        "title": "Publiez votre premier rôle",
+        "body": "Décrivez le rôle en quelques lignes. L’assistant en fait un brief clair."
+      },
+      {
+        "title": "Lisez votre short-list",
+        "body": "Les profils arrivent classés, chacun avec son score et les raisons de son rang."
+      },
+      {
+        "title": "Abonnement",
+        "body": "La formule gratuite comprend : {free}. Pro, à {price} par siège et par mois, ajoute : {pro}."
+      }
+    ]
   }
 }

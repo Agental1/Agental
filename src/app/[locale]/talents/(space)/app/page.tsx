@@ -156,8 +156,6 @@ export default async function TalentsDashboard({
         </div>
       </div>
 
-      <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} />
-
       {gaps.length > 0 && (
         <section
           aria-labelledby="complete-profile"
@@ -261,6 +259,10 @@ export default async function TalentsDashboard({
           </div>
         </section>
       </div>
+
+      {/* Last on the page, so the status, the figures and the AI suggestions
+          keep their place. */}
+      <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} />
     </div>
   );
 }

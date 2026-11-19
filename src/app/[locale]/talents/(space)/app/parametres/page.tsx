@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
+import { ConsentSettings } from "@/components/consent/consent-settings";
 import { B2C_PLANS } from "@/domain/pricing";
 
 export async function generateMetadata({
@@ -48,6 +49,8 @@ export default async function ParametresPage({
   // Display name from the messages, in the order of the B2C_PLANS table.
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
   const planName = planNames[Object.keys(B2C_PLANS).indexOf(plan)] ?? plan;
+
+  const tc = await getTranslations({ locale, namespace: "common" });
 
   return (
     <div className="max-w-2xl space-y-6">
@@ -97,6 +100,15 @@ export default async function ParametresPage({
           {t("space.settings.manageSub")}
         </Button>
       </Section>
+
+      <Link
+        href="/talents/app/profil?welcome=1"
+        className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+      >
+        {tc("tour.replay")}
+      </Link>
+
+      <ConsentSettings />
 
       <RgpdSection />
 

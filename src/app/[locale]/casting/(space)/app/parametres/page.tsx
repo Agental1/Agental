@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
+import { ConsentSettings } from "@/components/consent/consent-settings";
 import { B2B_PLANS } from "@/domain/pricing";
 
 export async function generateMetadata({
@@ -45,6 +46,8 @@ export default async function CastingParametresPage({
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
   const planName = planNames[Object.keys(B2B_PLANS).indexOf(org.plan)] ?? org.plan;
 
+  const tc = await getTranslations({ locale, namespace: "common" });
+
   return (
     <div className="max-w-2xl space-y-6">
       <div>
@@ -74,6 +77,15 @@ export default async function CastingParametresPage({
           <Link href="/casting/app/abonnement">{t("space.settings.manageSub")}</Link>
         </Button>
       </Section>
+
+      <Link
+        href="/casting/app?welcome=1"
+        className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+      >
+        {tc("tour.replay")}
+      </Link>
+
+      <ConsentSettings />
 
       <RgpdSection />
 

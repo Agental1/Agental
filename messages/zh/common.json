@@ -160,5 +160,67 @@
     "final": {
       "title": "准备好开始了吗？"
     }
+  },
+  "consent": {
+    "title": "你的 Cookie 选择",
+    "lead": "Agental 需要少量 Cookie 才能运行。其余的默认关闭，除非你主动开启，并且可以随时在设置中更改。",
+    "necessary": "必要 Cookie",
+    "necessaryBody": "登录、安全、语言以及本次选择。始终开启。",
+    "analytics": "统计分析",
+    "analyticsBody": "帮助我们了解哪些页面被使用。目前未设置此类 Cookie。",
+    "marketing": "营销",
+    "marketingBody": "用于衡量广告效果。目前未设置此类 Cookie。",
+    "alwaysOn": "始终开启",
+    "acceptAll": "全部接受",
+    "reject": "拒绝非必要 Cookie",
+    "manage": "管理偏好",
+    "saveChoice": "保存我的选择",
+    "back": "返回",
+    "settingsTitle": "Cookie 偏好",
+    "saved": "你的选择已保存。",
+    "continue": "继续"
+  },
+  "tour": {
+    "start": "从这里开始",
+    "title": "使用指南",
+    "step": "第 {n} 步，共 {total} 步",
+    "next": "下一步",
+    "back": "返回",
+    "done": "知道了",
+    "skip": "跳过",
+    "replay": "重新查看指南",
+    "open": "打开{page}",
+    "talent": [
+      {
+        "title": "完善个人资料",
+        "body": "照片、作品集和个人信息是选角导演最先看到的内容。资料越完整，出现在搜索中的机会越多。"
+      },
+      {
+        "title": "你的控制台",
+        "body": "你的状态和下一步要做的事，都在这里。AI 建议排在最前面。"
+      },
+      {
+        "title": "查看你的投递",
+        "body": "经纪人为你准备的每个角色及其状态。每次投递发出前都由你确认。"
+      },
+      {
+        "title": "订阅方案",
+        "body": "免费方案包含：{free}。Pro 每月 {price}，额外包含：{pro}。在校大学生可享受优惠。"
+      }
+    ],
+    "casting": [
+      {
+        "title": "发布第一个角色",
+        "body": "用几行文字描述角色，助手会把它整理成清晰的简报。"
+      },
+      {
+        "title": "查看入围名单",
+        "body": "人选按排名送达，每位都附有评分和理由。"
+      },
+      {
+        "title": "订阅方案",
+        "body": "免费方案包含：{free}。Pro 每席位每月 {price}，额外包含：{pro}。"
+      }
+    ]
   }
 }

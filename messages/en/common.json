@@ -160,5 +160,67 @@
     "final": {
       "title": "Ready to start?"
     }
+  },
+  "consent": {
+    "title": "Your cookie choices",
+    "lead": "Agental needs a few cookies to work. The others are off unless you turn them on, and you can change this any time in Settings.",
+    "necessary": "Strictly necessary",
+    "necessaryBody": "Sign-in, security, your language and this choice. Always on.",
+    "analytics": "Analytics",
+    "analyticsBody": "Helps us see which pages are used. None is set today.",
+    "marketing": "Marketing",
+    "marketingBody": "Would measure our ads. None is set today.",
+    "alwaysOn": "Always on",
+    "acceptAll": "Accept all",
+    "reject": "Reject non-essential",
+    "manage": "Manage preferences",
+    "saveChoice": "Save my choice",
+    "back": "Back",
+    "settingsTitle": "Cookie preferences",
+    "saved": "Your choice is saved.",
+    "continue": "Continue"
+  },
+  "tour": {
+    "start": "Start here",
+    "title": "How this works",
+    "step": "Step {n} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "done": "Got it",
+    "skip": "Skip",
+    "replay": "Replay the tour",
+    "open": "Open {page}",
+    "talent": [
+      {
+        "title": "Complete your profile",
+        "body": "Photos, a reel and your details are what casting directors see first. A fuller profile shows up in more searches."
+      },
+      {
+        "title": "Your dashboard",
+        "body": "Your status and what to do next, in one place. AI suggestions come first."
+      },
+      {
+        "title": "View your applications",
+        "body": "Every role your agent prepared for you, with its status. You approve each submission before it goes out."
+      },
+      {
+        "title": "Subscriptions",
+        "body": "Free includes: {free}. Pro, at {price} per month, adds: {pro}. College students can get a discount."
+      }
+    ],
+    "casting": [
+      {
+        "title": "Post your first role",
+        "body": "Describe the role in a few lines. The assistant turns it into a clear brief."
+      },
+      {
+        "title": "Read your shortlist",
+        "body": "Profiles arrive ranked, each with its score and the reasons behind it."
+      },
+      {
+        "title": "Subscription",
+        "body": "Free includes: {free}. Pro, at {price} per seat and per month, adds: {pro}."
+      }
+    ]
   }
 }

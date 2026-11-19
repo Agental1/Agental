@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -5,6 +6,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
+import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
 import { B2B_PLANS } from "@/domain/pricing";
 import type { PlanB2B } from "@/domain/enums";
 import { formatPlanPrice } from "@/lib/plan-price";
@@ -60,6 +62,25 @@ export default async function CastingAppLayout({
     };
   });
 
+  const tc = await getTranslations({ locale, namespace: "common" });
+  const tourCopy = tc.raw("tour.casting") as { title: string; body: string }[];
+  const tourPages = [
+    { href: "/casting/app/projets/nouveau", page: t("space.projects.newBrief") },
+    { href: "/casting/app", page: t("space.nav.projects") },
+    { href: "/casting/app/abonnement", page: t("space.nav.subscription") },
+  ];
+  const listFormat = new Intl.ListFormat(locale, { style: "narrow", type: "conjunction" });
+  const fill = (body: string) =>
+    body
+      .replace("{free}", listFormat.format(t.raw("space.planFeatures.FREE") as string[]))
+      .replace("{pro}", listFormat.format(t.raw("space.planFeatures.PRO") as string[]))
+      .replace("{price}", formatPlanPrice(B2B_PLANS.PRO.priceCents, locale));
+  const tourSteps: TourStep[] = tourCopy.map((step, i) => ({
+    title: step.title,
+    body: fill(step.body),
+    ...tourPages[i],
+  }));
+
   return (
     <AppShell
       portal="casting"
@@ -79,6 +100,9 @@ export default async function CastingAppLayout({
         />
       }
     >
+      <Suspense fallback={null}>
+        <FirstRunTour portal="casting" steps={tourSteps} />
+      </Suspense>
       {children}
     </AppShell>
   );
