@@ -144,7 +144,7 @@ function Hero() {
                   <span>{tf("contact")}</span>
                 </nav>
                 <div>
-                  <p className="ll-name font-[family-name:var(--font-marquee)] text-[clamp(2.1rem,4.4vw,4rem)] uppercase leading-[0.86]">
+                  <p className="ll-name text-[clamp(2.1rem,4.4vw,4rem)] uppercase leading-[0.86]">
                     {tf("name")}
                   </p>
                   <p className="mt-3 text-[13px] text-[#e9c46a]">{tf("role")}</p>
@@ -222,7 +222,7 @@ function TemplateCard({
     <div key="marquee" className="relative h-full bg-[#1e2230] text-[#f4efe6]">
       {photo(portraits.hero[1], "opacity-80")}
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1e2230] via-[#1e2230]/80 to-transparent p-5 pt-16">
-        <p className="font-[family-name:var(--font-marquee)] text-[2.6rem] font-extrabold uppercase leading-[0.85]">{tpl.performer}</p>
+        <p className="text-[2.6rem] font-extrabold uppercase leading-[0.85]">{tpl.performer}</p>
         <p className="mt-2 text-[12px] text-[#e9c46a]">{tpl.role}</p>
       </div>
     </div>,
@@ -254,7 +254,7 @@ function TemplateCard({
       <span className="relative block aspect-square w-[58%] overflow-hidden rounded-[2px]">
         {photo(portraits.ages.senior)}
       </span>
-      <p className="mt-4 font-[family-name:var(--font-marquee)] text-[2.1rem] font-bold uppercase leading-[0.9]">{tpl.performer}</p>
+      <p className="mt-4 text-[2.1rem] font-bold uppercase leading-[0.9]">{tpl.performer}</p>
       <p className="mt-1 text-[11.5px] text-[#f6ead8]/70">{tpl.role}</p>
       <div aria-hidden="true" className="mt-auto space-y-2 border-t border-[#f6ead8]/25 pt-3">
         <span className="block h-1.5 w-[80%] rounded-full bg-[#f6ead8]/30" />
@@ -380,7 +380,7 @@ function Offers() {
                   {t(`${key}.summary`)}
                 </p>
                 <p className="mt-7 flex items-baseline gap-3">
-                  <span className="font-[family-name:var(--font-marquee)] text-[clamp(4rem,7vw,5.75rem)] font-extrabold leading-[0.8]">
+                  <span className="text-[clamp(4rem,7vw,5.75rem)] font-extrabold leading-[0.8]">
                     {t(`${key}.price`)}
                   </span>
                   <span className={cn("text-[14px]", dark ? "text-fg-inverse-muted" : "text-fg-subtle")}>
@@ -392,7 +392,7 @@ function Offers() {
                     <li key={f} className="flex gap-3">
                       <span
                         aria-hidden="true"
-                        className={cn("tape-mark mt-[5px] h-3 w-3.5 shrink-0", dark ? "text-[var(--green-glow)]" : "text-accent")}
+                        className={cn("tape-mark mt-[5px] h-3 w-3.5 shrink-0", dark ? "text-[var(--blue-lift)]" : "text-accent")}
                       />
                       {f}
                     </li>
@@ -405,7 +405,7 @@ function Offers() {
                   <Button
                     asChild
                     size="lg"
-                    className={cn("w-full sm:w-auto", dark && "bg-[var(--sand)] text-[var(--ink-green)] hover:bg-white")}
+                    className={cn("w-full sm:w-auto", dark && "bg-[#ffffff] text-[var(--ink)] hover:bg-white")}
                   >
                     <a href="#start">{t(`${key}.cta`)}</a>
                   </Button>

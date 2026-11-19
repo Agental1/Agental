@@ -147,7 +147,7 @@ function Hero() {
           {/* The tape mark on the floor, where the performer stands. */}
           <span
             aria-hidden="true"
-            className="tape-mark pointer-events-none absolute bottom-[6%] right-[31%] -z-10 hidden h-7 w-8 -translate-x-1/2 text-[var(--green-glow)] drop-shadow-[0_0_14px_rgb(143_209_176/0.55)] md:block"
+            className="tape-mark pointer-events-none absolute bottom-[6%] right-[31%] -z-10 hidden h-7 w-8 -translate-x-1/2 text-[var(--blue-lift)] drop-shadow-[0_0_14px_rgb(143_209_176/0.55)] md:block"
             style={{ transform: "perspective(240px) rotateX(58deg)" }}
           />
           <div className="stage-grain pointer-events-none absolute inset-0 -z-10" />
@@ -478,7 +478,7 @@ function Commission() {
                   <td className="py-5 font-mono text-[14px] text-fg-muted">{plan.price}</td>
                   <td
                     className={cn(
-                      "py-5 text-right font-[family-name:var(--font-marquee)] text-[clamp(2.6rem,5vw,4.25rem)] font-extrabold leading-none tabular-nums",
+                      "py-5 text-right text-[clamp(2.6rem,5vw,4.25rem)] font-extrabold leading-none tabular-nums",
                       !best && "text-fg/40"
                     )}
                   >

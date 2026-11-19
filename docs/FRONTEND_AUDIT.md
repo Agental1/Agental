@@ -58,7 +58,7 @@ Every route is prefixed by the locale (`/en`, `/fr`, `/es`, `/zh`). The path seg
 | App icon and Apple icon | `src/app/icon.tsx` and `src/app/apple-icon.tsx` draw the star in brown on beige |
 | `favicon.ico` | `src/app/favicon.ico` |
 | Web manifest | `src/app/manifest.ts`: beige `#f8f4ec`, brown `#6e4527`, and a French description |
-| Open Graph image | None exists; `src/lib/seo.ts` builds metadata without one |
+| Open Graph image | `src/app/[locale]/opengraph-image.tsx`, drawn in the old colors |
 
 The three logo files named in the brief did not reach this session. `/brand` does not exist yet.
 

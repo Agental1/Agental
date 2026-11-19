@@ -1,169 +1,149 @@
 @import "tailwindcss";
 
 /* =============================================================================
-   Agental — couche de tokens
-   1. Palette brute (charte graphique) — portal-agnostique
-   2. Couche sémantique — remappée par [data-portal="talents|casting"]
-   3. @theme inline — expose les tokens sémantiques comme utilitaires Tailwind
-   Aucun composant ne doit lire une couleur brute : uniquement les rôles.
-   ============================================================================= */
+   Agental token layer (2026-11 redesign)
 
-/* =============================================================================
-   Agental v1 redesign (2026-10) — "Spotlight" system.
-   References: the design team's four boards (Orchard Studio works grid, Alture
-   studio hero, Glow-up evidence cards, Metafore numbered cards).
+   One file, two mirrored themes, one switch: `data-portal` on the layout root.
+     - Talent (and Limelight): white running down to pale blue, near-black text.
+     - Casting: near-black running down to deep blue, white text.
+   Both share one accent, electric blue #246BFE.
 
-   Neutral paper ground, true ink, one signal colour borrowed from the set:
-   spike tape, the fluorescent tape crews put on the floor to mark where an
-   actor stands. It marks things — the logo star, live states, the current
-   item — and never fills large areas.
+   1. Raw palette          the only place a hex value is written
+   2. Semantic roles       remapped by [data-portal="talents|casting"]
+   3. @theme inline        exposes the roles as Tailwind utilities
+   Components read roles (bg-bg, text-fg, bg-cta), never raw colors.
+
+   Contrast, measured at the darkest and lightest end of each gradient (WCAG AA:
+   4.5:1 body text, 3:1 large text and controls):
+     Talent   text 15.7:1 on #DCEAFF, secondary 6.3:1, subtle 5.1:1,
+              accent as a fill or ring 3.7:1, accent text (--accent-ink) 5.0:1
+     Casting  text 13.6:1 on #102B63, secondary 9.1:1, subtle 6.7:1,
+              accent text and ring (--accent-ink) 6.6:1
+     Buttons  white on the blue fill 4.6:1 at its lightest point
+   #246BFE itself reaches only 3.0:1 on #102B63, so on Casting the focus ring
+   and any blue text use the lifted tint; fills stay #246BFE in both themes.
    ============================================================================= */
 
 :root {
   /* --- Raw palette --- */
-  --paper: #ecece8;
-  --sheet: #fafaf7;
-  --fog: #e1e1dc;
-  --graphite: #55554f;
-  --pewter: #6b6b65;
-  --ash: #8a8a84;
-  --ink: #0e0e0e;
-  --stage: #171716;
-  --stage-2: #22221f;
-  --chalk: #f2f2ee;
-  /* Spike tape: decorative fill only (2.9:1 on paper). */
-  --spike: #ff5317;
-  /* Spike, darkened until it can carry text: 5.3:1 on white, 4.7:1 on paper. */
-  --spike-ink: #a8360a;
-  /* Spike, lifted for text on the dark stage: 7.1:1 on --ink. */
-  --spike-glow: #ff7a45;
-  --go: #1f7a4d;
-  --go-glow: #8fd19e;
-  --hold: #a86300;
-  --stop: #c02c1e;
+  --blue: #246bfe;
+  --blue-deep: #1b57db;
+  --blue-night: #1648c4;
+  --blue-lift: #8fb4ff;
+  --blue-wash: #e3edff;
 
-  /* Radii: small controls, cards, panels. Pills use rounded-full. */
-  --sedan-sm: 0.625rem;
-  --sedan: 0.875rem;
-  --sedan-lg: 1.125rem;
-  --sedan-xl: 1.5rem;
-  --sedan-2xl: 2rem;
+  --day-top: #ffffff;
+  --day-bottom: #dceaff;
+  --day-mid: #f3f7ff;
+  --ink: #0b0f1a;
+  --slate: #4a5468;
+  --slate-soft: #566178;
 
-  /* Editorial width: the references run nearly edge to edge. */
-  --container-site: 90rem;
+  --night-top: #080b12;
+  --night-bottom: #102b63;
+  --night-mid: #0c1838;
+  --night-panel: #111b36;
+  --night-panel-2: #1b2f5e;
+  --mist: #c9d4ea;
+  --mist-soft: #a7b6d6;
 
-  /* --- Talents palette (2026-11, "Green room") -------------------------------
-     Sand and paper share the page, about 40% each; the green-room accent takes
-     10 to 20% and marks every action. The green room is where performers wait
-     before they go on. Contrast: white on green 7.8:1, green on sand 6.2:1,
-     muted ink on sand 5.5:1. Casting keeps the Spotlight stage untouched. */
-  --sand: #ece3d3;
-  --sand-2: #e3d8c4;
-  --sand-deep: #d9ccb4;
-  --paper-white: #ffffff;
-  --green-room: #1f5c47;
-  --green-room-hover: #174a39;
-  --green-room-tint: #dce8e1;
-  --green-mid: #2e7d5e;
-  --green-glow: #8fd1b0;
-  --ink-green: #16201c;
-  --ink-green-muted: #565b53;
-  --ink-green-subtle: #5e6058;
-
-  /* Shape tokens. Pills stay the default (Casting); Talents squares them off. */
+  /* --- Shape: round everywhere, both themes -------------------------------
+     Inputs and small controls 12px, cards 16 to 20px, sheets and modals 24px,
+     buttons and the header are pills. */
+  --sedan-sm: 0.75rem;
+  --sedan: 0.75rem;
+  --sedan-lg: 1rem;
+  --sedan-xl: 1.25rem;
+  --sedan-2xl: 1.5rem;
   --btn-radius: 9999px;
   --chrome-radius: 9999px;
+
+  /* --- Type scale: five sizes, no more --- */
+  --text-display: clamp(2.5rem, 4.2vw + 1rem, 4.5rem);
+  --text-title: clamp(1.75rem, 2vw + 1rem, 2.75rem);
+  --text-heading: 1.25rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+
+  --container-site: 80rem;
+
+  /* --- Motion: short, and only in answer to the pointer or the keyboard --- */
+  --press-duration: 180ms;
+  --enter-duration: 240ms;
 }
 
-/* --- Talents skin: light paper --- */
+/* --- Talent theme: daylight ------------------------------------------------ */
 [data-portal="talents"],
 :root:not([data-portal]) {
   color-scheme: light;
-  --bg: var(--sand);
-  --surface: var(--paper-white);
-  --surface-2: var(--sand-2);
-  --fg: var(--ink-green);
-  --fg-muted: var(--ink-green-muted);
-  --fg-subtle: var(--ink-green-subtle);
-  --border: color-mix(in srgb, var(--ink-green) 13%, transparent);
-  --border-strong: #857e70;
-  --field-border: #857e70;
-  --accent: var(--green-room);
-  --accent-hover: var(--green-room-hover);
+  --bg: var(--day-mid);
+  --bg-gradient: linear-gradient(180deg, var(--day-top) 0%, var(--day-bottom) 100%);
+  --surface: #ffffff;
+  --surface-2: #eaf2ff;
+  --fg: var(--ink);
+  --fg-muted: var(--slate);
+  --fg-subtle: var(--slate-soft);
+  --border: color-mix(in srgb, var(--ink) 12%, transparent);
+  --border-strong: #76829a;
+  --field-border: #6b7790;
+  --accent: var(--blue);
+  --accent-hover: var(--blue-deep);
   --accent-fg: #ffffff;
-  --accent-2: var(--green-mid);
-  --accent-soft: var(--green-room-tint);
-  --ring: var(--green-room);
-  --success: var(--go);
-  --warning: var(--hold);
-  --danger: var(--stop);
-  --signal: var(--green-mid);
-  /* Primary actions are green rectangles: the one colour that says "act". */
-  --cta: var(--green-room);
-  --cta-hover: var(--green-room-hover);
+  --accent-ink: var(--blue-deep);
+  --accent-2: var(--blue-deep);
+  --accent-soft: var(--blue-wash);
+  --ring: var(--blue);
+  --success: #196b42;
+  --warning: #8f5400;
+  --danger: #c02c1e;
+  --signal: var(--blue);
+  --cta: var(--blue);
+  --cta-hover: var(--blue-deep);
   --cta-fg: #ffffff;
-  --surface-inverse: var(--ink-green);
-  --fg-inverse: #f3ede2;
-  --fg-inverse-muted: #a9b1a8;
-  --success-inverse: var(--go-glow);
-  --border-inverse: color-mix(in srgb, #f3ede2 42%, var(--ink-green));
-
+  --surface-inverse: var(--ink);
+  --fg-inverse: #ffffff;
+  --fg-inverse-muted: var(--mist);
+  --success-inverse: #8fd19e;
+  --border-inverse: color-mix(in srgb, #ffffff 40%, var(--ink));
+  --lift-shadow: 0 14px 30px -16px rgb(36 107 254 / 0.55);
 }
 
-/* --- Talents only: shape, stage lighting and typefaces ---------------------
-   Kept out of the shared block above, whose `:root:not([data-portal])` arm
-   would otherwise leak these into the Casting portal through inheritance. */
-[data-portal="talents"] {
-  --btn-radius: 6px;
-  --chrome-radius: 12px;
-  /* The dark stage panel, re-lit for Talents: green-black set, warm spot,
-     a green glow where the performer stands. */
-  --stage-base: var(--ink-green);
-  --stage-text: #f3ede2;
-  --stage-glow: rgb(46 125 94 / 0.38);
-  --stage-cta-bg: var(--green-room);
-  --stage-cta-hover: #24704f;
-  --stage-cta-fg: #ffffff;
-  --stage-cta-ring: rgb(143 209 176 / 0.55);
-
-  font-family: var(--font-instrument), system-ui, sans-serif;
-  /* Utilities inline var(--font-geist-sans); re-point it for this subtree. */
-  --font-geist-sans: var(--font-instrument);
-}
-
-/* --- Casting skin: the stage (dark) --- */
+/* --- Casting theme: night -------------------------------------------------- */
 [data-portal="casting"] {
   color-scheme: dark;
-  --bg: var(--ink);
-  --surface: var(--stage);
-  --surface-2: var(--stage-2);
-  --fg: var(--chalk);
-  --fg-muted: #b4b4ad;
-  --fg-subtle: #9a9a93;
-  --border: color-mix(in srgb, var(--chalk) 11%, transparent);
-  --border-strong: #6a6a64;
-  --field-border: #7a7a73;
-  --accent: var(--spike-glow);
-  --accent-hover: #ff9466;
-  --accent-fg: var(--ink);
-  --accent-2: #6a6a64;
-  --accent-soft: color-mix(in srgb, var(--spike) 16%, var(--stage));
-  --ring: var(--spike-glow);
-  --success: var(--go-glow);
+  --bg: var(--night-mid);
+  --bg-gradient: linear-gradient(180deg, var(--night-top) 0%, var(--night-bottom) 100%);
+  --surface: var(--night-panel);
+  --surface-2: var(--night-panel-2);
+  --fg: #ffffff;
+  --fg-muted: var(--mist);
+  --fg-subtle: var(--mist-soft);
+  --border: color-mix(in srgb, #ffffff 14%, transparent);
+  --border-strong: #7f92be;
+  --field-border: #7f92be;
+  --accent: var(--blue);
+  --accent-hover: var(--blue-deep);
+  --accent-fg: #ffffff;
+  --accent-ink: var(--blue-lift);
+  --accent-2: var(--blue-lift);
+  --accent-soft: color-mix(in srgb, var(--blue) 22%, var(--night-panel));
+  --ring: var(--blue-lift);
+  --success: #8fd19e;
   --warning: #f0b45a;
-  --danger: #ff7b6b;
-  --signal: var(--spike);
-  --cta: var(--chalk);
-  --cta-hover: #ffffff;
-  --cta-fg: var(--ink);
-  --surface-inverse: var(--chalk);
+  --danger: #ff9a8c;
+  --signal: var(--blue);
+  --cta: var(--blue);
+  --cta-hover: var(--blue-deep);
+  --cta-fg: #ffffff;
+  --surface-inverse: #ffffff;
   --fg-inverse: var(--ink);
-  --fg-inverse-muted: var(--graphite);
-  --success-inverse: var(--go);
-  --border-inverse: color-mix(in srgb, var(--ink) 40%, var(--chalk));
+  --fg-inverse-muted: var(--slate);
+  --success-inverse: #196b42;
+  --border-inverse: color-mix(in srgb, var(--ink) 40%, #ffffff);
+  --lift-shadow: 0 14px 30px -14px rgb(36 107 254 / 0.8);
 }
 
-/* --- Exposition aux utilitaires Tailwind (inline = suit la cascade data-portal) --- */
+/* --- Roles exposed to Tailwind (inline, so they follow the data-portal cascade) --- */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -193,6 +173,11 @@
   --color-border-inverse: var(--border-inverse);
   --color-signal: var(--signal);
 
+  /* `text-accent` is blue text, which needs more contrast than a blue fill:
+     it reads the ink variant, while `bg-accent` and `border-accent` stay
+     #246BFE. */
+  --text-color-accent: var(--accent-ink);
+
   --radius-sedan-sm: var(--sedan-sm);
   --radius-sedan: var(--sedan);
   --radius-sedan-lg: var(--sedan-lg);
@@ -201,27 +186,30 @@
 
   --container-site: var(--container-site);
 
-  /* Geist has no CJK glyphs. Chinese falls through to the platform's own
-     Simplified Chinese face; Latin inside a Chinese page stays Geist. */
-  --font-sans: var(--font-geist-sans), "Geist", "PingFang SC", "Hiragino Sans GB",
-    "Noto Sans CJK SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
-  /* Deprecie : alias sur --font-sans. Les maquettes n'ont pas de serif.
-     Le perimetre marketing n'en compte plus aucune occurrence ; les 59 qui
-     restent, dans 37 fichiers, sont toutes dans l'admin, l'onboarding et les
-     deux espaces authentifies. Les retirer est un chantier a part entiere, pas
-     un effet de bord de la refonte publique. En attendant, elles rendent. */
+  /* Helvetica, as installed on Apple devices; Arial elsewhere. No web font is
+     loaded. Chinese falls through to the platform's Simplified Chinese face. */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  /* One family only: `font-mono` and `font-display` are kept as aliases so the
+     components that still name them render in Helvetica. Figures line up
+     through tabular numerals instead (see .font-mono below). */
+  --font-mono: var(--font-sans);
   --font-display: var(--font-sans);
 }
 
-/* Default border colour for every element, so components never have to repeat
-   it. It has to live in @layer base: unlayered, it sits after the utilities in
-   source order and wins on equal specificity, which silently defeated
-   `border-field` on form fields — the border stayed decorative-grey at 1.65:1
-   however the class was named. */
+/* Default border color for every element, so components never repeat it. It
+   lives in @layer base: unlayered, it would sit after the utilities and win on
+   equal specificity, which once defeated `border-field` on form fields. */
 @layer base {
   * {
     border-color: var(--border);
+  }
+
+  /* One focus ring, in the accent, on anything that takes focus. Components
+     that draw their own ring (buttons, fields) opt out with outline-none. */
+  :where(a, button, summary, input, select, textarea, [role="button"], [tabindex]):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 
@@ -230,23 +218,133 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: var(--bg) var(--bg-gradient);
   color: var(--fg);
   font-family: var(--font-sans);
   line-height: 1.55;
-  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Each themed root paints its own gradient, top to bottom of the page. The
+   solid --bg underneath is the fallback and what `bg-bg` panels use. */
+[data-portal] {
+  background-image: var(--bg-gradient);
 }
 
 ::selection {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-/* --- Mode démo (?demo) — src/components/demo ------------------------------
-   Pendant la prise : pas de curseur à l'écran, et pas de défilement doux, qui
-   se battrait avec les interpolations image par image du lecteur. L'élément
-   commenté par la légende est cerclé à la couleur CTA de la peau courante. */
+/* --- Type -------------------------------------------------------------------
+   Helvetica Bold for headlines, buttons and primary navigation; Regular for
+   everything else. Unlayered, so it wins over the weight utilities older
+   components still carry on their headings. */
+:is(h1, h2, h3) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility display-xl {
+  font-size: var(--text-display);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+@utility display-lg {
+  font-size: var(--text-display);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+@utility display-md {
+  font-size: var(--text-title);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+/* --- Things you can click ---------------------------------------------------
+   Anything clickable grows a little under the pointer or the keyboard, and a
+   little more while pressed, then settles back. Nothing else moves this way.
+   Unlayered so a stray `transition-colors` utility cannot cancel the scale. */
+.pressable {
+  cursor: pointer;
+  transition:
+    transform var(--press-duration) ease-out,
+    box-shadow var(--press-duration) ease-out,
+    background-position 220ms ease-out,
+    background-color 150ms ease-out,
+    border-color 150ms ease-out,
+    color 150ms ease-out;
+}
+.pressable:hover,
+.pressable:focus-visible {
+  transform: scale(1.03);
+  box-shadow: var(--lift-shadow);
+}
+.pressable:active {
+  transform: scale(1.05);
+}
+.pressable:disabled,
+.pressable[aria-disabled="true"] {
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* The primary fill: the accent as a slow diagonal that slides on hover. White
+   text holds 4.6:1 at its lightest point. */
+.cta-fill {
+  background-color: var(--cta);
+  background-image: linear-gradient(120deg, var(--blue) 0%, var(--blue-night) 50%, var(--blue) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  color: var(--cta-fg);
+}
+.cta-fill:hover,
+.cta-fill:focus-visible {
+  background-position: 100% 50%;
+}
+
+/* A highlighted card or the active navigation item: a wash of the accent. */
+.accent-wash {
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, var(--surface)) 0%, var(--surface) 70%);
+}
+
+/* A short entrance: at most 12px of travel and a quarter of a second. */
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter var(--enter-duration) ease-out both;
+  }
+  @keyframes enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .pressable,
+  .cta-fill {
+    transition: none;
+  }
+  .pressable:hover,
+  .pressable:focus-visible,
+  .pressable:active {
+    transform: none;
+  }
+}
+
+/* --- Demo mode (?demo), src/components/demo ---------------------------------
+   While recording: no cursor on screen and no smooth scrolling, which would
+   fight the player's frame-by-frame tweens. The element the caption talks
+   about is outlined in the theme's accent. */
 html[data-demo="running"],
 html[data-demo="end"] {
   scroll-behavior: auto;
@@ -260,92 +358,53 @@ html[data-demo="end"] * {
   outline-offset: 4px;
 }
 
-/* --- Display type ------------------------------------------------------------
-   The one loud thing on every page. Geist at 600 with tracking pulled in hard,
-   the way the reference boards set "Works" and "Alture Studio". */
-@utility display-xl {
-  font-size: clamp(3.5rem, 10.5vw, 11.5rem);
-  line-height: 0.86;
-  letter-spacing: -0.065em;
-  font-weight: 600;
-}
-@utility display-lg {
-  font-size: clamp(2.5rem, 7vw, 6.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.055em;
-  font-weight: 600;
-}
-@utility display-md {
-  font-size: clamp(2rem, 4.4vw, 3.75rem);
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-  font-weight: 600;
-}
-
-/* --- The stage --------------------------------------------------------------
-   The hero panel: a dark set with one followspot. Pure CSS, no image. */
+/* --- The night panel ---------------------------------------------------------
+   A dark block inside either theme (the Casting tile on the entry screen, the
+   hero panels). It is the Casting gradient, so it carries the Casting roles. */
 .stage-light {
-  background:
-    radial-gradient(60% 75% at 62% -8%, rgb(255 244 228 / 0.55), transparent 62%),
-    radial-gradient(38% 46% at 64% 70%, var(--stage-glow, rgb(255 83 23 / 0.32)), transparent 70%),
-    radial-gradient(70% 60% at 10% 110%, rgb(120 120 140 / 0.22), transparent 70%),
-    var(--stage-base, var(--ink));
+  background: linear-gradient(160deg, var(--night-top) 0%, var(--night-bottom) 100%);
+  color: #ffffff;
 }
-
-/* Buttons that sit on the dark stage, in either portal. Casting keeps its
-   chalk pill; Talents gets the green rectangle. */
 .stage-cta {
   display: inline-flex;
   align-items: center;
   border-radius: var(--btn-radius);
-  background: var(--stage-cta-bg, #f2f2ee);
-  color: var(--stage-cta-fg, #0e0e0e);
-  box-shadow: inset 0 0 0 1px var(--stage-cta-ring, transparent);
-  font-weight: 500;
-  transition: background-color 150ms;
+  background-color: var(--blue);
+  background-image: linear-gradient(120deg, var(--blue) 0%, var(--blue-night) 50%, var(--blue) 100%);
+  background-size: 200% 100%;
+  color: #ffffff;
+  font-weight: 700;
 }
-.stage-cta:hover {
-  background: var(--stage-cta-hover, #ffffff);
-}
-.stage-cta:focus-visible,
-.stage-cta-ghost:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 2px;
+.stage-cta:hover,
+.stage-cta:focus-visible {
+  background-position: 100% 50%;
 }
 .stage-cta-ghost {
   display: inline-flex;
   align-items: center;
   border-radius: var(--btn-radius);
-  border: 1px solid rgb(255 255 255 / 0.3);
+  border: 1px solid rgb(255 255 255 / 0.4);
   color: #ffffff;
-  font-weight: 500;
-  transition: border-color 150ms;
+  font-weight: 700;
 }
 .stage-cta-ghost:hover {
-  border-color: rgb(255 255 255 / 0.7);
+  border-color: #ffffff;
 }
-.stage-beam {
-  background: conic-gradient(from 168deg at 62% -12%, transparent 0deg, rgb(255 246 232 / 0.28) 10deg, rgb(255 246 232 / 0.06) 22deg, transparent 30deg);
-  filter: blur(14px);
+.stage-cta:focus-visible,
+.stage-cta-ghost:focus-visible {
+  outline: 2px solid var(--blue-lift);
+  outline-offset: 2px;
 }
-.stage-grain {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
-  mix-blend-mode: overlay;
-  opacity: 0.18;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .spot-sweep {
-    animation: spot-sweep 2.4s cubic-bezier(0.2, 0.7, 0.1, 1) both;
-  }
-  @keyframes spot-sweep {
-    from { opacity: 0; transform: translateX(-18%) rotate(-4deg); }
-    to { opacity: 1; transform: none; }
-  }
+/* Decoration from the earlier looks (spotlight beam, film grain, tape strips).
+   The markup that still names them is removed page by page in Phase 2. */
+.stage-beam,
+.stage-grain,
+.hit-mark {
+  display: none;
 }
 
 /* --- Chinese typesetting ------------------------------------------------------
-   The display system is tuned for Latin: tight negative tracking, sub-1 line
+   The display type is tuned for Latin: negative tracking, tight line
    heights and widths in `ch`. Each of those breaks Chinese.
      - Negative tracking crushes square glyphs into each other.
      - A 0.86 line height makes full-height ideographs collide across lines.
@@ -388,247 +447,23 @@ html[data-demo="end"] * {
 :lang(zh-Hans) .display-md:not(.brand-type) {
   font-size: clamp(1.8rem, 3.7vw, 3.1rem);
 }
-/* Small labels are monospaced for Latin; a monospaced fallback for Chinese
-   does not exist, so the label falls back to the sans. */
-:lang(zh-Hans) .eyebrow {
-  font-family: var(--font-sans);
-}
+
 
 /* =============================================================================
-   Talents — "Green room" type, motif and scroll motion (2026-11)
-   ============================================================================= */
-
-/* --- Headlines: Big Shoulders, a condensed marquee face. Applies to the public
-   Talents pages (data-surface="site"); the signed-in space keeps Instrument
-   Sans throughout. Unlayered on purpose so it beats the Geist tracking
-   utilities the shared components carry. */
-[data-portal="talents"] :is(.display-xl, .display-lg, .display-md),
-[data-portal="talents"][data-surface="site"] :is(h1, h2) {
-  font-family: var(--font-marquee), var(--font-instrument), sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.005em;
-  line-height: 0.9;
-  font-kerning: normal;
-}
-[data-portal="talents"] .display-xl { font-size: clamp(4.25rem, 13vw, 14rem); line-height: 0.82; }
-[data-portal="talents"] .display-lg { font-size: clamp(3rem, 8.4vw, 7.75rem); }
-[data-portal="talents"] .display-md { font-size: clamp(2.4rem, 5.2vw, 4.5rem); }
-[data-portal="talents"][data-surface="site"] h1:not(:is(.display-xl, .display-lg, .display-md)) {
-  font-size: clamp(3rem, 6.6vw, 6.25rem);
-}
-/* The split wordmark reads like a theatre marquee: capitals, a little air. */
-[data-portal="talents"] .display-xl.brand-type {
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-}
-[data-portal="talents"] h3 { letter-spacing: -0.015em; }
-
-/* The lockup in the header: wordmark in the marquee face too. */
-[data-portal="talents"] .brand-type:not(.display-xl) {
-  font-family: var(--font-marquee), var(--font-instrument), sans-serif;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 22px;
-}
-
-/* --- Eyebrow: plain sentence-case words after a tape mark. No mono, no pill. */
-[data-portal="talents"] .eyebrow {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  font-family: var(--font-instrument), sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--accent);
-  gap: 10px;
-}
-[data-portal="talents"] .eyebrow::before {
-  width: 16px;
-  height: 14px;
-  border-radius: 0;
-  background: var(--accent);
-  -webkit-mask: var(--tape-mark) center / contain no-repeat;
-  mask: var(--tape-mark) center / contain no-repeat;
-}
-
-/* The tape mark: the T of spike tape an actor finds with their feet. */
-:root {
-  --tape-mark: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 28'><rect x='0' y='0' width='32' height='8' rx='1'/><rect x='12' y='6' width='8' height='22' rx='1'/></svg>");
-}
-/* In a layer, so utilities such as `hidden md:block` still win over it. */
-@layer components {
-  .tape-mark {
-    display: inline-block;
-    background: currentColor;
-    -webkit-mask: var(--tape-mark) center / contain no-repeat;
-    mask: var(--tape-mark) center / contain no-repeat;
-  }
-}
-
-/* --- Shape: squared-off controls and header on Talents. Shared components read
-   these through rounded-[var(--btn-radius)] / rounded-[var(--chrome-radius)]. */
-[data-portal="talents"] .rounded-sedan-2xl { border-radius: 18px; }
-[data-portal="talents"] .rounded-sedan-xl { border-radius: 10px; }
-[data-portal="talents"] .rounded-sedan-lg { border-radius: 8px; }
-[data-portal="talents"] .rounded-sedan { border-radius: 6px; }
-[data-portal="talents"] .rounded-sedan-sm { border-radius: 4px; }
-
-/* =============================================================================
-   Scroll motion. Three effects, all tied to scroll position, all optional:
-     1. Hit your mark — a strip of tape lands under each section title.
-     2. Darkroom — photos develop from faded sepia to full colour.
-     3. Stage — the followspot drifts and the performer settles as you scroll.
-   Scroll-driven CSS where the browser supports it; elsewhere a tiny observer
-   (<ScrollMotion />) flips data-motion and the same end states arrive by transition.
-   prefers-reduced-motion: final states, no movement.
-   ============================================================================= */
-
-/* 1. Hit your mark */
-.hit-mark {
-  display: block;
-  width: 56px;
-  height: 9px;
-  margin-top: 18px;
-  border-radius: 1.5px;
-  background: var(--signal);
-  transform-origin: left center;
-}
-.hit-mark.on-stage { background: var(--green-glow); }
-/* Casting keeps the Spotlight system unchanged: no tape strips there. */
-[data-portal="casting"] .hit-mark { display: none; }
-
-/* 2. Darkroom */
-.darkroom { filter: none; }
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .hit-mark {
-      animation: hit-mark linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 32%;
-    }
-    .darkroom {
-      animation: darkroom linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 45%;
-    }
-    .stage-drift {
-      animation: stage-drift linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-    .stage-settle {
-      animation: stage-settle linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-  }
-
-  @supports not (animation-timeline: view()) {
-    /* data-motion is set by <ScrollMotion /> after hydration. */
-    .hit-mark[data-motion="pending"] { transform: translateX(-140%) scaleX(0.2); opacity: 0; }
-    .hit-mark[data-motion] { transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms; }
-    .darkroom[data-motion="pending"] { filter: sepia(0.85) contrast(0.72) brightness(1.12) saturate(0.6); }
-    .darkroom[data-motion] { transition: filter 1400ms ease-out; }
-  }
-}
-
-@keyframes hit-mark {
-  0% { transform: translateX(-140%) scaleX(0.2); opacity: 0; }
-  55% { opacity: 1; }
-  82% { transform: translateX(6%) scaleX(1.06); }
-  100% { transform: none; opacity: 1; }
-}
-@keyframes darkroom {
-  from { filter: sepia(0.85) contrast(0.72) brightness(1.12) saturate(0.6); }
-  to { filter: none; }
-}
-@keyframes stage-drift {
-  to { transform: translateX(-10%) rotate(-3deg); opacity: 0.55; }
-}
-@keyframes stage-settle {
-  to { transform: translateY(6%) scale(1.06); }
-}
-
-/* =============================================================================
-   Limelight page — the sample site builds itself, the contact sheet slides.
-   Default styles are the finished state, so a browser with no support and no
-   JavaScript simply shows the finished site.
+   Limelight page: the sample site and the strip of templates. Nothing here is
+   tied to scroll position any more; the strip is a row you swipe.
    ============================================================================= */
 .ll-frame {
   overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid color-mix(in srgb, var(--ink-green) 14%, transparent);
-  background: #f4f1ea;
-  box-shadow: 0 30px 60px -36px rgb(22 32 28 / 0.55);
+  border-radius: var(--sedan-xl);
+  border: 1px solid var(--border);
+  background: #ffffff;
+  box-shadow: 0 30px 60px -36px rgb(11 15 26 / 0.45);
 }
-.ll-name { font-weight: 850; letter-spacing: 0; }
-.ll-address { clip-path: inset(0 0 0 0); }
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: scroll()) {
-    .ll-headshot,
-    .ll-name,
-    .ll-reel,
-    .ll-address,
-    .ll-hint {
-      animation-timeline: scroll(root);
-      animation-range: 0vh 55vh;
-      animation-fill-mode: both;
-      animation-timing-function: linear;
-    }
-    .ll-headshot { animation-name: ll-headshot; }
-    .ll-name { animation-name: ll-name; }
-    .ll-reel { animation-name: ll-reel; }
-    .ll-address { animation-name: ll-address; animation-timing-function: steps(22, end); }
-    .ll-hint { animation-name: ll-hint; animation-range: 0vh 20vh; }
-  }
-
-  @supports not (animation-timeline: scroll()) {
-    /* Fallback: <ScrollMotion /> flips data-motion; the build plays once. */
-    [data-assemble][data-motion] :is(.ll-headshot, .ll-name, .ll-reel) {
-      transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 700ms, filter 1200ms ease-out, font-weight 900ms;
-    }
-    [data-assemble][data-motion] .ll-address { transition: clip-path 900ms steps(22, end); }
-    [data-assemble][data-motion="pending"] .ll-headshot { transform: translateX(-14%); opacity: 0.4; filter: sepia(0.85) contrast(0.72) brightness(1.1); }
-    [data-assemble][data-motion="pending"] .ll-name { font-weight: 250; letter-spacing: 0.06em; }
-    [data-assemble][data-motion="pending"] .ll-reel { transform: translateY(18px); opacity: 0; }
-    [data-assemble][data-motion="pending"] .ll-address { clip-path: inset(0 100% 0 0); }
-    .ll-hint { display: none; }
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ll-hint { display: none; }
-}
-
-@keyframes ll-headshot {
-  from { transform: translateX(-14%); opacity: 0.4; filter: sepia(0.85) contrast(0.72) brightness(1.1); }
-  to { transform: none; opacity: 1; filter: none; }
-}
-@keyframes ll-name {
-  from { font-weight: 250; letter-spacing: 0.06em; }
-  to { font-weight: 850; letter-spacing: 0; }
-}
-@keyframes ll-reel {
-  0%, 35% { transform: translateY(18px); opacity: 0; }
-  100% { transform: none; opacity: 1; }
-}
-@keyframes ll-address {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-@keyframes ll-hint {
-  to { opacity: 0; }
-}
-
-/* Contact sheet: by default a strip you can swipe sideways. `clip` keeps the
-   strip from widening the page without creating a scroll container, so the
-   sticky pin below still works. */
+.ll-name { font-weight: 700; letter-spacing: -0.02em; }
+.ll-hint { display: none; }
 .ll-sheet { overflow-x: clip; }
-.ll-sheet-pin { padding-block: clamp(64px, 8vw, 120px); }
+.ll-sheet-pin { padding-block: clamp(48px, 6vw, 96px); }
 .ll-sheet-track {
   overflow-x: auto;
   scroll-snap-type: x proximity;
@@ -636,39 +471,8 @@ html[data-demo="end"] * {
 }
 .ll-strip > li { scroll-snap-align: start; }
 
-/* Where scroll-driven animation exists, the section pins and the strip slides
-   as you keep scrolling down. */
-@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
-  @supports (animation-timeline: view()) {
-    .ll-sheet {
-      height: 260vh;
-      view-timeline-name: --ll-sheet;
-      view-timeline-axis: block;
-    }
-    .ll-sheet-pin {
-      position: sticky;
-      top: 0;
-      height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-block: 72px 24px;
-    }
-    .ll-sheet-track { overflow: visible; }
-    .ll-strip {
-      animation: ll-strip linear both;
-      animation-timeline: --ll-sheet;
-      animation-range: contain 6% contain 94%;
-    }
-  }
-}
-@keyframes ll-strip {
-  to { transform: translateX(calc(-100% + 100vw)); }
-}
-
-
 /* =============================================================================
-   Join steps (talents landing) — five steps you click through. Native radios
+   Join steps (Talent landing): five steps you click through. Native radios
    decide the state; :has() reads it. Without :has() support every panel shows,
    in order, which still reads correctly.
    ============================================================================= */
@@ -678,7 +482,7 @@ html[data-demo="end"] * {
   align-items: flex-start;
   padding: 14px 16px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--sedan);
   cursor: pointer;
   transition: background-color 150ms, border-color 150ms;
 }
@@ -691,16 +495,15 @@ html[data-demo="end"] * {
   width: 32px;
   height: 32px;
   border: 1px solid var(--border-strong);
-  border-radius: 6px;
-  font-family: var(--font-marquee), sans-serif;
-  font-size: 18px;
-  font-weight: 800;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   transition: background-color 150ms, color 150ms;
 }
 .join-card {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--sedan-xl);
   background: var(--surface);
   padding: clamp(20px, 2.6vw, 32px);
   min-height: 260px;
@@ -716,7 +519,7 @@ html[data-demo="end"] * {
   background: var(--cta);
   color: var(--cta-fg);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
   transition: background-color 150ms;
 }
@@ -726,7 +529,7 @@ html[data-demo="end"] * {
   .join-tab-body { display: none; }
   .join-panel { display: none; }
   @media (prefers-reduced-motion: no-preference) {
-    .join-panel { animation: join-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .join-panel { animation: join-in 240ms ease-out; }
     @keyframes join-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   }
 .join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] { background: var(--surface); border-color: var(--accent); }

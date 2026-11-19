@@ -65,7 +65,7 @@ export function JoinSteps({ items }: { items: Item[] }) {
         ))}
       </div>
       <div className="mt-7 flex items-end justify-between gap-4 border-t border-border pt-4">
-        <p className="font-[family-name:var(--font-marquee)] text-[26px] font-medium italic leading-none">{tf("name")}</p>
+        <p className="text-[26px] font-medium italic leading-none">{tf("name")}</p>
         <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-accent px-2.5 py-1 text-[12.5px] font-medium text-accent-fg">
           <Check className="size-3.5" />
           {t("signed")}
@@ -99,21 +99,21 @@ export function JoinSteps({ items }: { items: Item[] }) {
       <Image src={portraits.hero[2]} alt="" fill sizes="(min-width: 1024px) 30vw, 80vw" className="object-cover object-[50%_25%] opacity-90" />
       <span aria-hidden="true" className="absolute inset-x-[30%] top-[10%] h-[52%] rounded-[50%] border border-dashed border-white/60" />
       <span className="absolute left-4 top-4 flex items-center gap-1.5 text-[11.5px] font-medium text-white">
-        <span className="size-2 rounded-full bg-[var(--green-glow)]" />
+        <span className="size-2 rounded-full bg-[var(--blue-lift)]" />
         REC
       </span>
       <span className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-[6px] bg-black/60 px-3 py-1.5 text-[12.5px] text-white backdrop-blur-md">
-        <Check className="size-3.5 text-[var(--green-glow)]" />
+        <Check className="size-3.5 text-[var(--blue-lift)]" />
         {ts("hint")}
       </span>
     </div>,
     // 5. Booked
     <div key="booked" className="join-card bg-surface-inverse text-fg-inverse">
-      <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-[var(--green-glow)] px-2.5 py-1 text-[12.5px] font-semibold text-[var(--ink-green)]">
+      <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-[var(--blue-lift)] px-2.5 py-1 text-[12.5px] font-semibold text-[var(--ink)]">
         <Check className="size-3.5" />
         {t("bookedTitle")}
       </span>
-      <p className="mt-5 font-[family-name:var(--font-marquee)] text-[34px] font-extrabold uppercase leading-[0.95]">
+      <p className="mt-5 text-[34px] font-extrabold uppercase leading-[0.95]">
         {tc("publicite.name")}
       </p>
       <p className="mt-3 max-w-[34ch] text-[14.5px] leading-relaxed text-fg-inverse-muted">{t("bookedBody")}</p>

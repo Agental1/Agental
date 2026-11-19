@@ -16,11 +16,9 @@ export interface NavItem {
 }
 
 /**
- * Floating pill navigation (v1 redesign, after the Orchard Studio board).
- *
- * The bar is a rounded capsule that floats over the page rather than a
- * full-width strip, so the giant display type underneath keeps the whole
- * width. Sign-in sits in the pill: it was missing from every marketing page.
+ * Floating pill navigation: a rounded capsule over the page, with the
+ * Talent | Casting switch, the section links, Sign in and the one call to
+ * action. Primary navigation is set in bold; every item is a `.pressable`.
  */
 export function MarketingHeader({
   portal,
@@ -80,9 +78,9 @@ export function MarketingHeader({
                   href={active ? home : crossLink.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "inline-flex h-9 items-center rounded-[calc(var(--btn-radius)-2px)] px-3 text-[13.5px] transition-colors",
+                    "pressable inline-flex h-9 items-center rounded-[calc(var(--btn-radius)-2px)] px-3 text-[14px] font-bold",
                     active
-                      ? "bg-surface font-medium text-fg shadow-[0_1px_2px_rgb(0_0_0/0.08)]"
+                      ? "cta-fill"
                       : "text-fg-muted hover:text-fg"
                   )}
                 >
@@ -102,8 +100,8 @@ export function MarketingHeader({
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] text-fg-muted transition-colors hover:text-fg",
-                  active && "bg-surface-2 text-fg"
+                  "pressable inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] font-bold text-fg-muted hover:bg-surface-2 hover:text-fg",
+                  active && "bg-accent-soft text-accent"
                 )}
               >
                 {item.label}
@@ -116,7 +114,7 @@ export function MarketingHeader({
           <LocaleSwitcher compact />
           <Link
             href="/connexion"
-            className="inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] text-fg transition-colors hover:bg-surface-2"
+            className="pressable inline-flex h-9 items-center whitespace-nowrap rounded-[var(--btn-radius)] px-3 text-[14px] font-bold text-fg hover:bg-surface-2"
           >
             {t("nav.signIn")}
           </Link>
@@ -129,7 +127,7 @@ export function MarketingHeader({
           ref={burgerRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-[var(--btn-radius)] text-fg hover:bg-surface-2 xl:hidden"
+          className="pressable inline-flex size-11 shrink-0 items-center justify-center rounded-[var(--btn-radius)] text-fg hover:bg-surface-2 xl:hidden"
           aria-label={t(open ? "nav.closeMenu" : "nav.openMenu")}
           aria-controls="mobile-nav"
           aria-expanded={open}
@@ -149,7 +147,7 @@ export function MarketingHeader({
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex min-h-12 items-center rounded-sedan px-4 text-[17px] tracking-[-0.02em] text-fg hover:bg-surface-2"
+                className="flex min-h-12 items-center rounded-sedan px-4 text-[17px] font-bold tracking-[-0.02em] text-fg hover:bg-surface-2"
               >
                 {item.label}
               </Link>
