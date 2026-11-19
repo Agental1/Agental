@@ -8,19 +8,37 @@ import {
   ArrowRight,
   UserCog,
   Video,
+  ImageIcon,
+  Ruler,
+  PenLine,
+  PartyPopper,
 } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { parseJson, PhysicalTraits } from "@/domain/json";
+import { profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
+import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
+
+const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
+  photos: ImageIcon,
+  video: Video,
+  physical: Ruler,
+  bio: PenLine,
+};
 
 export default async function TalentsDashboard({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ welcome?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
+  // Set by signMandat's redirect. Only "1" counts; nothing from the URL is shown.
+  const justSigned = (await searchParams).welcome === "1";
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -33,9 +51,24 @@ export default async function TalentsDashboard({
       mandat: true,
       candidatures: { include: { project: true, matchScore: true } },
       media: true,
+      _count: { select: { specialties: true } },
     },
   });
   if (!profile) return null;
+
+  // Scored here rather than read from completenessScore, so the card and the
+  // percentage cannot disagree, even on rows scored by the old rule.
+  const completenessInput = {
+    stageName: profile.stageName,
+    birthDate: profile.birthDate,
+    city: profile.city,
+    bio: profile.bio,
+    physical: parseJson(PhysicalTraits, profile.physical),
+    specialtiesCount: profile._count.specialties,
+    media: profile.media,
+  };
+  const gaps = profileGaps(completenessInput);
+  const completeness = scoreProfile(completenessInput);
 
   const cands = profile.candidatures;
   const active = cands.filter((c) =>
@@ -58,17 +91,21 @@ export default async function TalentsDashboard({
     { label: t("space.dashboard.urgent"), value: urgent, icon: Sparkles },
   ];
 
+  // The "Complete your profile" card covers photos, video, physical details
+  // and bio. These suggestions pick up what it does not list.
   const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = [];
-  if (profile.completenessScore < 100)
+  if (gaps.length === 0 && completeness < 100)
     suggestions.push({
-      text: t("space.dashboard.completenessHint", {
-        percent: profile.completenessScore,
-      }),
+      text: t("space.dashboard.completenessHint", { percent: completeness }),
       href: "/talents/app/profil",
       cta: t("space.dashboard.complete"),
       icon: UserCog,
     });
-  if (profile.media.filter((m) => m.type === "SELFTAPE").length === 0)
+  // A reel clears the card's video item; a self-tape is still worth asking for.
+  if (
+    !gaps.includes("video") &&
+    profile.media.filter((m) => m.type === "SELFTAPE").length === 0
+  )
     suggestions.push({
       text: t("space.dashboard.selftapeHint"),
       href: "/talents/app/self-tape",
@@ -93,12 +130,56 @@ export default async function TalentsDashboard({
               : t("space.dashboard.welcomeAnon")}
           </h1>
           <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
+          {justSigned && (
+            <p className="mt-2 flex items-center gap-2 text-sm font-medium text-success">
+              <PartyPopper className="size-4 shrink-0" />
+              {t("space.dashboard.welcomeSigned")}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="success">{t("space.dashboard.represented")}</Badge>
           <Badge variant="neutral">Plan Free</Badge>
         </div>
       </div>
+
+      {gaps.length > 0 && (
+        <section
+          aria-labelledby="complete-profile"
+          className="rounded-sedan border border-accent/40 bg-accent-soft/40 p-5"
+        >
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 id="complete-profile" className="font-display text-xl font-medium">
+              {t("space.dashboard.completeProfile.title")}
+            </h2>
+            <span className="text-sm text-fg-muted">
+              {t("space.dashboard.completeProfile.percent", { percent: completeness })}
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-fg-muted">
+            {t("space.dashboard.completeProfile.subtitle")}
+          </p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {gaps.map((gap) => {
+              const Icon = GAP_ICON[gap];
+              return (
+                <li key={gap}>
+                  <Link
+                    href={profileTabHref(GAP_TAB[gap])}
+                    className="flex min-h-11 items-center gap-3 rounded-sedan border border-border bg-surface p-3 text-sm transition-colors hover:border-accent"
+                  >
+                    <Icon className="size-4 shrink-0 text-accent" />
+                    <span className="flex-1 font-medium">
+                      {t(`space.dashboard.completeProfile.gaps.${gap}`)}
+                    </span>
+                    <ArrowRight className="size-4 shrink-0 text-fg-subtle" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (

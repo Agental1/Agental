@@ -67,6 +67,8 @@
     "projectTypeRequired": "请至少选择一种项目类型。",
     "emailInvalid": "邮箱地址无效。",
     "passwordTooShort": "至少 8 个字符。",
+    "passwordNeedsUppercase": "请至少包含一个大写字母。",
+    "passwordNeedsSpecial": "请至少包含一个特殊字符，例如 ! 或 #。",
     "invalidPlan": "方案无效。",
     "invalidMediaType": "媒体类型无效。",
     "profileNotFound": "未找到该资料。",
@@ -81,14 +83,40 @@
     "billingUnavailable": "付费方案暂未开放。",
     "limelightContactRequired": "请填写你的名字，方便我们回复。",
     "limelightSendFailed": "消息未能发送。请稍后再试，或给我们发邮件。",
-    "limelightTooMany": "此连接发送的消息过多，请几分钟后再试。"
+    "limelightTooMany": "此连接发送的消息过多，请几分钟后再试。",
+    "oauthNoAccount": "此次登录已过期，请重新使用 Google 或 Apple 登录。",
+    "oauthEmailUnverified": "你的 Google 或 Apple 账号需要已验证的邮箱才能在此登录。",
+    "oauthLinkRequiresPassword": "该邮箱已注册账号，请使用邮箱和密码登录。",
+    "oauthGeneric": "Google 或 Apple 登录失败，请重试。",
+    "adultsOnly": "年满 18 岁方可加入 Agental。",
+    "birthDateRequired": "请填写出生日期。",
+    "birthDateInvalid": "请检查出生日期。",
+    "heightRange": "身高须在 91 至 241 厘米之间。",
+    "mandatAlreadySigned": "你的经纪委托已签署。"
   },
   "auth": {
     "name": "姓名",
     "email": "邮箱",
     "password": "密码",
     "emailPlaceholder": "name@example.com",
-    "passwordPlaceholder": "至少 8 个字符"
+    "passwordPlaceholder": "至少 8 个字符，含一个大写字母和一个特殊字符",
+    "choose": {
+      "metaTitle": "选择你的空间",
+      "title": "最后一步",
+      "subtitle": "为 {email} 选择空间。",
+      "talent": "我是艺人",
+      "talentHint": "获得代理，寻找角色。",
+      "casting": "我是选角导演",
+      "castingHint": "发布项目，建立候选名单。"
+    }
+  },
+  "height": {
+    "unit": "身高单位",
+    "imperial": "英尺/英寸",
+    "metric": "厘米",
+    "feet": "英尺",
+    "inches": "英寸",
+    "centimeters": "厘米"
   },
   "specialties": {
     "figuration": "群众演员",

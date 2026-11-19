@@ -6,9 +6,11 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { AuthForm } from "@/components/auth/auth-form";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { signupAction } from "@/app/actions/auth";
 import { CastingOnboardingWizard } from "@/components/onboarding/casting-onboarding-wizard";
 import { parseJson } from "@/domain/json";
+import { isCastingOnboarded } from "@/domain/auth-routes";
 import { z } from "zod";
 
 export async function generateMetadata({
@@ -46,6 +48,14 @@ export default async function CastingSignupPage({
           </h1>
           <p className="text-sm text-fg-muted">{t("signup.subtitle")}</p>
         </div>
+        <OAuthButtons
+          className="mb-4"
+          mode="signup"
+          kind="CASTING"
+          locale={locale}
+          namespace="casting"
+          tone="dark"
+        />
         <AuthForm
           action={signupAction}
           submitLabel={t("signup.submit")}
@@ -67,8 +77,14 @@ export default async function CastingSignupPage({
     include: { organization: true },
   });
 
-  // Already onboarded (org exists + email verified) → app.
-  if (membership && session.user && (await isVerified(session.user.id))) {
+  // Already onboarded (org exists + email verified) → app. Same rule as
+  // postAuthHome, which routes every sign-in.
+  if (
+    isCastingOnboarded({
+      hasOwnerMembership: !!membership,
+      emailVerified: !!membership && (await isVerified(session.user.id)),
+    })
+  ) {
     return redirect({ href: "/casting/app", locale });
   }
 

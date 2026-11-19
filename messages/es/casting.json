@@ -508,5 +508,10 @@
         "Grandes productoras"
       ]
     }
+  },
+  "oauth": {
+    "google": "Continuar con Google",
+    "apple": "Continuar con Apple",
+    "or": "o"
   }
 }

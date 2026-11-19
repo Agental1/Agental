@@ -655,9 +655,7 @@
   "onboarding": {
     "steps": {
       "identity": "Identidad",
-      "physical": "Físico",
-      "media": "Medios",
-      "specialties": "Especialidades",
+      "profile": "Perfil",
       "mandat": "Mandato"
     },
     "identity": {
@@ -665,35 +663,15 @@
       "subtitle": "Empecemos por lo básico.",
       "stageName": "Nombre artístico",
       "stageNamePlaceholder": "Tu nombre artístico",
-      "legalName": "Nombre civil (privado)",
       "birthDate": "Fecha de nacimiento",
       "city": "Ciudad",
-      "cityPlaceholder": "Lyon",
-      "phone": "Teléfono"
+      "cityPlaceholder": "Lyon"
     },
-    "physical": {
-      "title": "Tu físico",
-      "subtitle": "Lo que buscan los cástines. Todo es opcional.",
-      "height": "Estatura (cm)",
-      "build": "Complexión",
-      "buildPlaceholder": "delgada, atlética…",
-      "hair": "Cabello",
-      "eyes": "Ojos",
-      "languages": "Idiomas (separados por comas)",
-      "languagesPlaceholder": "francés, inglés",
-      "accents": "Acentos",
-      "accentsPlaceholder": "bretón, marsellés"
-    },
-    "media": {
-      "title": "Tus medios",
-      "subtitle": "Fotos, vídeo, voz: lo que mejor te muestre.",
-      "note": "Un vídeo grabado con el móvil basta para empezar. Podrás añadir material desde tu perfil justo después de registrarte.",
-      "skip": "Saltar este paso"
-    },
-    "specialties": {
-      "title": "Tus especialidades",
-      "subtitle": "Elige lo que encaja contigo, al menos una.",
-      "minRate": "Caché mínimo (€/día, opcional)"
+    "profile": {
+      "title": "Lo que haces",
+      "subtitle": "Elige al menos una especialidad. La altura es opcional.",
+      "specialties": "Especialidades",
+      "height": "Altura (opcional)"
     },
     "mandat": {
       "title": "Tu mandato de representación",
@@ -741,7 +719,19 @@
       "welcome": "Bienvenido, {name}.",
       "welcomeAnon": "Bienvenido.",
       "completenessHint": "Tu perfil está completo al {percent} % — complétalo para que la IA lo aproveche mejor.",
-      "urgentHint": "{count, plural, one {# oportunidad donde estás muy bien posicionado: cuida tu candidatura.} other {# oportunidades donde estás muy bien posicionado: cuida tus candidaturas.}}"
+      "urgentHint": "{count, plural, one {# oportunidad donde estás muy bien posicionado: cuida tu candidatura.} other {# oportunidades donde estás muy bien posicionado: cuida tus candidaturas.}}",
+      "welcomeSigned": "Tu mandato está firmado. Agental ya te representa.",
+      "completeProfile": {
+        "title": "Completa tu perfil",
+        "subtitle": "Los directores de casting eligen según lo que ven. Añade esto para aparecer en más búsquedas.",
+        "percent": "Completo al {percent} %",
+        "gaps": {
+          "photos": "Añadir fotos",
+          "video": "Añadir un self-tape o un videobook",
+          "physical": "Añadir tus rasgos físicos",
+          "bio": "Escribir una breve biografía"
+        }
+      }
     },
     "candidatures": {
       "title": "Mis candidaturas",
@@ -875,13 +865,15 @@
       "city": "Ciudad",
       "phone": "Teléfono",
       "bio": "Bio",
-      "height": "Altura (cm)",
+      "height": "Altura",
       "build": "Complexión",
       "hair": "Cabello",
       "eyes": "Ojos",
       "languages": "Idiomas (separados por comas)",
       "accents": "Acentos (separados por comas)",
-      "minRate": "Caché mínimo (€/día)"
+      "minRate": "Caché mínimo (€/día)",
+      "save": "Guardar",
+      "saved": "Guardado"
     },
     "rgpd": {
       "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",
@@ -1153,5 +1145,10 @@
     "bookedTitle": "Papel conseguido",
     "bookedBody": "Tu agente confirmó las fechas y te envió el contrato.",
     "progress": "Paso {n} de {total}"
+  },
+  "oauth": {
+    "google": "Continuar con Google",
+    "apple": "Continuar con Apple",
+    "or": "o"
   }
 }
