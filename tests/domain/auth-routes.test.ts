@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { appHome, onboardingHome } from "@/domain/auth-routes";
+import {
+  appHome,
+  isCastingOnboarded,
+  isMandateSigned,
+  onboardingHome,
+  postAuthHome,
+} from "@/domain/auth-routes";
 import { routing } from "@/i18n/routing";
 
 /**
@@ -61,5 +67,71 @@ describe("onboardingHome", () => {
         );
       }
     }
+  });
+});
+
+describe("postAuthHome", () => {
+  const signed = { status: "ACTIVE", signedAt: new Date("2026-01-01") };
+
+  it("sends a talent with a signed, active mandate to the dashboard", () => {
+    expect(postAuthHome("TALENT", "es", { mandat: signed })).toBe("/es/talents/app");
+  });
+
+  it("sends a talent back to onboarding until the mandate is signed and active", () => {
+    expect(postAuthHome("TALENT", "fr", {})).toBe("/fr/talents/inscription");
+    expect(postAuthHome("TALENT", "fr", { mandat: null })).toBe("/fr/talents/inscription");
+    expect(postAuthHome("TALENT", "fr", { mandat: { status: "ACTIVE", signedAt: null } })).toBe(
+      "/fr/talents/inscription"
+    );
+    expect(postAuthHome("TALENT", "fr", { mandat: { ...signed, status: "REVOKED" } })).toBe(
+      "/fr/talents/inscription"
+    );
+  });
+
+  it("sends an onboarded casting director to the dashboard", () => {
+    expect(postAuthHome("CASTING", "zh", { hasOwnerMembership: true, emailVerified: true })).toBe(
+      "/zh/casting/app"
+    );
+  });
+
+  it("keeps a casting director in onboarding until both steps are done", () => {
+    expect(postAuthHome("CASTING", "en", { hasOwnerMembership: true })).toBe("/en/casting/inscription");
+    expect(postAuthHome("CASTING", "en", { emailVerified: true })).toBe("/en/casting/inscription");
+  });
+
+  it("never mixes portals: a talent's casting fields are ignored", () => {
+    expect(postAuthHome("TALENT", "en", { hasOwnerMembership: true, emailVerified: true })).toBe(
+      "/en/talents/inscription"
+    );
+  });
+
+  it("treats a missing kind as a talent and an unknown locale as the default", () => {
+    expect(postAuthHome(undefined, "../evil", {})).toBe(`/${routing.defaultLocale}/talents/inscription`);
+  });
+});
+
+// The signup pages call these two directly to skip onboarding, so they must
+// agree with postAuthHome on their own, not only through it.
+describe("isMandateSigned", () => {
+  const signedAt = new Date("2026-01-01");
+
+  it("needs an ACTIVE mandate with a signature date", () => {
+    expect(isMandateSigned({ mandat: { status: "ACTIVE", signedAt } })).toBe(true);
+  });
+
+  it("refuses a missing, unsigned or revoked mandate", () => {
+    expect(isMandateSigned({})).toBe(false);
+    expect(isMandateSigned({ mandat: null })).toBe(false);
+    expect(isMandateSigned({ mandat: { status: "ACTIVE", signedAt: null } })).toBe(false);
+    expect(isMandateSigned({ mandat: { status: "REVOKED", signedAt } })).toBe(false);
+  });
+});
+
+describe("isCastingOnboarded", () => {
+  it("needs both an owner membership and a verified email", () => {
+    expect(isCastingOnboarded({ hasOwnerMembership: true, emailVerified: true })).toBe(true);
+    expect(isCastingOnboarded({ hasOwnerMembership: true, emailVerified: false })).toBe(false);
+    expect(isCastingOnboarded({ hasOwnerMembership: false, emailVerified: true })).toBe(false);
+    expect(isCastingOnboarded({})).toBe(false);
   });
 });

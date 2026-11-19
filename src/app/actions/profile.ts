@@ -6,6 +6,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { recomputeCompleteness } from "@/lib/completeness";
 import { toJson } from "@/domain/json";
+import { isMinorOn } from "@/domain/age";
+import { audit } from "@/lib/audit";
 import {
   ProfileIdentity,
   ProfilePhysical,
@@ -22,15 +24,6 @@ async function requireProfile() {
   return prisma.artistProfile.findUnique({ where: { userId: session.user.id } });
 }
 
-function isMinorFrom(birthDate?: string): boolean {
-  if (!birthDate) return false;
-  const d = new Date(birthDate);
-  if (Number.isNaN(d.getTime())) return false;
-  const e = new Date(d);
-  e.setFullYear(e.getFullYear() + 18);
-  return e > new Date();
-}
-
 async function done(profileId: string): Promise<SaveResult> {
   const completeness = await recomputeCompleteness(profileId);
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
@@ -45,18 +38,33 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
   if (!parsed.success)
     return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
+  const birthDate = new Date(d.birthDate);
   await prisma.artistProfile.update({
     where: { id: profile.id },
     data: {
       stageName: d.stageName,
-      legalName: d.legalName || null,
-      phone: d.phone || null,
+      // The editor has no legal name field. Left undefined, Prisma keeps the
+      // stored value; this save used to null it on every submit.
+      legalName: d.legalName === undefined ? undefined : d.legalName || null,
+      phone: d.phone === undefined ? undefined : d.phone || null,
       city: d.city || null,
       bio: d.bio || null,
-      birthDate: d.birthDate ? new Date(d.birthDate) : null,
-      isMinor: isMinorFrom(d.birthDate),
+      birthDate,
+      isMinor: isMinorOn(d.birthDate),
     },
   });
+  // The mandate was signed against the stored birth date, so any change to it
+  // is traced.
+  if (profile.birthDate?.getTime() !== birthDate.getTime()) {
+    await audit({
+      actorUserId: profile.userId,
+      action: "profile.birthDate.change",
+      resourceType: "ArtistProfile",
+      resourceId: profile.id,
+      before: { birthDate: profile.birthDate },
+      after: { birthDate },
+    });
+  }
   return done(profile.id);
 }
 

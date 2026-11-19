@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { IdentityStep, PhysicalStep, SpecialtiesStep } from "./onboarding";
+import { IdentityStep, SpecialtiesStep } from "./onboarding";
+import { HeightInput } from "./height";
 
 /** Identity + bio, used on the profile edit screen. */
 export const ProfileIdentity = IdentityStep.extend({
@@ -7,7 +8,23 @@ export const ProfileIdentity = IdentityStep.extend({
 });
 export type ProfileIdentity = z.infer<typeof ProfileIdentity>;
 
-export const ProfilePhysical = PhysicalStep;
+/**
+ * Physical tab. Height arrives unit-tagged (feet and inches, or centimeters)
+ * and leaves as the stored shape, `heightCm` in whole centimeters.
+ */
+export const ProfilePhysical = z
+  .object({
+    height: HeightInput.optional(),
+    hair: z.string().optional(),
+    eyes: z.string().optional(),
+    build: z.string().optional(),
+    languages: z.array(z.string()).default([]),
+    accents: z.array(z.string()).default([]),
+  })
+  .transform(({ height, ...rest }) =>
+    height === undefined ? rest : { heightCm: height, ...rest }
+  );
+export type ProfilePhysical = z.infer<typeof ProfilePhysical>;
 export const ProfileSpecialties = SpecialtiesStep;
 
 export const AvailabilityInput = z.object({

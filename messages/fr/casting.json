@@ -508,5 +508,10 @@
         "Grandes maisons"
       ]
     }
+  },
+  "oauth": {
+    "google": "Continuer avec Google",
+    "apple": "Continuer avec Apple",
+    "or": "ou"
   }
 }

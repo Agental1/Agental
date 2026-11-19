@@ -655,9 +655,7 @@
   "onboarding": {
     "steps": {
       "identity": "Identity",
-      "physical": "Physical",
-      "media": "Media",
-      "specialties": "Specialties",
+      "profile": "Profile",
       "mandat": "Mandate"
     },
     "identity": {
@@ -665,35 +663,15 @@
       "subtitle": "Let's start with the basics.",
       "stageName": "Stage name",
       "stageNamePlaceholder": "Your stage name",
-      "legalName": "Legal name (private)",
       "birthDate": "Date of birth",
       "city": "City",
-      "cityPlaceholder": "Lyon",
-      "phone": "Phone"
+      "cityPlaceholder": "Los Angeles"
     },
-    "physical": {
-      "title": "Your look",
-      "subtitle": "What casting directors look for. All optional.",
-      "height": "Height (cm)",
-      "build": "Build",
-      "buildPlaceholder": "slim, athletic…",
-      "hair": "Hair",
-      "eyes": "Eyes",
-      "languages": "Languages (comma separated)",
-      "languagesPlaceholder": "French, English",
-      "accents": "Accents",
-      "accentsPlaceholder": "Breton, Marseille"
-    },
-    "media": {
-      "title": "Your media",
-      "subtitle": "Photos, reel, voice — whatever shows you best.",
-      "note": "A reel shot on a phone is enough to start. You can add media from your profile right after signing up.",
-      "skip": "Skip this step"
-    },
-    "specialties": {
-      "title": "Your specialties",
-      "subtitle": "Pick what fits you — at least one.",
-      "minRate": "Minimum fee (€/day, optional)"
+    "profile": {
+      "title": "What you do",
+      "subtitle": "Pick at least one specialty. Height is optional.",
+      "specialties": "Specialties",
+      "height": "Height (optional)"
     },
     "mandat": {
       "title": "Your representation mandate",
@@ -736,12 +714,24 @@
       "auditions": "Upcoming auditions",
       "urgent": "Urgent opportunities",
       "complete": "Complete",
-      "selftapeHint": "Shoot a first self-tape — we guide you so it stands out.",
+      "selftapeHint": "Shoot a first self-tape. We guide you so it stands out.",
       "view": "View",
       "welcome": "Welcome, {name}.",
       "welcomeAnon": "Welcome.",
-      "completenessHint": "Your profile is {percent}% complete — fill it in so the AI can do more with it.",
-      "urgentHint": "{count, plural, one {# opportunity where you rank very high — polish your application.} other {# opportunities where you rank very high — polish your applications.}}"
+      "completenessHint": "Your profile is {percent}% complete. Fill it in so the AI can do more with it.",
+      "urgentHint": "{count, plural, one {You rank very high for # opportunity. Polish your application.} other {You rank very high for # opportunities. Polish your applications.}}",
+      "welcomeSigned": "Your mandate is signed. Agental now represents you.",
+      "completeProfile": {
+        "title": "Complete your profile",
+        "subtitle": "Casting directors choose from what they can see. Add these to show up in more searches.",
+        "percent": "{percent}% complete",
+        "gaps": {
+          "photos": "Add photos",
+          "video": "Add a self-tape or reel",
+          "physical": "Add your physical details",
+          "bio": "Write a short bio"
+        }
+      }
     },
     "candidatures": {
       "title": "My applications",
@@ -875,13 +865,15 @@
       "city": "City",
       "phone": "Phone",
       "bio": "Bio",
-      "height": "Height (cm)",
+      "height": "Height",
       "build": "Build",
       "hair": "Hair",
       "eyes": "Eyes",
       "languages": "Languages (comma-separated)",
       "accents": "Accents (comma-separated)",
-      "minRate": "Minimum fee (€/day)"
+      "minRate": "Minimum fee (€/day)",
+      "save": "Save",
+      "saved": "Saved"
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",
@@ -1153,5 +1145,10 @@
     "bookedTitle": "Booked",
     "bookedBody": "Your agent confirmed the dates and sent you the contract.",
     "progress": "Step {n} of {total}"
+  },
+  "oauth": {
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "or": "or"
   }
 }

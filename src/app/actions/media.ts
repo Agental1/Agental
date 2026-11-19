@@ -69,6 +69,8 @@ export async function deleteMedia(mediaId: string): Promise<MediaResult> {
   await prisma.media.delete({ where: { id: mediaId } });
   await recomputeCompleteness(profile.id);
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  // The dashboard lists missing photos and videos.
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
 }
 

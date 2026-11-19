@@ -10,8 +10,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { MediaManager, type MediaItem } from "./media-manager";
+import { HeightField } from "./height-field";
 import { cn } from "@/lib/utils";
 import type { PhysicalTraits } from "@/domain/json";
+import type { HeightValue } from "@/domain/height";
+import { DEFAULT_PROFILE_TAB, type ProfileTab } from "@/domain/profile-tabs";
 import {
   saveProfileIdentity,
   saveProfilePhysical,
@@ -48,14 +51,31 @@ function splitList(v: string) {
   return v.split(",").map((s) => s.trim()).filter(Boolean);
 }
 
-export function ProfileEditor({ initial }: { initial: ProfileEditorData }) {
+/** The editor's draft: the server data plus the height as last entered. */
+type Draft = ProfileEditorData & { height?: HeightValue };
+
+export function ProfileEditor({
+  initial,
+  initialTab = DEFAULT_PROFILE_TAB,
+}: {
+  initial: ProfileEditorData;
+  /** Already checked against PROFILE_TABS by the page (?tab= deep links). */
+  initialTab?: ProfileTab;
+}) {
   const t = useTranslations("talents");
-  const [data, setData] = useState(initial);
+  // Untouched, the stored height goes back as exact centimeters.
+  const [data, setData] = useState<Draft>(() => ({
+    ...initial,
+    height:
+      initial.physical.heightCm != null
+        ? { unit: "metric", cm: initial.physical.heightCm }
+        : undefined,
+  }));
 
   return (
     <div className="space-y-6">
       <Completeness value={data.completeness} />
-      <Tabs defaultValue="identite">
+      <Tabs defaultValue={initialTab}>
         <TabsList className="flex-wrap">
           <TabsTrigger value="identite">{t("space.profileEditor.tabs.identity")}</TabsTrigger>
           <TabsTrigger value="physique">{t("space.profileEditor.tabs.physical")}</TabsTrigger>
@@ -116,8 +136,8 @@ function Completeness({ value }: { value: number }) {
 }
 
 type TabProps = {
-  data: ProfileEditorData;
-  setData: React.Dispatch<React.SetStateAction<ProfileEditorData>>;
+  data: Draft;
+  setData: React.Dispatch<React.SetStateAction<Draft>>;
 };
 
 function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionError; completeness?: number }>) {
@@ -150,15 +170,16 @@ function SaveBar({
   onSave: () => void;
 }) {
   const errorText = useActionErrorText();
+  const t = useTranslations("talents");
   return (
     <div className="flex items-center gap-3 pt-2">
       <Button onClick={onSave} disabled={pending}>
         {pending && <Loader2 className="size-4 animate-spin" />}
-        Enregistrer
+        {t("space.profileEditor.save")}
       </Button>
       {saved && (
         <span className="flex items-center gap-1 text-sm text-success">
-          <Check className="size-4" /> Enregistré
+          <Check className="size-4" /> {t("space.profileEditor.saved")}
         </span>
       )}
       {error && <span className="text-sm text-danger">{errorText(error)}</span>}
@@ -231,12 +252,18 @@ function PhysicalTab({ data, setData }: TabProps) {
   const p = data.physical;
   const setP = (patch: Partial<PhysicalTraits>) =>
     setData({ ...data, physical: { ...p, ...patch } });
+  const setHeight = (height: HeightValue | undefined) =>
+    setData((d) => ({ ...d, height }));
   return (
     <div className="max-w-xl space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t("space.profileEditor.height")}>
-          <Input type="number" value={p.heightCm ?? ""} onChange={(e) => setP({ heightCm: e.target.value ? Number(e.target.value) : undefined })} />
-        </Field>
+        {/* Tabs unmount when hidden. The field reopens on the draft, the
+            value Save sends, an entry the server would refuse included. */}
+        <HeightField
+          label={t("space.profileEditor.height")}
+          defaultValue={data.height}
+          onChange={setHeight}
+        />
         <Field label={t("space.profileEditor.build")}>
           <Input value={p.build ?? ""} onChange={(e) => setP({ build: e.target.value })} />
         </Field>
@@ -253,7 +280,24 @@ function PhysicalTab({ data, setData }: TabProps) {
       <Field label={t("space.profileEditor.accents")}>
         <Input value={p.accents.join(", ")} onChange={(e) => setP({ accents: splitList(e.target.value) })} />
       </Field>
-      <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(p, (c) => c != null && setData((d) => ({ ...d, completeness: c })))} />
+      <SaveBar
+        pending={pending}
+        saved={saved}
+        error={error}
+        onSave={() =>
+          save(
+            {
+              height: data.height,
+              hair: p.hair,
+              eyes: p.eyes,
+              build: p.build,
+              languages: p.languages,
+              accents: p.accents,
+            },
+            (c) => c != null && setData((d) => ({ ...d, completeness: c }))
+          )
+        }
+      />
     </div>
   );
 }
@@ -315,7 +359,7 @@ function PreferencesTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(savePreferences);
   const pr = data.preferences;
-  const setPr = (patch: Partial<ProfileEditorData["preferences"]>) =>
+  const setPr = (patch: Partial<Draft["preferences"]>) =>
     setData({ ...data, preferences: { ...pr, ...patch } });
   return (
     <div className="max-w-xl space-y-4">

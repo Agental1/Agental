@@ -655,9 +655,7 @@
   "onboarding": {
     "steps": {
       "identity": "Identité",
-      "physical": "Physique",
-      "media": "Médias",
-      "specialties": "Spécialités",
+      "profile": "Profil",
       "mandat": "Mandat"
     },
     "identity": {
@@ -665,39 +663,19 @@
       "subtitle": "On commence par les bases.",
       "stageName": "Nom artistique",
       "stageNamePlaceholder": "Ton nom de scène",
-      "legalName": "Nom civil (privé)",
       "birthDate": "Date de naissance",
       "city": "Ville",
-      "cityPlaceholder": "Lyon",
-      "phone": "Téléphone"
+      "cityPlaceholder": "Lyon"
     },
-    "physical": {
-      "title": "Ton physique",
-      "subtitle": "Ce que les castings recherchent. Tout est optionnel.",
-      "height": "Taille (cm)",
-      "build": "Corpulence",
-      "buildPlaceholder": "mince, athlétique…",
-      "hair": "Cheveux",
-      "eyes": "Yeux",
-      "languages": "Langues (séparées par des virgules)",
-      "languagesPlaceholder": "français, anglais",
-      "accents": "Accents",
-      "accentsPlaceholder": "breton, marseillais"
-    },
-    "media": {
-      "title": "Tes médias",
-      "subtitle": "Photos, reel, voix — ce qui te met en valeur.",
-      "note": "Un reel filmé au téléphone suffit pour commencer. Tu ajouteras tes médias depuis ton profil, juste après ton inscription.",
-      "skip": "Passer cette étape"
-    },
-    "specialties": {
-      "title": "Tes spécialités",
-      "subtitle": "Choisis ce qui te correspond — au moins une.",
-      "minRate": "Cachet minimum (€/jour, optionnel)"
+    "profile": {
+      "title": "Ce que tu fais",
+      "subtitle": "Choisis au moins une spécialité. La taille est facultative.",
+      "specialties": "Spécialités",
+      "height": "Taille (facultatif)"
     },
     "mandat": {
       "title": "Ton mandat de représentation",
-      "subtitle": "La dernière étape — et tu es représenté.",
+      "subtitle": "Dernière étape avant ta représentation.",
       "free": "Gratuit. Sans engagement de ta part. Résiliable quand tu veux.",
       "read": "Lire le mandat complet",
       "accept": "J'accepte le mandat de représentation et je demande à Agental de me représenter.",
@@ -741,7 +719,19 @@
       "welcome": "Bienvenue, {name}.",
       "welcomeAnon": "Bienvenue.",
       "completenessHint": "Ton profil est complété à {percent} % — enrichis-le pour que l'IA le fasse mieux performer.",
-      "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}"
+      "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}",
+      "welcomeSigned": "Ton mandat est signé. Agental te représente désormais.",
+      "completeProfile": {
+        "title": "Complète ton profil",
+        "subtitle": "Les directeurs de casting choisissent sur ce qu'ils voient. Ajoute ces éléments pour ressortir dans plus de recherches.",
+        "percent": "Complété à {percent} %",
+        "gaps": {
+          "photos": "Ajouter des photos",
+          "video": "Ajouter un self-tape ou une bande démo",
+          "physical": "Ajouter tes caractéristiques physiques",
+          "bio": "Écrire une courte bio"
+        }
+      }
     },
     "candidatures": {
       "title": "Mes candidatures",
@@ -875,13 +865,15 @@
       "city": "Ville",
       "phone": "Téléphone",
       "bio": "Bio",
-      "height": "Taille (cm)",
+      "height": "Taille",
       "build": "Corpulence",
       "hair": "Cheveux",
       "eyes": "Yeux",
       "languages": "Langues (virgules)",
       "accents": "Accents (virgules)",
-      "minRate": "Cachet minimum (€/jour)"
+      "minRate": "Cachet minimum (€/jour)",
+      "save": "Enregistrer",
+      "saved": "Enregistré"
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",
@@ -1153,5 +1145,10 @@
     "bookedTitle": "Rôle décroché",
     "bookedBody": "Ton agent a confirmé les dates et t’a envoyé le contrat.",
     "progress": "Étape {n} sur {total}"
+  },
+  "oauth": {
+    "google": "Continuer avec Google",
+    "apple": "Continuer avec Apple",
+    "or": "ou"
   }
 }
