@@ -1073,7 +1073,12 @@
         "body": "An EPK for a band, a site in several languages, a page for a duo. Tell us about it.",
         "cta": "Talk to us"
       },
-      "usd": "Prices in US dollars."
+      "usd": "Prices in US dollars.",
+      "student": "College student? Email proof of enrollment (student ID or a .edu address) to contact@agental.co to get the student price.",
+      "studentPrice": "Student price: {price}",
+      "studentPending": "Student price: to be announced.",
+      "proIncluded": "Includes {months} months of Agental Pro, free.",
+      "websitesPro": "Every website includes {months} months of Agental Pro."
     },
     "faq": {
       "title": "Questions performers ask",
@@ -1147,7 +1152,33 @@
       "successBody": "We'll reply at {email}.",
       "privacy": "We use your details only to reply to you."
     },
-    "footerNote": "Buying a site is optional and never a condition for joining Agental or being presented to casting."
+    "footerNote": "Buying a site is optional and never a condition for joining Agental or being presented to casting.",
+    "try": {
+      "title": "Try it now",
+      "lead": "Pick a template, type your name and a headline. Your site appears as you type.",
+      "name": "Your name",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "Your headline",
+      "headlinePlaceholder": "Actor, Los Angeles",
+      "template": "Template",
+      "save": "Save my site",
+      "saveNote": "You only need an account to save or publish. What you typed comes with you.",
+      "saved": "Saved on this device. Create your account to keep it.",
+      "address": "Your address"
+    },
+    "row": {
+      "open": "Preview {name}",
+      "use": "Use this template",
+      "close": "Close preview",
+      "hint": "Scroll sideways to see every template."
+    },
+    "card": {
+      "title": "Create your website",
+      "body": "A site casting directors can open in one click. Pick a template and see it with your name.",
+      "cta": "Create your website",
+      "resume": "Continue your site"
+    },
+    "navApp": "Website"
   },
   "stepsDemo": {
     "illustration": "Illustration",

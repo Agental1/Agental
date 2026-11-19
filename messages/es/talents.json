@@ -1073,7 +1073,12 @@
         "body": "Un dossier de prensa para una banda, un sitio en varios idiomas, una página para un dúo. Cuéntanoslo.",
         "cta": "Escríbenos"
       },
-      "usd": "Precios en dólares estadounidenses."
+      "usd": "Precios en dólares estadounidenses.",
+      "student": "¿Eres estudiante universitario? Envía una prueba de matrícula (carné de estudiante o dirección .edu) a contact@agental.co para obtener el precio de estudiante.",
+      "studentPrice": "Precio de estudiante: {price}",
+      "studentPending": "Precio de estudiante: por anunciar.",
+      "proIncluded": "Incluye {months} meses de Agental Pro, gratis.",
+      "websitesPro": "Cada sitio incluye {months} meses de Agental Pro."
     },
     "faq": {
       "title": "Lo que nos preguntan los artistas",
@@ -1147,7 +1152,33 @@
       "successBody": "Te responderemos en {email}.",
       "privacy": "Usamos tus datos solo para responderte."
     },
-    "footerNote": "Comprar un sitio es opcional y nunca es una condición para unirte a Agental ni para que te presenten a los directores de casting."
+    "footerNote": "Comprar un sitio es opcional y nunca es una condición para unirte a Agental ni para que te presenten a los directores de casting.",
+    "try": {
+      "title": "Pruébalo ahora",
+      "lead": "Elige una plantilla, escribe tu nombre y un titular. Tu sitio aparece mientras escribes.",
+      "name": "Tu nombre",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "Tu titular",
+      "headlinePlaceholder": "Actriz, Los Ángeles",
+      "template": "Plantilla",
+      "save": "Guardar mi sitio",
+      "saveNote": "Solo necesitas una cuenta para guardar o publicar. Lo que escribiste va contigo.",
+      "saved": "Guardado en este dispositivo. Crea tu cuenta para conservarlo.",
+      "address": "Tu dirección"
+    },
+    "row": {
+      "open": "Vista previa de {name}",
+      "use": "Usar esta plantilla",
+      "close": "Cerrar vista previa",
+      "hint": "Desliza hacia un lado para ver todas las plantillas."
+    },
+    "card": {
+      "title": "Crea tu sitio web",
+      "body": "Un sitio que los directores de casting abren con un clic. Elige una plantilla y mírala con tu nombre.",
+      "cta": "Crear tu sitio web",
+      "resume": "Continuar tu sitio"
+    },
+    "navApp": "Sitio web"
   },
   "stepsDemo": {
     "illustration": "Ilustración",

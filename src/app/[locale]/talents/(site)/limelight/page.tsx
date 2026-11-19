@@ -6,6 +6,8 @@ import { Check, ChevronDown } from "lucide-react";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { LimelightContactForm } from "@/components/talents/limelight-contact-form";
 import { SampleSite } from "@/components/talents/sample-site";
+import { LimelightStudio } from "@/components/talents/limelight-studio";
+import { LIMELIGHT_PRO_MONTHS } from "@/data/limelight-templates";
 import { LIMELIGHT } from "@/domain/limelight";
 import { cn } from "@/lib/utils";
 
@@ -15,9 +17,12 @@ import { cn } from "@/lib/utils";
  * The page shows what you get before it asks for anything:
  *   1. A sample performer site in a desktop and a phone frame, with how it
  *      works in three short points.
- *   2. "Start your site": the two offers, then the form
+ *   2. The templates in a row you scroll sideways, each with a full-screen
+ *      preview, then "Try it": a live preview with your own name, no account
+ *      needed (components/talents/limelight-studio.tsx).
+ *   3. "Start your site": the two offers, then the form
  *      (actions/limelight.ts forwards it to n8n once the webhook is set).
- *   3. Questions, behind expanders.
+ *   4. Questions, behind expanders.
  *
  * The sample performer is fictional and shown with initials: there are no
  * photos of people on public pages. Prices come from `src/domain/limelight.ts`.
@@ -66,6 +71,7 @@ export default async function LimelightPage({
         }}
       />
       <Preview />
+      <LimelightStudio domain={LIMELIGHT.siteDomain} accountHref="/talents#account" />
       <Start />
       <Faq />
     </>
@@ -152,6 +158,9 @@ function Start() {
   const tc = useTranslations("common.pricing");
   const locale = useLocale();
   const plans = ["essential", "signature"] as const;
+  // TODO(founders): the student price for the $99 offer is not set yet.
+  // TODO(backend): LIMELIGHT.studentPriceUsd arrives with feat/round2-server.
+  const studentPriceUsd = (LIMELIGHT as { studentPriceUsd?: number | null }).studentPriceUsd ?? null;
   const usd = (amount: number) =>
     new Intl.NumberFormat(locale, {
       style: "currency",
@@ -187,6 +196,19 @@ function Start() {
                     </span>
                     <span className="text-[14px] text-fg-muted">{t("offers.oneTime")}</span>
                   </p>
+                  <p className="mt-3 text-[14.5px] font-bold text-accent">
+                    {t("offers.proIncluded", { months: LIMELIGHT_PRO_MONTHS })}
+                  </p>
+                  {key === "essential" && (
+                    <p className="mt-2 text-[14px] leading-snug text-fg-muted">
+                      {t("offers.student")}{" "}
+                      <span className="font-bold text-fg">
+                        {studentPriceUsd != null
+                          ? t("offers.studentPrice", { price: usd(studentPriceUsd) })
+                          : t("offers.studentPending")}
+                      </span>
+                    </p>
+                  )}
                   <details className="group mt-4 border-t border-border pt-1">
                     <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-sedan text-[14px] font-bold text-accent">
                       {tc("details")}

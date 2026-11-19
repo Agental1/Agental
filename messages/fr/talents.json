@@ -1073,7 +1073,12 @@
         "body": "Un dossier de presse pour un groupe, un site en plusieurs langues, une page pour un duo. Parle-nous-en.",
         "cta": "Nous écrire"
       },
-      "usd": "Prix en dollars américains."
+      "usd": "Prix en dollars américains.",
+      "student": "Étudiant ? Envoie un justificatif de scolarité (carte étudiante ou adresse .edu) à contact@agental.co pour obtenir le tarif étudiant.",
+      "studentPrice": "Tarif étudiant : {price}",
+      "studentPending": "Tarif étudiant : bientôt annoncé.",
+      "proIncluded": "Comprend {months} mois d’Agental Pro, offerts.",
+      "websitesPro": "Chaque site comprend {months} mois d’Agental Pro."
     },
     "faq": {
       "title": "Les questions qu'on nous pose",
@@ -1147,7 +1152,33 @@
       "successBody": "On te répond à {email}.",
       "privacy": "On utilise tes coordonnées uniquement pour te répondre."
     },
-    "footerNote": "Acheter un site est facultatif et n'est jamais une condition pour rejoindre Agental ou être présenté aux directeurs de casting."
+    "footerNote": "Acheter un site est facultatif et n'est jamais une condition pour rejoindre Agental ou être présenté aux directeurs de casting.",
+    "try": {
+      "title": "Essaie tout de suite",
+      "lead": "Choisis un modèle, tape ton nom et une accroche. Ton site apparaît à mesure que tu écris.",
+      "name": "Ton nom",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "Ton accroche",
+      "headlinePlaceholder": "Comédienne, Los Angeles",
+      "template": "Modèle",
+      "save": "Enregistrer mon site",
+      "saveNote": "Un compte est nécessaire seulement pour enregistrer ou publier. Ce que tu as saisi te suit.",
+      "saved": "Enregistré sur cet appareil. Crée ton compte pour le garder.",
+      "address": "Ton adresse"
+    },
+    "row": {
+      "open": "Aperçu de {name}",
+      "use": "Utiliser ce modèle",
+      "close": "Fermer l’aperçu",
+      "hint": "Fais défiler sur le côté pour voir tous les modèles."
+    },
+    "card": {
+      "title": "Crée ton site web",
+      "body": "Un site que les directeurs de casting ouvrent en un clic. Choisis un modèle et vois-le avec ton nom.",
+      "cta": "Créer ton site web",
+      "resume": "Reprendre ton site"
+    },
+    "navApp": "Site web"
   },
   "stepsDemo": {
     "illustration": "Illustration",

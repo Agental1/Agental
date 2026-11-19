@@ -18,6 +18,8 @@ import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { WebsiteCard } from "@/components/talents/website-card";
+import { LIMELIGHT } from "@/domain/limelight";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
 import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
@@ -153,6 +155,8 @@ export default async function TalentsDashboard({
           )}
         </div>
       </div>
+
+      <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} />
 
       {gaps.length > 0 && (
         <section

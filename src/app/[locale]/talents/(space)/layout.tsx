@@ -8,6 +8,7 @@ import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher"
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 import { formatPlanPrice } from "@/lib/plan-price";
+import { LIMELIGHT } from "@/domain/limelight";
 
 /** Route + icon are structure; the label is looked up per locale below. */
 const NAV = [
@@ -60,15 +61,22 @@ export default async function TalentsAppLayout({
     features: t.raw(`space.planFeatures.${p}`) as string[],
   }));
 
+  const toItem = (n: (typeof NAV)[number]): AppNavItem => ({
+    href: n.href,
+    icon: n.icon,
+    label: t(`space.nav.${n.key}`),
+  });
+
   return (
     <AppShell
       portal="talents"
       home="/talents/app"
-      nav={NAV.map((n): AppNavItem => ({
-        href: n.href,
-        icon: n.icon,
-        label: t(`space.nav.${n.key}`),
-      }))}
+      nav={[
+        ...NAV.slice(0, 5).map(toItem),
+        // Limelight lives on the public site; the app links to it.
+        { href: `/talents/${LIMELIGHT.slug}`, icon: "website", label: t("limelight.navApp") },
+        ...NAV.slice(5).map(toItem),
+      ]}
       userLabel={session.user.email ?? t("space.nav.account")}
       planSlot={
         <PlanSwitcher

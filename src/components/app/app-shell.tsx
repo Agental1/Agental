@@ -18,6 +18,7 @@ import {
   History,
   ShieldAlert,
   Gauge,
+  Globe,
   Menu,
   X,
   type LucideIcon,
@@ -43,6 +44,7 @@ const ICONS: Record<string, LucideIcon> = {
   audit: History,
   minors: ShieldAlert,
   console: Gauge,
+  website: Globe,
 };
 
 export interface AppNavItem {

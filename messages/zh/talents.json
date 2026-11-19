@@ -1073,7 +1073,12 @@
         "body": "乐队的电子新闻资料、多语言网站、双人组合的主页。告诉我们你的想法。",
         "cta": "联系我们"
       },
-      "usd": "价格以美元计。"
+      "usd": "价格以美元计。",
+      "student": "在校大学生？请将在读证明（学生证或 .edu 邮箱）发送至 contact@agental.co，即可获得学生价。",
+      "studentPrice": "学生价：{price}",
+      "studentPending": "学生价：即将公布。",
+      "proIncluded": "包含 {months} 个月的 Agental Pro，免费。",
+      "websitesPro": "每个网站都包含 {months} 个月的 Agental Pro。"
     },
     "faq": {
       "title": "表演者常问的问题",
@@ -1147,7 +1152,33 @@
       "successBody": "我们会回复到 {email}。",
       "privacy": "你的信息仅用于回复你。"
     },
-    "footerNote": "购买网站完全自愿，绝不是加入 Agental 或被推荐给选角导演的条件。"
+    "footerNote": "购买网站完全自愿，绝不是加入 Agental 或被推荐给选角导演的条件。",
+    "try": {
+      "title": "现在就试试",
+      "lead": "选择一个模板，输入你的名字和一句简介。网站会随着你的输入即时呈现。",
+      "name": "你的名字",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "你的简介",
+      "headlinePlaceholder": "演员，洛杉矶",
+      "template": "模板",
+      "save": "保存我的网站",
+      "saveNote": "只有保存或发布时才需要账号。你输入的内容会一并带上。",
+      "saved": "已保存在此设备上。创建账号即可保留。",
+      "address": "你的网址"
+    },
+    "row": {
+      "open": "预览 {name}",
+      "use": "使用此模板",
+      "close": "关闭预览",
+      "hint": "左右滑动查看全部模板。"
+    },
+    "card": {
+      "title": "创建你的网站",
+      "body": "选角导演一键即可打开的个人网站。选一个模板，看看配上你名字的效果。",
+      "cta": "创建你的网站",
+      "resume": "继续编辑你的网站"
+    },
+    "navApp": "个人网站"
   },
   "stepsDemo": {
     "illustration": "示意图",
