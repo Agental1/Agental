@@ -7,6 +7,7 @@ import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
+import { B2C_PLANS } from "@/domain/pricing";
 import {
   IdentityStep,
   PhysicalStep,
@@ -142,9 +143,9 @@ export async function signMandat(): Promise<void> {
     create: {
       subjectType: "ARTIST",
       subjectId: userId,
-      plan: "FREE",
-      priceCents: 0,
-      commissionRate: 0.1,
+      plan: B2C_PLANS.FREE.plan,
+      priceCents: B2C_PLANS.FREE.priceCents,
+      commissionRate: B2C_PLANS.FREE.commissionRate,
     },
     update: {},
   });
