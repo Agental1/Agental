@@ -11,7 +11,6 @@ import { LimelightBlock } from "@/components/marketing/limelight-block";
 import { MarketingFooter } from "@/components/marketing/footer";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import { LIMELIGHT } from "@/domain/limelight";
-import { LIMELIGHT_PRO_MONTHS } from "@/data/limelight-templates";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -327,7 +326,7 @@ function PricingOverview({ locale }: { locale: string }) {
       title: t("websites"),
       href: `/talents/${LIMELIGHT.slug}#start`,
       link: t("websitesLink"),
-      note: tl("websitesPro", { months: LIMELIGHT_PRO_MONTHS }),
+      note: tl("websitesPro", { months: LIMELIGHT.includedProMonths }),
       lines: [
         { name: tl("essential.name"), price: t("oneTime", { price: usd(LIMELIGHT.plans.essential.priceUsd) }) },
         { name: tl("signature.name"), price: t("oneTime", { price: usd(LIMELIGHT.plans.signature.priceUsd) }) },

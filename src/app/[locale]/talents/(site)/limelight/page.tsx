@@ -7,7 +7,6 @@ import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { LimelightContactForm } from "@/components/talents/limelight-contact-form";
 import { SampleSite } from "@/components/talents/sample-site";
 import { LimelightStudio } from "@/components/talents/limelight-studio";
-import { LIMELIGHT_PRO_MONTHS } from "@/data/limelight-templates";
 import { LIMELIGHT } from "@/domain/limelight";
 import { cn } from "@/lib/utils";
 
@@ -158,9 +157,8 @@ function Start() {
   const tc = useTranslations("common.pricing");
   const locale = useLocale();
   const plans = ["essential", "signature"] as const;
-  // TODO(founders): the student price for the $99 offer is not set yet.
-  // TODO(backend): LIMELIGHT.studentPriceUsd arrives with feat/round2-server.
-  const studentPriceUsd = (LIMELIGHT as { studentPriceUsd?: number | null }).studentPriceUsd ?? null;
+  // TODO(founders): the student price for the $99 offer is not set yet (null).
+  const studentPriceUsd = LIMELIGHT.plans.essential.studentPriceUsd;
   const usd = (amount: number) =>
     new Intl.NumberFormat(locale, {
       style: "currency",
@@ -197,7 +195,7 @@ function Start() {
                     <span className="text-[14px] text-fg-muted">{t("offers.oneTime")}</span>
                   </p>
                   <p className="mt-3 text-[14.5px] font-bold text-accent">
-                    {t("offers.proIncluded", { months: LIMELIGHT_PRO_MONTHS })}
+                    {t("offers.proIncluded", { months: LIMELIGHT.includedProMonths })}
                   </p>
                   {key === "essential" && (
                     <p className="mt-2 text-[14px] leading-snug text-fg-muted">

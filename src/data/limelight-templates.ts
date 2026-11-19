@@ -28,13 +28,6 @@ export interface LimelightDraft {
 /** Where the draft waits, on the visitor's device, until an account exists. */
 export const LIMELIGHT_DRAFT_KEY = "agental.limelight.draft";
 
-/**
- * Months of Agental Pro included with every Limelight purchase.
- * TODO(backend): read this and the student price from LIMELIGHT in
- * src/domain/limelight.ts once feat/round2-server adds them there.
- */
-export const LIMELIGHT_PRO_MONTHS = 4;
-
 /** yourname.agental.site, from whatever was typed. */
 export function siteSlug(name: string): string {
   const slug = name

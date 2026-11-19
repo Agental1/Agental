@@ -1188,7 +1188,25 @@
       "cta": "创建你的网站",
       "resume": "继续编辑你的网站"
     },
-    "navApp": "个人网站"
+    "navApp": "个人网站",
+    "app": {
+      "title": "你的网站",
+      "lead": "你的网站、它的状态和下一步。",
+      "empty": "你还没有网站。",
+      "emptyCta": "试用模板",
+      "fromDraft": "你在创建账号之前已经开始制作网站。",
+      "saveDraft": "保存到我的账号",
+      "draft": "草稿",
+      "paid": "已付款，可以发布",
+      "published": "已上线：{address}",
+      "chooseOffer": "选择方案后即可发布",
+      "buy": "{name}，{price}",
+      "publish": "发布",
+      "unpublish": "下线",
+      "hostingUntil": "托管服务包含至 {date}。",
+      "edit": "更换模板或文字",
+      "proUntil": "Agental Pro 包含至 {date}。"
+    }
   },
   "stepsDemo": {
     "illustration": "示意图",

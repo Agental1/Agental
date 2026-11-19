@@ -63,11 +63,11 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | C1 plan button | done | |
 | C2 badges removed | done, local | "Represented" and the plan badge are gone from both dashboards. The "SIRET verified" badge on the Casting dashboard stays: it is a status, and nothing else shows it. |
 | C3 AI suggestions | done | Unchanged. |
-| D1 Limelight entry points | done, local | Block on the home page and the Talent page, "Websites" in the navigation, pricing overview column, "Create your website" card on the dashboard, "Website" in the app menu. The card shows for every performer until sites exist on the server. |
+| D1 Limelight entry points | done, local | Block on the home page and the Talent page, "Websites" in the navigation, pricing overview column, "Create your website" card on the dashboard (hidden once a site exists), "Website" in the app menu. |
 | D2 template row | done, local | Six templates in a row you scroll sideways, full-screen preview, "Use this template". Previews are drawn in code with initials. |
-| D3 "Try it" without an account | partial | Live preview with template, name and headline. "Save my site" keeps the draft on the device and leads to account creation. Storing it on the account is server (`saveSite`). |
-| D4 pricing and offers | done, local | $99 and $199 from configuration, the college student line on the $99 offer, "4 months of Agental Pro" on both. The student price reads "to be announced" until the founders set it. |
-| D5 Limelight backend | open | Server. Payments are a mock today; no Stripe account is wired. |
+| D3 "Try it" without an account | done, local | Live preview with template, name and headline; the draft follows the visitor into the app, where "Save it to my account" stores it. |
+| D4 pricing and offers | done, local | $99 and $199, the included Pro months and the student price all read from `LIMELIGHT` in `src/domain/limelight.ts`. The student price is not set, so the page says "to be announced". |
+| D5 Limelight backend | partial | Server slice merged. "Your website" in the app: save the draft, choose an offer, publish, take offline; a purchase grants Pro for 4 months and Subscription shows the end date. Checked locally with mock billing. Open: real Stripe checkout (no keys), the admin screens for student price requests and student codes, serving the published site at its address. |
 | E1 recording and playback | partial | Record, review, re-record, save with progress, both video formats. Not yet tested with a real camera, on phones, or in Safari and Firefox. Library playback and delete on the page still use the older list. |
 | E2 storage | done, local | Server slice merged: private storage, direct uploads up to 150 MB, short-lived signed playback, delete removes the file. Production needs the bucket CORS rule. |
 | E3 privacy line | done, local | Shown above the recorder. |

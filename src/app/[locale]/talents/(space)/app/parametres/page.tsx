@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ShieldCheck, CreditCard, UserCog, LogOut } from "lucide-react";
 import { auth } from "@/auth";
+import { getTalentPlan } from "@/lib/billing/entitlement";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -41,10 +42,7 @@ export default async function ParametresPage({
     where: { userId: session.user.id },
     include: { mandat: true },
   });
-  const subscription = await prisma.subscription.findUnique({
-    where: { subjectId: session.user.id },
-  });
-  const plan = (subscription?.plan ?? "FREE") as keyof typeof B2C_PLANS;
+  const { plan } = await getTalentPlan(session.user.id);
   const planDef = B2C_PLANS[plan];
   // Display name from the messages, in the order of the B2C_PLANS table.
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);

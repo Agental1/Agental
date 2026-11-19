@@ -4,6 +4,8 @@ import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
+import { getTalentPlan } from "@/lib/billing/entitlement";
+import { date } from "@/lib/format";
 import { prisma } from "@/lib/db";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
 import { RentabiliteWidget } from "@/components/talents/rentabilite-widget";
@@ -33,15 +35,15 @@ export default async function AbonnementPage({
 
   const session = await auth();
   if (!session?.user?.id) return null;
-  const [subscription, career, profile] = await Promise.all([
-    prisma.subscription.findUnique({ where: { subjectId: session.user.id } }),
+  const [effective, career, profile] = await Promise.all([
+    getTalentPlan(session.user.id),
     prisma.careerEntry.findMany({
       where: { profile: { userId: session.user.id } },
     }),
     prisma.artistProfile.findUnique({ where: { userId: session.user.id } }),
   ]);
 
-  const current = (subscription?.plan ?? "FREE") as PlanB2C;
+  const current = effective.plan;
   const annualCachetCents = career.reduce((s, e) => s + e.cachetCents, 0);
 
   // Display names come from the messages, in the order of the B2C_PLANS table.
@@ -63,6 +65,11 @@ export default async function AbonnementPage({
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
         <p className="text-fg-muted">{t("space.subscription.subtitle")}</p>
+        {effective.proUntil && (
+          <p className="mt-2 text-[15px] font-bold text-accent">
+            {t("limelight.app.proUntil", { date: date(effective.proUntil, locale) })}
+          </p>
+        )}
       </div>
 
       <PlanSelector plans={plans} current={current} />

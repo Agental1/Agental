@@ -1188,7 +1188,25 @@
       "cta": "Crear tu sitio web",
       "resume": "Continuar tu sitio"
     },
-    "navApp": "Sitio web"
+    "navApp": "Sitio web",
+    "app": {
+      "title": "Tu sitio web",
+      "lead": "Tu sitio, su estado y el siguiente paso.",
+      "empty": "Aún no tienes sitio web.",
+      "emptyCta": "Probar una plantilla",
+      "fromDraft": "Empezaste un sitio antes de crear tu cuenta.",
+      "saveDraft": "Guardarlo en mi cuenta",
+      "draft": "Borrador",
+      "paid": "Pagado, listo para publicar",
+      "published": "En línea en {address}",
+      "chooseOffer": "Elige una oferta para publicar",
+      "buy": "{name}, {price}",
+      "publish": "Publicar",
+      "unpublish": "Retirar de internet",
+      "hostingUntil": "Alojamiento incluido hasta el {date}.",
+      "edit": "Cambiar plantilla o texto",
+      "proUntil": "Agental Pro incluido hasta el {date}."
+    }
   },
   "stepsDemo": {
     "illustration": "Ilustración",

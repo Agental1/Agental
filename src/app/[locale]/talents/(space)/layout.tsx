@@ -10,7 +10,7 @@ import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 import { formatPlanPrice } from "@/lib/plan-price";
-import { LIMELIGHT } from "@/domain/limelight";
+import { getTalentPlan } from "@/lib/billing/entitlement";
 
 /** Route + icon are structure; the label is looked up per locale below. */
 const NAV = [
@@ -50,10 +50,8 @@ export default async function TalentsAppLayout({
   }
 
   // The plan badge at the top right opens the plan switcher on every page.
-  const subscription = await prisma.subscription.findUnique({
-    where: { subjectId: session.user.id },
-  });
-  const current = (subscription?.plan ?? "FREE") as PlanB2C;
+  // The plan the talent really has, the Limelight Pro months included.
+  const { plan: current } = await getTalentPlan(session.user.id);
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
   const plans: SwitcherPlan[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p, i) => ({
     plan: p,
@@ -97,8 +95,7 @@ export default async function TalentsAppLayout({
       home="/talents/app"
       nav={[
         ...NAV.slice(0, 5).map(toItem),
-        // Limelight lives on the public site; the app links to it.
-        { href: `/talents/${LIMELIGHT.slug}`, icon: "website", label: t("limelight.navApp") },
+        { href: "/talents/app/site", icon: "website", label: t("limelight.navApp") },
         ...NAV.slice(5).map(toItem),
       ]}
       userLabel={session.user.email ?? t("space.nav.account")}

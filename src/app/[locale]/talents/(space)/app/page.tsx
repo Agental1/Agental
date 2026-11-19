@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WebsiteCard } from "@/components/talents/website-card";
 import { LIMELIGHT } from "@/domain/limelight";
+import { listMySites } from "@/lib/sites";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
 import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
@@ -136,6 +137,8 @@ export default async function TalentsDashboard({
       cta: t("space.dashboard.view"),
       icon: Sparkles,
     });
+
+  const hasSite = (await listMySites(session.user.id)).length > 0;
 
   return (
     <div className="space-y-8">
@@ -262,7 +265,7 @@ export default async function TalentsDashboard({
 
       {/* Last on the page, so the status, the figures and the AI suggestions
           keep their place. */}
-      <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} />
+      {!hasSite && <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} appHref="/talents/app/site" />}
     </div>
   );
 }

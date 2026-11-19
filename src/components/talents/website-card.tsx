@@ -22,17 +22,16 @@ function hasDraft() {
  * "Create your website" on the Talent dashboard. If the performer tried a
  * template before signing up, the draft is still on this device and the card
  * offers to continue it.
- *
- * TODO(backend): hide this card once the account has a site (`sites` table,
- * feat/round2-server); today every performer sees it.
+ * offers to continue it in the app, where it is saved to the account. The
+ * dashboard hides the card once the account has a site.
  */
-export function WebsiteCard({ href }: { href: string }) {
+export function WebsiteCard({ href, appHref }: { href: string; appHref: string }) {
   const t = useTranslations("talents.limelight.card");
   const draft = useSyncExternalStore(subscribe, hasDraft, () => false);
 
   return (
     <Link
-      href={draft ? `${href}#try` : href}
+      href={draft ? appHref : href}
       className="pressable accent-wash flex flex-col gap-4 rounded-sedan-xl border border-accent/50 bg-surface p-5 [--hover-scale:1.01] [--press-scale:1.02] sm:flex-row sm:items-center sm:justify-between"
     >
       <span className="flex items-start gap-3">

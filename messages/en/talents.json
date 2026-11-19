@@ -1188,7 +1188,25 @@
       "cta": "Create your website",
       "resume": "Continue your site"
     },
-    "navApp": "Website"
+    "navApp": "Website",
+    "app": {
+      "title": "Your website",
+      "lead": "Your site, its status and the next step.",
+      "empty": "You have no website yet.",
+      "emptyCta": "Try a template",
+      "fromDraft": "You started a site before creating your account.",
+      "saveDraft": "Save it to my account",
+      "draft": "Draft",
+      "paid": "Paid, ready to publish",
+      "published": "Live at {address}",
+      "chooseOffer": "Choose an offer to publish",
+      "buy": "{name}, {price}",
+      "publish": "Publish",
+      "unpublish": "Take offline",
+      "hostingUntil": "Hosting included until {date}.",
+      "edit": "Change template or text",
+      "proUntil": "Agental Pro included until {date}."
+    }
   },
   "stepsDemo": {
     "illustration": "Illustration",

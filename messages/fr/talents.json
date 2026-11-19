@@ -1188,7 +1188,25 @@
       "cta": "Créer ton site web",
       "resume": "Reprendre ton site"
     },
-    "navApp": "Site web"
+    "navApp": "Site web",
+    "app": {
+      "title": "Ton site web",
+      "lead": "Ton site, son statut et la prochaine étape.",
+      "empty": "Tu n’as pas encore de site web.",
+      "emptyCta": "Essayer un modèle",
+      "fromDraft": "Tu as commencé un site avant de créer ton compte.",
+      "saveDraft": "L’enregistrer sur mon compte",
+      "draft": "Brouillon",
+      "paid": "Payé, prêt à publier",
+      "published": "En ligne à l’adresse {address}",
+      "chooseOffer": "Choisis une offre pour publier",
+      "buy": "{name}, {price}",
+      "publish": "Publier",
+      "unpublish": "Mettre hors ligne",
+      "hostingUntil": "Hébergement inclus jusqu’au {date}.",
+      "edit": "Changer de modèle ou de texte",
+      "proUntil": "Agental Pro inclus jusqu’au {date}."
+    }
   },
   "stepsDemo": {
     "illustration": "Illustration",
