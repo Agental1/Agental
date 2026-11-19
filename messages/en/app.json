@@ -107,7 +107,22 @@
     "siteLimitReached": "You can have up to {limit} websites.",
     "emailLinkInvalid": "This link is not valid. Request a new one.",
     "emailLinkExpired": "This link has expired. Request a new one.",
-    "emailSendFailed": "The email could not be sent. Try again in a few minutes."
+    "emailSendFailed": "The email could not be sent. Try again in a few minutes.",
+    "shareNotFound": "This share link was not found.",
+    "shareLimitReached": "This clip already has {limit} active links. Revoke one first.",
+    "mediaNotReady": "This clip is still processing. Try again in a moment.",
+    "tapeNotFound": "This self-tape was not found.",
+    "draftNotFound": "This draft was not found.",
+    "draftAlreadyReviewed": "This draft was already reviewed.",
+    "lastLoginMethod": "Add a password before disconnecting, so you can still sign in.",
+    "providerNotConnected": "This account is not connected.",
+    "urlInvalid": "Enter a full web address, starting with https://.",
+    "nameRequired": "Enter your name.",
+    "consentRequired": "Confirm that we may contact you about your request.",
+    "domainInvalid": "Enter a domain name, such as yourname.com.",
+    "domainTaken": "This domain is already connected to a site.",
+    "domainNotVerified": "We could not find the DNS record yet. It can take a few hours to appear.",
+    "siteNotApproved": "Approve the preview before the site is published."
   },
   "auth": {
     "name": "Name",

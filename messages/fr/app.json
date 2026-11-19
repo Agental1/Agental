@@ -107,7 +107,22 @@
     "siteLimitReached": "Tu peux avoir jusqu'à {limit} sites.",
     "emailLinkInvalid": "Ce lien n'est pas valide. Demande-en un nouveau.",
     "emailLinkExpired": "Ce lien a expiré. Demande-en un nouveau.",
-    "emailSendFailed": "L'email n'a pas pu être envoyé. Réessaie dans quelques minutes."
+    "emailSendFailed": "L'email n'a pas pu être envoyé. Réessaie dans quelques minutes.",
+    "shareNotFound": "Ce lien de partage est introuvable.",
+    "shareLimitReached": "Ce clip a déjà {limit} liens actifs. Révoque-en un d'abord.",
+    "mediaNotReady": "Ce clip est encore en cours de traitement. Réessaie dans un instant.",
+    "tapeNotFound": "Cette self-tape est introuvable.",
+    "draftNotFound": "Ce brouillon est introuvable.",
+    "draftAlreadyReviewed": "Ce brouillon a déjà été relu.",
+    "lastLoginMethod": "Ajoute un mot de passe avant de déconnecter ce compte, pour pouvoir encore te connecter.",
+    "providerNotConnected": "Ce compte n'est pas connecté.",
+    "urlInvalid": "Saisis une adresse web complète, commençant par https://.",
+    "nameRequired": "Saisis ton nom.",
+    "consentRequired": "Confirme que nous pouvons te contacter au sujet de ta demande.",
+    "domainInvalid": "Saisis un nom de domaine, par exemple tonnom.com.",
+    "domainTaken": "Ce domaine est déjà relié à un site.",
+    "domainNotVerified": "L'enregistrement DNS est introuvable pour l'instant. Il peut mettre quelques heures à apparaître.",
+    "siteNotApproved": "Valide l'aperçu avant la publication du site."
   },
   "auth": {
     "name": "Nom",

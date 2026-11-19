@@ -107,7 +107,22 @@
     "siteLimitReached": "最多可创建 {limit} 个网站。",
     "emailLinkInvalid": "此链接无效，请重新获取。",
     "emailLinkExpired": "此链接已过期，请重新获取。",
-    "emailSendFailed": "邮件发送失败，请几分钟后重试。"
+    "emailSendFailed": "邮件发送失败，请几分钟后重试。",
+    "shareNotFound": "未找到该分享链接。",
+    "shareLimitReached": "该片段已有 {limit} 个有效链接，请先撤销一个。",
+    "mediaNotReady": "该片段仍在处理中，请稍后再试。",
+    "tapeNotFound": "未找到该试镜视频。",
+    "draftNotFound": "未找到该草稿。",
+    "draftAlreadyReviewed": "该草稿已审核过。",
+    "lastLoginMethod": "请先设置密码再断开此账号，以便仍能登录。",
+    "providerNotConnected": "此账号未连接。",
+    "urlInvalid": "请输入以 https:// 开头的完整网址。",
+    "nameRequired": "请输入你的姓名。",
+    "consentRequired": "请确认我们可以就你的申请与你联系。",
+    "domainInvalid": "请输入域名，例如 yourname.com。",
+    "domainTaken": "该域名已连接到其他网站。",
+    "domainNotVerified": "暂未找到 DNS 记录，可能需要几个小时才会生效。",
+    "siteNotApproved": "发布网站前请先确认预览。"
   },
   "auth": {
     "name": "姓名",
