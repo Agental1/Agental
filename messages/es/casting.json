@@ -387,10 +387,16 @@
         "H": "H",
         "F": "M",
         "Indifférent": "Indistinto"
-      }
+      },
+      "skip": "Omitir"
     },
     "plans": {
-      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento."
+      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento.",
+      "current": "Actual",
+      "currentPlan": "Plan actual",
+      "choose": "Elegir",
+      "contact": "Contáctenos",
+      "activeSeats": "es decir, {count, plural, one {# puesto activo} other {# puestos activos}}"
     },
     "minors": {
       "title": "Protección del menor",
@@ -407,12 +413,33 @@
       "confirm": "Confirmar",
       "escrowLabel": "{percent} % del caché bloqueado hasta la mayoría de edad",
       "escrowHeld": "Bloqueado",
-      "escrowTodo": "Por bloquear"
+      "escrowTodo": "Por bloquear",
+      "ready": "Listo para convocar",
+      "open": "Abrir el expediente de protección",
+      "hold": "Bloquear"
     },
     "shortlist": {
       "empty": "Ningún perfil coincide con estos filtros.",
       "minor": "Menor",
-      "similarProfile": "perfil similar"
+      "similarProfile": "perfil similar",
+      "neutrality": "Neutralidad:",
+      "diversity": "Diversidad: {distinct}/{total} perfiles distintos",
+      "filters": "Filtros",
+      "minScore": "Puntuación mín.",
+      "allSources": "Todas las fuentes",
+      "sort": "Ordenar",
+      "sortBy": {
+        "score": "Puntuación",
+        "rate": "Tarifa",
+        "name": "Nombre"
+      },
+      "photo": "Foto",
+      "actions": {
+        "star": "Destacar",
+        "selftape": "Self-tape",
+        "audition": "Audición",
+        "exclude": "Descartar"
+      }
     },
     "subscription": {
       "title": "Suscripción",
@@ -434,7 +461,8 @@
       "yours": "Sus proyectos",
       "open": "Proyectos abiertos",
       "shortlisting": "Listas cortas en curso",
-      "shortlisted": "Talentos preseleccionados"
+      "shortlisted": "Talentos preseleccionados",
+      "plan": "Plan {plan}"
     },
     "projectStatus": {
       "DRAFT": "Borrador",

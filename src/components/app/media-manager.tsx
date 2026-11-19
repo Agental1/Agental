@@ -85,7 +85,7 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
           onClick={() => inputRef.current?.click()}
         >
           {pending ? <Loader2 className="size-4 animate-spin" /> : null}
-          Choisir des fichiers
+          {t("space.media.choose")}
         </Button>
       </div>
 
@@ -131,7 +131,7 @@ function MediaCard({
       </div>
       {media.isPrimary && (
         <Badge variant="solid" className="absolute left-2 top-2">
-          Principale
+          {t("space.media.primary")}
         </Badge>
       )}
       <div

@@ -5,6 +5,17 @@ Toutes les évolutions notables de ce projet. Format inspiré de
 
 ## [Unreleased]
 
+### Changed (2026-11-18, front-end redesign, branch `frontend-redesign`)
+
+- **Two mirrored themes, one accent.** Talent and Limelight run from white to pale blue (`#FFFFFF` to `#DCEAFF`) with near-black text; Casting runs from near-black to deep blue (`#080B12` to `#102B63`) with white text. Both share the accent `#246BFE`. The Green room and Spotlight palettes, the four web fonts and the scroll-tied animations are gone; type is Helvetica Bold and Regular from the system. Tokens and contrast figures: `src/app/globals.css`.
+- **The A monogram** replaces the "T" tape mark and the four-point star everywhere, app icons included. Files and usage: `brand/README.md`.
+- **Public site.** The entry screen is two tiles ("I'm a performer", "I cast roles") that lead to account creation. Both landings are down to a hero, the steps to join, and compact plan cards; Limelight shows a sample site first, then the offers and the form. No photos of people and no testimonials. Plan prices are read from `src/domain/pricing.ts` and shown in US dollars.
+- **Signed-in apps.** New shell (`src/components/app/app-shell.tsx`): sidebar flush with the left edge from 768px, sticky top bar and menu sheet below, in the Talent app, the Casting app and admin. The plan badge at the top right opens a plan switcher. Text that was hard-coded in French now comes from the message files in all four locales.
+- **Career page.** Shows Roles booked, Gross fee and Net received; the commission figure and column are removed.
+
+Details by task, decisions and open items: `docs/FRONTEND_AUDIT.md` and `docs/FRONTEND_BACKEND_HANDOFF.md`.
+
+
 ### Changed
 
 - **Portail Talents : système « Green room » (2026-11).** Le portail Talents passe

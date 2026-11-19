@@ -768,7 +768,8 @@
         "short": "已入围",
         "won": "已签约",
         "closed": "已结束"
-      }
+      },
+      "ratePerDay": "€{amount}/天"
     },
     "career": {
       "title": "我的事业",
@@ -783,7 +784,9 @@
       "net": "实际到手",
       "agencyCommission": "Agental 佣金",
       "paid": "已支付",
-      "pending": "待支付"
+      "pending": "待支付",
+      "rolesBooked": "已拿下的角色",
+      "grossFee": "税前片酬"
     },
     "messages": {
       "title": "消息",
@@ -803,7 +806,8 @@
       "mandatNote": "免费，随时可以解除。是它让你被正式代理，与任何订阅无关。",
       "subNote": "可选的技术服务。它绝不能买到机会。",
       "manageSub": "管理订阅（即将推出）",
-      "signedOn": "签署于 {date}"
+      "signedOn": "签署于 {date}",
+      "planSummary": "每月 {price} · 佣金 {rate}"
     },
     "profile": {
       "title": "我的资料",
@@ -855,7 +859,9 @@
     "media": {
       "drop": "把照片、作品集或声音拖到这里。用手机拍的作品集就足够。",
       "setPrimary": "设为主图",
-      "delete": "删除"
+      "delete": "删除",
+      "choose": "选择文件",
+      "primary": "主图"
     },
     "profileEditor": {
       "completeness": "资料完成度",
@@ -889,7 +895,11 @@
       "confirm": "确认删除？"
     },
     "plans": {
-      "demo": "演示模式：不会真实扣款。无论你选哪个方案，经纪委托都始终免费且独立。"
+      "demo": "演示模式：不会真实扣款。无论你选哪个方案，经纪委托都始终免费且独立。",
+      "current": "当前",
+      "perMonth": "/月",
+      "currentPlan": "当前方案",
+      "choose": "选择"
     },
     "profitability": {
       "title": "订阅回本测算",
@@ -911,7 +921,14 @@
       "record": "开始录制",
       "analysing": "正在分析你录的这一条……",
       "import": "上传视频",
-      "score": "这一条的质量评分"
+      "score": "这一条的质量评分",
+      "overlays": "AI 实时提示",
+      "lighting": "灯光",
+      "meterOk": "良好",
+      "meterAdjust": "需调整",
+      "reducedMode": "精简模式（网速慢或设备性能有限）",
+      "stop": "停止",
+      "newTake": "再录一条"
     }
   },
   "responseRate": {

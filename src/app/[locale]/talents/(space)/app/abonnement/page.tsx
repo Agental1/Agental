@@ -1,4 +1,5 @@
-import { euros, percent } from "@/lib/format";
+import { percent } from "@/lib/format";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -43,10 +44,12 @@ export default async function AbonnementPage({
   const current = (subscription?.plan ?? "FREE") as PlanB2C;
   const annualCachetCents = career.reduce((s, e) => s + e.cachetCents, 0);
 
-  const plans: PlanCard[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p) => ({
+  // Display names come from the messages, in the order of the B2C_PLANS table.
+  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
+  const plans: PlanCard[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p, i) => ({
     plan: p,
-    name: B2C_PLANS[p].plan,
-    price: euros(B2C_PLANS[p].priceCents, locale),
+    name: planNames[i] ?? p,
+    price: formatPlanPrice(B2C_PLANS[p].priceCents, locale),
     commission: percent(B2C_PLANS[p].commissionRate, locale),
     // space.planFeatures, not a local map. The map that used to live here
     // still advertised "Auto-candidature IA" and daily quotas — the promises

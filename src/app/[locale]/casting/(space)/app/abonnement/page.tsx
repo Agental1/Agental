@@ -1,4 +1,4 @@
-import { euros } from "@/lib/format";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -50,15 +50,17 @@ export default async function CastingAbonnementPage({
     monthlyQuota(org.id, plan, "filteredCandidatures"),
   ]);
 
-  const plans: CastingPlanCard[] = (Object.keys(B2B_PLANS) as PlanB2B[]).map((p) => {
+  // Display names come from the messages, in the order of the B2B_PLANS table.
+  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
+  const plans: CastingPlanCard[] = (Object.keys(B2B_PLANS) as PlanB2B[]).map((p, i) => {
     const def = B2B_PLANS[p];
     return {
       plan: p,
-      name: def.plan,
+      name: planNames[i] ?? p,
       price:
         p === "ENTERPRISE"
           ? t("space.subscription.onQuote")
-          : euros(def.priceCents, locale),
+          : formatPlanPrice(def.priceCents, locale),
       priceUnit:
         p === "ENTERPRISE"
           ? ""

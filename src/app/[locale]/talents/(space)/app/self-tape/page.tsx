@@ -88,7 +88,7 @@ export default async function SelfTapePage({
                   />
                   <p className="mt-2 text-xs text-fg-muted">
                     {t("space.selftape.framing")} {b.framing} ·{" "}
-                    {t("space.selftape.light")} {b.light} ·{" "}
+                    {t("space.studio.lighting")} {b.light} ·{" "}
                     {t("space.selftape.sound")} {b.sound}
                   </p>
                   {take.lowBandwidth && (

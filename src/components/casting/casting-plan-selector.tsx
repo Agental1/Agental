@@ -64,7 +64,7 @@ export function CastingPlanSelector({
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-display text-lg">{p.name}</h3>
-                {isCurrent && <Badge variant="solid">Actuel</Badge>}
+                {isCurrent && <Badge variant="solid">{t("space.plans.current")}</Badge>}
               </div>
               <div className="mt-2 flex items-baseline gap-1">
                 <span className="font-display text-2xl">{p.price}</span>
@@ -72,7 +72,7 @@ export function CastingPlanSelector({
               </div>
               {p.plan === "PRO" && (
                 <p className="mt-0.5 text-xs text-fg-subtle">
-                  soit {seatCount} siège(s) actif(s)
+                  {t("space.plans.activeSeats", { count: seatCount })}
                 </p>
               )}
               <ul className="mt-4 flex-1 space-y-1.5">
@@ -90,7 +90,11 @@ export function CastingPlanSelector({
                 onClick={() => choose(p.plan)}
               >
                 {busy === p.plan && <Loader2 className="size-4 animate-spin" />}
-                {isCurrent ? "Plan actuel" : p.contactOnly ? "Nous contacter" : "Choisir"}
+                {isCurrent
+                  ? t("space.plans.currentPlan")
+                  : p.contactOnly
+                    ? t("space.plans.contact")
+                    : t("space.plans.choose")}
               </Button>
             </div>
           );

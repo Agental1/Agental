@@ -387,10 +387,16 @@
         "H": "M",
         "F": "F",
         "Indifférent": "Any"
-      }
+      },
+      "skip": "Skip"
     },
     "plans": {
-      "demo": "Demo mode — no real payment. No commitment, cancel at any time."
+      "demo": "Demo mode — no real payment. No commitment, cancel at any time.",
+      "current": "Current",
+      "currentPlan": "Current plan",
+      "choose": "Choose",
+      "contact": "Contact us",
+      "activeSeats": "for {count, plural, one {# active seat} other {# active seats}}"
     },
     "minors": {
       "title": "Minor protection",
@@ -407,12 +413,33 @@
       "confirm": "Confirm",
       "escrowLabel": "{percent}% of the fee held in escrow until adulthood",
       "escrowHeld": "Held",
-      "escrowTodo": "To hold"
+      "escrowTodo": "To hold",
+      "ready": "Ready to call back",
+      "open": "Open the protection case",
+      "hold": "Hold"
     },
     "shortlist": {
       "empty": "No profile matches these filters.",
       "minor": "Minor",
-      "similarProfile": "similar profile"
+      "similarProfile": "similar profile",
+      "neutrality": "Neutrality:",
+      "diversity": "Diversity: {distinct}/{total} distinct profiles",
+      "filters": "Filters",
+      "minScore": "Minimum score",
+      "allSources": "All sources",
+      "sort": "Sort",
+      "sortBy": {
+        "score": "Score",
+        "rate": "Rate",
+        "name": "Name"
+      },
+      "photo": "Photo",
+      "actions": {
+        "star": "Star",
+        "selftape": "Self-tape",
+        "audition": "Audition",
+        "exclude": "Exclude"
+      }
     },
     "subscription": {
       "title": "Subscription",
@@ -434,7 +461,8 @@
       "yours": "Your projects",
       "open": "Open projects",
       "shortlisting": "Shortlists in progress",
-      "shortlisted": "Shortlisted talents"
+      "shortlisted": "Shortlisted talents",
+      "plan": "{plan} plan"
     },
     "projectStatus": {
       "DRAFT": "Draft",

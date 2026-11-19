@@ -171,7 +171,20 @@
       "waiting": "Documentos pendientes",
       "ready": "Listo",
       "held": "Bloqueado",
-      "toConfirm": "Por confirmar"
+      "toConfirm": "Por confirmar",
+      "blocked": "Bloqueado",
+      "confirmed": "Confirmada",
+      "auth": {
+        "NONE": "Por solicitar",
+        "REQUESTED": "Solicitada",
+        "GRANTED": "Concedida",
+        "REFUSED": "Denegada"
+      },
+      "escrowStatus": {
+        "PENDING": "Por bloquear",
+        "HELD": "Bloqueado",
+        "RELEASED": "Liberado"
+      }
     }
   },
   "matchReasons": {
@@ -181,5 +194,10 @@
     "availability": "Disponibilidad confirmada",
     "imageRights": "Derechos de imagen en regla",
     "sourcedOffRoster": "Localizado fuera del roster: mismo baremo"
+  },
+  "rgpd": {
+    "title": "Datos personales (RGPD)",
+    "export": "Exportar mis datos",
+    "confirmDelete": "Sí, eliminar"
   }
 }

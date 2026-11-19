@@ -55,12 +55,12 @@ export default async function AdminDashboard({
   ]);
 
   const kpis = [
-    { label: "Artistes", value: talents, icon: Users },
-    { label: "Profils actifs", value: activeProfiles, icon: UserCheck },
-    { label: "Directeurs casting", value: castings, icon: Users },
-    { label: "Organisations", value: orgs, icon: Building2 },
-    { label: "Projets", value: projects, icon: FolderKanban },
-    { label: "Candidatures", value: candidatures, icon: Send },
+    { label: t("admin.stats.artists"), value: talents, icon: Users },
+    { label: t("admin.stats.activeProfiles"), value: activeProfiles, icon: UserCheck },
+    { label: t("admin.stats.castingDirectors"), value: castings, icon: Users },
+    { label: t("admin.stats.orgs"), value: orgs, icon: Building2 },
+    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban },
+    { label: t("admin.stats.candidatures"), value: candidatures, icon: Send },
   ];
 
   return (

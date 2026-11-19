@@ -387,10 +387,16 @@
         "H": "H",
         "F": "F",
         "Indifférent": "Indifférent"
-      }
+      },
+      "skip": "Passer"
     },
     "plans": {
-      "demo": "Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment."
+      "demo": "Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment.",
+      "current": "Actuel",
+      "currentPlan": "Plan actuel",
+      "choose": "Choisir",
+      "contact": "Nous contacter",
+      "activeSeats": "soit {count, plural, one {# siège actif} other {# sièges actifs}}"
     },
     "minors": {
       "title": "Protection du mineur",
@@ -407,12 +413,33 @@
       "confirm": "Confirmer",
       "escrowLabel": "Séquestre de {percent}% du cachet jusqu'à la majorité",
       "escrowHeld": "Bloqué",
-      "escrowTodo": "À bloquer"
+      "escrowTodo": "À bloquer",
+      "ready": "Prêt à convoquer",
+      "open": "Ouvrir le dossier de protection",
+      "hold": "Bloquer"
     },
     "shortlist": {
       "empty": "Aucun profil ne correspond à ces filtres.",
       "minor": "Mineur",
-      "similarProfile": "profil similaire"
+      "similarProfile": "profil similaire",
+      "neutrality": "Neutralité :",
+      "diversity": "Diversité : {distinct}/{total} profils distincts",
+      "filters": "Filtres",
+      "minScore": "Score min",
+      "allSources": "Toutes sources",
+      "sort": "Trier",
+      "sortBy": {
+        "score": "Score",
+        "rate": "Tarif",
+        "name": "Nom"
+      },
+      "photo": "Photo",
+      "actions": {
+        "star": "Étoile",
+        "selftape": "Self-tape",
+        "audition": "Audition",
+        "exclude": "Exclure"
+      }
     },
     "subscription": {
       "title": "Abonnement",
@@ -434,7 +461,8 @@
       "yours": "Vos projets",
       "open": "Projets ouverts",
       "shortlisting": "Short-lists en cours",
-      "shortlisted": "Talents shortlistés"
+      "shortlisted": "Talents shortlistés",
+      "plan": "Plan {plan}"
     },
     "projectStatus": {
       "DRAFT": "Brouillon",

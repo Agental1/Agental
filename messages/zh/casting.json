@@ -387,10 +387,16 @@
         "H": "男",
         "F": "女",
         "Indifférent": "不限"
-      }
+      },
+      "skip": "跳过"
     },
     "plans": {
-      "demo": "演示模式：不会真实扣款。无需承诺，随时可以取消。"
+      "demo": "演示模式：不会真实扣款。无需承诺，随时可以取消。",
+      "current": "当前",
+      "currentPlan": "当前方案",
+      "choose": "选择",
+      "contact": "联系我们",
+      "activeSeats": "{count, plural, other {即 # 个活跃席位}}"
     },
     "minors": {
       "title": "未成年人保护",
@@ -407,12 +413,33 @@
       "confirm": "确认",
       "escrowLabel": "{percent}% 的片酬托管至成年",
       "escrowHeld": "已托管",
-      "escrowTodo": "待托管"
+      "escrowTodo": "待托管",
+      "ready": "可以通知复试",
+      "open": "开启保护档案",
+      "hold": "托管"
     },
     "shortlist": {
       "empty": "没有符合这些筛选条件的资料。",
       "minor": "未成年",
-      "similarProfile": "相似人选"
+      "similarProfile": "相似人选",
+      "neutrality": "中立性：",
+      "diversity": "多样性：{distinct}/{total} 份资料互不相似",
+      "filters": "筛选",
+      "minScore": "最低评分",
+      "allSources": "全部来源",
+      "sort": "排序",
+      "sortBy": {
+        "score": "评分",
+        "rate": "报价",
+        "name": "姓名"
+      },
+      "photo": "照片",
+      "actions": {
+        "star": "标星",
+        "selftape": "自录试镜",
+        "audition": "试镜",
+        "exclude": "排除"
+      }
     },
     "subscription": {
       "title": "订阅",
@@ -434,7 +461,8 @@
       "yours": "您的项目",
       "open": "进行中的项目",
       "shortlisting": "正在生成的候选名单",
-      "shortlisted": "已入围的艺人"
+      "shortlisted": "已入围的艺人",
+      "plan": "{plan}方案"
     },
     "projectStatus": {
       "DRAFT": "草稿",

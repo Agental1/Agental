@@ -238,11 +238,11 @@ export function SelfTapeStudio() {
         <div className="space-y-4">
           <div className="rounded-sedan border border-border bg-surface p-4">
             <p className="mb-3 flex items-center gap-2 text-sm font-medium">
-              <Sparkles className="size-4 text-accent" /> Surimpressions IA
+              <Sparkles className="size-4 text-accent" /> {t("space.studio.overlays")}
             </p>
-            <Meter icon={Crop} label="Cadrage" value={live.framing} />
-            <Meter icon={Sun} label="Lumière" value={live.light} />
-            <Meter icon={Mic} label="Son" value={live.sound} />
+            <Meter icon={Crop} label={t("space.selftape.framing")} value={live.framing} />
+            <Meter icon={Sun} label={t("space.studio.lighting")} value={live.light} />
+            <Meter icon={Mic} label={t("space.selftape.sound")} value={live.sound} />
           </div>
 
           <label className="flex items-center gap-2 text-sm">
@@ -253,7 +253,7 @@ export function SelfTapeStudio() {
               onChange={(e) => setLowBandwidth(e.target.checked)}
               className="size-4 accent-[var(--accent)]"
             />
-            Mode dégradé (bas débit / terminal modeste)
+            {t("space.studio.reducedMode")}
           </label>
 
           {phase === "ready" && (
@@ -262,7 +262,7 @@ export function SelfTapeStudio() {
           )}
           {phase === "recording" && (
             <Button variant="danger" className="w-full" onClick={stopRecording}>
-              <Square className="size-4 fill-current" /> Arrêter
+              <Square className="size-4 fill-current" /> {t("space.studio.stop")}
             </Button>
           )}
           {(phase === "processing" || pending) && (
@@ -300,7 +300,7 @@ export function SelfTapeStudio() {
               <p className="font-medium">{t("space.studio.score")}</p>
               <p className="text-sm text-fg-muted">
                 {t("space.selftape.framing")} {result.breakdown?.framing} ·{" "}
-                {t("space.selftape.light")} {result.breakdown?.light} ·{" "}
+                {t("space.studio.lighting")} {result.breakdown?.light} ·{" "}
                 {t("space.selftape.sound")} {result.breakdown?.sound}
               </p>
             </div>
@@ -323,7 +323,7 @@ export function SelfTapeStudio() {
               setPhase(streamRef.current ? "ready" : "idle");
             }}
           >
-            Nouvelle prise
+            {t("space.studio.newTake")}
           </Button>
         </div>
       )}
@@ -343,6 +343,7 @@ function Meter({
   label: string;
   value: number;
 }) {
+  const t = useTranslations("talents");
   const pct = Math.round(value * 100);
   const good = value >= 0.6;
   return (
@@ -351,7 +352,7 @@ function Meter({
         <span className="flex items-center gap-1.5 text-fg-muted">
           <Icon className="size-3.5" /> {label}
         </span>
-        <Badge variant={good ? "success" : "warning"}>{good ? "OK" : "à ajuster"}</Badge>
+        <Badge variant={good ? "success" : "warning"}>{good ? t("space.studio.meterOk") : t("space.studio.meterAdjust")}</Badge>
       </div>
       <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
         <div

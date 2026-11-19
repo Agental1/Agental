@@ -1,4 +1,5 @@
-import { date } from "@/lib/format";
+import { date, percent } from "@/lib/format";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -31,6 +32,7 @@ export default async function ParametresPage({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
+  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -43,6 +45,9 @@ export default async function ParametresPage({
   });
   const plan = (subscription?.plan ?? "FREE") as keyof typeof B2C_PLANS;
   const planDef = B2C_PLANS[plan];
+  // Display name from the messages, in the order of the B2C_PLANS table.
+  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
+  const planName = planNames[Object.keys(B2C_PLANS).indexOf(plan)] ?? plan;
 
   return (
     <div className="max-w-2xl space-y-6">
@@ -51,9 +56,9 @@ export default async function ParametresPage({
         <p className="text-fg-muted">{t("space.settings.subtitle")}</p>
       </div>
 
-      <Section icon={UserCog} title="Compte">
-        <Row label="Email" value={session.user.email ?? "—"} />
-        <Row label="Nom artistique" value={profile?.stageName ?? "—"} />
+      <Section icon={UserCog} title={t("space.settings.account")}>
+        <Row label={t("space.settings.email")} value={session.user.email ?? "—"} />
+        <Row label={t("space.settings.stageName")} value={profile?.stageName ?? "—"} />
         <Button asChild variant="outline" size="sm">
           <Link href="/talents/app/profil">{t("space.settings.editProfile")}</Link>
         </Button>
@@ -62,23 +67,29 @@ export default async function ParametresPage({
       <Section icon={ShieldCheck} title={t("space.settings.mandat")}>
         <div className="flex items-center gap-2">
           <Badge variant="success">
-            {profile?.mandat?.status === "ACTIVE" ? "Actif" : "Inactif"}
+            {profile?.mandat?.status === "ACTIVE"
+              ? ta("mandatStatus.ACTIVE")
+              : ta("mandatStatus.INACTIVE")}
           </Badge>
           {profile?.mandat?.signedAt && (
             <span className="text-sm text-fg-muted">
-              Signé le {date(profile.mandat.signedAt, locale)}
+              {t("space.settings.signedOn", {
+                date: date(profile.mandat.signedAt, locale),
+              })}
             </span>
           )}
         </div>
         <p className="text-sm text-fg-muted">{t("space.settings.mandatNote")}</p>
       </Section>
 
-      <Section icon={CreditCard} title="Abonnement">
+      <Section icon={CreditCard} title={t("space.settings.subscription")}>
         <div className="flex items-center gap-2">
-          <Badge variant="accent">Plan {plan}</Badge>
+          <Badge variant="accent">{t("space.dashboard.plan", { plan: planName })}</Badge>
           <span className="text-sm text-fg-muted">
-            {(planDef.priceCents / 100).toFixed(0)} €/mois · commission{" "}
-            {Math.round(planDef.commissionRate * 100)}%
+            {t("space.settings.planSummary", {
+              price: formatPlanPrice(planDef.priceCents, locale),
+              rate: percent(planDef.commissionRate, locale),
+            })}
           </span>
         </div>
         <p className="text-sm text-fg-muted">{t("space.settings.subNote")}</p>
@@ -91,7 +102,7 @@ export default async function ParametresPage({
 
       <form action={logoutAction}>
         <Button type="submit" variant="ghost">
-          <LogOut className="size-4" /> Se déconnecter
+          <LogOut className="size-4" /> {ta("actions.logout")}
         </Button>
       </form>
     </div>

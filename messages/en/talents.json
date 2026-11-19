@@ -768,7 +768,8 @@
         "short": "Shortlisted",
         "won": "Contracted",
         "closed": "Closed"
-      }
+      },
+      "ratePerDay": "€{amount}/day"
     },
     "career": {
       "title": "My career",
@@ -783,7 +784,9 @@
       "net": "Net received",
       "agencyCommission": "Agental commission",
       "paid": "Paid",
-      "pending": "Pending"
+      "pending": "Pending",
+      "rolesBooked": "Roles booked",
+      "grossFee": "Gross fee"
     },
     "messages": {
       "title": "Messages",
@@ -803,7 +806,8 @@
       "mandatNote": "Free, cancellable at any time. It is what makes you represented — independently of any subscription.",
       "subNote": "Optional technology service. It never buys access to opportunities.",
       "manageSub": "Manage subscription (soon)",
-      "signedOn": "Signed on {date}"
+      "signedOn": "Signed on {date}",
+      "planSummary": "{price} per month · {rate} commission"
     },
     "profile": {
       "title": "My profile",
@@ -855,7 +859,9 @@
     "media": {
       "drop": "Drop your photos, reels or voice here — a reel shot on a phone is enough.",
       "setPrimary": "Set as primary",
-      "delete": "Delete"
+      "delete": "Delete",
+      "choose": "Choose files",
+      "primary": "Primary"
     },
     "profileEditor": {
       "completeness": "Profile completeness",
@@ -889,7 +895,11 @@
       "confirm": "Confirm deletion?"
     },
     "plans": {
-      "demo": "Demo mode — no real payment. The representation mandate stays free and separate whatever your plan."
+      "demo": "Demo mode — no real payment. The representation mandate stays free and separate whatever your plan.",
+      "current": "Current",
+      "perMonth": "/month",
+      "currentPlan": "Current plan",
+      "choose": "Choose"
     },
     "profitability": {
       "title": "Subscription payback",
@@ -911,7 +921,14 @@
       "record": "Start the take",
       "analysing": "Analysing your take…",
       "import": "Upload a video",
-      "score": "Quality score for your take"
+      "score": "Quality score for your take",
+      "overlays": "Live AI feedback",
+      "lighting": "Lighting",
+      "meterOk": "Good",
+      "meterAdjust": "Needs adjusting",
+      "reducedMode": "Reduced mode (slow connection or modest device)",
+      "stop": "Stop",
+      "newTake": "New take"
     }
   },
   "responseRate": {

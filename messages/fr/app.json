@@ -171,7 +171,20 @@
       "waiting": "Pièces en attente",
       "ready": "Prêt",
       "held": "Bloqué",
-      "toConfirm": "À confirmer"
+      "toConfirm": "À confirmer",
+      "blocked": "Bloqué",
+      "confirmed": "Confirmée",
+      "auth": {
+        "NONE": "À demander",
+        "REQUESTED": "Demandée",
+        "GRANTED": "Accordée",
+        "REFUSED": "Refusée"
+      },
+      "escrowStatus": {
+        "PENDING": "À bloquer",
+        "HELD": "Bloqué",
+        "RELEASED": "Libéré"
+      }
     }
   },
   "matchReasons": {
@@ -181,5 +194,10 @@
     "availability": "Disponibilité confirmée",
     "imageRights": "Droits image OK",
     "sourcedOffRoster": "Sourcé hors roster — même scoring"
+  },
+  "rgpd": {
+    "title": "Données personnelles (RGPD)",
+    "export": "Exporter mes données",
+    "confirmDelete": "Oui, supprimer"
   }
 }

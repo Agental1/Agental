@@ -39,7 +39,7 @@ export function MinorWorkflow({
         <ShieldAlert className="size-5 text-warning" />
         <h2 className="font-display text-lg font-medium">{t("space.minors.title")}</h2>
         {minorCase?.state === "READY" && (
-          <Badge variant="success">Prêt à convoquer</Badge>
+          <Badge variant="success">{t("space.minors.ready")}</Badge>
         )}
       </div>
       <p className="mt-1 text-sm text-fg-muted">{t("space.minors.subtitle")}</p>
@@ -51,7 +51,7 @@ export function MinorWorkflow({
           onClick={() => run(() => openMinorCase(candidatureId))}
         >
           {pending && <Loader2 className="size-4 animate-spin" />}
-          Ouvrir le dossier de protection
+          {t("space.minors.open")}
         </Button>
       ) : (
         <ul className="mt-4 space-y-2">
@@ -93,7 +93,7 @@ export function MinorWorkflow({
             status={minorCase.escrowStatus === "HELD" ? t("space.minors.escrowHeld") : t("space.minors.escrowTodo")}
             action={
               minorCase.escrowStatus !== "HELD"
-                ? { label: "Bloquer", fn: () => advanceMinorCase(minorCase.id, "holdEscrow") }
+                ? { label: t("space.minors.hold"), fn: () => advanceMinorCase(minorCase.id, "holdEscrow") }
                 : undefined
             }
             pending={pending}

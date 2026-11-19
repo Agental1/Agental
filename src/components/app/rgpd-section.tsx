@@ -10,6 +10,9 @@ import { exportMyData, deleteMyAccount } from "@/app/actions/account";
 
 export function RgpdSection() {
   const t = useTranslations("talents");
+  // Shared by the Talent and Casting settings pages, so the labels added here
+  // live in the neutral namespace.
+  const ta = useTranslations("app");
   const [pending, start] = useTransition();
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
@@ -29,7 +32,7 @@ export function RgpdSection() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "agental-mes-donnees.json";
+      a.download = "agental-data.json";
       a.click();
       URL.revokeObjectURL(url);
     });
@@ -57,14 +60,13 @@ export function RgpdSection() {
   return (
     <section className="space-y-3 rounded-sedan border border-border bg-surface p-5">
       <h2 className="flex items-center gap-2 font-display text-lg font-medium">
-        <ShieldQuestion className="size-4 text-accent" /> Données personnelles
-        (RGPD)
+        <ShieldQuestion className="size-4 text-accent" /> {ta("rgpd.title")}
       </h2>
       <p className="text-sm text-fg-muted">{t("space.rgpd.intro")}</p>
       <div className="flex flex-wrap gap-3">
         <Button variant="outline" size="sm" onClick={onExport} disabled={pending}>
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
-          Exporter mes données
+          {ta("rgpd.export")}
         </Button>
         {!confirming ? (
           <Button
@@ -79,10 +81,10 @@ export function RgpdSection() {
             <span className="text-sm text-danger">{t("space.rgpd.confirm")}</span>
             <Button variant="danger" size="sm" onClick={onDelete} disabled={pending}>
               {pending && <Loader2 className="size-4 animate-spin" />}
-              Oui, supprimer
+              {ta("rgpd.confirmDelete")}
             </Button>
             <Button variant="ghost" size="sm" onClick={() => setConfirming(false)}>
-              Annuler
+              {ta("actions.cancel")}
             </Button>
           </div>
         )}

@@ -768,7 +768,8 @@
         "short": "Preseleccionadas",
         "won": "Contratadas",
         "closed": "Sin continuidad"
-      }
+      },
+      "ratePerDay": "{amount} €/día"
     },
     "career": {
       "title": "Mi carrera",
@@ -783,7 +784,9 @@
       "net": "Neto percibido",
       "agencyCommission": "Comisión Agental",
       "paid": "Pagado",
-      "pending": "Pendiente"
+      "pending": "Pendiente",
+      "rolesBooked": "Papeles conseguidos",
+      "grossFee": "Caché bruto"
     },
     "messages": {
       "title": "Mensajes",
@@ -803,7 +806,8 @@
       "mandatNote": "Gratuito, cancelable en cualquier momento. Es lo que te hace estar representado, con independencia de cualquier suscripción.",
       "subNote": "Servicio tecnológico opcional. Nunca compra acceso a las oportunidades.",
       "manageSub": "Gestionar la suscripción (próximamente)",
-      "signedOn": "Firmado el {date}"
+      "signedOn": "Firmado el {date}",
+      "planSummary": "{price} al mes · comisión {rate}"
     },
     "profile": {
       "title": "Mi perfil",
@@ -855,7 +859,9 @@
     "media": {
       "drop": "Arrastra aquí tus fotos, vídeos o voz: un vídeo grabado con el móvil basta.",
       "setPrimary": "Definir como principal",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "choose": "Elegir archivos",
+      "primary": "Principal"
     },
     "profileEditor": {
       "completeness": "Completitud del perfil",
@@ -889,7 +895,11 @@
       "confirm": "¿Confirmar la eliminación?"
     },
     "plans": {
-      "demo": "Modo demo: ningún pago real. El mandato de representación sigue siendo gratuito e independiente, sea cual sea tu plan."
+      "demo": "Modo demo: ningún pago real. El mandato de representación sigue siendo gratuito e independiente, sea cual sea tu plan.",
+      "current": "Actual",
+      "perMonth": "/mes",
+      "currentPlan": "Plan actual",
+      "choose": "Elegir"
     },
     "profitability": {
       "title": "Rentabilidad de la suscripción",
@@ -911,7 +921,14 @@
       "record": "Iniciar la toma",
       "analysing": "Analizando tu toma…",
       "import": "Importar un vídeo",
-      "score": "Puntuación de calidad de tu toma"
+      "score": "Puntuación de calidad de tu toma",
+      "overlays": "Indicaciones de IA en directo",
+      "lighting": "Iluminación",
+      "meterOk": "Bien",
+      "meterAdjust": "Por ajustar",
+      "reducedMode": "Modo reducido (conexión lenta o dispositivo modesto)",
+      "stop": "Detener",
+      "newTake": "Nueva toma"
     }
   },
   "responseRate": {

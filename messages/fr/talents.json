@@ -768,7 +768,8 @@
         "short": "Shortlistées",
         "won": "Contractualisées",
         "closed": "Sans suite"
-      }
+      },
+      "ratePerDay": "{amount} €/j"
     },
     "career": {
       "title": "Ma carrière",
@@ -783,7 +784,9 @@
       "net": "Net perçu",
       "agencyCommission": "Commission Agental",
       "paid": "Payé",
-      "pending": "En attente"
+      "pending": "En attente",
+      "rolesBooked": "Rôles décrochés",
+      "grossFee": "Cachet brut"
     },
     "messages": {
       "title": "Messages",
@@ -803,7 +806,8 @@
       "mandatNote": "Gratuit, résiliable à tout moment. C'est lui qui te fait représenter — indépendamment de tout abonnement.",
       "subNote": "Service technologique optionnel. Il n'achète jamais un accès aux opportunités.",
       "manageSub": "Gérer l'abonnement (bientôt)",
-      "signedOn": "Signé le {date}"
+      "signedOn": "Signé le {date}",
+      "planSummary": "{price} par mois · commission {rate}"
     },
     "profile": {
       "title": "Mon profil",
@@ -855,7 +859,9 @@
     "media": {
       "drop": "Glisse tes photos, reels ou voix ici — un reel filmé au téléphone suffit.",
       "setPrimary": "Définir comme principale",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "choose": "Choisir des fichiers",
+      "primary": "Principale"
     },
     "profileEditor": {
       "completeness": "Complétude du profil",
@@ -889,7 +895,11 @@
       "confirm": "Confirmer la suppression ?"
     },
     "plans": {
-      "demo": "Mode démo — aucun paiement réel. Le mandat de représentation reste gratuit et séparé quel que soit ton plan."
+      "demo": "Mode démo — aucun paiement réel. Le mandat de représentation reste gratuit et séparé quel que soit ton plan.",
+      "current": "Actuel",
+      "perMonth": "/mois",
+      "currentPlan": "Plan actuel",
+      "choose": "Choisir"
     },
     "profitability": {
       "title": "Rentabilité de l'abonnement",
@@ -911,7 +921,14 @@
       "record": "Lancer la prise",
       "analysing": "Analyse de ta prise…",
       "import": "Importer une vidéo",
-      "score": "Score qualité de ta prise"
+      "score": "Score qualité de ta prise",
+      "overlays": "Surimpressions IA",
+      "lighting": "Lumière",
+      "meterOk": "OK",
+      "meterAdjust": "À ajuster",
+      "reducedMode": "Mode dégradé (bas débit / terminal modeste)",
+      "stop": "Arrêter",
+      "newTake": "Nouvelle prise"
     }
   },
   "responseRate": {

@@ -47,11 +47,13 @@ export default async function MessagesPage({
         </div>
       ) : (
         <ul className="divide-y divide-border overflow-hidden rounded-sedan border border-border bg-surface">
-          {threads.map((t) => (
-            <li key={t.id} className="p-4">
-              <p className="font-medium">{t.subject ?? "Conversation"}</p>
+          {threads.map((thread) => (
+            <li key={thread.id} className="p-4">
+              <p className="font-medium">
+                {thread.subject ?? t("space.messages.conversation")}
+              </p>
               <p className="truncate text-sm text-fg-muted">
-                {t.messages[0]?.body}
+                {thread.messages[0]?.body}
               </p>
             </li>
           ))}

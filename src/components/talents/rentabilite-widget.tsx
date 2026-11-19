@@ -3,6 +3,7 @@ import { TrendingDown, Info } from "lucide-react";
 import { useLocale } from "next-intl";
 import { B2C_PLANS } from "@/domain/pricing";
 import { euros, percent } from "@/lib/format";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { cn } from "@/lib/utils";
 import type { PlanB2C } from "@/domain/enums";
 
@@ -24,11 +25,13 @@ export function RentabiliteWidget({
   // useLocale() rather than a prop: this renders inside the Talents workspace,
   // where every caller would otherwise have to thread the locale down by hand.
   const locale = useLocale();
-  const rows = (Object.keys(B2C_PLANS) as PlanB2C[]).map((plan) => {
+  // Display names come from the messages, in the order of the B2C_PLANS table.
+  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
+  const rows = (Object.keys(B2C_PLANS) as PlanB2C[]).map((plan, i) => {
     const def = B2C_PLANS[plan];
     const commission = Math.round(annualCachetCents * def.commissionRate);
     const sub = def.priceCents * 12;
-    return { plan, def, commission, sub, total: commission + sub };
+    return { plan, name: planNames[i] ?? plan, def, commission, sub, total: commission + sub };
   });
   const best = rows.reduce((a, b) => (b.total < a.total ? b : a));
   const currentRow = rows.find((r) => r.plan === currentPlan)!;
@@ -77,7 +80,7 @@ export function RentabiliteWidget({
                 )}
               >
                 <td className="px-3 py-2">
-                  {r.def.plan}
+                  {r.name}
                   {r.plan === currentPlan && (
                     <span className="ml-1 text-xs text-fg-subtle">
                       {t("space.profitability.current")}
@@ -88,7 +91,7 @@ export function RentabiliteWidget({
                   {euros(r.commission, locale)} ({percent(r.def.commissionRate, locale)})
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
-                  {euros(r.sub, locale)}
+                  {formatPlanPrice(r.sub, locale)}
                 </td>
                 <td className="px-3 py-2 text-right">{euros(r.total, locale)}</td>
               </tr>
@@ -102,13 +105,13 @@ export function RentabiliteWidget({
         {saving > 0 ? (
           <span>
             {t("space.profitability.save", {
-              plan: best.def.plan,
+              plan: best.name,
               amount: euros(saving, locale),
             })}
           </span>
         ) : (
           <span className="text-fg-muted">
-            {t("space.profitability.best", { plan: currentPlan })}
+            {t("space.profitability.best", { plan: currentRow.name })}
           </span>
         )}
       </p>

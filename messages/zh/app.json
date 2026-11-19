@@ -171,7 +171,20 @@
       "waiting": "等待材料",
       "ready": "已就绪",
       "held": "已托管",
-      "toConfirm": "待确认"
+      "toConfirm": "待确认",
+      "blocked": "受阻",
+      "confirmed": "已确认",
+      "auth": {
+        "NONE": "待申请",
+        "REQUESTED": "已申请",
+        "GRANTED": "已批准",
+        "REFUSED": "已拒绝"
+      },
+      "escrowStatus": {
+        "PENDING": "待托管",
+        "HELD": "已托管",
+        "RELEASED": "已释放"
+      }
     }
   },
   "matchReasons": {
@@ -181,5 +194,10 @@
     "availability": "档期已确认",
     "imageRights": "肖像权已确认",
     "sourcedOffRoster": "来自外部渠道，评分标准相同"
+  },
+  "rgpd": {
+    "title": "个人数据（GDPR）",
+    "export": "导出我的数据",
+    "confirmDelete": "是的，删除"
   }
 }
