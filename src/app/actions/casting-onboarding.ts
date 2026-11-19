@@ -112,15 +112,21 @@ export async function saveCastingScope(input: unknown): Promise<StepResult> {
   return { ok: true, orgId: org.id };
 }
 
-/** Final step: confirm email (mock) and enter the app. */
+/**
+ * Final step: mark onboarding finished and enter the app.
+ *
+ * This used to write User.emailVerified, without verifying anything. That
+ * column now means what it says (a provider or a verification email proved
+ * the address), and "onboarding finished" has its own stamp.
+ */
 export async function finalizeCastingOnboarding(): Promise<void> {
   const userId = await requireCastingUserId();
   const org = await findOwnedOrg(userId);
   if (!org) return redirect({ href: "/casting/inscription", locale: await getLocale() });
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: { emailVerified: new Date() },
+  await prisma.user.updateMany({
+    where: { id: userId, onboardingCompletedAt: null },
+    data: { onboardingCompletedAt: new Date() },
   });
   await audit({
     actorUserId: userId,
@@ -129,5 +135,9 @@ export async function finalizeCastingOnboarding(): Promise<void> {
     resourceType: "Organization",
     resourceId: org.id,
   });
-  return redirect({ href: "/casting/app", locale: await getLocale() });
+  // First arrival: the dashboard shows the "How this works" tutorial once.
+  return redirect({
+    href: { pathname: "/casting/app", query: { welcome: "1" } },
+    locale: await getLocale(),
+  });
 }

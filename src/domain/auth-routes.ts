@@ -30,14 +30,29 @@ export function onboardingHome(kind: string, locale: string): string {
     : `/${l}/talents/inscription`;
 }
 
+/**
+ * The first screen after onboarding, shown once: profile completeness for a
+ * talent, the dashboard for a casting user, both with ?welcome=1 so the page
+ * can show the "How this works" tutorial. Later sign-ins go to appHome.
+ */
+export function firstRunHome(kind: string, locale: string): string {
+  const l = toLocale(locale);
+  return kind === "CASTING"
+    ? `/${l}/casting/app?welcome=1`
+    : `/${l}/talents/app/profil?welcome=1`;
+}
+
 /** What postAuthHome needs to know about the account. Loaded by /continuer. */
 export interface PostAuthState {
   /** The talent's mandate, if any. */
   mandat?: { status: string; signedAt: Date | null } | null;
   /** Casting: an OWNER membership exists. */
   hasOwnerMembership?: boolean;
-  /** Casting: User.emailVerified is set. */
-  emailVerified?: boolean;
+  /**
+   * User.onboardingCompletedAt: stamped when the first-run screen has been
+   * served. For a casting user it is also what "onboarding finished" means.
+   */
+  onboardingCompletedAt?: Date | null;
 }
 
 /** Talent onboarding is done once the mandate is signed and active. */
@@ -46,11 +61,13 @@ export function isMandateSigned(state: PostAuthState): boolean {
 }
 
 /**
- * Casting onboarding is done once the organisation exists and the email is
- * verified: the rule the casting inscription page applies.
+ * Casting onboarding is done once the organisation exists and the last step
+ * of the wizard has run, which stamps onboardingCompletedAt. (It used to read
+ * User.emailVerified, which a provider sign-in sets at account creation, so a
+ * Google or Apple casting user counted as onboarded half way through.)
  */
 export function isCastingOnboarded(state: PostAuthState): boolean {
-  return !!state.hasOwnerMembership && !!state.emailVerified;
+  return !!state.hasOwnerMembership && !!state.onboardingCompletedAt;
 }
 
 /**
@@ -65,5 +82,18 @@ export function postAuthHome(
 ): string {
   const k = kind === "CASTING" ? "CASTING" : "TALENT";
   const done = k === "CASTING" ? isCastingOnboarded(state) : isMandateSigned(state);
-  return done ? appHome(k, locale) : onboardingHome(k, locale);
+  if (!done) return onboardingHome(k, locale);
+  // Onboarding finished and the first-run screen never served: serve it now.
+  // The caller stamps onboardingCompletedAt (see needsFirstRun).
+  return needsFirstRun(k, state) ? firstRunHome(k, locale) : appHome(k, locale);
+}
+
+/**
+ * True when postAuthHome answers with the first-run screen, so the caller
+ * knows to stamp User.onboardingCompletedAt. Signing the mandate normally
+ * stamps it; this covers accounts that finished onboarding another way.
+ */
+export function needsFirstRun(kind: string | undefined, state: PostAuthState): boolean {
+  if (kind === "CASTING") return false; // the stamp is part of "onboarded" there
+  return isMandateSigned(state) && !state.onboardingCompletedAt;
 }
