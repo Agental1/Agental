@@ -75,7 +75,8 @@
     "switching": "正在切换…",
     "allDetails": "查看全部方案详情",
     "contact": "联系我们获取报价",
-    "close": "关闭"
+    "close": "关闭",
+    "openMessages": "打开消息"
   },
   "account": {
     "create": "创建账号",

@@ -75,7 +75,8 @@
     "switching": "Cambiando…",
     "allDetails": "Ver todos los detalles de los planes",
     "contact": "Contáctanos para un presupuesto",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "openMessages": "Abrir Mensajes"
   },
   "account": {
     "create": "Crear cuenta",

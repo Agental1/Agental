@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MessageSquare } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { AgentFindPreview } from "@/components/talents/agent-find-preview";
 
 export async function generateMetadata({
   params,
@@ -40,6 +41,7 @@ export default async function MessagesPage({
         <h1 className="font-display text-3xl font-medium">{t("space.messages.title")}</h1>
         <p className="text-fg-muted">{t("space.messages.subtitle")}</p>
       </div>
+      <AgentFindPreview />
       {threads.length === 0 ? (
         <div className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-10 text-center">
           <MessageSquare className="mx-auto size-8 text-accent" />

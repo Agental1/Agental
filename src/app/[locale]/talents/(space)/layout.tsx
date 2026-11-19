@@ -10,6 +10,7 @@ import { emailSenderConfigured } from "@/lib/mailer";
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
 import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
+import { MessagesShortcut } from "@/components/app/messages-shortcut";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 import { formatPlanPrice } from "@/lib/plan-price";
@@ -20,10 +21,11 @@ const NAV = [
   { href: "/talents/app", key: "dashboard", icon: "dashboard" },
   { href: "/talents/app/profil", key: "profile", icon: "user" },
   { href: "/talents/app/candidatures", key: "candidatures", icon: "send" },
+  // Messages sits right under Applications.
+  { href: "/talents/app/messages", key: "messages", icon: "messages" },
   { href: "/talents/app/reel-self-tape", key: "selftape", icon: "video" },
   { href: "/talents/app/carriere", key: "career", icon: "career" },
   { href: "/talents/app/abonnement", key: "subscription", icon: "billing" },
-  { href: "/talents/app/messages", key: "messages", icon: "messages" },
   { href: "/talents/app/parametres", key: "settings", icon: "settings" },
 ] as const;
 
@@ -113,9 +115,9 @@ export default async function TalentsAppLayout({
       portal="talents"
       home="/talents/app"
       nav={[
-        ...NAV.slice(0, 5).map(toItem),
+        ...NAV.slice(0, 6).map(toItem),
         { href: "/talents/app/site", icon: "website", label: t("limelight.navApp") },
-        ...NAV.slice(5).map(toItem),
+        ...NAV.slice(6).map(toItem),
       ]}
       userLabel={session.user.email ?? t("space.nav.account")}
       planSlot={
@@ -130,6 +132,7 @@ export default async function TalentsAppLayout({
       <Suspense fallback={null}>
         <FirstRunTour portal="talents" steps={tourSteps} />
       </Suspense>
+      <MessagesShortcut />
       {children}
     </AppShell>
   );

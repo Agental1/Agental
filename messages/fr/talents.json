@@ -925,6 +925,56 @@
       "save": "Enregistrer",
       "again": "Recommencer",
       "uploading": "Envoi en cours, {percent} %"
+    },
+    "find": {
+      "intro": "Ton agent personnel arrive dans Messages. Configure-le dès maintenant.",
+      "previewOnly": "Aperçu uniquement",
+      "explain": "Agental Find n’est pas encore en service. Tu peux essayer la configuration ci-dessous ; rien n’est enregistré, envoyé ni recherché avant son lancement.",
+      "start": "Le configurer",
+      "steps": {
+        "name": "Choisis ton assistant",
+        "help": "Pour quoi doit-il t’aider ?",
+        "review": "Vérifier et enregistrer"
+      },
+      "stepOf": "Étape {n} sur {total}",
+      "nameLead": "Deux prénoms, le même assistant. Choisis celui que tu préfères.",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian"
+      },
+      "helpLead": "Choisis-en un ou plusieurs.",
+      "helps": {
+        "roles": {
+          "title": "Trouver des rôles qui me conviennent",
+          "sample": "Par exemple : seconds rôles dans des longs métrages indépendants, Los Angeles, anglais ou espagnol."
+        },
+        "profile": {
+          "title": "Relire mon profil",
+          "sample": "Par exemple : signaler une photo manquante ou un rôle sans année."
+        },
+        "selftape": {
+          "title": "Préparer un self-tape",
+          "sample": "Par exemple : conseils de cadrage, de lumière et de son avant d’enregistrer une scène de deux minutes."
+        },
+        "draft": {
+          "title": "Rédiger une candidature que je relis",
+          "sample": "Par exemple : un court message pour un rôle, que tu modifies et valides avant tout envoi."
+        }
+      },
+      "reviewLead": "Vérifie tes choix. Tu peux les modifier avant d’enregistrer.",
+      "assistant": "Assistant",
+      "helpWith": "Aide pour",
+      "none": "Rien de sélectionné pour l’instant",
+      "edit": "Modifier",
+      "back": "Retour",
+      "next": "Suivant",
+      "save": "Enregistrer les préférences de l’agent",
+      "saved": "Aperçu terminé. Tu pourras enregistrer tes préférences au lancement d’Agental Find.",
+      "restart": "Recommencer"
+    },
+    "team": {
+      "title": "Équipe Agental",
+      "firstMessage": "Envoie-nous ton premier message. Pose une question ou dis-nous sur quoi tu travailles."
     }
   },
   "responseRate": {

@@ -925,6 +925,56 @@
       "save": "Guardar",
       "again": "Grabar de nuevo",
       "uploading": "Subiendo, {percent} %"
+    },
+    "find": {
+      "intro": "Tu agente personal llega a Mensajes. Configúralo ahora.",
+      "previewOnly": "Solo vista previa",
+      "explain": "Agental Find aún no está activo. Puedes probar la configuración de abajo; no se guarda, envía ni busca nada hasta su lanzamiento.",
+      "start": "Configurarlo",
+      "steps": {
+        "name": "Elige tu asistente",
+        "help": "¿En qué debe ayudarte?",
+        "review": "Revisar y guardar"
+      },
+      "stepOf": "Paso {n} de {total}",
+      "nameLead": "Dos nombres, el mismo asistente. Elige el que prefieras.",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian"
+      },
+      "helpLead": "Elige una o varias opciones.",
+      "helps": {
+        "roles": {
+          "title": "Encontrar papeles adecuados",
+          "sample": "Por ejemplo: papeles secundarios en largometrajes independientes, Los Ángeles, inglés o español."
+        },
+        "profile": {
+          "title": "Revisar mi perfil",
+          "sample": "Por ejemplo: señalar una foto que falta o un crédito sin año."
+        },
+        "selftape": {
+          "title": "Preparar un self-tape",
+          "sample": "Por ejemplo: consejos de encuadre, luz y sonido antes de grabar una escena de dos minutos."
+        },
+        "draft": {
+          "title": "Redactar una candidatura para que la revise",
+          "sample": "Por ejemplo: una nota breve para un papel, que editas y apruebas antes de que se envíe nada."
+        }
+      },
+      "reviewLead": "Revisa tus elecciones. Puedes cambiarlas antes de guardar.",
+      "assistant": "Asistente",
+      "helpWith": "Ayuda con",
+      "none": "Nada seleccionado todavía",
+      "edit": "Editar",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "save": "Guardar las preferencias del agente",
+      "saved": "Vista previa completada. Podrás guardar tus preferencias cuando se lance Agental Find.",
+      "restart": "Empezar de nuevo"
+    },
+    "team": {
+      "title": "Equipo de Agental",
+      "firstMessage": "Envíanos tu primer mensaje. Haz una pregunta o cuéntanos en qué estás trabajando."
     }
   },
   "responseRate": {

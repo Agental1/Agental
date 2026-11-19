@@ -925,6 +925,56 @@
       "save": "Save",
       "again": "Record again",
       "uploading": "Uploading, {percent}%"
+    },
+    "find": {
+      "intro": "Your personal agent is coming to Messages. Set it up now.",
+      "previewOnly": "Preview only",
+      "explain": "Agental Find is not live yet. You can try the setup below; nothing is saved, sent or searched until it launches.",
+      "start": "Set it up",
+      "steps": {
+        "name": "Choose your assistant",
+        "help": "What should it help with?",
+        "review": "Review and save"
+      },
+      "stepOf": "Step {n} of {total}",
+      "nameLead": "Two names, the same assistant. Pick the one you prefer.",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian"
+      },
+      "helpLead": "Pick one or more.",
+      "helps": {
+        "roles": {
+          "title": "Find suitable roles",
+          "sample": "For example: supporting roles in independent features, Los Angeles, English or Spanish."
+        },
+        "profile": {
+          "title": "Review my profile",
+          "sample": "For example: point out a missing headshot or a credit without a year."
+        },
+        "selftape": {
+          "title": "Prepare a self-tape",
+          "sample": "For example: framing, lighting and sound tips before you record a two-minute scene."
+        },
+        "draft": {
+          "title": "Draft an application for my review",
+          "sample": "For example: a short cover note for a role, which you edit and approve before anything is sent."
+        }
+      },
+      "reviewLead": "Check your choices. You can change them before saving.",
+      "assistant": "Assistant",
+      "helpWith": "Helps with",
+      "none": "Nothing selected yet",
+      "edit": "Edit",
+      "back": "Back",
+      "next": "Next",
+      "save": "Save agent preferences",
+      "saved": "Preview complete. You’ll be able to save preferences when Agental Find launches.",
+      "restart": "Start over"
+    },
+    "team": {
+      "title": "Agental team",
+      "firstMessage": "Send us your first message. Ask a question or tell us what you’re working on."
     }
   },
   "responseRate": {

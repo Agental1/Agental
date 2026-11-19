@@ -75,7 +75,8 @@
     "switching": "Changement…",
     "allDetails": "Voir le détail des formules",
     "contact": "Nous contacter pour un devis",
-    "close": "Fermer"
+    "close": "Fermer",
+    "openMessages": "Ouvrir Messages"
   },
   "account": {
     "create": "Créer un compte",

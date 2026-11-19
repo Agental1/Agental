@@ -925,6 +925,56 @@
       "save": "保存",
       "again": "重新录制",
       "uploading": "上传中，{percent}%"
+    },
+    "find": {
+      "intro": "你的私人经纪助手即将来到消息中心。现在就来设置。",
+      "previewOnly": "仅为预览",
+      "explain": "Agental Find 尚未上线。你可以试用下面的设置；在上线前，不会保存、发送或搜索任何内容。",
+      "start": "开始设置",
+      "steps": {
+        "name": "选择你的助手",
+        "help": "需要它帮你做什么？",
+        "review": "查看并保存"
+      },
+      "stepOf": "第 {n} 步，共 {total} 步",
+      "nameLead": "两个名字，同一个助手。选你喜欢的那个。",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian"
+      },
+      "helpLead": "可以选择一项或多项。",
+      "helps": {
+        "roles": {
+          "title": "寻找合适的角色",
+          "sample": "例如：洛杉矶独立长片中的配角，英语或西班牙语。"
+        },
+        "profile": {
+          "title": "检查我的资料",
+          "sample": "例如：提示缺少的照片或没有年份的作品。"
+        },
+        "selftape": {
+          "title": "准备自录试镜",
+          "sample": "例如：录制两分钟场景前的构图、灯光和声音建议。"
+        },
+        "draft": {
+          "title": "起草投递供我审阅",
+          "sample": "例如：为某个角色写一段简短说明，你修改并批准后才会发送。"
+        }
+      },
+      "reviewLead": "检查你的选择，保存前可以修改。",
+      "assistant": "助手",
+      "helpWith": "协助内容",
+      "none": "尚未选择",
+      "edit": "修改",
+      "back": "返回",
+      "next": "下一步",
+      "save": "保存助手偏好",
+      "saved": "预览完成。Agental Find 上线后即可保存偏好。",
+      "restart": "重新开始"
+    },
+    "team": {
+      "title": "Agental 团队",
+      "firstMessage": "给我们发送第一条消息。提个问题，或告诉我们你正在做什么。"
     }
   },
   "responseRate": {

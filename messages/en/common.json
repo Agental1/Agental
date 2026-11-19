@@ -75,7 +75,8 @@
     "switching": "Switching…",
     "allDetails": "See all plan details",
     "contact": "Contact us for a quote",
-    "close": "Close"
+    "close": "Close",
+    "openMessages": "Open Messages"
   },
   "account": {
     "create": "Create account",
