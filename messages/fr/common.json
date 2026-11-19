@@ -9,7 +9,8 @@
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "skipToContent": "Aller au contenu",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "portalSwitch": "Passer d’Agental Talents à Agental Casting"
   },
   "footer": {
     "tagline": "La première agence artistique nativement augmentée par IA.",

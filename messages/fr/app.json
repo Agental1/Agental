@@ -77,7 +77,11 @@
     "noVideo": "Aucune vidéo enregistrée.",
     "noFile": "Aucun fichier.",
     "deleteFailed": "La suppression a échoué.",
-    "confirmFailed": "La confirmation a échoué. Réessayez."
+    "confirmFailed": "La confirmation a échoué. Réessayez.",
+    "billingUnavailable": "Les offres payantes ne sont pas encore disponibles.",
+    "limelightContactRequired": "Ajoute ton nom pour qu’on sache à qui répondre.",
+    "limelightSendFailed": "Ton message n’est pas parti. Réessaie dans un instant, ou écris-nous par email.",
+    "limelightTooMany": "Trop de messages depuis cette connexion. Réessaie dans quelques minutes."
   },
   "auth": {
     "name": "Nom",

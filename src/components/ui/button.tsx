@@ -4,12 +4,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex max-w-full items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg]:size-[1.1em]",
+  "inline-flex max-w-full items-center justify-center gap-2 whitespace-nowrap rounded-[var(--btn-radius)] font-medium tracking-[-0.01em] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg]:size-[1.1em]",
   {
     variants: {
       variant: {
-        // --cta is an ink pill on paper and a chalk pill on the stage: the
-        // reference boards never colour the primary action.
+        // --cta is a chalk pill on the Casting stage and a green rectangle
+        // on Talents: the one colour on the page that means "act".
         primary: "bg-cta text-cta-fg hover:bg-cta-hover",
         secondary:
           "bg-surface text-fg border border-border hover:border-border-strong",

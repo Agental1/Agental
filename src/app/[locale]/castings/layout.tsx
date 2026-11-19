@@ -22,6 +22,7 @@ export default function CastingsLayout({
 
   const nav: NavItem[] = [
     { href: "/talents/comment-ca-marche", label: t("nav.how") },
+    { href: "/talents/limelight", label: tt("limelight.nav") },
     { href: "/talents/tarifs", label: t("nav.pricing") },
     { href: "/talents/faq", label: t("nav.faq") },
     { href: "/castings", label: t("nav.castingTypes") },
@@ -30,6 +31,7 @@ export default function CastingsLayout({
   return (
     <div
       data-portal="talents"
+      data-surface="site"
       className="flex min-h-screen flex-col bg-bg text-fg"
     >
       <MarketingHeader

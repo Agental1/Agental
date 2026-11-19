@@ -1,6 +1,6 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { useTranslations, useLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -12,13 +12,17 @@ import { Section } from "@/components/marketing/section";
 import { PORTRAITS } from "@/data/portraits";
 import {
   FramedCards,
-  NumberedSteps,
   QuoteCards,
-  SplitWordmark,
   StageCta,
 } from "@/components/marketing/blocks";
+import { JoinSteps } from "@/components/talents/join-steps";
 import { CASTING_TYPES, type CastingTypeSlug } from "@/data/casting-types";
 import { cn } from "@/lib/utils";
+
+/** The tape strip that "hits its mark" under a section title as it scrolls in. */
+function HitMark({ onStage = false }: { onStage?: boolean }) {
+  return <span aria-hidden="true" className={cn("hit-mark", onStage && "on-stage")} />;
+}
 
 /**
  * Agental Talents landing — v1 redesign ("Spotlight").
@@ -84,6 +88,7 @@ export default async function TalentsLanding({
       <ResponseRate />
       <Steps />
       <SelfTape />
+      <LimelightBand />
       <Commission />
       <Testimonials />
       <Minors />
@@ -109,17 +114,18 @@ function Hero() {
   const portraits = PORTRAITS[toLocale(useLocale())].hero;
 
   return (
-    <section data-demo="talents-hero" className="px-[clamp(12px,2vw,24px)]">
+    <section data-demo="talents-hero" className="px-[clamp(12px,2vw,24px)] pt-4">
       <div className="mx-auto max-w-site">
-        <SplitWordmark portal="Talents" />
-
-        {/* The stage. */}
-        <div className="stage-light relative isolate h-[min(88svh,720px)] min-h-[600px] overflow-hidden rounded-sedan-2xl text-[#f2f2ee] md:h-[min(70vh,740px)] md:min-h-[560px]">
-          <div className="stage-beam spot-sweep pointer-events-none absolute inset-0 -z-10" />
+        {/* The stage. Headline and "Become a member" sit inside it, so the
+            first screen says what Agental is and how to join. */}
+        <div className="stage-light relative isolate h-[min(80svh,660px)] min-h-[560px] overflow-hidden rounded-sedan-2xl text-[var(--stage-text,#f2f2ee)]">
+          <div className="stage-drift pointer-events-none absolute inset-0 -z-10">
+            <div className="stage-beam spot-sweep absolute inset-0" />
+          </div>
 
           {/* The performer, caught in the followspot. */}
           <div
-            className="pointer-events-none absolute bottom-0 right-[4%] top-[8%] -z-10 w-[min(62%,560px)] md:right-[23%] md:w-[34%]"
+            className="pointer-events-none absolute bottom-0 right-[-6%] top-[10%] -z-10 w-[min(70%,520px)] opacity-70 md:right-[14%] md:w-[34%] md:opacity-100"
             style={{
               maskImage:
                 "radial-gradient(48% 50% at 50% 44%, #000 38%, transparent 100%)",
@@ -127,29 +133,29 @@ function Hero() {
                 "radial-gradient(48% 50% at 50% 44%, #000 38%, transparent 100%)",
             }}
           >
-            <Image
-              src={portraits[1]}
-              alt=""
-              fill
-              priority
-              sizes="(min-width: 768px) 34vw, 62vw"
-              className="object-cover object-top brightness-[0.92] saturate-[0.8]"
-            />
+            <div className="stage-settle absolute inset-0">
+              <Image
+                src={portraits[1]}
+                alt=""
+                fill
+                priority
+                sizes="(min-width: 768px) 34vw, 62vw"
+                className="object-cover object-top brightness-[0.92] saturate-[0.8]"
+              />
+            </div>
           </div>
-          {/* Spike-tape mark on the floor, where the performer stands. */}
-          <div
+          {/* The tape mark on the floor, where the performer stands. */}
+          <span
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-[7%] right-[40%] -z-10 hidden md:block"
-          >
-            <span className="absolute h-[6px] w-14 -translate-x-1/2 rotate-[24deg] rounded-[1px] bg-signal shadow-[0_0_18px_rgb(255_83_23/0.6)]" />
-            <span className="absolute h-[6px] w-14 -translate-x-1/2 -rotate-[24deg] rounded-[1px] bg-signal shadow-[0_0_18px_rgb(255_83_23/0.6)]" />
-          </div>
+            className="tape-mark pointer-events-none absolute bottom-[6%] right-[31%] -z-10 hidden h-7 w-8 -translate-x-1/2 text-[var(--green-glow)] drop-shadow-[0_0_14px_rgb(143_209_176/0.55)] md:block"
+            style={{ transform: "perspective(240px) rotateX(58deg)" }}
+          />
           <div className="stage-grain pointer-events-none absolute inset-0 -z-10" />
 
           {/* Casting-type tabs, as on the Alture board. */}
           <nav
             aria-label={tl("faces.typesLabel")}
-            className="grid grid-cols-2 gap-x-6 px-[clamp(20px,3vw,40px)] pt-6 md:grid-cols-4"
+            className="grid grid-cols-2 gap-x-6 px-[clamp(20px,3vw,40px)] pt-4 md:grid-cols-4"
           >
             {STAGE_TABS.map((slug) => (
               <Link
@@ -162,18 +168,27 @@ function Hero() {
             ))}
           </nav>
 
-          {/* Headline, bottom left. */}
+          {/* Headline and the way in, bottom left. */}
           <div className="absolute inset-x-0 bottom-0 flex flex-col gap-8 p-[clamp(20px,3.5vw,48px)] md:flex-row md:items-end md:justify-between">
-            <div className="min-w-0 md:max-w-[55%]">
-              <p className="text-[13px] text-white/60">{t("eyebrow")}</p>
-              <h1 className="mt-3 max-w-[11ch] text-[clamp(2.4rem,5.4vw,5rem)] font-semibold leading-[0.95] tracking-[-0.05em]">
+            <div className="min-w-0 md:max-w-[58%]">
+              <p className="text-[13px] text-white/65">{t("eyebrow")}</p>
+              <h1 className="mt-3 max-w-[12ch] text-[clamp(2.4rem,5.4vw,5rem)] font-semibold leading-[0.95] tracking-[-0.05em]">
                 {t("title")}{" "}
                 <span className="text-white/55">{t("titleEmph")}</span>
               </h1>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <Link href="/talents/inscription" className="stage-cta h-12 px-6 text-[15.5px]">
+                  {t("ctaPrimary")}
+                </Link>
+                <Link href="/talents/comment-ca-marche" className="stage-cta-ghost h-12 px-6 text-[15.5px]">
+                  {t("ctaSecondary")}
+                </Link>
+              </div>
+              <p className="mt-3 text-[13px] text-white/60">{t("note")}</p>
             </div>
 
-            {/* Agent card, bottom right. */}
-            <div className="hidden w-full max-w-[420px] shrink-0 items-center gap-3 sm:flex rounded-sedan-xl border border-white/15 bg-white/[0.07] p-2.5 backdrop-blur-md md:w-auto">
+            {/* Agent card, bottom right: what working with Agental feels like. */}
+            <div className="hidden w-full max-w-[360px] shrink-0 items-center gap-3 rounded-sedan-xl border border-white/15 bg-white/[0.07] p-2.5 backdrop-blur-md lg:flex">
               <Image
                 src={portraits[3]}
                 alt=""
@@ -189,33 +204,16 @@ function Hero() {
                   {tl("agentCard.body")}
                 </p>
               </div>
-              <Link
-                href="/talents/inscription"
-                className="inline-flex h-10 shrink-0 items-center rounded-full bg-[#f2f2ee] px-4 text-[14px] font-medium text-[#0e0e0e] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                {t("ctaPrimary")}
-              </Link>
             </div>
           </div>
         </div>
 
         {/* Under the stage: what Agental is, in plain words, and the proof
             strip as three hairline columns. */}
-        <div className="grid gap-10 px-[clamp(4px,1vw,16px)] py-[clamp(40px,6vw,88px)] lg:grid-cols-[1fr_1.1fr]">
-          <div>
-            <p className="max-w-[40ch] text-[clamp(1.2rem,1.7vw,1.5rem)] font-medium leading-[1.3] tracking-[-0.03em]">
-              {t("subtitle")}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg">
-                <Link href="/talents/inscription">{t("ctaPrimary")}</Link>
-              </Button>
-              <Button asChild variant="secondary" size="lg">
-                <Link href="/talents/comment-ca-marche">{t("ctaSecondary")}</Link>
-              </Button>
-            </div>
-            <p className="mt-4 text-[13px] text-fg-subtle">{t("note")}</p>
-          </div>
+        <div className="grid gap-10 px-[clamp(4px,1vw,16px)] py-[clamp(40px,5vw,72px)] lg:grid-cols-[1fr_1.1fr]">
+          <p className="max-w-[46ch] text-[clamp(1.1rem,1.5vw,1.35rem)] font-medium leading-[1.35] tracking-[-0.02em]">
+            {t("subtitle")}
+          </p>
           <dl className="grid content-start border-t border-border sm:grid-cols-3 sm:border-l sm:border-t-0 lg:self-end">
             {(["regulated", "ai", "free"] as const).map((key) => (
               <div
@@ -240,75 +238,37 @@ function Hero() {
 /* ----------------------------------------------------------------- faces -- */
 
 /**
- * One tile per casting type, as a contact sheet. The portraits are mapped by
- * hand so no face repeats across the nine tiles.
+ * Casting types as a plain set of links. The nine-portrait strip that stood
+ * here was removed (2026-11): one face in the hero is enough until the new
+ * photo set arrives, and the types are what visitors come to click.
  */
-function facesFor(locale: ReturnType<typeof toLocale>) {
-  const p = PORTRAITS[locale];
-  const map: Record<CastingTypeSlug, StaticImageData> = {
-    figuration: p.ages.adulte,
-    silhouette: p.ages["jeune-adulte"],
-    "seconds-roles": p.ages.senior,
-    publicite: p.hero[1],
-    photo: p.hero[2],
-    "voix-doublage": p.ages["senior-plus"],
-    enfants: p.ages.enfant,
-    createurs: p.ages.adolescent,
-    performeurs: p.hero[0],
-  };
-  return map;
-}
-
 function Faces() {
   const t = useTranslations("talents.landing.faces");
   const tc = useTranslations("talents.castingTypes");
-  const faces = facesFor(toLocale(useLocale()));
 
   return (
     <section className="border-t border-border">
-      <div className="mx-auto max-w-site px-[clamp(16px,3vw,40px)] py-[clamp(64px,9vw,136px)]">
-        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+      <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] py-[clamp(56px,7vw,104px)] lg:grid-cols-[1fr_1.2fr] lg:items-end">
+        <div>
           <h2 className="display-lg max-w-[12ch]">{t("title")}</h2>
-          <div className="grid gap-x-10 gap-y-3 self-end text-[14px] sm:grid-cols-[auto_1fr]">
-            <p className="text-fg-subtle">{t("typesLabel")}</p>
-            <ul className="columns-2 gap-6">
-              {CASTING_TYPES.map((type) => (
-                <li key={type.slug} className="break-inside-avoid">
-                  <Link
-                    href={`/castings/${type.slug}`}
-                    className="inline-flex min-h-7 items-center text-fg transition-colors hover:text-fg-muted"
-                  >
-                    {tc(`${type.slug}.name`)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 max-w-[48ch] sm:col-span-2 text-[15px] leading-relaxed text-fg-muted">
-              {t("lead")}
-            </p>
-          </div>
+          <HitMark />
+          <p className="mt-6 max-w-[48ch] text-[16px] leading-relaxed text-fg-muted">{t("lead")}</p>
         </div>
-
-        <ul className="mt-[clamp(40px,6vw,72px)] grid grid-cols-3 gap-[3px] lg:grid-cols-9">
-          {CASTING_TYPES.map((type) => (
-            <li key={type.slug}>
-              <Link href={`/castings/${type.slug}`} className="group block">
-                <span className="block overflow-hidden bg-surface-2">
-                  <Image
-                    src={faces[type.slug]}
-                    alt=""
-                    sizes="(min-width: 1024px) 11vw, 33vw"
-                    className="aspect-[4/5] w-full object-cover grayscale-[35%] transition-[filter] duration-300 group-hover:grayscale-0"
-                  />
-                </span>
-                <span className="mt-2 block text-[12.5px] leading-tight text-fg-muted group-hover:text-fg">
+        <nav aria-label={t("typesLabel")}>
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {CASTING_TYPES.map((type) => (
+              <li key={type.slug}>
+                <Link
+                  href={`/castings/${type.slug}`}
+                  className="flex min-h-14 items-center gap-2.5 rounded-sedan border border-border bg-surface px-4 text-[15px] font-medium transition-colors hover:border-accent hover:text-accent"
+                >
+                  <span aria-hidden="true" className="tape-mark h-2.5 w-3 shrink-0 text-accent" />
                   {tc(`${type.slug}.name`)}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-[12px] text-fg-subtle">{t("note")}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </section>
   );
@@ -324,6 +284,7 @@ function Why() {
       <div className="mx-auto max-w-site px-[clamp(16px,3vw,40px)] pt-[clamp(64px,9vw,136px)]">
         <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h2 className="display-md mt-6 max-w-[16ch]">{t("title")}</h2>
+        <HitMark />
         <p className="mt-6 max-w-[60ch] text-[17px] leading-relaxed text-fg-muted">
           {t("lead")}
         </p>
@@ -341,7 +302,10 @@ function ResponseRate() {
   return (
     <Section rhythm="major" className="border-t border-border">
       <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-        <h2 className="display-lg max-w-[14ch]">{t("title")}</h2>
+        <div>
+          <h2 className="display-lg max-w-[14ch]">{t("title")}</h2>
+          <HitMark />
+        </div>
         <div>
           <p className="text-[17px] leading-relaxed text-fg-muted">{t("body")}</p>
           <p className="mt-5 text-[13px] text-fg-subtle">{t("disclaimer")}</p>
@@ -359,16 +323,17 @@ function Steps() {
   return (
     <Section rhythm="major" className="border-t border-border">
       <div className="flex flex-wrap items-end justify-between gap-6">
-        <h2 className="display-md max-w-[14ch]">{t("title")}</h2>
+        <div>
+          <h2 className="display-md max-w-[14ch]">{t("title")}</h2>
+          <HitMark />
+        </div>
         <Button asChild variant="secondary">
           <Link href="/talents/comment-ca-marche">{t("cta")}</Link>
         </Button>
       </div>
-      <NumberedSteps
-        data-demo="talents-steps"
-        items={items}
-        className="mt-[clamp(40px,5vw,64px)]"
-      />
+      <div className="mt-[clamp(32px,4vw,56px)]">
+        <JoinSteps items={items} />
+      </div>
     </Section>
   );
 }
@@ -385,6 +350,7 @@ function SelfTape() {
         <div>
           <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h2 className="display-md mt-6 max-w-[16ch]">{t("title")}</h2>
+          <HitMark />
           <p className="mt-6 max-w-[56ch] text-[16.5px] leading-relaxed text-fg-muted">
             {t("body")}
           </p>
@@ -397,7 +363,7 @@ function SelfTape() {
         </div>
 
         {/* Viewfinder: what the studio shows while you record. */}
-        <figure className="relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden rounded-sedan-2xl bg-[#0e0e0e]">
+        <figure className="relative mx-auto aspect-[4/5] w-full max-w-[520px] overflow-hidden rounded-sedan-2xl bg-[var(--stage-base,#0e0e0e)]">
           <Image
             src={portraits[2]}
             alt=""
@@ -440,6 +406,32 @@ function SelfTape() {
   );
 }
 
+/* -------------------------------------------------------------- limelight -- */
+
+/**
+ * Teaser for Limelight, the website offer. A quiet band between the studio and
+ * the pricing: it answers "I don't have a website" where performers think of it.
+ */
+function LimelightBand() {
+  const t = useTranslations("talents.limelight.band");
+  return (
+    <section className="border-t border-border bg-surface">
+      <div className="mx-auto grid max-w-site gap-8 px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,88px)] md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <h2 className="display-md max-w-[18ch]">{t("title")}</h2>
+          <HitMark />
+          <p className="mt-5 max-w-[58ch] text-[16.5px] leading-relaxed text-fg-muted">{t("body")}</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link href="/talents/limelight">{t("cta")}</Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------ commission -- */
 
 function Commission() {
@@ -453,6 +445,7 @@ function Commission() {
         <div>
           <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h2 className="display-md mt-6 max-w-[14ch]">{t("title")}</h2>
+          <HitMark />
           <p className="mt-6 max-w-[48ch] text-[16.5px] leading-relaxed text-fg-muted">
             {t("body")}
           </p>
@@ -485,7 +478,7 @@ function Commission() {
                   <td className="py-5 font-mono text-[14px] text-fg-muted">{plan.price}</td>
                   <td
                     className={cn(
-                      "py-5 text-right text-[clamp(2.2rem,4.5vw,3.75rem)] font-semibold leading-none tracking-[-0.06em] tabular-nums",
+                      "py-5 text-right font-[family-name:var(--font-marquee)] text-[clamp(2.6rem,5vw,4.25rem)] font-extrabold leading-none tabular-nums",
                       !best && "text-fg/40"
                     )}
                   >
@@ -509,6 +502,7 @@ function Testimonials() {
   return (
     <Section rhythm="major" className="border-t border-border">
       <h2 className="display-md max-w-[16ch]">{t("title")}</h2>
+      <HitMark />
       <div className="mt-[clamp(32px,5vw,56px)]">
         <QuoteCards items={items} />
       </div>

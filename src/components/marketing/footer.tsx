@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AgentalMark } from "@/components/brand/logo";
 import type { NavItem } from "./header";
+import { LIMELIGHT } from "@/domain/limelight";
 
 /**
  * Footer (v1 redesign). Link columns on top; the wordmark set edge to edge at
@@ -69,6 +70,15 @@ export function MarketingFooter({
                 className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg hover:text-fg-muted"
               >
                 Agental Casting
+              </Link>
+            </li>
+            <li>
+              {/* The website offer for performers, reachable from both portals. */}
+              <Link
+                href={`/talents/${LIMELIGHT.slug}`}
+                className="inline-flex min-h-9 items-center text-[15px] tracking-[-0.01em] text-fg hover:text-fg-muted"
+              >
+                {LIMELIGHT.name}
               </Link>
             </li>
             <li>

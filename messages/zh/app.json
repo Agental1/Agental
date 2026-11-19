@@ -77,7 +77,11 @@
     "noVideo": "没有录制视频。",
     "noFile": "没有文件。",
     "deleteFailed": "删除失败。",
-    "confirmFailed": "确认失败，请重试。"
+    "confirmFailed": "确认失败，请重试。",
+    "billingUnavailable": "付费方案暂未开放。",
+    "limelightContactRequired": "请填写你的名字，方便我们回复。",
+    "limelightSendFailed": "消息未能发送。请稍后再试，或给我们发邮件。",
+    "limelightTooMany": "此连接发送的消息过多，请几分钟后再试。"
   },
   "auth": {
     "name": "姓名",

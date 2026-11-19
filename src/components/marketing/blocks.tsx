@@ -38,7 +38,7 @@ export function FramedCards({
               <div
                 className={cn(
                   "flex h-full min-h-[260px] flex-col justify-between gap-10 rounded-sedan-lg p-[clamp(20px,2.4vw,28px)]",
-                  lifted ? "stage-light text-[#f2f2ee]" : "border border-border bg-bg/60"
+                  lifted ? "stage-light text-[var(--stage-text,#f2f2ee)]" : "border border-border bg-bg/60"
                 )}
               >
                 <h3 className="max-w-[18ch] text-[clamp(1.35rem,2vw,1.65rem)] font-medium leading-[1.1] tracking-[-0.035em]">
@@ -152,21 +152,22 @@ export function StageCta({
 }) {
   return (
     <section className="px-[clamp(12px,2vw,24px)] pb-[clamp(48px,6vw,96px)]">
-      <div className="stage-light relative isolate mx-auto max-w-site overflow-hidden rounded-sedan-2xl border border-white/[0.06] px-[clamp(24px,5vw,72px)] py-[clamp(56px,8vw,120px)] text-[#f2f2ee]">
+      <div className="stage-light relative isolate mx-auto max-w-site overflow-hidden rounded-sedan-2xl border border-white/[0.06] px-[clamp(24px,5vw,72px)] py-[clamp(56px,8vw,120px)] text-[var(--stage-text,#f2f2ee)]">
         <div className="stage-beam pointer-events-none absolute inset-0 -z-10" />
         <h2 className="display-lg max-w-[18ch] text-balance">{title}</h2>
+        <span aria-hidden="true" className="hit-mark on-stage" />
         <div className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
           <p className="max-w-[52ch] text-[17px] leading-relaxed text-white/70">{body}</p>
           <div className="flex flex-wrap gap-3">
             <Link
               href={primary.href}
-              className="inline-flex h-12 items-center rounded-full bg-[#f2f2ee] px-6 text-[15.5px] font-medium text-[#0e0e0e] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="stage-cta h-12 px-6 text-[15.5px]"
             >
               {primary.label}
             </Link>
             <Link
               href={secondary.href}
-              className="inline-flex h-12 items-center rounded-full border border-white/30 px-6 text-[15.5px] font-medium text-white transition-colors hover:border-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="stage-cta-ghost h-12 px-6 text-[15.5px]"
             >
               {secondary.label}
             </Link>

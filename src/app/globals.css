@@ -51,40 +51,84 @@
 
   /* Editorial width: the references run nearly edge to edge. */
   --container-site: 90rem;
+
+  /* --- Talents palette (2026-11, "Green room") -------------------------------
+     Sand and paper share the page, about 40% each; the green-room accent takes
+     10 to 20% and marks every action. The green room is where performers wait
+     before they go on. Contrast: white on green 7.8:1, green on sand 6.2:1,
+     muted ink on sand 5.5:1. Casting keeps the Spotlight stage untouched. */
+  --sand: #ece3d3;
+  --sand-2: #e3d8c4;
+  --sand-deep: #d9ccb4;
+  --paper-white: #ffffff;
+  --green-room: #1f5c47;
+  --green-room-hover: #174a39;
+  --green-room-tint: #dce8e1;
+  --green-mid: #2e7d5e;
+  --green-glow: #8fd1b0;
+  --ink-green: #16201c;
+  --ink-green-muted: #565b53;
+  --ink-green-subtle: #5e6058;
+
+  /* Shape tokens. Pills stay the default (Casting); Talents squares them off. */
+  --btn-radius: 9999px;
+  --chrome-radius: 9999px;
 }
 
 /* --- Talents skin: light paper --- */
 [data-portal="talents"],
 :root:not([data-portal]) {
   color-scheme: light;
-  --bg: var(--paper);
-  --surface: var(--sheet);
-  --surface-2: var(--fog);
-  --fg: var(--ink);
-  --fg-muted: var(--graphite);
-  --fg-subtle: var(--pewter);
-  --border: color-mix(in srgb, var(--ink) 11%, transparent);
-  --border-strong: var(--ash);
-  --field-border: var(--ash);
-  --accent: var(--spike-ink);
-  --accent-hover: var(--ink);
+  --bg: var(--sand);
+  --surface: var(--paper-white);
+  --surface-2: var(--sand-2);
+  --fg: var(--ink-green);
+  --fg-muted: var(--ink-green-muted);
+  --fg-subtle: var(--ink-green-subtle);
+  --border: color-mix(in srgb, var(--ink-green) 13%, transparent);
+  --border-strong: #857e70;
+  --field-border: #857e70;
+  --accent: var(--green-room);
+  --accent-hover: var(--green-room-hover);
   --accent-fg: #ffffff;
-  --accent-2: var(--spike);
-  --accent-soft: color-mix(in srgb, var(--spike) 12%, var(--sheet));
-  --ring: var(--spike-ink);
+  --accent-2: var(--green-mid);
+  --accent-soft: var(--green-room-tint);
+  --ring: var(--green-room);
   --success: var(--go);
   --warning: var(--hold);
   --danger: var(--stop);
-  --signal: var(--spike);
-  /* Primary actions are ink pills, as on every reference board. */
-  --cta: var(--ink);
-  --cta-hover: #2b2b29;
-  --cta-fg: var(--sheet);
-  --surface-inverse: var(--ink);
-  --fg-inverse: var(--chalk);
-  --fg-inverse-muted: #a3a39c;
+  --signal: var(--green-mid);
+  /* Primary actions are green rectangles: the one colour that says "act". */
+  --cta: var(--green-room);
+  --cta-hover: var(--green-room-hover);
+  --cta-fg: #ffffff;
+  --surface-inverse: var(--ink-green);
+  --fg-inverse: #f3ede2;
+  --fg-inverse-muted: #a9b1a8;
   --success-inverse: var(--go-glow);
-  --border-inverse: color-mix(in srgb, var(--chalk) 42%, var(--ink));
+  --border-inverse: color-mix(in srgb, #f3ede2 42%, var(--ink-green));
+
+}
+
+/* --- Talents only: shape, stage lighting and typefaces ---------------------
+   Kept out of the shared block above, whose `:root:not([data-portal])` arm
+   would otherwise leak these into the Casting portal through inheritance. */
+[data-portal="talents"] {
+  --btn-radius: 6px;
+  --chrome-radius: 12px;
+  /* The dark stage panel, re-lit for Talents: green-black set, warm spot,
+     a green glow where the performer stands. */
+  --stage-base: var(--ink-green);
+  --stage-text: #f3ede2;
+  --stage-glow: rgb(46 125 94 / 0.38);
+  --stage-cta-bg: var(--green-room);
+  --stage-cta-hover: #24704f;
+  --stage-cta-fg: #ffffff;
+  --stage-cta-ring: rgb(143 209 176 / 0.55);
+
+  font-family: var(--font-instrument), system-ui, sans-serif;
+  /* Utilities inline var(--font-geist-sans); re-point it for this subtree. */
+  --font-geist-sans: var(--font-instrument);
 }
 
 /* --- Casting skin: the stage (dark) --- */
@@ -243,9 +287,42 @@ html[data-demo="end"] * {
 .stage-light {
   background:
     radial-gradient(60% 75% at 62% -8%, rgb(255 244 228 / 0.55), transparent 62%),
-    radial-gradient(38% 46% at 64% 70%, rgb(255 83 23 / 0.32), transparent 70%),
+    radial-gradient(38% 46% at 64% 70%, var(--stage-glow, rgb(255 83 23 / 0.32)), transparent 70%),
     radial-gradient(70% 60% at 10% 110%, rgb(120 120 140 / 0.22), transparent 70%),
-    var(--ink);
+    var(--stage-base, var(--ink));
+}
+
+/* Buttons that sit on the dark stage, in either portal. Casting keeps its
+   chalk pill; Talents gets the green rectangle. */
+.stage-cta {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--btn-radius);
+  background: var(--stage-cta-bg, #f2f2ee);
+  color: var(--stage-cta-fg, #0e0e0e);
+  box-shadow: inset 0 0 0 1px var(--stage-cta-ring, transparent);
+  font-weight: 500;
+  transition: background-color 150ms;
+}
+.stage-cta:hover {
+  background: var(--stage-cta-hover, #ffffff);
+}
+.stage-cta:focus-visible,
+.stage-cta-ghost:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+.stage-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--btn-radius);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  color: #ffffff;
+  font-weight: 500;
+  transition: border-color 150ms;
+}
+.stage-cta-ghost:hover {
+  border-color: rgb(255 255 255 / 0.7);
 }
 .stage-beam {
   background: conic-gradient(from 168deg at 62% -12%, transparent 0deg, rgb(255 246 232 / 0.28) 10deg, rgb(255 246 232 / 0.06) 22deg, transparent 30deg);
@@ -315,4 +392,371 @@ html[data-demo="end"] * {
    does not exist, so the label falls back to the sans. */
 :lang(zh-Hans) .eyebrow {
   font-family: var(--font-sans);
+}
+
+/* =============================================================================
+   Talents — "Green room" type, motif and scroll motion (2026-11)
+   ============================================================================= */
+
+/* --- Headlines: Big Shoulders, a condensed marquee face. Applies to the public
+   Talents pages (data-surface="site"); the signed-in space keeps Instrument
+   Sans throughout. Unlayered on purpose so it beats the Geist tracking
+   utilities the shared components carry. */
+[data-portal="talents"] :is(.display-xl, .display-lg, .display-md),
+[data-portal="talents"][data-surface="site"] :is(h1, h2) {
+  font-family: var(--font-marquee), var(--font-instrument), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  line-height: 0.9;
+  font-kerning: normal;
+}
+[data-portal="talents"] .display-xl { font-size: clamp(4.25rem, 13vw, 14rem); line-height: 0.82; }
+[data-portal="talents"] .display-lg { font-size: clamp(3rem, 8.4vw, 7.75rem); }
+[data-portal="talents"] .display-md { font-size: clamp(2.4rem, 5.2vw, 4.5rem); }
+[data-portal="talents"][data-surface="site"] h1:not(:is(.display-xl, .display-lg, .display-md)) {
+  font-size: clamp(3rem, 6.6vw, 6.25rem);
+}
+/* The split wordmark reads like a theatre marquee: capitals, a little air. */
+[data-portal="talents"] .display-xl.brand-type {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+[data-portal="talents"] h3 { letter-spacing: -0.015em; }
+
+/* The lockup in the header: wordmark in the marquee face too. */
+[data-portal="talents"] .brand-type:not(.display-xl) {
+  font-family: var(--font-marquee), var(--font-instrument), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+
+/* --- Eyebrow: plain sentence-case words after a tape mark. No mono, no pill. */
+[data-portal="talents"] .eyebrow {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-family: var(--font-instrument), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent);
+  gap: 10px;
+}
+[data-portal="talents"] .eyebrow::before {
+  width: 16px;
+  height: 14px;
+  border-radius: 0;
+  background: var(--accent);
+  -webkit-mask: var(--tape-mark) center / contain no-repeat;
+  mask: var(--tape-mark) center / contain no-repeat;
+}
+
+/* The tape mark: the T of spike tape an actor finds with their feet. */
+:root {
+  --tape-mark: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 28'><rect x='0' y='0' width='32' height='8' rx='1'/><rect x='12' y='6' width='8' height='22' rx='1'/></svg>");
+}
+/* In a layer, so utilities such as `hidden md:block` still win over it. */
+@layer components {
+  .tape-mark {
+    display: inline-block;
+    background: currentColor;
+    -webkit-mask: var(--tape-mark) center / contain no-repeat;
+    mask: var(--tape-mark) center / contain no-repeat;
+  }
+}
+
+/* --- Shape: squared-off controls and header on Talents. Shared components read
+   these through rounded-[var(--btn-radius)] / rounded-[var(--chrome-radius)]. */
+[data-portal="talents"] .rounded-sedan-2xl { border-radius: 18px; }
+[data-portal="talents"] .rounded-sedan-xl { border-radius: 10px; }
+[data-portal="talents"] .rounded-sedan-lg { border-radius: 8px; }
+[data-portal="talents"] .rounded-sedan { border-radius: 6px; }
+[data-portal="talents"] .rounded-sedan-sm { border-radius: 4px; }
+
+/* =============================================================================
+   Scroll motion. Three effects, all tied to scroll position, all optional:
+     1. Hit your mark — a strip of tape lands under each section title.
+     2. Darkroom — photos develop from faded sepia to full colour.
+     3. Stage — the followspot drifts and the performer settles as you scroll.
+   Scroll-driven CSS where the browser supports it; elsewhere a tiny observer
+   (<ScrollMotion />) flips data-motion and the same end states arrive by transition.
+   prefers-reduced-motion: final states, no movement.
+   ============================================================================= */
+
+/* 1. Hit your mark */
+.hit-mark {
+  display: block;
+  width: 56px;
+  height: 9px;
+  margin-top: 18px;
+  border-radius: 1.5px;
+  background: var(--signal);
+  transform-origin: left center;
+}
+.hit-mark.on-stage { background: var(--green-glow); }
+/* Casting keeps the Spotlight system unchanged: no tape strips there. */
+[data-portal="casting"] .hit-mark { display: none; }
+
+/* 2. Darkroom */
+.darkroom { filter: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hit-mark {
+      animation: hit-mark linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 32%;
+    }
+    .darkroom {
+      animation: darkroom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    .stage-drift {
+      animation: stage-drift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+    .stage-settle {
+      animation: stage-settle linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+
+  @supports not (animation-timeline: view()) {
+    /* data-motion is set by <ScrollMotion /> after hydration. */
+    .hit-mark[data-motion="pending"] { transform: translateX(-140%) scaleX(0.2); opacity: 0; }
+    .hit-mark[data-motion] { transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 300ms; }
+    .darkroom[data-motion="pending"] { filter: sepia(0.85) contrast(0.72) brightness(1.12) saturate(0.6); }
+    .darkroom[data-motion] { transition: filter 1400ms ease-out; }
+  }
+}
+
+@keyframes hit-mark {
+  0% { transform: translateX(-140%) scaleX(0.2); opacity: 0; }
+  55% { opacity: 1; }
+  82% { transform: translateX(6%) scaleX(1.06); }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes darkroom {
+  from { filter: sepia(0.85) contrast(0.72) brightness(1.12) saturate(0.6); }
+  to { filter: none; }
+}
+@keyframes stage-drift {
+  to { transform: translateX(-10%) rotate(-3deg); opacity: 0.55; }
+}
+@keyframes stage-settle {
+  to { transform: translateY(6%) scale(1.06); }
+}
+
+/* =============================================================================
+   Limelight page — the sample site builds itself, the contact sheet slides.
+   Default styles are the finished state, so a browser with no support and no
+   JavaScript simply shows the finished site.
+   ============================================================================= */
+.ll-frame {
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--ink-green) 14%, transparent);
+  background: #f4f1ea;
+  box-shadow: 0 30px 60px -36px rgb(22 32 28 / 0.55);
+}
+.ll-name { font-weight: 850; letter-spacing: 0; }
+.ll-address { clip-path: inset(0 0 0 0); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .ll-headshot,
+    .ll-name,
+    .ll-reel,
+    .ll-address,
+    .ll-hint {
+      animation-timeline: scroll(root);
+      animation-range: 0vh 55vh;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .ll-headshot { animation-name: ll-headshot; }
+    .ll-name { animation-name: ll-name; }
+    .ll-reel { animation-name: ll-reel; }
+    .ll-address { animation-name: ll-address; animation-timing-function: steps(22, end); }
+    .ll-hint { animation-name: ll-hint; animation-range: 0vh 20vh; }
+  }
+
+  @supports not (animation-timeline: scroll()) {
+    /* Fallback: <ScrollMotion /> flips data-motion; the build plays once. */
+    [data-assemble][data-motion] :is(.ll-headshot, .ll-name, .ll-reel) {
+      transition: transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 700ms, filter 1200ms ease-out, font-weight 900ms;
+    }
+    [data-assemble][data-motion] .ll-address { transition: clip-path 900ms steps(22, end); }
+    [data-assemble][data-motion="pending"] .ll-headshot { transform: translateX(-14%); opacity: 0.4; filter: sepia(0.85) contrast(0.72) brightness(1.1); }
+    [data-assemble][data-motion="pending"] .ll-name { font-weight: 250; letter-spacing: 0.06em; }
+    [data-assemble][data-motion="pending"] .ll-reel { transform: translateY(18px); opacity: 0; }
+    [data-assemble][data-motion="pending"] .ll-address { clip-path: inset(0 100% 0 0); }
+    .ll-hint { display: none; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ll-hint { display: none; }
+}
+
+@keyframes ll-headshot {
+  from { transform: translateX(-14%); opacity: 0.4; filter: sepia(0.85) contrast(0.72) brightness(1.1); }
+  to { transform: none; opacity: 1; filter: none; }
+}
+@keyframes ll-name {
+  from { font-weight: 250; letter-spacing: 0.06em; }
+  to { font-weight: 850; letter-spacing: 0; }
+}
+@keyframes ll-reel {
+  0%, 35% { transform: translateY(18px); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes ll-address {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes ll-hint {
+  to { opacity: 0; }
+}
+
+/* Contact sheet: by default a strip you can swipe sideways. `clip` keeps the
+   strip from widening the page without creating a scroll container, so the
+   sticky pin below still works. */
+.ll-sheet { overflow-x: clip; }
+.ll-sheet-pin { padding-block: clamp(64px, 8vw, 120px); }
+.ll-sheet-track {
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.ll-strip > li { scroll-snap-align: start; }
+
+/* Where scroll-driven animation exists, the section pins and the strip slides
+   as you keep scrolling down. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
+  @supports (animation-timeline: view()) {
+    .ll-sheet {
+      height: 260vh;
+      view-timeline-name: --ll-sheet;
+      view-timeline-axis: block;
+    }
+    .ll-sheet-pin {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-block: 72px 24px;
+    }
+    .ll-sheet-track { overflow: visible; }
+    .ll-strip {
+      animation: ll-strip linear both;
+      animation-timeline: --ll-sheet;
+      animation-range: contain 6% contain 94%;
+    }
+  }
+}
+@keyframes ll-strip {
+  to { transform: translateX(calc(-100% + 100vw)); }
+}
+
+
+/* =============================================================================
+   Join steps (talents landing) — five steps you click through. Native radios
+   decide the state; :has() reads it. Without :has() support every panel shows,
+   in order, which still reads correctly.
+   ============================================================================= */
+.join-tab {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+}
+.join-tab:hover { background: color-mix(in srgb, var(--surface) 60%, transparent); }
+.join-num {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  font-family: var(--font-marquee), sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 150ms, color 150ms;
+}
+.join-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: clamp(20px, 2.6vw, 32px);
+  min-height: 260px;
+}
+.join-progress { height: 3px; margin-bottom: 18px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.join-progress > span { display: block; height: 100%; width: 20%; background: var(--accent); transition: width 400ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.join-next {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--btn-radius);
+  background: var(--cta);
+  color: var(--cta-fg);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+.join-next:hover { background: var(--cta-hover); }
+
+@supports selector(:has(*)) {
+  .join-tab-body { display: none; }
+  .join-panel { display: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .join-panel { animation: join-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+    @keyframes join-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  }
+.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] { background: var(--surface); border-color: var(--accent); }
+.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] .join-tab-body { display: block; }
+.join-steps:has(#join-step-0:checked) .join-panel[data-step="0"] { display: block; }
+.join-steps:has(#join-step-0:checked) .join-progress > span { width: 20%; }
+.join-steps:has(#join-step-0:focus-visible) .join-tab[data-step="0"] { outline: 2px solid var(--ring); outline-offset: 2px; }
+.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] { background: var(--surface); border-color: var(--accent); }
+.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] .join-tab-body { display: block; }
+.join-steps:has(#join-step-1:checked) .join-panel[data-step="1"] { display: block; }
+.join-steps:has(#join-step-1:checked) .join-progress > span { width: 40%; }
+.join-steps:has(#join-step-1:focus-visible) .join-tab[data-step="1"] { outline: 2px solid var(--ring); outline-offset: 2px; }
+.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] { background: var(--surface); border-color: var(--accent); }
+.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] .join-tab-body { display: block; }
+.join-steps:has(#join-step-2:checked) .join-panel[data-step="2"] { display: block; }
+.join-steps:has(#join-step-2:checked) .join-progress > span { width: 60%; }
+.join-steps:has(#join-step-2:focus-visible) .join-tab[data-step="2"] { outline: 2px solid var(--ring); outline-offset: 2px; }
+.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] { background: var(--surface); border-color: var(--accent); }
+.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] .join-tab-body { display: block; }
+.join-steps:has(#join-step-3:checked) .join-panel[data-step="3"] { display: block; }
+.join-steps:has(#join-step-3:checked) .join-progress > span { width: 80%; }
+.join-steps:has(#join-step-3:focus-visible) .join-tab[data-step="3"] { outline: 2px solid var(--ring); outline-offset: 2px; }
+.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] { background: var(--surface); border-color: var(--accent); }
+.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] .join-tab-body { display: block; }
+.join-steps:has(#join-step-4:checked) .join-panel[data-step="4"] { display: block; }
+.join-steps:has(#join-step-4:checked) .join-progress > span { width: 100%; }
+.join-steps:has(#join-step-4:focus-visible) .join-tab[data-step="4"] { outline: 2px solid var(--ring); outline-offset: 2px; }
 }

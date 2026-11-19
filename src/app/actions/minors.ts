@@ -69,8 +69,19 @@ export async function advanceMinorCase(
 ): Promise<MinorResult> {
   const ctx = await ownerCtx();
   if (!ctx) return { ok: false, error: err("errors.unauthorized") };
-  const mc = await prisma.minorCase.findUnique({ where: { id: minorCaseId } });
-  if (!mc) return { ok: false, error: err("errors.caseNotFound") };
+  // `step` arrives from the browser: accept only the steps we define.
+  if (!Object.prototype.hasOwnProperty.call(STEPS, step)) {
+    return { ok: false, error: err("errors.caseNotFound") };
+  }
+  const mc = await prisma.minorCase.findUnique({
+    where: { id: minorCaseId },
+    include: { project: { select: { organizationId: true } } },
+  });
+  // The case must belong to a project of the caller's own organisation.
+  // Without this any casting owner could advance another studio's minor case.
+  if (!mc || mc.project?.organizationId !== ctx.orgId) {
+    return { ok: false, error: err("errors.caseNotFound") };
+  }
 
   const data = { ...STEPS[step] } as Record<string, unknown>;
   const updated = await prisma.minorCase.update({

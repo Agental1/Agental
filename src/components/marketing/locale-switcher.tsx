@@ -85,7 +85,7 @@ function Inline({ className, search }: { className?: string; search: string }) {
           hrefLang={LANG_TAG[loc]}
           aria-current={loc === active ? "true" : undefined}
           className={cn(
-            "inline-flex min-h-10 items-center rounded-full px-3 transition-colors",
+            "inline-flex min-h-10 items-center rounded-[var(--btn-radius)] px-3 transition-colors",
             loc === active
               ? "bg-surface-2 font-medium text-fg"
               : "text-fg-muted hover:text-fg"
@@ -136,7 +136,7 @@ function Menu({ className, search }: { className?: string; search: string }) {
         aria-expanded={open}
         aria-controls={menuId}
         aria-label={`${t("locale.switch")}: ${t(`locale.${active}`)}`}
-        className="inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-[13.5px] text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
+        className="inline-flex h-9 items-center gap-1.5 rounded-[var(--btn-radius)] px-2.5 text-[13.5px] text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
       >
         <Globe className="size-4" aria-hidden="true" />
         <span lang={LANG_TAG[active]}>{t(`locale.${active}`)}</span>

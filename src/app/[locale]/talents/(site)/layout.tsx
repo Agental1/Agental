@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { MarketingHeader, type NavItem } from "@/components/marketing/header";
 import { MarketingFooter } from "@/components/marketing/footer";
+import { ScrollMotion } from "@/components/talents/scroll-motion";
 
 export default function TalentsLayout({
   children,
@@ -22,6 +23,7 @@ export default function TalentsLayout({
   const nav: NavItem[] = [
     { href: "/talents/comment-ca-marche", label: t("nav.how") },
     { href: "/castings", label: t("nav.castingTypes") },
+    { href: "/talents/limelight", label: tt("limelight.nav") },
     { href: "/talents/tarifs", label: t("nav.pricing") },
     { href: "/talents/faq", label: t("nav.faq") },
     { href: "/talents/qui-sommes-nous", label: t("nav.about") },
@@ -30,6 +32,7 @@ export default function TalentsLayout({
   return (
     <div
       data-portal="talents"
+      data-surface="site"
       className="flex min-h-screen flex-col bg-bg text-fg"
     >
       <MarketingHeader
@@ -41,6 +44,7 @@ export default function TalentsLayout({
       />
       <main id="main" className="flex-1">{children}</main>
       <MarketingFooter home="/talents" nav={nav} />
+      <ScrollMotion />
     </div>
   );
 }
