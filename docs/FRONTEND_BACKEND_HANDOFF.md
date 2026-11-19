@@ -47,3 +47,13 @@ None recorded yet.
 - `OAuthButtons` gets `tone="dark"` on Casting pages; Google and Apple colors stay out of the theme.
 - Date of birth stays in the sign-up wizard (adults only, checked on the server). The wizard has three steps: identity, profile, mandate.
 - Phase 8: `AuditLog`, `/admin` and `/admin/audit` exist. No new schema is designed before talking to the backend session.
+
+## Front-end changes the backend branch will meet at rebase (2026-11-18, late)
+
+- `src/components/app/app-sidebar.tsx` is gone. The three signed-in layouts (`talents/(space)`, `casting/(space)`, `admin`) render `AppShell` from `src/components/app/app-shell.tsx` (sidebar from 768px, sticky top bar and menu sheet below). `AppNavItem` is exported from there.
+- The plan badge lives in the shell, top right, on every app page: `src/components/app/plan-switcher.tsx` calls `upgradeTalentPlan` and `changeOrgPlan`. The Talent layout now reads `prisma.subscription` and the Casting layout includes `organization` on the membership it already loads. The static "Plan Free" badge on `talents/(space)/app/page.tsx` can go when that page is reconciled.
+- Plan prices are formatted by `formatPlanPrice` in `src/lib/plan-price.ts` (US dollars), on public pages and in the app.
+- `src/data/portraits.ts`, `src/assets/portraits`, `src/assets/fonts`, `tests/data/portraits.test.ts`, `tools/assets/portraits.ts`, `src/components/talents/join-steps.tsx` and `scroll-motion.tsx` are deleted; `package.json` lost the `assets:portraits` script and `CastingType` lost `ageBand`.
+- `AgentalLogo` no longer takes a `mark` prop; it always draws the A monogram.
+- New message groups: `common.entry.{line,createTalents,createCasting}`, `common.pricing.details`, `common.app.*`. The signed-in pages gain keys under `talents.space.*`, `casting.space.*` and `app.*` for strings that were hard-coded (F3.6).
+- Radix portals render outside the themed root, so a dialog used in the Casting app needs `data-portal="casting"` on its content to get the dark theme (see `plan-switcher.tsx`).
