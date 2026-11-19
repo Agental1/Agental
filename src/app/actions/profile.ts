@@ -108,7 +108,11 @@ export async function saveProfileSpecialties(
     prisma.artistProfile.update({
       where: { id: profile.id },
       data: {
-        mobilityCountries: toJson(d.mobilityCountries),
+        // Left out by the form: Prisma keeps what is stored.
+        mobilityCountries:
+          d.mobilityCountries === undefined
+            ? undefined
+            : toJson([...new Set(d.mobilityCountries)]),
         minRateCents:
           d.minRateEuros != null ? Math.round(d.minRateEuros * 100) : null,
       },
