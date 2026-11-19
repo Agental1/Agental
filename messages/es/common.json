@@ -61,5 +61,20 @@
   },
   "pricing": {
     "details": "Qué incluye"
+  },
+  "app": {
+    "menu": "Menú",
+    "closeMenu": "Cerrar menú",
+    "navLabel": "Navegación de la app",
+    "plan": "Plan {name}",
+    "changePlan": "Cambiar de plan",
+    "changePlanLead": "Elige un plan, revisa qué incluye y confirma.",
+    "current": "Plan actual",
+    "confirm": "Cambiar a {name}",
+    "confirmCurrent": "Este es tu plan",
+    "switching": "Cambiando…",
+    "allDetails": "Ver todos los detalles de los planes",
+    "contact": "Contáctanos para un presupuesto",
+    "close": "Cerrar"
   }
 }

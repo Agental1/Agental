@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2B, PlanB2C } from "@/domain/enums";
+import { formatPlanPrice as formatPrice } from "@/lib/plan-price";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,18 +19,6 @@ import { cn } from "@/lib/utils";
  */
 const TALENT_PLAN_ORDER: PlanB2C[] = ["FREE", "PRO", "PREMIUM", "ULTIMATE"];
 const CASTING_PLAN_ORDER: PlanB2B[] = ["FREE", "PRO", "STUDIO", "ENTERPRISE"];
-
-/** Plans are billed in US dollars. */
-const PLAN_CURRENCY = "USD";
-
-function formatPrice(cents: number, locale: string): string {
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: PLAN_CURRENCY,
-    currencyDisplay: "narrowSymbol",
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
-}
 
 type TalentsPlan = {
   name: string;
@@ -128,7 +117,7 @@ export function TalentsPricingGrid({ expanded = false }: { expanded?: boolean })
             key={plan.name}
             name={plan.name}
             price={formatPrice(def.priceCents, locale)}
-            unit={`/ ${t("perMonth")}`}
+            unit={t("perMonth")}
             badge={i === 1 ? t("popular") : undefined}
             cta={plan.cta}
             href="/talents/inscription"

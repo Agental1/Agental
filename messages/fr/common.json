@@ -61,5 +61,20 @@
   },
   "pricing": {
     "details": "Ce qui est inclus"
+  },
+  "app": {
+    "menu": "Menu",
+    "closeMenu": "Fermer le menu",
+    "navLabel": "Navigation de l'espace",
+    "plan": "Formule {name}",
+    "changePlan": "Changer de formule",
+    "changePlanLead": "Choisis une formule, vérifie ce qu’elle comprend, puis confirme.",
+    "current": "Formule actuelle",
+    "confirm": "Passer à {name}",
+    "confirmCurrent": "C’est ta formule",
+    "switching": "Changement…",
+    "allDetails": "Voir le détail des formules",
+    "contact": "Nous contacter pour un devis",
+    "close": "Fermer"
   }
 }

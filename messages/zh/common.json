@@ -61,5 +61,20 @@
   },
   "pricing": {
     "details": "包含内容"
+  },
+  "app": {
+    "menu": "菜单",
+    "closeMenu": "关闭菜单",
+    "navLabel": "应用导航",
+    "plan": "{name} 方案",
+    "changePlan": "更换方案",
+    "changePlanLead": "选择方案，查看包含内容，然后确认。",
+    "current": "当前方案",
+    "confirm": "切换到 {name}",
+    "confirmCurrent": "这是你的方案",
+    "switching": "正在切换…",
+    "allDetails": "查看全部方案详情",
+    "contact": "联系我们获取报价",
+    "close": "关闭"
   }
 }

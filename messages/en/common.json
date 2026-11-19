@@ -61,5 +61,20 @@
   },
   "pricing": {
     "details": "What's included"
+  },
+  "app": {
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "navLabel": "App navigation",
+    "plan": "{name} plan",
+    "changePlan": "Change plan",
+    "changePlanLead": "Pick a plan, check what it includes, then confirm.",
+    "current": "Current plan",
+    "confirm": "Switch to {name}",
+    "confirmCurrent": "This is your plan",
+    "switching": "Switching…",
+    "allDetails": "See all plan details",
+    "contact": "Contact us for a quote",
+    "close": "Close"
   }
 }

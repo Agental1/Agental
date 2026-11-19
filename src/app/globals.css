@@ -227,9 +227,12 @@ body {
 }
 
 /* Each themed root paints its own gradient, top to bottom of the page. The
-   solid --bg underneath is the fallback and what `bg-bg` panels use. */
-[data-portal] {
-  background-image: var(--bg-gradient);
+   solid --bg underneath is the fallback and what `bg-bg` panels use. In the
+   base layer so a themed panel can opt out with `bg-none`. */
+@layer base {
+  [data-portal] {
+    background-image: var(--bg-gradient);
+  }
 }
 
 ::selection {
