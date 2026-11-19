@@ -12,6 +12,7 @@ import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
 import { toLocale } from "@/i18n/routing";
+import { sendVerificationForNewUser } from "@/app/actions/account-email";
 
 export type AuthState = { error?: ActionError } | undefined;
 
@@ -54,6 +55,22 @@ export async function signupAction(
     resourceId: user.id,
     after: { kind },
   });
+
+  // The confirmation link, when the deployment can send email. A mail failure
+  // must never fail a sign-up: the account exists and a new link can be asked
+  // for later.
+  try {
+    await sendVerificationForNewUser({
+      id: user.id,
+      email: user.email,
+      locale: user.locale,
+    });
+  } catch (error) {
+    console.error(
+      "[auth] confirmation email skipped:",
+      error instanceof Error ? error.name : "unknown error"
+    );
+  }
 
   try {
     await signIn("credentials", {
