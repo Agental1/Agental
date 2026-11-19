@@ -119,7 +119,13 @@ describe.skipIf(!hasDb)("dry-run workflow, end to end", () => {
     const child = new Date(Date.now() - 10 * 365 * DAY);
     const make = async (label: string, birthDate: Date, isMinor = false) => {
       const user = await prisma.user.create({
-        data: { email: `${P}-${label}@test.local`, kind: "TALENT" },
+        // Synthetic accounts, marked as such: the only kind a staging run takes.
+        data: {
+          email: `${P}-${label}@test.local`,
+          kind: "TALENT",
+          emailVerified: new Date(),
+          workflowAccess: "TEST",
+        },
       });
       const profile = await prisma.artistProfile.create({
         data: {

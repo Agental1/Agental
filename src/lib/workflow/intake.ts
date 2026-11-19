@@ -25,6 +25,7 @@ import { pilotProfileIds, selectProfileIds, type WorkflowEnv } from "./config";
 import { evaluateFit, type EvaluateContext, type ItemEvaluation } from "./evaluate";
 import type { FitModel } from "./model";
 import { loadProfileFacts } from "./profiles";
+import { workflowMode } from "@/domain/workflow/eligibility";
 
 /**
  * The run engine of the brief intake.
@@ -616,7 +617,7 @@ export async function runBriefIntake(
     stage = "profiles";
     const selected = selectProfileIds(pilotProfileIds(env), input.profileIds);
     const limited = selected.slice(0, limits.maxProfilesPerRun);
-    const { profiles, skipped } = await loadProfileFacts(db, limited, now);
+    const { profiles, skipped } = await loadProfileFacts(db, limited, now, workflowMode(env));
     progress.summary.profiles = { evaluated: profiles.length, skipped };
     const limitsHit: string[] = [];
     if (selected.length > limited.length) limitsHit.push("profiles_per_run");

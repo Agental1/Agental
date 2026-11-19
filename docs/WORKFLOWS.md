@@ -421,6 +421,29 @@ profile is skipped when it no longer exists, when it is flagged as a minor, or
 when its birth date does not establish that the person is 18 or older. The
 answer reports skipped profiles as a count.
 
+### Test accounts and unreviewed accounts
+
+Being on the pilot list is not enough. Before a run reads a profile, the server
+checks the account behind it (`src/domain/workflow/eligibility.ts`,
+`User.workflowAccess`):
+
+| `workflowAccess` | Staging (default) | Live (`WORKFLOW_MODE=live`) |
+|---|---|---|
+| `UNREVIEWED` (every account starts here) | refused | refused |
+| `TEST` (the owner's test accounts, synthetic profiles) | runs | refused |
+| `ELIGIBLE` (a real performer, reviewed by a person) | refused | runs |
+| `EXCLUDED` | refused | refused |
+
+In both modes the email must be verified and the person must be an adult. A
+refused profile is counted in `summary.profiles.skipped` and leaves no other
+trace. So a test account can never receive real casting research or a workflow
+email, a real performer is never used in a demonstration, and an account
+nobody has classified never runs.
+
+Classifying an account is done by hand for now, by an admin with database
+access. There is no screen for it yet. Live mode exists in the code and is
+switched on nowhere.
+
 ### The rules
 
 `src/domain/workflow/constraints.ts`, version `RULE_VERSION`. Each rule answers
