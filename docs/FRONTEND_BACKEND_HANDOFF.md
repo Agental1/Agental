@@ -21,23 +21,29 @@ Files both sides need. The front end restyles these through CSS and shared compo
 
 | # | Needed | Proposed contract | Task | Status |
 |---|---|---|---|---|
-| 1 | Send a signed-in visitor from any public page to their own dashboard | In `src/proxy.ts` or a server check in the `(site)` layouts: session present, then redirect to `appHome(kind, locale)` | F2.1 | open |
-| 2 | First sign-in goes to profile completeness, later ones to the dashboard | `User.onboardingCompletedAt: DateTime?`; `appHome` returns `/talents/app/profil` while it is null; a server action `completeOnboarding()` sets it | F4.1, F4.2 | open |
-| 3 | Student discount | `redeemStudentCode({ code: string })` returning `{ ok: true }` or an error key (`invalid`, `expired`, `used_up`, `rate_limited`). Six digits, checked on the server only, rate limited, expiry and usage cap per code, discount applied in billing | F4.3 | open |
-| 4 | Password rules on the server | `signupAction` and the reset action reject passwords under 8 characters, without an uppercase letter or without a special character, with one error key per rule | F5.1 | open |
-| 5 | Email verification | Sign-up creates an unverified account and sends a link; `resendVerification()` with a 60-second cooldown; unverified users are kept out of the app; Google and Apple sign-ins skip it | F5.2 | open |
-| 6 | Forgot password | `requestPasswordReset({ email })` always answers the same way; `resetPassword({ token, password })` returns ok or an error key (`invalid_token`, `expired`, rule keys from #4) | F5.3 | open |
-| 7 | CAPTCHA and sign-up rate limits | A public site key in env when enabled; the server verifies the token in `signupAction`, `loginAction` and #6; `rate_limited` error key | F5.4 | open |
-| 8 | Cookie consent storage | `saveConsent({ analytics: boolean, marketing: boolean })` on the user when signed in; a first-party cookie before that. `src/components/analytics.tsx` loads nothing before consent | F5.5 | open |
-| 9 | Plan change from the plan badge | The modal reuses the action behind `plan-selector.tsx` and `casting-plan-selector.tsx`. Real checkout (Stripe) is not wired: billing is the mock provider | F3.4 | open |
-| 10 | Save a recording to profile media or to the Reel & Self-tape library | `saveSelfTape({ ..., destination: "profile" | "library" })`; uploads report progress, which needs the presigned flow in `docs/MEDIA_HOSTING.md` | F6.1 | open |
-| 11 | Route rename `self-tape` to `reel-self-tape` with a redirect | A redirect in `next.config.ts` or `src/proxy.ts` | F6.1 | open |
+| 1 | Send a signed-in visitor from any public page to their own dashboard | Redirect to `/[locale]/continuer`, which already picks the dashboard or the unfinished wizard (`postAuthHome`) | F2.1 | route exists on `feat/auth-onboarding`; the redirect itself is front-end work after the rebase |
+| 2 | First sign-in goes to profile completeness, later ones to the dashboard | `User.onboardingCompletedAt: DateTime?`; `appHome` returns `/talents/app/profil` while it is null; a server action `completeOnboarding()` sets it | F4.1, F4.2 | partly: `/talents/app?welcome=1` after the mandate is the first-run signal for now; the stored column is a proposed follow-up migration |
+| 3 | Student discount | `redeemStudentCode({ code: string })` returning `{ ok: true }` or an error key (`invalid`, `expired`, `used_up`, `rate_limited`). Six digits, checked on the server only, rate limited, expiry and usage cap per code, discount applied in billing | F4.3 | open, waits on Stripe and a pricing decision; UI builds against `redeemStudentCode(code)` with `TODO(backend)` |
+| 4 | Password rules on the server | `signupAction` and the reset action reject passwords under 8 characters, without an uppercase letter or without a special character, with one error key per rule | F5.1 | in progress on `feat/auth-onboarding`: `passwordChecks(password)` exported from `src/domain/auth.ts`, shared by the checklist and the server; keys `errors.passwordNeedsUppercase`, `errors.passwordNeedsSpecial` |
+| 5 | Email verification | Sign-up creates an unverified account and sends a link; `resendVerification()` with a 60-second cooldown; unverified users are kept out of the app; Google and Apple sign-ins skip it | F5.2 | open, blocked on the email sender (Resend key and DNS for agental.co) |
+| 6 | Forgot password | `requestPasswordReset({ email })` always answers the same way; `resetPassword({ token, password })` returns ok or an error key (`invalid_token`, `expired`, rule keys from #4) | F5.3 | open, same blocker as #5 |
+| 7 | CAPTCHA and sign-up rate limits | A public site key in env when enabled; the server verifies the token in `signupAction`, `loginAction` and #6; `rate_limited` error key | F5.4 | open; plan is Cloudflare Turnstile, shown only when `NEXT_PUBLIC_TURNSTILE_SITE_KEY` is set |
+| 8 | Cookie consent storage | `saveConsent({ analytics: boolean, marketing: boolean })` on the user when signed in; a first-party cookie before that. `src/components/analytics.tsx` loads nothing before consent | F5.5 | open. Known today: the server sets strictly necessary cookies only (Auth.js session, CSRF, callback, OAuth state, `agental.oauth-intent`, `agental.pending-oauth`, `NEXT_LOCALE`); analytics is Plausible, cookieless, off unless `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` is set |
+| 9 | Plan change from the plan badge | The modal reuses the action behind `plan-selector.tsx` and `casting-plan-selector.tsx`. Real checkout (Stripe) is not wired: billing is the mock provider | F3.4 | done on `main`: `upgradeTalentPlan(plan)` and `changeOrgPlan(plan)` in `src/app/actions/subscription.ts` return `{ ok, error?, checkoutUrl? }`; paid plans answer `errors.billingUnavailable` in production on purpose |
+| 10 | Save a recording to profile media or to the Reel & Self-tape library | `saveSelfTape({ ..., destination: "profile" | "library" })`; uploads report progress, which needs the presigned flow in `docs/MEDIA_HOSTING.md` | F6.1 | partly: `saveSelfTape(formData)` exists without a destination (profile = `VIDEO`, library = `SELFTAPE`). UI builds against `uploadMedia(file, { type, destination, onProgress })`; the backend supplies its body with direct-to-storage uploads |
+| 11 | Route rename `self-tape` to `reel-self-tape` with a redirect | A redirect in `next.config.ts` or `src/proxy.ts` | F6.1 | open; the front end tells the backend the new segment (`revalidatePath` in `src/app/actions/selftape.ts`) |
 | 12 | Career figures | `carriere/page.tsx` shows Roles booked, Gross fee and Net received. The commission line is removed from the page; whether `commissionCents` stays in the data model is a backend and business call | F6.2 | open |
 
 ## Conflicts
 
 None recorded yet.
 
-## Notes from the backend session
+## Agreed between the two sessions (2026-11-18)
 
-(The backend session writes here, or in the shared notes folder, what `feat/auth-onboarding` already covers.)
+- The full backend status lives in `~/Downloads/agental-workflows/shared-notes/BACKEND_STATUS.md`; a copy of this file sits beside it.
+- `feat/auth-onboarding` is pushed first. `frontend-redesign` is rebased on it before the front end edits the overlapping pages, then `bun run i18n:check` runs.
+- The backend leaves `globals.css`, the header, the footer, the `(site)` pages, logos and favicon alone.
+- Token names are stable: `text-fg`, `text-fg-muted`, `bg-border`, `bg-surface-2`, `ring-ring`, `ring-offset-bg`, `rounded-sedan` and `--btn-radius` all still exist. What changed underneath: `rounded-sedan` is 12px, `--btn-radius` is a pill in both themes, `text-accent` reads `--accent-ink` (darker blue on Talent, lighter on Casting) while `bg-accent` stays `#246BFE`, `h1` to `h3` are always bold, and `font-mono` and `font-display` are aliases of the Helvetica stack. New helpers: `.pressable` (hover and press scale for anything clickable), `.cta-fill` (the primary gradient), `.accent-wash`, `.enter`.
+- `OAuthButtons` gets `tone="dark"` on Casting pages; Google and Apple colors stay out of the theme.
+- Date of birth stays in the sign-up wizard (adults only, checked on the server). The wizard has three steps: identity, profile, mandate.
+- Phase 8: `AuditLog`, `/admin` and `/admin/audit` exist. No new schema is designed before talking to the backend session.
