@@ -8,7 +8,6 @@ import {
   Video,
   Circle,
   Square,
-  Loader2,
   Upload,
   Sun,
   Mic,
@@ -19,10 +18,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { saveSelfTape, type SelfTapeResult } from "@/app/actions/selftape";
+import { uploadMedia, type UploadMediaResult } from "@/lib/media-upload";
+import type { UploadDestination } from "@/domain/uploads";
 import type { QualityMetrics } from "@/lib/ai/quality-scorer";
 
-type Phase = "idle" | "ready" | "recording" | "processing" | "done" | "denied";
+type Phase = "idle" | "ready" | "recording" | "review" | "processing" | "done" | "denied";
+
+/** A finished take waiting for the performer to keep or redo it. */
+interface Take {
+  blob: Blob;
+  metrics: QualityMetrics;
+  url: string;
+}
 
 export function SelfTapeStudio() {
   const t = useTranslations("talents");
@@ -41,7 +48,10 @@ export function SelfTapeStudio() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [lowBandwidth, setLowBandwidth] = useState(false);
   const [live, setLive] = useState({ framing: 0, light: 0, sound: 0 });
-  const [result, setResult] = useState<SelfTapeResult | null>(null);
+  const [result, setResult] = useState<UploadMediaResult | null>(null);
+  const [take, setTake] = useState<Take | null>(null);
+  const [destination, setDestination] = useState<UploadDestination>("library");
+  const [progress, setProgress] = useState(0);
   const [pending, startTransition] = useTransition();
 
   async function enableCamera() {
@@ -133,6 +143,7 @@ export function SelfTapeStudio() {
     if (!streamRef.current) return;
     chunksRef.current = [];
     samplesRef.current = [];
+    // eslint-disable-next-line react-hooks/purity -- runs from the Record button, never during render
     startedAtRef.current = performance.now?.() ?? 0;
     // Safari records MP4, Chrome and Firefox record WebM. Ask for whichever the
     // browser supports and keep the recorder's own answer for the file.
@@ -147,7 +158,18 @@ export function SelfTapeStudio() {
 
   function stopRecording() {
     recorderRef.current?.stop();
-    setPhase("processing");
+  }
+
+  /** Hold the take for review: watch it, choose where it goes, or redo it. */
+  function review(blob: Blob, metrics: QualityMetrics) {
+    setTake({ blob, metrics, url: URL.createObjectURL(blob) });
+    setPhase("review");
+  }
+
+  function discardTake() {
+    if (take) URL.revokeObjectURL(take.url);
+    setTake(null);
+    setPhase(streamRef.current ? "ready" : "idle");
   }
 
   function onStop() {
@@ -163,17 +185,26 @@ export function SelfTapeStudio() {
       sound: avg("sound"),
       durationMs: (performance.now?.() ?? 0) - startedAtRef.current,
     };
-    submit(blob, metrics);
+    review(blob, metrics);
   }
 
-  function submit(blob: Blob, metrics: QualityMetrics) {
+  /** Send the reviewed take straight to storage, with progress. */
+  function save() {
+    if (!take) return;
+    const { blob, metrics, url } = take;
+    setProgress(0);
+    setPhase("processing");
     startTransition(async () => {
-      const fd = new FormData();
-      const extension = blob.type === "video/mp4" || blob.type === "video/quicktime" ? "mp4" : "webm";
-      fd.set("file", new File([blob], `selftape.${extension}`, { type: blob.type }));
-      fd.set("metrics", JSON.stringify(metrics));
-      fd.set("lowBandwidth", String(lowBandwidth));
-      const res = await saveSelfTape(fd);
+      const res = await uploadMedia(blob, {
+        type: "SELFTAPE",
+        destination,
+        durationSec: metrics.durationMs / 1000,
+        metrics,
+        lowBandwidth,
+        onProgress: setProgress,
+      });
+      URL.revokeObjectURL(url);
+      setTake(null);
       setResult(res);
       setPhase("done");
       router.refresh();
@@ -182,9 +213,8 @@ export function SelfTapeStudio() {
 
   function onFallbackFile(file: File | undefined) {
     if (!file) return;
-    setPhase("processing");
-    // No live metrics available for an uploaded file — neutral estimate.
-    submit(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: 8000 });
+    // No live metrics for an uploaded file: a neutral estimate.
+    review(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: 8000 });
   }
 
   useEffect(() => {
@@ -206,6 +236,9 @@ export function SelfTapeStudio() {
             className="size-full object-cover"
           />
           <canvas ref={canvasRef} className="hidden" />
+          {phase === "review" && take && (
+            <video src={take.url} controls playsInline className="absolute inset-0 size-full bg-black object-contain" />
+          )}
 
           {(phase === "ready" || phase === "recording") && (
             <div className="pointer-events-none absolute inset-0">
@@ -269,9 +302,61 @@ export function SelfTapeStudio() {
               <Square className="size-4 fill-current" /> {t("space.studio.stop")}
             </Button>
           )}
+          {phase === "review" && (
+            <div className="space-y-3 rounded-sedan border border-border bg-surface p-4">
+              <p className="font-bold">{t("space.studio.review")}</p>
+              <fieldset>
+                <legend className="text-sm text-fg-muted">{t("space.studio.saveTo")}</legend>
+                <div className="mt-2 space-y-2">
+                  {(["library", "profile"] as const).map((d) => (
+                    <label
+                      key={d}
+                      className={cn(
+                        "pressable flex cursor-pointer items-start gap-3 rounded-sedan border px-3 py-2.5 [--hover-scale:1.01] [--press-scale:1.02]",
+                        destination === d ? "border-accent accent-wash" : "border-border"
+                      )}
+                    >
+                      <input
+                        type="radio"
+                        name="destination"
+                        checked={destination === d}
+                        onChange={() => setDestination(d)}
+                        className="mt-1 size-4 accent-[var(--accent)]"
+                      />
+                      <span className="block">
+                        <span className="block text-sm font-bold">
+                          {t(d === "library" ? "space.studio.toLibrary" : "space.studio.toProfile")}
+                        </span>
+                        <span className="block text-[13px] text-fg-muted">
+                          {t(d === "library" ? "space.studio.toLibraryHint" : "space.studio.toProfileHint")}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="secondary" className="border-border-strong" onClick={discardTake}>
+                  {t("space.studio.again")}
+                </Button>
+                <Button onClick={save}>{t("space.studio.save")}</Button>
+              </div>
+            </div>
+          )}
           {(phase === "processing" || pending) && (
-            <div className="flex items-center gap-2 text-sm text-fg-muted">
-              <Loader2 className="size-4 animate-spin" />{t("space.studio.analysing")}</div>
+            <div role="status" className="space-y-2">
+              <p className="text-sm text-fg-muted">
+                {progress < 1
+                  ? t("space.studio.uploading", { percent: Math.round(progress * 100) })
+                  : t("space.studio.analysing")}
+              </p>
+              <div className="h-2 overflow-hidden rounded-full bg-surface-2">
+                <div
+                  className="h-full rounded-full bg-accent transition-[width] duration-200"
+                  style={{ width: `${Math.round(progress * 100)}%` }}
+                />
+              </div>
+            </div>
           )}
 
           {(phase === "denied" || phase === "done") && (

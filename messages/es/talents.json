@@ -921,7 +921,16 @@
       "meterAdjust": "Por ajustar",
       "reducedMode": "Modo reducido (conexión lenta o dispositivo modesto)",
       "stop": "Detener",
-      "newTake": "Nueva toma"
+      "newTake": "Nueva toma",
+      "review": "Revisa tu toma",
+      "saveTo": "Dónde guardarla",
+      "toProfile": "Medios de mi perfil",
+      "toProfileHint": "Visible para los equipos de casting a los que te presentas.",
+      "toLibrary": "Biblioteca de reel y self-tape",
+      "toLibraryHint": "Privada hasta que decidas enviarla.",
+      "save": "Guardar",
+      "again": "Grabar de nuevo",
+      "uploading": "Subiendo, {percent} %"
     }
   },
   "responseRate": {

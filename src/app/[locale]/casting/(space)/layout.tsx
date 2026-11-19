@@ -39,6 +39,13 @@ export default async function CastingAppLayout({
     include: { organization: true },
   });
   if (!membership) return redirect({ href: "/casting/inscription", locale });
+  // A membership exists from the first wizard step; the app opens only once
+  // the last step is done, so nobody skips it by typing the address.
+  const account = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { onboardingCompletedAt: true },
+  });
+  if (!account?.onboardingCompletedAt) return redirect({ href: "/casting/inscription", locale });
 
   // The plan badge at the top right opens the plan switcher on every page.
   const current = membership.organization.plan as PlanB2B;

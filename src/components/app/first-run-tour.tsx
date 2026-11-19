@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { completeFirstRun } from "@/app/actions/onboarding";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { Portal } from "@/lib/utils";
@@ -23,10 +24,6 @@ export interface TourStep {
  * a brand-new account (and what "Replay the tour" in Settings links to), so it
  * shows once and can be replayed on purpose. Closing it removes the parameter.
  * The steps are numbered because the tour is a sequence.
- *
- * TODO(backend): call `completeFirstRun()` (src/app/actions/onboarding.ts) on
- * close once feat/round2-server lands, so the flag is stamped even if the
- * person never reaches the last step.
  */
 export function FirstRunTour({ portal, steps }: { portal: Portal; steps: TourStep[] }) {
   const t = useTranslations("common.tour");
@@ -43,6 +40,8 @@ export function FirstRunTour({ portal, steps }: { portal: Portal; steps: TourSte
   function close() {
     setDismissed(true);
     setIndex(0);
+    // Replay-safe: stamps the first-run flag if it is not set yet.
+    void completeFirstRun();
     router.replace(pathname, { scroll: false });
   }
 

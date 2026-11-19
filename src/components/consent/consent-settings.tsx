@@ -3,15 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Cookie } from "lucide-react";
+import { saveConsent } from "@/app/actions/consent";
 import { ConsentChoice } from "./consent-choice";
 
 /**
  * "Cookie preferences" in Settings: the same choice as at sign-up, changeable
  * at any time.
- *
- * TODO(backend): also call `saveConsent` (src/app/actions/consent.ts) and
- * start from `getConsent()` once feat/round2-server lands; today the choice
- * lives in the first-party cookie.
+ * The choice is written to the cookie and saved on the account.
  */
 export function ConsentSettings() {
   const t = useTranslations("common.consent");
@@ -23,7 +21,11 @@ export function ConsentSettings() {
         {t("settingsTitle")}
       </h2>
       <p className="mt-1 max-w-[60ch] text-[15px] text-fg-muted">{t("lead")}</p>
-      <ConsentChoice className="mt-4" onChosen={() => setSaved(true)} />
+      <ConsentChoice className="mt-4" onChosen={(consent) => {
+          setSaved(true);
+          // Settings is signed-in only: keep the account in step with the cookie.
+          void saveConsent(consent);
+        }} />
       <p role="status" className="mt-3 min-h-5 text-[14px] font-bold text-success">
         {saved ? t("saved") : ""}
       </p>

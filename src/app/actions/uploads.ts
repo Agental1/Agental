@@ -83,7 +83,7 @@ function isUniqueViolation(error: unknown): boolean {
 
 function revalidateMediaPages() {
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
-  revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
+  revalidatePath("/[locale]/talents/(space)/app/reel-self-tape", "page");
   revalidatePath("/[locale]/talents/(space)/app", "page");
 }
 

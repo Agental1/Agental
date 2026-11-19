@@ -32,7 +32,7 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | F3.4 plan switcher | done | Paid plans answer "billing unavailable" in production until payments are approved. |
 | F3.5 central dashboard | partial | The "Complete your profile" card and AI suggestions are in place. A single "next action" block is not built. |
 | F3.6 English everywhere | done | |
-| F4.1 first sign-in routing | partial | After sign-up, the wizard leads to the dashboard with a "Complete your profile" card. Landing on Profile completeness needs a stored flag (server). |
+| F4.1 first sign-in routing | done, local | A new account lands on Profile with the tour; later sign-ins go to the dashboard. |
 | F4.2 "How this works" tutorial | done, local | Four steps for Talent, three for Casting, opened by `?welcome=1`, replayable from Settings. Stamping the first-run flag on close is server. |
 | F4.3 student code | open | Field and messages are front-end work; validation is server and waits on Stripe. |
 | F5.1 password rules | done, local | Live checklist; the server enforces the same rules. Applies to sign-up; reset comes with F5.3. |
@@ -40,7 +40,7 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | F5.3 forgot password | blocked | Same blocker as F5.2. |
 | F5.4 abuse protection | partial | Double submits are prevented. CAPTCHA and rate limits are server work. |
 | F5.5 cookie consent | done, local | See round 2 B2. |
-| F6.1 Reel & Self-tape | partial | Renamed, with the old address redirecting. Choosing where a recording is saved, and upload progress, wait for the upload contract (server). |
+| F6.1 Reel & Self-tape | done, local | Renamed, old address redirects. After a take: watch it, choose "Media on my profile" or the library, save with a progress bar, or record again. In production, uploads also need a CORS rule on the storage bucket, which only the founders can add. |
 | F6.2 Career page | done | |
 | Phase 7 verification | partial | Done for Phases 1 to 3. To run again at the end of round 2. |
 | Phase 8 data hub and admin | open | `AuditLog`, `/admin` and `/admin/audit` exist. The accounts index and timeline are not built. |
@@ -58,8 +58,8 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | B1.3 wrong password | done, local | "Wrong email or password.", the email stays in the field. |
 | B1.4 forgot password | blocked | F5.3. |
 | B1.5 signed-in redirect | done, local | Home and audience pages send signed-in visitors to their dashboard. |
-| B2 cookie consent | done, local | Sign-up has a cookie choice step (Accept all, Reject non-essential, Manage preferences); Settings has "Cookie preferences". Audit: the site sets strictly necessary cookies only (session, security, language, the consent choice); analytics is cookieless, and now loads only after consent. Copying the choice onto the account is server. A Google or Apple sign-up skips the step and starts with strictly necessary only. |
-| B3 Google and Apple | partial | Built on the app's own sign-in system (Auth.js), in pull request #6. The buttons appear only when the provider keys exist. `docs/OAUTH_SETUP.md` is not written yet: the brief's steps describe Supabase Auth, which the app does not use, so the callback URLs differ. |
+| B2 cookie consent | done, local | Sign-up has a cookie choice step; Settings has "Cookie preferences"; the choice is saved on the account. The site sets strictly necessary cookies only; analytics is cookieless and loads only after consent. A Google or Apple sign-up starts with strictly necessary only. |
+| B3 Google and Apple | partial | Built and merged; `docs/OAUTH_SETUP.md` lists the steps for the founders. The buttons appear once the provider keys exist. Using Google with the email of a password account lands on that same account. |
 | C1 plan button | done | |
 | C2 badges removed | done, local | "Represented" and the plan badge are gone from both dashboards. The "SIRET verified" badge on the Casting dashboard stays: it is a status, and nothing else shows it. |
 | C3 AI suggestions | done | Unchanged. |
@@ -68,8 +68,8 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | D3 "Try it" without an account | partial | Live preview with template, name and headline. "Save my site" keeps the draft on the device and leads to account creation. Storing it on the account is server (`saveSite`). |
 | D4 pricing and offers | done, local | $99 and $199 from configuration, the college student line on the $99 offer, "4 months of Agental Pro" on both. The student price reads "to be announced" until the founders set it. |
 | D5 Limelight backend | open | Server. Payments are a mock today; no Stripe account is wired. |
-| E1 recording and playback | partial | The recorder now keeps the browser's real format (MP4 on Safari, WebM on Chrome and Firefox) and shows a message when the camera is refused. Not tested on real phones. Saving large videos waits for the upload contract. |
-| E2 storage | open | Server. The app stores media in a private Cloudflare R2 bucket, not Supabase Storage. Videos over about 1 MB fail in production today. |
+| E1 recording and playback | partial | Record, review, re-record, save with progress, both video formats. Not yet tested with a real camera, on phones, or in Safari and Firefox. Library playback and delete on the page still use the older list. |
+| E2 storage | done, local | Server slice merged: private storage, direct uploads up to 150 MB, short-lived signed playback, delete removes the file. Production needs the bucket CORS rule. |
 | E3 privacy line | done, local | Shown above the recorder. |
 | F account creation checks | partial | Profile row, Free plan, plan button, consent choice and tutorial work locally. Landing on Profile completeness at first sign-in is server. |
 | G1 finish v1 | partial | This file. |

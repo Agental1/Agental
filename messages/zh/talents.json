@@ -921,7 +921,16 @@
       "meterAdjust": "需调整",
       "reducedMode": "精简模式（网速慢或设备性能有限）",
       "stop": "停止",
-      "newTake": "再录一条"
+      "newTake": "再录一条",
+      "review": "检查这一条",
+      "saveTo": "保存到哪里",
+      "toProfile": "我的资料媒体",
+      "toProfileHint": "你投递的选角团队可以看到。",
+      "toLibrary": "作品集与自录试镜库",
+      "toLibraryHint": "在你决定提交之前保持私密。",
+      "save": "保存",
+      "again": "重新录制",
+      "uploading": "上传中，{percent}%"
     }
   },
   "responseRate": {

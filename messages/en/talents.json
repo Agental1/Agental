@@ -921,7 +921,16 @@
       "meterAdjust": "Needs adjusting",
       "reducedMode": "Reduced mode (slow connection or modest device)",
       "stop": "Stop",
-      "newTake": "New take"
+      "newTake": "New take",
+      "review": "Check your take",
+      "saveTo": "Where to save it",
+      "toProfile": "Media on my profile",
+      "toProfileHint": "Shown to casting teams you apply to.",
+      "toLibrary": "Reel & Self-tape library",
+      "toLibraryHint": "Private until you choose to submit it.",
+      "save": "Save",
+      "again": "Record again",
+      "uploading": "Uploading, {percent}%"
     }
   },
   "responseRate": {
