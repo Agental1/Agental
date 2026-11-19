@@ -762,7 +762,20 @@
       "welcome": "Bienvenue, {name}.",
       "welcomeAnon": "Bienvenue.",
       "completenessHint": "Ton profil est complété à {percent} % — enrichis-le pour que l'IA le fasse mieux performer.",
-      "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}"
+      "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}",
+      "deals": {
+        "title": "Propositions en attente de ta réponse",
+        "intro": "Ton agent a négocié ces propositions. Rien n'est confirmé tant que tu n'as pas accepté.",
+        "empty": "Aucune proposition ne t'attend pour l'instant.",
+        "untitled": "Proposition sans titre",
+        "openDoc": "Ouvrir le dossier",
+        "commentLabel": "Note pour ton agent (facultatif)",
+        "accept": "Accepter",
+        "decline": "Refuser",
+        "accepted": "Accepté. Ton agent confirme avec la production.",
+        "declined": "Refusé. Ton agent prévient la production.",
+        "unavailable": "Impossible de charger tes propositions pour l'instant. Réessaie dans quelques minutes."
+      }
     },
     "candidatures": {
       "title": "Mes candidatures",

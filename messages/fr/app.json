@@ -77,7 +77,10 @@
     "noVideo": "Aucune vidéo enregistrée.",
     "noFile": "Aucun fichier.",
     "deleteFailed": "La suppression a échoué.",
-    "confirmFailed": "La confirmation a échoué. Réessayez."
+    "confirmFailed": "La confirmation a échoué. Réessayez.",
+    "dealInvalid": "Ta réponse n'a pas pu être lue. Réessaie.",
+    "dealNotFound": "Cette proposition n'attend plus ta réponse.",
+    "dealSendFailed": "Ta réponse n'a pas pu être envoyée. Réessaie dans quelques minutes."
   },
   "auth": {
     "name": "Nom",

@@ -762,7 +762,20 @@
       "welcome": "Welcome, {name}.",
       "welcomeAnon": "Welcome.",
       "completenessHint": "Your profile is {percent}% complete — fill it in so the AI can do more with it.",
-      "urgentHint": "{count, plural, one {# opportunity where you rank very high — polish your application.} other {# opportunities where you rank very high — polish your applications.}}"
+      "urgentHint": "{count, plural, one {# opportunity where you rank very high — polish your application.} other {# opportunities where you rank very high — polish your applications.}}",
+      "deals": {
+        "title": "Deals waiting for your answer",
+        "intro": "Your agent negotiated these. Nothing is confirmed until you accept.",
+        "empty": "No deal is waiting for you right now.",
+        "untitled": "Untitled deal",
+        "openDoc": "Open the deal file",
+        "commentLabel": "Note for your agent (optional)",
+        "accept": "Accept",
+        "decline": "Decline",
+        "accepted": "Accepted. Your agent will confirm with the production.",
+        "declined": "Declined. Your agent will let the production know.",
+        "unavailable": "Your deals could not be loaded right now. Try again in a few minutes."
+      }
     },
     "candidatures": {
       "title": "My applications",
