@@ -122,7 +122,10 @@
     "domainInvalid": "Enter a domain name, such as yourname.com.",
     "domainTaken": "This domain is already connected to a site.",
     "domainNotVerified": "We could not find the DNS record yet. It can take a few hours to appear.",
-    "siteNotApproved": "Approve the preview before the site is published."
+    "siteNotApproved": "Approve the preview before the site is published.",
+    "mandatUnavailable": "The representation agreement will be available later.",
+    "messageEmpty": "Write a message first.",
+    "messageTooLong": "Your message is too long. Keep it under {limit} characters."
   },
   "auth": {
     "name": "Name",

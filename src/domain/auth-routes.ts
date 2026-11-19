@@ -1,4 +1,5 @@
 import { toLocale } from "@/i18n/routing";
+import type { SetupStep } from "./setup";
 
 /**
  * Where a user lands once authenticated.
@@ -44,7 +45,15 @@ export function firstRunHome(kind: string, locale: string): string {
 
 /** What postAuthHome needs to know about the account. Loaded by /continuer. */
 export interface PostAuthState {
-  /** The talent's mandate, if any. */
+  /**
+   * Talent: the first unfinished setup step (see ./setup.ts), null once the
+   * basics are saved. Left out, the account is treated as still in setup.
+   */
+  setupStep?: SetupStep | null;
+  /**
+   * The talent's representation mandate, if any. Routing no longer reads it:
+   * the mandate is out of the beta. Kept for isMandateSigned.
+   */
   mandat?: { status: string; signedAt: Date | null } | null;
   /** Casting: an OWNER membership exists. */
   hasOwnerMembership?: boolean;
@@ -55,9 +64,17 @@ export interface PostAuthState {
   onboardingCompletedAt?: Date | null;
 }
 
-/** Talent onboarding is done once the mandate is signed and active. */
+/**
+ * True for an account that signed the representation mandate before the beta.
+ * No route depends on it any more.
+ */
 export function isMandateSigned(state: PostAuthState): boolean {
   return state.mandat?.status === "ACTIVE" && !!state.mandat.signedAt;
+}
+
+/** A talent's basics are saved: stage name, adult date of birth, a specialty. */
+export function isTalentSetUp(state: PostAuthState): boolean {
+  return state.setupStep === null;
 }
 
 /**
@@ -71,29 +88,36 @@ export function isCastingOnboarded(state: PostAuthState): boolean {
 }
 
 /**
- * Where any sign-in lands, email or provider: the dashboard when onboarding is
- * complete, the onboarding wizard otherwise. /<locale>/continuer calls this so
- * both methods share one routing rule.
+ * Where any sign-in lands, email or provider. /<locale>/continuer calls this
+ * so both methods share one routing rule.
+ *
+ * Casting: the dashboard when onboarding is complete, the wizard otherwise.
+ *
+ * Talent: always the app. While a setup step is missing, the dashboard, whose
+ * "Complete my profile" card names that step and resumes it, on this sign-in
+ * and on every later one. The first time the basics are all saved, the profile
+ * with the tutorial, once. After that, the dashboard. Signing a mandate is no
+ * longer part of it.
  */
 export function postAuthHome(
   kind: string | undefined,
   locale: string,
   state: PostAuthState
 ): string {
-  const k = kind === "CASTING" ? "CASTING" : "TALENT";
-  const done = k === "CASTING" ? isCastingOnboarded(state) : isMandateSigned(state);
-  if (!done) return onboardingHome(k, locale);
-  // Onboarding finished and the first-run screen never served: serve it now.
+  if (kind === "CASTING") {
+    return isCastingOnboarded(state) ? appHome(kind, locale) : onboardingHome(kind, locale);
+  }
   // The caller stamps onboardingCompletedAt (see needsFirstRun).
-  return needsFirstRun(k, state) ? firstRunHome(k, locale) : appHome(k, locale);
+  return needsFirstRun("TALENT", state) ? firstRunHome("TALENT", locale) : appHome("TALENT", locale);
 }
 
 /**
  * True when postAuthHome answers with the first-run screen, so the caller
- * knows to stamp User.onboardingCompletedAt. Signing the mandate normally
- * stamps it; this covers accounts that finished onboarding another way.
+ * knows to stamp User.onboardingCompletedAt. completeBetaOnboarding normally
+ * stamps it at the end of the wizard; this covers accounts that saved their
+ * basics another way.
  */
 export function needsFirstRun(kind: string | undefined, state: PostAuthState): boolean {
   if (kind === "CASTING") return false; // the stamp is part of "onboarded" there
-  return isMandateSigned(state) && !state.onboardingCompletedAt;
+  return isTalentSetUp(state) && !state.onboardingCompletedAt;
 }

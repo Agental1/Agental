@@ -122,7 +122,10 @@
     "domainInvalid": "请输入域名，例如 yourname.com。",
     "domainTaken": "该域名已连接到其他网站。",
     "domainNotVerified": "暂未找到 DNS 记录，可能需要几个小时才会生效。",
-    "siteNotApproved": "发布网站前请先确认预览。"
+    "siteNotApproved": "发布网站前请先确认预览。",
+    "mandatUnavailable": "代理协议将稍后提供。",
+    "messageEmpty": "请先输入消息。",
+    "messageTooLong": "消息太长，请控制在 {limit} 个字符以内。"
   },
   "auth": {
     "name": "姓名",

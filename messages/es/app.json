@@ -122,7 +122,10 @@
     "domainInvalid": "Escribe un nombre de dominio, por ejemplo tunombre.com.",
     "domainTaken": "Este dominio ya está conectado a un sitio.",
     "domainNotVerified": "Aún no encontramos el registro DNS. Puede tardar unas horas en aparecer.",
-    "siteNotApproved": "Aprueba la vista previa antes de publicar el sitio."
+    "siteNotApproved": "Aprueba la vista previa antes de publicar el sitio.",
+    "mandatUnavailable": "El acuerdo de representación estará disponible más adelante.",
+    "messageEmpty": "Escribe primero un mensaje.",
+    "messageTooLong": "Tu mensaje es demasiado largo. Límite: {limit} caracteres."
   },
   "auth": {
     "name": "Nombre",

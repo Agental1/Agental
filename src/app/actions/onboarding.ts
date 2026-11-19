@@ -14,7 +14,8 @@ import {
   ProfileBasicsStep,
 } from "@/domain/onboarding";
 import { isMinorOn } from "@/domain/age";
-import { canReceiveOpportunities, mandatSignBlocker } from "@/domain/mandat";
+import { MANDATE, canReceiveOpportunities, mandatSignBlocker } from "@/domain/mandat";
+import { nextSetupStep, type SetupStep } from "@/domain/setup";
 import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
 
 export type StepResult = { ok: boolean; error?: ActionError };
@@ -107,10 +108,107 @@ export async function saveProfileBasics(input: unknown): Promise<StepResult> {
   return { ok: true };
 }
 
+export type CompleteOnboardingResult =
+  | {
+      ok: true;
+      /** The first unfinished setup step, or null when the basics are saved. */
+      nextStep: SetupStep | null;
+      /** Where to go next, without a locale prefix (for @/i18n/navigation). */
+      path: string;
+    }
+  | { ok: false; error: ActionError };
+
+/**
+ * The last button of the sign-up wizard during the beta: "Continue to my
+ * profile". It records nothing about a representation agreement.
+ *
+ * When the basics are saved (see src/domain/setup.ts) it makes sure the Free
+ * plan row exists and stamps onboardingCompletedAt, once. The first time, the
+ * answer points at the profile with the tutorial; later calls point at the
+ * dashboard. When a step is still missing it changes nothing and names the
+ * step, so the dashboard can offer to resume it.
+ *
+ * The profile stays DRAFT. ACTIVE is what puts a profile in front of casting
+ * teams, and that still takes an accepted agreement.
+ */
+export async function completeBetaOnboarding(): Promise<CompleteOnboardingResult> {
+  const userId = await requireTalentUserId();
+  const profile = await prisma.artistProfile.findUnique({
+    where: { userId },
+    select: {
+      id: true,
+      stageName: true,
+      birthDate: true,
+      _count: { select: { specialties: true } },
+    },
+  });
+  const nextStep = nextSetupStep(
+    profile && {
+      stageName: profile.stageName,
+      birthDate: profile.birthDate,
+      specialtiesCount: profile._count.specialties,
+    }
+  );
+  if (nextStep || !profile) {
+    return { ok: true, nextStep: nextStep ?? "identity", path: "/talents/app" };
+  }
+
+  const now = new Date();
+  const firstTime = await prisma.$transaction(async (tx) => {
+    // A separate, optional service: starts on Free (no charge, no card).
+    await tx.subscription.upsert({
+      where: { subjectId: userId },
+      create: {
+        subjectType: "ARTIST",
+        subjectId: userId,
+        plan: "FREE",
+        priceCents: 0,
+        commissionRate: 0.1,
+      },
+      update: {},
+    });
+    // Only the request that finds the stamp empty writes it, so a double
+    // click produces one audit entry and one first-run screen.
+    const { count } = await tx.user.updateMany({
+      where: { id: userId, onboardingCompletedAt: null },
+      data: { onboardingCompletedAt: now },
+    });
+    if (count === 1) {
+      await audit(
+        {
+          actorUserId: userId,
+          action: "onboarding.complete",
+          resourceType: "ArtistProfile",
+          resourceId: profile.id,
+          after: { at: now, mandate: "none" },
+        },
+        tx
+      );
+    }
+    return count === 1;
+  });
+
+  try {
+    await recomputeCompleteness(profile.id);
+  } catch (error) {
+    console.error("[onboarding] completeness refresh failed", error);
+  }
+
+  return {
+    ok: true,
+    nextStep: null,
+    path: firstTime ? "/talents/app/profil?welcome=1" : "/talents/app",
+  };
+}
+
 /**
  * Sign the Mandat (free legal representation) and activate the Free plan.
  * The Mandat is created WITHOUT any reference to a paid plan; the Free
  * Subscription is a separate row. This is the load-bearing separation.
+ *
+ * Closed during the beta: with no approved agreement version (MANDATE in
+ * src/domain/mandat.ts) it refuses before reading anything, and no row is
+ * written. Once a version is approved, the acceptance is recorded against it.
  *
  * The signature is the legal act, so the whole profile is re-checked here
  * (mandatSignBlocker) rather than trusting that the wizard's earlier steps
@@ -118,6 +216,8 @@ export async function saveProfileBasics(input: unknown): Promise<StepResult> {
  */
 export async function signMandat(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
+  const version = MANDATE.approvedVersion;
+  if (!version) return { ok: false, error: err("errors.mandatUnavailable") };
   const accepted = MandatStep.safeParse(input);
   if (!accepted.success) {
     return { ok: false, error: zodError(accepted.error) };
@@ -148,7 +248,12 @@ export async function signMandat(input: unknown): Promise<StepResult> {
     "unknown";
 
   const signedAt = new Date();
-  const signature = { status: "ACTIVE", signedAt, signatureIp: ip };
+  const signature = {
+    status: "ACTIVE",
+    signedAt,
+    signatureIp: ip,
+    documentVersion: version,
+  };
   const existing = profile.mandat;
 
   // The mandate, the Free plan, the profile status and the audit entry are
@@ -211,7 +316,7 @@ export async function signMandat(input: unknown): Promise<StepResult> {
         action: "mandat.sign",
         resourceType: "Mandat",
         resourceId: id,
-        after: { signedAt, ip },
+        after: { signedAt, ip, documentVersion: version },
       },
       tx
     );

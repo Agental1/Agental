@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 /**
  * signMandat with a mocked Prisma. What is under test is the shape of the
@@ -36,6 +36,7 @@ vi.mock("next-intl/server", () => ({ getLocale: async () => "en" }));
 vi.mock("@/i18n/navigation", () => ({ redirect }));
 
 const { signMandat } = await import("@/app/actions/onboarding");
+const { MANDATE } = await import("@/domain/mandat");
 
 type MandatRow = { id: string; status: string; signedAt: Date | null };
 
@@ -62,6 +63,13 @@ function auditData(): Record<string, string> {
 beforeEach(() => {
   // Back to the implementations given to vi.fn above, queued values dropped.
   vi.resetAllMocks();
+  // These tests cover the signature itself, so they run as if counsel had
+  // approved a version. The block at the end covers the beta, where none is.
+  MANDATE.approvedVersion = "test-v1";
+});
+
+afterAll(() => {
+  MANDATE.approvedVersion = null;
 });
 
 describe("signMandat", () => {
@@ -79,6 +87,7 @@ describe("signMandat", () => {
           status: "ACTIVE",
           signedAt: expect.any(Date),
           signatureIp: "203.0.113.7",
+          documentVersion: "test-v1",
         },
       ],
       skipDuplicates: true,
@@ -98,7 +107,10 @@ describe("signMandat", () => {
       resourceType: "Mandat",
       resourceId: "m1",
     });
-    expect(JSON.parse(auditData().after)).toMatchObject({ ip: "203.0.113.7" });
+    expect(JSON.parse(auditData().after)).toMatchObject({
+      ip: "203.0.113.7",
+      documentVersion: "test-v1",
+    });
 
     // The score is refreshed after the transaction, outside the legal act.
     expect(recomputeCompleteness).toHaveBeenCalledWith("p1");
@@ -123,6 +135,7 @@ describe("signMandat", () => {
         status: "ACTIVE",
         signedAt: expect.any(Date),
         signatureIp: "203.0.113.7",
+        documentVersion: "test-v1",
         revokedAt: null,
       },
     });
@@ -187,5 +200,29 @@ describe("signMandat", () => {
       error: { key: "errors.mandatAlreadySigned" },
     });
     expect(db.$transaction).not.toHaveBeenCalled();
+  });
+});
+
+describe("signMandat during the beta", () => {
+  it("refuses and writes nothing while no agreement version is approved", async () => {
+    MANDATE.approvedVersion = null;
+    db.artistProfile.findUnique.mockResolvedValue(profile());
+
+    expect(await signMandat({ accept: true })).toEqual({
+      ok: false,
+      error: { key: "errors.mandatUnavailable" },
+    });
+    // Refused before anything is read, so nothing can be written.
+    expect(db.artistProfile.findUnique).not.toHaveBeenCalled();
+    expect(db.$transaction).not.toHaveBeenCalled();
+    expect(redirect).not.toHaveBeenCalled();
+  });
+
+  it("ships with no approved version", async () => {
+    // The real module, not the value these tests set: the repository must not
+    // carry an approved version until counsel has approved a text.
+    vi.resetModules();
+    const fresh = await vi.importActual<typeof import("@/domain/mandat")>("@/domain/mandat");
+    expect(fresh.MANDATE.approvedVersion).toBeNull();
   });
 });
