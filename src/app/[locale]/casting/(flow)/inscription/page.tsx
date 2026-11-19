@@ -82,7 +82,7 @@ export default async function CastingSignupPage({
   if (
     isCastingOnboarded({
       hasOwnerMembership: !!membership,
-      emailVerified: !!membership && (await isVerified(session.user.id)),
+      onboardingCompletedAt: membership ? await onboardedAt(session.user.id) : null,
     })
   ) {
     return redirect({ href: "/casting/app", locale });
@@ -104,7 +104,10 @@ export default async function CastingSignupPage({
   );
 }
 
-async function isVerified(userId: string): Promise<boolean> {
-  const u = await prisma.user.findUnique({ where: { id: userId } });
-  return !!u?.emailVerified;
+async function onboardedAt(userId: string): Promise<Date | null> {
+  const u = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { onboardingCompletedAt: true },
+  });
+  return u?.onboardingCompletedAt ?? null;
 }

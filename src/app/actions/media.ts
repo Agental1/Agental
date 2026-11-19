@@ -46,6 +46,7 @@ export async function uploadMedia(formData: FormData): Promise<MediaResult> {
       type: type.data,
       storageKey: key,
       mime: file.type || null,
+      sizeBytes: bytes.length,
       order: count,
       isPrimary: type.data === "PHOTO" && count === 0,
     },
@@ -64,9 +65,12 @@ export async function deleteMedia(mediaId: string): Promise<MediaResult> {
   if (!media || media.profileId !== profile.id) {
     return { ok: false, error: err("errors.mediaNotFound") };
   }
-  const storage = await getStorage();
-  await storage.delete(media.storageKey);
+  // Row first, then the file: a failure leaves an orphan object, never a row
+  // that points at a file that is gone.
   await prisma.media.delete({ where: { id: mediaId } });
+  await (await getStorage()).delete(media.storageKey).catch((error) => {
+    console.error("[media] stored object not removed", { mediaId, error });
+  });
   await recomputeCompleteness(profile.id);
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   // The dashboard lists missing photos and videos.

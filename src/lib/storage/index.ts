@@ -20,7 +20,26 @@ export interface Storage {
    * and the media route redirects to it instead of proxying. Local disk cannot,
    * so it is absent there and the route falls back to streaming through us.
    */
-  signedUrl?(key: string): Promise<string>;
+  signedUrl?(key: string, opts?: { mime?: string | null }): Promise<string>;
+  /** Size and type of a stored object, or null when it does not exist. */
+  head(key: string): Promise<{ size: number; mime: string } | null>;
+  /** Every key under a prefix. Used to remove a talent's files with their account. */
+  list(prefix: string): Promise<string[]>;
+  /**
+   * Optional: an address the browser can PUT one file to, directly.
+   *
+   * A file never travels through a server action: Next caps an action's body
+   * at 1 MB by default and Vercel caps a request at 4.5 MB, so anything larger
+   * than a small photo has to go straight to storage. The size is part of the
+   * signature; the type is checked again once the object has arrived (see
+   * completeUpload). Local disk has no such address, so development uploads
+   * go through /api/uploads/[id] instead.
+   */
+  presignUpload?(
+    key: string,
+    mime: string,
+    sizeBytes: number
+  ): Promise<{ url: string; headers: Record<string, string> }>;
 }
 
 /** The four variables an R2 bucket needs. All or nothing. */

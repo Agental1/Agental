@@ -19,36 +19,51 @@ Photos add little: 10 photos of about 3 MB per talent come to 30 GB at 1,000 tal
 
 `uploadMedia` (`src/app/actions/media.ts:22-58`) and `saveSelfTape` (`src/app/actions/selftape.ts:27-92`) receive the whole file as a server action argument. Next.js caps a server action request body at 1 MB by default (`serverActions.bodySizeLimit`, documented in `node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/serverActions.md`), and `next.config.ts` keeps that default. A phone photo of 2 to 5 MB is refused before the action runs, and the 50 MB limit at `media.ts:20` is never reached. Raising the Next limit would run into Vercel's 4.5 MB cap on a function request body, and the whole file would still sit in function memory (`media.ts:37`).
 
-## Upload flow
+## Upload flow (built)
 
-`createUpload` (server action) -> browser `PUT` to R2 -> `completeUpload` (server action)
+`createUpload` (server action) -> browser `PUT` to storage -> `completeUpload` (server action). Client code calls one function, `uploadMedia(file, options)` in `src/lib/media-upload.ts`, which runs the three steps and reports progress.
 
-1. **`createUpload({ kind, mime, size })`**
-   - Requires a TALENT session and a profile whose birth date makes the person 18 or older, with `isMinor` false. V1 stores no images of minors.
-   - Checks the mime type against an allowlist (JPEG, PNG, WebP, MP4, QuickTime, WebM) and the declared size against the cap. HEIC stays off the list until the photo job can decode it, which sharp's prebuilt binaries cannot.
-   - Enforces a per-profile quota on file count and total bytes (the sum of `Media.sizeBytes`) and a rate limit, so one account cannot request upload URLs without limit.
-   - Picks the key `incoming/{profileId}/{uuid}` and returns a presigned `PUT` URL valid for 600 seconds, with Content-Type and Content-Length in the signature.
-2. **Browser `PUT`** straight to R2 with the same Content-Type. XMLHttpRequest reports upload progress, which fetch lacks.
-3. **`completeUpload({ key })`**
-   - Accepts only a key under `incoming/{the caller's profileId}/`.
-   - Treats `head()` as the authority: the size and Content-Type R2 reports are checked again against the allowlist and the cap, and the object is deleted when they fail.
-   - Moves the object to `media/{profileId}/{uuid}` or `selftape/{profileId}/{uuid}` (copy, then delete the incoming one) and creates the `Media` row with `sizeBytes`.
-   - Relies on a unique index on `Media.storageKey`: when two calls race, the second gets P2002 and reports success, so two rows never share one object (deleting one of them would delete the other's file).
-   - Later: read the first bytes with a ranged GET and check the file signature.
+1. **`createUpload({ type, destination?, mime, sizeBytes })`** in `src/app/actions/uploads.ts`
+   - Requires a TALENT session with a signed, active mandate and `isMinor` false. V1 stores no images of minors.
+   - Checks the declared type against an allowlist and the declared size against the cap (`UPLOAD_LIMITS` in `src/domain/uploads.ts`: photos 15 MB as JPEG, PNG, WebP or HEIC; videos and self-tapes 150 MB as MP4, WebM or QuickTime).
+   - Enforces a per-profile quota on file count and total bytes, counting finished media and uploads still in flight.
+   - Records a pending `Upload` row and returns an address that accepts exactly that one file for 30 minutes. On R2 it is a presigned `PUT` URL with Content-Length in the signature.
+2. **Browser `PUT`** straight to storage. XMLHttpRequest reports upload progress, which fetch lacks. The transfer can be cancelled.
+3. **`completeUpload({ uploadId, durationSec?, metrics? })`**
+   - Treats what storage reports as the authority: the stored size must equal the declared one, and the stored type is checked against the allowlist again. An object that fails is deleted with its pending row.
+   - Creates the `Media` row (with `destination`, `sizeBytes`, `durationSec`), the `SelfTape` row for a self-tape, and removes the pending row, in one transaction. A unique index on `Media.storageKey` settles a double call.
 
-Supporting changes:
+Where a file lives is its `destination`: `profile` (part of the profile) or `library` (private to the talent until they submit it). A self-tape starts in the library. `/api/media/[id]` serves library items to their owner and to admins only.
 
-- `Storage` (`src/lib/storage/index.ts:12-24`) gains `presignPut`, `head`, `move` and `list(prefix)`. Local disk needs a dev stand-in, such as a dev-only route that accepts the `PUT`.
-- Playback URLs go from 300 to 3600 seconds (`src/lib/storage/r2.ts:25`), so seeking in a long video keeps working, and carry `ResponseContentType` from `Media.mime` and `ResponseContentDisposition: inline`. The redirect keeps `Cache-Control: private, no-store` (`src/app/api/media/[id]/route.ts:52-62`).
-- New error keys (`errors.uploadUnavailable`, the quota errors) go in all four locales, followed by `bun run i18n:check`.
-- Tests cover the upload checks, the prefix scoping, and the age and mandate gates.
+Keys are `media/{profileId}/{uuid}.{ext}` and `selftape/{profileId}/{uuid}.{ext}`: one folder per talent. Deleting a recording removes the row, then the object. Deleting an account removes every object under both folders.
 
-R2 bucket settings, for each environment:
+Playback goes through `/api/media/[id]`, which authorizes the request and redirects to a signed URL valid for one hour, with the recorded Content-Type. There is no public URL to any file.
 
-- Private: no `r2.dev` URL, no public custom domain, and one API token scoped to the bucket.
-- CORS with exact origins: `https://www.agental.co` on `agental-media`; `http://localhost:3000` and one stable preview domain on `agental-media-dev`. Methods `PUT`, plus `GET` and `HEAD` only if a page reads media with JavaScript. Allowed header `content-type`; exposed header `ETag`, which multipart needs.
-- Lifecycle rules: delete `incoming/` objects after 1 day and abort incomplete multipart uploads after 1 day.
-- `src/lib/storage/r2.ts:35` builds the account-wide endpoint. Create `agental-media-dev` the same way as `agental-media`, because a bucket in the EU jurisdiction would need `<account>.eu.r2.cloudflarestorage.com`.
+In development, with no R2 variables, files go to `.uploads/` through `/api/uploads/[id]`. That route answers 404 whenever storage can sign uploads itself.
+
+### One setting to add on the bucket: CORS
+
+A browser may only `PUT` to another origin when that origin allows it. Until this rule exists on the bucket, direct uploads fail in production with a CORS error. In the Cloudflare dashboard: **R2 -> the bucket -> Settings -> CORS Policy -> Add**, and paste:
+
+```json
+[
+  {
+    "AllowedOrigins": ["https://www.agental.co", "https://agental.co"],
+    "AllowedMethods": ["PUT"],
+    "AllowedHeaders": ["content-type"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+Preview deployments have a different address on each deploy, so they cannot be listed. Test uploads locally, or give previews one stable domain and add it here.
+
+Other bucket settings worth having:
+
+- Private: no `r2.dev` URL, no public custom domain, and an API token scoped to this bucket.
+- A lifecycle rule that aborts incomplete multipart uploads after 1 day (for the multipart step below).
+- Abandoned uploads leave a pending row that expires, and at worst an orphan object. A periodic sweep of objects with no `Media` row is still to write.
 
 ## Size: 150 MB now, multipart next
 

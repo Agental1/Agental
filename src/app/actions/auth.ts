@@ -6,6 +6,8 @@ import { AuthError } from "next-auth";
 import { prisma } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
 import { LoginInput, SignupInput } from "@/domain/auth";
+import { consentColumns } from "@/domain/consent";
+import { readConsentCookie } from "@/lib/consent";
 import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
@@ -34,8 +36,16 @@ export async function signupAction(
   if (existing.length > 0) return { error: err("errors.emailTaken") };
 
   const passwordHash = await bcrypt.hash(password, 10);
+  // The cookie choice made at the consent step, if any, becomes the record.
+  const consent = await readConsentCookie();
   const user = await prisma.user.create({
-    data: { email, passwordHash, kind, locale },
+    data: {
+      email,
+      passwordHash,
+      kind,
+      locale,
+      ...(consent ? consentColumns(consent) : {}),
+    },
   });
   await audit({
     actorUserId: user.id,

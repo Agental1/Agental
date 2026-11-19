@@ -92,7 +92,18 @@
     "birthDateRequired": "Enter your date of birth.",
     "birthDateInvalid": "Check your date of birth.",
     "heightRange": "Height must be between 3 ft and 7 ft 11 in (91 to 241 cm).",
-    "mandatAlreadySigned": "Your mandate is already signed."
+    "mandatAlreadySigned": "Your mandate is already signed.",
+    "uploadTooLarge": "This file is too large. The limit is {limit} MB.",
+    "uploadTypeNotAllowed": "This file type is not supported.",
+    "uploadQuota": "Your media storage is full. Delete a file to add a new one.",
+    "uploadNotFound": "This upload expired. Start it again.",
+    "studentCodeInvalid": "This code is not valid.",
+    "studentCodeExpired": "This code has expired.",
+    "studentCodeUsedUp": "This code has reached its limit.",
+    "tooManyAttempts": "Too many attempts. Try again later.",
+    "siteNotFound": "This website was not found.",
+    "siteInvalid": "Some website details are missing or too long.",
+    "sitePaymentRequired": "Choose an offer before publishing your website."
   },
   "auth": {
     "name": "Name",

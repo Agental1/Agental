@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   appHome,
+  firstRunHome,
   isCastingOnboarded,
   isMandateSigned,
+  needsFirstRun,
   onboardingHome,
   postAuthHome,
 } from "@/domain/auth-routes";
@@ -72,9 +74,22 @@ describe("onboardingHome", () => {
 
 describe("postAuthHome", () => {
   const signed = { status: "ACTIVE", signedAt: new Date("2026-01-01") };
+  const seen = new Date("2026-01-02");
 
   it("sends a talent with a signed, active mandate to the dashboard", () => {
-    expect(postAuthHome("TALENT", "es", { mandat: signed })).toBe("/es/talents/app");
+    expect(postAuthHome("TALENT", "es", { mandat: signed, onboardingCompletedAt: seen })).toBe(
+      "/es/talents/app"
+    );
+  });
+
+  it("serves the first-run screen once: profile completeness, with the tutorial flag", () => {
+    const first = { mandat: signed, onboardingCompletedAt: null };
+    expect(postAuthHome("TALENT", "en", first)).toBe("/en/talents/app/profil?welcome=1");
+    expect(needsFirstRun("TALENT", first)).toBe(true);
+    expect(needsFirstRun("TALENT", { mandat: signed, onboardingCompletedAt: seen })).toBe(false);
+    // Onboarding unfinished: the wizard comes first, and nothing is stamped.
+    expect(needsFirstRun("TALENT", { mandat: null })).toBe(false);
+    expect(needsFirstRun("CASTING", { hasOwnerMembership: true })).toBe(false);
   });
 
   it("sends a talent back to onboarding until the mandate is signed and active", () => {
@@ -89,20 +104,22 @@ describe("postAuthHome", () => {
   });
 
   it("sends an onboarded casting director to the dashboard", () => {
-    expect(postAuthHome("CASTING", "zh", { hasOwnerMembership: true, emailVerified: true })).toBe(
-      "/zh/casting/app"
-    );
+    expect(
+      postAuthHome("CASTING", "zh", { hasOwnerMembership: true, onboardingCompletedAt: seen })
+    ).toBe("/zh/casting/app");
   });
 
   it("keeps a casting director in onboarding until both steps are done", () => {
     expect(postAuthHome("CASTING", "en", { hasOwnerMembership: true })).toBe("/en/casting/inscription");
-    expect(postAuthHome("CASTING", "en", { emailVerified: true })).toBe("/en/casting/inscription");
+    expect(postAuthHome("CASTING", "en", { onboardingCompletedAt: seen })).toBe(
+      "/en/casting/inscription"
+    );
   });
 
   it("never mixes portals: a talent's casting fields are ignored", () => {
-    expect(postAuthHome("TALENT", "en", { hasOwnerMembership: true, emailVerified: true })).toBe(
-      "/en/talents/inscription"
-    );
+    expect(
+      postAuthHome("TALENT", "en", { hasOwnerMembership: true, onboardingCompletedAt: seen })
+    ).toBe("/en/talents/inscription");
   });
 
   it("treats a missing kind as a talent and an unknown locale as the default", () => {
@@ -128,10 +145,20 @@ describe("isMandateSigned", () => {
 });
 
 describe("isCastingOnboarded", () => {
-  it("needs both an owner membership and a verified email", () => {
-    expect(isCastingOnboarded({ hasOwnerMembership: true, emailVerified: true })).toBe(true);
-    expect(isCastingOnboarded({ hasOwnerMembership: true, emailVerified: false })).toBe(false);
-    expect(isCastingOnboarded({ hasOwnerMembership: false, emailVerified: true })).toBe(false);
+  const stamped = new Date("2026-01-02");
+
+  it("needs both an owner membership and the wizard's final stamp", () => {
+    expect(isCastingOnboarded({ hasOwnerMembership: true, onboardingCompletedAt: stamped })).toBe(true);
+    expect(isCastingOnboarded({ hasOwnerMembership: true, onboardingCompletedAt: null })).toBe(false);
+    expect(isCastingOnboarded({ hasOwnerMembership: false, onboardingCompletedAt: stamped })).toBe(false);
     expect(isCastingOnboarded({})).toBe(false);
+  });
+});
+
+describe("firstRunHome", () => {
+  it("is locale-prefixed and carries the tutorial flag", () => {
+    expect(firstRunHome("TALENT", "fr")).toBe("/fr/talents/app/profil?welcome=1");
+    expect(firstRunHome("CASTING", "en")).toBe("/en/casting/app?welcome=1");
+    expect(firstRunHome("TALENT", "../evil")).toBe(`/${routing.defaultLocale}/talents/app/profil?welcome=1`);
   });
 });
