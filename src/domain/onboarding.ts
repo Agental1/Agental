@@ -49,7 +49,13 @@ export const SpecialtiesStep = z.object({
       })
     )
     .min(1, "errors.specialtyRequired"),
-  mobilityCountries: z.array(z.string()).default(["FR"]),
+  // The countries the performer works in, as ISO codes. Optional: left out,
+  // the stored list is kept as it is. It used to default to France, which
+  // marked every performer who saved this tab as working in France only.
+  mobilityCountries: z
+    .array(z.string().trim().toUpperCase().regex(/^[A-Z]{2}$/))
+    .max(60)
+    .optional(),
   minRateEuros: z.coerce.number().min(0).optional(),
 });
 export type SpecialtiesStep = z.infer<typeof SpecialtiesStep>;

@@ -25,6 +25,20 @@ const SLUG_TO_KIND: Record<string, string> = { "voix-doublage": "voix" };
 
 const normalise = (slug: string) => SLUG_TO_KIND[slug] ?? slug;
 
+/**
+ * Specialties a performer can choose that have no public landing page. Added
+ * for the U.S. beta to round out the list (owner's brief, November 2026). A
+ * landing page for any of them is a content decision, taken separately.
+ */
+const SPECIALTIES_WITHOUT_LANDING = [
+  "screen-acting",
+  "stage-acting",
+  "musical-theatre",
+  "improv",
+  "movement",
+  "stunt-combat",
+];
+
 describe("SpecialtyKind ↔ CASTING_TYPE_SLUGS", () => {
   it("offers a signup specialty for every public landing", () => {
     const kinds = new Set<string>(SpecialtyKind.options);
@@ -34,10 +48,13 @@ describe("SpecialtyKind ↔ CASTING_TYPE_SLUGS", () => {
     expect(missing).toEqual([]);
   });
 
-  it("has no signup specialty without a landing to send people to", () => {
+  it("has no signup specialty without a landing, apart from the ones listed here", () => {
     const fromSlugs = new Set(CASTING_TYPE_SLUGS.map(normalise));
     const orphans = SpecialtyKind.options.filter((k) => !fromSlugs.has(k));
-    expect(orphans).toEqual([]);
+    // The risky direction is the first test (a public page selling something
+    // the form refuses). This direction is harmless, so a specialty may exist
+    // without a landing page, as long as it is written down here on purpose.
+    expect(orphans).toEqual(SPECIALTIES_WITHOUT_LANDING);
   });
 
   it("keeps voix-doublage as the ONLY name that differs between the two", () => {

@@ -2,6 +2,21 @@ import type { ErrorKey } from "./action-result";
 import { isAdult } from "./age";
 
 /**
+ * The representation agreement a performer can accept, by version.
+ *
+ * None is approved. Until counsel approves a text for the market the product
+ * runs in, `approvedVersion` stays null: signMandat refuses, no Mandat row is
+ * created, and no screen asks for acceptance. When a text is approved, set its
+ * version here; an acceptance is then recorded against that exact version
+ * (Mandat.documentVersion), with its date.
+ *
+ * Platform terms and privacy choices are separate and do not go through here.
+ */
+export const MANDATE: { approvedVersion: string | null } = {
+  approvedVersion: null,
+};
+
+/**
  * The load-bearing separation between Mandat (free legal representation) and
  * Subscription (optional paid service). Opportunity access depends ONLY on an
  * active Mandat — never on a paid plan. This function must never read a

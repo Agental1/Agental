@@ -31,7 +31,14 @@ function createClient() {
         "Environment Variables."
     );
   }
-  return new PrismaClient({ adapter: new PrismaPg(url) });
+  // Optional cap on the connection pool. Unset in production, where the
+  // pooler does this job. Set to 1 against a single-connection test server
+  // (the local `prisma dev` database answers one query at a time and mixes
+  // up concurrent ones).
+  const max = Number(process.env.DATABASE_POOL_MAX);
+  const pool =
+    Number.isInteger(max) && max > 0 ? { connectionString: url, max } : url;
+  return new PrismaClient({ adapter: new PrismaPg(pool) });
 }
 
 export const prisma = globalForPrisma.prisma ?? createClient();

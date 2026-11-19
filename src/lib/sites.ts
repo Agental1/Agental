@@ -17,7 +17,8 @@ import { parseSiteContent, type SiteContent } from "@/domain/site";
  * This is a plain module, not a "use server" file: nothing here checks who is
  * calling. The actions in src/app/actions/sites.ts authenticate and then call
  * in; pages call the read functions with the signed-in user's id, and
- * `listStudentPriceRequests` belongs on admin pages only.
+ * `listStudentPriceRequests`, `getSiteForOperator` and `listSitesForOperator`
+ * belong on admin pages only.
  *
  * The database client is a parameter where a test needs to hand in a mock.
  */
@@ -26,6 +27,8 @@ import { parseSiteContent, type SiteContent } from "@/domain/site";
 
 export interface SiteView {
   id: string;
+  /** The customer: the account the site belongs to. */
+  userId: string;
   template: string;
   status: string;
   subdomain: string | null;
@@ -33,8 +36,20 @@ export interface SiteView {
   publishedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
-  /** Null when the stored JSON no longer passes `SiteContent`. */
+  /**
+   * The working draft, which is also the latest revision. Null when the
+   * stored JSON no longer passes `SiteContent`.
+   */
   content: SiteContent | null;
+  /** The owner's choice to show contact details on the public site. */
+  showContact: boolean;
+  /** Version number of the newest revision. Null for a site saved before revisions existed. */
+  latestVersion: number | null;
+  /** The version the customer approved. Null until they approve one. */
+  approvedVersion: number | null;
+  approvedAt: Date | null;
+  /** The version the public sees. Null while the site is offline. */
+  publishedVersion: number | null;
   /** The latest paid order for this site. Null until one is paid. */
   paidOrder: {
     id: string;
@@ -44,19 +59,25 @@ export interface SiteView {
   } | null;
 }
 
-type SiteDb = Pick<PrismaClient, "site">;
+type SiteDb = Pick<PrismaClient, "site" | "siteRevision">;
 
-const sitePaidOrder = {
+const siteViewInclude = {
   orders: {
     where: { status: "PAID" },
     orderBy: { paidAt: "desc" },
     take: 1,
     select: { id: true, offer: true, paidAt: true, hostingRenewsAt: true },
   },
+  revisions: {
+    orderBy: { version: "desc" },
+    take: 1,
+    select: { id: true, version: true },
+  },
 } as const;
 
-function toSiteView(row: {
+interface SiteRow {
   id: string;
+  userId: string;
   template: string;
   status: string;
   subdomain: string | null;
@@ -65,10 +86,42 @@ function toSiteView(row: {
   createdAt: Date;
   updatedAt: Date;
   content: string;
+  showContact: boolean;
+  approvedRevisionId: string | null;
+  approvedAt: Date | null;
+  publishedRevisionId: string | null;
   orders: NonNullable<SiteView["paidOrder"]>[];
-}): SiteView {
-  return {
+  revisions: { id: string; version: number }[];
+}
+
+/**
+ * Rows to views. The approved and published revisions are often older than
+ * the latest one, so their version numbers take one more query for the whole
+ * list.
+ */
+async function toSiteViews(rows: SiteRow[], db: SiteDb): Promise<SiteView[]> {
+  const versions = new Map<string, number>();
+  for (const row of rows) {
+    for (const revision of row.revisions) versions.set(revision.id, revision.version);
+  }
+  const missing = new Set<string>();
+  for (const row of rows) {
+    for (const id of [row.approvedRevisionId, row.publishedRevisionId]) {
+      if (id && !versions.has(id)) missing.add(id);
+    }
+  }
+  if (missing.size > 0) {
+    const found = await db.siteRevision.findMany({
+      where: { id: { in: [...missing] } },
+      select: { id: true, version: true },
+    });
+    for (const revision of found) versions.set(revision.id, revision.version);
+  }
+  const versionOf = (id: string | null) => (id ? versions.get(id) ?? null : null);
+
+  return rows.map((row) => ({
     id: row.id,
+    userId: row.userId,
     template: row.template,
     status: row.status,
     subdomain: row.subdomain,
@@ -77,8 +130,13 @@ function toSiteView(row: {
     createdAt: row.createdAt,
     updatedAt: row.updatedAt,
     content: parseSiteContent(row.content),
+    showContact: row.showContact,
+    latestVersion: row.revisions[0]?.version ?? null,
+    approvedVersion: versionOf(row.approvedRevisionId),
+    approvedAt: row.approvedAt,
+    publishedVersion: versionOf(row.publishedRevisionId),
     paidOrder: row.orders[0] ?? null,
-  };
+  }));
 }
 
 /** The user's sites, oldest first, drafts included. */
@@ -89,9 +147,9 @@ export async function listMySites(
   const rows = await db.site.findMany({
     where: { userId },
     orderBy: { createdAt: "asc" },
-    include: sitePaidOrder,
+    include: siteViewInclude,
   });
-  return rows.map(toSiteView);
+  return toSiteViews(rows, db);
 }
 
 /** One site, only if `userId` owns it. Null otherwise, whatever the reason. */
@@ -102,9 +160,42 @@ export async function getSiteForOwner(
 ): Promise<SiteView | null> {
   const row = await db.site.findFirst({
     where: { id: siteId, userId },
-    include: sitePaidOrder,
+    include: siteViewInclude,
   });
-  return row ? toSiteView(row) : null;
+  if (!row) return null;
+  return (await toSiteViews([row], db))[0];
+}
+
+/**
+ * Operator read: any site by id. It checks nobody, so call it only after
+ * `currentAdminId()` (src/lib/limelight/admin.ts) answered an id.
+ */
+export async function getSiteForOperator(
+  siteId: string,
+  db: SiteDb = prisma
+): Promise<SiteView | null> {
+  const row = await db.site.findUnique({
+    where: { id: siteId },
+    include: siteViewInclude,
+  });
+  if (!row) return null;
+  return (await toSiteViews([row], db))[0];
+}
+
+/** How many sites the operator list shows. */
+const OPERATOR_SITES_SHOWN = 200;
+
+/**
+ * Operator read: the most recently edited sites of every customer. Same
+ * rule as `getSiteForOperator`: admin pages only.
+ */
+export async function listSitesForOperator(db: SiteDb = prisma): Promise<SiteView[]> {
+  const rows = await db.site.findMany({
+    orderBy: { updatedAt: "desc" },
+    take: OPERATOR_SITES_SHOWN,
+    include: siteViewInclude,
+  });
+  return toSiteViews(rows, db);
 }
 
 export interface StudentPriceRequestView {

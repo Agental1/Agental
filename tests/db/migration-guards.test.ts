@@ -80,8 +80,43 @@ describe("migrationProblems", () => {
     ).toEqual([]);
   });
 
-  it("leaves other schemas, and migrations up to the baseline, to their own rules", () => {
-    expect(migrationProblems(later("CREATE TABLE automation.castings (id text);"))).toEqual([]);
+  it("holds a table in another schema to the same rule, matched with its schema", () => {
+    const create = 'CREATE TABLE "limelight"."Lead" ("id" TEXT NOT NULL);';
+    const problems = migrationProblems(later(create));
+    expect(problems).toHaveLength(1);
+    expect(problems[0]).toContain("Lead in limelight");
+    expect(
+      migrationProblems(
+        later(`${create}\nALTER TABLE "limelight"."Lead" ENABLE ROW LEVEL SECURITY;`)
+      )
+    ).toEqual([]);
+    // Enabling RLS on a public table of the same name does not cover it.
+    expect(
+      migrationProblems(later(`${create}\nALTER TABLE "Lead" ENABLE ROW LEVEL SECURITY;`))
+    ).toHaveLength(1);
+    // Neither does the loop, which only walks public.
+    const loop = "EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t.relname);";
+    expect(migrationProblems(later(`${create}\n${loop}`))).toHaveLength(1);
+  });
+
+  it("wants a new schema closed to PUBLIC in the migration that creates it", () => {
+    const create = 'CREATE SCHEMA IF NOT EXISTS "limelight";';
+    const problems = migrationProblems(later(create));
+    expect(problems).toHaveLength(1);
+    expect(problems[0]).toContain("schema limelight");
+    expect(
+      migrationProblems(later(`${create}\nREVOKE ALL ON SCHEMA "limelight" FROM PUBLIC;`))
+    ).toEqual([]);
+    // Closing a different schema, or closing it before it exists, does not count.
+    expect(
+      migrationProblems(later(`${create}\nREVOKE ALL ON SCHEMA "other" FROM PUBLIC;`))
+    ).toHaveLength(1);
+    expect(
+      migrationProblems(later(`REVOKE ALL ON SCHEMA "limelight" FROM PUBLIC;\n${create}`))
+    ).toHaveLength(1);
+  });
+
+  it("leaves migrations up to the baseline to the baseline's own loop", () => {
     expect(
       migrationProblems({ name: RLS_BASELINE, sql: 'CREATE TABLE "Old" (id text);' })
     ).toEqual([]);

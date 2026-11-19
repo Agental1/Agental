@@ -12,9 +12,15 @@ import {
   ProfileIdentity,
   ProfilePhysical,
   ProfileSpecialties,
-  PreferencesInput,
   AvailabilityInput,
 } from "@/domain/profile";
+import {
+  ContentBoundariesInput,
+  PreferencesInput,
+  mergeContentBoundaries,
+  mergePreferences,
+  readContentBoundaries,
+} from "@/domain/preferences";
 
 export type SaveResult = { ok: boolean; error?: ActionError; completeness?: number };
 
@@ -102,7 +108,11 @@ export async function saveProfileSpecialties(
     prisma.artistProfile.update({
       where: { id: profile.id },
       data: {
-        mobilityCountries: toJson(d.mobilityCountries),
+        // Left out by the form: Prisma keeps what is stored.
+        mobilityCountries:
+          d.mobilityCountries === undefined
+            ? undefined
+            : toJson([...new Set(d.mobilityCountries)]),
         minRateCents:
           d.minRateEuros != null ? Math.round(d.minRateEuros * 100) : null,
       },
@@ -111,6 +121,12 @@ export async function saveProfileSpecialties(
   return done(profile.id);
 }
 
+/**
+ * Save the Preferences form: the jobs a performer wants and can take. The
+ * input is the whole form; a field left out, null or empty is stored as "no
+ * answer". Content boundaries are a separate setting and pass through
+ * untouched (see src/domain/preferences.ts).
+ */
 export async function savePreferences(input: unknown): Promise<SaveResult> {
   const profile = await requireProfile();
   if (!profile) return { ok: false, error: err("errors.unauthorized") };
@@ -119,8 +135,43 @@ export async function savePreferences(input: unknown): Promise<SaveResult> {
     return { ok: false, error: zodError(parsed.error) };
   await prisma.artistProfile.update({
     where: { id: profile.id },
-    data: { preferences: toJson(parsed.data) },
+    data: { preferences: toJson(mergePreferences(profile.preferences, parsed.data)) },
   });
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  return { ok: true };
+}
+
+/**
+ * Save the performer's private content boundaries. Optional: `nudity: null`
+ * clears the answer. Read back with readContentBoundaries, for the owner's own
+ * screen only; no casting-side query selects it.
+ *
+ * The audit entry records that the setting changed and whether an answer is
+ * now on file, never the answer itself.
+ */
+export async function saveContentBoundaries(input: unknown): Promise<SaveResult> {
+  const profile = await requireProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const parsed = ContentBoundariesInput.safeParse(input);
+  if (!parsed.success)
+    return { ok: false, error: zodError(parsed.error) };
+  const before = readContentBoundaries(profile.preferences);
+  await prisma.artistProfile.update({
+    where: { id: profile.id },
+    data: {
+      preferences: toJson(mergeContentBoundaries(profile.preferences, parsed.data)),
+    },
+  });
+  if (before.nudity !== parsed.data.nudity) {
+    await audit({
+      actorUserId: profile.userId,
+      action: "profile.contentBoundaries.update",
+      resourceType: "ArtistProfile",
+      resourceId: profile.id,
+      before: { answered: before.nudity !== null },
+      after: { answered: parsed.data.nudity !== null },
+    });
+  }
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }

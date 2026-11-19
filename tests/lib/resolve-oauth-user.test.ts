@@ -34,6 +34,8 @@ function mockDb(opts: {
     name?: string | null;
   };
   linkError?: unknown;
+  /** Makes the "last used" timestamp write fail. */
+  touchError?: unknown;
   activeMandates?: number;
 }) {
   const tx = {
@@ -68,7 +70,13 @@ function mockDb(opts: {
     auditLog: { create: vi.fn(async () => ({})) },
   };
   const db = {
-    account: { findUnique: vi.fn(async () => opts.account ?? null) },
+    account: {
+      findUnique: vi.fn(async () => opts.account ?? null),
+      update: vi.fn(async () => {
+        if (opts.touchError) throw opts.touchError;
+        return {};
+      }),
+    },
     user: { findMany: vi.fn(async () => opts.usersByEmail ?? []) },
     $transaction: vi.fn(async (fn: (t: typeof tx) => unknown) => fn(tx)),
   };
@@ -83,8 +91,28 @@ describe("resolveOAuthUser", () => {
     });
     const result = await resolveOAuthUser(db, identity, signup, now);
     expect(result).toEqual({ type: "signedIn", userId: "u1", kind: "TALENT", locale: "fr" });
-    // The intent said CASTING; the existing kind wins and nothing is written.
+    // The intent said CASTING; the existing kind wins and no user is written.
     expect(tx.user.create).not.toHaveBeenCalled();
+  });
+
+  it("notes when a connection was last used, and never fails a sign-in over it", async () => {
+    const ok = mockDb({ account: { user: { id: "u1", kind: "TALENT", locale: "fr" } } });
+    await resolveOAuthUser(ok.db, identity, null, now);
+    expect(ok.raw.account.update).toHaveBeenCalledWith({
+      where: {
+        provider_providerAccountId: { provider: "google", providerAccountId: "google-sub-1" },
+      },
+      data: { lastUsedAt: now },
+    });
+
+    const failing = mockDb({
+      account: { user: { id: "u1", kind: "TALENT", locale: "fr" } },
+      touchError: new Error("database busy"),
+    });
+    expect(await resolveOAuthUser(failing.db, identity, null, now)).toMatchObject({
+      type: "signedIn",
+      userId: "u1",
+    });
   });
 
   it("creates User, Account and audit entry for a new signup", async () => {
@@ -102,7 +130,13 @@ describe("resolveOAuthUser", () => {
         emailVerified: now,
         passwordHash: null,
         accounts: {
-          create: { type: "oidc", provider: "google", providerAccountId: "google-sub-1" },
+          create: {
+            type: "oidc",
+            provider: "google",
+            providerAccountId: "google-sub-1",
+            createdAt: now,
+            lastUsedAt: now,
+          },
         },
       },
     });
@@ -172,7 +206,14 @@ describe("resolveOAuthUser", () => {
       linked: "takeover",
     });
     expect(tx.account.create).toHaveBeenCalledWith({
-      data: { userId: "legacy", type: "oidc", provider: "google", providerAccountId: "google-sub-1" },
+      data: {
+        userId: "legacy",
+        type: "oidc",
+        provider: "google",
+        providerAccountId: "google-sub-1",
+        createdAt: now,
+        lastUsedAt: now,
+      },
     });
     expect(tx.mandat.updateMany).toHaveBeenCalledWith({
       where: { profile: { userId: "legacy" }, status: "ACTIVE" },

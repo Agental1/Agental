@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { completePendingOAuthAction } from "@/app/actions/oauth";
 import { readPendingCookie } from "@/lib/auth/oauth-cookies";
 import { needsFirstRun, postAuthHome, type PostAuthState } from "@/domain/auth-routes";
+import { getSetupState } from "@/lib/setup";
 
 export async function generateMetadata({
   params,
@@ -132,18 +133,6 @@ async function loadPostAuthState(
       onboardingCompletedAt: user?.onboardingCompletedAt ?? null,
     };
   }
-  const [profile, user] = await Promise.all([
-    prisma.artistProfile.findUnique({
-      where: { userId },
-      select: { mandat: { select: { status: true, signedAt: true } } },
-    }),
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: { onboardingCompletedAt: true },
-    }),
-  ]);
-  return {
-    mandat: profile?.mandat ?? null,
-    onboardingCompletedAt: user?.onboardingCompletedAt ?? null,
-  };
+  const { nextStep, onboardingCompletedAt } = await getSetupState(userId);
+  return { setupStep: nextStep, onboardingCompletedAt };
 }
