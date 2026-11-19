@@ -222,5 +222,24 @@
         "body": "La formule gratuite comprend : {free}. Pro, à {price} par siège et par mois, ajoute : {pro}."
       }
     ]
+  },
+  "beta": {
+    "agental": "Agental est en version bêta. Les fonctionnalités et leur disponibilité peuvent évoluer.",
+    "limelight": "Limelight est en version bêta. La création de portfolio se fait actuellement sur demande."
+  },
+  "connected": {
+    "title": "Comptes connectés",
+    "lead": "Les services reliés à ton compte Agental, ce que chacun partage, et comment le modifier.",
+    "google": "Google",
+    "googleWhat": "Sert à te connecter. Agental reçoit de Google ton nom, ton adresse e-mail et ta photo de profil. Rien n’est envoyé à Google sur ton profil, tes médias ou tes candidatures.",
+    "password": "E-mail et mot de passe",
+    "passwordWhat": "Connexion avec ton adresse e-mail et un mot de passe que tu as choisi.",
+    "connected": "Connecté",
+    "notConnected": "Non connecté",
+    "unavailable": "Pas encore disponible",
+    "connect": "Connecter Google",
+    "permissions": "Autorisations : nom, adresse e-mail, photo de profil.",
+    "keepOne": "Tu gardes toujours au moins un moyen de te connecter.",
+    "none": "Aucun autre service n’est connecté. Agental n’a aucun accès à tes réseaux sociaux ni à ta messagerie."
   }
 }

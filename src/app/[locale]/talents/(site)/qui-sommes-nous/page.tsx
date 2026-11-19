@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Section } from "@/components/marketing/section";
+import { BETA } from "@/data/beta";
 import { InverseBand } from "@/components/marketing/inverse-band";
 
 export async function generateMetadata({
@@ -39,6 +40,7 @@ export default async function Page({
 
 function AboutContent() {
   const t = useTranslations("talents.about");
+  const tb = useTranslations("common");
 
   return (
     <>
@@ -89,6 +91,11 @@ function AboutContent() {
           </div>
         </InverseBand>
       </Section>
+      {BETA.agental && (
+        <p className="mx-auto max-w-[51rem] px-[clamp(16px,3vw,40px)] pb-10 text-[13.5px] text-fg-subtle">
+          {tb("beta.agental")}
+        </p>
+      )}
     </>
   );
 }

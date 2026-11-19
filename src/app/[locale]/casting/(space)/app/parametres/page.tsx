@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
 import { ConsentSettings } from "@/components/consent/consent-settings";
+import { ConnectedAccounts } from "@/components/app/connected-accounts";
 import { B2B_PLANS } from "@/domain/pricing";
 
 export async function generateMetadata({
@@ -84,6 +85,8 @@ export default async function CastingParametresPage({
       >
         {tc("tour.replay")}
       </Link>
+
+      <ConnectedAccounts userId={session.user.id} locale={locale} />
 
       <ConsentSettings />
 

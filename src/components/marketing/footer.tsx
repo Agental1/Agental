@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { NavItem } from "./header";
 import { LIMELIGHT } from "@/domain/limelight";
+import { BETA } from "@/data/beta";
 
 /**
  * Footer: the tagline and three link columns.
@@ -99,6 +100,9 @@ export function MarketingFooter({
             <li className="flex min-h-9 items-center">{t("footer.rgpd")}</li>
             <li className="flex min-h-9 items-center">{t("footer.cgu")}</li>
           </ul>
+          {BETA.agental && (
+            <p className="mt-2 max-w-[28ch] text-[13px] leading-snug text-fg-subtle">{t("beta.agental")}</p>
+          )}
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { LimelightContactForm } from "@/components/talents/limelight-contact-for
 import { SampleSite } from "@/components/talents/sample-site";
 import { LimelightStudio } from "@/components/talents/limelight-studio";
 import { LIMELIGHT } from "@/domain/limelight";
+import { BETA } from "@/data/beta";
 import { cn } from "@/lib/utils";
 
 /**
@@ -81,6 +82,7 @@ export default async function LimelightPage({
 
 function Preview() {
   const t = useTranslations("talents.limelight.hero");
+  const tb = useTranslations("common");
   const th = useTranslations("talents.limelight.how");
   const tf = useTranslations("talents.limelight.frame");
   const steps = th.raw("steps") as { title: string; body: string }[];
@@ -93,6 +95,7 @@ function Preview() {
         <div className="lg:self-end">
           <h1 className="display-xl max-w-[9ch]">{t("title")}</h1>
           <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-fg-muted">{t("note")}</p>
+          {BETA.limelight && <p className="mt-2 max-w-[46ch] text-[13.5px] text-fg-subtle">{tb("beta.limelight")}</p>}
         </div>
 
         <div className="lg:col-start-1 lg:row-start-2 lg:self-start">

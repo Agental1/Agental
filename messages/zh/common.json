@@ -222,5 +222,24 @@
         "body": "免费方案包含：{free}。Pro 每席位每月 {price}，额外包含：{pro}。"
       }
     ]
+  },
+  "beta": {
+    "agental": "Agental 目前处于测试阶段，功能和可用范围可能会调整。",
+    "limelight": "Limelight 目前处于测试阶段，作品集网站暂时按申请开通。"
+  },
+  "connected": {
+    "title": "已关联账号",
+    "lead": "与你的 Agental 账号关联的服务、各自共享的内容，以及如何更改。",
+    "google": "Google",
+    "googleWhat": "用于登录。Agental 会从 Google 获得你的姓名、邮箱地址和头像。关于你的资料、媒体或投递，不会向 Google 发送任何信息。",
+    "password": "邮箱和密码",
+    "passwordWhat": "使用你的邮箱地址和自己设置的密码登录。",
+    "connected": "已关联",
+    "notConnected": "未关联",
+    "unavailable": "暂未开放",
+    "connect": "关联 Google",
+    "permissions": "权限：姓名、邮箱地址、头像。",
+    "keepOne": "你始终至少保留一种登录方式。",
+    "none": "没有关联其他服务。Agental 无法访问你的社交账号或邮箱。"
   }
 }

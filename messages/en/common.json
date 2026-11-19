@@ -222,5 +222,24 @@
         "body": "Free includes: {free}. Pro, at {price} per seat and per month, adds: {pro}."
       }
     ]
+  },
+  "beta": {
+    "agental": "Agental is in beta. Features and availability may change.",
+    "limelight": "Limelight is in beta. Portfolio setup is currently available by request."
+  },
+  "connected": {
+    "title": "Connected accounts",
+    "lead": "The services linked to your Agental account, what each one shares, and how to change it.",
+    "google": "Google",
+    "googleWhat": "Used to sign you in. Agental receives your name, your email address and your profile picture from Google. Nothing is sent to Google about your profile, your media or your applications.",
+    "password": "Email and password",
+    "passwordWhat": "Sign in with your email address and a password you chose.",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "unavailable": "Not available yet",
+    "connect": "Connect Google",
+    "permissions": "Permissions: name, email address, profile picture.",
+    "keepOne": "You always keep at least one way to sign in.",
+    "none": "No other service is connected. Agental has no access to your social or email accounts."
   }
 }
