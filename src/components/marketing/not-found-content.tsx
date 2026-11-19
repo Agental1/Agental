@@ -21,7 +21,7 @@ export function NotFoundContent({ portal }: { portal: Portal }) {
 
   return (
     <section className="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center sm:px-6">
-      <AgentalMark className="h-24 w-auto text-accent-soft" />
+      <AgentalMark className="h-24 w-auto text-fg" />
       <Eyebrow className="mt-6 block">
         {t("notFound.code")}
       </Eyebrow>

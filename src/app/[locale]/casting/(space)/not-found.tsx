@@ -21,7 +21,7 @@ export default function CastingSpaceNotFound() {
 
   return (
     <section className="mx-auto flex max-w-xl flex-col items-center px-4 py-20 text-center">
-      <AgentalMark className="h-16 w-auto text-accent-soft" />
+      <AgentalMark className="h-16 w-auto text-fg" />
       <span className="mt-5 text-xs font-semibold uppercase tracking-[0.15em] text-accent">
         {t("notFound.code")}
       </span>

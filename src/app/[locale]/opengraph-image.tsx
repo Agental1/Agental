@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
 import { routing, toLocale } from "@/i18n/routing";
+import { MARK_BLUE, MARK_INK, MARK_VIEWBOX } from "@/components/brand/logo";
 
 /**
  * Shared Open Graph card for every page under [locale].
@@ -65,19 +66,12 @@ export default async function Image({
           fontFamily: "sans-serif",
         }}
       >
-        <div
-          style={{
-            width: 96,
-            height: 96,
-            display: "flex",
-            borderRadius: 26,
-            background: "linear-gradient(135deg, #246bfe, #1648c4)",
-          }}
-        >
-          <svg width="96" height="96" viewBox="0 0 48 48">
-            <path fill="#ffffff" d="M20.6 11h6.8l9.1 26h-6.3l-1.7-5.4h-9.2L17.6 37h-6.1L20.6 11Zm.3 15.8h6.1L24 17l-3.1 9.8Z" />
-          </svg>
-        </div>
+        <svg width="104" height="96" viewBox={MARK_VIEWBOX}>
+          {MARK_BLUE.map((points) => (
+            <polygon key={points} fill="#246bfe" points={points} />
+          ))}
+          <polygon fill={INK} points={MARK_INK} />
+        </svg>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div

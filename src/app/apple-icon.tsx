@@ -1,9 +1,10 @@
 import { ImageResponse } from "next/og";
+import { MARK_BLUE, MARK_INK, MARK_VIEWBOX } from "@/components/brand/logo";
 
 /**
- * App icon, drawn in code so it follows the palette in globals.css: the
- * stand-in A monogram on the accent gradient (see components/brand/logo.tsx).
- * It is replaced by the PNG set under /brand once the logo files are in.
+ * Apple touch icon: the monogram at the 180px iOS asks for, on white with no
+ * rounding (iOS rounds the corners itself). Separate from icon.tsx because iOS
+ * ignores the generic one and falls back to a screenshot of the page.
  */
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -18,11 +19,14 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #246bfe, #1648c4)",
+          background: "#ffffff",
         }}
       >
-        <svg width="180" height="180" viewBox="0 0 48 48">
-          <path fill="#ffffff" d="M20.6 11h6.8l9.1 26h-6.3l-1.7-5.4h-9.2L17.6 37h-6.1L20.6 11Zm.3 15.8h6.1L24 17l-3.1 9.8Z" />
+        <svg width="132" height="132" viewBox={MARK_VIEWBOX}>
+          {MARK_BLUE.map((points) => (
+            <polygon key={points} fill="#246bfe" points={points} />
+          ))}
+          <polygon fill="#0b0f1a" points={MARK_INK} />
         </svg>
       </div>
     ),
