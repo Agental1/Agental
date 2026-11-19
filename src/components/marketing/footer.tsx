@@ -1,12 +1,10 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { AgentalMark } from "@/components/brand/logo";
 import type { NavItem } from "./header";
 import { LIMELIGHT } from "@/domain/limelight";
 
 /**
- * Footer (v1 redesign). Link columns on top; the wordmark set edge to edge at
- * the bottom, cropped by the page edge, after the Alture board.
+ * Footer: the tagline and three link columns.
  *
  * Legal entries stay plain text: their pages and copy belong to the founders
  * (decision log D20), and a link to a page that does not exist is worse than
@@ -22,10 +20,10 @@ export function MarketingFooter({
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto overflow-hidden border-t border-border">
+    <footer className="mt-auto border-t border-border">
       <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] pb-10 pt-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <p className="text-[clamp(20px,2vw,26px)] font-medium leading-[1.15] tracking-[-0.035em]">
+          <p className="text-[clamp(20px,2vw,26px)] font-bold leading-[1.15] tracking-[-0.02em]">
             {t("footer.tagline")}
           </p>
           <p className="mt-4 text-[13px] text-fg-subtle">
@@ -111,16 +109,6 @@ export function MarketingFooter({
         </a>
       </div>
 
-      {/* Decorative: the accessible name of the brand is in the header. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none relative flex select-none items-end justify-center px-[clamp(8px,1.5vw,24px)]"
-      >
-        <span className="brand-type translate-y-[0.1em] whitespace-nowrap text-[clamp(5rem,24vw,24rem)] font-semibold leading-[0.8] tracking-[-0.075em] text-fg">
-          Agental
-        </span>
-        <AgentalMark className="absolute right-[clamp(12px,3vw,48px)] top-[8%] h-[clamp(28px,5vw,80px)] w-auto text-signal" />
-      </div>
     </footer>
   );
 }

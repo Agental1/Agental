@@ -1,84 +1,63 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/** Agental four-point star — inherits currentColor (spike tape by default). */
+/**
+ * Agental monogram: the letter A on the accent.
+ *
+ * Stand-in until the three brand files (the A drawn as a door opening, the
+ * wordmark and the lockup) are added under `/brand`. Every surface that needs
+ * a mark renders this one component, so the real monogram replaces it in one
+ * place. The four-point star and the "T" tape mark are gone.
+ */
 export function AgentalMark({
   className,
   ...props
 }: React.ComponentProps<"svg">) {
   return (
     <svg
-      viewBox="0 0 100 140"
+      viewBox="0 0 48 48"
       className={cn("inline-block", className)}
       aria-hidden="true"
       {...props}
     >
+      <defs>
+        <linearGradient id="agental-mark-fill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#246bfe" />
+          <stop offset="1" stopColor="#1648c4" />
+        </linearGradient>
+      </defs>
+      <rect width="48" height="48" rx="13" fill="url(#agental-mark-fill)" />
       <path
-        d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-        fill="currentColor"
+        fill="#ffffff"
+        d="M20.6 11h6.8l9.1 26h-6.3l-1.7-5.4h-9.2L17.6 37h-6.1L20.6 11Zm.3 15.8h6.1L24 17l-3.1 9.8Z"
       />
     </svg>
   );
 }
 
 /**
- * Talents mark (2026-11): the T of spike tape an actor hits on set. Replaces
- * the four-point star on the Talents side, which reads as the generic AI
- * "sparkle". Casting keeps the star. Inherits currentColor.
- */
-export function TapeMark({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      viewBox="0 0 32 28"
-      className={cn("inline-block", className)}
-      aria-hidden="true"
-      {...props}
-    >
-      <rect x="0" y="0" width="32" height="8" rx="1" fill="currentColor" />
-      <rect x="12" y="6" width="8" height="22" rx="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-/**
- * Star + wordmark lockup.
+ * Wordmark, with the monogram in front of it where there is room.
  *
- * v1 redesign: the wordmark is set like the display type — Geist, tight,
- * sentence case — with the portal name trailing at lighter weight: `Agental Talents`.
- * `portal` is optional so the 404 page and the auth screens, which belong to
- * no portal, still render a bare `AGENTAL`.
+ * `portal` is optional so pages that belong to neither audience (the entry
+ * screen, sign-in, the 404) render a bare "Agental".
  */
 export function AgentalLogo({
   className,
   wordmark = true,
   portal,
-  mark = portal === "Talents" ? "tape" : "star",
 }: {
   className?: string;
   wordmark?: boolean;
-  /** Second word of the lockup, e.g. "Talents". Rendered uppercase. */
+  /** Second word of the lockup, e.g. "Talents". */
   portal?: string;
-  /** "tape" on every Talents surface, "star" everywhere else. */
-  mark?: "tape" | "star";
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      {mark === "tape" ? (
-        <TapeMark className="h-[18px] w-auto text-accent" />
-      ) : (
-        <AgentalMark className="h-[22px] w-auto text-signal" />
-      )}
+      <AgentalMark className="size-7" />
       {wordmark && (
-        <span className="brand-type text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
+        <span className="brand-type text-[20px] font-bold leading-none tracking-[-0.03em] text-fg">
           Agental
-          {portal && (
-            <span className="brand-type ml-1.5 font-normal tracking-[-0.03em] text-fg/45">
-              {portal}
-            </span>
-          )}
+          {portal && <span className="ml-1.5 font-normal text-fg-muted">{portal}</span>}
         </span>
       )}
     </span>

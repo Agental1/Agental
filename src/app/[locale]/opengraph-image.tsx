@@ -40,17 +40,15 @@ export default async function Image({
   const locale = toLocale(rawLocale);
   const t = await getTranslations({ locale, namespace: "common" });
 
-  // v1 redesign palette (globals.css): paper ground, ink, spike-tape mark.
-  // The social card has to follow the page it links to; nobody loads their own
-  // OG image, so drift here goes unnoticed.
+  // The Talent theme from globals.css: white running to pale blue, near-black
+  // text, the accent on the monogram. The card has to follow the page it
+  // links to; nobody loads their own OG image, so drift here goes unnoticed.
   //
   // Chinese glyphs are not in the default Satori font. ImageResponse fetches a
   // Noto subset for them from Google Fonts at build time, so /zh's card needs
   // network access during the build (Vercel has it).
-  const CREME = "#ecece8";
-  const ESPRESSO = "#0e0e0e";
-  const TERRACOTTA = "#ff5317";
-  const TAUPE = "#6b6b65";
+  const INK = "#0b0f1a";
+  const SLATE = "#4a5468";
 
   return new ImageResponse(
     (
@@ -61,23 +59,31 @@ export default async function Image({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: CREME,
-          color: ESPRESSO,
+          background: "linear-gradient(180deg, #ffffff 0%, #dceaff 100%)",
+          color: INK,
           padding: "72px 80px",
           fontFamily: "sans-serif",
         }}
       >
-        <svg width="72" height="100" viewBox="0 0 100 140">
-          <path
-            d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-            fill={TERRACOTTA}
-          />
-        </svg>
+        <div
+          style={{
+            width: 96,
+            height: 96,
+            display: "flex",
+            borderRadius: 26,
+            background: "linear-gradient(135deg, #246bfe, #1648c4)",
+          }}
+        >
+          <svg width="96" height="96" viewBox="0 0 48 48">
+            <path fill="#ffffff" d="M20.6 11h6.8l9.1 26h-6.3l-1.7-5.4h-9.2L17.6 37h-6.1L20.6 11Zm.3 15.8h6.1L24 17l-3.1 9.8Z" />
+          </svg>
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div
             style={{
               fontSize: 68,
+              fontWeight: 700,
               lineHeight: 1.08,
               letterSpacing: -1.5,
               maxWidth: 940,
@@ -86,10 +92,10 @@ export default async function Image({
             {t("meta.description")}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ fontSize: 30, color: ESPRESSO, fontWeight: 600 }}>
+            <div style={{ fontSize: 30, color: INK, fontWeight: 700 }}>
               Agental
             </div>
-            <div style={{ fontSize: 26, color: TAUPE }}>
+            <div style={{ fontSize: 26, color: SLATE }}>
               {locale.toUpperCase()}
             </div>
           </div>
