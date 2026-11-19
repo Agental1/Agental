@@ -80,6 +80,10 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
+  // When this sign-in method joined the account, and the last time it was
+  // used. Empty for connections made before these columns existed.
+  createdAt         DateTime? @default(now())
+  lastUsedAt        DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

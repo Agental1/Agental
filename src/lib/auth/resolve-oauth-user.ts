@@ -77,6 +77,26 @@ async function findAccountUser(db: Db, identity: OAuthIdentity) {
   return account?.user ?? null;
 }
 
+/**
+ * Note that this sign-in method was just used, for the Connected accounts
+ * screen. Never worth failing a sign-in over: an error here is swallowed.
+ */
+async function touchAccount(db: Db, identity: OAuthIdentity, now: Date): Promise<void> {
+  try {
+    await db.account.update({
+      where: {
+        provider_providerAccountId: {
+          provider: identity.provider,
+          providerAccountId: identity.providerAccountId,
+        },
+      },
+      data: { lastUsedAt: now },
+    });
+  } catch {
+    // The sign-in itself succeeded; the timestamp is a convenience.
+  }
+}
+
 export async function resolveOAuthUser(
   db: Db,
   identity: OAuthIdentity | null,
@@ -87,6 +107,7 @@ export async function resolveOAuthUser(
 
   const linked = await findAccountUser(db, identity);
   if (linked) {
+    await touchAccount(db, identity, now);
     return {
       type: "signedIn",
       userId: linked.id,
@@ -136,6 +157,8 @@ export async function createOAuthUser(
               type: "oidc",
               provider: identity.provider,
               providerAccountId: identity.providerAccountId,
+              createdAt: now,
+              lastUsedAt: now,
             },
           },
         },
@@ -223,6 +246,8 @@ export async function linkOAuthUser(
           type: "oidc",
           provider: identity.provider,
           providerAccountId: identity.providerAccountId,
+          createdAt: now,
+          lastUsedAt: now,
         },
       });
 
