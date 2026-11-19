@@ -2,23 +2,23 @@
 -- workflow (briefs, fit evaluations, application drafts, runs), and the
 -- Limelight module (lead intake, outbox, site domains and revisions).
 --
--- Limelight gets its own Postgres schema. Supabase's Data API exposes
--- "public" only, so nothing in "limelight" is reachable through it, and a
--- dedicated database role can be scoped to that schema later. The three
--- Limelight tables created in the previous migration are MOVED there, with
--- their rows, indexes, constraints and Row Level Security: SET SCHEMA keeps
--- all of it. (Prisma's own diff would drop and recreate them.)
+-- Limelight's new tables get their own Postgres schema. Supabase's Data API
+-- exposes "public" only, so nothing in "limelight" is reachable through it,
+-- and a dedicated database role can be scoped to that schema later.
 --
--- Everything else is additive.
+-- Everything in this migration is ADDITIVE: new tables, and new columns that
+-- are nullable or have a default. Nothing is renamed, moved or dropped, so the
+-- code that ran before this migration keeps working on the database after it.
+-- That is what lets a release be put back one step (docs/RELEASES.md).
+--
+-- For that reason the three Limelight tables that already exist (Site,
+-- SiteOrder, StudentPriceRequest) stay in "public" for now. Moving them is a
+-- later step that needs compatibility views for one release.
 
 CREATE SCHEMA IF NOT EXISTS "limelight";
 
-ALTER TABLE "public"."Site" SET SCHEMA "limelight";
-ALTER TABLE "public"."SiteOrder" SET SCHEMA "limelight";
-ALTER TABLE "public"."StudentPriceRequest" SET SCHEMA "limelight";
-
 -- Sites publish a revision the customer approved, never the working draft.
-ALTER TABLE "limelight"."Site" ADD COLUMN "approvedRevisionId" TEXT,
+ALTER TABLE "public"."Site" ADD COLUMN "approvedRevisionId" TEXT,
 ADD COLUMN "approvedAt" TIMESTAMP(3),
 ADD COLUMN "approvedById" TEXT,
 ADD COLUMN "publishedRevisionId" TEXT,
@@ -171,6 +171,9 @@ CREATE TABLE "limelight"."LimelightLead" (
     "name" TEXT NOT NULL,
     "performerType" TEXT,
     "portfolioUrl" TEXT,
+    "need" TEXT,
+    "contactPref" TEXT NOT NULL DEFAULT 'email',
+    "phone" TEXT,
     "source" TEXT NOT NULL,
     "consentVersion" TEXT NOT NULL,
     "marketingOptIn" BOOLEAN NOT NULL DEFAULT false,
@@ -326,10 +329,10 @@ ALTER TABLE "DraftMedia" ADD CONSTRAINT "DraftMedia_draftId_fkey" FOREIGN KEY ("
 ALTER TABLE "DraftMedia" ADD CONSTRAINT "DraftMedia_mediaId_fkey" FOREIGN KEY ("mediaId") REFERENCES "Media"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "limelight"."SiteDomain" ADD CONSTRAINT "SiteDomain_siteId_fkey" FOREIGN KEY ("siteId") REFERENCES "limelight"."Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "limelight"."SiteDomain" ADD CONSTRAINT "SiteDomain_siteId_fkey" FOREIGN KEY ("siteId") REFERENCES "public"."Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "limelight"."SiteRevision" ADD CONSTRAINT "SiteRevision_siteId_fkey" FOREIGN KEY ("siteId") REFERENCES "limelight"."Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "limelight"."SiteRevision" ADD CONSTRAINT "SiteRevision_siteId_fkey" FOREIGN KEY ("siteId") REFERENCES "public"."Site"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Row Level Security on every new table. No policies: owner-only access.
 ALTER TABLE "Tape" ENABLE ROW LEVEL SECURITY;

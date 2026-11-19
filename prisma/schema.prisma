@@ -51,6 +51,10 @@ model User {
   // when a provider sign-in takes over an account whose password was never
   // proven to belong to the email's owner.
   sessionsValidAfter    DateTime?
+  // Who may go through a real casting workflow run. UNREVIEWED (the default)
+  // is refused, so an account nobody has classified never runs. TEST marks the
+  // owner's own test accounts: staging and synthetic runs only.
+  workflowAccess        String    @default("UNREVIEWED") // UNREVIEWED | TEST | ELIGIBLE | EXCLUDED
 
   accounts            Account[]
   sessions            Session[]
@@ -59,6 +63,7 @@ model User {
   auditLogs           AuditLog[]
   notifications       Notification[]
   messages            Message[]
+  threads             Thread[]
   sites               Site[]
   siteOrders          SiteOrder[]
   studentPriceRequest StudentPriceRequest?
@@ -426,11 +431,20 @@ model MinorCase {
 }
 
 model Thread {
-  id        String    @id @default(cuid())
-  subject   String?
-  createdAt DateTime  @default(now())
-  messages  Message[]
+  id            String    @id @default(cuid())
+  subject       String?
+  createdAt     DateTime  @default(now())
+  // TEAM: the one conversation between a performer (userId) and the Agental
+  // team. GENERAL: threads from before that existed.
+  kind          String    @default("GENERAL") // GENERAL | TEAM
+  userId        String?
+  lastMessageAt DateTime?
+  messages      Message[]
 
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kind])
+  @@index([kind, lastMessageAt])
   @@schema("public")
 }
 
@@ -442,10 +456,17 @@ model Message {
   attachments String    @default("[]") // JSON string[]
   readAt      DateTime?
   createdAt   DateTime  @default(now())
+  // Which side wrote it. The team member's identity stays in senderId and is
+  // never shown to the performer.
+  fromTeam    Boolean   @default(false)
+  // A random id the browser makes per draft, so a retry stores one message.
+  clientKey   String?
 
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)
 
+  @@unique([threadId, clientKey])
+  @@index([threadId, createdAt])
   @@schema("public")
 }
 
@@ -570,7 +591,7 @@ model Site {
   revisions SiteRevision[]
 
   @@index([userId])
-  @@schema("limelight")
+  @@schema("public")
 }
 
 // A purchase of a Limelight offer. Kept when the account or the site is
@@ -596,7 +617,7 @@ model SiteOrder {
 
   @@index([userId])
   @@index([siteId])
-  @@schema("limelight")
+  @@schema("public")
 }
 
 // A request for the student price on a Limelight offer. Proof arrives by
@@ -612,7 +633,7 @@ model StudentPriceRequest {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@schema("limelight")
+  @@schema("public")
 }
 
 // ───────────────────────────── College student codes ─────────────────────────
@@ -835,6 +856,11 @@ model LimelightLead {
   name           String
   performerType  String?
   portfolioUrl   String?
+  // What they need, in their words. The phone is kept only when the person
+  // asked for a call back.
+  need           String?
+  contactPref    String   @default("email") // email | call
+  phone          String?
   source         String
   consentVersion String
   marketingOptIn Boolean  @default(false)
