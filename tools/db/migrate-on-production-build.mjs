@@ -18,6 +18,7 @@
 // before the switch.
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
+import { migrationUrl } from "./migration-url.mjs";
 
 const env = process.env.VERCEL_ENV ?? "";
 if (env !== "production") {
@@ -28,9 +29,18 @@ if (process.env.SKIP_PRODUCTION_MIGRATIONS === "true") {
   console.log("[migrate] skipped: SKIP_PRODUCTION_MIGRATIONS=true");
   process.exit(0);
 }
-if (!process.env.DIRECT_URL && !process.env.DATABASE_URL) {
-  console.error("[migrate] DIRECT_URL is not set on the Production environment; refusing to build without applying migrations.");
+// Supabase's direct host is IPv6 only and unreachable from the build
+// machines, so the session pooler is derived from DATABASE_URL when needed
+// (see migration-url.mjs). The url carries the password: only `via` is logged.
+const target = migrationUrl(process.env);
+if (!target) {
+  console.error("[migrate] neither DIRECT_URL nor DATABASE_URL is set on the Production environment; refusing to build without applying migrations.");
   process.exit(1);
+}
+console.log(`[migrate] connecting through ${target.via}`);
+if (process.env.MIGRATE_DRY_RUN === "true") {
+  console.log("[migrate] dry run: nothing applied");
+  process.exit(0);
 }
 
 const bin = "node_modules/.bin/prisma";
@@ -39,7 +49,11 @@ if (!existsSync(bin)) {
   process.exit(1);
 }
 console.log("[migrate] applying pending migrations before the production build");
-const result = spawnSync(bin, ["migrate", "deploy"], { stdio: "inherit" });
+const result = spawnSync(bin, ["migrate", "deploy"], {
+  stdio: "inherit",
+  // prisma.config.ts reads DIRECT_URL first.
+  env: { ...process.env, DIRECT_URL: target.url },
+});
 if (result.status !== 0) {
   console.error("[migrate] failed; the build stops here and the current deployment keeps serving");
   process.exit(result.status ?? 1);
