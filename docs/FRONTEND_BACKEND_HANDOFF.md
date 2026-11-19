@@ -79,3 +79,16 @@ Where the app differs from the round 2 brief, by agreement:
 n8n stays unconnected in this round; the Limelight request webhook contract is the existing one in `src/app/actions/limelight.ts`.
 
 For the G3 deploy, the backend session is adding a guarded step that applies pending Prisma migrations during production builds. Nobody runs SQL by hand.
+
+## Front-end state for the round 2 server slices (2026-11-19)
+
+Built against the contracts above, with `TODO(backend)` at each seam:
+
+- **Route rename**: `/talents/app/self-tape` is now `/talents/app/reel-self-tape` (old address redirects in `src/proxy.ts`). The two `revalidatePath` calls in `src/app/actions/selftape.ts` were updated to the new segment; nothing else in that file changed.
+- **Consent**: the client writes the `agental.consent` cookie (`src/components/consent/consent-cookie.ts`) at the sign-up consent step and from Settings. Still to wire: `saveConsent` on change, `getConsent()` as the starting value. A provider sign-up has no consent step; it starts with strictly necessary only.
+- **Tour**: `src/components/app/first-run-tour.tsx` opens on `?welcome=1` in both apps. Still to wire: `completeFirstRun()` on close.
+- **Limelight draft**: "Try it" stores `{ v: 1, template, name, headline }` in `localStorage` under `agental.limelight.draft` (`src/data/limelight-templates.ts`). Template ids: `marquee`, `contact-sheet`, `reel-first`, `stage-door`, `voice-booth`, `studio`. Still to wire: `saveSite` after sign-in, and hiding the dashboard card once the account has a site.
+- **Limelight configuration the UI expects on `LIMELIGHT`**: `studentPriceUsd: number | null` and the number of included Pro months. The UI uses a local constant `LIMELIGHT_PRO_MONTHS = 4` until the field exists; tell the front end its name.
+- **Recorder**: `self-tape-studio.tsx` now passes the recorder's real MIME type and a matching extension to `saveSelfTape`. Switching it to `uploadMedia` with a progress bar and a destination choice waits for that slice.
+- **Money**: `euros()` and `eurosExact()` in `src/lib/format.ts` are now `money()` and `moneyExact()`, in US dollars, with `CURRENCY` exported. The user asked for dollars everywhere.
+- **Proxy**: `src/proxy.ts` also redirects signed-in visitors on `/[locale]`, `/[locale]/talents` and `/[locale]/casting` to `/[locale]/continuer` (verified session token).

@@ -31,7 +31,15 @@ const SIGNED_IN_REDIRECT = new RegExp(
   `^/(${routing.locales.join("|")})(?:/(?:talents|casting))?/?$`
 );
 
+/** Routes that were renamed; the old address keeps working. */
+const RENAMED = new RegExp(`^/(${routing.locales.join("|")})/talents/app/self-tape/?$`);
+
 export default async function proxy(req: NextRequest) {
+  const renamed = req.nextUrl.pathname.match(RENAMED);
+  if (renamed) {
+    return NextResponse.redirect(new URL(`/${renamed[1]}/talents/app/reel-self-tape`, req.url), 308);
+  }
+
   const entry = req.nextUrl.pathname.match(SIGNED_IN_REDIRECT);
   if (entry && process.env.AUTH_SECRET) {
     const token = await getToken({

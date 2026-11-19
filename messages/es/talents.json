@@ -695,7 +695,7 @@
       "dashboard": "Panel",
       "profile": "Perfil",
       "candidatures": "Candidaturas",
-      "selftape": "Self-tape",
+      "selftape": "Reel y self-tape",
       "career": "Carrera",
       "subscription": "Suscripción",
       "messages": "Mensajes",
@@ -804,7 +804,7 @@
       "subtitle": "Un perfil que se parece a ti: es lo que la IA usa para encontrar encajes."
     },
     "selftape": {
-      "title": "Self-tape Studio",
+      "title": "Reel y self-tape",
       "subtitle": "Tu self-tape puede cambiarlo todo. Te ayudamos a bordarlo: encuadre, luz y sonido en tiempo real.",
       "takes": "Tus tomas",
       "degraded": "Modo reducido",
@@ -818,7 +818,8 @@
         "sound": "Acércate al micrófono y elimina el ruido de fondo.",
         "tooShort": "Tu toma es muy corta: interpreta la escena entera.",
         "excellent": "Excelente toma: encuadre, luz y sonido a la altura."
-      }
+      },
+      "privacy": "Tus grabaciones son privadas. Solo tú puedes verlas hasta que decidas enviar una."
     },
     "subscription": {
       "title": "Suscripción",

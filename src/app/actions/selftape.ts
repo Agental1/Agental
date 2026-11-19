@@ -81,7 +81,7 @@ export async function saveSelfTape(
   // A self-tape counts toward completeness and clears the dashboard's
   // "add a self-tape or reel" item.
   await recomputeCompleteness(profile.id);
-  revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
+  revalidatePath("/[locale]/talents/(space)/app/reel-self-tape", "page");
   revalidatePath("/[locale]/talents/(space)/app", "page");
   return {
     ok: true,
@@ -104,7 +104,7 @@ export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   await (await getStorage()).delete(media.storageKey);
   await prisma.media.delete({ where: { id: mediaId } });
   await recomputeCompleteness(profile.id);
-  revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
+  revalidatePath("/[locale]/talents/(space)/app/reel-self-tape", "page");
   revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
 }

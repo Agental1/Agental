@@ -695,7 +695,7 @@
       "dashboard": "Dashboard",
       "profile": "Profile",
       "candidatures": "Applications",
-      "selftape": "Self-tape",
+      "selftape": "Reel & Self-tape",
       "career": "Career",
       "subscription": "Subscription",
       "messages": "Messages",
@@ -804,7 +804,7 @@
       "subtitle": "A profile that looks like you — that is what the AI matches on."
     },
     "selftape": {
-      "title": "Self-tape Studio",
+      "title": "Reel & Self-tape",
       "subtitle": "Your self-tape can change everything. We help you nail it — framing, light and sound in real time.",
       "takes": "Your takes",
       "degraded": "Reduced mode",
@@ -818,7 +818,8 @@
         "sound": "Move closer to the mic and cut the background noise.",
         "tooShort": "Your take is very short — play the whole scene.",
         "excellent": "Great take — framing, light and sound all there."
-      }
+      },
+      "privacy": "Your recordings are private. Only you can see them until you choose to submit one."
     },
     "subscription": {
       "title": "Subscription",

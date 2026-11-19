@@ -695,7 +695,7 @@
       "dashboard": "仪表盘",
       "profile": "资料",
       "candidatures": "申请",
-      "selftape": "自录试镜",
+      "selftape": "作品集与自录试镜",
       "career": "事业",
       "subscription": "订阅",
       "messages": "消息",
@@ -804,7 +804,7 @@
       "subtitle": "一份像你的资料：AI 就是根据它来匹配的。"
     },
     "selftape": {
-      "title": "自录试镜工作室",
+      "title": "作品集与自录试镜",
       "subtitle": "一条自录试镜可以改变一切。我们帮你录好：实时指导取景、灯光和收音。",
       "takes": "你录的版本",
       "degraded": "精简模式",
@@ -818,7 +818,8 @@
         "sound": "离麦克风近一点，消除背景噪音。",
         "tooShort": "这条很短，把整场戏演完吧。",
         "excellent": "这条很棒：取景、灯光、收音都到位了。"
-      }
+      },
+      "privacy": "你的录像是私密的。在你决定提交之前，只有你自己能看到。"
     },
     "subscription": {
       "title": "订阅",

@@ -125,7 +125,7 @@ export default async function TalentsDashboard({
   )
     suggestions.push({
       text: t("space.dashboard.selftapeHint"),
-      href: "/talents/app/self-tape",
+      href: "/talents/app/reel-self-tape",
       cta: t("space.selftape.title"),
       icon: Video,
     });

@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Film } from "lucide-react";
+import { Film, Lock } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
@@ -53,6 +53,10 @@ export default async function SelfTapePage({
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.selftape.title")}</h1>
         <p className="text-fg-muted">{t("space.selftape.subtitle")}</p>
+        <p className="mt-3 flex items-center gap-2 text-[15px] font-bold">
+          <Lock aria-hidden="true" className="size-4 shrink-0 text-accent" />
+          {t("space.selftape.privacy")}
+        </p>
       </div>
 
       <SelfTapeStudio />

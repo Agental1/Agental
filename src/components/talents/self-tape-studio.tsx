@@ -134,9 +134,10 @@ export function SelfTapeStudio() {
     chunksRef.current = [];
     samplesRef.current = [];
     startedAtRef.current = performance.now?.() ?? 0;
-    const rec = new MediaRecorder(streamRef.current, {
-      mimeType: MediaRecorder.isTypeSupported("video/webm") ? "video/webm" : "",
-    });
+    // Safari records MP4, Chrome and Firefox record WebM. Ask for whichever the
+    // browser supports and keep the recorder's own answer for the file.
+    const preferred = ["video/mp4", "video/webm"].find((type) => MediaRecorder.isTypeSupported(type));
+    const rec = new MediaRecorder(streamRef.current, preferred ? { mimeType: preferred } : undefined);
     rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data);
     rec.onstop = onStop;
     rec.start();
@@ -150,7 +151,9 @@ export function SelfTapeStudio() {
   }
 
   function onStop() {
-    const blob = new Blob(chunksRef.current, { type: "video/webm" });
+    // The real container, never a guess: recorder first, then the first chunk.
+    const type = (recorderRef.current?.mimeType || chunksRef.current[0]?.type || "video/webm").split(";")[0];
+    const blob = new Blob(chunksRef.current, { type });
     const samples = samplesRef.current;
     const avg = (k: "framing" | "light" | "sound") =>
       samples.length ? samples.reduce((a, s) => a + s[k], 0) / samples.length : 0;
@@ -166,7 +169,8 @@ export function SelfTapeStudio() {
   function submit(blob: Blob, metrics: QualityMetrics) {
     startTransition(async () => {
       const fd = new FormData();
-      fd.set("file", new File([blob], "selftape.webm", { type: blob.type }));
+      const extension = blob.type === "video/mp4" || blob.type === "video/quicktime" ? "mp4" : "webm";
+      fd.set("file", new File([blob], `selftape.${extension}`, { type: blob.type }));
       fd.set("metrics", JSON.stringify(metrics));
       fd.set("lowBandwidth", String(lowBandwidth));
       const res = await saveSelfTape(fd);

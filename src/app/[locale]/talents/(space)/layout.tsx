@@ -17,7 +17,7 @@ const NAV = [
   { href: "/talents/app", key: "dashboard", icon: "dashboard" },
   { href: "/talents/app/profil", key: "profile", icon: "user" },
   { href: "/talents/app/candidatures", key: "candidatures", icon: "send" },
-  { href: "/talents/app/self-tape", key: "selftape", icon: "video" },
+  { href: "/talents/app/reel-self-tape", key: "selftape", icon: "video" },
   { href: "/talents/app/carriere", key: "career", icon: "career" },
   { href: "/talents/app/abonnement", key: "subscription", icon: "billing" },
   { href: "/talents/app/messages", key: "messages", icon: "messages" },
