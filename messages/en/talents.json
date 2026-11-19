@@ -118,7 +118,7 @@
     "plans": [
       {
         "name": "Free",
-        "price": "€0",
+        "price": "$0",
         "commission": "10%",
         "cta": "Get started",
         "features": [
@@ -130,7 +130,7 @@
       },
       {
         "name": "Pro",
-        "price": "€19",
+        "price": "$19",
         "commission": "10%",
         "cta": "Choose",
         "features": [
@@ -142,7 +142,7 @@
       },
       {
         "name": "Premium",
-        "price": "€49",
+        "price": "$49",
         "commission": "7.5%",
         "cta": "Choose",
         "features": [
@@ -152,7 +152,7 @@
       },
       {
         "name": "Ultimate",
-        "price": "€79",
+        "price": "$79",
         "commission": "5%",
         "cta": "Choose",
         "features": [
@@ -759,7 +759,7 @@
         "won": "Contracted",
         "closed": "Closed"
       },
-      "ratePerDay": "€{amount}/day"
+      "ratePerDay": "${amount}/day"
     },
     "career": {
       "title": "My career",
@@ -877,7 +877,7 @@
       "eyes": "Eyes",
       "languages": "Languages (comma-separated)",
       "accents": "Accents (comma-separated)",
-      "minRate": "Minimum fee (€/day)",
+      "minRate": "Minimum fee ($/day)",
       "save": "Save",
       "saved": "Saved"
     },

@@ -37,7 +37,7 @@
       "3": "physique proche du rôle · self-tape vérifié",
       "4": "expérience séries · accent régional crédible"
     },
-    "perDay": "{amount} €/j"
+    "perDay": "{amount} $/j"
   },
   "benefits": {
     "eyebrow": "Ce que vous gagnez avec Agental",
@@ -132,7 +132,7 @@
     "plans": [
       {
         "name": "Free",
-        "price": "0 €",
+        "price": "0 $",
         "priceUnit": "",
         "cta": "Tester",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "Pro",
-        "price": "99 €",
+        "price": "99 $",
         "priceUnit": "/siège/mois",
         "cta": "Choisir Pro",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "Studio",
-        "price": "299 €",
+        "price": "299 $",
         "priceUnit": "/mois",
         "cta": "Choisir",
         "features": [
@@ -379,7 +379,7 @@
           "placeholder": "septembre 2026"
         },
         "budget": {
-          "prompt": "Budget indicatif par jour (€) ?",
+          "prompt": "Budget indicatif par jour ($) ?",
           "placeholder": "600"
         }
       },

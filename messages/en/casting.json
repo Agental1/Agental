@@ -37,7 +37,7 @@
       "3": "look close to the part · self-tape verified",
       "4": "series experience · credible regional accent"
     },
-    "perDay": "€{amount}/day"
+    "perDay": "${amount}/day"
   },
   "benefits": {
     "eyebrow": "What you gain with Agental",
@@ -132,7 +132,7 @@
     "plans": [
       {
         "name": "Free",
-        "price": "€0",
+        "price": "$0",
         "priceUnit": "",
         "cta": "Try",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "Pro",
-        "price": "€99",
+        "price": "$99",
         "priceUnit": "/seat/month",
         "cta": "Choose Pro",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "Studio",
-        "price": "€299",
+        "price": "$299",
         "priceUnit": "/month",
         "cta": "Choose",
         "features": [
@@ -379,7 +379,7 @@
           "placeholder": "September 2026"
         },
         "budget": {
-          "prompt": "Indicative daily budget (€)?",
+          "prompt": "Indicative daily budget ($)?",
           "placeholder": "600"
         }
       },

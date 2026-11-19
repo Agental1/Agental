@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { TrendingDown, Info } from "lucide-react";
 import { useLocale } from "next-intl";
 import { B2C_PLANS } from "@/domain/pricing";
-import { euros, percent } from "@/lib/format";
+import { money, percent } from "@/lib/format";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { cn } from "@/lib/utils";
 import type { PlanB2C } from "@/domain/enums";
@@ -45,7 +45,7 @@ export function RentabiliteWidget({
       </div>
       <p className="mt-1 text-sm text-fg-muted">
         {t.rich("space.profitability.intro", {
-          amount: euros(annualCachetCents, locale),
+          amount: money(annualCachetCents, locale),
           strong: (chunks) => (
             <span className="font-medium text-fg">{chunks}</span>
           ),
@@ -88,12 +88,12 @@ export function RentabiliteWidget({
                   )}
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
-                  {euros(r.commission, locale)} ({percent(r.def.commissionRate, locale)})
+                  {money(r.commission, locale)} ({percent(r.def.commissionRate, locale)})
                 </td>
                 <td className="px-3 py-2 text-right text-fg-muted">
                   {formatPlanPrice(r.sub, locale)}
                 </td>
-                <td className="px-3 py-2 text-right">{euros(r.total, locale)}</td>
+                <td className="px-3 py-2 text-right">{money(r.total, locale)}</td>
               </tr>
             ))}
           </tbody>
@@ -106,7 +106,7 @@ export function RentabiliteWidget({
           <span>
             {t("space.profitability.save", {
               plan: best.name,
-              amount: euros(saving, locale),
+              amount: money(saving, locale),
             })}
           </span>
         ) : (

@@ -1,4 +1,4 @@
-import { date, euros, integer } from "@/lib/format";
+import { date, money, integer } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -47,8 +47,8 @@ export default async function CarrierePage({
 
   // Two money figures only. The commission is never shown on this page.
   const stats = [
-    { label: t("space.career.grossFee"), value: euros(grossCents, locale), icon: Wallet },
-    { label: t("space.career.net"), value: euros(netCents, locale), icon: TrendingUp },
+    { label: t("space.career.grossFee"), value: money(grossCents, locale), icon: Wallet },
+    { label: t("space.career.net"), value: money(netCents, locale), icon: TrendingUp },
   ];
 
   return (
@@ -93,7 +93,7 @@ export default async function CarrierePage({
                   <td className="px-4 py-3 text-fg-muted">
                     {date(e.date, locale)}
                   </td>
-                  <td className="px-4 py-3 text-right">{euros(e.cachetCents, locale)}</td>
+                  <td className="px-4 py-3 text-right">{money(e.cachetCents, locale)}</td>
                   <td className="px-4 py-3">
                     <Badge variant={e.status === "PAID" ? "success" : "warning"}>
                       {e.status === "PAID" ? t("space.career.paid") : t("space.career.pending")}

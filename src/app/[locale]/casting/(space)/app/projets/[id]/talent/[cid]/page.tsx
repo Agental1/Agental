@@ -126,7 +126,9 @@ export default async function FicheTalentPage({
           </div>
           <div className="mt-1 flex flex-wrap gap-3 text-sm text-fg-muted">
             {p?.city && <span>{p.city}</span>}
-            {rate != null && <span className="font-medium text-fg">{rate} €/j</span>}
+            {rate != null && (
+              <span className="font-medium text-fg">{t("demo.perDay", { amount: rate })}</span>
+            )}
             <Badge variant="success">{t("space.talentSheet.available")}</Badge>
           </div>
         </div>

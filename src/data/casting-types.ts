@@ -8,7 +8,7 @@
  * were monolingual by construction.
  *
  * Fees stay numeric so Intl.NumberFormat can render them per locale — a French
- * "800–3 000 €" is not how a Spanish or English reader expects to see money.
+ * "800–3 000 $" is not how a Spanish or English reader expects to see money.
  * `createurs` genuinely has no figure, hence the optional fields: the display
  * falls back to a translated "Varies".
  */
@@ -36,9 +36,9 @@ export type CastingTypeSlug =
 
 export interface CastingType {
   slug: CastingTypeSlug;
-  /** Lower bound in euros. Absent when the fee is project-dependent. */
+  /** Lower bound in US dollars. Absent when the fee is project-dependent. */
   cachetMin?: number;
-  /** Upper bound in euros. Absent when the fee is project-dependent. */
+  /** Upper bound in US dollars. Absent when the fee is project-dependent. */
   cachetMax?: number;
   /** Which translated unit label to render next to the amount. */
   cachetUnit: CachetUnit;
@@ -77,8 +77,8 @@ export function getCastingType(slug: string): CastingType | undefined {
  * Fee range for display, formatted for the locale.
  *
  * Slugs never change with locale (translating them would break the SEO already
- * earned and every inbound link), but the money does: en-US wants "€800–€3,000"
- * where fr-FR wants "800–3 000 €".
+ * earned and every inbound link), but the money does: en-US wants "$800–$3,000"
+ * where fr-FR wants "800–3 000 $".
  */
 export function formatCachet(
   type: CastingType,
@@ -90,7 +90,8 @@ export function formatCachet(
   }
   const money = new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "EUR",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
     maximumFractionDigits: 0,
   });
   return `${money.format(type.cachetMin)}–${money.format(type.cachetMax)}`;

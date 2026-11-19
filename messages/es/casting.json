@@ -37,7 +37,7 @@
       "3": "físico cercano al papel · self-tape verificado",
       "4": "experiencia en series · acento regional creíble"
     },
-    "perDay": "{amount} €/día"
+    "perDay": "{amount} $/día"
   },
   "benefits": {
     "eyebrow": "Lo que gana con Agental",
@@ -132,7 +132,7 @@
     "plans": [
       {
         "name": "Free",
-        "price": "0 €",
+        "price": "0 $",
         "priceUnit": "",
         "cta": "Probar",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "Pro",
-        "price": "99 €",
+        "price": "99 $",
         "priceUnit": "/puesto/mes",
         "cta": "Elegir Pro",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "Studio",
-        "price": "299 €",
+        "price": "299 $",
         "priceUnit": "/mes",
         "cta": "Elegir",
         "features": [
@@ -379,7 +379,7 @@
           "placeholder": "septiembre de 2026"
         },
         "budget": {
-          "prompt": "¿Presupuesto diario orientativo (€)?",
+          "prompt": "¿Presupuesto diario orientativo ($)?",
           "placeholder": "600"
         }
       },

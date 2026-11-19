@@ -118,7 +118,7 @@
     "plans": [
       {
         "name": "免费版",
-        "price": "€0",
+        "price": "$0",
         "commission": "10%",
         "cta": "开始使用",
         "features": [
@@ -130,7 +130,7 @@
       },
       {
         "name": "专业版",
-        "price": "€19",
+        "price": "$19",
         "commission": "10%",
         "cta": "选择",
         "features": [
@@ -142,7 +142,7 @@
       },
       {
         "name": "高级版",
-        "price": "€49",
+        "price": "$49",
         "commission": "7.5%",
         "cta": "选择",
         "features": [
@@ -152,7 +152,7 @@
       },
       {
         "name": "旗舰版",
-        "price": "€79",
+        "price": "$79",
         "commission": "5%",
         "cta": "选择",
         "features": [
@@ -759,7 +759,7 @@
         "won": "已签约",
         "closed": "已结束"
       },
-      "ratePerDay": "€{amount}/天"
+      "ratePerDay": "${amount}/天"
     },
     "career": {
       "title": "我的事业",
@@ -877,7 +877,7 @@
       "eyes": "瞳色",
       "languages": "语言（用逗号分隔）",
       "accents": "口音（用逗号分隔）",
-      "minRate": "最低片酬（€/天）",
+      "minRate": "最低片酬（$/天）",
       "save": "保存",
       "saved": "已保存"
     },

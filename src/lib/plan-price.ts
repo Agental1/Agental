@@ -3,7 +3,9 @@
  * subscription pages and the plan switcher. Amounts come from
  * `src/domain/pricing.ts` in integer cents; plans are billed in US dollars.
  */
-export const PLAN_CURRENCY = "USD";
+import { CURRENCY } from "@/lib/format";
+
+export const PLAN_CURRENCY = CURRENCY;
 
 export function formatPlanPrice(cents: number, locale: string): string {
   return new Intl.NumberFormat(locale, {

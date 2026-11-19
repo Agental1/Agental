@@ -37,7 +37,7 @@
       "3": "外形贴近角色 · 自录试镜已核验",
       "4": "有剧集经验 · 地方口音可信"
     },
-    "perDay": "€{amount}/天"
+    "perDay": "${amount}/天"
   },
   "benefits": {
     "eyebrow": "Agental 为您带来什么",
@@ -132,7 +132,7 @@
     "plans": [
       {
         "name": "免费版",
-        "price": "€0",
+        "price": "$0",
         "priceUnit": "",
         "cta": "试用",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "专业版",
-        "price": "€99",
+        "price": "$99",
         "priceUnit": "/席位/月",
         "cta": "选择专业版",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "工作室版",
-        "price": "€299",
+        "price": "$299",
         "priceUnit": "/月",
         "cta": "选择",
         "features": [
@@ -379,7 +379,7 @@
           "placeholder": "2026 年 9 月"
         },
         "budget": {
-          "prompt": "参考日薪预算（€）？",
+          "prompt": "参考日薪预算（$）？",
           "placeholder": "600"
         }
       },
