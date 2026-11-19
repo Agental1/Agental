@@ -125,7 +125,12 @@
     "siteNotApproved": "Approve the preview before the site is published.",
     "mandatUnavailable": "The representation agreement will be available later.",
     "messageEmpty": "Write a message first.",
-    "messageTooLong": "Your message is too long. Keep it under {limit} characters."
+    "messageTooLong": "Your message is too long. Keep it under {limit} characters.",
+    "phoneRequired": "Add a phone number so we can call you.",
+    "phoneInvalid": "Check the phone number.",
+    "sitePreviewChanged": "The preview changed since you opened it. Review the latest version, then approve.",
+    "domainLimitReached": "A site can have up to {limit} custom domains.",
+    "draftMediaLimit": "A draft can hold up to {limit} clips."
   },
   "auth": {
     "name": "Name",

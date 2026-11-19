@@ -125,7 +125,12 @@
     "siteNotApproved": "Aprueba la vista previa antes de publicar el sitio.",
     "mandatUnavailable": "El acuerdo de representación estará disponible más adelante.",
     "messageEmpty": "Escribe primero un mensaje.",
-    "messageTooLong": "Tu mensaje es demasiado largo. Límite: {limit} caracteres."
+    "messageTooLong": "Tu mensaje es demasiado largo. Límite: {limit} caracteres.",
+    "phoneRequired": "Añade un número de teléfono para que podamos llamarte.",
+    "phoneInvalid": "Revisa el número de teléfono.",
+    "sitePreviewChanged": "La vista previa cambió desde que la abriste. Revisa la última versión y luego aprueba.",
+    "domainLimitReached": "Un sitio puede tener hasta {limit} dominios personalizados.",
+    "draftMediaLimit": "Un borrador admite hasta {limit} clips."
   },
   "auth": {
     "name": "Nombre",

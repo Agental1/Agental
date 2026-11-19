@@ -125,7 +125,12 @@
     "siteNotApproved": "Valide l'aperçu avant la publication du site.",
     "mandatUnavailable": "Le mandat de représentation sera disponible ultérieurement.",
     "messageEmpty": "Écris d’abord un message.",
-    "messageTooLong": "Ton message est trop long. Limite : {limit} caractères."
+    "messageTooLong": "Ton message est trop long. Limite : {limit} caractères.",
+    "phoneRequired": "Ajoute un numéro de téléphone pour qu’on puisse t’appeler.",
+    "phoneInvalid": "Vérifie le numéro de téléphone.",
+    "sitePreviewChanged": "L’aperçu a changé depuis que tu l’as ouvert. Relis la dernière version, puis approuve.",
+    "domainLimitReached": "Un site peut avoir jusqu’à {limit} domaines personnalisés.",
+    "draftMediaLimit": "Un brouillon peut contenir jusqu’à {limit} extraits."
   },
   "auth": {
     "name": "Nom",
