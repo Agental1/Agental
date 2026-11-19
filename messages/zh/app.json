@@ -160,7 +160,13 @@
     "voix": "配音",
     "enfants": "儿童与青少年",
     "createurs": "内容创作者",
-    "performeurs": "表演者与舞台"
+    "performeurs": "表演者与舞台",
+    "screen-acting": "影视表演",
+    "stage-acting": "舞台表演",
+    "musical-theatre": "音乐剧",
+    "improv": "即兴表演",
+    "movement": "形体与动作",
+    "stunt-combat": "特技与舞台格斗"
   },
   "levels": {
     "BEGINNER": "新人",

@@ -160,7 +160,13 @@
     "voix": "Voz y doblaje",
     "enfants": "Niños y adolescentes",
     "createurs": "Creadores",
-    "performeurs": "Performers y escena"
+    "performeurs": "Performers y escena",
+    "screen-acting": "Actuación para cámara",
+    "stage-acting": "Teatro",
+    "musical-theatre": "Teatro musical",
+    "improv": "Improvisación",
+    "movement": "Movimiento",
+    "stunt-combat": "Escenas de riesgo y combate escénico"
   },
   "levels": {
     "BEGINNER": "Principiante",

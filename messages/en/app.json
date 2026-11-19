@@ -160,7 +160,13 @@
     "voix": "Voice & dubbing",
     "enfants": "Children & teens",
     "createurs": "Creators",
-    "performeurs": "Performers & stage"
+    "performeurs": "Performers & stage",
+    "screen-acting": "Screen acting",
+    "stage-acting": "Stage acting",
+    "musical-theatre": "Musical theatre",
+    "improv": "Improv",
+    "movement": "Movement",
+    "stunt-combat": "Stunts and stage combat"
   },
   "levels": {
     "BEGINNER": "Beginner",
