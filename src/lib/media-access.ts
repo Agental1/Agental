@@ -20,7 +20,8 @@ import { prisma } from "@/lib/db";
  */
 export async function canReadMedia(
   userId: string,
-  profileId: string
+  profileId: string,
+  opts: { destination?: string | null } = {}
 ): Promise<boolean> {
   const [owned, user] = await Promise.all([
     prisma.artistProfile.findFirst({
@@ -33,6 +34,10 @@ export async function canReadMedia(
     }),
   ]);
   if (owned || user?.isAdmin) return true;
+
+  // A library item (a self-tape or reel the talent has not submitted) is
+  // private: no casting user reads it, whatever their link to the profile.
+  if (opts.destination === "library") return false;
 
   const viaCandidature = await prisma.candidature.findFirst({
     where: {

@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { completePendingOAuthAction } from "@/app/actions/oauth";
 import { readPendingCookie } from "@/lib/auth/oauth-cookies";
-import { postAuthHome, type PostAuthState } from "@/domain/auth-routes";
+import { needsFirstRun, postAuthHome, type PostAuthState } from "@/domain/auth-routes";
 
 export async function generateMetadata({
   params,
@@ -45,6 +45,14 @@ export default async function ContinuePage({
     const kind = session.user.kind;
     const state = await loadPostAuthState(session.user.id, kind);
     const target = postAuthHome(kind, locale, state);
+    if (needsFirstRun(kind, state)) {
+      // The first-run screen is served once: stamp it so the next sign-in
+      // goes to the dashboard. Conditional, so a second tab changes nothing.
+      await prisma.user.updateMany({
+        where: { id: session.user.id, onboardingCompletedAt: null },
+        data: { onboardingCompletedAt: new Date() },
+      });
+    }
     return redirect({ href: target.slice(`/${locale}`.length), locale });
   }
 
@@ -96,17 +104,26 @@ async function loadPostAuthState(
       }),
       prisma.user.findUnique({
         where: { id: userId },
-        select: { emailVerified: true },
+        select: { onboardingCompletedAt: true },
       }),
     ]);
     return {
       hasOwnerMembership: !!membership,
-      emailVerified: !!user?.emailVerified,
+      onboardingCompletedAt: user?.onboardingCompletedAt ?? null,
     };
   }
-  const profile = await prisma.artistProfile.findUnique({
-    where: { userId },
-    select: { mandat: { select: { status: true, signedAt: true } } },
-  });
-  return { mandat: profile?.mandat ?? null };
+  const [profile, user] = await Promise.all([
+    prisma.artistProfile.findUnique({
+      where: { userId },
+      select: { mandat: { select: { status: true, signedAt: true } } },
+    }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: { onboardingCompletedAt: true },
+    }),
+  ]);
+  return {
+    mandat: profile?.mandat ?? null,
+    onboardingCompletedAt: user?.onboardingCompletedAt ?? null,
+  };
 }

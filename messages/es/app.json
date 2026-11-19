@@ -92,7 +92,18 @@
     "birthDateRequired": "Indica tu fecha de nacimiento.",
     "birthDateInvalid": "Revisa tu fecha de nacimiento.",
     "heightRange": "La altura debe estar entre 91 y 241 cm.",
-    "mandatAlreadySigned": "Tu mandato ya está firmado."
+    "mandatAlreadySigned": "Tu mandato ya está firmado.",
+    "uploadTooLarge": "Este archivo es demasiado grande. El límite es de {limit} MB.",
+    "uploadTypeNotAllowed": "Este tipo de archivo no es compatible.",
+    "uploadQuota": "Tu espacio de medios está lleno. Elimina un archivo para añadir otro.",
+    "uploadNotFound": "Esta subida caducó. Vuelve a iniciarla.",
+    "studentCodeInvalid": "Este código no es válido.",
+    "studentCodeExpired": "Este código ha caducado.",
+    "studentCodeUsedUp": "Este código alcanzó su límite de usos.",
+    "tooManyAttempts": "Demasiados intentos. Inténtalo más tarde.",
+    "siteNotFound": "No encontramos este sitio web.",
+    "siteInvalid": "Faltan datos del sitio web o son demasiado largos.",
+    "sitePaymentRequired": "Elige una oferta antes de publicar tu sitio web."
   },
   "auth": {
     "name": "Nombre",

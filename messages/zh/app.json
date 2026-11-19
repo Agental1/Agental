@@ -92,7 +92,18 @@
     "birthDateRequired": "请填写出生日期。",
     "birthDateInvalid": "请检查出生日期。",
     "heightRange": "身高须在 91 至 241 厘米之间。",
-    "mandatAlreadySigned": "你的经纪委托已签署。"
+    "mandatAlreadySigned": "你的经纪委托已签署。",
+    "uploadTooLarge": "文件过大，上限为 {limit} MB。",
+    "uploadTypeNotAllowed": "不支持这种文件类型。",
+    "uploadQuota": "你的媒体空间已满，请先删除一个文件。",
+    "uploadNotFound": "本次上传已过期，请重新开始。",
+    "studentCodeInvalid": "此代码无效。",
+    "studentCodeExpired": "此代码已过期。",
+    "studentCodeUsedUp": "此代码已达到使用上限。",
+    "tooManyAttempts": "尝试次数过多，请稍后再试。",
+    "siteNotFound": "未找到该网站。",
+    "siteInvalid": "网站信息缺失或过长。",
+    "sitePaymentRequired": "发布网站前请先选择方案。"
   },
   "auth": {
     "name": "姓名",

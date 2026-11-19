@@ -10,7 +10,10 @@ import bcrypt from "bcryptjs";
 
 const findUnique = vi.fn();
 const findMany = vi.fn();
-vi.mock("@/lib/db", () => ({ prisma: { account: { findUnique }, user: { findMany } } }));
+const userFindUnique = vi.fn();
+vi.mock("@/lib/db", () => ({
+  prisma: { account: { findUnique }, user: { findMany, findUnique: userFindUnique } },
+}));
 vi.mock("@/lib/auth/oauth-cookies", () => ({
   readIntentCookie: vi.fn(async () => null),
   clearIntentCookie: vi.fn(async () => {}),
@@ -61,18 +64,60 @@ describe("jwt callback", () => {
     expect(token).toMatchObject({ sub: "db-user", kind: "CASTING", locale: "es", email: "ana@example.com" });
   });
 
-  it("keeps the Credentials path free of database reads", async () => {
+  it("starts a password session without a database read and stamps when it began", async () => {
     const { callbacks } = await buildAuthConfig();
     findUnique.mockClear();
+    userFindUnique.mockClear();
+    const before = Date.now();
     const token = await callbacks!.jwt!({
       token: { sub: "u1" },
       user: { id: "u1", kind: "TALENT", locale: "fr" },
       account: { provider: "credentials", providerAccountId: "u1", type: "credentials" },
     } as never);
     expect(token).toMatchObject({ sub: "u1", kind: "TALENT", locale: "fr" });
-    const plain = await callbacks!.jwt!({ token: { sub: "u1", kind: "TALENT" } } as never);
-    expect(plain).toEqual({ sub: "u1", kind: "TALENT" });
+    expect(token!.authAt).toBeGreaterThanOrEqual(before);
     expect(findUnique).not.toHaveBeenCalled();
+    expect(userFindUnique).not.toHaveBeenCalled();
+  });
+});
+
+describe("jwt callback on an ordinary request", () => {
+  const cutOff = new Date("2026-11-19T10:00:00.500Z");
+  const call = async (token: Record<string, unknown>) => {
+    const { callbacks } = await buildAuthConfig();
+    return callbacks!.jwt!({ token } as never);
+  };
+
+  it("keeps a session whose account exists and has no cut-off", async () => {
+    userFindUnique.mockResolvedValueOnce({ sessionsValidAfter: null });
+    expect(await call({ sub: "u1", kind: "TALENT", authAt: 1 })).toEqual({ sub: "u1", kind: "TALENT", authAt: 1 });
+    expect(userFindUnique).toHaveBeenLastCalledWith({
+      where: { id: "u1" },
+      select: { sessionsValidAfter: true },
+    });
+  });
+
+  it("ends the session of a deleted account", async () => {
+    userFindUnique.mockResolvedValueOnce(null);
+    expect(await call({ sub: "gone", authAt: Date.now() })).toBeNull();
+  });
+
+  it("refuses a session that began before the cut-off and keeps one that began after", async () => {
+    userFindUnique.mockResolvedValue({ sessionsValidAfter: cutOff });
+    expect(await call({ sub: "u1", authAt: cutOff.getTime() - 1 })).toBeNull();
+    expect(await call({ sub: "u1", authAt: cutOff.getTime() })).not.toBeNull();
+    expect(await call({ sub: "u1", authAt: cutOff.getTime() + 1 })).not.toBeNull();
+    userFindUnique.mockReset();
+  });
+
+  it("falls back to iat for sessions older than the authAt claim", async () => {
+    userFindUnique.mockResolvedValue({ sessionsValidAfter: cutOff });
+    const sameSecond = Math.floor(cutOff.getTime() / 1000);
+    // iat is rounded down to the second, so a token from that second reads as older.
+    expect(await call({ sub: "u1", iat: sameSecond })).toBeNull();
+    expect(await call({ sub: "u1", iat: sameSecond + 1 })).not.toBeNull();
+    expect(await call({ sub: "u1" })).toBeNull();
+    userFindUnique.mockReset();
   });
 });
 

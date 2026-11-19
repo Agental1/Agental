@@ -199,6 +199,12 @@ export async function signMandat(input: unknown): Promise<StepResult> {
       data: { status: "ACTIVE" },
     });
 
+    // The redirect below is the first-run screen; stamp it as served.
+    await tx.user.update({
+      where: { id: userId },
+      data: { onboardingCompletedAt: signedAt },
+    });
+
     await audit(
       {
         actorUserId: userId,
@@ -221,8 +227,26 @@ export async function signMandat(input: unknown): Promise<StepResult> {
     console.error("[onboarding] completeness refresh after signing failed", error);
   }
 
+  // First sign-in lands on profile completeness, with the tutorial; every
+  // later one goes to the dashboard (postAuthHome).
   return redirect({
-    href: { pathname: "/talents/app", query: { welcome: "1" } },
+    href: { pathname: "/talents/app/profil", query: { welcome: "1" } },
     locale: await getLocale(),
   });
+}
+
+/**
+ * Mark the first-run screen as seen for the signed-in user. Signing the
+ * mandate (talents) and finishing the wizard (casting) already do it; this is
+ * for the tutorial's Close button, so a replay never routes there again.
+ * Safe to call any number of times.
+ */
+export async function completeFirstRun(): Promise<{ ok: true } | { ok: false; error: ActionError }> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
+  await prisma.user.updateMany({
+    where: { id: session.user.id, onboardingCompletedAt: null },
+    data: { onboardingCompletedAt: new Date() },
+  });
+  return { ok: true };
 }

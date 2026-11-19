@@ -12,6 +12,7 @@ const tx = {
   mandat: { updateMany: vi.fn(), createManyAndReturn: vi.fn() },
   subscription: { upsert: vi.fn() },
   artistProfile: { update: vi.fn() },
+  user: { update: vi.fn() },
   auditLog: { create: vi.fn() },
 };
 // Reads and the transaction only: a write outside the transaction would hit
@@ -105,7 +106,7 @@ describe("signMandat", () => {
       tx.auditLog.create.mock.invocationCallOrder[0]
     );
     expect(redirect).toHaveBeenCalledWith({
-      href: { pathname: "/talents/app", query: { welcome: "1" } },
+      href: { pathname: "/talents/app/profil", query: { welcome: "1" } },
       locale: "en",
     });
   });

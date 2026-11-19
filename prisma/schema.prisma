@@ -32,13 +32,32 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts      Account[]
-  sessions      Session[]
-  artistProfile ArtistProfile?
-  memberships   Membership[]
-  auditLogs     AuditLog[]
-  notifications Notification[]
-  messages      Message[]
+  // Stamped when the first-run landing has been served (profile completeness
+  // for talents). Null means the next sign-in is the first one.
+  onboardingCompletedAt DateTime?
+  // Cookie consent. Null means no choice recorded yet (only strictly necessary
+  // cookies apply). consentAt is when the current choice was made.
+  consentAnalytics      Boolean?
+  consentMarketing      Boolean?
+  consentAt             DateTime?
+  // Set when a college student code was redeemed.
+  studentVerifiedAt     DateTime?
+  // Sessions issued before this instant are refused (see src/auth.ts). Set
+  // when a provider sign-in takes over an account whose password was never
+  // proven to belong to the email's owner.
+  sessionsValidAfter    DateTime?
+
+  accounts            Account[]
+  sessions            Session[]
+  artistProfile       ArtistProfile?
+  memberships         Membership[]
+  auditLogs           AuditLog[]
+  notifications       Notification[]
+  messages            Message[]
+  sites               Site[]
+  siteOrders          SiteOrder[]
+  studentPriceRequest StudentPriceRequest?
+  studentRedemptions  StudentCodeRedemption[]
 }
 
 model Account {
@@ -101,6 +120,7 @@ model ArtistProfile {
   specialties   Specialty[]
   availability  Availability[]
   media         Media[]
+  uploads       Upload[]
   candidatures  Candidature[]
   careerEntries CareerEntry[]
   mandat        Mandat?
@@ -129,14 +149,19 @@ model Availability {
 }
 
 model Media {
-  id         String   @id @default(cuid())
-  profileId  String
-  type       String // PHOTO | VIDEO | SELFTAPE | AUDIO
-  storageKey String
-  mime       String?
-  order      Int      @default(0)
-  isPrimary  Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id          String   @id @default(cuid())
+  profileId   String
+  type        String // PHOTO | VIDEO | SELFTAPE | AUDIO
+  storageKey  String   @unique
+  mime        String?
+  // "profile": shown on the profile and to casting teams the talent applied to.
+  // "library": private to the talent until they choose to submit it.
+  destination String   @default("profile") // profile | library
+  sizeBytes   Int?
+  durationSec Int?
+  order       Int      @default(0)
+  isPrimary   Boolean  @default(false)
+  createdAt   DateTime @default(now())
 
   profile  ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   selfTape SelfTape?
@@ -200,6 +225,10 @@ model Subscription {
   stripeSubscriptionId String?
   status               String    @default("ACTIVE") // ACTIVE | PAST_DUE | CANCELED
   currentPeriodEnd     DateTime?
+  // A plan granted at no charge until a date (a Limelight purchase includes
+  // Pro). It applies only while `plan` is FREE; see src/lib/billing/entitlement.ts.
+  compPlan             String?
+  compUntil            DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 }
@@ -313,18 +342,18 @@ model ExternalTalent {
 // ─────────────────────────── Compliance & comms ──────────────────────────────
 
 model MinorCase {
-  id                    String    @id @default(cuid())
-  artistProfileId       String    @unique
+  id                    String   @id @default(cuid())
+  artistProfileId       String   @unique
   projectId             String?
-  prefectoralAuthStatus String    @default("NONE") // NONE | REQUESTED | GRANTED | REFUSED
+  prefectoralAuthStatus String   @default("NONE") // NONE | REQUESTED | GRANTED | REFUSED
   authRef               String?
-  escrowPercent         Int       @default(90)
-  escrowStatus          String    @default("PENDING") // PENDING | HELD | RELEASED
-  parentalPresence      Boolean   @default(false)
-  guardianContact       String    @default("{}") // JSON
-  state                 String    @default("OPENED") // OPENED | DOCS_PENDING | READY | BLOCKED
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  escrowPercent         Int      @default(90)
+  escrowStatus          String   @default("PENDING") // PENDING | HELD | RELEASED
+  parentalPresence      Boolean  @default(false)
+  guardianContact       String   @default("{}") // JSON
+  state                 String   @default("OPENED") // OPENED | DOCS_PENDING | READY | BLOCKED
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
   artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
   project       Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
@@ -404,4 +433,125 @@ model WebhookEvent {
   payload     String    @default("{}")
   processedAt DateTime?
   createdAt   DateTime  @default(now())
+}
+
+// ───────────────────── Direct uploads (photos, videos, self-tapes) ───────────
+
+// A file the browser is sending straight to object storage. The row exists
+// from createUpload until completeUpload turns it into a Media row, or until
+// it expires. Media never holds a file that has not arrived.
+model Upload {
+  id          String   @id @default(cuid())
+  profileId   String
+  type        String // PHOTO | VIDEO | SELFTAPE
+  destination String   @default("profile") // profile | library
+  storageKey  String   @unique
+  mime        String
+  sizeBytes   Int
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// ───────────────────────────── Limelight (websites) ──────────────────────────
+
+model Site {
+  id           String    @id @default(cuid())
+  userId       String
+  template     String
+  content      String    @default("{}") // JSON, validated by src/domain/site.ts
+  status       String    @default("DRAFT") // DRAFT | PUBLISHED
+  subdomain    String?   @unique
+  customDomain String?   @unique
+  publishedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders SiteOrder[]
+
+  @@index([userId])
+}
+
+// A purchase of a Limelight offer. Kept when the account or the site is
+// deleted (userId and siteId go null): it is a financial record.
+model SiteOrder {
+  id                String    @id @default(cuid())
+  userId            String?
+  siteId            String?
+  offer             String // essential | signature
+  amountCents       Int
+  currency          String    @default("USD")
+  studentDiscount   Boolean   @default(false)
+  status            String    @default("PENDING") // PENDING | PAID | CANCELED | REFUNDED
+  provider          String    @default("mock") // mock | stripe
+  providerSessionId String?   @unique
+  providerPaymentId String?
+  paidAt            DateTime?
+  hostingRenewsAt   DateTime?
+  createdAt         DateTime  @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  site Site? @relation(fields: [siteId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([siteId])
+}
+
+// A request for the student price on a Limelight offer. Proof arrives by
+// email; an admin approves here. One per user, used by one paid order.
+model StudentPriceRequest {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  status    String    @default("PENDING") // PENDING | APPROVED | REJECTED | USED
+  decidedBy String?
+  decidedAt DateTime?
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ───────────────────────────── College student codes ─────────────────────────
+
+// Six-digit codes. Only an HMAC of the code is stored (src/lib/student-code.ts).
+model StudentCode {
+  id        String    @id @default(cuid())
+  codeHash  String    @unique
+  label     String?
+  expiresAt DateTime?
+  maxUses   Int?
+  uses      Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  redemptions StudentCodeRedemption[]
+}
+
+model StudentCodeRedemption {
+  id        String   @id @default(cuid())
+  codeId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  code StudentCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([codeId, userId])
+  @@index([userId])
+}
+
+// ───────────────────────────────── Rate limiting ─────────────────────────────
+
+// One row per counted attempt. `key` names what is limited, for example
+// "student-code:<userId>". Serverless instances share no memory, so the
+// counter lives here. Old rows are pruned as new ones arrive.
+model RateLimitEvent {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
 }
