@@ -103,7 +103,11 @@
     "tooManyAttempts": "Demasiados intentos. Inténtalo más tarde.",
     "siteNotFound": "No encontramos este sitio web.",
     "siteInvalid": "Faltan datos del sitio web o son demasiado largos.",
-    "sitePaymentRequired": "Elige una oferta antes de publicar tu sitio web."
+    "sitePaymentRequired": "Elige una oferta antes de publicar tu sitio web.",
+    "siteLimitReached": "Puedes tener hasta {limit} sitios web.",
+    "emailLinkInvalid": "Este enlace no es válido. Solicita uno nuevo.",
+    "emailLinkExpired": "Este enlace ha caducado. Solicita uno nuevo.",
+    "emailSendFailed": "No pudimos enviar el correo. Inténtalo de nuevo en unos minutos."
   },
   "auth": {
     "name": "Nombre",
@@ -220,5 +224,17 @@
     "availability": "Disponibilidad confirmada",
     "imageRights": "Derechos de imagen en regla",
     "sourcedOffRoster": "Localizado fuera del roster: mismo baremo"
+  },
+  "emails": {
+    "verifySubject": "Confirma tu correo para Agental",
+    "verifyIntro": "Confirma que esta dirección es tuya para terminar de crear tu cuenta de Agental.",
+    "verifyAction": "Confirmar mi correo",
+    "verifyExpiry": "Este enlace es válido durante 24 horas.",
+    "resetSubject": "Restablece tu contraseña de Agental",
+    "resetIntro": "Alguien pidió restablecer la contraseña de la cuenta de Agental asociada a esta dirección.",
+    "resetAction": "Elegir una nueva contraseña",
+    "resetExpiry": "Este enlace es válido durante 1 hora y solo puede usarse una vez.",
+    "ignore": "Si no fuiste tú, ignora este correo. Nada cambia.",
+    "signature": "El equipo de Agental"
   }
 }

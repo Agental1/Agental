@@ -103,7 +103,11 @@
     "tooManyAttempts": "Too many attempts. Try again later.",
     "siteNotFound": "This website was not found.",
     "siteInvalid": "Some website details are missing or too long.",
-    "sitePaymentRequired": "Choose an offer before publishing your website."
+    "sitePaymentRequired": "Choose an offer before publishing your website.",
+    "siteLimitReached": "You can have up to {limit} websites.",
+    "emailLinkInvalid": "This link is not valid. Request a new one.",
+    "emailLinkExpired": "This link has expired. Request a new one.",
+    "emailSendFailed": "The email could not be sent. Try again in a few minutes."
   },
   "auth": {
     "name": "Name",
@@ -220,5 +224,17 @@
     "availability": "Availability confirmed",
     "imageRights": "Image rights cleared",
     "sourcedOffRoster": "Sourced off-roster — same scoring"
+  },
+  "emails": {
+    "verifySubject": "Confirm your email address for Agental",
+    "verifyIntro": "Confirm that this address is yours to finish creating your Agental account.",
+    "verifyAction": "Confirm my email",
+    "verifyExpiry": "This link works for 24 hours.",
+    "resetSubject": "Reset your Agental password",
+    "resetIntro": "Someone asked to reset the password of the Agental account for this address.",
+    "resetAction": "Choose a new password",
+    "resetExpiry": "This link works for 1 hour and can be used once.",
+    "ignore": "If this was not you, ignore this email. Nothing changes.",
+    "signature": "The Agental team"
   }
 }

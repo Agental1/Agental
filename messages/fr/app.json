@@ -103,7 +103,11 @@
     "tooManyAttempts": "Trop de tentatives. Réessaie plus tard.",
     "siteNotFound": "Ce site est introuvable.",
     "siteInvalid": "Des informations du site manquent ou sont trop longues.",
-    "sitePaymentRequired": "Choisis une offre avant de publier ton site."
+    "sitePaymentRequired": "Choisis une offre avant de publier ton site.",
+    "siteLimitReached": "Tu peux avoir jusqu'à {limit} sites.",
+    "emailLinkInvalid": "Ce lien n'est pas valide. Demande-en un nouveau.",
+    "emailLinkExpired": "Ce lien a expiré. Demande-en un nouveau.",
+    "emailSendFailed": "L'email n'a pas pu être envoyé. Réessaie dans quelques minutes."
   },
   "auth": {
     "name": "Nom",
@@ -220,5 +224,17 @@
     "availability": "Disponibilité confirmée",
     "imageRights": "Droits image OK",
     "sourcedOffRoster": "Sourcé hors roster — même scoring"
+  },
+  "emails": {
+    "verifySubject": "Confirmez votre adresse email pour Agental",
+    "verifyIntro": "Confirmez que cette adresse est bien la vôtre pour terminer la création de votre compte Agental.",
+    "verifyAction": "Confirmer mon email",
+    "verifyExpiry": "Ce lien est valable 24 heures.",
+    "resetSubject": "Réinitialisez votre mot de passe Agental",
+    "resetIntro": "Une demande de réinitialisation du mot de passe a été faite pour le compte Agental lié à cette adresse.",
+    "resetAction": "Choisir un nouveau mot de passe",
+    "resetExpiry": "Ce lien est valable 1 heure et ne peut servir qu'une fois.",
+    "ignore": "Si vous n'êtes pas à l'origine de cette demande, ignorez cet email. Rien ne change.",
+    "signature": "L'équipe Agental"
   }
 }

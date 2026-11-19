@@ -103,7 +103,11 @@
     "tooManyAttempts": "尝试次数过多，请稍后再试。",
     "siteNotFound": "未找到该网站。",
     "siteInvalid": "网站信息缺失或过长。",
-    "sitePaymentRequired": "发布网站前请先选择方案。"
+    "sitePaymentRequired": "发布网站前请先选择方案。",
+    "siteLimitReached": "最多可创建 {limit} 个网站。",
+    "emailLinkInvalid": "此链接无效，请重新获取。",
+    "emailLinkExpired": "此链接已过期，请重新获取。",
+    "emailSendFailed": "邮件发送失败，请几分钟后重试。"
   },
   "auth": {
     "name": "姓名",
@@ -220,5 +224,17 @@
     "availability": "档期已确认",
     "imageRights": "肖像权已确认",
     "sourcedOffRoster": "来自外部渠道，评分标准相同"
+  },
+  "emails": {
+    "verifySubject": "请确认你在 Agental 的邮箱地址",
+    "verifyIntro": "请确认这个邮箱属于你，以完成 Agental 账号的创建。",
+    "verifyAction": "确认我的邮箱",
+    "verifyExpiry": "此链接 24 小时内有效。",
+    "resetSubject": "重置你的 Agental 密码",
+    "resetIntro": "有人请求重置与此邮箱关联的 Agental 账号的密码。",
+    "resetAction": "设置新密码",
+    "resetExpiry": "此链接 1 小时内有效，且只能使用一次。",
+    "ignore": "如果不是你本人操作，请忽略此邮件，账号不会有任何变化。",
+    "signature": "Agental 团队"
   }
 }
