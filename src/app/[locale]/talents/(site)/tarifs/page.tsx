@@ -53,7 +53,7 @@ function TarifsContent() {
           <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" />
           <p className="text-fg-muted">{tp("note")}</p>
         </div>
-        <TalentsPricingGrid />
+        <TalentsPricingGrid expanded />
         <p className="mt-8 font-mono text-[11px] text-fg-subtle">{t("note")}</p>
       </Section>
     </>

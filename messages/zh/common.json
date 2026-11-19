@@ -54,6 +54,12 @@
     "talents": "我是演员",
     "casting": "我负责选角",
     "enterTalents": "进入 Agental Talents",
-    "enterCasting": "进入 Agental Casting"
+    "enterCasting": "进入 Agental Casting",
+    "line": "从这里开始：你是表演者，还是选角方？",
+    "createTalents": "创建表演者账号",
+    "createCasting": "创建选角账号"
+  },
+  "pricing": {
+    "details": "包含内容"
   }
 }

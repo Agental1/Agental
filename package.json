@@ -18,8 +18,7 @@
     "db:purge-demo": "bun tools/db/purge-demo-accounts.ts",
     "db:studio": "prisma studio",
     "i18n:check": "bun tools/i18n/check-leaks.ts",
-    "a11y:check": "bun tools/a11y/touch-targets.ts",
-    "assets:portraits": "bun tools/assets/portraits.ts"
+    "a11y:check": "bun tools/a11y/touch-targets.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.1",

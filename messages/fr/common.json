@@ -54,6 +54,12 @@
     "talents": "Je suis artiste",
     "casting": "Je fais du casting",
     "enterTalents": "Entrer dans Agental Talents",
-    "enterCasting": "Entrer dans Agental Casting"
+    "enterCasting": "Entrer dans Agental Casting",
+    "line": "Pour commencer : artiste ou casting ?",
+    "createTalents": "Créer mon compte artiste",
+    "createCasting": "Créer mon compte casting"
+  },
+  "pricing": {
+    "details": "Ce qui est inclus"
   }
 }

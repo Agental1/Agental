@@ -37,6 +37,10 @@ export function MarketingHeader({
   const t = useTranslations("common");
   const pathname = usePathname();
   const burgerRef = useRef<HTMLButtonElement>(null);
+  // Switching audience keeps you on the same kind of page when both sides
+  // have it (How it works, Pricing, FAQ); otherwise it goes to the other home.
+  const twin = pathname.match(/^\/(?:talents|casting)\/(comment-ca-marche|tarifs|faq)$/);
+  const crossHref = twin ? `${crossLink.href}/${twin[1]}` : crossLink.href;
 
   useEffect(() => {
     if (!open) return;
@@ -61,7 +65,7 @@ export function MarketingHeader({
       <div className="mx-auto flex h-14 max-w-[78rem] items-center justify-between gap-3 rounded-[var(--chrome-radius)] border border-border bg-surface/75 pl-5 pr-2 shadow-[0_1px_0_rgb(0_0_0/0.03),0_12px_32px_-18px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150">
         <div className="flex min-w-0 items-center gap-3">
           <Link href={home} className="shrink-0" aria-label="Agental">
-            <AgentalLogo mark={portal === "casting" ? "star" : "tape"} />
+            <AgentalLogo />
           </Link>
           {/* Talents | Casting: the two halves of Agental, one tap apart, at
               every width. It replaces a text link that only showed on screens
@@ -75,7 +79,7 @@ export function MarketingHeader({
               return (
                 <Link
                   key={side}
-                  href={active ? home : crossLink.href}
+                  href={active ? home : crossHref}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "pressable inline-flex h-9 items-center rounded-[calc(var(--btn-radius)-2px)] px-3 text-[14px] font-bold",

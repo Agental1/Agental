@@ -54,6 +54,12 @@
     "talents": "I’m a performer",
     "casting": "I cast roles",
     "enterTalents": "Enter Agental Talents",
-    "enterCasting": "Enter Agental Casting"
+    "enterCasting": "Enter Agental Casting",
+    "line": "Start here. Are you performing or casting?",
+    "createTalents": "Create your performer account",
+    "createCasting": "Create your casting account"
+  },
+  "pricing": {
+    "details": "What's included"
   }
 }

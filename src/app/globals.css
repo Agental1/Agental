@@ -272,6 +272,9 @@ body {
    little more while pressed, then settles back. Nothing else moves this way.
    Unlayered so a stray `transition-colors` utility cannot cancel the scale. */
 .pressable {
+  /* Large tiles override these two so a half-screen surface does not jump. */
+  --hover-scale: 1.03;
+  --press-scale: 1.05;
   cursor: pointer;
   transition:
     transform var(--press-duration) ease-out,
@@ -283,11 +286,11 @@ body {
 }
 .pressable:hover,
 .pressable:focus-visible {
-  transform: scale(1.03);
+  transform: scale(var(--hover-scale));
   box-shadow: var(--lift-shadow);
 }
 .pressable:active {
-  transform: scale(1.05);
+  transform: scale(var(--press-scale));
 }
 .pressable:disabled,
 .pressable[aria-disabled="true"] {
@@ -311,7 +314,7 @@ body {
 }
 
 /* A highlighted card or the active navigation item: a wash of the accent. */
-.accent-wash {
+@utility accent-wash {
   background-image: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, var(--surface)) 0%, var(--surface) 70%);
 }
 
@@ -471,95 +474,12 @@ html[data-demo="end"] * {
 }
 .ll-strip > li { scroll-snap-align: start; }
 
-/* =============================================================================
-   Join steps (Talent landing): five steps you click through. Native radios
-   decide the state; :has() reads it. Without :has() support every panel shows,
-   in order, which still reads correctly.
-   ============================================================================= */
-.join-tab {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  padding: 14px 16px;
-  border: 1px solid transparent;
-  border-radius: var(--sedan);
-  cursor: pointer;
-  transition: background-color 150ms, border-color 150ms;
+/* --- Expanders ---------------------------------------------------------------
+   Native <details> for the steps overview, the plan cards and the FAQ: they
+   open without JavaScript. The marker is replaced by a chevron in the markup. */
+summary {
+  list-style: none;
 }
-.join-tab:hover { background: color-mix(in srgb, var(--surface) 60%, transparent); }
-.join-num {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border-strong);
-  border-radius: 9999px;
-  font-size: 15px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  transition: background-color 150ms, color 150ms;
-}
-.join-card {
-  border: 1px solid var(--border);
-  border-radius: var(--sedan-xl);
-  background: var(--surface);
-  padding: clamp(20px, 2.6vw, 32px);
-  min-height: 260px;
-}
-.join-progress { height: 3px; margin-bottom: 18px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
-.join-progress > span { display: block; height: 100%; width: 20%; background: var(--accent); transition: width 400ms cubic-bezier(0.2, 0.8, 0.2, 1); }
-.join-next {
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 20px;
-  border-radius: var(--btn-radius);
-  background: var(--cta);
-  color: var(--cta-fg);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 150ms;
-}
-.join-next:hover { background: var(--cta-hover); }
-
-@supports selector(:has(*)) {
-  .join-tab-body { display: none; }
-  .join-panel { display: none; }
-  @media (prefers-reduced-motion: no-preference) {
-    .join-panel { animation: join-in 240ms ease-out; }
-    @keyframes join-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-  }
-.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] { background: var(--surface); border-color: var(--accent); }
-.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-.join-steps:has(#join-step-0:checked) .join-tab[data-step="0"] .join-tab-body { display: block; }
-.join-steps:has(#join-step-0:checked) .join-panel[data-step="0"] { display: block; }
-.join-steps:has(#join-step-0:checked) .join-progress > span { width: 20%; }
-.join-steps:has(#join-step-0:focus-visible) .join-tab[data-step="0"] { outline: 2px solid var(--ring); outline-offset: 2px; }
-.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] { background: var(--surface); border-color: var(--accent); }
-.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-.join-steps:has(#join-step-1:checked) .join-tab[data-step="1"] .join-tab-body { display: block; }
-.join-steps:has(#join-step-1:checked) .join-panel[data-step="1"] { display: block; }
-.join-steps:has(#join-step-1:checked) .join-progress > span { width: 40%; }
-.join-steps:has(#join-step-1:focus-visible) .join-tab[data-step="1"] { outline: 2px solid var(--ring); outline-offset: 2px; }
-.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] { background: var(--surface); border-color: var(--accent); }
-.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-.join-steps:has(#join-step-2:checked) .join-tab[data-step="2"] .join-tab-body { display: block; }
-.join-steps:has(#join-step-2:checked) .join-panel[data-step="2"] { display: block; }
-.join-steps:has(#join-step-2:checked) .join-progress > span { width: 60%; }
-.join-steps:has(#join-step-2:focus-visible) .join-tab[data-step="2"] { outline: 2px solid var(--ring); outline-offset: 2px; }
-.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] { background: var(--surface); border-color: var(--accent); }
-.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-.join-steps:has(#join-step-3:checked) .join-tab[data-step="3"] .join-tab-body { display: block; }
-.join-steps:has(#join-step-3:checked) .join-panel[data-step="3"] { display: block; }
-.join-steps:has(#join-step-3:checked) .join-progress > span { width: 80%; }
-.join-steps:has(#join-step-3:focus-visible) .join-tab[data-step="3"] { outline: 2px solid var(--ring); outline-offset: 2px; }
-.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] { background: var(--surface); border-color: var(--accent); }
-.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] .join-num { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-.join-steps:has(#join-step-4:checked) .join-tab[data-step="4"] .join-tab-body { display: block; }
-.join-steps:has(#join-step-4:checked) .join-panel[data-step="4"] { display: block; }
-.join-steps:has(#join-step-4:checked) .join-progress > span { width: 100%; }
-.join-steps:has(#join-step-4:focus-visible) .join-tab[data-step="4"] { outline: 2px solid var(--ring); outline-offset: 2px; }
+summary::-webkit-details-marker {
+  display: none;
 }

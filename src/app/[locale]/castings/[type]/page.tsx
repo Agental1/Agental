@@ -1,9 +1,8 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Users, Sparkles, ShieldCheck, Coins, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,6 @@ import {
   getCastingType,
   type CastingType,
 } from "@/data/casting-types";
-import { PORTRAITS } from "@/data/portraits";
 import {
   seo,
   jsonLd,
@@ -109,11 +107,9 @@ function TypeContent({ ct, locale }: { ct: CastingType; locale: string }) {
   const tt = useTranslations("talents.castingTypes");
   const tm = useTranslations("talents.minors");
   const tc = useTranslations("common");
-  const activeLocale = toLocale(useLocale());
   const steps = tt.raw(`${ct.slug}.steps`) as string[];
   const faq = tt.raw(`${ct.slug}.faq`) as { q: string; a: string }[];
   const minorsItems = tm.raw("items") as string[];
-  const portrait = PORTRAITS[activeLocale].ages[ct.ageBand];
 
   return (
     <>
@@ -131,15 +127,6 @@ function TypeContent({ ct, locale }: { ct: CastingType; locale: string }) {
 
       <Section width="prose" rhythm="major">
         <InverseBand align="left" className="flex items-start gap-6">
-          {/* Illustrative, and the heading right beside it already names the
-              type — so alt="" rather than a caption a screen reader would
-              hear twice. */}
-          <Image
-            src={portrait}
-            alt=""
-            sizes="72px"
-            className="hidden size-[72px] shrink-0 rounded-full object-cover sm:block"
-          />
           <p className="text-[17px] leading-relaxed">
             {tt(`${ct.slug}.chapo`)}
           </p>

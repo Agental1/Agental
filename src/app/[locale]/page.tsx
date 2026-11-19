@@ -4,15 +4,26 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { toLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
-import { AgentalLogo, AgentalMark } from "@/components/brand/logo";
+import { AgentalLogo } from "@/components/brand/logo";
+import { Button } from "@/components/ui/button";
+import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
+import { StepsOverview } from "@/components/marketing/steps-overview";
 import { seo } from "@/lib/seo";
 
 /**
- * Two-door entry (v1 redesign, decision log D18 proposal).
+ * Entry screen: the first screen gets people started.
  *
- * `/` used to redirect straight to Talents, which left casting directors one
- * small header link away from their own product. The entry is now a split:
- * paper on the left for performers, the stage on the right for casting.
+ * Above the fold, on desktop and on a phone: the wordmark, Sign in, one line
+ * of copy and two tiles, the two largest things on the page. "I'm a
+ * performer" wears the Talent theme and "I cast roles" the Casting theme;
+ * each goes straight to account creation for that audience, where the
+ * "Already have an account? Sign in" link lives.
+ *
+ * Below the fold: the steps to join, once per audience, each in its theme.
+ *
+ * TODO(backend): a signed-in visitor is sent to /[locale]/continuer, which
+ * picks their dashboard. The route ships with feat/auth-onboarding; the
+ * redirect is added here after the rebase (handoff file, request 1).
  */
 export async function generateMetadata({
   params,
@@ -42,95 +53,84 @@ export default function EntryPage({
   const tc = useTranslations("casting.hero");
 
   return (
-    <main id="main" className="flex min-h-svh flex-col bg-bg p-[clamp(8px,1.2vw,16px)] text-fg">
-      <h1 className="sr-only">Agental</h1>
-      <div className="flex items-center justify-between px-3 py-3">
-        <AgentalLogo />
-        <Link
-          href="/connexion"
-          className="inline-flex h-10 items-center rounded-full border border-border px-4 text-[14px] hover:border-border-strong"
-        >
-          {t("nav.signIn")}
-        </Link>
+    <main id="main" className="flex flex-col overflow-x-clip text-fg">
+      <div className="flex h-svh min-h-[540px] flex-col px-[clamp(12px,1.6vw,24px)] pb-[clamp(12px,1.6vw,24px)]">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-3">
+          <AgentalLogo />
+          <div className="flex items-center gap-1">
+            <LocaleSwitcher compact />
+            <Button asChild variant="secondary" size="sm" className="h-10 border-border-strong px-5">
+              <Link href="/connexion">{t("nav.signIn")}</Link>
+            </Button>
+          </div>
+        </header>
+
+        <h1 className="shrink-0 pb-[clamp(10px,1.4vw,20px)] text-[clamp(1.125rem,1.2vw+0.75rem,1.5rem)] leading-tight">
+          {t("entry.line")}
+        </h1>
+
+        <div className="grid min-h-0 flex-1 grid-rows-2 gap-[clamp(10px,1.2vw,16px)] md:grid-cols-2 md:grid-rows-1">
+          <Tile
+            portal="talents"
+            href="/talents/inscription"
+            label={t("entry.talents")}
+            body={tt("note")}
+            action={t("entry.createTalents")}
+          />
+          <Tile
+            portal="casting"
+            href="/casting/inscription"
+            label={t("entry.casting")}
+            body={tc("note")}
+            action={t("entry.createCasting")}
+          />
+        </div>
       </div>
 
-      <div className="grid flex-1 gap-[clamp(8px,1.2vw,16px)] md:grid-cols-2">
-        <Door
-          portal="talents"
-          href="/talents"
-          word="Talents"
-          label={t("entry.talents")}
-          body={tt("note")}
-          cta={t("entry.enterTalents")}
-        />
-        <Door
-          portal="casting"
-          href="/casting"
-          word="Casting"
-          label={t("entry.casting")}
-          body={tc("note")}
-          cta={t("entry.enterCasting")}
-        />
+      <div data-portal="talents" className="py-[clamp(48px,6vw,88px)]">
+        <StepsOverview portal="talents" />
+      </div>
+      <div data-portal="casting" className="py-[clamp(48px,6vw,88px)] text-fg">
+        <StepsOverview portal="casting" />
       </div>
     </main>
   );
 }
 
-function Door({
+/**
+ * One audience, one tile. The whole tile is the link; the pill inside names
+ * what the click does and is part of the same link, so there is one target.
+ */
+function Tile({
   portal,
   href,
-  word,
   label,
   body,
-  cta,
+  action,
 }: {
   portal: "talents" | "casting";
   href: string;
-  word: string;
   label: string;
   body: string;
-  cta: string;
+  action: string;
 }) {
-  const dark = portal === "casting";
   return (
     <Link
       href={href}
-      aria-label={cta}
-      className={
-        dark
-          ? "group stage-light relative isolate flex min-h-[46svh] flex-col justify-between overflow-hidden rounded-sedan-2xl p-[clamp(20px,3vw,40px)] text-[#f2f2ee] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a8360a]"
-          : "group relative flex min-h-[46svh] flex-col justify-between overflow-hidden rounded-sedan-2xl border border-border bg-surface p-[clamp(20px,3vw,40px)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a8360a]"
-      }
+      data-portal={portal}
+      className="pressable group flex min-h-0 flex-col justify-between overflow-hidden rounded-sedan-2xl border border-border p-[clamp(20px,3vw,44px)] text-fg [--hover-scale:1.015] [--press-scale:1.03] hover:z-10 focus-visible:z-10"
     >
-      {dark && <div className="stage-beam pointer-events-none absolute inset-0 -z-10" />}
-      <div className="flex items-start justify-between gap-6">
-        <div>
-          <p className="text-[clamp(1.25rem,2vw,1.6rem)] font-medium tracking-[-0.035em]">
-            {label}
-          </p>
-          <p className={dark ? "mt-2 max-w-[36ch] text-[14.5px] text-white/60" : "mt-2 max-w-[36ch] text-[14.5px] text-fg-muted"}>
-            {body}
-          </p>
-        </div>
-        <span
-          className={
-            dark
-              ? "inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-[#f2f2ee] text-[#0e0e0e] transition-transform group-hover:-rotate-45"
-              : "inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-cta text-cta-fg transition-transform group-hover:-rotate-45"
-          }
-          aria-hidden="true"
-        >
-          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
+      <span className="block">
+        <span className="block text-[clamp(2.25rem,5.2vw,5rem)] font-bold leading-[0.98] tracking-[-0.035em]">
+          {label}
         </span>
-      </div>
-      <div className="flex items-end justify-between gap-4">
-        <span className="brand-type text-[clamp(4rem,11vw,11rem)] font-semibold leading-[0.8] tracking-[-0.065em]">
-          {word}
+        <span className="mt-[clamp(8px,1vw,16px)] block max-w-[34ch] text-[clamp(0.9375rem,0.4vw+0.8rem,1.125rem)] text-fg-muted">
+          {body}
         </span>
-        <AgentalMark className="mb-2 h-[clamp(24px,3vw,40px)] w-auto text-signal" />
-      </div>
+      </span>
+      <span className="cta-fill inline-flex h-12 w-fit max-w-full items-center rounded-full px-6 text-[15.5px] font-bold transition-[background-position] duration-200 ease-out group-hover:[background-position:100%_50%] group-focus-visible:[background-position:100%_50%]">
+        <span className="truncate">{action}</span>
+      </span>
     </Link>
   );
 }

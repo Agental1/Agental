@@ -71,7 +71,6 @@ surfaces protégées sont inatteignables sur une base fraîche.
 | `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
 | `bun run db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
-| `bun run assets:portraits` | Portraits par locale : sources dans `.assets/` (non versionné) → WebP dans `src/assets/portraits/` |
 
 ### Tests
 
