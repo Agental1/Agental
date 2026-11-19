@@ -13,7 +13,6 @@ import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { B2B_PLANS } from "@/domain/pricing";
 
 // Variant only: the label is looked up in `space.projectStatus` by the same key.
 const STATUS = {
@@ -52,11 +51,6 @@ export default async function CastingProjectsDashboard({
   const projects = org?.projects ?? [];
   const openCount = projects.filter((p) => ["OPEN", "SHORTLISTING"].includes(p.status)).length;
   const totalCandidates = projects.reduce((s, p) => s + p.candidatures.length, 0);
-  // Display name from the messages, in the order of the B2B_PLANS table.
-  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
-  const planName = org
-    ? (planNames[Object.keys(B2B_PLANS).indexOf(org.plan)] ?? org.plan)
-    : "";
 
   return (
     <div className="space-y-8">
@@ -72,7 +66,6 @@ export default async function CastingProjectsDashboard({
           ) : (
             <Badge variant="warning">{t("space.projects.siretPending")}</Badge>
           )}
-          <Badge variant="neutral">{t("space.projects.plan", { plan: planName })}</Badge>
           <Button asChild size="sm">
             <Link href="/casting/app/projets/nouveau">
               <Plus />{t("space.projects.newBrief")}</Link>

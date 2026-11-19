@@ -29,6 +29,20 @@ const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   bio: PenLine,
 };
 
+const CANDIDATURE_STATUSES = [
+  "NEW",
+  "SHORTLISTED",
+  "STARRED",
+  "EXCLUDED",
+  "SELFTAPE_REQUESTED",
+  "INVITED",
+  "CONTRACTED",
+  "REJECTED",
+] as const;
+function isCandidatureStatus(v: string): v is (typeof CANDIDATURE_STATUSES)[number] {
+  return (CANDIDATURE_STATUSES as readonly string[]).includes(v);
+}
+
 export default async function TalentsDashboard({
   params,
   searchParams,
@@ -42,6 +56,7 @@ export default async function TalentsDashboard({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
+  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -137,10 +152,6 @@ export default async function TalentsDashboard({
             </p>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="success">{t("space.dashboard.represented")}</Badge>
-          <Badge variant="neutral">Plan Free</Badge>
-        </div>
       </div>
 
       {gaps.length > 0 && (
@@ -216,7 +227,9 @@ export default async function TalentsDashboard({
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">
                     {c.project.title}
                   </span>
-                  <Badge variant="accent">{c.status === "SHORTLISTED" ? "Shortlistée" : c.status}</Badge>
+                  <Badge variant="accent">
+                    {isCandidatureStatus(c.status) ? ta(`candidatureStatus.${c.status}`) : c.status}
+                  </Badge>
                 </li>
               ))}
             </ul>
