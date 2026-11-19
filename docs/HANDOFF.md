@@ -73,3 +73,15 @@ Not merged yet; the UI builds against these names. Full text in the shared notes
 - **Published sites**: `resolveSiteByHost(hostname)`; `approveSitePreview`, `publishSite`, `unpublishSite`, `addSiteDomain`, `verifySiteDomain`.
 
 Backend boundaries: `feat/beta-server` adds a migration, so it goes to production only on the owner's word; n8n exports stay out of the public repository; payments stay off.
+
+## Paused 2026-11-19 (deployments and research brief)
+
+Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
+
+- **Live**: release 1, deployment `agental-2bj1oiw9g-agentalco.vercel.app`, commit `18c3287`, tag `live-2026-11-19-release1`. Nothing is deploying.
+- **Pushed, not deployed** (branch `frontend-redesign`, head after `3eb5a98`): Sections 1, 3, 4, 5 and the Messages menu order and shortcut of Section 6.
+- **Google sign-in**: off in production. Vercel has no `AUTH_GOOGLE_ID` or `AUTH_GOOGLE_SECRET`. Google Cloud project `agental-515217`, Web client "Agental website" (origin `https://www.agental.co`, redirects `/api/auth/callback/google` on www and `http://localhost:3200`). The owner has to paste the client secret in Vercel; the assistant may not type secrets. If the secret can no longer be shown, add a new secret on the client in Google Cloud > Clients. App is in Testing until a privacy-policy URL exists.
+- **Waiting on the backend session** (`feat/beta-server`, not pushed yet): Section 2 (`completeBetaOnboarding`, `getSetupState`), Section 3 storage (`requestPortfolioSite`), Section 6 (`sendMessage`, `getMyThread`, team inbox), Section 7 (preferences, specialties, content boundaries), Research 2.
+- **Research**: R1, R3, R4 drafted in `~/Downloads/agental-workflows/reports/` and copied to Google Docs; R2 waits on the backend comparison.
+
+**Next step on resume:** check `vercel env ls production` for the Google variables; if present, redeploy, verify the Google button on `/en/connexion` and `/fr/connexion`, report the deployment ID. Then merge `origin/feat/beta-server` slices and wire Sections 2, 6, 7; run checks; deploy release 2; tag it.
