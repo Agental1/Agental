@@ -115,6 +115,17 @@ async function buildProviders(): Promise<NextAuthConfig["providers"]> {
   return providers;
 }
 
+/**
+ * When this session began, in milliseconds. `authAt` is ours and survives
+ * token refreshes. Sessions older than that claim only have `iat`, which
+ * Auth.js rewrites on refresh and rounds to the second; it is good enough for
+ * them, since a cut-off always postdates their last refresh.
+ */
+function sessionStartedAt(token: { authAt?: unknown; iat?: unknown }): number {
+  if (typeof token.authAt === "number") return token.authAt;
+  return typeof token.iat === "number" ? token.iat * 1000 : 0;
+}
+
 function connexionError(locale: string, code: AuthErrorCode): string {
   return `/${locale}/connexion?error=${code}`;
 }
@@ -195,11 +206,41 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
           token.picture = linked.user.image;
           token.kind = linked.user.kind;
           token.locale = linked.user.locale;
+          token.authAt = Date.now();
           return token;
         }
         if (user) {
+          // Credentials sign-in.
           token.kind = user.kind;
           token.locale = user.locale;
+          token.authAt = Date.now();
+          return token;
+        }
+        // An ordinary request. One primary-key read decides whether this
+        // session still stands: the account must exist, and the session must
+        // not predate a cut-off (set when a provider sign-in took over an
+        // account whose password was never proven, see linkOAuthUser).
+        if (token.sub) {
+          let account: { sessionsValidAfter: Date | null } | null;
+          try {
+            account = await prisma.user.findUnique({
+              where: { id: token.sub },
+              select: { sessionsValidAfter: true },
+            });
+          } catch (error) {
+            // The database is unreachable. Keep the session as it is: every
+            // page that shows or changes anything needs the database too and
+            // will fail on its own, so nothing is exposed by not ending it here.
+            console.error("[auth] session check skipped, database unreachable", error);
+            return token;
+          }
+          if (!account) return null;
+          if (
+            account.sessionsValidAfter &&
+            sessionStartedAt(token) < account.sessionsValidAfter.getTime()
+          ) {
+            return null;
+          }
         }
         return token;
       },

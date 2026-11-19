@@ -106,6 +106,9 @@ export async function readPendingCookie(): Promise<OAuthIdentity | null> {
     provider: p.provider,
     providerAccountId: p.sub,
     email: p.email,
+    // A parked identity only ever creates a new account. If an account took
+    // this address in the meantime, it is refused, never joined.
+    emailAuthoritative: false,
     name: p.name,
     image: p.image,
   };
