@@ -241,5 +241,30 @@
     "permissions": "权限：姓名、邮箱地址、头像。",
     "keepOne": "你始终至少保留一种登录方式。",
     "none": "没有关联其他服务。Agental 无法访问你的社交账号或邮箱。"
+  },
+  "emailFlow": {
+    "forgot": "忘记密码？",
+    "forgotTitle": "重置密码",
+    "forgotLead": "请输入你的邮箱地址。如果有账号使用该邮箱，我们会发送一个设置新密码的链接。",
+    "sendLink": "发送链接",
+    "sent": "如果有账号使用该邮箱，链接已在路上，1 小时内有效。",
+    "backToSignIn": "返回登录",
+    "resetTitle": "设置新密码",
+    "resetLead": "请选择一个你没有在别处使用的密码。",
+    "newPassword": "新密码",
+    "savePassword": "保存新密码",
+    "resetDone": "密码已更改，请使用新密码登录。",
+    "missingToken": "此页面需要邮件中的链接。请打开邮件并点击其中的按钮。",
+    "verifyTitle": "确认你的邮箱",
+    "verifyLead": "点击一次即可确认该邮箱属于你。",
+    "confirm": "确认我的邮箱",
+    "verified": "你的邮箱已确认。",
+    "continue": "继续",
+    "inboxTitle": "请查收邮件",
+    "inboxLead": "我们已向 {email} 发送确认链接。打开链接即可完成账号创建。",
+    "resend": "重新发送邮件",
+    "resendIn": "{seconds} 秒后可重新发送",
+    "resent": "新的邮件已在路上。",
+    "signOut": "退出登录"
   }
 }

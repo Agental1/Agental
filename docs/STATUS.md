@@ -36,8 +36,8 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | F4.2 "How this works" tutorial | done, local | Four steps for Talent, three for Casting, opened by `?welcome=1`, replayable from Settings. Stamping the first-run flag on close is server. |
 | F4.3 student code | open | Field and messages are front-end work; validation is server and waits on Stripe. |
 | F5.1 password rules | done, local | Live checklist; the server enforces the same rules. Applies to sign-up; reset comes with F5.3. |
-| F5.2 email verification | blocked | No email sender yet: Resend API key and DNS records for agental.co are missing. |
-| F5.3 forgot password | blocked | Same blocker as F5.2. |
+| F5.2 email verification | done, local | "Check your inbox" with a resend button (60-second rest) and the page the email links to. Emails are logged, not sent, and nobody is gated until the Resend key, DNS and a start date are set. |
+| F5.3 forgot password | done, local | "Forgot password?" on sign-in, the request form (same answer whether or not an account exists) and the new-password page with the three rules. Checked locally end to end with the logged link. Sending real email waits on the Resend key and DNS. |
 | F5.4 abuse protection | partial | Double submits are prevented. CAPTCHA and rate limits are server work. |
 | F5.5 cookie consent | done, local | See round 2 B2. |
 | F6.1 Reel & Self-tape | done, local | Renamed, old address redirects. After a take: watch it, choose "Media on my profile" or the library, save with a progress bar, or record again. In production, uploads also need a CORS rule on the storage bucket, which only the founders can add. |
@@ -56,7 +56,7 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | B1.1 sign-up, verification, first sign-in | partial | Sign-up and onboarding work. Verification email blocked (F5.2). |
 | B1.2 sign-in to dashboard | done, local | |
 | B1.3 wrong password | done, local | "Wrong email or password.", the email stays in the field. |
-| B1.4 forgot password | blocked | F5.3. |
+| B1.4 forgot password | done, local | See F5.3. |
 | B1.5 signed-in redirect | done, local | Home and audience pages send signed-in visitors to their dashboard. |
 | B2 cookie consent | done, local | Sign-up has a cookie choice step; Settings has "Cookie preferences"; the choice is saved on the account. The site sets strictly necessary cookies only; analytics is cookieless and loads only after consent. A Google or Apple sign-up starts with strictly necessary only. |
 | B3 Google and Apple | partial | Built and merged; `docs/OAUTH_SETUP.md` lists the steps for the founders. The buttons appear once the provider keys exist. Using Google with the email of a password account lands on that same account. |

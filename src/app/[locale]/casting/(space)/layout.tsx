@@ -4,6 +4,9 @@ import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
+import { emailSenderConfigured } from "@/lib/mailer";
+
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
 import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
@@ -46,6 +49,22 @@ export default async function CastingAppLayout({
     select: { onboardingCompletedAt: true },
   });
   if (!account?.onboardingCompletedAt) return redirect({ href: "/casting/inscription", locale });
+
+  // Accounts that still have to confirm their email wait on "Check your inbox".
+  // The gate stays open until an email sender and a start date are configured.
+  const emailState = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { emailVerified: true, passwordHash: true, createdAt: true },
+  });
+  if (
+    emailState &&
+    requiresEmailVerification(emailState, {
+      senderConfigured: emailSenderConfigured(),
+      requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
+    })
+  ) {
+    return redirect({ href: "/verifier", locale });
+  }
 
   // The plan badge at the top right opens the plan switcher on every page.
   const current = membership.organization.plan as PlanB2B;

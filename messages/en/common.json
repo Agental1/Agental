@@ -241,5 +241,30 @@
     "permissions": "Permissions: name, email address, profile picture.",
     "keepOne": "You always keep at least one way to sign in.",
     "none": "No other service is connected. Agental has no access to your social or email accounts."
+  },
+  "emailFlow": {
+    "forgot": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotLead": "Enter your email address. If an account uses it, we send a link to choose a new password.",
+    "sendLink": "Send the link",
+    "sent": "If an account uses this address, a link is on its way. It works for 1 hour.",
+    "backToSignIn": "Back to sign in",
+    "resetTitle": "Choose a new password",
+    "resetLead": "Pick a password you do not use anywhere else.",
+    "newPassword": "New password",
+    "savePassword": "Save my new password",
+    "resetDone": "Your password is changed. Sign in with the new one.",
+    "missingToken": "This page needs the link from your email. Open the email and use its button.",
+    "verifyTitle": "Confirm your email",
+    "verifyLead": "One press confirms that this address is yours.",
+    "confirm": "Confirm my email",
+    "verified": "Your email is confirmed.",
+    "continue": "Continue",
+    "inboxTitle": "Check your inbox",
+    "inboxLead": "We sent a confirmation link to {email}. Open it to finish creating your account.",
+    "resend": "Send the email again",
+    "resendIn": "Send again in {seconds} s",
+    "resent": "A new email is on its way.",
+    "signOut": "Sign out"
   }
 }

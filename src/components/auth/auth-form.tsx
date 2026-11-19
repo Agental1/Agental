@@ -5,6 +5,7 @@ import type { Locale } from "next-intl";
 import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AlertCircle, Check, Circle } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import type { AuthState } from "@/app/actions/auth";
@@ -60,6 +61,7 @@ export function AuthForm({
   const [password, setPassword] = useState("");
   const [step, setStep] = useState<"credentials" | "consent">("credentials");
   const tc = useTranslations("common.consent");
+  const tf = useTranslations("common.emailFlow");
 
   const signup = Boolean(kind);
   const checks = passwordChecks(password);
@@ -170,6 +172,17 @@ export function AuthForm({
             {tc("back")}
           </button>
         </div>
+      )}
+
+      {!signup && (
+        <p className="-mt-1">
+          <Link
+            href="/mot-de-passe-oublie"
+            className="inline-flex min-h-11 items-center text-[14px] font-bold text-accent underline-offset-4 hover:underline"
+          >
+            {tf("forgot")}
+          </Link>
+        </p>
       )}
 
       {state?.error && (

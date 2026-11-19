@@ -33,7 +33,7 @@ Rules from the owner: design is approved, keep it; every amount in US dollars; A
 
 ## Open items from the earlier briefs
 
-- Verification and forgot-password emails: screens not built; server slice pending; no email sender configured.
+- Verification and forgot-password emails: screens and server are built and checked locally (`/mot-de-passe-oublie`, `/reinitialiser`, `/verifier`). Not deployed. No email sender is configured, so emails are logged, not sent.
 - Admin screens: student price requests, student codes, accounts index and timeline.
 - Published Limelight sites are not served at `*.agental.site`.
 - Recording was never tested with a real camera, on phones, or in Safari and Firefox.
@@ -60,3 +60,16 @@ Kept off or behind the mock: online payments, paid access to roles, automated su
 ## Next concrete task
 
 Finish Google sign-in: once the owner has signed in to Google Cloud in Chrome, create the OAuth client (type Web application; origin `https://www.agental.co`; redirect `https://www.agental.co/api/auth/callback/google`; add `http://localhost:3200/api/auth/callback/google` for local tests), set `AUTH_GOOGLE_ID` in Vercel, have the owner paste `AUTH_GOOGLE_SECRET`, redeploy, tag, and run the round trip: first login, return login, sign-out, cancel, protected route while signed out, mobile width. Then Task 3's Profile > Media.
+
+## Contracts agreed for the beta brief (backend branch `feat/beta-server`)
+
+Not merged yet; the UI builds against these names. Full text in the shared notes.
+
+- **Tapes**: `uploadMedia(file, { type: "SELFTAPE", tapeId?, title?, demoBrief? })`; `listTapes(profileId)` in `src/lib/tapes.ts`; `renameTape`, `deleteTape` in `src/app/actions/tapes.ts`.
+- **Sharing**: `createShareLink(mediaId, { expiresInHours? })` (shown once; 72 hours by default, 7 days at most, 5 active per clip), `revokeShareLink(shareId)`, `listShareLinks(mediaId)`; public file at `GET /api/share/<token>`; the viewing page `/[locale]/partage/[token]` is front-end work.
+- **Drafts**: `listMyDrafts`, `getMyDraft`; `attachMediaToDraft`, `detachMediaFromDraft`, `reviewDraft(draftId, "approve" | "decline" | "needs_info", reason?)`. Approving records a decision; nothing is submitted.
+- **Connected accounts**: `listConnectedAccounts(userId)`, `disconnectProvider(provider)` (refused with `errors.lastLoginMethod` when it would leave no way to sign in).
+- **Limelight leads**: `POST /api/limelight/interest` and the form action `requestPortfolioSite(prevState, formData)`; `listLimelightLeads()` and `GET /api/admin/limelight/leads.csv` for admins.
+- **Published sites**: `resolveSiteByHost(hostname)`; `approveSitePreview`, `publishSite`, `unpublishSite`, `addSiteDomain`, `verifySiteDomain`.
+
+Backend boundaries: `feat/beta-server` adds a migration, so it goes to production only on the owner's word; n8n exports stay out of the public repository; payments stay off.

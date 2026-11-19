@@ -241,5 +241,30 @@
     "permissions": "Permisos: nombre, correo electrónico, foto de perfil.",
     "keepOne": "Siempre conservas al menos una forma de iniciar sesión.",
     "none": "No hay ningún otro servicio conectado. Agental no tiene acceso a tus redes sociales ni a tu correo."
+  },
+  "emailFlow": {
+    "forgot": "¿Olvidaste tu contraseña?",
+    "forgotTitle": "Restablece tu contraseña",
+    "forgotLead": "Escribe tu correo electrónico. Si una cuenta lo usa, enviamos un enlace para elegir una contraseña nueva.",
+    "sendLink": "Enviar el enlace",
+    "sent": "Si una cuenta usa esta dirección, el enlace está en camino. Funciona durante 1 hora.",
+    "backToSignIn": "Volver a iniciar sesión",
+    "resetTitle": "Elige una contraseña nueva",
+    "resetLead": "Elige una contraseña que no uses en ningún otro sitio.",
+    "newPassword": "Contraseña nueva",
+    "savePassword": "Guardar mi contraseña nueva",
+    "resetDone": "Tu contraseña ha cambiado. Inicia sesión con la nueva.",
+    "missingToken": "Esta página necesita el enlace de tu correo. Abre el correo y usa su botón.",
+    "verifyTitle": "Confirma tu correo",
+    "verifyLead": "Un clic confirma que esta dirección es tuya.",
+    "confirm": "Confirmar mi correo",
+    "verified": "Tu correo está confirmado.",
+    "continue": "Continuar",
+    "inboxTitle": "Revisa tu bandeja de entrada",
+    "inboxLead": "Enviamos un enlace de confirmación a {email}. Ábrelo para terminar de crear tu cuenta.",
+    "resend": "Enviar el correo de nuevo",
+    "resendIn": "Enviar de nuevo en {seconds} s",
+    "resent": "Un nuevo correo está en camino.",
+    "signOut": "Cerrar sesión"
   }
 }

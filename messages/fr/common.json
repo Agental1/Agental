@@ -241,5 +241,30 @@
     "permissions": "Autorisations : nom, adresse e-mail, photo de profil.",
     "keepOne": "Tu gardes toujours au moins un moyen de te connecter.",
     "none": "Aucun autre service n’est connecté. Agental n’a aucun accès à tes réseaux sociaux ni à ta messagerie."
+  },
+  "emailFlow": {
+    "forgot": "Mot de passe oublié ?",
+    "forgotTitle": "Réinitialiser ton mot de passe",
+    "forgotLead": "Saisis ton adresse e-mail. Si un compte l’utilise, nous envoyons un lien pour choisir un nouveau mot de passe.",
+    "sendLink": "Envoyer le lien",
+    "sent": "Si un compte utilise cette adresse, un lien est en route. Il est valable 1 heure.",
+    "backToSignIn": "Retour à la connexion",
+    "resetTitle": "Choisis un nouveau mot de passe",
+    "resetLead": "Choisis un mot de passe que tu n’utilises nulle part ailleurs.",
+    "newPassword": "Nouveau mot de passe",
+    "savePassword": "Enregistrer mon nouveau mot de passe",
+    "resetDone": "Ton mot de passe est modifié. Connecte-toi avec le nouveau.",
+    "missingToken": "Cette page a besoin du lien reçu par e-mail. Ouvre l’e-mail et utilise son bouton.",
+    "verifyTitle": "Confirme ton adresse e-mail",
+    "verifyLead": "Un clic confirme que cette adresse est bien la tienne.",
+    "confirm": "Confirmer mon e-mail",
+    "verified": "Ton adresse e-mail est confirmée.",
+    "continue": "Continuer",
+    "inboxTitle": "Vérifie ta boîte de réception",
+    "inboxLead": "Nous avons envoyé un lien de confirmation à {email}. Ouvre-le pour terminer la création de ton compte.",
+    "resend": "Renvoyer l’e-mail",
+    "resendIn": "Renvoyer dans {seconds} s",
+    "resent": "Un nouvel e-mail est en route.",
+    "signOut": "Se déconnecter"
   }
 }
