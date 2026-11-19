@@ -34,13 +34,20 @@ export async function GET(
 
   const media = await prisma.media.findUnique({
     where: { id },
-    select: { storageKey: true, mime: true, profileId: true, destination: true },
+    select: {
+      storageKey: true,
+      mime: true,
+      profileId: true,
+      destination: true,
+      status: true,
+    },
   });
   if (!media) return new Response("Not found", { status: 404 });
 
   if (
     !(await canReadMedia(userId, media.profileId, {
       destination: media.destination,
+      status: media.status,
     }))
   ) {
     return new Response("Not found", { status: 404 });

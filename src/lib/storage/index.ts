@@ -20,7 +20,14 @@ export interface Storage {
    * and the media route redirects to it instead of proxying. Local disk cannot,
    * so it is absent there and the route falls back to streaming through us.
    */
-  signedUrl?(key: string, opts?: { mime?: string | null }): Promise<string>;
+  signedUrl?(
+    key: string,
+    opts?: {
+      mime?: string | null;
+      /** Shorter than the default lifetime. Never longer: it is capped. */
+      expiresInSeconds?: number;
+    }
+  ): Promise<string>;
   /** Size and type of a stored object, or null when it does not exist. */
   head(key: string): Promise<{ size: number; mime: string } | null>;
   /** Every key under a prefix. Used to remove a talent's files with their account. */

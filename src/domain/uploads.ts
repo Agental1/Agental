@@ -70,12 +70,41 @@ export function defaultDestination(type: UploadType): UploadDestination {
   return type === "SELFTAPE" ? "library" : "profile";
 }
 
+/** Longest tape or clip title, tape demo brief and consent version label. */
+export const TAPE_TITLE_MAX = 120;
+export const TAPE_BRIEF_MAX = 2000;
+export const CONSENT_VERSION_MAX = 40;
+
+/**
+ * The title of a tape created from an upload that carried none. An empty
+ * string on purpose: the interface shows its own translated "Untitled" label
+ * for it, so no sentence in one language is ever stored as a title.
+ */
+export const UNTITLED_TAPE_TITLE = "";
+
+/** Optional text: trimmed, capped, and "not given" when nothing is left. */
+const optionalText = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .nullish()
+    .transform((value) => value || undefined);
+
 export const CreateUploadInput = z
   .object({
     type: z.enum(UPLOAD_TYPES),
     destination: z.enum(UPLOAD_DESTINATIONS).optional(),
     mime: z.string().max(200).transform(baseMime),
     sizeBytes: z.number().int().positive(),
+    // Self-tapes: the tape this file becomes a new version of. Whether it
+    // belongs to the caller is checked against the database in createUpload.
+    tapeId: z.string().min(1).max(100).nullish(),
+    title: optionalText(TAPE_TITLE_MAX),
+    // Self-tapes: the brief of the tape this upload creates.
+    demoBrief: optionalText(TAPE_BRIEF_MAX),
+    // Which version of the upload notice the person accepted.
+    consentVersion: optionalText(CONSENT_VERSION_MAX),
   })
   .transform((input) => ({
     ...input,
@@ -83,8 +112,42 @@ export const CreateUploadInput = z
       input.type === "PHOTO"
         ? ("profile" as const)
         : (input.destination ?? defaultDestination(input.type)),
+    // Only a self-tape has versions and a brief. On a photo or a video the
+    // two fields are dropped, the way a photo's destination is forced above.
+    tapeId: input.type === "SELFTAPE" ? (input.tapeId ?? undefined) : undefined,
+    demoBrief: input.type === "SELFTAPE" ? input.demoBrief : undefined,
   }));
 export type CreateUploadInput = z.infer<typeof CreateUploadInput>;
+
+/**
+ * Rename a tape. An empty title is allowed and means untitled. `demoBrief`
+ * left out keeps the current brief; null or an empty string clears it.
+ */
+export const RenameTapeInput = z.object({
+  title: z.string().trim().max(TAPE_TITLE_MAX),
+  demoBrief: z
+    .string()
+    .trim()
+    .max(TAPE_BRIEF_MAX)
+    .nullish()
+    .transform((value) => (value === undefined ? undefined : value || null)),
+});
+export type RenameTapeInput = z.infer<typeof RenameTapeInput>;
+
+/**
+ * Upload state of a stored file, as its owner sees it. A file still in
+ * flight is an Upload row, so a Media row is READY from the start today.
+ * PROCESSING and FAILED exist for a later transcoding or metadata step.
+ */
+export const MEDIA_STATUSES = ["PROCESSING", "READY", "FAILED"] as const;
+export type MediaStatus = (typeof MEDIA_STATUSES)[number];
+
+/** A stored status, or FAILED for anything unexpected: never READY by default. */
+export function toMediaStatus(raw: unknown): MediaStatus {
+  return (MEDIA_STATUSES as readonly unknown[]).includes(raw)
+    ? (raw as MediaStatus)
+    : "FAILED";
+}
 
 export const CompleteUploadInput = z.object({
   uploadId: z.string().min(1).max(100),

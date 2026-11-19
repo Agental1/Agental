@@ -6,8 +6,11 @@ import {
   CreateUploadInput,
   defaultDestination,
   overQuota,
+  RenameTapeInput,
   storageKeyFor,
   storagePrefixesFor,
+  toMediaStatus,
+  UNTITLED_TAPE_TITLE,
   UPLOAD_LIMITS,
   UPLOAD_QUOTA,
 } from "@/domain/uploads";
@@ -81,6 +84,127 @@ describe("destinations", () => {
   it("refuses an unknown type or a fractional size", () => {
     expect(CreateUploadInput.safeParse({ type: "AUDIO", mime: "audio/mp3", sizeBytes: 1 }).success).toBe(false);
     expect(CreateUploadInput.safeParse({ type: "PHOTO", mime: "image/png", sizeBytes: 1.5 }).success).toBe(false);
+  });
+});
+
+describe("self-tape versions", () => {
+  const base = { type: "SELFTAPE", mime: "video/mp4", sizeBytes: 10 } as const;
+
+  it("leaves the tape fields out when nothing is sent", () => {
+    const parsed = CreateUploadInput.parse(base);
+    expect(parsed.tapeId).toBeUndefined();
+    expect(parsed.title).toBeUndefined();
+    expect(parsed.demoBrief).toBeUndefined();
+    expect(parsed.consentVersion).toBeUndefined();
+  });
+
+  it("trims the title, the brief and the consent version", () => {
+    const parsed = CreateUploadInput.parse({
+      ...base,
+      tapeId: "t1",
+      title: "  Monologue ",
+      demoBrief: "\n Two minutes. \n",
+      consentVersion: " 2026-11 ",
+    });
+    expect(parsed).toMatchObject({
+      tapeId: "t1",
+      title: "Monologue",
+      demoBrief: "Two minutes.",
+      consentVersion: "2026-11",
+    });
+  });
+
+  it("treats blank text and null as not given", () => {
+    const parsed = CreateUploadInput.parse({
+      ...base,
+      tapeId: null,
+      title: "   ",
+      demoBrief: "",
+      consentVersion: null,
+    });
+    expect(parsed.tapeId).toBeUndefined();
+    expect(parsed.title).toBeUndefined();
+    expect(parsed.demoBrief).toBeUndefined();
+    expect(parsed.consentVersion).toBeUndefined();
+  });
+
+  it("measures the limits after trimming: 120, 2000 and 40 characters", () => {
+    const ok = CreateUploadInput.safeParse({
+      ...base,
+      title: ` ${"x".repeat(120)} `,
+      demoBrief: "x".repeat(2000),
+      consentVersion: "x".repeat(40),
+    });
+    expect(ok.success).toBe(true);
+    expect(CreateUploadInput.safeParse({ ...base, title: "x".repeat(121) }).success).toBe(false);
+    expect(CreateUploadInput.safeParse({ ...base, demoBrief: "x".repeat(2001) }).success).toBe(false);
+    expect(CreateUploadInput.safeParse({ ...base, consentVersion: "x".repeat(41) }).success).toBe(false);
+  });
+
+  it("refuses a tape id that is empty, too long or not text", () => {
+    expect(CreateUploadInput.safeParse({ ...base, tapeId: "" }).success).toBe(false);
+    expect(CreateUploadInput.safeParse({ ...base, tapeId: "x".repeat(101) }).success).toBe(false);
+    expect(CreateUploadInput.safeParse({ ...base, tapeId: 7 }).success).toBe(false);
+  });
+
+  it("drops the tape and the brief on a photo or a video, and keeps the title", () => {
+    for (const type of ["PHOTO", "VIDEO"] as const) {
+      const parsed = CreateUploadInput.parse({
+        type,
+        mime: type === "PHOTO" ? "image/png" : "video/mp4",
+        sizeBytes: 10,
+        tapeId: "t1",
+        demoBrief: "brief",
+        title: "Reel",
+        consentVersion: "2026-11",
+      });
+      expect(parsed.tapeId).toBeUndefined();
+      expect(parsed.demoBrief).toBeUndefined();
+      expect(parsed).toMatchObject({ title: "Reel", consentVersion: "2026-11" });
+    }
+  });
+
+  it("stores no sentence as the title of an untitled tape", () => {
+    expect(UNTITLED_TAPE_TITLE).toBe("");
+  });
+});
+
+describe("RenameTapeInput", () => {
+  it("trims the title and keeps the brief untouched when it is left out", () => {
+    const parsed = RenameTapeInput.parse({ title: "  New name " });
+    expect(parsed.title).toBe("New name");
+    expect(parsed.demoBrief).toBeUndefined();
+  });
+
+  it("accepts an empty title, which means untitled", () => {
+    expect(RenameTapeInput.parse({ title: "  " }).title).toBe("");
+  });
+
+  it("clears the brief on null or blank text, and trims a real one", () => {
+    expect(RenameTapeInput.parse({ title: "a", demoBrief: null }).demoBrief).toBeNull();
+    expect(RenameTapeInput.parse({ title: "a", demoBrief: "  " }).demoBrief).toBeNull();
+    expect(RenameTapeInput.parse({ title: "a", demoBrief: " To camera. " }).demoBrief).toBe("To camera.");
+  });
+
+  it("refuses a missing title and text over the limits", () => {
+    expect(RenameTapeInput.safeParse({}).success).toBe(false);
+    expect(RenameTapeInput.safeParse({ title: 3 }).success).toBe(false);
+    expect(RenameTapeInput.safeParse({ title: "x".repeat(121) }).success).toBe(false);
+    expect(RenameTapeInput.safeParse({ title: "a", demoBrief: "x".repeat(2001) }).success).toBe(false);
+  });
+});
+
+describe("toMediaStatus", () => {
+  it("passes the three known states through", () => {
+    expect(toMediaStatus("PROCESSING")).toBe("PROCESSING");
+    expect(toMediaStatus("READY")).toBe("READY");
+    expect(toMediaStatus("FAILED")).toBe("FAILED");
+  });
+
+  it("never reads an unexpected value as ready", () => {
+    expect(toMediaStatus("ready")).toBe("FAILED");
+    expect(toMediaStatus(undefined)).toBe("FAILED");
+    expect(toMediaStatus(null)).toBe("FAILED");
   });
 });
 
