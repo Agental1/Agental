@@ -29,3 +29,41 @@ export function onboardingHome(kind: string, locale: string): string {
     ? `/${l}/casting/inscription`
     : `/${l}/talents/inscription`;
 }
+
+/** What postAuthHome needs to know about the account. Loaded by /continuer. */
+export interface PostAuthState {
+  /** The talent's mandate, if any. */
+  mandat?: { status: string; signedAt: Date | null } | null;
+  /** Casting: an OWNER membership exists. */
+  hasOwnerMembership?: boolean;
+  /** Casting: User.emailVerified is set. */
+  emailVerified?: boolean;
+}
+
+/** Talent onboarding is done once the mandate is signed and active. */
+export function isMandateSigned(state: PostAuthState): boolean {
+  return state.mandat?.status === "ACTIVE" && !!state.mandat.signedAt;
+}
+
+/**
+ * Casting onboarding is done once the organisation exists and the email is
+ * verified: the rule the casting inscription page applies.
+ */
+export function isCastingOnboarded(state: PostAuthState): boolean {
+  return !!state.hasOwnerMembership && !!state.emailVerified;
+}
+
+/**
+ * Where any sign-in lands, email or provider: the dashboard when onboarding is
+ * complete, the onboarding wizard otherwise. /<locale>/continuer calls this so
+ * both methods share one routing rule.
+ */
+export function postAuthHome(
+  kind: string | undefined,
+  locale: string,
+  state: PostAuthState
+): string {
+  const k = kind === "CASTING" ? "CASTING" : "TALENT";
+  const done = k === "CASTING" ? isCastingOnboarded(state) : isMandateSigned(state);
+  return done ? appHome(k, locale) : onboardingHome(k, locale);
+}

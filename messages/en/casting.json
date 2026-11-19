@@ -536,5 +536,10 @@
         "Large studios"
       ]
     }
+  },
+  "oauth": {
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "or": "or"
   }
 }

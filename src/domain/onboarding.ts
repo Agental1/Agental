@@ -1,27 +1,45 @@
 import { z } from "zod";
 import { SpecialtyKind, SpecialtyLevel } from "./enums";
+import { birthDateError } from "./age";
+import { HeightInput } from "./height";
 
-/* ── Talents onboarding (5 steps) ─────────────────────────────────────────── */
+/* ── Talents onboarding (3 steps: identity, profile basics, mandate) ─────── */
+
+/**
+ * Required adult birth date, "yyyy-mm-dd". One issue at most, keyed, so
+ * zodError() hands the wizard the precise reason: missing, unreadable or
+ * under 18. Rules live in ./age so every caller applies the same UTC math.
+ */
+export const BirthDateInput = z
+  .string({ error: "errors.birthDateRequired" })
+  .superRefine((value, ctx) => {
+    const key = birthDateError(value);
+    if (key) ctx.addIssue({ code: "custom", message: key });
+  });
 
 export const IdentityStep = z.object({
-  stageName: z.string().min(2, "errors.stageNameRequired"),
+  stageName: z.string().trim().min(2, "errors.stageNameRequired"),
   legalName: z.string().optional(),
   phone: z.string().optional(),
   city: z.string().optional(),
-  birthDate: z.string().optional(), // ISO date (yyyy-mm-dd)
+  birthDate: BirthDateInput,
 });
 export type IdentityStep = z.infer<typeof IdentityStep>;
 
-export const PhysicalStep = z.object({
-  heightCm: z.coerce.number().int().min(40).max(260).optional(),
-  hair: z.string().optional(),
-  eyes: z.string().optional(),
-  build: z.string().optional(),
-  languages: z.array(z.string()).default([]),
-  accents: z.array(z.string()).default([]),
+/**
+ * Second signup step: what the talent does, plus an optional height. Kinds
+ * only; levels are kept from any earlier save and default to BEGINNER.
+ */
+export const ProfileBasicsStep = z.object({
+  specialties: z
+    .array(SpecialtyKind)
+    .min(1, "errors.specialtyRequired")
+    .transform((kinds) => [...new Set(kinds)]),
+  height: HeightInput.optional(),
 });
-export type PhysicalStep = z.infer<typeof PhysicalStep>;
+export type ProfileBasicsStep = z.infer<typeof ProfileBasicsStep>;
 
+/** Profile editor specialties tab: kinds with levels, mobility and rate. */
 export const SpecialtiesStep = z.object({
   specialties: z
     .array(

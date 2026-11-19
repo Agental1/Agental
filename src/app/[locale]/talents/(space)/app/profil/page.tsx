@@ -5,6 +5,9 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { ProfileEditor } from "@/components/app/profile-editor";
 import { parseJson, PhysicalTraits } from "@/domain/json";
+import { scoreProfile } from "@/domain/completeness";
+import { parseProfileTab } from "@/domain/profile-tabs";
+import { isoDate } from "@/domain/age";
 import { z } from "zod";
 
 export async function generateMetadata({
@@ -26,10 +29,14 @@ const PrefsShape = z.object({
 
 export default async function ProfilPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ tab?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
+  // ?tab= comes from the dashboard's deep links, and from anyone's URL bar.
+  const initialTab = parseProfileTab((await searchParams).tab);
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -46,6 +53,17 @@ export default async function ProfilPage({
   if (!profile) return null;
 
   const physical = parseJson(PhysicalTraits, profile.physical);
+  // Computed, not read from completenessScore: rows scored before the
+  // empty-physical fix still hold an inflated number.
+  const completeness = scoreProfile({
+    stageName: profile.stageName,
+    birthDate: profile.birthDate,
+    city: profile.city,
+    bio: profile.bio,
+    physical,
+    specialtiesCount: profile.specialties.length,
+    media: profile.media,
+  });
   const prefs = parseJson(PrefsShape, profile.preferences);
 
   return (
@@ -61,15 +79,13 @@ export default async function ProfilPage({
           phone: profile.phone ?? "",
           city: profile.city ?? "",
           bio: profile.bio ?? "",
-          birthDate: profile.birthDate
-            ? profile.birthDate.toISOString().slice(0, 10)
-            : "",
+          birthDate: profile.birthDate ? isoDate(profile.birthDate) : "",
           physical,
           specialties: profile.specialties.map((s) => s.kind),
           minRateEuros: profile.minRateCents
             ? profile.minRateCents / 100
             : undefined,
-          completeness: profile.completenessScore,
+          completeness,
           media: profile.media.map((m) => ({
             id: m.id,
             type: m.type,
@@ -78,6 +94,7 @@ export default async function ProfilPage({
           })),
           preferences: prefs,
         }}
+        initialTab={initialTab}
       />
     </div>
   );

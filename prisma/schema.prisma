@@ -22,7 +22,7 @@ datasource db {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String    @unique // lowercase; also unique by lower(email) via "User_email_lower_key", an index this file cannot express (migration 20261120000000_normalize_user_emails): remove any generated DROP INDEX of it
   emailVerified DateTime?
   image         String?
   passwordHash  String?

@@ -1,3 +1,6 @@
+import type { ErrorKey } from "./action-result";
+import { isAdult } from "./age";
+
 /**
  * The load-bearing separation between Mandat (free legal representation) and
  * Subscription (optional paid service). Opportunity access depends ONLY on an
@@ -14,4 +17,34 @@ export function canReceiveOpportunities(mandat: {
 /** A lapsed subscription downgrades features but NEVER revokes representation. */
 export function isRepresented(mandat: { status: string } | null): boolean {
   return !!mandat && mandat.status === "ACTIVE";
+}
+
+/** What signMandat loads before it signs. */
+export interface MandatSignState {
+  stageName: string;
+  birthDate: Date | null;
+  isMinor: boolean;
+  specialtiesCount: number;
+  mandat: { status: string; signedAt: Date | null } | null;
+}
+
+/**
+ * Why the mandate cannot be signed yet, as a translation key, or null when it
+ * can. The wizard checks each step on its own, but the signature is the legal
+ * act, so the server re-checks the whole profile here instead of trusting that
+ * the earlier steps ran. A legacy profile flagged isMinor is refused even when
+ * its stored birth date now says otherwise: that flag is the one the minors
+ * workflow reads.
+ */
+export function mandatSignBlocker(
+  state: MandatSignState | null,
+  today: Date = new Date()
+): ErrorKey | null {
+  if (!state) return "errors.profileNotFound";
+  if (canReceiveOpportunities(state.mandat)) return "errors.mandatAlreadySigned";
+  if (state.stageName.trim().length < 2) return "errors.stageNameRequired";
+  if (!state.birthDate) return "errors.birthDateRequired";
+  if (state.isMinor || !isAdult(state.birthDate, today)) return "errors.adultsOnly";
+  if (state.specialtiesCount < 1) return "errors.specialtyRequired";
+  return null;
 }

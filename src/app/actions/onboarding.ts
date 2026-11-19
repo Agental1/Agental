@@ -1,18 +1,21 @@
 "use server";
 
-import { zodError, type ActionError } from "@/domain/action-result";
+import { err, zodError, type ActionError } from "@/domain/action-result";
 import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
+import { recomputeCompleteness } from "@/lib/completeness";
 import {
   IdentityStep,
-  PhysicalStep,
-  SpecialtiesStep,
+  MandatStep,
+  ProfileBasicsStep,
 } from "@/domain/onboarding";
-import { toJson } from "@/domain/json";
+import { isMinorOn } from "@/domain/age";
+import { canReceiveOpportunities, mandatSignBlocker } from "@/domain/mandat";
+import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
 
 export type StepResult = { ok: boolean; error?: ActionError };
 
@@ -22,15 +25,6 @@ async function requireTalentUserId(): Promise<string> {
     return redirect({ href: "/connexion", locale: await getLocale() });
   }
   return session.user.id;
-}
-
-function isMinorFrom(birthDate?: string): boolean {
-  if (!birthDate) return false;
-  const d = new Date(birthDate);
-  if (Number.isNaN(d.getTime())) return false;
-  const eighteen = new Date(d);
-  eighteen.setFullYear(eighteen.getFullYear() + 18);
-  return eighteen > new Date();
 }
 
 /** Idempotently ensure the signed-in talent has a profile row. */
@@ -48,62 +42,66 @@ export async function saveIdentity(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
   const parsed = IdentityStep.safeParse(input);
   if (!parsed.success) {
+    // Under 18 surfaces here as errors.adultsOnly (see BirthDateInput).
     return { ok: false, error: zodError(parsed.error) };
+  }
+  // After signing, identity changes go through the profile editor, which
+  // audits birth date edits. This signup step must not bypass that.
+  const mandat = await prisma.mandat.findFirst({
+    where: { profile: { userId } },
+    select: { status: true, signedAt: true },
+  });
+  if (canReceiveOpportunities(mandat)) {
+    return { ok: false, error: err("errors.mandatAlreadySigned") };
   }
   const d = parsed.data;
   await prisma.artistProfile.update({
     where: { userId },
     data: {
       stageName: d.stageName,
-      legalName: d.legalName || null,
-      phone: d.phone || null,
+      // Signup no longer asks for these two. Left undefined, Prisma keeps
+      // what is stored instead of nulling it.
+      legalName: d.legalName === undefined ? undefined : d.legalName || null,
+      phone: d.phone === undefined ? undefined : d.phone || null,
       city: d.city || null,
-      birthDate: d.birthDate ? new Date(d.birthDate) : null,
-      isMinor: isMinorFrom(d.birthDate),
+      birthDate: new Date(d.birthDate),
+      isMinor: isMinorOn(d.birthDate),
     },
   });
   return { ok: true };
 }
 
-export async function savePhysical(input: unknown): Promise<StepResult> {
+/**
+ * Signup step 2: specialties plus an optional height. One transaction, so a
+ * failure cannot leave the talent with their specialties deleted. The height
+ * is merged into the existing physical JSON rather than replacing it.
+ */
+export async function saveProfileBasics(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
-  const parsed = PhysicalStep.safeParse(input);
+  const parsed = ProfileBasicsStep.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: zodError(parsed.error) };
   }
-  await prisma.artistProfile.update({
+  const profile = await prisma.artistProfile.findUnique({
     where: { userId },
-    data: { physical: toJson(parsed.data) },
+    include: { specialties: true },
   });
-  return { ok: true };
-}
-
-export async function saveSpecialties(input: unknown): Promise<StepResult> {
-  const userId = await requireTalentUserId();
-  const parsed = SpecialtiesStep.safeParse(input);
-  if (!parsed.success) {
-    return { ok: false, error: zodError(parsed.error) };
-  }
-  const profile = await prisma.artistProfile.findUniqueOrThrow({
-    where: { userId },
-  });
+  if (!profile) return { ok: false, error: err("errors.profileNotFound") };
   const d = parsed.data;
+  const levels = new Map(profile.specialties.map((s) => [s.kind, s.level]));
+  const physical = withHeight(parseJson(PhysicalTraits, profile.physical), d.height);
   await prisma.$transaction([
     prisma.specialty.deleteMany({ where: { profileId: profile.id } }),
     prisma.specialty.createMany({
-      data: d.specialties.map((s) => ({
+      data: d.specialties.map((kind) => ({
         profileId: profile.id,
-        kind: s.kind,
-        level: s.level,
+        kind,
+        level: levels.get(kind) ?? "BEGINNER",
       })),
     }),
     prisma.artistProfile.update({
       where: { id: profile.id },
-      data: {
-        mobilityCountries: toJson(d.mobilityCountries),
-        minRateCents:
-          d.minRateEuros != null ? Math.round(d.minRateEuros * 100) : null,
-      },
+      data: { physical: toJson(physical) },
     }),
   ]);
   return { ok: true };
@@ -113,70 +111,118 @@ export async function saveSpecialties(input: unknown): Promise<StepResult> {
  * Sign the Mandat (free legal representation) and activate the Free plan.
  * The Mandat is created WITHOUT any reference to a paid plan; the Free
  * Subscription is a separate row. This is the load-bearing separation.
+ *
+ * The signature is the legal act, so the whole profile is re-checked here
+ * (mandatSignBlocker) rather than trusting that the wizard's earlier steps
+ * ran. On failure it returns a translation key; on success it redirects.
  */
-export async function signMandat(): Promise<void> {
+export async function signMandat(input: unknown): Promise<StepResult> {
   const userId = await requireTalentUserId();
-  const profile = await prisma.artistProfile.findUniqueOrThrow({
+  const accepted = MandatStep.safeParse(input);
+  if (!accepted.success) {
+    return { ok: false, error: zodError(accepted.error) };
+  }
+  const profile = await prisma.artistProfile.findUnique({
     where: { userId },
+    include: { mandat: true, _count: { select: { specialties: true } } },
   });
+  const blocker = mandatSignBlocker(
+    profile && {
+      stageName: profile.stageName,
+      birthDate: profile.birthDate,
+      isMinor: profile.isMinor,
+      specialtiesCount: profile._count.specialties,
+      mandat: profile.mandat,
+    }
+  );
+  if (blocker || !profile) {
+    return { ok: false, error: err(blocker ?? "errors.profileNotFound") };
+  }
+
   const hdrs = await headers();
+  // x-real-ip is set by the platform; the first x-forwarded-for hop is
+  // whatever the client chose to send.
   const ip =
-    hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     hdrs.get("x-real-ip") ??
+    hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown";
 
-  const mandat = await prisma.mandat.upsert({
-    where: { profileId: profile.id },
-    create: {
-      profileId: profile.id,
-      status: "ACTIVE",
-      signedAt: new Date(),
-      signatureIp: ip,
-    },
-    update: { status: "ACTIVE", signedAt: new Date(), signatureIp: ip },
-  });
+  const signedAt = new Date();
+  const signature = { status: "ACTIVE", signedAt, signatureIp: ip };
+  const existing = profile.mandat;
 
-  // Separate, optional service — starts on Free (no charge, no card).
-  await prisma.subscription.upsert({
-    where: { subjectId: userId },
-    create: {
-      subjectType: "ARTIST",
-      subjectId: userId,
-      plan: "FREE",
-      priceCents: 0,
-      commissionRate: 0.1,
-    },
-    update: {},
-  });
+  // The mandate, the Free plan, the profile status and the audit entry are
+  // written together or not at all. A failure part way used to leave a signed
+  // mandate with no audit entry and a DRAFT profile, which the check above
+  // then refused to sign again; now it leaves nothing, and a retry works.
+  const mandatId = await prisma.$transaction(async (tx) => {
+    // Each write applies only to a mandate nobody has signed yet. A second
+    // request for the same talent waits for the first to commit, then writes
+    // nothing and is told the mandate is signed.
+    let id: string | undefined;
+    if (existing) {
+      // A REVOKED mandate, or a row that was never signed.
+      const { count } = await tx.mandat.updateMany({
+        where: {
+          id: existing.id,
+          OR: [{ status: { not: "ACTIVE" } }, { signedAt: null }],
+        },
+        data: { ...signature, revokedAt: null },
+      });
+      if (count === 1) id = existing.id;
+    } else {
+      // INSERT ... ON CONFLICT DO NOTHING on the unique profileId.
+      const [created] = await tx.mandat.createManyAndReturn({
+        data: [{ profileId: profile.id, ...signature }],
+        skipDuplicates: true,
+        select: { id: true },
+      });
+      id = created?.id;
+    }
+    if (!id) return null;
 
-  const score = await computeCompleteness(profile.id);
-  await prisma.artistProfile.update({
-    where: { id: profile.id },
-    data: { status: "ACTIVE", completenessScore: score },
-  });
+    // Separate, optional service: starts on Free (no charge, no card).
+    await tx.subscription.upsert({
+      where: { subjectId: userId },
+      create: {
+        subjectType: "ARTIST",
+        subjectId: userId,
+        plan: "FREE",
+        priceCents: 0,
+        commissionRate: 0.1,
+      },
+      update: {},
+    });
 
-  await audit({
-    actorUserId: userId,
-    action: "mandat.sign",
-    resourceType: "Mandat",
-    resourceId: mandat.id,
-    after: { signedAt: mandat.signedAt, ip },
-  });
+    await tx.artistProfile.update({
+      where: { id: profile.id },
+      data: { status: "ACTIVE" },
+    });
 
-  return redirect({ href: "/talents/app", locale: await getLocale() });
-}
-
-async function computeCompleteness(profileId: string): Promise<number> {
-  const p = await prisma.artistProfile.findUniqueOrThrow({
-    where: { id: profileId },
-    include: { specialties: true, media: true },
+    await audit(
+      {
+        actorUserId: userId,
+        action: "mandat.sign",
+        resourceType: "Mandat",
+        resourceId: id,
+        after: { signedAt, ip },
+      },
+      tx
+    );
+    return id;
   });
-  let score = 0;
-  if (p.stageName) score += 20;
-  if (p.birthDate) score += 10;
-  if (p.city) score += 10;
-  if (p.physical && p.physical !== "{}") score += 20;
-  if (p.specialties.length > 0) score += 25;
-  if (p.media.length > 0) score += 15;
-  return Math.min(100, score);
+  if (!mandatId) return { ok: false, error: err("errors.mandatAlreadySigned") };
+
+  // After the commit: the score is display data, outside the legal act, and
+  // every later profile save recomputes it. The signature stands either way.
+  try {
+    await recomputeCompleteness(profile.id);
+  } catch (error) {
+    console.error("[onboarding] completeness refresh after signing failed", error);
+  }
+
+  return redirect({
+    href: { pathname: "/talents/app", query: { welcome: "1" } },
+    locale: await getLocale(),
+  });
 }

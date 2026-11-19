@@ -67,6 +67,8 @@
     "projectTypeRequired": "Seleccione al menos un tipo de proyecto.",
     "emailInvalid": "Dirección de correo no válida.",
     "passwordTooShort": "Mínimo 8 caracteres.",
+    "passwordNeedsUppercase": "Añade al menos una mayúscula.",
+    "passwordNeedsSpecial": "Añade al menos un carácter especial, como ! o #.",
     "invalidPlan": "Plan no válido.",
     "invalidMediaType": "Tipo de medio no válido.",
     "profileNotFound": "Perfil no encontrado.",
@@ -81,14 +83,40 @@
     "billingUnavailable": "Los planes de pago aún no están disponibles.",
     "limelightContactRequired": "Añade tu nombre para saber a quién responder.",
     "limelightSendFailed": "Tu mensaje no se envió. Inténtalo de nuevo en un momento o escríbenos por email.",
-    "limelightTooMany": "Demasiados mensajes desde esta conexión. Inténtalo de nuevo en unos minutos."
+    "limelightTooMany": "Demasiados mensajes desde esta conexión. Inténtalo de nuevo en unos minutos.",
+    "oauthNoAccount": "Este inicio de sesión ha caducado. Vuelve a empezar con Google o Apple.",
+    "oauthEmailUnverified": "Tu cuenta de Google o Apple necesita un correo verificado para iniciar sesión aquí.",
+    "oauthLinkRequiresPassword": "Ya existe una cuenta con este correo. Inicia sesión con tu correo y tu contraseña.",
+    "oauthGeneric": "Error al iniciar sesión con Google o Apple. Inténtalo de nuevo.",
+    "adultsOnly": "Debes tener 18 años o más para unirte a Agental.",
+    "birthDateRequired": "Indica tu fecha de nacimiento.",
+    "birthDateInvalid": "Revisa tu fecha de nacimiento.",
+    "heightRange": "La altura debe estar entre 91 y 241 cm.",
+    "mandatAlreadySigned": "Tu mandato ya está firmado."
   },
   "auth": {
     "name": "Nombre",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "emailPlaceholder": "nombre@ejemplo.es",
-    "passwordPlaceholder": "mínimo 8 caracteres"
+    "passwordPlaceholder": "8 caracteres o más, una mayúscula, un carácter especial",
+    "choose": {
+      "metaTitle": "Elige tu espacio",
+      "title": "Un último paso",
+      "subtitle": "Elige el espacio para {email}.",
+      "talent": "Soy talento",
+      "talentHint": "Consigue representación y encuentra papeles.",
+      "casting": "Soy director o directora de casting",
+      "castingHint": "Publica proyectos y crea shortlists."
+    }
+  },
+  "height": {
+    "unit": "Unidad de altura",
+    "imperial": "ft / in",
+    "metric": "cm",
+    "feet": "Pies",
+    "inches": "Pulgadas",
+    "centimeters": "Centímetros"
   },
   "specialties": {
     "figuration": "Figuración",

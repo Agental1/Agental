@@ -67,6 +67,8 @@
     "projectTypeRequired": "Select at least one project type.",
     "emailInvalid": "Invalid email address.",
     "passwordTooShort": "8 characters minimum.",
+    "passwordNeedsUppercase": "Add at least one uppercase letter.",
+    "passwordNeedsSpecial": "Add at least one special character, such as ! or #.",
     "invalidPlan": "Invalid plan.",
     "invalidMediaType": "Invalid media type.",
     "profileNotFound": "Profile not found.",
@@ -81,14 +83,40 @@
     "billingUnavailable": "Paid plans are not available yet.",
     "limelightContactRequired": "Add your name so we know who to reply to.",
     "limelightSendFailed": "Your message didn’t go through. Try again in a moment, or email us.",
-    "limelightTooMany": "Too many messages from this connection. Try again in a few minutes."
+    "limelightTooMany": "Too many messages from this connection. Try again in a few minutes.",
+    "oauthNoAccount": "That sign-in has expired. Start again with Google or Apple.",
+    "oauthEmailUnverified": "Your Google or Apple account needs a verified email address to sign in here.",
+    "oauthLinkRequiresPassword": "An account already uses this email address. Sign in with your email and password.",
+    "oauthGeneric": "Sign-in with Google or Apple failed. Try again.",
+    "adultsOnly": "You must be 18 or older to join Agental.",
+    "birthDateRequired": "Enter your date of birth.",
+    "birthDateInvalid": "Check your date of birth.",
+    "heightRange": "Height must be between 3 ft and 7 ft 11 in (91 to 241 cm).",
+    "mandatAlreadySigned": "Your mandate is already signed."
   },
   "auth": {
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "emailPlaceholder": "first.last@example.com",
-    "passwordPlaceholder": "8 characters minimum"
+    "passwordPlaceholder": "8+ characters, one uppercase, one special character",
+    "choose": {
+      "metaTitle": "Choose your space",
+      "title": "One last step",
+      "subtitle": "Pick the space for {email}.",
+      "talent": "I'm a talent",
+      "talentHint": "Get represented and find roles.",
+      "casting": "I'm a casting director",
+      "castingHint": "Post projects and build shortlists."
+    }
+  },
+  "height": {
+    "unit": "Height unit",
+    "imperial": "ft / in",
+    "metric": "cm",
+    "feet": "Feet",
+    "inches": "Inches",
+    "centimeters": "Centimeters"
   },
   "specialties": {
     "figuration": "Background acting",

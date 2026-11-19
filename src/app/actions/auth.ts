@@ -5,9 +5,11 @@ import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
-import { SignupInput } from "@/domain/auth";
+import { LoginInput, SignupInput } from "@/domain/auth";
 import { audit } from "@/lib/audit";
-import { appHome, onboardingHome } from "@/domain/auth-routes";
+import { findUsersByEmail } from "@/lib/auth/user-by-email";
+import { onboardingHome } from "@/domain/auth-routes";
+import { toLocale } from "@/i18n/routing";
 
 export type AuthState = { error?: ActionError } | undefined;
 
@@ -22,12 +24,14 @@ export async function signupAction(
     locale: formData.get("locale") || "en",
   });
   if (!parsed.success) {
-    return { error: zodError(parsed.error) ?? "Données invalides." };
+    return { error: zodError(parsed.error) };
   }
   const { email, password, kind, locale } = parsed.data;
 
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) return { error: err("errors.emailTaken") };
+  // In any letter case: a row stored as "Ana@X.com" before emails were
+  // normalized already holds "ana@x.com".
+  const existing = await findUsersByEmail(prisma, email);
+  if (existing.length > 0) return { error: err("errors.emailTaken") };
 
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await prisma.user.create({
@@ -61,16 +65,24 @@ export async function loginAction(
   _prev: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const email = String(formData.get("email") ?? "");
-  const password = String(formData.get("password") ?? "");
+  const parsed = LoginInput.safeParse({
+    email: formData.get("email") ?? "",
+    password: formData.get("password") ?? "",
+  });
+  if (!parsed.success) return { error: err("errors.badCredentials") };
+  const { email, password } = parsed.data;
+  const locale = toLocale(String(formData.get("locale") ?? ""));
 
-  const locale = String(formData.get("locale") ?? "");
-
-  const user = await prisma.user.findUnique({ where: { email } });
-  const redirectTo = appHome(user?.kind ?? "TALENT", locale);
-
+  // /continuer picks the portal and the step once the session exists, the
+  // same way it does for Google and Apple. No pre-auth lookup here: choosing a
+  // destination before the password is checked told nothing to the user and
+  // cost a query on every failed attempt.
   try {
-    await signIn("credentials", { email, password, redirectTo });
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: `/${locale}/continuer`,
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       return { error: err("errors.badCredentials") };

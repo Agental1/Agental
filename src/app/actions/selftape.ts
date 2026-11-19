@@ -3,6 +3,7 @@
 import { err, type ActionError } from "@/domain/action-result";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { recomputeCompleteness } from "@/lib/completeness";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { getStorage } from "@/lib/storage";
@@ -77,7 +78,11 @@ export async function saveSelfTape(
     },
   });
 
+  // A self-tape counts toward completeness and clears the dashboard's
+  // "add a self-tape or reel" item.
+  await recomputeCompleteness(profile.id);
   revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return {
     ok: true,
     score: result.score,
@@ -98,6 +103,8 @@ export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   }
   await (await getStorage()).delete(media.storageKey);
   await prisma.media.delete({ where: { id: mediaId } });
+  await recomputeCompleteness(profile.id);
   revalidatePath("/[locale]/talents/(space)/app/self-tape", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
 }

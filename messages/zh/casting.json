@@ -536,5 +536,10 @@
         "大型制片厂"
       ]
     }
+  },
+  "oauth": {
+    "google": "使用 Google 继续",
+    "apple": "使用 Apple 继续",
+    "or": "或"
   }
 }

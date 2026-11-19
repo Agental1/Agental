@@ -655,9 +655,7 @@
   "onboarding": {
     "steps": {
       "identity": "身份",
-      "physical": "外形",
-      "media": "媒体",
-      "specialties": "专长",
+      "profile": "资料",
       "mandat": "经纪委托"
     },
     "identity": {
@@ -665,35 +663,15 @@
       "subtitle": "先从基本信息开始。",
       "stageName": "艺名",
       "stageNamePlaceholder": "你的艺名",
-      "legalName": "真实姓名（不公开）",
       "birthDate": "出生日期",
       "city": "城市",
-      "cityPlaceholder": "里昂",
-      "phone": "电话"
+      "cityPlaceholder": "里昂"
     },
-    "physical": {
-      "title": "你的外形",
-      "subtitle": "选角导演会看的信息。全部选填。",
-      "height": "身高（cm）",
-      "build": "体型",
-      "buildPlaceholder": "偏瘦、健壮……",
-      "hair": "发色",
-      "eyes": "瞳色",
-      "languages": "语言（用逗号分隔）",
-      "languagesPlaceholder": "中文, 英语",
-      "accents": "口音",
-      "accentsPlaceholder": "布列塔尼, 马赛"
-    },
-    "media": {
-      "title": "你的媒体资料",
-      "subtitle": "照片、作品集、声音：怎么能展现你就怎么来。",
-      "note": "用手机拍的作品集就足够起步。注册后，你可以随时在资料页添加媒体。",
-      "skip": "跳过这一步"
-    },
-    "specialties": {
+    "profile": {
       "title": "你的专长",
-      "subtitle": "选出适合你的，至少一项。",
-      "minRate": "最低片酬（€/天，选填）"
+      "subtitle": "至少选择一项专长。身高为选填。",
+      "specialties": "专长",
+      "height": "身高（选填）"
     },
     "mandat": {
       "title": "你的经纪委托",
@@ -741,7 +719,19 @@
       "welcome": "欢迎，{name}。",
       "welcomeAnon": "欢迎。",
       "completenessHint": "你的资料已完成 {percent}%。补充完整，AI 就能为你做更多。",
-      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}"
+      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}",
+      "welcomeSigned": "你的经纪委托已签署，Agental 现在正式代理你。",
+      "completeProfile": {
+        "title": "完善你的资料",
+        "subtitle": "选角导演根据看到的内容做选择。补充这些内容，就能出现在更多搜索中。",
+        "percent": "已完成 {percent}%",
+        "gaps": {
+          "photos": "添加照片",
+          "video": "添加自录试镜或作品集视频",
+          "physical": "添加外形信息",
+          "bio": "写一段简短的个人介绍"
+        }
+      }
     },
     "candidatures": {
       "title": "我的申请",
@@ -881,13 +871,15 @@
       "city": "城市",
       "phone": "电话",
       "bio": "简介",
-      "height": "身高（cm）",
+      "height": "身高",
       "build": "体型",
       "hair": "发色",
       "eyes": "瞳色",
       "languages": "语言（用逗号分隔）",
       "accents": "口音（用逗号分隔）",
-      "minRate": "最低片酬（€/天）"
+      "minRate": "最低片酬（€/天）",
+      "save": "保存",
+      "saved": "已保存"
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",
@@ -1170,5 +1162,10 @@
     "bookedTitle": "已拿下角色",
     "bookedBody": "你的经纪人已确认日期，并把合同发给了你。",
     "progress": "第 {n} 步，共 {total} 步"
+  },
+  "oauth": {
+    "google": "使用 Google 继续",
+    "apple": "使用 Apple 继续",
+    "or": "或"
   }
 }
