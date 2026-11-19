@@ -76,5 +76,89 @@
     "allDetails": "Ver todos los detalles de los planes",
     "contact": "Contáctanos para un presupuesto",
     "close": "Cerrar"
+  },
+  "account": {
+    "create": "Crear cuenta",
+    "signIn": "Iniciar sesión",
+    "seeMore": "Ver más",
+    "tabs": "Crear una cuenta o iniciar sesión"
+  },
+  "audience": {
+    "menu": "En esta página",
+    "how": "Cómo funciona",
+    "agent": "Tu agente de IA",
+    "selftape": "Self-tape",
+    "websites": "Sitios web",
+    "pricing": "Precios",
+    "faq": "Preguntas",
+    "types": "Tipos de casting",
+    "ranking": "Cómo se ordenan las listas",
+    "allPlans": "Ver todos los planes",
+    "allFaq": "Ver todas las preguntas",
+    "forPerformers": "Para artistas",
+    "forCasting": "Para equipos de casting",
+    "typesTitle": "Los papeles que casteamos",
+    "typesLead": "De la figuración a los papeles secundarios, la publicidad y la voz. Un brief, una lista corta.",
+    "student": "¿Eres estudiante universitario? Puedes introducir un código de estudiante al elegir tu plan."
+  },
+  "home": {
+    "what": {
+      "title": "Qué es Agental",
+      "body": "Agental es una agencia de talento impulsada por IA. Cada artista tiene un agente de IA que encuentra papeles que le encajan y prepara candidaturas que el artista aprueba. Los directores de casting reciben listas cortas ordenadas, con las razones a la vista, y la representación pasa por una agencia asociada con licencia.",
+      "facts": [
+        {
+          "title": "Unirse es gratis",
+          "body": "Crear tu perfil no cuesta nada."
+        },
+        {
+          "title": "Tú apruebas cada candidatura",
+          "body": "Tu agente la prepara. Tú decides si se envía."
+        },
+        {
+          "title": "Listas cortas explicadas",
+          "body": "Cada posición muestra sus razones."
+        }
+      ]
+    },
+    "how": {
+      "title": "Cómo funciona Agental",
+      "performer": "Artistas",
+      "casting": "Equipos de casting",
+      "performerSteps": [
+        "Crea tu perfil",
+        "Tu agente de IA encuentra papeles",
+        "Tú apruebas las candidaturas",
+        "Consigues el papel"
+      ],
+      "castingSteps": [
+        "Publica un papel",
+        "Recibe una lista corta ordenada",
+        "Contacta con las personas adecuadas"
+      ],
+      "meet": "La contratación",
+      "meetBody": "Los dos lados se encuentran aquí: el artista adecuado en el papel adecuado.",
+      "websites": "Los artistas sin sitio web pueden crear uno con Limelight."
+    },
+    "limelight": {
+      "title": "¿Necesitas un sitio web? Crea el tuyo en minutos.",
+      "try": "Probar",
+      "pricing": "Ver precios"
+    },
+    "pricing": {
+      "title": "Precios",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "Sitios web",
+      "free": "Gratis",
+      "perMonth": "{price} al mes",
+      "perSeat": "{price} por puesto, al mes",
+      "oneTime": "{price}, pago único",
+      "talentLink": "Precios de Talent",
+      "castingLink": "Precios de Casting",
+      "websitesLink": "Precios de sitios web"
+    },
+    "final": {
+      "title": "¿Listo para empezar?"
+    }
   }
 }

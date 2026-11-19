@@ -1,28 +1,36 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
+import type { Locale } from "next-intl";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
+import { AccountCard } from "@/components/auth/account-card";
+import { AuthForm } from "@/components/auth/auth-form";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
+import { loginAction, signupAction } from "@/app/actions/auth";
 import { StepsOverview } from "@/components/marketing/steps-overview";
+import { SectionNav } from "@/components/marketing/section-nav";
+import { LimelightBlock } from "@/components/marketing/limelight-block";
+import { FaqAccordion, type FaqGroup } from "@/components/marketing/faq-accordion";
 import { TalentsPricingGrid } from "@/components/marketing/pricing-grids";
-import { LIMELIGHT } from "@/domain/limelight";
 
 /**
- * Agental Talent landing: about three screens on a desktop.
+ * The Talent audience page.
  *
- *   1. What Agental is and the one way in ("Become a member"), with the three
- *      facts a performer checks before signing up right beside the button.
- *   2. The five steps to join, then a compact pointer to Limelight.
- *   3. The plans, compact, with details on expand.
+ * At the top, the account card: create an account or sign in, with email and
+ * password or a provider. It takes well over 40% of the viewport height on a
+ * desktop and fills the first screen on a phone. Right under it, "See more"
+ * scrolls to the details, which anyone can read without signing up: the five
+ * steps, what the AI agent does, self-tape, Limelight, pricing and the FAQ,
+ * with a sticky menu to jump between them.
  *
- * Everything else that used to live here (the reasons, the self-tape studio,
- * minors, the full commission table) is one click away on How it works, FAQ
- * and Pricing. There are no photos of people and no testimonials: the page
- * only states what is verifiably true today. Copy is the existing approved
- * copy from the message files.
+ * Copy is the existing approved copy from the message files. There are no
+ * photos of people and no testimonials.
  */
+
+const SECTION = "mx-auto max-w-site scroll-mt-36 px-[clamp(16px,3vw,40px)] py-[clamp(36px,4.5vw,64px)]";
 
 export async function generateMetadata({
   params,
@@ -49,6 +57,7 @@ export default async function TalentsLanding({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
+  const ta = await getTranslations({ locale, namespace: "common.audience" });
   return (
     <>
       <script
@@ -64,90 +73,181 @@ export default async function TalentsLanding({
           ),
         }}
       />
-      <Hero />
-      <StepsOverview portal="talents" className="pb-[clamp(28px,3.5vw,48px)]" />
-      <LimelightTeaser />
+      <Top locale={locale} />
+      <SectionNav
+        label={ta("menu")}
+        items={[
+          { href: "#how", label: ta("how") },
+          { href: "#agent", label: ta("agent") },
+          { href: "#selftape", label: ta("selftape") },
+          { href: "#websites", label: ta("websites") },
+          { href: "#pricing", label: ta("pricing") },
+          { href: "#faq", label: ta("faq") },
+        ]}
+      />
+      <div id="how" className="scroll-mt-36 pt-[clamp(36px,4.5vw,64px)]">
+        <StepsOverview portal="talents" />
+      </div>
+      <Agent />
+      <SelfTape />
+      <section id="websites" className={SECTION}>
+        <LimelightBlock />
+      </section>
       <Pricing />
+      <Faq />
     </>
   );
 }
 
-function Hero() {
-  const t = useTranslations("talents.hero");
-  const tp = useTranslations("talents.proof");
+function Top({ locale }: { locale: Locale }) {
+  const t = useTranslations("talents");
+  const tc = useTranslations("common.account");
   const facts = (["regulated", "ai", "free"] as const).map((key) => ({
-    title: tp(`${key}.title`),
-    body: tp(`${key}.body`),
+    title: t(`proof.${key}.title`),
+    body: t(`proof.${key}.body`),
   }));
 
   return (
     <section
       data-demo="talents-hero"
-      className="mx-auto max-w-site px-[clamp(16px,3vw,40px)] pb-[clamp(40px,5vw,72px)] pt-[clamp(40px,6vw,88px)]"
+      className="mx-auto flex min-h-[calc(100svh-5rem)] max-w-site flex-col px-[clamp(16px,3vw,40px)] pb-4 pt-[clamp(20px,3vw,44px)] lg:min-h-0"
     >
-      <div className="grid gap-[clamp(32px,5vw,72px)] lg:grid-cols-[1.35fr_1fr] lg:items-end">
-        <div>
-          <h1 className="display-xl max-w-[14ch]">
-            {t("title")} {t("titleEmph")}
+      <div className="grid flex-1 items-center gap-[clamp(24px,4vw,64px)] lg:grid-cols-[1fr_auto]">
+        <div className="order-2 lg:order-1">
+          <h1 className="display-xl max-w-[13ch]">
+            {t("hero.title")} {t("hero.titleEmph")}
           </h1>
-          <div className="mt-[clamp(24px,3vw,40px)] flex flex-wrap items-center gap-x-5 gap-y-3">
-            <Button asChild size="lg">
-              <Link href="/talents/inscription">{t("ctaPrimary")}</Link>
-            </Button>
-            <p className="text-[14.5px] text-fg-muted">{t("note")}</p>
-          </div>
+          <dl className="mt-[clamp(20px,3vw,36px)] grid gap-4 sm:grid-cols-3 lg:max-w-[40rem] lg:grid-cols-1">
+            {facts.map((fact) => (
+              <div key={fact.title} className="border-l-2 border-accent pl-4">
+                <dt className="font-bold leading-snug">{fact.title}</dt>
+                <dd className="mt-0.5 text-[15px] leading-snug text-fg-muted">{fact.body}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        {/* The three things a performer checks before signing up. */}
-        <dl className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:gap-5">
-          {facts.map((fact) => (
-            <div key={fact.title} className="border-l-2 border-accent pl-4">
-              <dt className="font-bold leading-snug">{fact.title}</dt>
-              <dd className="mt-0.5 text-[15px] leading-snug text-fg-muted">{fact.body}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="order-1 flex w-full flex-col items-center gap-4 justify-self-center lg:order-2 lg:w-[540px]">
+        <AccountCard
+          signupTitle={t("signup.title")}
+          signupLead={t("signup.subtitle")}
+          signinTitle={t("login.title")}
+          signinLead={t("login.subtitle")}
+          signup={
+            <>
+              <OAuthButtons mode="signup" kind="TALENT" locale={locale} namespace="talents" />
+              <AuthForm
+                action={signupAction}
+                submitLabel={t("signup.submit")}
+                kind="TALENT"
+                locale={locale}
+                size="lg"
+              />
+              <p className="text-[13.5px] text-fg-muted">{t("hero.note")}</p>
+            </>
+          }
+          signin={
+            <>
+              <OAuthButtons mode="signin" locale={locale} namespace="talents" />
+              <AuthForm action={loginAction} submitLabel={t("login.submit")} locale={locale} size="lg" />
+            </>
+          }
+        />
+          <a
+            href="#how"
+            className="pressable inline-flex h-11 items-center gap-2 rounded-full border border-border-strong bg-surface px-5 text-[15px] font-bold"
+          >
+            {tc("seeMore")}
+            <ChevronDown aria-hidden="true" className="size-4" />
+          </a>
+        </div>
+      </div>
+
+    </section>
+  );
+}
+
+function Agent() {
+  const t = useTranslations("talents.why");
+  const items = t.raw("items") as { title: string; body: string }[];
+  return (
+    <section id="agent" aria-labelledby="agent-title" className={SECTION}>
+      <h2 id="agent-title" className="display-md max-w-[22ch]">
+        {t("title")}
+      </h2>
+      <div className="mt-6 grid gap-3 md:grid-cols-2">
+        {items.map((item) => (
+          <details key={item.title} className="group rounded-sedan-lg border border-border bg-surface">
+            <summary className="pressable flex min-h-14 items-center justify-between gap-4 rounded-sedan-lg px-5 py-3 [--hover-scale:1.015] [--press-scale:1.03]">
+              <h3 className="text-[17px] leading-snug">{item.title}</h3>
+              <ChevronDown
+                aria-hidden="true"
+                className="size-4 shrink-0 text-fg-subtle transition-transform duration-200 group-open:rotate-180"
+              />
+            </summary>
+            <p className="enter px-5 pb-4 text-[15px] leading-relaxed text-fg-muted">{item.body}</p>
+          </details>
+        ))}
       </div>
     </section>
   );
 }
 
-/** A compact pointer to Limelight, high on the page. The whole band is the link. */
-function LimelightTeaser() {
-  const t = useTranslations("talents.limelight.band");
+function SelfTape() {
+  const t = useTranslations("talents.selftape");
   return (
-    <section className="mx-auto max-w-site px-[clamp(16px,3vw,40px)]">
-      <Link
-        href={`/talents/${LIMELIGHT.slug}`}
-        className="pressable accent-wash flex flex-col gap-4 rounded-sedan-xl border border-accent bg-surface p-[clamp(20px,2.4vw,28px)] [--hover-scale:1.015] [--press-scale:1.03] md:flex-row md:items-center md:justify-between md:gap-8"
-      >
-        <span className="block">
-          <span className="block text-[1.25rem] font-bold leading-snug">{t("title")}</span>
-          <span className="mt-1 block max-w-[70ch] text-[15px] text-fg-muted">{t("body")}</span>
-        </span>
-        <span className="inline-flex h-11 shrink-0 items-center self-start rounded-full border border-border-strong bg-surface px-5 text-[15px] font-bold md:self-auto">
-          {t("cta")}
-        </span>
-      </Link>
+    <section id="selftape" aria-labelledby="selftape-title" className={SECTION}>
+      <div className="grid gap-x-[clamp(24px,4vw,64px)] gap-y-4 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+        <h2 id="selftape-title" className="display-md max-w-[18ch]">
+          {t("title")}
+        </h2>
+        <p className="max-w-[62ch] text-[17px] leading-relaxed text-fg-muted">{t("body")}</p>
+      </div>
     </section>
   );
 }
 
 function Pricing() {
   const t = useTranslations("talents.pricing");
+  const ta = useTranslations("common.audience");
   return (
-    <section
-      id="tarifs"
-      aria-labelledby="pricing-title"
-      className="mx-auto max-w-site scroll-mt-24 px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,88px)]"
-    >
+    <section id="pricing" aria-labelledby="pricing-title" className={SECTION}>
       <h2 id="pricing-title" className="display-md max-w-[22ch]">
         {t("title")}
       </h2>
       <p className="mt-3 max-w-[70ch] text-fg-muted">{t("note")}</p>
       <div className="mt-6">
-        <TalentsPricingGrid />
+        <TalentsPricingGrid only={2} />
       </div>
+      <p className="mt-4 max-w-[70ch] text-[15px] text-fg-muted">{ta("student")}</p>
+      <Link
+        href="/talents/tarifs"
+        className="mt-2 inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+      >
+        {ta("allPlans")}
+      </Link>
+    </section>
+  );
+}
+
+function Faq() {
+  const t = useTranslations("talents.faq");
+  const ta = useTranslations("common.audience");
+  const groups = (t.raw("groups") as FaqGroup[]).slice(0, 1);
+  return (
+    <section id="faq" aria-labelledby="faq-title" className={SECTION}>
+      <h2 id="faq-title" className="display-md">
+        {ta("faq")}
+      </h2>
+      <div className="mt-6 max-w-[56rem]">
+        <FaqAccordion groups={groups} level={3} />
+      </div>
+      <Link
+        href="/talents/faq"
+        className="mt-4 inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+      >
+        {ta("allFaq")}
+      </Link>
     </section>
   );
 }

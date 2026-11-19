@@ -103,13 +103,25 @@ function PlanCard({
 }
 
 /** Talent plans (Free, Pro, Premium, Ultimate); Pro is the highlighted one. */
-export function TalentsPricingGrid({ expanded = false }: { expanded?: boolean }) {
+export function TalentsPricingGrid({
+  expanded = false,
+  only,
+}: {
+  expanded?: boolean;
+  /** Show only the first n plans (the audience page shows Free and Pro). */
+  only?: number;
+}) {
   const t = useTranslations("talents.pricing");
   const tc = useTranslations("common.pricing");
   const locale = useLocale();
-  const plans = t.raw("plans") as TalentsPlan[];
+  const plans = (t.raw("plans") as TalentsPlan[]).slice(0, only);
   return (
-    <div className="grid items-start gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <div
+      className={cn(
+        "grid items-start gap-3 sm:grid-cols-2",
+        only && only <= 2 ? "max-w-[44rem]" : "lg:grid-cols-4"
+      )}
+    >
       {plans.map((plan, i) => {
         const def = B2C_PLANS[TALENT_PLAN_ORDER[i]];
         return (

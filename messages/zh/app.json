@@ -108,6 +108,12 @@
       "talentHint": "获得代理，寻找角色。",
       "casting": "我是选角导演",
       "castingHint": "发布项目，建立候选名单。"
+    },
+    "rules": {
+      "title": "密码需要包含",
+      "length": "至少 8 个字符",
+      "uppercase": "一个大写字母",
+      "special": "一个特殊字符"
     }
   },
   "height": {

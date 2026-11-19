@@ -34,7 +34,7 @@ export default function CastingLayout({
         portal="casting"
         home="/casting"
         nav={nav}
-        cta={{ href: "/casting/inscription", label: tc("nav.cta") }}
+        cta={{ href: "/casting#account", label: tc("nav.cta") }}
         crossLink={{ href: "/talents", label: tc("nav.crossLink") }}
       />
       <main id="main" className="flex-1">{children}</main>

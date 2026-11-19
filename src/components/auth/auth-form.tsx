@@ -2,27 +2,46 @@
 
 import { useActionErrorText } from "@/components/app/action-error";
 import type { Locale } from "next-intl";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Check, Circle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import type { AuthState } from "@/app/actions/auth";
+import { passwordChecks, type PasswordRuleId } from "@/domain/auth";
+import { cn } from "@/lib/utils";
 
 type Action = (state: AuthState, formData: FormData) => Promise<AuthState>;
 
+const RULES: PasswordRuleId[] = ["length", "uppercase", "special"];
+
+/**
+ * Email and password, for sign-up (when `kind` is given) and sign-in.
+ *
+ * Sign-up shows the password rules as a live checklist under the field and
+ * keeps the button disabled until all three pass. The rules themselves live
+ * in `src/domain/auth.ts`, the same list the server enforces. Sign-in never
+ * applies them, so older passwords keep working.
+ *
+ * Both fields are controlled: React resets an uncontrolled form after a
+ * server action, which used to wipe the email when the server refused the
+ * password.
+ */
 export function AuthForm({
   action,
   submitLabel,
   kind,
   locale,
   showName = false,
+  size = "md",
 }: {
   action: Action;
   submitLabel: string;
   kind?: "TALENT" | "CASTING";
   locale: Locale;
   showName?: boolean;
+  /** "lg" for the account card on the audience pages: 52px fields. */
+  size?: "md" | "lg";
 }) {
   const t = useTranslations("app");
   const errorText = useActionErrorText();
@@ -30,6 +49,13 @@ export function AuthForm({
     action,
     undefined
   );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signup = Boolean(kind);
+  const checks = passwordChecks(password);
+  const rulesPass = RULES.every((rule) => checks[rule]);
+  const field = size === "lg" ? "h-[52px] rounded-sedan px-4 text-base sm:h-[52px] sm:text-base" : "";
 
   return (
     <form action={formAction} className="space-y-4">
@@ -39,7 +65,7 @@ export function AuthForm({
       {showName && (
         <div className="space-y-1.5">
           <Label htmlFor="name">{t("auth.name")}</Label>
-          <Input id="name" name="name" autoComplete="name" />
+          <Input id="name" name="name" autoComplete="name" className={field} />
         </div>
       )}
 
@@ -52,6 +78,9 @@ export function AuthForm({
           required
           autoComplete="email"
           placeholder={t("auth.emailPlaceholder")}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={field}
         />
       </div>
 
@@ -62,10 +91,39 @@ export function AuthForm({
           name="password"
           type="password"
           required
-          autoComplete={kind ? "new-password" : "current-password"}
-          minLength={8}
-          placeholder={t("auth.passwordPlaceholder")}
+          autoComplete={signup ? "new-password" : "current-password"}
+          minLength={signup ? 8 : undefined}
+          aria-describedby={signup ? "password-rules" : undefined}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={field}
         />
+        {signup && (
+          <div id="password-rules" className="pt-1">
+            <p className="text-[13px] text-fg-muted">{t("auth.rules.title")}</p>
+            <ul className="mt-1.5 grid gap-1 sm:grid-cols-3 sm:gap-2">
+              {RULES.map((rule) => {
+                const ok = checks[rule];
+                return (
+                  <li
+                    key={rule}
+                    className={cn(
+                      "flex items-center gap-1.5 text-[13px] leading-tight",
+                      ok ? "text-success" : "text-fg-muted"
+                    )}
+                  >
+                    {ok ? (
+                      <Check aria-hidden="true" className="size-3.5 shrink-0" strokeWidth={3} />
+                    ) : (
+                      <Circle aria-hidden="true" className="size-3.5 shrink-0" />
+                    )}
+                    {t(`auth.rules.${rule}`)}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </div>
 
       {state?.error && (
@@ -78,8 +136,12 @@ export function AuthForm({
         </p>
       )}
 
-      <Button type="submit" className="w-full" disabled={pending}>
-        {pending && <Loader2 className="size-4 animate-spin" />}
+      <Button
+        type="submit"
+        size={size === "lg" ? "lg" : "md"}
+        className={cn("w-full", size === "lg" && "h-[52px] text-[16px]")}
+        disabled={pending || (signup && !rulesPass)}
+      >
         {submitLabel}
       </Button>
     </form>

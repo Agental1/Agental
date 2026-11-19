@@ -76,5 +76,89 @@
     "allDetails": "查看全部方案详情",
     "contact": "联系我们获取报价",
     "close": "关闭"
+  },
+  "account": {
+    "create": "创建账号",
+    "signIn": "登录",
+    "seeMore": "了解更多",
+    "tabs": "创建账号或登录"
+  },
+  "audience": {
+    "menu": "本页内容",
+    "how": "如何运作",
+    "agent": "你的 AI 经纪人",
+    "selftape": "试镜自拍",
+    "websites": "个人网站",
+    "pricing": "价格",
+    "faq": "常见问题",
+    "types": "选角类型",
+    "ranking": "入围名单如何排序",
+    "allPlans": "查看全部方案",
+    "allFaq": "查看全部问题",
+    "forPerformers": "面向表演者",
+    "forCasting": "面向选角团队",
+    "typesTitle": "我们选角的角色",
+    "typesLead": "从群众演员到配角、广告和配音。一份简报，一份入围名单。",
+    "student": "在校大学生？选择方案时可以输入学生码。"
+  },
+  "home": {
+    "what": {
+      "title": "Agental 是什么",
+      "body": "Agental 是一家由 AI 驱动的演艺经纪公司。每位表演者都有一位 AI 经纪人，为其寻找合适的角色，并准备由表演者本人确认的投递。选角导演会收到排好序的入围名单，并能看到排序理由。代理业务由持牌合作经纪公司承担。",
+      "facts": [
+        {
+          "title": "免费加入",
+          "body": "创建个人资料不收费。"
+        },
+        {
+          "title": "每次投递都由你确认",
+          "body": "经纪人负责准备，是否发出由你决定。"
+        },
+        {
+          "title": "入围名单有据可查",
+          "body": "每个排名都会显示理由。"
+        }
+      ]
+    },
+    "how": {
+      "title": "Agental 如何运作",
+      "performer": "表演者",
+      "casting": "选角团队",
+      "performerSteps": [
+        "创建个人资料",
+        "AI 经纪人寻找角色",
+        "你确认投递",
+        "你获得角色"
+      ],
+      "castingSteps": [
+        "发布角色",
+        "收到排好序的入围名单",
+        "联系合适的人"
+      ],
+      "meet": "签约",
+      "meetBody": "双方在这里相遇：合适的表演者，合适的角色。",
+      "websites": "没有个人网站的表演者可以用 Limelight 创建一个。"
+    },
+    "limelight": {
+      "title": "需要个人网站？几分钟就能建好。",
+      "try": "试一试",
+      "pricing": "查看价格"
+    },
+    "pricing": {
+      "title": "价格",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "个人网站",
+      "free": "免费",
+      "perMonth": "每月 {price}",
+      "perSeat": "每席位每月 {price}",
+      "oneTime": "{price}，一次性付费",
+      "talentLink": "Talent 价格",
+      "castingLink": "Casting 价格",
+      "websitesLink": "网站价格"
+    },
+    "final": {
+      "title": "准备好开始了吗？"
+    }
   }
 }

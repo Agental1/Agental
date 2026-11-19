@@ -1,4 +1,6 @@
+import { NextResponse, type NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
+import { getToken } from "next-auth/jwt";
 import { routing } from "./i18n/routing";
 
 /**
@@ -13,7 +15,36 @@ import { routing } from "./i18n/routing";
  * this (Next resolves redirects at step 2, proxy at step 3) and would strip that
  * negotiation, so there are none.
  */
-export default createMiddleware(routing);
+const negotiateLocale = createMiddleware(routing);
+
+/**
+ * The three public entry points a signed-in visitor should never land on: the
+ * home page and the two audience pages. They are sent to /[locale]/continuer,
+ * which picks their dashboard or their unfinished onboarding. Every other
+ * public page (pricing, FAQ, Limelight...) stays readable while signed in.
+ *
+ * The check lives here so those pages stay static. The session token is
+ * verified (signature and expiry), so a stale cookie cannot trap a signed-out
+ * visitor in a redirect.
+ */
+const SIGNED_IN_REDIRECT = new RegExp(
+  `^/(${routing.locales.join("|")})(?:/(?:talents|casting))?/?$`
+);
+
+export default async function proxy(req: NextRequest) {
+  const entry = req.nextUrl.pathname.match(SIGNED_IN_REDIRECT);
+  if (entry && process.env.AUTH_SECRET) {
+    const token = await getToken({
+      req,
+      secret: process.env.AUTH_SECRET,
+      secureCookie: req.nextUrl.protocol === "https:",
+    }).catch(() => null);
+    if (token) {
+      return NextResponse.redirect(new URL(`/${entry[1]}/continuer`, req.url));
+    }
+  }
+  return negotiateLocale(req);
+}
 
 export const config = {
   /**

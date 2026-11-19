@@ -108,6 +108,12 @@
       "talentHint": "Consigue representación y encuentra papeles.",
       "casting": "Soy director o directora de casting",
       "castingHint": "Publica proyectos y crea shortlists."
+    },
+    "rules": {
+      "title": "Tu contraseña necesita",
+      "length": "8 caracteres o más",
+      "uppercase": "Una letra mayúscula",
+      "special": "Un carácter especial"
     }
   },
   "height": {

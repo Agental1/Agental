@@ -38,7 +38,7 @@ export default function TalentsLayout({
         portal="talents"
         home="/talents"
         nav={nav}
-        cta={{ href: "/talents/inscription", label: tt("nav.cta") }}
+        cta={{ href: "/talents#account", label: tt("nav.cta") }}
         crossLink={{ href: "/casting", label: tt("nav.crossLink") }}
       />
       <main id="main" className="flex-1">{children}</main>

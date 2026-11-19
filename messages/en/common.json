@@ -76,5 +76,89 @@
     "allDetails": "See all plan details",
     "contact": "Contact us for a quote",
     "close": "Close"
+  },
+  "account": {
+    "create": "Create account",
+    "signIn": "Sign in",
+    "seeMore": "See more",
+    "tabs": "Create an account or sign in"
+  },
+  "audience": {
+    "menu": "On this page",
+    "how": "How it works",
+    "agent": "Your AI agent",
+    "selftape": "Self-tape",
+    "websites": "Websites",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "types": "Casting types",
+    "ranking": "How shortlists are ranked",
+    "allPlans": "See all plans",
+    "allFaq": "See every question",
+    "forPerformers": "For performers",
+    "forCasting": "For casting teams",
+    "typesTitle": "Roles we cast",
+    "typesLead": "From background work to supporting roles, commercials and voice. One brief, one shortlist.",
+    "student": "College student? You can enter a student code when you choose your plan."
+  },
+  "home": {
+    "what": {
+      "title": "What is Agental",
+      "body": "Agental is an AI-powered talent agency. Each performer gets an AI agent that finds roles that fit and prepares submissions the performer approves. Casting directors receive ranked shortlists with the reasoning shown, and representation goes through a licensed partner agency.",
+      "facts": [
+        {
+          "title": "Free to join",
+          "body": "Creating your profile costs nothing."
+        },
+        {
+          "title": "You approve every submission",
+          "body": "Your agent prepares it. You decide whether it goes out."
+        },
+        {
+          "title": "Shortlists explained",
+          "body": "Every ranking shows its reasons."
+        }
+      ]
+    },
+    "how": {
+      "title": "How Agental works",
+      "performer": "Performers",
+      "casting": "Casting teams",
+      "performerSteps": [
+        "Create your profile",
+        "Your AI agent finds roles",
+        "You approve submissions",
+        "You get booked"
+      ],
+      "castingSteps": [
+        "Post a role",
+        "Receive a ranked shortlist",
+        "Contact the right people"
+      ],
+      "meet": "The booking",
+      "meetBody": "Both sides meet here: the right performer in the right role.",
+      "websites": "Performers without a website can build one with Limelight."
+    },
+    "limelight": {
+      "title": "Need a website? Build yours in minutes.",
+      "try": "Try it",
+      "pricing": "See pricing"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "Websites",
+      "free": "Free",
+      "perMonth": "{price} per month",
+      "perSeat": "{price} per seat, per month",
+      "oneTime": "{price}, one-time",
+      "talentLink": "Talent pricing",
+      "castingLink": "Casting pricing",
+      "websitesLink": "Website pricing"
+    },
+    "final": {
+      "title": "Ready to start?"
+    }
   }
 }

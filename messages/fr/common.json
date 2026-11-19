@@ -76,5 +76,89 @@
     "allDetails": "Voir le détail des formules",
     "contact": "Nous contacter pour un devis",
     "close": "Fermer"
+  },
+  "account": {
+    "create": "Créer un compte",
+    "signIn": "Se connecter",
+    "seeMore": "En savoir plus",
+    "tabs": "Créer un compte ou se connecter"
+  },
+  "audience": {
+    "menu": "Sur cette page",
+    "how": "Comment ça marche",
+    "agent": "Ton agent IA",
+    "selftape": "Self-tape",
+    "websites": "Sites web",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "types": "Types de casting",
+    "ranking": "Le classement des short-lists",
+    "allPlans": "Voir toutes les formules",
+    "allFaq": "Voir toutes les questions",
+    "forPerformers": "Pour les artistes",
+    "forCasting": "Pour les équipes de casting",
+    "typesTitle": "Les rôles que nous castons",
+    "typesLead": "De la figuration aux seconds rôles, à la publicité et à la voix. Un brief, une short-list.",
+    "student": "Étudiant ? Tu peux saisir un code étudiant au moment de choisir ta formule."
+  },
+  "home": {
+    "what": {
+      "title": "Agental, c’est quoi",
+      "body": "Agental est une agence artistique propulsée par l’IA. Chaque artiste a un agent IA qui trouve les rôles qui lui correspondent et prépare des candidatures que l’artiste valide. Les directeurs de casting reçoivent des short-lists classées, avec les raisons affichées, et la représentation passe par une agence partenaire licenciée.",
+      "facts": [
+        {
+          "title": "Inscription gratuite",
+          "body": "Créer ton profil ne coûte rien."
+        },
+        {
+          "title": "Tu valides chaque candidature",
+          "body": "Ton agent la prépare. Tu décides si elle part."
+        },
+        {
+          "title": "Des short-lists expliquées",
+          "body": "Chaque classement montre ses raisons."
+        }
+      ]
+    },
+    "how": {
+      "title": "Comment fonctionne Agental",
+      "performer": "Artistes",
+      "casting": "Équipes de casting",
+      "performerSteps": [
+        "Crée ton profil",
+        "Ton agent IA trouve des rôles",
+        "Tu valides les candidatures",
+        "Tu décroches le rôle"
+      ],
+      "castingSteps": [
+        "Publiez un rôle",
+        "Recevez une short-list classée",
+        "Contactez les bonnes personnes"
+      ],
+      "meet": "L’engagement",
+      "meetBody": "Les deux côtés se retrouvent ici : le bon artiste dans le bon rôle.",
+      "websites": "Les artistes sans site web peuvent en créer un avec Limelight."
+    },
+    "limelight": {
+      "title": "Besoin d’un site web ? Crée le tien en quelques minutes.",
+      "try": "Essayer",
+      "pricing": "Voir les tarifs"
+    },
+    "pricing": {
+      "title": "Tarifs",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "Sites web",
+      "free": "Gratuit",
+      "perMonth": "{price} par mois",
+      "perSeat": "{price} par siège, par mois",
+      "oneTime": "{price}, paiement unique",
+      "talentLink": "Tarifs Talent",
+      "castingLink": "Tarifs Casting",
+      "websitesLink": "Tarifs des sites web"
+    },
+    "final": {
+      "title": "Prêt à commencer ?"
+    }
   }
 }

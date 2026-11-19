@@ -108,6 +108,12 @@
       "talentHint": "Être représenté et trouver des rôles.",
       "casting": "Je suis directeur ou directrice de casting",
       "castingHint": "Publier des projets et constituer des shortlists."
+    },
+    "rules": {
+      "title": "Ton mot de passe doit contenir",
+      "length": "8 caractères ou plus",
+      "uppercase": "Une majuscule",
+      "special": "Un caractère spécial"
     }
   },
   "height": {
