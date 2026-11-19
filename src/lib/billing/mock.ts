@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/db";
 import { B2C_PLANS, B2B_PLANS } from "@/domain/pricing";
 import type { PlanB2C, PlanB2B } from "@/domain/enums";
-import type { Billing, ChangePlanInput } from "./index";
+import type { Billing, ChangePlanInput, SiteOrderCheckout } from "./index";
 
 /**
  * Dev billing: applies plan changes immediately, no payment. For B2B per-seat
  * plans the price is seatCount × per-seat price. Real charges come from Stripe.
+ * A Limelight order is reported as paid straight away.
  */
 export class MockBilling implements Billing {
   readonly live = false;
@@ -57,5 +58,13 @@ export class MockBilling implements Billing {
       });
     }
     return {};
+  }
+
+  /**
+   * No payment page and no charge: the order counts as paid at once and the
+   * caller fulfills it. The order row is not touched here.
+   */
+  async checkoutSiteOrder(): Promise<SiteOrderCheckout> {
+    return { paid: true };
   }
 }

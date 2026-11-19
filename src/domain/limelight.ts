@@ -17,11 +17,27 @@ export const LIMELIGHT = {
   slug: "limelight",
   /** Published sites will live on this wildcard domain (to confirm). */
   siteDomain: "agental.site",
+  /** Months of the Talent Pro plan that come free with every purchase. */
+  includedProMonths: 4,
+  /** Hosting paid for by a purchase, in months, before the yearly renewal. */
+  hostingTermMonths: 12,
   plans: {
-    essential: { priceUsd: 99, renewalUsdPerYear: 49 },
+    essential: {
+      priceUsd: 99,
+      renewalUsdPerYear: 49,
+      /**
+       * Price for a student an admin approved. The founders have not set the
+       * amount: while it is null, an approved student pays `priceUsd`.
+       */
+      studentPriceUsd: null as number | null,
+    },
     signature: { priceUsd: 199, renewalUsdPerYear: 79 },
   },
 } as const;
+
+/** The two offers a performer can buy. The keys of `LIMELIGHT.plans`. */
+export const LimelightOffer = z.enum(["essential", "signature"]);
+export type LimelightOffer = z.infer<typeof LimelightOffer>;
 
 export const LIMELIGHT_DISCIPLINES = [
   "actor",
