@@ -3,12 +3,16 @@ import talents from "../../messages/en/talents.json";
 import {
   MAX_SITES_PER_USER,
   RESERVED_SUBDOMAINS,
+  SITE_CONTACT_FIELDS,
   SITE_TEMPLATES,
   SiteContent,
   SiteInput,
+  hasControlChars,
+  isWebUrl,
   parseSiteContent,
   slugifySubdomain,
   subdomainCandidate,
+  withoutContactFields,
 } from "@/domain/site";
 
 /**
@@ -148,6 +152,139 @@ describe("SiteContent", () => {
   });
 });
 
+describe("output safety: what may reach a public page", () => {
+  const NUL = String.fromCharCode(0);
+  const ESC = String.fromCharCode(27);
+  const DEL = String.fromCharCode(127);
+  const LINE_SEPARATOR = String.fromCharCode(0x2028);
+
+  it.each([
+    ["a line break in the name", { name: "Ana\nLee" }],
+    ["a tab in the name", { name: "Ana\tLee" }],
+    ["a NUL in the name", { name: `Ana${NUL}Lee` }],
+    ["a Unicode line separator in the name", { name: `Ana${LINE_SEPARATOR}Lee` }],
+    ["an escape character in the headline", { ...minimal, headline: `Actor${ESC}[31m` }],
+    ["a line break in a link label", { ...minimal, links: [{ label: "IM\nDb", url: "https://example.com" }] }],
+    ["a line break in a credit title", { ...minimal, credits: [{ title: "The\nLong Night", role: "Lead" }] }],
+    ["a DEL in a credit role", { ...minimal, credits: [{ title: "t", role: `Lead${DEL}` }] }],
+    ["a NUL in the bio", { ...minimal, bio: `Bilingual.${NUL}` }],
+    ["an escape character in the bio", { ...minimal, bio: `Bilingual.${ESC}` }],
+  ])("refuses %s", (_label, input) => {
+    expect(SiteContent.safeParse(input).success).toBe(false);
+  });
+
+  it("keeps paragraphs and tabs in the bio, the one field with several lines", () => {
+    const bio = "Bilingual actor.\r\n\r\nBased in Los Angeles.\n\tAvailable to travel.";
+    expect(SiteContent.parse({ ...minimal, bio }).bio).toBe(bio);
+  });
+
+  it.each([
+    "https:\\\\example.com\\reel",
+    "https://good.example\\@evil.example/",
+    "https://exa\tmple.com/",
+    "https://example.com/\nreel",
+    "ht\ttps://example.com/",
+    "mailto:ana@example.com",
+    "tel:+13105550142",
+    "file:///etc/passwd",
+    "vbscript:msgbox(1)",
+    " javascript:alert(1)",
+    "https://127.0.0.1/",
+    "https://0x7f.1/",
+    "https://[::ffff:1.2.3.4]/",
+  ])("refuses the link %j", (url) => {
+    expect(SiteContent.safeParse({ ...minimal, links: [{ label: "x", url }] }).success).toBe(false);
+  });
+
+  it("takes a contact email as an address only, never as a link with a scheme or a query", () => {
+    for (const contactEmail of [
+      "mailto:ana@example.com",
+      "ana@example.com?subject=hi",
+      "ana@example.com\nbcc: all@example.com",
+      "javascript:alert(1)@example.com",
+      `${"a".repeat(195)}@example.com`,
+    ]) {
+      expect(SiteContent.safeParse({ ...minimal, contactEmail }).success).toBe(false);
+    }
+    expect(SiteContent.parse({ ...minimal, contactEmail: "ana@example.com" }).contactEmail).toBe(
+      "ana@example.com"
+    );
+  });
+
+  it("has no field that takes markup: unknown keys such as html are dropped", () => {
+    const parsed = SiteContent.parse({ ...minimal, html: "<script>alert(1)</script>", style: "x" });
+    expect(parsed).not.toHaveProperty("html");
+    expect(parsed).not.toHaveProperty("style");
+  });
+
+  it("caps every text field of the schema", () => {
+    // A field added without a cap would pass a megabyte of text.
+    const huge = "x".repeat(100_000);
+    for (const input of [
+      { name: huge },
+      { ...minimal, headline: huge },
+      { ...minimal, bio: huge },
+      { ...minimal, links: [{ label: huge, url: "https://example.com" }] },
+      { ...minimal, links: [{ label: "x", url: `https://example.com/${huge}` }] },
+      { ...minimal, credits: [{ title: huge, role: "r" }] },
+      { ...minimal, credits: [{ title: "t", role: huge }] },
+      { ...minimal, contactEmail: `${huge}@example.com` },
+      { ...minimal, mediaIds: [huge] },
+    ]) {
+      expect(SiteContent.safeParse(input).success).toBe(false);
+    }
+  });
+});
+
+describe("isWebUrl", () => {
+  it("is https only unless http is allowed", () => {
+    expect(isWebUrl("https://example.com/reel")).toBe(true);
+    expect(isWebUrl("http://example.com/reel")).toBe(false);
+    expect(isWebUrl("http://example.com/reel", { allowHttp: true })).toBe(true);
+  });
+
+  it.each(["javascript:alert(1)", "data:text/html,x", "mailto:a@example.com", "tel:123", "ftp://example.com"])(
+    "refuses %s even with http allowed",
+    (url) => {
+      expect(isWebUrl(url, { allowHttp: true })).toBe(false);
+    }
+  );
+});
+
+describe("hasControlChars", () => {
+  it("finds control characters and line separators", () => {
+    expect(hasControlChars("plain text, with accents: é ü 李")).toBe(false);
+    expect(hasControlChars("a\nb")).toBe(true);
+    expect(hasControlChars(`a${String.fromCharCode(0x2029)}b`)).toBe(true);
+    expect(hasControlChars(`a${String.fromCharCode(127)}b`)).toBe(true);
+  });
+
+  it("lets tabs and line breaks through when asked, and nothing else", () => {
+    expect(hasControlChars("a\n\tb\r\n", true)).toBe(false);
+    expect(hasControlChars(`a${String.fromCharCode(0)}b`, true)).toBe(true);
+  });
+});
+
+describe("contact fields", () => {
+  it("lists the contact email as the one way to reach the performer", () => {
+    expect([...SITE_CONTACT_FIELDS]).toEqual(["contactEmail"]);
+  });
+
+  it("removes the contact fields and nothing else, without touching the original", () => {
+    const content = SiteContent.parse({
+      ...minimal,
+      bio: "Bilingual.",
+      contactEmail: "ana@example.com",
+      links: [{ label: "IMDb", url: "https://www.imdb.com/name/nm0000001/" }],
+    });
+    const hidden = withoutContactFields(content);
+    expect(hidden).not.toHaveProperty("contactEmail");
+    expect(hidden).toEqual({ ...content, contactEmail: undefined });
+    expect(JSON.stringify(hidden)).not.toContain("ana@example.com");
+    expect(content.contactEmail).toBe("ana@example.com");
+  });
+});
+
 describe("SiteInput", () => {
   it("accepts a known template, with or without a site id", () => {
     expect(SiteInput.safeParse({ template: "marquee", content: minimal }).success).toBe(true);
@@ -164,6 +301,12 @@ describe("SiteInput", () => {
     ["invalid content", { template: "studio", content: { name: "" } }],
   ])("refuses %s", (_label, input) => {
     expect(SiteInput.safeParse(input).success).toBe(false);
+  });
+
+  it("takes an owner id for operators, and reads an empty one as absent", () => {
+    expect(SiteInput.parse({ ownerId: " u7 ", template: "studio", content: minimal }).ownerId).toBe("u7");
+    expect(SiteInput.parse({ ownerId: "", template: "studio", content: minimal }).ownerId).toBeUndefined();
+    expect(SiteInput.safeParse({ ownerId: "x".repeat(65), template: "studio", content: minimal }).success).toBe(false);
   });
 
   it("drops keys it does not know, such as an owner", () => {

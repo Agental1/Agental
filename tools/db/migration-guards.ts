@@ -9,9 +9,11 @@
  *   - FORCE ROW LEVEL SECURITY stays off: Prisma connects as the table owner,
  *     and a forced table with no policy returns zero rows to it;
  *   - anon, authenticated and PUBLIC receive no grants;
- *   - a table created in public enables RLS in the same migration, and a
- *     function or procedure created in public revokes EXECUTE from PUBLIC,
- *     which Postgres grants on every new routine.
+ *   - a table created in any schema enables RLS in the same migration, and a
+ *     function or procedure revokes EXECUTE from PUBLIC, which Postgres grants
+ *     on every new routine;
+ *   - a schema created by a migration (such as "limelight") is closed to
+ *     PUBLIC in that same migration, so it never depends on a default.
  */
 
 export interface MigrationSource {
@@ -49,6 +51,14 @@ const CREATE_ROUTINE = new RegExp(
   "gi"
 );
 const REVOKE_FROM_PUBLIC = /\brevoke\s+(?:all(?:\s+privileges)?|execute)\s+on\s+[^;]*\bfrom\s+[^;]*\bpublic\b/gi;
+const CREATE_SCHEMA = new RegExp(
+  String.raw`\bcreate\s+schema\s+(?:if\s+not\s+exists\s+)?(${IDENT})`,
+  "gi"
+);
+const REVOKE_SCHEMA_FROM_PUBLIC = new RegExp(
+  String.raw`\brevoke\s+all(?:\s+privileges)?\s+on\s+schema\s+(${IDENT})\s+from\s+[^;]*\bpublic\b`,
+  "gi"
+);
 
 /** Drops `--` and block comments, which may quote any of the patterns above. */
 export function stripSqlComments(sql: string): string {
@@ -60,12 +70,22 @@ function unquote(identifier: string): string {
   return identifier.startsWith('"') ? identifier.slice(1, -1) : identifier.toLowerCase();
 }
 
-/** Objects created in public (or unqualified, which lands in public). */
-function createdInPublic(sql: string, pattern: RegExp): { name: string; at: number }[] {
-  return [...sql.matchAll(pattern)]
-    .filter((m) => m[1] === undefined || unquote(m[1]) === "public")
-    .map((m) => ({ name: unquote(m[2]), at: m.index ?? 0 }));
+interface Named {
+  schema: string;
+  name: string;
+  at: number;
 }
+
+/** Objects a pattern names. An unqualified name lands in public. */
+function named(sql: string, pattern: RegExp): Named[] {
+  return [...sql.matchAll(pattern)].map((m) => ({
+    schema: m[1] === undefined ? "public" : unquote(m[1]),
+    name: unquote(m[2]),
+    at: m.index ?? 0,
+  }));
+}
+
+const qualified = (o: { schema: string; name: string }) => `${o.schema}.${o.name}`;
 
 function positions(sql: string, pattern: RegExp): number[] {
   return [...sql.matchAll(pattern)].map((m) => m.index ?? 0);
@@ -89,17 +109,34 @@ export function migrationProblems(migration: MigrationSource): string[] {
 
   if (migration.name <= RLS_BASELINE) return problems;
 
-  const enabled = new Set(createdInPublic(sql, ENABLE_RLS).map((t) => t.name));
+  const enabled = new Set(named(sql, ENABLE_RLS).map(qualified));
+  // The loop form only walks public, so it vouches for public tables alone.
   const loops = positions(sql, RLS_LOOP);
-  for (const table of createdInPublic(sql, CREATE_TABLE)) {
-    if (enabled.has(table.name) || loops.some((at) => at > table.at)) continue;
-    say(`creates table ${table.name} in public without enabling row level security on it.`);
+  for (const table of named(sql, CREATE_TABLE)) {
+    if (enabled.has(qualified(table))) continue;
+    if (table.schema === "public" && loops.some((at) => at > table.at)) continue;
+    say(
+      `creates table ${table.name} in ${table.schema} without enabling row level security on it.`
+    );
   }
 
   const revokes = positions(sql, REVOKE_FROM_PUBLIC);
-  for (const routine of createdInPublic(sql, CREATE_ROUTINE)) {
+  for (const routine of named(sql, CREATE_ROUTINE)) {
     if (revokes.some((at) => at > routine.at)) continue;
-    say(`creates routine ${routine.name} in public without revoking EXECUTE from PUBLIC.`);
+    say(
+      `creates routine ${routine.name} in ${routine.schema} without revoking EXECUTE from PUBLIC.`
+    );
+  }
+
+  const closed = [...sql.matchAll(REVOKE_SCHEMA_FROM_PUBLIC)].map((m) => ({
+    name: unquote(m[1]),
+    at: m.index ?? 0,
+  }));
+  for (const m of sql.matchAll(CREATE_SCHEMA)) {
+    const schema = unquote(m[1]);
+    const at = m.index ?? 0;
+    if (closed.some((c) => c.name === schema && c.at > at)) continue;
+    say(`creates schema ${schema} without revoking it from PUBLIC.`);
   }
   return problems;
 }

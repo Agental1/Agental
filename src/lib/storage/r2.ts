@@ -95,7 +95,15 @@ export class R2Storage implements Storage {
    * access control. The TTL is deliberately short: a leaked URL stops working
    * in minutes rather than being a permanent public link to a self-tape.
    */
-  async signedUrl(key: string, opts?: { mime?: string | null }): Promise<string> {
+  async signedUrl(
+    key: string,
+    opts?: { mime?: string | null; expiresInSeconds?: number }
+  ): Promise<string> {
+    const asked = opts?.expiresInSeconds;
+    const expiresIn =
+      typeof asked === "number" && Number.isFinite(asked) && asked >= 1
+        ? Math.min(Math.floor(asked), SIGNED_URL_TTL_SECONDS)
+        : SIGNED_URL_TTL_SECONDS;
     return getSignedUrl(
       this.client,
       new GetObjectCommand({
@@ -106,7 +114,7 @@ export class R2Storage implements Storage {
         ...(opts?.mime ? { ResponseContentType: opts.mime } : {}),
         ResponseContentDisposition: "inline",
       }),
-      { expiresIn: SIGNED_URL_TTL_SECONDS }
+      { expiresIn }
     );
   }
 

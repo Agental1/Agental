@@ -25,12 +25,43 @@ import type { TipKey } from "@/lib/ai/quality-scorer";
  *
  * Pass the recorder's real blob (rec.mimeType): Safari records MP4, Chrome
  * and Firefox record WebM, and both are accepted.
+ *
+ * A self-tape is saved as a version of a tape. Pass `tapeId` to add a new
+ * version to an existing tape, or leave it out to start a new tape from
+ * `title` and `demoBrief`. The result says which tape the file joined:
+ *
+ *   const result = await uploadMedia(blob, {
+ *     type: "SELFTAPE",
+ *     tapeId,                      // omit to start a new tape
+ *     title: "Monologue, take two",
+ *     consentVersion: "2026-11",   // the upload notice the person accepted
+ *   });
+ *   if (result.ok) result.tapeId, result.takeNumber
  */
 
 export interface UploadMediaOptions {
   type: UploadType;
   /** Videos and self-tapes only. Defaults: VIDEO "profile", SELFTAPE "library". */
   destination?: UploadDestination;
+  /**
+   * Self-tapes only: the tape this file becomes the next version of. It must
+   * be one of the caller's own tapes ("errors.tapeNotFound" otherwise). Left
+   * out, the upload starts a new tape.
+   */
+  tapeId?: string;
+  /**
+   * Shown with the file. Trimmed, 120 characters at most. On an upload that
+   * starts a new tape it is also the tape's title; an existing tape keeps its
+   * own (rename it with renameTape).
+   */
+  title?: string;
+  /** Self-tapes only: the brief of the tape this upload starts. 2000 characters at most. */
+  demoBrief?: string;
+  /**
+   * Version of the upload notice the person accepted, 40 characters at most.
+   * It records consent to store and show the file, nothing more.
+   */
+  consentVersion?: string;
   durationSec?: number;
   /** Self-tape quality metrics, each from 0 to 1, as the studio measures them. */
   metrics?: { framing: number; light: number; sound: number; durationMs: number };
@@ -45,6 +76,9 @@ export type UploadMediaResult =
   | {
       ok: true;
       mediaId: string;
+      /** Self-tapes only: the tape the file joined and its version number. */
+      tapeId?: string;
+      takeNumber?: number;
       score?: number;
       breakdown?: { framing: number; light: number; sound: number };
       tips?: TipKey[];
@@ -55,14 +89,29 @@ export async function uploadMedia(
   file: Blob,
   options: UploadMediaOptions
 ): Promise<UploadMediaResult> {
-  const { type, destination, durationSec, metrics, lowBandwidth, onProgress, signal } =
-    options;
+  const {
+    type,
+    destination,
+    tapeId,
+    title,
+    demoBrief,
+    consentVersion,
+    durationSec,
+    metrics,
+    lowBandwidth,
+    onProgress,
+    signal,
+  } = options;
 
   const created = await createUpload({
     type,
     destination,
     mime: baseMime(file.type),
     sizeBytes: file.size,
+    tapeId,
+    title,
+    demoBrief,
+    consentVersion,
   });
   if (!created.ok) return created;
 

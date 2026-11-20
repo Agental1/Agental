@@ -24,7 +24,7 @@ Photos add little: 10 photos of about 3 MB per talent come to 30 GB at 1,000 tal
 `createUpload` (server action) -> browser `PUT` to storage -> `completeUpload` (server action). Client code calls one function, `uploadMedia(file, options)` in `src/lib/media-upload.ts`, which runs the three steps and reports progress.
 
 1. **`createUpload({ type, destination?, mime, sizeBytes })`** in `src/app/actions/uploads.ts`
-   - Requires a TALENT session with a signed, active mandate and `isMinor` false. V1 stores no images of minors.
+   - Requires a TALENT session with its own profile and `isMinor` false. V1 stores no images of minors. A representation mandate is no longer a condition: it is out of the beta.
    - Checks the declared type against an allowlist and the declared size against the cap (`UPLOAD_LIMITS` in `src/domain/uploads.ts`: photos 15 MB as JPEG, PNG, WebP or HEIC; videos and self-tapes 150 MB as MP4, WebM or QuickTime).
    - Enforces a per-profile quota on file count and total bytes, counting finished media and uploads still in flight.
    - Records a pending `Upload` row and returns an address that accepts exactly that one file for 30 minutes. On R2 it is a presigned `PUT` URL with Content-Length in the signature.

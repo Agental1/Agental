@@ -35,13 +35,8 @@ export const AvailabilityInput = z.object({
 });
 export type AvailabilityInput = z.infer<typeof AvailabilityInput>;
 
-/** Auto-candidature & career preferences. */
-export const PreferencesInput = z.object({
-  autoApply: z.boolean().default(false),
-  projectTypes: z.array(z.string()).default([]),
-  dailyCap: z.coerce.number().int().min(0).max(100).optional(),
-  minRateEuros: z.coerce.number().min(0).optional(),
-  nudity: z.boolean().default(false),
-  animals: z.boolean().default(false),
-});
-export type PreferencesInput = z.infer<typeof PreferencesInput>;
+/**
+ * Job preferences and content boundaries live in ./preferences.ts. Re-exported
+ * so existing imports of PreferencesInput from this file keep working.
+ */
+export { ContentBoundariesInput, PreferencesInput } from "./preferences";

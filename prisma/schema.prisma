@@ -13,8 +13,13 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// Two Postgres schemas. "public" holds the Agental app. "limelight" holds the
+// website offer (leads, sites, domains, orders): its own schema keeps it out
+// of Supabase's Data API, which exposes "public" only, and lets a dedicated
+// database role be scoped to it later.
 datasource db {
   provider = "postgresql"
+  schemas  = ["public", "limelight"]
 }
 
 // ─────────────────────────── Identity & auth (Auth.js) ───────────────────────
@@ -46,6 +51,10 @@ model User {
   // when a provider sign-in takes over an account whose password was never
   // proven to belong to the email's owner.
   sessionsValidAfter    DateTime?
+  // Who may go through a real casting workflow run. UNREVIEWED (the default)
+  // is refused, so an account nobody has classified never runs. TEST marks the
+  // owner's own test accounts: staging and synthetic runs only.
+  workflowAccess        String    @default("UNREVIEWED") // UNREVIEWED | TEST | ELIGIBLE | EXCLUDED
 
   accounts            Account[]
   sessions            Session[]
@@ -54,10 +63,13 @@ model User {
   auditLogs           AuditLog[]
   notifications       Notification[]
   messages            Message[]
+  threads             Thread[]
   sites               Site[]
   siteOrders          SiteOrder[]
   studentPriceRequest StudentPriceRequest?
   studentRedemptions  StudentCodeRedemption[]
+
+  @@schema("public")
 }
 
 model Account {
@@ -73,10 +85,15 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
+  // When this sign-in method joined the account, and the last time it was
+  // used. Empty for connections made before these columns existed.
+  createdAt         DateTime? @default(now())
+  lastUsedAt        DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@schema("public")
 }
 
 model Session {
@@ -85,6 +102,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model VerificationToken {
@@ -93,6 +112,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@schema("public")
 }
 
 // ─────────────────────────── B2C — Artist domain ─────────────────────────────
@@ -116,15 +136,20 @@ model ArtistProfile {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  specialties   Specialty[]
-  availability  Availability[]
-  media         Media[]
-  uploads       Upload[]
-  candidatures  Candidature[]
-  careerEntries CareerEntry[]
-  mandat        Mandat?
-  minorCase     MinorCase?
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialties       Specialty[]
+  availability      Availability[]
+  media             Media[]
+  uploads           Upload[]
+  tapes             Tape[]
+  fitEvaluations    FitEvaluation[]
+  applicationDrafts ApplicationDraft[]
+  candidatures      Candidature[]
+  careerEntries     CareerEntry[]
+  mandat            Mandat?
+  minorCase         MinorCase?
+
+  @@schema("public")
 }
 
 model Specialty {
@@ -135,6 +160,8 @@ model Specialty {
   tags      String @default("[]") // JSON string[]
 
   profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model Availability {
@@ -146,6 +173,8 @@ model Availability {
   zones     String   @default("[]") // JSON string[]
 
   profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model Media {
@@ -163,8 +192,22 @@ model Media {
   isPrimary   Boolean  @default(false)
   createdAt   DateTime @default(now())
 
+  // Upload state as the owner sees it. A file still in flight is an Upload
+  // row, so a Media row starts READY; PROCESSING and FAILED are for a later
+  // transcoding or metadata step.
+  status         String   @default("READY") // PROCESSING | READY | FAILED
+  title          String?
+  // Version of the upload notice the owner accepted. Consent to store and
+  // show a file. It is never permission to reuse it or to train a model.
+  consentVersion String?
+  updatedAt      DateTime @default(now()) @updatedAt
+
   profile  ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   selfTape SelfTape?
+  shares   MediaShare[]
+  drafts   DraftMedia[]
+
+  @@schema("public")
 }
 
 model SelfTape {
@@ -178,8 +221,15 @@ model SelfTape {
   lowBandwidth     Boolean  @default(false)
   createdAt        DateTime @default(now())
 
+  // The self-tape this take is a version of (title, optional demo brief).
+  tapeId String?
+
   media   Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  tape    Tape?    @relation(fields: [tapeId], references: [id], onDelete: SetNull)
+
+  @@index([tapeId])
+  @@schema("public")
 }
 
 model CareerEntry {
@@ -194,6 +244,8 @@ model CareerEntry {
   status          String   @default("PENDING") // PENDING | PAID
 
   profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 // ─────────────────── Legal & commercial (kept SEPARATE) ───────────────────────
@@ -210,6 +262,8 @@ model Mandat {
   createdAt       DateTime  @default(now())
 
   profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 // Optional paid tech service. NEVER referenced by Mandat. Polymorphic subject:
@@ -231,6 +285,8 @@ model Subscription {
   compUntil            DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
+
+  @@schema("public")
 }
 
 // ─────────────────────────── B2B — Casting domain ────────────────────────────
@@ -250,6 +306,8 @@ model Organization {
   seats       Seat[]
   projects    Project[]
   invitations Invitation[]
+
+  @@schema("public")
 }
 
 model Membership {
@@ -266,6 +324,7 @@ model Membership {
   projects     Project[]
 
   @@unique([userId, organizationId])
+  @@schema("public")
 }
 
 model Seat {
@@ -276,6 +335,8 @@ model Seat {
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   membership   Membership?
+
+  @@schema("public")
 }
 
 model Project {
@@ -297,6 +358,8 @@ model Project {
   candidatures Candidature[]
   selfTapes    SelfTape[]
   minorCases   MinorCase[]
+
+  @@schema("public")
 }
 
 model Candidature {
@@ -314,6 +377,8 @@ model Candidature {
   artistProfile  ArtistProfile?  @relation(fields: [artistProfileId], references: [id], onDelete: SetNull)
   externalTalent ExternalTalent? @relation(fields: [externalTalentId], references: [id], onDelete: SetNull)
   matchScore     MatchScore?
+
+  @@schema("public")
 }
 
 model MatchScore {
@@ -327,6 +392,8 @@ model MatchScore {
   computedAt     DateTime @default(now())
 
   candidature Candidature @relation(fields: [candidatureId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model ExternalTalent {
@@ -337,6 +404,8 @@ model ExternalTalent {
   createdAt DateTime @default(now())
 
   candidatures Candidature[]
+
+  @@schema("public")
 }
 
 // ─────────────────────────── Compliance & comms ──────────────────────────────
@@ -357,13 +426,26 @@ model MinorCase {
 
   artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
   project       Project?      @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@schema("public")
 }
 
 model Thread {
-  id        String    @id @default(cuid())
-  subject   String?
-  createdAt DateTime  @default(now())
-  messages  Message[]
+  id            String    @id @default(cuid())
+  subject       String?
+  createdAt     DateTime  @default(now())
+  // TEAM: the one conversation between a performer (userId) and the Agental
+  // team. GENERAL: threads from before that existed.
+  kind          String    @default("GENERAL") // GENERAL | TEAM
+  userId        String?
+  lastMessageAt DateTime?
+  messages      Message[]
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, kind])
+  @@index([kind, lastMessageAt])
+  @@schema("public")
 }
 
 model Message {
@@ -374,9 +456,18 @@ model Message {
   attachments String    @default("[]") // JSON string[]
   readAt      DateTime?
   createdAt   DateTime  @default(now())
+  // Which side wrote it. The team member's identity stays in senderId and is
+  // never shown to the performer.
+  fromTeam    Boolean   @default(false)
+  // A random id the browser makes per draft, so a retry stores one message.
+  clientKey   String?
 
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
+  @@unique([threadId, clientKey])
+  @@index([threadId, createdAt])
+  @@schema("public")
 }
 
 model AuditLog {
@@ -391,6 +482,8 @@ model AuditLog {
   createdAt      DateTime @default(now())
 
   actor User? @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@schema("public")
 }
 
 model Notification {
@@ -402,6 +495,8 @@ model Notification {
   createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model Invitation {
@@ -414,6 +509,8 @@ model Invitation {
   createdAt      DateTime  @default(now())
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model UsageCounter {
@@ -424,6 +521,7 @@ model UsageCounter {
   count     Int    @default(0)
 
   @@unique([subjectId, metric, period])
+  @@schema("public")
 }
 
 model WebhookEvent {
@@ -433,6 +531,8 @@ model WebhookEvent {
   payload     String    @default("{}")
   processedAt DateTime?
   createdAt   DateTime  @default(now())
+
+  @@schema("public")
 }
 
 // ───────────────────── Direct uploads (photos, videos, self-tapes) ───────────
@@ -441,39 +541,57 @@ model WebhookEvent {
 // from createUpload until completeUpload turns it into a Media row, or until
 // it expires. Media never holds a file that has not arrived.
 model Upload {
-  id          String   @id @default(cuid())
-  profileId   String
-  type        String // PHOTO | VIDEO | SELFTAPE
-  destination String   @default("profile") // profile | library
-  storageKey  String   @unique
-  mime        String
-  sizeBytes   Int
-  expiresAt   DateTime
-  createdAt   DateTime @default(now())
+  id             String   @id @default(cuid())
+  profileId      String
+  type           String // PHOTO | VIDEO | SELFTAPE
+  destination    String   @default("profile") // profile | library
+  storageKey     String   @unique
+  mime           String
+  sizeBytes      Int
+  // Self-tapes: the tape this file becomes a version of, or the title and
+  // demo brief of the tape to create when the upload completes.
+  tapeId         String?
+  title          String?
+  demoBrief      String?
+  consentVersion String?
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
 
   profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
+  @@schema("public")
 }
 
 // ───────────────────────────── Limelight (websites) ──────────────────────────
 
 model Site {
-  id           String    @id @default(cuid())
-  userId       String
-  template     String
-  content      String    @default("{}") // JSON, validated by src/domain/site.ts
-  status       String    @default("DRAFT") // DRAFT | PUBLISHED
-  subdomain    String?   @unique
-  customDomain String?   @unique
-  publishedAt  DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id                  String    @id @default(cuid())
+  userId              String
+  template            String
+  content             String    @default("{}") // JSON, validated by src/domain/site.ts
+  status              String    @default("DRAFT") // DRAFT | PUBLISHED
+  subdomain           String?   @unique
+  customDomain        String?   @unique
+  publishedAt         DateTime?
+  // What the public sees is a revision, never the working draft. The customer
+  // approves a revision; only an approved revision can be published.
+  approvedRevisionId  String?
+  approvedAt          DateTime?
+  approvedById        String?
+  publishedRevisionId String?
+  // The customer's opt-in to show contact details on the public site.
+  showContact         Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
-  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orders SiteOrder[]
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders    SiteOrder[]
+  domains   SiteDomain[]
+  revisions SiteRevision[]
 
   @@index([userId])
+  @@schema("public")
 }
 
 // A purchase of a Limelight offer. Kept when the account or the site is
@@ -499,6 +617,7 @@ model SiteOrder {
 
   @@index([userId])
   @@index([siteId])
+  @@schema("public")
 }
 
 // A request for the student price on a Limelight offer. Proof arrives by
@@ -513,6 +632,8 @@ model StudentPriceRequest {
   createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 // ───────────────────────────── College student codes ─────────────────────────
@@ -528,6 +649,8 @@ model StudentCode {
   createdAt DateTime  @default(now())
 
   redemptions StudentCodeRedemption[]
+
+  @@schema("public")
 }
 
 model StudentCodeRedemption {
@@ -541,6 +664,7 @@ model StudentCodeRedemption {
 
   @@unique([codeId, userId])
   @@index([userId])
+  @@schema("public")
 }
 
 // ───────────────────────────────── Rate limiting ─────────────────────────────
@@ -554,4 +678,253 @@ model RateLimitEvent {
   createdAt DateTime @default(now())
 
   @@index([key, createdAt])
+  @@schema("public")
+}
+
+// ─────────────────────── Self-tapes: versions and sharing ────────────────────
+
+// A self-tape as the talent thinks of it: a title, an optional demo brief,
+// and its saved versions (SelfTape rows, each with its Media file).
+model Tape {
+  id        String   @id @default(cuid())
+  profileId String
+  title     String
+  demoBrief String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  takes   SelfTape[]
+
+  @@index([profileId])
+  @@schema("public")
+}
+
+// A deliberate, time-limited link to one clip. Only a hash of the token is
+// stored. Revoking, expiry, or deleting the clip ends it.
+model MediaShare {
+  id           String    @id @default(cuid())
+  mediaId      String
+  tokenHash    String    @unique
+  createdById  String
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  viewCount    Int       @default(0)
+  lastViewedAt DateTime?
+  createdAt    DateTime  @default(now())
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([mediaId])
+  @@schema("public")
+}
+
+// ─────────────── Actor-side workflow: briefs, fit, drafts (dry run) ──────────
+// Kept apart from the casting-side Project / Candidature / MatchScore tables:
+// suggestions made to a performer and shortlists shown to a producer never
+// share a row.
+
+model Brief {
+  id           String    @id @default(cuid())
+  source       String // manual | fixture | name of an approved integration
+  sourceRef    String?
+  dedupeKey    String    @unique
+  title        String
+  production   String?
+  roleName     String?
+  roleType     String? // a SpecialtyKind when the source says so
+  description  String    @default("")
+  location     String?
+  country      String? // ISO 3166-1 alpha-2 when known
+  remote       Boolean?
+  startsOn     DateTime?
+  endsOn       DateTime?
+  paid         Boolean?
+  rateCents    Int?
+  unionStatus  String?
+  requirements String    @default("{}") // JSON, validated by src/domain/workflow/brief.ts
+  expiresAt    DateTime?
+  status       String    @default("ACTIVE") // ACTIVE | EXPIRED | WITHDRAWN
+  raw          String    @default("{}") // as received, for audit
+  receivedAt   DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  evaluations FitEvaluation[]
+  drafts      ApplicationDraft[]
+
+  @@index([status, expiresAt])
+  @@schema("public")
+}
+
+// One assessment of one brief for one performer. inputHash covers the brief,
+// the profile fields read, the preferences and the rule and model versions,
+// so the same inputs are never assessed twice.
+model FitEvaluation {
+  id              String   @id @default(cuid())
+  briefId         String
+  profileId       String
+  decision        String // eligible | needs_review | ineligible
+  rulesPassed     String   @default("[]")
+  ruleFailures    String   @default("[]")
+  unknowns        String   @default("[]")
+  reasons         String   @default("[]")
+  profileEvidence String   @default("[]")
+  briefEvidence   String   @default("[]")
+  ruleVersion     String
+  modelVersion    String?
+  inputHash       String
+  createdAt       DateTime @default(now())
+
+  brief   Brief              @relation(fields: [briefId], references: [id], onDelete: Cascade)
+  profile ArtistProfile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  drafts  ApplicationDraft[]
+
+  @@unique([briefId, profileId, inputHash])
+  @@index([profileId])
+  @@schema("public")
+}
+
+// An application the performer may review. Nothing is ever submitted from
+// here: approving records a decision and that is all.
+model ApplicationDraft {
+  id             String    @id @default(cuid())
+  profileId      String
+  briefId        String
+  evaluationId   String?
+  status         String    @default("DRAFT") // DRAFT | APPROVED | DECLINED | NEEDS_INFO
+  note           String?
+  idempotencyKey String    @unique
+  reviewDecision String?
+  reviewReason   String?
+  reviewedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  profile    ArtistProfile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  brief      Brief          @relation(fields: [briefId], references: [id], onDelete: Cascade)
+  evaluation FitEvaluation? @relation(fields: [evaluationId], references: [id], onDelete: SetNull)
+  media      DraftMedia[]
+
+  @@unique([profileId, briefId])
+  @@schema("public")
+}
+
+model DraftMedia {
+  draftId   String
+  mediaId   String
+  createdAt DateTime @default(now())
+
+  draft ApplicationDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  media Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@id([draftId, mediaId])
+  @@index([mediaId])
+  @@schema("public")
+}
+
+// A recoverable unit of workflow work, with its limits and its cost.
+model WorkflowRun {
+  id             String    @id @default(cuid())
+  kind           String
+  idempotencyKey String    @unique
+  status         String    @default("PENDING") // PENDING | RUNNING | SUCCEEDED | FAILED | DEAD
+  attempts       Int       @default(0)
+  maxAttempts    Int       @default(3)
+  modelCalls     Int       @default(0)
+  costMicroUsd   Int       @default(0)
+  subjectRef     String? // record ids only, never personal data
+  lastError      String? // redacted
+  result         String    @default("{}")
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([kind, status])
+  @@index([createdAt])
+  @@schema("public")
+}
+
+// ──────────────────── Limelight: lead intake and site hosting ────────────────
+
+// A "Request a portfolio site" submission. One row per email address; a
+// repeat updates lastSeenAt and the counter.
+model LimelightLead {
+  id             String   @id @default(cuid())
+  reference      String   @unique
+  email          String   @unique
+  name           String
+  performerType  String?
+  portfolioUrl   String?
+  // What they need, in their words. The phone is kept only when the person
+  // asked for a call back.
+  need           String?
+  contactPref    String   @default("email") // email | call
+  phone          String?
+  source         String
+  consentVersion String
+  marketingOptIn Boolean  @default(false)
+  locale         String   @default("en")
+  status         String   @default("NEW") // NEW | CONTACTED | CLOSED
+  submissions    Int      @default(1)
+  firstSeenAt    DateTime @default(now())
+  lastSeenAt     DateTime @default(now())
+
+  @@index([status, firstSeenAt])
+  @@schema("limelight")
+}
+
+// Transactional outbox: a message to deliver, written in the same
+// transaction as the record it announces, then sent with retries.
+model OutboxMessage {
+  id            String    @id @default(cuid())
+  kind          String
+  dedupeKey     String    @unique
+  payload       String    @default("{}") // record references only
+  status        String    @default("PENDING") // PENDING | SENT | DEAD
+  attempts      Int       @default(0)
+  maxAttempts   Int       @default(5)
+  nextAttemptAt DateTime  @default(now())
+  lastError     String?
+  createdAt     DateTime  @default(now())
+  sentAt        DateTime?
+
+  @@index([status, nextAttemptAt])
+  @@schema("limelight")
+}
+
+// A hostname that serves a site: the hosted subdomain, or a domain the
+// customer owns and has proven with a DNS record.
+model SiteDomain {
+  id                String    @id @default(cuid())
+  siteId            String
+  hostname          String    @unique
+  kind              String // SUBDOMAIN | CUSTOM
+  status            String    @default("PENDING") // PENDING | VERIFIED | ACTIVE | FAILED
+  verificationToken String
+  verifiedAt        DateTime?
+  lastCheckedAt     DateTime?
+  createdAt         DateTime  @default(now())
+
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@index([siteId])
+  @@schema("limelight")
+}
+
+// An immutable snapshot of a site's template and content.
+model SiteRevision {
+  id          String   @id @default(cuid())
+  siteId      String
+  version     Int
+  template    String
+  content     String
+  note        String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@unique([siteId, version])
+  @@schema("limelight")
 }

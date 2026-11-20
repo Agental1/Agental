@@ -1,67 +1,163 @@
 "use server";
 
-import { createHmac } from "node:crypto";
+import { z } from "zod";
 import { headers } from "next/headers";
-import { err, zodError, type ActionError } from "@/domain/action-result";
-import { LimelightLeadInput } from "@/domain/limelight";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import {
+  err,
+  zodError,
+  type ActionError,
+  type ErrorKey,
+} from "@/domain/action-result";
+import {
+  LIMELIGHT_DEFAULT_CONSENT_VERSION,
+  LIMELIGHT_NEED_MAX_LENGTH,
+  LimelightLeadInput,
+  LimelightLeadStatus,
+} from "@/domain/limelight";
+import { changeLeadStatus, recordInterest } from "@/lib/limelight/leads";
+import { scheduleOutboxDrain } from "@/lib/limelight/after-response";
+import { clientAddressKey } from "@/lib/limelight/request";
 
 /**
- * Best-effort flood control: at most LIMIT submissions per visitor per window.
- * In memory, so each server instance counts on its own; it stops a script
- * hammering one instance, and the honeypot below catches most bots. Move to a
- * shared store (Upstash, Supabase) if the form ever draws real abuse.
- * The IP is used only as a counter key and never logged or forwarded.
+ * Limelight lead intake as server actions, and the owner's status change.
+ *
+ * Both form actions go through `recordInterest` (src/lib/limelight/leads.ts),
+ * the same function as `POST /api/limelight/interest`: the lead is stored in
+ * Postgres with its alert row in one transaction, and success is answered
+ * only after that commit. Nothing is forwarded to n8n and nothing is "logged
+ * instead of stored".
+ *
+ * Abuse controls: the hidden honeypot field, a limit per client address and
+ * per email address kept in the database, length caps on every field, and
+ * Next's Origin check on server actions, which blocks cross-site form posts.
  */
-const LIMIT = 5;
-const WINDOW_MS = 10 * 60 * 1000;
-const hits = new Map<string, number[]>();
 
-function overLimit(key: string, now = Date.now()): boolean {
-  const recent = (hits.get(key) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(key, recent);
-  if (hits.size > 5000) {
-    for (const [k, v] of hits) if (v.every((t) => now - t >= WINDOW_MS)) hits.delete(k);
-  }
-  return recent.length > LIMIT;
-}
+export type PortfolioRequestState =
+  | { ok: true; reference: string }
+  | {
+      ok: false;
+      error?: ActionError;
+      /** One error key per form field name. */
+      fieldErrors?: Record<string, ErrorKey>;
+    }
+  | undefined;
 
 export type LimelightLeadState =
   | { ok: true; email: string }
   | { ok?: false; error?: ActionError }
   | undefined;
 
+export type LeadStatusResult =
+  | { ok: true; status: LimelightLeadStatus }
+  | { ok: false; error: ActionError };
+
+/** A text field of the form. A file or a missing field reads as absent. */
+function field(formData: FormData, name: string): string | undefined {
+  const value = formData.get(name);
+  return typeof value === "string" ? value : undefined;
+}
+
+/** A checkbox: present with any of the usual "on" values. */
+function checked(formData: FormData, name: string): boolean {
+  const value = field(formData, name)?.trim().toLowerCase();
+  return value === "on" || value === "true" || value === "1" || value === "yes";
+}
+
 /**
- * "Start your site" on the Limelight page.
+ * "Request a portfolio site", as a form action for `useActionState`.
  *
- * The browser never talks to n8n. This action validates the lead, then
- * forwards it to the n8n workflow (W2, "contact lead") with an HMAC-SHA256
- * signature the workflow checks before trusting the payload.
+ * Form fields: `name`, `email`, `performerType` (optional), `portfolioUrl`
+ * (optional), `need` (optional), `contactPref` (optional, "email" or
+ * "call"), `phone` (required when `contactPref` is "call", ignored
+ * otherwise), `marketingOptIn` (checkbox, optional), `consentVersion`,
+ * `source` (optional, "limelight-page" when absent), `locale` (optional) and
+ * the honeypot `company`.
  *
- * Abuse controls: a hidden honeypot field, a per-visitor submission limit,
- * length caps on every field (domain/limelight.ts), and Next's built-in
- * Origin check on server actions, which blocks cross-site form posts.
+ * `consentVersion` is the consent: make it the value of the required consent
+ * checkbox, so an unticked box sends nothing and the answer is
+ * `fieldErrors.consentVersion = "errors.consentRequired"`.
+ */
+export async function requestPortfolioSite(
+  _prev: PortfolioRequestState,
+  formData: FormData
+): Promise<PortfolioRequestState> {
+  const result = await recordInterest(
+    {
+      name: field(formData, "name"),
+      email: field(formData, "email"),
+      performerType: field(formData, "performerType"),
+      portfolioUrl: field(formData, "portfolioUrl"),
+      marketingOptIn: checked(formData, "marketingOptIn"),
+      consentVersion: field(formData, "consentVersion"),
+      source: field(formData, "source")?.trim() || "limelight-page",
+      locale: field(formData, "locale"),
+      need: field(formData, "need"),
+      contactPref: field(formData, "contactPref"),
+      phone: field(formData, "phone"),
+      company: field(formData, "company"),
+    },
+    { clientKey: clientAddressKey(await headers()) }
+  );
+
+  if (result.ok) {
+    if (result.created) scheduleOutboxDrain();
+    return { ok: true, reference: result.reference };
+  }
+  if (result.reason === "invalid") {
+    return { ok: false, fieldErrors: result.fieldErrors };
+  }
+  if (result.reason === "rate_limited") {
+    return { ok: false, error: err("errors.limelightTooMany") };
+  }
+  return { ok: false, error: err("errors.limelightSendFailed") };
+}
+
+/**
+ * "What they need" for the form on the page today, which asks it twice: a
+ * choice (`need`) and a free message. Both are kept as one text, "choice:
+ * message", when that fits the 500 characters the lead keeps. A longer
+ * message is left out, and the caller says so in a log line.
+ */
+function needFromLegacyForm(
+  choice: string,
+  message: string
+): { need: string; messageKept: boolean } {
+  const text = message.replace(/\s+/g, " ").trim();
+  if (!text) return { need: choice, messageKept: true };
+  const both = `${choice}: ${text}`;
+  return both.length <= LIMELIGHT_NEED_MAX_LENGTH
+    ? { need: both, messageKept: true }
+    : { need: choice, messageKept: false };
+}
+
+/**
+ * The form on the Limelight page today ("Start your site"), with its field
+ * names and its return type unchanged.
  *
- * Until both LIMELIGHT_LEADS_WEBHOOK_URL and N8N_SIGNING_SECRET are set, the
- * action runs in mock mode: it logs the lead on the server and reports
- * success, so the page can ship before the workflow exists. Nothing is sent
- * anywhere in mock mode.
+ * It stores the lead through the same core as `requestPortfolioSite`:
+ * `discipline` becomes `performerType`, the source is "limelight-page", and
+ * the consent version is the one of the privacy line that form shows.
+ * `contactPref` and `phone` go through as they are, under the same rule as
+ * everywhere: a phone number is required when the person asks for a call,
+ * and dropped otherwise. `need` and `message` become the lead's "what they
+ * need" text (see `needFromLegacyForm`).
+ *
+ * Not stored: `budget`, and a `message` too long to fit. They are still
+ * validated, so the form behaves as before, but the lead table has no column
+ * for them and the request form that replaces this one does not ask for
+ * them.
  */
 export async function submitLimelightLead(
   _prev: LimelightLeadState,
   formData: FormData
 ): Promise<LimelightLeadState> {
   // Honeypot: a field people never see. Bots fill it; we pretend it worked.
-  if (String(formData.get("company") ?? "").length > 0) {
+  if ((field(formData, "company") ?? "").length > 0) {
     return { ok: true, email: "" };
   }
-
-  const hdrs = await headers();
-  const ip =
-    hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    hdrs.get("x-real-ip") ??
-    "unknown";
-  if (overLimit(ip)) return { error: err("errors.limelightTooMany") };
 
   const parsed = LimelightLeadInput.safeParse({
     name: formData.get("name"),
@@ -75,40 +171,75 @@ export async function submitLimelightLead(
     locale: formData.get("locale") ?? "en",
   });
   if (!parsed.success) return { error: zodError(parsed.error) };
+  const { need, messageKept } = needFromLegacyForm(parsed.data.need, parsed.data.message);
 
-  const lead = { ...parsed.data, source: "limelight", receivedAt: new Date().toISOString() };
-  const url = process.env.LIMELIGHT_LEADS_WEBHOOK_URL;
-  const secret = process.env.N8N_SIGNING_SECRET;
+  const result = await recordInterest(
+    {
+      name: parsed.data.name,
+      email: parsed.data.email,
+      performerType: parsed.data.discipline,
+      locale: parsed.data.locale,
+      need,
+      contactPref: parsed.data.contactPref,
+      phone: parsed.data.phone,
+      marketingOptIn: false,
+      consentVersion: LIMELIGHT_DEFAULT_CONSENT_VERSION,
+      source: "limelight-page",
+    },
+    { clientKey: clientAddressKey(await headers()) }
+  );
 
-  if (!url || !secret) {
-    console.info("[limelight] mock mode, lead not forwarded:", {
-      discipline: lead.discipline,
-      need: lead.need,
-      budget: lead.budget,
-      locale: lead.locale,
-    });
-    return { ok: true, email: lead.email };
-  }
-
-  const body = JSON.stringify(lead);
-  const signature = createHmac("sha256", secret).update(body).digest("hex");
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-agental-signature": `sha256=${signature}`,
-      },
-      body,
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) {
-      console.error("[limelight] webhook refused the lead:", res.status);
-      return { error: err("errors.limelightSendFailed") };
+  if (result.ok) {
+    if (result.created) scheduleOutboxDrain();
+    if (!messageKept) {
+      // Said out loud, with the reference and nothing the person wrote.
+      console.warn(
+        "[limelight] message over the stored length, not kept. Reference:",
+        result.reference
+      );
     }
-  } catch (e) {
-    console.error("[limelight] webhook unreachable:", e);
-    return { error: err("errors.limelightSendFailed") };
+    return { ok: true, email: parsed.data.email };
   }
-  return { ok: true, email: lead.email };
+  if (result.reason === "invalid") {
+    const first = Object.values(result.fieldErrors)[0];
+    return { error: err(first ?? "errors.invalidInput") };
+  }
+  if (result.reason === "rate_limited") {
+    return { error: err("errors.limelightTooMany") };
+  }
+  return { error: err("errors.limelightSendFailed") };
+}
+
+const LeadId = z.string().trim().min(1).max(64);
+
+/**
+ * Owner view: move a lead to NEW, CONTACTED or CLOSED. Admins only. The
+ * change and its audit entry (`limelight.lead.status`) are one transaction.
+ *
+ * Errors: `errors.unauthorized` (signed out), `errors.forbidden` (not an
+ * admin), `errors.invalidInput` (unknown status), `errors.notFound`.
+ */
+export async function setLeadStatus(
+  leadId: string,
+  status: LimelightLeadStatus
+): Promise<LeadStatusResult> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
+  const me = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { isAdmin: true },
+  });
+  if (!me?.isAdmin) return { ok: false, error: err("errors.forbidden") };
+
+  const id = LeadId.safeParse(leadId);
+  const next = LimelightLeadStatus.safeParse(status);
+  if (!id.success || !next.success) {
+    return { ok: false, error: err("errors.invalidInput") };
+  }
+
+  const changed = await changeLeadStatus(id.data, next.data, session.user.id);
+  if (!changed) return { ok: false, error: err("errors.notFound") };
+
+  revalidatePath("/[locale]/admin", "layout");
+  return { ok: true, status: changed.after };
 }

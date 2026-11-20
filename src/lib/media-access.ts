@@ -21,7 +21,7 @@ import { prisma } from "@/lib/db";
 export async function canReadMedia(
   userId: string,
   profileId: string,
-  opts: { destination?: string | null } = {}
+  opts: { destination?: string | null; status?: string | null } = {}
 ): Promise<boolean> {
   const [owned, user] = await Promise.all([
     prisma.artistProfile.findFirst({
@@ -34,6 +34,10 @@ export async function canReadMedia(
     }),
   ]);
   if (owned || user?.isAdmin) return true;
+
+  // A file that is still processing, or that failed, is the owner's to see
+  // and nobody else's.
+  if (opts.status && opts.status !== "READY") return false;
 
   // A library item (a self-tape or reel the talent has not submitted) is
   // private: no casting user reads it, whatever their link to the profile.

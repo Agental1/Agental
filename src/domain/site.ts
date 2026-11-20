@@ -38,6 +38,13 @@ export type SiteOrderStatus = z.infer<typeof SiteOrderStatus>;
 export const StudentPriceStatus = z.enum(["PENDING", "APPROVED", "REJECTED", "USED"]);
 export type StudentPriceStatus = z.infer<typeof StudentPriceStatus>;
 
+/** Mirrors of the String columns on SiteDomain. FAILED is not set by any code yet. */
+export const SiteDomainKind = z.enum(["SUBDOMAIN", "CUSTOM"]);
+export type SiteDomainKind = z.infer<typeof SiteDomainKind>;
+
+export const SiteDomainStatus = z.enum(["PENDING", "VERIFIED", "ACTIVE", "FAILED"]);
+export type SiteDomainStatus = z.infer<typeof SiteDomainStatus>;
+
 /** A performer may keep this many sites, drafts included. */
 export const MAX_SITES_PER_USER = 3;
 
@@ -45,23 +52,67 @@ export const MAX_SITES_PER_USER = 3;
 const MAX_URL_LENGTH = 500;
 
 /**
- * Links are rendered on a public page, so only plain https addresses pass:
- * no http, no javascript: or data: schemes, no bare hosts such as
- * "localhost", and no "https://imdb.com@elsewhere.example" form, where the
- * part before the @ is a user name and the real host comes after it.
+ * True when the text holds a control character (U+0000 to U+001F, U+007F) or
+ * a Unicode line or paragraph separator. With `allowBreaks`, tab, line feed
+ * and carriage return pass: a bio has paragraphs, a name does not.
+ *
+ * Written as a loop over character codes: a regular expression for the same
+ * set needs control characters in its source.
  */
-function isHttpsUrl(value: string): boolean {
+export function hasControlChars(value: string, allowBreaks = false): boolean {
+  for (let i = 0; i < value.length; i++) {
+    const code = value.charCodeAt(i);
+    if (code === 0x2028 || code === 0x2029) {
+      if (!allowBreaks) return true;
+      continue;
+    }
+    if (code >= 0x20 && code !== 0x7f) continue;
+    if (allowBreaks && (code === 0x09 || code === 0x0a || code === 0x0d)) continue;
+    return true;
+  }
+  return false;
+}
+
+/**
+ * A web address that is safe to render as a link on a public page.
+ *
+ * Only https passes, or http as well with `allowHttp`. Every other scheme is
+ * refused (javascript:, data:, mailto:, tel:, file:), and so are bare hosts
+ * such as "localhost", IP addresses, and the "https://imdb.com@elsewhere.example" form,
+ * where the part before the @ is a user name and the real host comes after
+ * it. A backslash or a control character is refused too: browsers read
+ * "https:\\host" and "ht\ttps://host" one way and other programs another,
+ * and no address a person pastes needs either.
+ */
+export function isWebUrl(
+  value: string,
+  opts: { allowHttp?: boolean } = {}
+): boolean {
+  if (value.includes("\\") || hasControlChars(value)) return false;
   try {
     const url = new URL(value);
+    const schemeOk =
+      url.protocol === "https:" ||
+      (opts.allowHttp === true && url.protocol === "http:");
+    const host = url.hostname;
     return (
-      url.protocol === "https:" &&
-      url.hostname.includes(".") &&
+      schemeOk &&
+      host.includes(".") &&
+      // A name, never an address: "[::ffff:1.2.3.4]" and "127.0.0.1" (which
+      // is also what the parser makes of "0x7f.1") are refused.
+      !host.startsWith("[") &&
+      !/^\d+$/.test(host.slice(host.lastIndexOf(".") + 1)) &&
       url.username === "" &&
       url.password === ""
     );
   } catch {
     return false;
   }
+}
+
+/** Site links are https only. */
+function isHttpsUrl(value: string): boolean {
+  return isWebUrl(value);
 }
 
 /** An empty form field ("" or null) means the value is absent. */
@@ -71,14 +122,23 @@ function blankToUndefined(value: unknown): unknown {
   return value;
 }
 
+/** One line of text: trimmed, capped, no control characters. */
+function line(max: number) {
+  return z
+    .string()
+    .trim()
+    .max(max)
+    .refine((value) => !hasControlChars(value));
+}
+
 const SiteLink = z.object({
-  label: z.string().trim().max(40),
+  label: line(40),
   url: z.string().trim().max(MAX_URL_LENGTH).refine(isHttpsUrl),
 });
 
 const SiteCredit = z.object({
-  title: z.string().trim().max(120),
-  role: z.string().trim().max(80),
+  title: line(120),
+  role: line(80),
   year: z.preprocess(
     blankToUndefined,
     z.number().int().min(1900).max(2100).optional()
@@ -90,13 +150,32 @@ const SiteCredit = z.object({
  * unknown keys are dropped (the Zod default for objects). Only `name` is
  * required, so a draft can be saved long before it is complete.
  *
+ * Output safety, since all of it ends on a public page:
+ * - every text field has a length cap, and single-line fields refuse control
+ *   characters (the bio keeps tabs and line breaks);
+ * - the only addresses are `links[].url` (https only, see `isWebUrl`) and
+ *   `contactEmail` (a plain email address, which a template may turn into a
+ *   mailto: link). No field accepts tel:, mailto: or any other scheme as
+ *   typed text;
+ * - nothing here is HTML. Templates render every value as text.
+ *
  * `mediaIds` point at the performer's own Media rows. This schema only bounds
  * their number; the saveSite action checks who owns them.
+ *
+ * Adding a field: add it here with a cap, give it a default or make it
+ * optional so stored rows still parse, add it to `SITE_CONTACT_FIELDS` when
+ * it is a way to reach the performer, and cover it in
+ * tests/domain/site.test.ts.
  */
 export const SiteContent = z.object({
-  name: z.string().trim().min(1).max(80),
-  headline: z.string().trim().max(140).default(""),
-  bio: z.string().trim().max(2000).default(""),
+  name: line(80).min(1),
+  headline: line(140).default(""),
+  bio: z
+    .string()
+    .trim()
+    .max(2000)
+    .refine((value) => !hasControlChars(value, true))
+    .default(""),
   links: z.array(SiteLink).max(8).default([]),
   credits: z.array(SiteCredit).max(30).default([]),
   contactEmail: z.preprocess(
@@ -107,9 +186,31 @@ export const SiteContent = z.object({
 });
 export type SiteContent = z.infer<typeof SiteContent>;
 
-/** What the site editor sends. Without `siteId` a new draft is created. */
+/**
+ * The fields that are a way to reach the performer. The public site shows
+ * them only when the owner turned `Site.showContact` on.
+ */
+export const SITE_CONTACT_FIELDS = ["contactEmail"] as const;
+
+/** The content as the public sees it when contact details are hidden. */
+export function withoutContactFields(content: SiteContent): SiteContent {
+  const copy: SiteContent = { ...content };
+  for (const field of SITE_CONTACT_FIELDS) delete copy[field];
+  return copy;
+}
+
+/**
+ * What the site editor sends. Without `siteId` a new draft is created.
+ *
+ * `ownerId` is for operators only: the account a new site is assembled for.
+ * The saveSite action ignores it unless the session belongs to an admin.
+ */
 export const SiteInput = z.object({
   siteId: z.string().trim().min(1).max(64).optional(),
+  ownerId: z.preprocess(
+    blankToUndefined,
+    z.string().trim().min(1).max(64).optional()
+  ),
   template: SiteTemplate,
   content: SiteContent,
 });

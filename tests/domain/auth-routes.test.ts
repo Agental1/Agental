@@ -73,34 +73,44 @@ describe("onboardingHome", () => {
 });
 
 describe("postAuthHome", () => {
-  const signed = { status: "ACTIVE", signedAt: new Date("2026-01-01") };
   const seen = new Date("2026-01-02");
 
-  it("sends a talent with a signed, active mandate to the dashboard", () => {
-    expect(postAuthHome("TALENT", "es", { mandat: signed, onboardingCompletedAt: seen })).toBe(
+  it("sends a talent whose basics are saved to the dashboard", () => {
+    expect(postAuthHome("TALENT", "es", { setupStep: null, onboardingCompletedAt: seen })).toBe(
       "/es/talents/app"
     );
   });
 
   it("serves the first-run screen once: profile completeness, with the tutorial flag", () => {
-    const first = { mandat: signed, onboardingCompletedAt: null };
+    const first = { setupStep: null, onboardingCompletedAt: null };
     expect(postAuthHome("TALENT", "en", first)).toBe("/en/talents/app/profil?welcome=1");
     expect(needsFirstRun("TALENT", first)).toBe(true);
-    expect(needsFirstRun("TALENT", { mandat: signed, onboardingCompletedAt: seen })).toBe(false);
-    // Onboarding unfinished: the wizard comes first, and nothing is stamped.
-    expect(needsFirstRun("TALENT", { mandat: null })).toBe(false);
+    expect(needsFirstRun("TALENT", { setupStep: null, onboardingCompletedAt: seen })).toBe(false);
     expect(needsFirstRun("CASTING", { hasOwnerMembership: true })).toBe(false);
   });
 
-  it("sends a talent back to onboarding until the mandate is signed and active", () => {
-    expect(postAuthHome("TALENT", "fr", {})).toBe("/fr/talents/inscription");
-    expect(postAuthHome("TALENT", "fr", { mandat: null })).toBe("/fr/talents/inscription");
-    expect(postAuthHome("TALENT", "fr", { mandat: { status: "ACTIVE", signedAt: null } })).toBe(
-      "/fr/talents/inscription"
-    );
-    expect(postAuthHome("TALENT", "fr", { mandat: { ...signed, status: "REVOKED" } })).toBe(
-      "/fr/talents/inscription"
-    );
+  it("opens the dashboard while a setup step is missing, and stamps nothing", () => {
+    // The dashboard's "Complete my profile" card names the step and resumes
+    // it, on this sign-in and on every later one.
+    for (const setupStep of ["identity", "profile"] as const) {
+      expect(postAuthHome("TALENT", "fr", { setupStep })).toBe("/fr/talents/app");
+      expect(needsFirstRun("TALENT", { setupStep })).toBe(false);
+    }
+    // A caller that says nothing about setup is treated as still in setup.
+    expect(postAuthHome("TALENT", "fr", {})).toBe("/fr/talents/app");
+    expect(needsFirstRun("TALENT", {})).toBe(false);
+  });
+
+  it("no longer reads the mandate: signed or not, the route is the same", () => {
+    const signed = { status: "ACTIVE", signedAt: new Date("2026-01-01") };
+    for (const mandat of [signed, { ...signed, status: "REVOKED" }, null, undefined]) {
+      expect(postAuthHome("TALENT", "en", { mandat, setupStep: null, onboardingCompletedAt: seen })).toBe(
+        "/en/talents/app"
+      );
+      expect(postAuthHome("TALENT", "en", { mandat, setupStep: "profile" })).toBe("/en/talents/app");
+    }
+    // A mandate signed before the beta does not stand in for the basics.
+    expect(needsFirstRun("TALENT", { mandat: signed })).toBe(false);
   });
 
   it("sends an onboarded casting director to the dashboard", () => {
@@ -119,11 +129,14 @@ describe("postAuthHome", () => {
   it("never mixes portals: a talent's casting fields are ignored", () => {
     expect(
       postAuthHome("TALENT", "en", { hasOwnerMembership: true, onboardingCompletedAt: seen })
-    ).toBe("/en/talents/inscription");
+    ).toBe("/en/talents/app");
+    expect(
+      postAuthHome("CASTING", "en", { setupStep: null, onboardingCompletedAt: null })
+    ).toBe("/en/casting/inscription");
   });
 
   it("treats a missing kind as a talent and an unknown locale as the default", () => {
-    expect(postAuthHome(undefined, "../evil", {})).toBe(`/${routing.defaultLocale}/talents/inscription`);
+    expect(postAuthHome(undefined, "../evil", {})).toBe(`/${routing.defaultLocale}/talents/app`);
   });
 });
 

@@ -130,6 +130,45 @@ function connexionError(locale: string, code: AuthErrorCode): string {
   return `/${locale}/connexion?error=${code}`;
 }
 
+/**
+ * What a failed sign-in leaves in the server log: the kind of error and a
+ * machine code, nothing else.
+ *
+ * The Auth.js default prints the error's details, and for a refused ID token
+ * those details are its claims: email, name and the provider's subject. Logs
+ * are read by more people and kept longer than the database, so they carry
+ * record ids and codes only.
+ */
+function describeAuthError(error: unknown): Record<string, string> {
+  const out: Record<string, string> = {};
+  const pick = (source: unknown, prefix: string) => {
+    if (typeof source !== "object" || source === null) return;
+    const e = source as { name?: unknown; type?: unknown; code?: unknown; error?: unknown };
+    if (typeof e.name === "string") out[`${prefix}name`] = e.name;
+    if (typeof e.type === "string") out[`${prefix}type`] = e.type;
+    if (typeof e.code === "string") out[`${prefix}code`] = e.code;
+    // An OAuth error code from the provider, such as invalid_grant.
+    if (typeof e.error === "string") out[`${prefix}oauth`] = e.error.slice(0, 60);
+  };
+  pick(error, "");
+  const cause = (error as { cause?: unknown } | null)?.cause;
+  // Auth.js wraps the original error as cause.err.
+  pick((cause as { err?: unknown } | null)?.err ?? cause, "cause.");
+  return out;
+}
+
+const authLogger: NonNullable<NextAuthConfig["logger"]> = {
+  error(error) {
+    console.error("[auth][error]", describeAuthError(error));
+  },
+  warn(code) {
+    console.warn("[auth][warn]", code);
+  },
+  debug() {
+    // Debug output can hold tokens and claims. Never printed.
+  },
+};
+
 export async function buildAuthConfig(): Promise<NextAuthConfig> {
   return {
     session: { strategy: "jwt" },
@@ -138,6 +177,7 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
     // Both point at our page: without `error`, Configuration and callback
     // errors land on the unbranded English Auth.js page.
     pages: { signIn: "/connexion", error: "/connexion" },
+    logger: authLogger,
     // Apple returns with a cross-site POST, which does not carry the default
     // SameSite=Lax callback-url cookie, so the person would land on "/".
     // Options deep-merge with the defaults (@auth/core lib/init.js), so the
