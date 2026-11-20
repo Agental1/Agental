@@ -3,7 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
-## [Unreleased]
+## [0.5.2.0] - 2026-11-20
+
+### Changed (2026-11-20, round 6 part 1, branch `round6`)
+
+- **Your cookie choice now follows your account.** Signing out and back in, or using the same browser for two accounts, no longer brings back a different choice. When the browser and the account disagree, the stricter answer wins for each category, so a refusal is never undone without you choosing again.
+- **Settings › Cookie preferences shows what this browser actually applies** and says "Your choice is saved" only once the account has it. If the save fails, the browser keeps its previous choice and the error is shown.
+- **Keyboard users keep their place** after pressing a cookie button in Settings; focus no longer jumps to the top of the page while the choice saves.
+- **Safer move of stored files from R2 to Supabase** (admin route `/api/admin/storage/copy`). The dry run reports sizes, what Supabase already holds, whether the copy fits the Free plan, and every file the database points to, profile pictures included. The copy moves only files an account still uses, passes over broken, oversized or vanished files, and logs failures without file names.
 
 ### Changed (2026-11-18, front-end redesign, branch `frontend-redesign`)
 
