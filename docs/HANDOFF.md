@@ -122,3 +122,14 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 - **Research**: four Google Docs (v2) in the owner's Drive. Markdown sources in `~/Downloads/agental-workflows/reports/`, outside this public repository. Open question for the owner: R4 says "a team that started in France and at USC" where the owner's story is "built by a father and son"; restore the original unless told otherwise.
 - **Small UI question**: during setup the dashboard can show two "complete your profile" cards at once.
 - **Still unset**: Limelight student price; a postal address for outreach drafts.
+
+## Round 4, groups C and D (2026-11-20)
+
+**Waiting on the owner (secrets, never typed by the agent):**
+1. `SUPABASE_SERVICE_ROLE_KEY` in Vercel Production (Supabase project hnmvtcdxwyzksqwbhrgm, Project Settings, API Keys, service_role), then redeploy. `SUPABASE_URL` is already set. Storage then moves to Supabase: private buckets `selftapes`, `avatars`, `media` are created on first use, files under `{userId}/...`, TUS resumable uploads, 1-hour signed read links. Check `/api/health/storage` says `"storage":"supabase","directUploads":true`.
+2. Then, signed in as an admin, open `/api/admin/storage/copy` (counts) and `/api/admin/storage/copy?copy=1` repeatedly until `left` is 0, to move files saved on R2. Until copied, reads fall back to R2.
+3. `RESEND_API_KEY` in Vercel Production (after the agental.co domain is verified in Resend), then redeploy. That opens the email gate for password accounts created since 2026-11-20T09:52:48Z (`EMAIL_VERIFICATION_REQUIRED_SINCE`); older unconfirmed accounts see the banner. `EMAIL_FROM` is `Agental <hello@agental.co>`.
+
+**Video cap** is 50 MB (Supabase Free per-file limit): `VIDEO_MAX_MB` in src/domain/uploads.ts. Raise it with a paid plan.
+
+**Media bug root cause:** not yet confirmed on production (no signed-in production session available to the agent). Fixes shipped regardless: only a missing session answers errors.unauthorized, the browser re-checks the session before leaving a recording, profile media no longer goes through a 1 MB action body, and the server logs the refusal reason (`[media] refused:` / `[avatar] refused:`).
