@@ -65,9 +65,12 @@ function keyRef(key: string): string {
  * Copy files saved on R2 (before the move) into Supabase Storage. Admins only.
  * Answers counts and sizes only, never keys or URLs.
  *
- * Which files are left is decided from the two listings, never from a HEAD
- * that might fail: every R2 file Supabase does not list stays in `left` until
- * it is copied.
+ * Which files are left is decided from the two listings and the database,
+ * never from a HEAD that might fail: every R2 file an account points to (a
+ * media row or a profile picture) that Supabase does not list stays in
+ * `left` until it is copied. R2 files no account points to are never copied
+ * (they could be personal data from a deleted account); they are counted as
+ * `unreferencedOnR2` and stay on R2 until R2 is retired.
  *
  * GET (dry run): counts and sizes. `fitsFreePlan` compares what Supabase
  * already holds plus what is left to copy with 80% of the Free plan; it is
@@ -99,7 +102,21 @@ export async function GET(req: Request) {
     storage.primary.list(""),
   ]);
   const onSupabase = new Set(inSupabase);
-  const missing = onR2.filter((k) => !onSupabase.has(k));
+
+  // Only files an account still points to are copied. An R2 file nothing
+  // references (a replaced picture, a file whose R2 delete failed after its
+  // account was deleted) stays on R2 and is only counted: copying it would
+  // bring deleted personal data back into Supabase.
+  const [media, avatars] = await Promise.all([
+    prisma.media.findMany({ select: { storageKey: true } }),
+    prisma.artistProfile.findMany({ where: { avatarKey: { not: null } }, select: { avatarKey: true } }),
+  ]);
+  const referenced = new Set<string>([
+    ...media.map((m) => m.storageKey),
+    ...avatars.map((p) => p.avatarKey as string),
+  ]);
+  const missing = onR2.filter((k) => !onSupabase.has(k) && referenced.has(k));
+  const unreferencedOnR2 = onR2.filter((k) => !referenced.has(k)).length;
 
   if (!new URL(req.url).searchParams.has("copy")) {
     const r2 = await headAll(storage.legacy, onR2, deadline);
@@ -109,14 +126,6 @@ export async function GET(req: Request) {
     const bytesNotYetCopied = bytesOf(r2.heads, missing);
     const bytesInSupabase = bytesOf(supa.heads);
 
-    const [media, avatars] = await Promise.all([
-      prisma.media.findMany({ select: { storageKey: true } }),
-      prisma.artistProfile.findMany({ where: { avatarKey: { not: null } }, select: { avatarKey: true } }),
-    ]);
-    const referenced = new Set<string>([
-      ...media.map((m) => m.storageKey),
-      ...avatars.map((p) => p.avatarKey as string),
-    ]);
     const r2Set = new Set(onR2);
     let referencedOnlyOnR2 = 0;
     let referencedMissingEverywhere = 0;
@@ -141,6 +150,7 @@ export async function GET(req: Request) {
       referencedFiles: referenced.size,
       referencedOnlyOnR2,
       referencedMissingEverywhere,
+      unreferencedOnR2,
     });
   }
 

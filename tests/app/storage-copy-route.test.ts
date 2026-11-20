@@ -64,6 +64,9 @@ function memoryStore(
   };
 }
 
+/** Media rows pointing at these keys: only referenced files are copied. */
+const referenceAll = (keys: string[]) => mediaRows.mockResolvedValue(keys.map((storageKey) => ({ storageKey })));
+
 const GB = 1024 ** 3;
 const MB = 1024 ** 2;
 const get = (query = "") => route.GET(new Request(`https://app.test/api/admin/storage/copy${query}`));
@@ -123,11 +126,13 @@ describe("GET /api/admin/storage/copy", () => {
       referencedFiles: 4,
       referencedOnlyOnR2: 2,
       referencedMissingEverywhere: 1,
+      unreferencedOnR2: 0,
     });
   });
 
   it("fitsFreePlan counts what Supabase already holds, at the 80% line", async () => {
     const r2 = memoryStore({ "u1/media/a.mp4": 0.3 * GB });
+    referenceAll(["u1/media/a.mp4"]);
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({ "u2/media/b.mp4": 0.5 * GB }), r2));
     expect((await (await get()).json()).fitsFreePlan).toBe(true);
 
@@ -137,6 +142,7 @@ describe("GET /api/admin/storage/copy", () => {
 
   it("a size that cannot be read makes fitsFreePlan unknown instead of guessing", async () => {
     const r2 = memoryStore({ "u1/media/a.mp4": 1, "u1/media/b.mp4": 1 }, { flakyHead: ["u1/media/a.mp4"] });
+    referenceAll(["u1/media/a.mp4", "u1/media/b.mp4"]);
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({}), r2));
 
     const res = await get();
@@ -147,6 +153,7 @@ describe("GET /api/admin/storage/copy", () => {
 
   it("dry run stops at its time budget and says the numbers are partial", async () => {
     const r2 = memoryStore(Object.fromEntries(keysOf(30).map((k) => [k, 1])));
+    referenceAll(keysOf(30));
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({}), r2));
     // Each clock read moves 15 s: the deadline (40 s after the first read)
     // passes before the third batch of HEADs.
@@ -164,6 +171,7 @@ describe("GET /api/admin/storage/copy", () => {
     const keys = keysOf(3);
     const r2 = memoryStore(Object.fromEntries(keys.map((k) => [k, 1])));
     const supabase = memoryStore({}, { flakyHead: keys });
+    referenceAll(keys);
     getStorage.mockResolvedValue(new WithLegacyReads(supabase, r2));
 
     const body = await (await get("?copy=1")).json();
@@ -177,6 +185,7 @@ describe("GET /api/admin/storage/copy", () => {
   it("copy: a broken file is logged without its name and skipped; the files after it still move", async () => {
     const keys = keysOf(30);
     const r2 = memoryStore(Object.fromEntries(keys.map((k) => [k, 1])), { broken: [keys[0]] });
+    referenceAll(keys);
     const supabase = memoryStore({});
     getStorage.mockResolvedValue(new WithLegacyReads(supabase, r2));
 
@@ -191,6 +200,8 @@ describe("GET /api/admin/storage/copy", () => {
 
   it("copy: a file too big for its bucket is reported without downloading it", async () => {
     const r2 = memoryStore({ "u1/avatar/big.jpg": 3 * MB, "u1/media/ok.mp4": 1 });
+    referenceAll(["u1/media/ok.mp4"]);
+    avatarRows.mockResolvedValue([{ avatarKey: "u1/avatar/big.jpg" }]);
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({}), r2));
 
     const body = await (await get("?copy=1")).json();
@@ -201,6 +212,7 @@ describe("GET /api/admin/storage/copy", () => {
 
   it("copy: a file gone from R2 since the listing is counted as vanished", async () => {
     const r2 = memoryStore({ "u1/media/gone.mp4": 1 }, { vanished: ["u1/media/gone.mp4"] });
+    referenceAll(["u1/media/gone.mp4"]);
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({}), r2));
 
     expect(await (await get("?copy=1")).json()).toEqual({
@@ -214,6 +226,7 @@ describe("GET /api/admin/storage/copy", () => {
 
   it("copy: stops starting new files at the time budget, counted from the request", async () => {
     const r2 = memoryStore(Object.fromEntries(keysOf(30).map((k) => [k, 1])));
+    referenceAll(keysOf(30));
     getStorage.mockResolvedValue(new WithLegacyReads(memoryStore({}), r2));
     let now = 0;
     vi.spyOn(Date, "now").mockImplementation(() => (now += 10_000));
@@ -222,5 +235,19 @@ describe("GET /api/admin/storage/copy", () => {
 
     expect(body.copied).toBeLessThan(25);
     expect(body.left).toBe(30 - body.copied);
+  });
+
+  // Regression: an R2 file no account points to (a replaced picture, a file
+  // whose R2 delete failed after its account was deleted) must never be
+  // copied back into Supabase. Found by /ship adversarial review, 2026-11-20.
+  it("copy and dry run leave R2 files that no account points to where they are", async () => {
+    const r2 = memoryStore({ "u1/media/kept.mp4": 1, "u9/avatar/deleted-account.jpg": 1 });
+    const supabase = memoryStore({});
+    getStorage.mockResolvedValue(new WithLegacyReads(supabase, r2));
+    referenceAll(["u1/media/kept.mp4"]);
+
+    expect(await (await get()).json()).toMatchObject({ notYetCopied: 1, unreferencedOnR2: 1 });
+    expect(await (await get("?copy=1")).json()).toMatchObject({ copied: 1, left: 0 });
+    expect(supabase.files.has("u9/avatar/deleted-account.jpg")).toBe(false);
   });
 });
