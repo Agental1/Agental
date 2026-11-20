@@ -1,9 +1,15 @@
 "use client";
 
-import { useState, useSyncExternalStore, useTransition } from "react";
+import { useId, useState, useSyncExternalStore, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { publishSite, saveSite, startSiteCheckout, unpublishSite } from "@/app/actions/sites";
+import {
+  approveSitePreview,
+  publishSite,
+  saveSite,
+  setSiteContactVisibility,
+  unpublishSite,
+} from "@/app/actions/sites";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Button } from "@/components/ui/button";
 import { TemplateArt } from "@/components/talents/template-art";
@@ -20,9 +26,31 @@ export interface SiteCard {
   template: string;
   name: string;
   headline: string;
-  status: "draft" | "paid" | "published";
+  /** Online now (with the published revision). */
+  live: boolean;
   address: string | null;
   hostingUntil: string | null;
+  /** Newest saved revision: the preview shown here. Null before revisions existed. */
+  latestVersion: number | null;
+  /** The revision the performer approved, null until they approve one. */
+  approvedVersion: number | null;
+  /** The revision the public sees, null while offline. */
+  publishedVersion: number | null;
+  showContact: boolean;
+}
+
+/**
+ * The one step a site is at. Approval is the performer's; publishing puts
+ * the approved revision online. A live site with newer edits needs a new
+ * approval, then a new publish.
+ */
+function stepsOf(site: SiteCard) {
+  const needsApproval =
+    site.approvedVersion === null ||
+    (site.latestVersion !== null && site.approvedVersion !== site.latestVersion);
+  const canPublish =
+    site.approvedVersion !== null && (!site.live || site.publishedVersion !== site.approvedVersion);
+  return { needsApproval, canPublish };
 }
 
 function subscribe(onChange: () => void) {
@@ -51,20 +79,19 @@ const asTemplate = (id: string): LimelightTemplateId =>
   LIMELIGHT_TEMPLATES.includes(id as LimelightTemplateId) ? (id as LimelightTemplateId) : "marquee";
 
 /**
- * "Your website" in the Talent app: each site with its status and the one
- * next step (choose an offer, publish, take offline), plus the draft a
- * performer typed in "Try it" before they had an account.
+ * "Your website" in the Talent app: each site with its status and the next
+ * step (approve the preview, publish, take offline), the contact details
+ * switch, and the draft a performer typed in "Try it" before they had an
+ * account.
  *
- * Billing is the mock for now: an offer is paid at once in development and
- * answers "not available yet" in production.
+ * Payments are off during the beta: nothing here sells an offer, and the
+ * team helps with publishing.
  */
 export function SitePanel({
   sites,
-  offers,
   tryHref,
 }: {
   sites: SiteCard[];
-  offers: { offer: "essential" | "signature"; name: string; price: string }[];
   tryHref: string;
 }) {
   const t = useTranslations("talents.limelight.app");
@@ -73,20 +100,23 @@ export function SitePanel({
   const [error, setError] = useState<ActionError | undefined>();
   const draft = parseDraft(useSyncExternalStore(subscribe, draftSnapshot, () => null));
 
-  function run(action: () => Promise<{ ok: boolean; error?: ActionError; checkoutUrl?: string }>, after?: () => void) {
+  function run(action: () => Promise<{ ok: boolean; error?: ActionError }>, after?: () => void) {
     setError(undefined);
     start(async () => {
-      const res = await action();
-      if (!res.ok) {
-        setError(res.error ?? err("errors.generic"));
-        return;
+      try {
+        const res = await action();
+        if (!res.ok) {
+          const failure = res.error ?? err("errors.generic");
+          setError(failure);
+          // Someone saved since this page was rendered: show the new preview.
+          if (failure.key === "errors.sitePreviewChanged") router.refresh();
+          return;
+        }
+        after?.();
+        router.refresh();
+      } catch {
+        setError(err("errors.generic"));
       }
-      if (res.checkoutUrl) {
-        window.location.href = res.checkoutUrl;
-        return;
-      }
-      after?.();
-      router.refresh();
     });
   }
 
@@ -133,60 +163,104 @@ export function SitePanel({
         </div>
       )}
 
-      {sites.map((site) => (
-        <article key={site.id} className="flex flex-col gap-4 rounded-sedan-xl border border-border bg-surface p-5 sm:flex-row">
-          <div className="ll-frame w-full shrink-0 self-start sm:w-64">
-            <TemplateArt template={asTemplate(site.template)} name={site.name} headline={site.headline} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h2 className="truncate text-[1.25rem]">{site.name}</h2>
-            <p className="mt-1 text-[15px] font-bold text-accent">
-              {site.status === "published" && site.address
-                ? t("published", { address: site.address })
-                : site.status === "paid"
-                  ? t("paid")
-                  : t("draft")}
-            </p>
-            {site.hostingUntil && (
-              <p className="mt-1 text-[14px] text-fg-muted">{t("hostingUntil", { date: site.hostingUntil })}</p>
-            )}
-
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              {site.status === "draft" && (
-                <>
-                  <p className="w-full text-[14px] text-fg-muted">{t("chooseOffer")}</p>
-                  {offers.map((o, i) => (
-                    <Button
-                      key={o.offer}
-                      variant={i === 0 ? "primary" : "secondary"}
-                      className={i === 0 ? undefined : "border-border-strong"}
-                      disabled={pending}
-                      onClick={() => run(() => startSiteCheckout({ siteId: site.id, offer: o.offer }))}
-                    >
-                      {t("buy", { name: o.name, price: o.price })}
-                    </Button>
-                  ))}
-                </>
-              )}
-              {site.status === "paid" && (
-                <Button disabled={pending} onClick={() => run(() => publishSite(site.id))}>
-                  {t("publish")}
-                </Button>
-              )}
-              {site.status === "published" && (
-                <Button
-                  variant="secondary"
-                  className="border-border-strong"
-                  disabled={pending}
-                  onClick={() => run(() => unpublishSite(site.id))}
-                >
-                  {t("unpublish")}
-                </Button>
-              )}
+      {sites.map((site) => {
+        const { needsApproval, canPublish } = stepsOf(site);
+        return (
+          <article key={site.id} className="flex flex-col gap-4 rounded-sedan-xl border border-border bg-surface p-5 sm:flex-row">
+            <div className="ll-frame w-full shrink-0 self-start sm:w-64">
+              <TemplateArt template={asTemplate(site.template)} name={site.name} headline={site.headline} />
             </div>
-          </div>
-        </article>
-      ))}
+            <div className="min-w-0 flex-1">
+              <h2 className="truncate text-[1.25rem]">{site.name}</h2>
+              <p className="mt-1 text-[15px] font-bold text-accent">
+                {site.live
+                  ? site.address
+                    ? t("published", { address: site.address })
+                    : t("live")
+                  : canPublish
+                    ? t("approved")
+                    : t("draft")}
+              </p>
+              {site.live && needsApproval && (
+                <p className="mt-1 text-[14px] text-fg-muted">{t("pendingChanges")}</p>
+              )}
+              {!site.live && needsApproval && (
+                <p className="mt-1 text-[14px] text-fg-muted">{t("approveHint")}</p>
+              )}
+              {site.hostingUntil && (
+                <p className="mt-1 text-[14px] text-fg-muted">{t("hostingUntil", { date: site.hostingUntil })}</p>
+              )}
+
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                {needsApproval && (
+                  <Button
+                    variant={canPublish ? "secondary" : "primary"}
+                    className={canPublish ? "border-border-strong" : undefined}
+                    disabled={pending}
+                    onClick={() =>
+                      run(() => approveSitePreview(site.id, site.latestVersion ?? undefined))
+                    }
+                  >
+                    {t("approve")}
+                  </Button>
+                )}
+                {canPublish && (
+                  <Button disabled={pending} onClick={() => run(() => publishSite(site.id))}>
+                    {t("publish")}
+                  </Button>
+                )}
+                {site.live && (
+                  <Button
+                    variant="secondary"
+                    className="border-border-strong"
+                    disabled={pending}
+                    onClick={() => run(() => unpublishSite(site.id))}
+                  >
+                    {t("unpublish")}
+                  </Button>
+                )}
+              </div>
+
+              <ContactToggle
+                checked={site.showContact}
+                disabled={pending}
+                onChange={(show) => run(() => setSiteContactVisibility(site.id, show))}
+              />
+            </div>
+          </article>
+        );
+      })}
     </div>
+  );
+}
+
+function ContactToggle({
+  checked,
+  disabled,
+  onChange,
+}: {
+  checked: boolean;
+  disabled: boolean;
+  onChange: (show: boolean) => void;
+}) {
+  const t = useTranslations("talents.limelight.app");
+  const hintId = useId();
+  return (
+    <label className="mt-4 flex items-start gap-3 border-t border-border pt-4">
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        aria-describedby={hintId}
+        onChange={(e) => onChange(e.target.checked)}
+        className="mt-0.5 size-4 accent-[var(--accent)]"
+      />
+      <span>
+        <span className="text-[15px] font-medium">{t("contactLabel")}</span>
+        <span id={hintId} className="block text-[14px] text-fg-muted">
+          {t("contactHint")}
+        </span>
+      </span>
+    </label>
   );
 }
