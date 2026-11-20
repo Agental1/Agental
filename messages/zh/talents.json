@@ -729,7 +729,8 @@
           "photos": "添加照片",
           "video": "添加自录试镜或作品集视频",
           "physical": "添加外形信息",
-          "bio": "写一段简短的个人介绍"
+          "bio": "写一段简短的个人介绍",
+          "links": "添加 IMDb 或作品集链接"
         }
       },
       "setup": {
@@ -741,6 +742,23 @@
           "profile": "至少选择一项专长。"
         },
         "cta": "继续"
+      },
+      "nextItem": "资料已完成 {percent}%。下一步：{item}。",
+      "missing": {
+        "photos": "添加照片",
+        "video": "添加自录试镜或作品集视频",
+        "physical": "填写外形信息",
+        "bio": "写一段简短简介",
+        "links": "添加 IMDb 或作品集链接",
+        "city": "填写城市",
+        "specialties": "选择一个专长",
+        "birthDate": "填写出生日期",
+        "stageName": "填写艺名"
+      },
+      "launch": {
+        "title": "开始你的第一次搜索",
+        "body": "你的资料已完整。开始搜索，我们的代理会为你寻找角色。",
+        "cta": "开始寻找角色"
       }
     },
     "candidatures": {
@@ -968,7 +986,12 @@
         "optional": "选填",
         "private": "只有你能看到这一部分，它也不会出现在你的资料中。",
         "nudity": "含裸露的角色"
-      }
+      },
+      "imdbUrl": "IMDb 链接",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "作品集或网站链接",
+      "portfolioUrlPlaceholder": "https://your-site.com",
+      "noLinks": "我没有作品集或 IMDb 链接"
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",
@@ -1352,7 +1375,10 @@
       "approve": "确认预览",
       "betaNote": "测试期间，团队会协助你发布网站。现在无需付款。",
       "contactLabel": "在网站上显示我的联系方式",
-      "contactHint": "默认关闭。只有开启时，你的邮箱才会显示在公开网站上。"
+      "contactHint": "默认关闭。只有开启时，你的邮箱才会显示在公开网站上。",
+      "sendRequest": "发送我的申请",
+      "requestMessage": "网站：{name}。模板：{template}。预览版本 {version}。",
+      "requestPreview": "这是我们团队处理你的申请时使用的预览：{name}。"
     },
     "sample": {
       "label": "虚构示例",

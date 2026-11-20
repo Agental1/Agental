@@ -23,6 +23,8 @@ export async function recomputeCompleteness(profileId: string): Promise<number> 
     physical: parseJson(PhysicalTraits, p.physical),
     specialtiesCount: p._count.specialties,
     media: p.media,
+    imdbUrl: p.imdbUrl,
+    portfolioUrl: p.portfolioUrl,
   });
   await prisma.artistProfile.update({
     where: { id: profileId },

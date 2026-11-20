@@ -130,7 +130,9 @@
     "phoneInvalid": "请检查电话号码。",
     "sitePreviewChanged": "预览在你打开后已更新。请查看最新版本后再批准。",
     "domainLimitReached": "每个网站最多可绑定 {limit} 个自定义域名。",
-    "draftMediaLimit": "每份草稿最多可附 {limit} 个片段。"
+    "draftMediaLimit": "每份草稿最多可附 {limit} 个片段。",
+    "imdbUrl": "请输入类似 imdb.com/name/nm1234567 的 IMDb 链接。",
+    "portfolioUrl": "请输入以 https:// 开头的链接。"
   },
   "auth": {
     "name": "姓名",

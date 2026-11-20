@@ -729,7 +729,8 @@
           "photos": "Ajouter des photos",
           "video": "Ajouter un self-tape ou une bande démo",
           "physical": "Ajouter tes caractéristiques physiques",
-          "bio": "Écrire une courte bio"
+          "bio": "Écrire une courte bio",
+          "links": "Ajoute un lien IMDb ou de portfolio"
         }
       },
       "setup": {
@@ -741,6 +742,23 @@
           "profile": "Au moins une spécialité."
         },
         "cta": "Reprendre"
+      },
+      "nextItem": "Profil complet à {percent} %. Prochaine étape : {item}.",
+      "missing": {
+        "photos": "ajoute des photos",
+        "video": "ajoute un self-tape ou une bande démo",
+        "physical": "ajoute tes caractéristiques physiques",
+        "bio": "écris une courte bio",
+        "links": "ajoute un lien IMDb ou de portfolio",
+        "city": "ajoute ta ville",
+        "specialties": "choisis une spécialité",
+        "birthDate": "ajoute ta date de naissance",
+        "stageName": "ajoute ton nom artistique"
+      },
+      "launch": {
+        "title": "Lance ta première recherche",
+        "body": "Ton profil est complet. Lance une recherche et notre agent cherchera des rôles pour toi.",
+        "cta": "Trouver des rôles"
       }
     },
     "candidatures": {
@@ -968,7 +986,12 @@
         "optional": "Facultatif",
         "private": "Toi seul vois cette section, et elle n’apparaît jamais sur ton profil.",
         "nudity": "Rôles avec nudité"
-      }
+      },
+      "imdbUrl": "Lien IMDb",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "Lien de portfolio ou de site",
+      "portfolioUrlPlaceholder": "https://ton-site.com",
+      "noLinks": "Je n’ai ni portfolio ni lien IMDb"
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",
@@ -1352,7 +1375,10 @@
       "approve": "Valider l’aperçu",
       "betaNote": "Pendant la bêta, l’équipe t’aide à publier ton site. Le paiement n’est pas nécessaire pour l’instant.",
       "contactLabel": "Afficher mes coordonnées sur le site",
-      "contactHint": "Désactivé par défaut. Ton adresse email apparaît sur le site public seulement quand c’est activé."
+      "contactHint": "Désactivé par défaut. Ton adresse email apparaît sur le site public seulement quand c’est activé.",
+      "sendRequest": "Envoyer ma demande",
+      "requestMessage": "Site : {name}. Modèle : {template}. Version d’aperçu {version}.",
+      "requestPreview": "C’est l’aperçu que notre équipe utilisera pour ta demande : {name}."
     },
     "sample": {
       "label": "Exemple fictif",

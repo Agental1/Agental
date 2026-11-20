@@ -6,7 +6,7 @@ import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useId, useState, useTransition } from "react";
 import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -46,6 +46,8 @@ export interface ProfileEditorData {
   phone: string;
   city: string;
   bio: string;
+  imdbUrl: string;
+  portfolioUrl: string;
   birthDate: string;
   physical: PhysicalTraits;
   specialties: string[];
@@ -258,6 +260,29 @@ function IdentityTab({ data, setData }: TabProps) {
           placeholder={t("space.profileEditor.bioPlaceholder")}
         />
       </Field>
+      <Field label={t("space.profileEditor.imdbUrl")}>
+        <Input
+          type="text"
+          inputMode="url"
+          value={data.imdbUrl}
+          placeholder={t("space.profileEditor.imdbUrlPlaceholder")}
+          onChange={(e) => setData({ ...data, imdbUrl: e.target.value })}
+        />
+      </Field>
+      <Field label={t("space.profileEditor.portfolioUrl")}>
+        <Input
+          type="text"
+          inputMode="url"
+          value={data.portfolioUrl}
+          placeholder={t("space.profileEditor.portfolioUrlPlaceholder")}
+          onChange={(e) => setData({ ...data, portfolioUrl: e.target.value })}
+        />
+      </Field>
+      <p className="text-sm">
+        <Link href="/talents/app/site" className="font-medium text-accent hover:underline">
+          {t("space.profileEditor.noLinks")}
+        </Link>
+      </p>
       <SaveBar
         pending={pending}
         saved={saved}
@@ -269,6 +294,8 @@ function IdentityTab({ data, setData }: TabProps) {
               phone: data.phone,
               city: data.city,
               bio: data.bio,
+              imdbUrl: data.imdbUrl,
+              portfolioUrl: data.portfolioUrl,
               birthDate: data.birthDate || undefined,
             },
             (c) => c != null && setData((d) => ({ ...d, completeness: c }))

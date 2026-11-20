@@ -32,7 +32,17 @@ type Pref = (typeof LIMELIGHT_CONTACT_PREFS)[number];
  * TODO(backend): `requestPortfolioSite` (feat/beta-server) replaces
  * `submitLimelightLead` with a stored, deduplicated request and a team alert.
  */
-export function LimelightContactForm() {
+export function LimelightContactForm({
+  defaults,
+  preview,
+  submitLabel,
+}: {
+  /** Values to start from, for a signed-in performer. */
+  defaults?: { name?: string; email?: string; message?: string };
+  /** Shown above the fields, e.g. the site preview the request is about. */
+  preview?: React.ReactNode;
+  submitLabel?: string;
+} = {}) {
   const t = useTranslations("talents.limelight.contact");
   const to = useTranslations("talents.limelight.offers");
   const locale = useLocale();
@@ -42,14 +52,14 @@ export function LimelightContactForm() {
   );
   const id = useId();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(defaults?.name ?? "");
+  const [email, setEmail] = useState(defaults?.email ?? "");
   const [discipline, setDiscipline] = useState<string>("actor");
   const [need, setNeed] = useState<string>("new");
   const [budget, setBudget] = useState<string>("unsure");
   const [pref, setPref] = useState<Pref>("email");
   const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(defaults?.message ?? "");
 
   const usd = (amount: number) =>
     new Intl.NumberFormat(locale, {
@@ -82,6 +92,7 @@ export function LimelightContactForm() {
       noValidate
       className="grid gap-6 rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,36px)]"
     >
+      {preview}
       <input type="hidden" name="locale" value={locale} />
       {/* Honeypot: hidden from people and screen readers, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -189,7 +200,7 @@ export function LimelightContactForm() {
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
         <Button type="submit" size="lg" disabled={pending}>
-          {pending ? t("sending") : t("submit")}
+          {pending ? t("sending") : (submitLabel ?? t("submit"))}
         </Button>
         <p className="text-[13px] text-fg-subtle">{t("privacy")}</p>
       </div>

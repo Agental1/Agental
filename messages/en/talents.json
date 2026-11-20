@@ -729,7 +729,8 @@
           "photos": "Add photos",
           "video": "Add a self-tape or reel",
           "physical": "Add your physical details",
-          "bio": "Write a short bio"
+          "bio": "Write a short bio",
+          "links": "Add an IMDb or portfolio link"
         }
       },
       "setup": {
@@ -741,6 +742,23 @@
           "profile": "At least one specialty."
         },
         "cta": "Resume"
+      },
+      "nextItem": "{percent}% complete. Next: {item}.",
+      "missing": {
+        "photos": "add photos",
+        "video": "add a self-tape or reel",
+        "physical": "add your physical details",
+        "bio": "write a short bio",
+        "links": "add an IMDb or portfolio link",
+        "city": "add your city",
+        "specialties": "pick a specialty",
+        "birthDate": "add your date of birth",
+        "stageName": "add your stage name"
+      },
+      "launch": {
+        "title": "Launch your first research",
+        "body": "Your profile is complete. Start a search and our agent will look for roles for you.",
+        "cta": "Start finding roles"
       }
     },
     "candidatures": {
@@ -968,7 +986,12 @@
         "optional": "Optional",
         "private": "Only you can see this section, and it never appears on your profile.",
         "nudity": "Roles with nudity"
-      }
+      },
+      "imdbUrl": "IMDb link",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "Portfolio or website link",
+      "portfolioUrlPlaceholder": "https://your-site.com",
+      "noLinks": "I don't have a portfolio or IMDb link"
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",
@@ -1352,7 +1375,10 @@
       "approve": "Approve preview",
       "betaNote": "During the beta, our team helps you publish your site. Payment isn’t needed now.",
       "contactLabel": "Show my contact details on the site",
-      "contactHint": "Off by default. Your email address appears on the public site only while this is on."
+      "contactHint": "Off by default. Your email address appears on the public site only while this is on.",
+      "sendRequest": "Send my request",
+      "requestMessage": "Site: {name}. Template: {template}. Preview version {version}.",
+      "requestPreview": "This is the preview our team will use for your request: {name}."
     },
     "sample": {
       "label": "Fictional sample",

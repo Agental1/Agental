@@ -12,6 +12,7 @@ import {
   Ruler,
   PenLine,
   ListChecks,
+  Link as LinkIcon,
 } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -22,7 +23,7 @@ import { WebsiteCard } from "@/components/talents/website-card";
 import { LIMELIGHT } from "@/domain/limelight";
 import { listMySites } from "@/lib/sites";
 import { parseJson, PhysicalTraits } from "@/domain/json";
-import { profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
+import { nextMissingItem, profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
 import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
 import { getSetupState } from "@/lib/setup";
 
@@ -31,6 +32,7 @@ const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   video: Video,
   physical: Ruler,
   bio: PenLine,
+  links: LinkIcon,
 };
 
 const CANDIDATURE_STATUSES = [
@@ -80,6 +82,8 @@ export default async function TalentsDashboard({
     physical: parseJson(PhysicalTraits, profile.physical),
     specialtiesCount: profile._count.specialties,
     media: profile.media,
+    imdbUrl: profile.imdbUrl,
+    portfolioUrl: profile.portfolioUrl,
   };
   const gaps = profileGaps(completenessInput);
   const completeness = scoreProfile(completenessInput);
@@ -108,13 +112,29 @@ export default async function TalentsDashboard({
   // The "Complete your profile" card covers photos, video, physical details
   // and bio. These suggestions pick up what it does not list.
   const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = [];
-  if (gaps.length === 0 && completeness < 100)
+  // First suggestion: finish the profile while it is below 100%, then launch
+  // the first research (the "Start finding roles" button).
+  const nextItem = nextMissingItem(completenessInput);
+  if (completeness < 100) {
     suggestions.push({
-      text: t("space.dashboard.completenessHint", { percent: completeness }),
+      text: nextItem
+        ? t("space.dashboard.nextItem", {
+            percent: completeness,
+            item: t(`space.dashboard.missing.${nextItem}`),
+          })
+        : t("space.dashboard.completenessHint", { percent: completeness }),
       href: "/talents/app/profil",
-      cta: t("space.dashboard.complete"),
+      cta: t("space.dashboard.completeProfile.title"),
       icon: UserCog,
     });
+  } else {
+    suggestions.push({
+      text: t("space.dashboard.launch.body"),
+      href: "/talents/app#find-roles",
+      cta: t("space.dashboard.launch.title"),
+      icon: Sparkles,
+    });
+  }
   // A reel clears the card's video item; a self-tape is still worth asking for.
   if (
     !gaps.includes("video") &&

@@ -3,6 +3,7 @@ import {
   hasPhysicalDetails,
   profileGaps,
   scoreProfile,
+  nextMissingItem,
   type CompletenessInput,
 } from "@/domain/completeness";
 import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
@@ -26,6 +27,8 @@ const full: CompletenessInput = {
   bio: "Trained at a conservatory.",
   physical: { ...empty, heightCm: 170, hair: "brown" },
   media: [{ type: "PHOTO" }, { type: "SELFTAPE" }],
+  imdbUrl: "https://www.imdb.com/name/nm1234567/",
+  portfolioUrl: "https://ana.example.com/",
 };
 
 describe("scoreProfile", () => {
@@ -37,17 +40,17 @@ describe("scoreProfile", () => {
     // What the old rule saw as complete: anything other than "{}".
     const saved = parseJson(PhysicalTraits, toJson({ languages: [], accents: [] }));
     expect(hasPhysicalDetails(saved)).toBe(false);
-    expect(scoreProfile({ ...full, physical: saved })).toBe(85);
+    expect(scoreProfile({ ...full, physical: saved })).toBe(88);
   });
 
   it("scores a profile fresh from signup well below 100", () => {
-    expect(scoreProfile(fresh)).toBe(45);
+    expect(scoreProfile(fresh)).toBe(40);
   });
 });
 
 describe("profileGaps", () => {
   it("lists photos, video, physical details and bio after signup", () => {
-    expect(profileGaps(fresh)).toEqual(["photos", "video", "physical", "bio"]);
+    expect(profileGaps(fresh)).toEqual(["photos", "video", "physical", "bio", "links"]);
   });
 
   it("asks for more than a height", () => {
@@ -65,6 +68,22 @@ describe("profileGaps", () => {
 
   it("treats a blank bio as missing", () => {
     expect(profileGaps({ ...full, bio: "   " })).toEqual(["bio"]);
+  });
+});
+
+describe("profile links", () => {
+  it("count six points each, and either one clears the gap", () => {
+    expect(scoreProfile({ ...full, portfolioUrl: null })).toBe(94);
+    expect(scoreProfile({ ...full, imdbUrl: null, portfolioUrl: null })).toBe(88);
+    expect(profileGaps({ ...full, imdbUrl: null })).toEqual([]);
+    expect(profileGaps({ ...full, imdbUrl: null, portfolioUrl: null })).toEqual(["links"]);
+  });
+
+  it("names the next missing item", () => {
+    expect(nextMissingItem(fresh)).toBe("photos");
+    expect(nextMissingItem(full)).toBeNull();
+    expect(nextMissingItem({ ...full, city: null })).toBe("city");
+    expect(nextMissingItem({ ...full, imdbUrl: null, portfolioUrl: null })).toBe("links");
   });
 });
 

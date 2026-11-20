@@ -55,6 +55,8 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
       phone: d.phone === undefined ? undefined : d.phone || null,
       city: d.city || null,
       bio: d.bio || null,
+      imdbUrl: d.imdbUrl,
+      portfolioUrl: d.portfolioUrl,
       birthDate,
       isMinor: isMinorOn(d.birthDate),
     },

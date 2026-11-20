@@ -57,6 +57,8 @@ export default async function ProfilPage({
     physical,
     specialtiesCount: profile.specialties.length,
     media: profile.media,
+    imdbUrl: profile.imdbUrl,
+    portfolioUrl: profile.portfolioUrl,
   });
   // Job preferences and the private content boundaries share one column but
   // are read, and saved, apart. Unset answers come back unset.
@@ -76,6 +78,8 @@ export default async function ProfilPage({
           phone: profile.phone ?? "",
           city: profile.city ?? "",
           bio: profile.bio ?? "",
+          imdbUrl: profile.imdbUrl ?? "",
+          portfolioUrl: profile.portfolioUrl ?? "",
           birthDate: profile.birthDate ? isoDate(profile.birthDate) : "",
           physical,
           specialties: profile.specialties.map((s) => s.kind),

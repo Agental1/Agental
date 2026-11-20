@@ -5,13 +5,13 @@ import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import {
   approveSitePreview,
-  publishSite,
   saveSite,
   setSiteContactVisibility,
   unpublishSite,
 } from "@/app/actions/sites";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Button } from "@/components/ui/button";
+import { LimelightContactForm } from "@/components/talents/limelight-contact-form";
 import { TemplateArt } from "@/components/talents/template-art";
 import {
   LIMELIGHT_DRAFT_KEY,
@@ -90,14 +90,18 @@ const asTemplate = (id: string): LimelightTemplateId =>
 export function SitePanel({
   sites,
   tryHref,
+  contact,
 }: {
   sites: SiteCard[];
   tryHref: string;
+  /** The signed-in performer, to prefill the request form. */
+  contact: { name: string; email: string };
 }) {
   const t = useTranslations("talents.limelight.app");
   const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
+  const [requestFor, setRequestFor] = useState<string | null>(null);
   const draft = parseDraft(useSyncExternalStore(subscribe, draftSnapshot, () => null));
 
   function run(action: () => Promise<{ ok: boolean; error?: ActionError }>, after?: () => void) {
@@ -166,7 +170,8 @@ export function SitePanel({
       {sites.map((site) => {
         const { needsApproval, canPublish } = stepsOf(site);
         return (
-          <article key={site.id} className="flex flex-col gap-4 rounded-sedan-xl border border-border bg-surface p-5 sm:flex-row">
+          <div key={site.id} className="space-y-3">
+          <article className="flex flex-col gap-4 rounded-sedan-xl border border-border bg-surface p-5 sm:flex-row">
             <div className="ll-frame w-full shrink-0 self-start sm:w-64">
               <TemplateArt template={asTemplate(site.template)} name={site.name} headline={site.headline} />
             </div>
@@ -206,11 +211,16 @@ export function SitePanel({
                     {t("approve")}
                   </Button>
                 )}
-                {canPublish && (
-                  <Button disabled={pending} onClick={() => run(() => publishSite(site.id))}>
-                    {t("publish")}
-                  </Button>
-                )}
+                {/* Beta: the team publishes. The performer sends a request. */}
+                <Button
+                  variant={needsApproval ? "secondary" : "primary"}
+                  className={needsApproval ? "border-border-strong" : undefined}
+                  aria-expanded={requestFor === site.id}
+                  disabled={pending}
+                  onClick={() => setRequestFor(requestFor === site.id ? null : site.id)}
+                >
+                  {t("sendRequest")}
+                </Button>
                 {site.live && (
                   <Button
                     variant="secondary"
@@ -230,6 +240,29 @@ export function SitePanel({
               />
             </div>
           </article>
+          {requestFor === site.id && (
+            <LimelightContactForm
+              defaults={{
+                name: contact.name,
+                email: contact.email,
+                message: t("requestMessage", {
+                  name: site.name,
+                  template: site.template,
+                  version: site.latestVersion ?? 1,
+                }),
+              }}
+              submitLabel={t("sendRequest")}
+              preview={
+                <div className="flex items-center gap-4">
+                  <div className="ll-frame w-40 shrink-0">
+                    <TemplateArt template={asTemplate(site.template)} name={site.name} headline={site.headline} />
+                  </div>
+                  <p className="text-[15px] text-fg-muted">{t("requestPreview", { name: site.name })}</p>
+                </div>
+              }
+            />
+          )}
+          </div>
         );
       })}
     </div>

@@ -131,6 +131,8 @@ model ArtistProfile {
   preferences       String    @default("{}") // JSON: auto-candidature prefs, constraints
   mobilityCountries String    @default("[]") // JSON string[]
   minRateCents      Int?
+  imdbUrl           String?   // optional, imdb.com/name/... only
+  portfolioUrl      String?   // optional, any https URL
   completenessScore Int       @default(0)
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())

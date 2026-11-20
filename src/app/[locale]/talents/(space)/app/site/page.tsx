@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
 import { listMySites } from "@/lib/sites";
 import { date } from "@/lib/format";
 import { LIMELIGHT } from "@/domain/limelight";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { SitePanel, type SiteCard } from "@/components/talents/site-panel";
 
 export async function generateMetadata({
@@ -31,6 +33,20 @@ export default async function SitePage({
   const session = await auth();
   if (!session?.user?.id) return null;
   const sites = await listMySites(session.user.id);
+  const profile = await prisma.artistProfile.findUnique({
+    where: { userId: session.user.id },
+    select: { stageName: true },
+  });
+  const to = await getTranslations({ locale, namespace: "talents.limelight.offers" });
+  const offers = (["essential", "signature"] as const).map((key) => ({
+    key,
+    name: to(`${key}.name`),
+    summary: to(`${key}.summary`),
+    price: formatPlanPrice(LIMELIGHT.plans[key].priceUsd * 100, locale),
+    renewal: to("renewalShort", {
+      price: formatPlanPrice(LIMELIGHT.plans[key].renewalUsdPerYear * 100, locale),
+    }),
+  }));
 
   const cards: SiteCard[] = sites.map((site) => ({
     id: site.id,
@@ -54,7 +70,28 @@ export default async function SitePage({
         {/* Payments are off during the beta: the team helps with publishing. */}
         <p className="mt-2 text-[15px] font-bold text-accent">{t("limelight.app.betaNote")}</p>
       </div>
-      <SitePanel sites={cards} tryHref={`/talents/${LIMELIGHT.slug}#try`} />
+      <section aria-labelledby="site-offers" className="space-y-3">
+        <h2 id="site-offers" className="text-[1.125rem] font-bold">
+          {to("title")}
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {offers.map((o) => (
+            <div key={o.key} className="rounded-sedan-xl border border-border bg-surface p-5">
+              <p className="font-bold">{o.name}</p>
+              <p className="mt-1 text-[1.75rem] font-bold leading-none">
+                {o.price} <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>
+              </p>
+              <p className="mt-2 text-[15px] text-fg-muted">{o.summary}</p>
+              <p className="mt-1 text-[14px] text-fg-muted">{o.renewal}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <SitePanel
+        sites={cards}
+        tryHref={`/talents/${LIMELIGHT.slug}#try`}
+        contact={{ name: profile?.stageName ?? "", email: session.user.email ?? "" }}
+      />
     </div>
   );
 }

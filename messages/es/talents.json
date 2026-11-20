@@ -729,7 +729,8 @@
           "photos": "Añadir fotos",
           "video": "Añadir un self-tape o un videobook",
           "physical": "Añadir tus rasgos físicos",
-          "bio": "Escribir una breve biografía"
+          "bio": "Escribir una breve biografía",
+          "links": "Añade un enlace de IMDb o de portfolio"
         }
       },
       "setup": {
@@ -741,6 +742,23 @@
           "profile": "Al menos una especialidad."
         },
         "cta": "Continuar"
+      },
+      "nextItem": "Perfil completo al {percent} %. Siguiente paso: {item}.",
+      "missing": {
+        "photos": "añade fotos",
+        "video": "añade un self-tape o reel",
+        "physical": "añade tus rasgos físicos",
+        "bio": "escribe una bio corta",
+        "links": "añade un enlace de IMDb o de portfolio",
+        "city": "añade tu ciudad",
+        "specialties": "elige una especialidad",
+        "birthDate": "añade tu fecha de nacimiento",
+        "stageName": "añade tu nombre artístico"
+      },
+      "launch": {
+        "title": "Lanza tu primera búsqueda",
+        "body": "Tu perfil está completo. Inicia una búsqueda y nuestro agente buscará papeles para ti.",
+        "cta": "Buscar papeles"
       }
     },
     "candidatures": {
@@ -968,7 +986,12 @@
         "optional": "Opcional",
         "private": "Solo tú ves esta sección, y nunca aparece en tu perfil.",
         "nudity": "Papeles con desnudos"
-      }
+      },
+      "imdbUrl": "Enlace de IMDb",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "Enlace a tu portfolio o web",
+      "portfolioUrlPlaceholder": "https://tu-web.com",
+      "noLinks": "No tengo portfolio ni enlace de IMDb"
     },
     "rgpd": {
       "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",
@@ -1352,7 +1375,10 @@
       "approve": "Aprobar vista previa",
       "betaNote": "Durante la beta, el equipo te ayuda a publicar tu sitio. Por ahora no hace falta pagar.",
       "contactLabel": "Mostrar mis datos de contacto en el sitio",
-      "contactHint": "Desactivado por defecto. Tu correo aparece en el sitio público solo mientras esté activado."
+      "contactHint": "Desactivado por defecto. Tu correo aparece en el sitio público solo mientras esté activado.",
+      "sendRequest": "Enviar mi solicitud",
+      "requestMessage": "Sitio: {name}. Plantilla: {template}. Versión de vista previa {version}.",
+      "requestPreview": "Esta es la vista previa que usará nuestro equipo para tu solicitud: {name}."
     },
     "sample": {
       "label": "Ejemplo ficticio",

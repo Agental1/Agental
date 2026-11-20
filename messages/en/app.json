@@ -130,7 +130,9 @@
     "phoneInvalid": "Check the phone number.",
     "sitePreviewChanged": "The preview changed since you opened it. Review the latest version, then approve.",
     "domainLimitReached": "A site can have up to {limit} custom domains.",
-    "draftMediaLimit": "A draft can hold up to {limit} clips."
+    "draftMediaLimit": "A draft can hold up to {limit} clips.",
+    "imdbUrl": "Enter an IMDb link like imdb.com/name/nm1234567.",
+    "portfolioUrl": "Enter a link that starts with https://."
   },
   "auth": {
     "name": "Name",

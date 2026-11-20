@@ -29,6 +29,7 @@ export const GAP_TAB: Record<ProfileGap, ProfileTab> = {
   video: "medias",
   physical: "physique",
   bio: "identite",
+  links: "identite",
 };
 
 export function profileTabHref(tab: ProfileTab): string {

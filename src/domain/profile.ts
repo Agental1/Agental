@@ -1,10 +1,14 @@
 import { z } from "zod";
 import { IdentityStep, SpecialtiesStep } from "./onboarding";
 import { HeightInput } from "./height";
+import { ProfileLinks } from "./profile-links";
 
 /** Identity + bio, used on the profile edit screen. */
 export const ProfileIdentity = IdentityStep.extend({
   bio: z.string().max(600).optional(),
+  /** Absent keeps the stored link; an empty string clears it. */
+  imdbUrl: ProfileLinks.shape.imdbUrl.optional(),
+  portfolioUrl: ProfileLinks.shape.portfolioUrl.optional(),
 });
 export type ProfileIdentity = z.infer<typeof ProfileIdentity>;
 
