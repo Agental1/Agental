@@ -84,6 +84,14 @@ Status contract for the workflow:
 
 Quotas (from `B2C_PLANS.*.aiSearches` in `src/domain/pricing.ts`): Basic 4 in total, Pro 50 per calendar month. Premium and Ultimate are `TODO(founders)` and use 50 per month until set. Quota check and insert share one transaction with a per-user advisory lock; a unique index on (`userId`, `periodKey`, `seq`) and one on (`userId`, `clientKey`) back it up. Access: RLS is on with no policy (the Data API sees nothing); the app shows a performer only their own rows and the full list at `/admin/recherches` to admins. The workflow should connect with a dedicated database role or through a signed app endpoint, never with the anon key.
 
+## Round 3, Group 4 (2026-11-20): what is live and what waits on the owner
+
+- **Self-tape save.** Root cause: the production bucket has no CORS rule, so the browser's direct upload to R2 is refused (preflight 403, see `GET /api/health/storage`, which reports `directUploads: true` once fixed). The save now keeps the take when it fails, says storage was unreachable, and on an expired session stores the take in the browser (IndexedDB), sends the person to sign-in with `?next=` and puts the take back on review. "You're not signed in" could not be reproduced without a production sign-in; the server answers it only with no session, a non-performer session or a minor's profile.
+- **Owner action:** Cloudflare > R2 > `agental-media` > Settings > CORS Policy > Add the rule in `docs/MEDIA_HOSTING.md` (origins `https://www.agental.co` and `https://agental.co`, methods PUT and GET, header `content-type`). Then open `/api/health/storage`.
+- **Email verification (4.1).** The gate exists (`src/domain/email-verification.ts`) but stays open in production: no `RESEND_API_KEY`/`EMAIL_FROM`, no `EMAIL_VERIFICATION_REQUIRED_SINCE`. New password accounts reach the app unverified until those three are set in Vercel Production. Not tested with a real inbox for that reason.
+- **Student discount (4.2).** School email (`.edu`, list in `src/domain/student.ts`), link valid 48 h, one use, 3 sends per hour, one account per school address (`User.studentEmail` unique). Discount amount and Stripe coupon are `TODO(founders)`; billing is still the mock, so nothing is charged or discounted yet. Without an email sender, production says the request is saved instead of "check your inbox". The 6-digit code has no UI; its server code stays.
+- **Profile picture (4.4).** Square 512 px JPEG cropped in the browser, sent through a server action (no direct upload, so it works without the CORS rule), stored at `{userId}/avatar/`, served by `/api/avatar/[userId]` to the owner, admins, and anyone once the performer has a published site. Published Limelight sites are not served yet, so it is not on a public site.
+
 ## Contracts agreed for the beta brief (backend branch `feat/beta-server`)
 
 Merged into `frontend-redesign` in `47670fe` and live since release 2. Full text in the shared notes.
