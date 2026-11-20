@@ -153,3 +153,12 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 **Choices remembered on the account (A2).** Language: every app page writes the language in use to `User.locale`, and sign-in lands in that language. Cookie choice: saved on the account already; the app now puts it back in a browser that has none, so the banner does not ask again after sign-in. The Limelight design studio draft (public page, before an account exists) stays in the browser by design; the in-app "Your website" draft is saved on the server.
 
 **Media (A1).** Refusals now say why: casting account, profile under 18, or no profile (`errors.mediaCastingAccount`, `errors.mediaMinor`, `errors.mediaNotAllowed`), and the server logs it. Recorder: 720p at 2.5 Mb/s, stops by itself before 50 MB, limit shown before recording; profile pictures 512 x 512 under 500 KB. Library: lists both destinations from the media list, with play and delete. Supabase Storage still waits on `SUPABASE_SERVICE_ROLE_KEY` (owner).
+
+## Round 5, owner next steps (exact)
+
+1. **Supabase key:** Supabase, project hnmvtcdxwyzksqwbhrgm, Project Settings, API Keys, Secret keys, row "default": copy. Vercel, agental, Settings, Environment Variables, Add: `SUPABASE_SERVICE_ROLE_KEY`, Production only, Sensitive. Then check `https://www.agental.co/api/health/storage` says `"storage":"supabase"` after the redeploy (step 5). If storage refuses the new `sb_secret_` key, use the legacy service_role key from "View legacy API keys".
+2. **Resend DNS:** the domain agental.co is already added in Resend (agent, 2026-11-20). At name.com (DNS host for agental.co), add: TXT `resend._domainkey` = the DKIM value shown in Resend; CNAME `rsend` -> `rsend.forge.rmta.net`; CNAME `send` -> `send.forge.rmta.net`. Then press "I've added the records" in Resend.
+3. **Resend key:** once Resend shows the domain Verified, API Keys, Create (sending access, agental.co), paste into Vercel as `RESEND_API_KEY` (Production).
+4. **Google:** Google Cloud, project agental-515217, Google Auth Platform, Branding: privacy policy link `https://www.agental.co/en/talents/confidentialite`, Save; Audience: Publish app.
+5. **Redeploy** the latest production deployment in Vercel so the keys are live.
+6. Then the agent: copy R2 files (`/api/admin/storage/copy?copy=1` as admin), test uploads, real inbox emails and the Google round trip, and remove R2 once copied.
