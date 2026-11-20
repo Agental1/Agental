@@ -9,8 +9,9 @@ Every version that goes live on agental.co gets a git tag and a line here, so th
 | 2026-11-19 | `live-2026-11-19-round2` | `b506458` | `agental-rmh721urr-agentalco.vercel.app` | Audience pages with account card, home sections, Limelight templates and Try it, cookie consent, tour, uploads, Your website. Applied four database migrations. |
 | 2026-11-19 | `live-2026-11-19-release1` | `18c3287` | `agental-2bj1oiw9g-agentalco.vercel.app` | Beta notices (footer, About, Limelight), Settings > Connected accounts, forgot password, reset and email confirmation pages, release log, handoff file. No migration. |
 | 2026-11-19 | `live-2026-11-19-release2` | `bff6edb` | `agental-exmsrxj64-agentalco.vercel.app` | Beta wording, mandate step replaced by a beta notice, setup resume, Limelight flow and Maya Okafor sample, Agental Find preview, human Messages and team inbox, Limelight requests admin, Specialties and Preferences, Your website approve and publish. Applied three additive migrations. |
+| 2026-11-19 | `live-2026-11-19-google` | `bff6edb` | `agental-o7qjzmknb-agentalco.vercel.app` | Redeploy of release 2 with `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET`: Google button on sign-in pages. No code change, no migration. |
 
-Next pending: a redeploy to turn on Google sign-in. `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` were saved in Vercel Production after release 2 was built, so release 2 has no Google button. Going back to release 2 or earlier after that redeploy hides the button again (each Vercel deployment keeps the variables it was built with).
+Google sign-in: the button is live and reaches Google's account screen. The Google app is still in Testing with no test users, so nobody can finish signing in yet; publishing needs a privacy-policy page (see `docs/HANDOFF.md`).
 
 ## Going back one step
 
