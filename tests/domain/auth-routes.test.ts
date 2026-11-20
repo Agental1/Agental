@@ -83,7 +83,7 @@ describe("postAuthHome", () => {
 
   it("serves the first-run screen once: profile completeness, with the tutorial flag", () => {
     const first = { setupStep: null, onboardingCompletedAt: null };
-    expect(postAuthHome("TALENT", "en", first)).toBe("/en/talents/app/profil?welcome=1");
+    expect(postAuthHome("TALENT", "en", first)).toBe("/en/talents/app?welcome=1");
     expect(needsFirstRun("TALENT", first)).toBe(true);
     expect(needsFirstRun("TALENT", { setupStep: null, onboardingCompletedAt: seen })).toBe(false);
     expect(needsFirstRun("CASTING", { hasOwnerMembership: true })).toBe(false);
@@ -170,8 +170,8 @@ describe("isCastingOnboarded", () => {
 
 describe("firstRunHome", () => {
   it("is locale-prefixed and carries the tutorial flag", () => {
-    expect(firstRunHome("TALENT", "fr")).toBe("/fr/talents/app/profil?welcome=1");
+    expect(firstRunHome("TALENT", "fr")).toBe("/fr/talents/app?welcome=1");
     expect(firstRunHome("CASTING", "en")).toBe("/en/casting/app?welcome=1");
-    expect(firstRunHome("TALENT", "../evil")).toBe(`/${routing.defaultLocale}/talents/app/profil?welcome=1`);
+    expect(firstRunHome("TALENT", "../evil")).toBe(`/${routing.defaultLocale}/talents/app?welcome=1`);
   });
 });

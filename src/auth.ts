@@ -78,7 +78,8 @@ async function buildProviders(): Promise<NextAuthConfig["providers"]> {
         // normalizeOAuth defaults to PKCE only and adds state solely for a
         // redirect proxy. Ask for both.
         checks: ["pkce", "state"],
-        authorization: { params: { prompt: "select_account" } },
+        // Basic scopes only: who the person is and their email address.
+        authorization: { params: { prompt: "select_account", scope: "openid profile email" } },
       })
     );
   }

@@ -118,7 +118,7 @@ describe("signMandat", () => {
       tx.auditLog.create.mock.invocationCallOrder[0]
     );
     expect(redirect).toHaveBeenCalledWith({
-      href: { pathname: "/talents/app/profil", query: { welcome: "1" } },
+      href: { pathname: "/talents/app", query: { welcome: "1" } },
       locale: "en",
     });
   });

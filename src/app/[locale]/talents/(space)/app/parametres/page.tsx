@@ -101,7 +101,7 @@ export default async function ParametresPage({
       </Section>
 
       <Link
-        href="/talents/app/profil?welcome=1"
+        href="/talents/app?welcome=1"
         className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
       >
         {tc("tour.replay")}

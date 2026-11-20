@@ -97,7 +97,14 @@ export function MarketingFooter({
           </h4>
           <ul className="mt-3 text-[15px] text-fg-muted">
             <li className="flex min-h-9 items-center">{t("footer.mentions")}</li>
-            <li className="flex min-h-9 items-center">{t("footer.rgpd")}</li>
+            <li>
+              <Link
+                href="/talents/confidentialite"
+                className="inline-flex min-h-9 items-center text-fg transition-colors hover:text-fg-muted"
+              >
+                {t("privacy.footerLink")}
+              </Link>
+            </li>
             <li className="flex min-h-9 items-center">{t("footer.cgu")}</li>
           </ul>
           {BETA.agental && (

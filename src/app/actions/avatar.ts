@@ -45,7 +45,13 @@ export async function setAvatar(formData: FormData): Promise<AvatarResult> {
   const file = formData.get("file");
   if (!(file instanceof Blob) || file.size === 0) return { ok: false, error: err("errors.invalidInput") };
   if (file.size > AVATAR_MAX_BYTES) return { ok: false, error: err("errors.avatarTooLarge") };
-  const bytes = Buffer.from(await file.arrayBuffer());
+  return storeAvatar(me, Buffer.from(await file.arrayBuffer()));
+}
+
+async function storeAvatar(
+  me: { id: string; userId: string; avatarKey: string | null },
+  bytes: Buffer
+): Promise<AvatarResult> {
   const mime = sniffImage(bytes);
   if (!mime) return { ok: false, error: err("errors.avatarType") };
 
@@ -65,6 +71,41 @@ export async function setAvatar(formData: FormData): Promise<AvatarResult> {
   if (me.avatarKey && me.avatarKey !== key) await storage.delete(me.avatarKey).catch(() => undefined);
   refresh();
   return { ok: true, src: avatarSrc(me.userId, now) };
+}
+
+/** Only Google's photo host: the URL comes from the sign-in, never from a form. */
+function isProviderPhotoUrl(raw: string): URL | null {
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" && /(^|\.)googleusercontent\.com$/.test(url.hostname) ? url : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The person confirmed it in the welcome: use the photo of their Google
+ * account as the profile picture. Never replaces a picture already chosen.
+ */
+export async function adoptProviderPhoto(): Promise<AvatarResult> {
+  const me = await talent();
+  if ("error" in me) return { ok: false, error: me.error };
+  if (me.avatarKey) return { ok: true, src: avatarSrc(me.userId, new Date()) };
+  const user = await prisma.user.findUnique({ where: { id: me.userId }, select: { image: true } });
+  const url = user?.image ? isProviderPhotoUrl(user.image) : null;
+  if (!url) return { ok: false, error: err("errors.avatarType") };
+  // Google serves 96 px by default; ask for the size the app stores.
+  url.pathname = url.pathname.replace(/=s\d+(-c)?$/, "");
+  const sized = /=s\d+/.test(url.href) ? url.href : `${url.href}=s512-c`;
+  try {
+    const res = await fetch(sized, { redirect: "error", signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return { ok: false, error: err("errors.uploadFailed") };
+    const bytes = Buffer.from(await res.arrayBuffer());
+    if (bytes.length === 0 || bytes.length > AVATAR_MAX_BYTES) return { ok: false, error: err("errors.avatarTooLarge") };
+    return storeAvatar(me, bytes);
+  } catch {
+    return { ok: false, error: err("errors.uploadFailed") };
+  }
 }
 
 export async function removeAvatar(): Promise<AvatarResult> {

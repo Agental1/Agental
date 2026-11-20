@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,11 +7,11 @@ import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
 import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
+import { prefillFromProvider } from "@/lib/profile-prefill";
 import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
-import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
 import { MessagesShortcut } from "@/components/app/messages-shortcut";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
@@ -53,12 +52,14 @@ export default async function TalentsAppLayout({
   // dashboard's "Complete my profile" card resumes whatever is unfinished.
   // Every page below reads the profile row, so it exists before they render
   // (the same idempotent creation as ensureArtistProfile).
-  const me = await prisma.artistProfile.upsert({
+  let me = await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
     select: { id: true, stageName: true, avatarUpdatedAt: true, avatarKey: true },
   });
+  // First Google sign-in: fill the names Google gave, only where still empty.
+  if (!me.stageName) me = (await prefillFromProvider(session.user.id)) ?? me;
   const avatar = {
     src: me.avatarKey ? avatarSrc(session.user.id, me.avatarUpdatedAt) : null,
     initials: initialsOf(me.stageName, session.user.email),
@@ -92,28 +93,6 @@ export default async function TalentsAppLayout({
     features: t.raw(`space.planFeatures.${p}`) as string[],
   }));
 
-  // The first-run tour: four short steps, with plan facts read from the
-  // pricing table and the plan feature lists.
-  const tc = await getTranslations({ locale, namespace: "common" });
-  const tourCopy = tc.raw("tour.talent") as { title: string; body: string }[];
-  const tourPages = [
-    { href: "/talents/app/profil", page: t("space.nav.profile") },
-    { href: "/talents/app", page: t("space.nav.dashboard") },
-    { href: "/talents/app/candidatures", page: t("space.nav.candidatures") },
-    { href: "/talents/app/abonnement", page: t("space.nav.subscription") },
-  ];
-  const listFormat = new Intl.ListFormat(locale, { style: "narrow", type: "conjunction" });
-  const fill = (body: string) =>
-    body
-      .replace("{free}", listFormat.format(t.raw("space.planFeatures.FREE") as string[]))
-      .replace("{pro}", listFormat.format((t.raw("space.planFeatures.PRO") as string[]).slice(1)))
-      .replace("{price}", formatPlanPrice(B2C_PLANS.PRO.priceCents, locale));
-  const tourSteps: TourStep[] = tourCopy.map((step, i) => ({
-    title: step.title,
-    body: fill(step.body),
-    ...tourPages[i],
-  }));
-
   const toItem = (n: (typeof NAV)[number]): AppNavItem => ({
     href: n.href,
     icon: n.icon,
@@ -142,9 +121,6 @@ export default async function TalentsAppLayout({
         />
       }
     >
-      <Suspense fallback={null}>
-        <FirstRunTour portal="talents" steps={tourSteps} />
-      </Suspense>
       <MessagesShortcut />
       {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}

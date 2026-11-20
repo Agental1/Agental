@@ -222,7 +222,25 @@
         "title": "订阅方案",
         "body": "免费方案包含：{free}。Pro 每席位每月 {price}，额外包含：{pro}。"
       }
-    ]
+    ],
+    "welcome": "欢迎",
+    "usePhoto": "使用我的 Google 头像",
+    "photoSaved": "你的 Google 头像现已设为资料照片，可随时在右上角更换。",
+    "photoFailed": "无法获取你的 Google 头像，请在右上角添加照片。",
+    "w1": {
+      "title": "完善你的资料",
+      "body": "你的资料已完成 {percent}%。下一步：{item}。资料越完整，越容易出现在搜索中。",
+      "bodyDone": "你的资料已完成 {percent}%。请随时保持更新。",
+      "fromGoogle": "已从 Google 填写：姓名（{name}）和邮箱（{email}）。可在资料页修改。"
+    },
+    "w2": {
+      "title": "开始 AI 角色搜索",
+      "body": "按下绿色按钮，我们的代理会为你寻找合适的角色。你的方案每个周期有 {count} 次搜索。周期从第一次搜索开始，30 天后重置。"
+    },
+    "w3": {
+      "title": "跟踪申请和消息",
+      "body": "结果会显示在申请页并标明状态。Agental 团队和助手的回复会显示在消息页。"
+    }
   },
   "beta": {
     "agental": "Agental 目前处于测试阶段，功能和可用范围可能会调整。",
@@ -270,5 +288,68 @@
     "bannerTitle": "请验证你的邮箱。",
     "bannerBody": "请确认 {email}，以便我们就选角和账户事宜联系你。",
     "bannerResend": "发送链接"
+  },
+  "privacy": {
+    "meta": {
+      "title": "隐私政策：Agental",
+      "description": "Agental 收集哪些数据、原因、存放位置以及如何删除。"
+    },
+    "eyebrow": "法律",
+    "title": "隐私政策",
+    "updated": "最后更新：2026 年 11 月 20 日。完整内容为英文。",
+    "footerLink": "隐私",
+    "sections": [
+      {
+        "title": "Who we are",
+        "body": [
+          "Agental (agental.co) helps performers build a profile, prepare casting materials and find roles. Questions about your data: contact@agental.co."
+        ]
+      },
+      {
+        "title": "What we collect",
+        "body": [
+          "Your account: email address, name, password (stored only as a hash) or your Google sign-in.",
+          "Your profile: what you enter (stage name, specialties, physical details, preferences, links), your photos, videos, self-tapes and profile picture.",
+          "Your activity in the app: applications, AI role searches, messages with the Agental team and the assistant.",
+          "Technical data: a session cookie to keep you signed in, and privacy-friendly visit counts without personal identifiers."
+        ]
+      },
+      {
+        "title": "Google sign-in",
+        "body": [
+          "If you sign in with Google, we receive only your name, email address and profile photo (the openid, email and profile scopes). We use them to create your account and, if you confirm, as your profile picture. We do not access your Gmail, Drive, contacts or anything else in your Google account."
+        ]
+      },
+      {
+        "title": "Why we use it",
+        "body": [
+          "To run your account and show your profile to casting teams you apply to, to search for roles that fit you, to answer your messages, and to keep the service secure. We do not sell your data and do not use it for advertising."
+        ]
+      },
+      {
+        "title": "Where it is kept",
+        "body": [
+          "Your data is stored by our service providers: Vercel (hosting), Supabase (database and private file storage) and Cloudflare (file storage). Your media files are private; they are shown only through short-lived links to you, to the Agental team, and to the people you choose to share them with or apply to."
+        ]
+      },
+      {
+        "title": "The assistant",
+        "body": [
+          "Answers in Messages are written from a small set of facts about your profile and applications. Contact details, private content preferences and media are never included."
+        ]
+      },
+      {
+        "title": "How long we keep it, and your choices",
+        "body": [
+          "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co."
+        ]
+      },
+      {
+        "title": "Changes",
+        "body": [
+          "If this policy changes, the date at the top changes too, and we tell signed-in users about important changes in the app."
+        ]
+      }
+    ]
   }
 }

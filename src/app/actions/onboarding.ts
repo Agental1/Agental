@@ -197,7 +197,7 @@ export async function completeBetaOnboarding(): Promise<CompleteOnboardingResult
   return {
     ok: true,
     nextStep: null,
-    path: firstTime ? "/talents/app/profil?welcome=1" : "/talents/app",
+    path: firstTime ? "/talents/app?welcome=1" : "/talents/app",
   };
 }
 
@@ -335,7 +335,7 @@ export async function signMandat(input: unknown): Promise<StepResult> {
   // First sign-in lands on profile completeness, with the tutorial; every
   // later one goes to the dashboard (postAuthHome).
   return redirect({
-    href: { pathname: "/talents/app/profil", query: { welcome: "1" } },
+    href: { pathname: "/talents/app", query: { welcome: "1" } },
     locale: await getLocale(),
   });
 }

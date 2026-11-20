@@ -222,7 +222,25 @@
         "title": "Abonnement",
         "body": "La formule gratuite comprend : {free}. Pro, à {price} par siège et par mois, ajoute : {pro}."
       }
-    ]
+    ],
+    "welcome": "Bienvenue",
+    "usePhoto": "Utiliser ma photo Google",
+    "photoSaved": "Ta photo Google est maintenant ta photo de profil. Tu peux la changer à tout moment depuis la photo en haut à droite.",
+    "photoFailed": "Impossible de récupérer ta photo Google. Ajoute une photo depuis le coin en haut à droite.",
+    "w1": {
+      "title": "Complète ton profil",
+      "body": "Ton profil est complet à {percent} %. Prochaine étape : {item}. Un profil plus complet ressort dans plus de recherches.",
+      "bodyDone": "Ton profil est complet à {percent} %. Garde-le à jour au fil de tes projets.",
+      "fromGoogle": "Rempli depuis Google : ton nom ({name}) et ton email ({email}). Tu peux tout modifier sur la page Profil."
+    },
+    "w2": {
+      "title": "Lance ta recherche de rôles par l'IA",
+      "body": "Appuie sur le bouton vert et notre agent cherche des rôles qui te correspondent. Ton plan te donne {count} recherches par période. Une période commence à ta première recherche et se renouvelle 30 jours plus tard."
+    },
+    "w3": {
+      "title": "Suis tes candidatures et tes messages",
+      "body": "Les résultats apparaissent dans Candidatures, avec leur statut. Les réponses de l'équipe Agental et de l'assistant arrivent dans Messages."
+    }
   },
   "beta": {
     "agental": "Agental est en version bêta. Les fonctionnalités et leur disponibilité peuvent évoluer.",
@@ -270,5 +288,68 @@
     "bannerTitle": "Vérifie ton adresse email.",
     "bannerBody": "Confirme {email} pour qu'on puisse te joindre au sujet des castings et de ton compte.",
     "bannerResend": "Envoyer le lien"
+  },
+  "privacy": {
+    "meta": {
+      "title": "Politique de confidentialité : Agental",
+      "description": "Ce qu'Agental collecte, pourquoi, où c'est conservé, et comment le faire supprimer."
+    },
+    "eyebrow": "Mentions",
+    "title": "Politique de confidentialité",
+    "updated": "Dernière mise à jour : 20 novembre 2026.",
+    "footerLink": "Confidentialité",
+    "sections": [
+      {
+        "title": "Qui nous sommes",
+        "body": [
+          "Agental (agental.co) aide les artistes à construire leur profil, préparer leurs supports de casting et trouver des rôles. Pour toute question sur tes données : contact@agental.co."
+        ]
+      },
+      {
+        "title": "Ce que nous collectons",
+        "body": [
+          "Ton compte : adresse email, nom, mot de passe (conservé uniquement sous forme chiffrée) ou ta connexion Google.",
+          "Ton profil : ce que tu renseignes (nom de scène, spécialités, caractéristiques physiques, préférences, liens), tes photos, vidéos, self-tapes et ta photo de profil.",
+          "Ton activité dans l'application : candidatures, recherches de rôles par l'IA, messages avec l'équipe Agental et l'assistant.",
+          "Données techniques : un cookie de session pour te garder connecté, et une mesure d'audience respectueuse de la vie privée, sans identifiant personnel."
+        ]
+      },
+      {
+        "title": "Connexion avec Google",
+        "body": [
+          "Si tu te connectes avec Google, nous recevons uniquement ton nom, ton adresse email et ta photo de profil (les autorisations openid, email et profile). Nous les utilisons pour créer ton compte et, si tu le confirmes, comme photo de profil. Nous n'accédons ni à Gmail, ni à Drive, ni à tes contacts, ni à rien d'autre dans ton compte Google."
+        ]
+      },
+      {
+        "title": "Pourquoi nous les utilisons",
+        "body": [
+          "Pour faire fonctionner ton compte, montrer ton profil aux équipes de casting auxquelles tu candidates, chercher des rôles qui te correspondent, répondre à tes messages et sécuriser le service. Nous ne vendons pas tes données et ne les utilisons pas pour de la publicité."
+        ]
+      },
+      {
+        "title": "Où elles sont conservées",
+        "body": [
+          "Tes données sont hébergées par nos prestataires : Vercel (hébergement), Supabase (base de données et stockage privé des fichiers) et Cloudflare (stockage des fichiers). Tes médias sont privés : ils ne sont montrés que par des liens temporaires, à toi, à l'équipe Agental et aux personnes avec qui tu choisis de les partager ou auxquelles tu candidates."
+        ]
+      },
+      {
+        "title": "L'assistant",
+        "body": [
+          "Les réponses dans Messages sont rédigées à partir d'un petit ensemble d'informations sur ton profil et tes candidatures. Tes coordonnées, tes préférences de contenu privées et tes médias n'y figurent jamais."
+        ]
+      },
+      {
+        "title": "Durée de conservation et tes choix",
+        "body": [
+          "Nous conservons tes données tant que ton compte est ouvert. Tu peux modifier ton profil à tout moment et supprimer ton compte depuis les Paramètres : cela supprime ton profil, tes médias et tes messages. Tu peux nous demander une copie de tes données ou une correction en écrivant à contact@agental.co."
+        ]
+      },
+      {
+        "title": "Modifications",
+        "body": [
+          "Si cette politique change, la date en haut de page change aussi, et nous prévenons les utilisateurs connectés des changements importants dans l'application."
+        ]
+      }
+    ]
   }
 }

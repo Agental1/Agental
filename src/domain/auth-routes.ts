@@ -40,7 +40,7 @@ export function firstRunHome(kind: string, locale: string): string {
   const l = toLocale(locale);
   return kind === "CASTING"
     ? `/${l}/casting/app?welcome=1`
-    : `/${l}/talents/app/profil?welcome=1`;
+    : `/${l}/talents/app?welcome=1`;
 }
 
 /** What postAuthHome needs to know about the account. Loaded by /continuer. */

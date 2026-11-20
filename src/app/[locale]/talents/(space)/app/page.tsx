@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
@@ -28,6 +29,7 @@ import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
 import { getSetupState } from "@/lib/setup";
 import { getRoleSearchQuota } from "@/lib/role-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
+import { WelcomeTour, type WelcomeStep } from "@/components/app/welcome-tour";
 
 const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   photos: ImageIcon,
@@ -162,11 +164,43 @@ export default async function TalentsDashboard({
   const { nextStep } = await getSetupState(session.user.id);
   const quota = await getRoleSearchQuota(session.user.id);
 
+  // The three-step welcome (shown on ?welcome=1). Each step names the real
+  // element it outlines. Google accounts see what was filled for them.
+  const tc = await getTranslations({ locale, namespace: "common" });
+  const account = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, image: true, accounts: { select: { provider: true } } },
+  });
+  const fromGoogle = !!account?.accounts.some((a) => a.provider === "google");
+  const welcomeSteps: WelcomeStep[] = [
+    {
+      title: tc("tour.w1.title"),
+      body: nextItem
+        ? tc("tour.w1.body", { percent: completeness, item: t(`space.dashboard.missing.${nextItem}`) })
+        : tc("tour.w1.bodyDone", { percent: completeness }),
+      notes: fromGoogle
+        ? [tc("tour.w1.fromGoogle", { name: profile.stageName || "-", email: account?.email ?? "" })]
+        : undefined,
+      targets: ['[data-tour="profile"]'],
+      fallback: '[data-tour="profile-fallback"]',
+    },
+    {
+      title: tc("tour.w2.title"),
+      body: tc("tour.w2.body", { count: quota.limit }),
+      targets: ["#find-roles"],
+    },
+    {
+      title: tc("tour.w3.title"),
+      body: tc("tour.w3.body"),
+      targets: ['a[data-nav="/talents/app/candidatures"]', 'a[data-nav="/talents/app/messages"]'],
+    },
+  ];
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-medium">
+          <h1 data-tour="profile-fallback" className="font-display text-3xl font-medium">
             {profile.stageName
               ? t("space.dashboard.welcome", { name: profile.stageName })
               : t("space.dashboard.welcomeAnon")}
@@ -177,6 +211,7 @@ export default async function TalentsDashboard({
 
       {nextStep && (
         <section
+          data-tour="profile"
           aria-labelledby="complete-setup"
           className="flex flex-col gap-4 rounded-sedan border border-accent/40 bg-accent-soft/40 p-5 sm:flex-row sm:items-center"
         >
@@ -203,6 +238,7 @@ export default async function TalentsDashboard({
 
       {!nextStep && gaps.length > 0 && (
         <section
+          data-tour="profile"
           aria-labelledby="complete-profile"
           className="rounded-sedan border border-accent/40 bg-accent-soft/40 p-5"
         >
@@ -238,6 +274,13 @@ export default async function TalentsDashboard({
           </ul>
         </section>
       )}
+
+      <Suspense fallback={null}>
+        <WelcomeTour
+          steps={welcomeSteps}
+          offerPhoto={fromGoogle && !profile.avatarKey && !!account?.image}
+        />
+      </Suspense>
 
       <FindRolesButton
         initialQuota={quota}

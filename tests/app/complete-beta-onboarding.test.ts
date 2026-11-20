@@ -53,7 +53,7 @@ describe("completeBetaOnboarding", () => {
     expect(await completeBetaOnboarding()).toEqual({
       ok: true,
       nextStep: null,
-      path: "/talents/app/profil?welcome=1",
+      path: "/talents/app?welcome=1",
     });
 
     expect(db.$transaction).toHaveBeenCalledTimes(1);
