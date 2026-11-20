@@ -28,7 +28,6 @@ import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
 import { getSetupState } from "@/lib/setup";
 import { getRoleSearchQuota } from "@/lib/role-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
-import { B2C_PLANS } from "@/domain/pricing";
 
 const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   photos: ImageIcon,
