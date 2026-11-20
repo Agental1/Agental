@@ -59,6 +59,9 @@ function AboutContent() {
         <p className="mt-4 text-[17px] leading-relaxed text-fg-muted">
           {t("origin.body")}
         </p>
+        <p className="mt-4 text-[17px] leading-relaxed text-fg-muted">
+          {t("origin.body2")}
+        </p>
       </Section>
 
       <Section width="prose" rhythm="compact">

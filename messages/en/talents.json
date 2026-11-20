@@ -125,7 +125,7 @@
           "Profile, headshots and reel",
           "Reel & Self-tape",
           "Career and earnings tracking",
-          "4 AI role searches",
+          "5 AI role searches per month",
           "10% commission on bookings, taken by our licensed partner agency"
         ]
       },
@@ -151,7 +151,7 @@
         "cta": "Choose",
         "features": [
           "Everything in Pro",
-          "More AI searches",
+          "250 AI role searches per month",
           "More coaching",
           "More features coming soon",
           "7.5% commission on bookings, taken by our licensed partner agency"
@@ -164,7 +164,7 @@
         "cta": "Choose",
         "features": [
           "Everything in Premium",
-          "More AI searches",
+          "500 AI role searches per month",
           "6% commission on bookings, taken by our licensed partner agency"
         ]
       }
@@ -339,16 +339,17 @@
   "about": {
     "meta": {
       "title": "About us: Agental",
-      "description": "An idea born at the table, between a father and his son: help every performer be seen, with tools that stay in the service of people."
+      "description": "A group of young actors and builders, on campus, with roots in France and at USC: help every performer get a fair shot at a role."
     },
     "hero": {
       "eyebrow": "About us",
       "title": "Who we are",
-      "subtitle": "Agental builds tools for performers and casting teams. Behind the technology there is a family, a conviction, and an idea born around a table."
+      "subtitle": "Agental builds tools for performers and casting teams. Behind the technology there is a group of young actors and builders, and one conviction."
     },
     "origin": {
-      "title": "An idea born at the table",
-      "body": "It started over lunch, between a father and his son. Talking about the trade, we ended up putting words to the same observation, from both sides at once. On one side, all those performers who never step out of the shadows for want of being seen at the right moment. All those young people who dream of acting and know neither where nor how to find a good agent. On the other, all those producers and casting directors who could be better supported in their search, to find the rare profile and match people to roles more finely. We thought we could make things better for everyone. Agental was born from that conversation."
+      "title": "Our story",
+      "body": "Agental was started by a group of young actors and builders who saw how unequal the road to a role can be. Representation tends to go to the few who already have connections, live in the right city or can afford an agent. We want every performer to get the same fair shot.",
+      "body2": "We started where we are: on campus, with roots in France and at USC. We are building from there, one performer at a time."
     },
     "stance": {
       "title": "Where we stand",
@@ -876,7 +877,7 @@
         "Profile, headshots and reel",
         "Reel & Self-tape",
         "Career and earnings tracking",
-        "4 AI role searches"
+        "5 AI role searches per month"
       ],
       "PRO": [
         "Everything in Basic",
@@ -887,13 +888,13 @@
       ],
       "PREMIUM": [
         "Everything in Pro",
-        "More AI searches",
+        "250 AI role searches per month",
         "More coaching",
         "More features coming soon"
       ],
       "ULTIMATE": [
         "Everything in Premium",
-        "More AI searches"
+        "500 AI role searches per month"
       ]
     },
     "media": {

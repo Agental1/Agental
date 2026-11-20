@@ -125,7 +125,7 @@
           "Profil, photos et bande démo",
           "Bande démo & self-tape",
           "Suivi de carrière et de revenus",
-          "4 recherches de rôles par l’IA",
+          "5 recherches de rôles par l’IA par mois",
           "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
         ]
       },
@@ -151,7 +151,7 @@
         "cta": "Choisir",
         "features": [
           "Tout le Pro",
-          "Plus de recherches IA",
+          "250 recherches de rôles par l’IA par mois",
           "Plus de coaching",
           "D’autres fonctionnalités bientôt",
           "7,5 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
@@ -164,7 +164,7 @@
         "cta": "Choisir",
         "features": [
           "Tout le Premium",
-          "Plus de recherches IA",
+          "500 recherches de rôles par l’IA par mois",
           "6 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
         ]
       }
@@ -339,16 +339,17 @@
   "about": {
     "meta": {
       "title": "Qui sommes-nous : Agental",
-      "description": "Une idée née à table, entre un père et son fils : aider chaque artiste à être vu, avec des outils au service des personnes."
+      "description": "Un groupe de jeunes acteurs et de bâtisseurs, sur le campus, avec des racines en France et à USC : donner à chaque artiste une vraie chance d'obtenir un rôle."
     },
     "hero": {
       "eyebrow": "Qui sommes-nous",
       "title": "Qui sommes-nous",
-      "subtitle": "Agental crée des outils pour les artistes et les équipes de casting. Derrière la technologie, il y a une famille, une conviction et une idée née autour d’une table."
+      "subtitle": "Agental construit des outils pour les artistes et les équipes de casting. Derrière la technologie, il y a un groupe de jeunes acteurs et de bâtisseurs, et une conviction."
     },
     "origin": {
-      "title": "Une idée née à table",
-      "body": "Tout est parti d'un déjeuner, entre un père et son fils. En discutant du métier, on a fini par mettre des mots sur un même constat, des deux côtés à la fois. D'un côté, tous ces talents et ces performeurs qui ne sortent jamais de l'ombre, faute d'être vus au bon moment. Tous ces jeunes qui rêvent de jouer et qui ne savent ni où ni comment trouver un bon agent. De l'autre, tous ces producteurs et ces directeurs de casting qui pourraient être mieux épaulés dans leurs recherches, pour dénicher la perle rare et faire correspondre plus finement les profils aux rôles. On s'est dit qu'on pouvait améliorer les choses pour tout le monde. C'est de cette conversation qu'est née Agental."
+      "title": "Notre histoire",
+      "body": "Agental a été lancé par un groupe de jeunes acteurs et de bâtisseurs qui ont vu à quel point le chemin vers un rôle peut être inégal. La représentation va souvent à ceux qui ont déjà des contacts, qui vivent dans la bonne ville ou qui peuvent se payer un agent. Nous voulons que chaque artiste ait la même chance.",
+      "body2": "Nous sommes partis de là où nous sommes : sur le campus, avec des racines en France et à USC. Nous construisons à partir de là, un artiste à la fois."
     },
     "stance": {
       "title": "Notre parti pris",
@@ -876,7 +877,7 @@
         "Profil, photos et bande démo",
         "Bande démo & self-tape",
         "Suivi de carrière et de revenus",
-        "4 recherches de rôles par l’IA"
+        "5 recherches de rôles par l’IA par mois"
       ],
       "PRO": [
         "Tout le Basic",
@@ -887,13 +888,13 @@
       ],
       "PREMIUM": [
         "Tout le Pro",
-        "Plus de recherches IA",
+        "250 recherches de rôles par l’IA par mois",
         "Plus de coaching",
         "D’autres fonctionnalités bientôt"
       ],
       "ULTIMATE": [
         "Tout le Premium",
-        "Plus de recherches IA"
+        "500 recherches de rôles par l’IA par mois"
       ]
     },
     "media": {

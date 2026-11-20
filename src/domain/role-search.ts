@@ -17,10 +17,9 @@ export const COUNTED_STATUSES: readonly RoleSearchStatus[] = ["queued", "running
 export const IN_PROGRESS_STATUSES: readonly RoleSearchStatus[] = ["queued", "running"];
 
 /**
- * Used while the founders have not set the Premium and Ultimate allowances
- * (B2C_PLANS.*.aiSearches is null). TODO(founders): replace by real values.
+ * Safety net if a plan has no allowance configured.
  */
-export const FALLBACK_ALLOWANCE: NonNullable<AiSearchAllowance> = { kind: "monthly", count: 50 };
+export const FALLBACK_ALLOWANCE: NonNullable<AiSearchAllowance> = { kind: "monthly", count: 5 };
 
 export function allowanceFor(plan: PlanB2C): NonNullable<AiSearchAllowance> {
   return B2C_PLANS[plan].aiSearches ?? FALLBACK_ALLOWANCE;

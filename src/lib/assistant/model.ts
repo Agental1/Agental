@@ -8,8 +8,19 @@ import type { AssistantContext } from "@/domain/assistant";
  * (ASSISTANT_MODEL_ENABLED=true and an Anthropic credential). One request,
  * a short answer, and a yes/no on whether a person should take over.
  */
-export const ASSISTANT_MODEL = "claude-opus-5-5";
-const TIMEOUT_MS = 25_000;
+export const DEFAULT_ASSISTANT_MODEL = "claude-haiku-5-5";
+/** Short support replies do not need a large model: Haiku by default, ASSISTANT_MODEL to change. */
+export function assistantModel(env = process.env): string {
+  return (env.ASSISTANT_MODEL ?? "").trim() || DEFAULT_ASSISTANT_MODEL;
+}
+/** Hard cap on one reply, in tokens. */
+export const MAX_REPLY_TOKENS = 300;
+/** Replies per performer per day before messages go to the team (ASSISTANT_DAILY_LIMIT). */
+export function assistantDailyLimit(env = process.env): number {
+  const n = Number(env.ASSISTANT_DAILY_LIMIT);
+  return Number.isInteger(n) && n >= 0 ? n : 20;
+}
+const TIMEOUT_MS = 15_000;
 
 export function assistantModelEnabled(env = process.env): boolean {
   return env.ASSISTANT_MODEL_ENABLED === "true" && !!(env.ANTHROPIC_API_KEY ?? "").trim();
@@ -25,7 +36,7 @@ const SYSTEM = `You are the Agental assistant, answering performers (actors, voi
 You receive the performer's question, the topic they picked, the last messages of the conversation, and a CONTEXT object with the only facts you know about them. Answer from those facts alone.
 
 Rules:
-- Reply in the language of the performer's question. Three to six short sentences, plain text, no markdown headings, no em dashes.
+- Reply in the language of the performer's question. Two to four short sentences, plain text, no markdown headings, no em dashes.
 - Use only facts present in CONTEXT or in the conversation. Never invent roles, castings, dates, prices, deadlines or outcomes. Never promise work or results.
 - Profile questions: use completeness, missing items, specialties and preferences to say concretely what to do next and where (Profile page, Reel & Self-tape, Your website).
 - Application questions: report the statuses you see. You do not know why a casting team decided anything.
@@ -43,16 +54,13 @@ export async function askModel(input: {
     .slice(-6)
     .map((m) => `${m.from}: ${m.body}`)
     .join("\n");
-  // Server-side fallback: if the model declines on a safety classifier, the
-  // API re-runs the same request on the fallback model inside this call.
-  const response = await client.beta.messages.create(
+  // No retry on another model: a refusal or any error falls back to the rules.
+  const response = await client.messages.create(
     {
-      model: ASSISTANT_MODEL,
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: [{ model: "claude-opus-4-8" }],
-      max_tokens: 2000,
+      model: assistantModel(),
+      max_tokens: MAX_REPLY_TOKENS,
       system: SYSTEM,
-      output_config: { effort: "low", format: zodOutputFormat(Answer) },
+      output_config: { format: zodOutputFormat(Answer) },
       messages: [
         {
           role: "user",
@@ -64,11 +72,12 @@ export async function askModel(input: {
         },
       ],
     },
-    { signal: input.signal, timeout: TIMEOUT_MS, maxRetries: 1 }
+    { signal: input.signal, timeout: TIMEOUT_MS, maxRetries: 0 }
   );
-  if (response.stop_reason === "refusal") return { reply: "", needsHuman: true };
+  // A refusal, a cut-off answer or unreadable output: the caller uses the rules.
+  if (response.stop_reason !== "end_turn") throw new Error("model_unusable");
   const text = response.content.find((b) => b.type === "text");
   const parsed = Answer.safeParse(text && text.type === "text" ? JSON.parse(text.text) : null);
-  if (!parsed.success || !parsed.data.reply.trim()) return { reply: "", needsHuman: true };
+  if (!parsed.success || !parsed.data.reply.trim()) throw new Error("model_unusable");
   return { reply: parsed.data.reply.trim(), needsHuman: parsed.data.needs_human };
 }

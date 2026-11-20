@@ -125,7 +125,7 @@
           "Perfil, fotos y reel",
           "Reel y self-tape",
           "Seguimiento de carrera e ingresos",
-          "4 búsquedas de papeles con IA",
+          "5 búsquedas de papeles con IA al mes",
           "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
@@ -151,7 +151,7 @@
         "cta": "Elegir",
         "features": [
           "Todo lo de Pro",
-          "Más búsquedas con IA",
+          "250 búsquedas de papeles con IA al mes",
           "Más coaching",
           "Más funciones próximamente",
           "7,5 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
@@ -164,7 +164,7 @@
         "cta": "Elegir",
         "features": [
           "Todo lo de Premium",
-          "Más búsquedas con IA",
+          "500 búsquedas de papeles con IA al mes",
           "6 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       }
@@ -339,16 +339,17 @@
   "about": {
     "meta": {
       "title": "Quiénes somos: Agental",
-      "description": "Una idea nacida en la mesa, entre un padre y su hijo: ayudar a cada artista a ser visto, con herramientas al servicio de las personas."
+      "description": "Un grupo de jóvenes actores y creadores, en el campus, con raíces en Francia y en USC: dar a cada artista una oportunidad justa de conseguir un papel."
     },
     "hero": {
       "eyebrow": "Quiénes somos",
       "title": "Quiénes somos",
-      "subtitle": "Agental crea herramientas para artistas y equipos de casting. Detrás de la tecnología hay una familia, una convicción y una idea nacida alrededor de una mesa."
+      "subtitle": "Agental crea herramientas para artistas y equipos de casting. Detrás de la tecnología hay un grupo de jóvenes actores y creadores, y una convicción."
     },
     "origin": {
-      "title": "Una idea nacida en la mesa",
-      "body": "Todo empezó en una comida, entre un padre y su hijo. Hablando del oficio, acabamos poniendo palabras a una misma constatación, desde los dos lados a la vez. Por un lado, todos esos talentos y performers que nunca salen de la sombra por no ser vistos en el momento adecuado. Todos esos jóvenes que sueñan con actuar y no saben ni dónde ni cómo encontrar un buen agente. Por otro, todos esos productores y directores de casting a quienes se podría apoyar mejor en su búsqueda, para dar con el perfil raro y ajustar mejor las personas a los papeles. Pensamos que podíamos mejorar las cosas para todos. De esa conversación nació Agental."
+      "title": "Nuestra historia",
+      "body": "Agental lo empezó un grupo de jóvenes actores y creadores que vieron lo desigual que puede ser el camino hacia un papel. La representación suele ir a quienes ya tienen contactos, viven en la ciudad adecuada o pueden pagar un agente. Queremos que cada artista tenga la misma oportunidad.",
+      "body2": "Empezamos donde estamos: en el campus, con raíces en Francia y en USC. Construimos desde ahí, un artista a la vez."
     },
     "stance": {
       "title": "Nuestra postura",
@@ -876,7 +877,7 @@
         "Perfil, fotos y reel",
         "Reel y self-tape",
         "Seguimiento de carrera e ingresos",
-        "4 búsquedas de papeles con IA"
+        "5 búsquedas de papeles con IA al mes"
       ],
       "PRO": [
         "Todo lo de Basic",
@@ -887,13 +888,13 @@
       ],
       "PREMIUM": [
         "Todo lo de Pro",
-        "Más búsquedas con IA",
+        "250 búsquedas de papeles con IA al mes",
         "Más coaching",
         "Más funciones próximamente"
       ],
       "ULTIMATE": [
         "Todo lo de Premium",
-        "Más búsquedas con IA"
+        "500 búsquedas de papeles con IA al mes"
       ]
     },
     "media": {

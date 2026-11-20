@@ -46,15 +46,15 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(await startFindingRoles(key(1))).toMatchObject({ ok: false });
   });
 
-  it("never goes over 4 on Basic, even with 10 parallel clicks", async () => {
+  it("never goes over 5 on Basic, even with 10 parallel clicks", async () => {
     const results = await Promise.all(
       Array.from({ length: 10 }, (_, i) => startRoleSearch(basic, key(100 + i)))
     );
-    expect(results.filter((r) => r.ok)).toHaveLength(4);
-    expect(results.filter((r) => !r.ok && r.reason === "quota_exhausted")).toHaveLength(6);
-    expect(await prisma.roleSearchRequest.count({ where: { userId: basic } })).toBe(4);
+    expect(results.filter((r) => r.ok)).toHaveLength(5);
+    expect(results.filter((r) => !r.ok && r.reason === "quota_exhausted")).toHaveLength(5);
+    expect(await prisma.roleSearchRequest.count({ where: { userId: basic } })).toBe(5);
     const rows = await prisma.roleSearchRequest.findMany({ where: { userId: basic } });
-    expect(rows.every((r) => r.status === "queued" && r.plan === "FREE" && r.periodKey === "lifetime")).toBe(true);
+    expect(rows.every((r) => r.status === "queued" && r.plan === "FREE" && r.periodKey.startsWith("20"))).toBe(true);
     expect((await getRoleSearchQuota(basic)).remaining).toBe(0);
   });
 

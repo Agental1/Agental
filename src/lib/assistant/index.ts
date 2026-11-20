@@ -11,7 +11,8 @@ import {
   type MessageTopic,
 } from "@/domain/assistant";
 import { buildAssistantContext } from "./context";
-import { askModel, assistantModelEnabled } from "./model";
+import { prisma } from "@/lib/db";
+import { askModel, assistantDailyLimit, assistantModelEnabled } from "./model";
 
 /**
  * Answer a performer's message as the Agental assistant: the model when it is
@@ -62,13 +63,18 @@ export async function answerMessage(input: {
   const planName = planNames[PLAN_INDEX[ctx.plan]] ?? ctx.plan;
 
   if (assistantModelEnabled()) {
+    // Daily cap per performer: past it, messages go to the team.
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const today = await prisma.message.count({
+      where: { fromAgent: true, createdAt: { gte: since }, thread: { userId: input.userId, kind: "TEAM" } },
+    });
+    if (today >= assistantDailyLimit()) {
+      return { text: raw.handoff, handoff: true, source: "rules", ctx };
+    }
     try {
       const res = await askModel({ ctx, question: input.question, history: input.history });
-      if (res.reply) {
-        const text = res.needsHuman ? `${res.reply}\n${raw.handoff}` : res.reply;
-        return { text, handoff: res.needsHuman, source: "model", ctx };
-      }
-      return { text: raw.handoff, handoff: true, source: "model", ctx };
+      const text = res.needsHuman ? `${res.reply}\n${raw.handoff}` : res.reply;
+      return { text, handoff: res.needsHuman, source: "model", ctx };
     } catch (error) {
       console.error("[assistant] model failed, rules used", error instanceof Error ? error.name : "error");
     }
