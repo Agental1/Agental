@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
 import { ConsentSettings } from "@/components/consent/consent-settings";
+import { getAccountConsent } from "@/lib/account-prefs";
 import { ConnectedAccounts } from "@/components/app/connected-accounts";
 import { B2B_PLANS } from "@/domain/pricing";
 
@@ -88,7 +89,7 @@ export default async function CastingParametresPage({
 
       <ConnectedAccounts userId={session.user.id} locale={locale} />
 
-      <ConsentSettings />
+      <ConsentSettings current={await getAccountConsent(session.user.id)} />
 
       <RgpdSection />
 
