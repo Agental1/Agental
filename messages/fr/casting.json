@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Casting — Le filtre IA qualifié pour vos castings",
+    "title": "Agental Casting: Le filtre IA qualifié pour vos castings",
     "description": "Recevez les meilleurs talents, pas les plus nombreux. Une short-list courte, vérifiée, prête à convoquer. Scoring transparent, source affichée."
   },
   "nav": {
@@ -19,7 +19,7 @@
   "demo": {
     "eyebrow": "Démo interactive",
     "title": "Un brief. Une short-list.",
-    "subtitle": "Décrivez le rôle, l'assistant met votre brief en forme, la short-list se génère — source de chaque profil visible.",
+    "subtitle": "Décrivez le rôle, l'assistant met votre brief en forme, la short-list se génère, source de chaque profil visible.",
     "briefLabel": "Votre rôle",
     "briefPlaceholder": "ex. « Maxime », homme, 25–32 ans, accent breton, disponible en septembre",
     "generate": "Générer la short-list",
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "Comment ça marche — Agental Casting",
+      "title": "Comment ça marche: Agental Casting",
       "description": "Du brief à la convocation : comment Agental filtre 90 % des candidatures pour ne vous présenter que les profils réellement pertinents."
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifs — Agental Casting",
+      "title": "Tarifs: Agental Casting",
       "description": "Une tarification par siège et par volume, pensée pour votre activité de casting. Sans engagement."
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "FAQ — Agental Casting",
+      "title": "FAQ: Agental Casting",
       "description": "Vos questions sur le scoring, la neutralité, les self-tapes vérifiés et la tarification d'Agental Casting."
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "Quel est le titre du projet et du rôle ?",
-          "placeholder": "ex. Maxime — série Marée Haute"
+          "placeholder": "ex. Maxime: série Marée Haute"
         },
         "role": {
           "prompt": "Décrivez le personnage en une phrase.",
@@ -391,7 +391,7 @@
       "skip": "Passer"
     },
     "plans": {
-      "demo": "Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment.",
+      "demo": "Mode démo: aucun paiement réel. Sans engagement, résiliable à tout moment.",
       "current": "Actuel",
       "currentPlan": "Plan actuel",
       "choose": "Choisir",
@@ -507,7 +507,7 @@
     },
     "newBrief": {
       "title": "Nouveau brief",
-      "subtitle": "Décrivez le rôle — l'assistant s'occupe du reste."
+      "subtitle": "Décrivez le rôle, l'assistant s'occupe du reste."
     },
     "planFeatures": {
       "FREE": [

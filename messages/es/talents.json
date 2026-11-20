@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Talents — Un agente de verdad, aumentado por IA",
+    "title": "Agental Talents: Un agente de verdad, aumentado por IA",
     "description": "Crea tu perfil de artista: fotos, créditos, reel y self-tapes en un solo lugar. Gratis durante la beta."
   },
   "nav": {
@@ -62,7 +62,7 @@
       },
       {
         "title": "Cada perfil tiene su fuerza",
-        "body": "Las producciones buscan personalidades auténticas y variadas, tanto para cámara como para voz. Identificamos lo que te distingue — tu porte, tu acento, tu presencia, tu timbre — y lo defendemos. Tu singularidad se convierte en un argumento."
+        "body": "Las producciones buscan personalidades auténticas y variadas, tanto para cámara como para voz. Identificamos lo que te distingue, tu porte, tu acento, tu presencia, tu timbre, y lo defendemos. Tu singularidad se convierte en un argumento."
       }
     ],
     "lead": "Un perfil que muestra lo que te hace único, y herramientas que te ayudan a prepararte."
@@ -117,14 +117,16 @@
     "popular": "Popular",
     "plans": [
       {
-        "name": "Free",
+        "name": "Basic",
         "price": "0 $",
         "commission": "10 %",
         "cta": "Empezar",
         "features": [
           "Perfil, fotos y reel",
           "Reel y self-tape",
-          "Seguimiento de carrera e ingresos"
+          "Seguimiento de carrera e ingresos",
+          "4 búsquedas de papeles con IA",
+          "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
       {
@@ -133,28 +135,37 @@
         "commission": "10 %",
         "cta": "Elegir",
         "features": [
-          "Todo lo de Free",
+          "Todo lo de Basic",
+          "50 búsquedas de papeles con IA al mes",
           "Comentarios de IA sobre tus self-tapes",
           "Respuestas más rápidas del equipo de Agental",
-          "Soporte prioritario"
+          "Soporte prioritario",
+          "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia",
+          "¿Estudiante universitario? Obtén un descuento con tu correo del centro."
         ]
       },
       {
         "name": "Premium",
-        "price": "49 $",
+        "price": "250 $",
         "commission": "7,5 %",
         "cta": "Elegir",
         "features": [
-          "Todo lo de Pro"
+          "Todo lo de Pro",
+          "Más búsquedas con IA",
+          "Más coaching",
+          "Más funciones próximamente",
+          "7,5 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
       {
         "name": "Ultimate",
-        "price": "79 $",
-        "commission": "5 %",
+        "price": "500 $",
+        "commission": "6 %",
         "cta": "Elegir",
         "features": [
-          "Todo lo de Premium"
+          "Todo lo de Premium",
+          "Más búsquedas con IA",
+          "6 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       }
     ]
@@ -164,15 +175,15 @@
     "items": [
       {
         "quote": "Crecí lejos de la capital y pensaba que ser actor no era para mí. En tres meses con Agental he rodado en dos series. La aplicación me avisa cuando un papel encaja conmigo, y el estudio me enseñó a grabar bien mis self-tapes.",
-        "author": "Sofiane, 22 años — figuración y papeles pequeños, Lyon"
+        "author": "Sofiane, 22 años, figuración y papeles pequeños, Lyon"
       },
       {
         "quote": "Pagaba tres suscripciones a plataformas distintas y me pasaba las noches filtrando anuncios. Ahora todo llega filtrado. Me concentro en mis pruebas y el agente se ocupa del resto.",
-        "author": "Amina, 34 años — publicidad y voz, Marsella"
+        "author": "Amina, 34 años, publicidad y voz, Marsella"
       },
       {
         "quote": "Lo que me convenció fue el mandato. Es una agencia de verdad, con un contrato de verdad, no una web que vende esperanza. Y que la comisión baje según subes lo cambia todo en un año.",
-        "author": "Lucas, 41 años — papeles secundarios, Lille"
+        "author": "Lucas, 41 años, papeles secundarios, Lille"
       }
     ]
   },
@@ -196,7 +207,7 @@
   },
   "how": {
     "meta": {
-      "title": "Cómo funciona — Agental Talents",
+      "title": "Cómo funciona: Agental Talents",
       "description": "De la creación de tu perfil al cobro de tu caché: cómo Agental te representa y trabaja para ti, paso a paso."
     },
     "hero": {
@@ -234,19 +245,19 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifas — Agental Talents",
+      "title": "Tarifas: Agental Talents",
       "description": "Los planes de Agental para artistas. Gratis durante la beta; los planes de pago son opcionales."
     },
     "hero": {
       "eyebrow": "Tarifas",
       "title": "Tarifas que premian tu progresión",
-      "subtitle": "El plan Free cubre tu perfil y tus medios. Los planes de pago añaden herramientas y nunca son un peaje hacia las oportunidades."
+      "subtitle": "El plan Basic cubre tu perfil y tus medios. Los planes de pago añaden herramientas y nunca son un peaje hacia las oportunidades."
     },
     "note": "Sin compromiso. Cambias de plan o vuelves al gratuito cuando quieras."
   },
   "faq": {
     "meta": {
-      "title": "Preguntas frecuentes — Agental Talents",
+      "title": "Preguntas frecuentes: Agental Talents",
       "description": "Tus dudas sobre Agental: la agencia, el mandato, la comisión y el funcionamiento del día a día."
     },
     "hero": {
@@ -269,7 +280,7 @@
           },
           {
             "q": "¿Cuánto cuesta empezar?",
-            "a": "Nada. El plan Free cubre tu perfil y tus medios. Los planes de pago y los sitios Limelight son opcionales y nunca condicionan las audiciones ni las candidaturas."
+            "a": "Nada. El plan Basic cubre tu perfil y tus medios. Los planes de pago y los sitios Limelight son opcionales y nunca condicionan las audiciones ni las candidaturas."
           },
           {
             "q": "¿Hace falta experiencia para inscribirse?",
@@ -286,7 +297,7 @@
           },
           {
             "q": "¿Qué comisión se lleva Agental?",
-            "a": "10 % en Free y Pro, 7,5 % en Premium, 5 % en Ultimate. Cuanto más progresas, más conservas."
+            "a": "10 % en Basic y Pro, 7,5 % en Premium, 6 % en Ultimate. Cuanto más progresas, más conservas."
           },
           {
             "q": "¿La comisión se suma a la suscripción?",
@@ -307,7 +318,7 @@
           },
           {
             "q": "¿Mantengo el control de mis candidaturas?",
-            "a": "Sí. Tú defines tus preferencias —tipos de proyecto, movilidad, caché mínimo— y nada se compromete en tu nombre sin tu acuerdo. Decides tú, siempre."
+            "a": "Sí. Tú defines tus preferencias (tipos de proyecto, movilidad, caché mínimo) y nada se compromete en tu nombre sin tu acuerdo. Decides tú, siempre."
           },
           {
             "q": "¿La suscripción me da acceso privilegiado a los cástines?",
@@ -327,7 +338,7 @@
   },
   "about": {
     "meta": {
-      "title": "Quiénes somos — Agental",
+      "title": "Quiénes somos: Agental",
       "description": "Una idea nacida en la mesa, entre un padre y su hijo: ayudar a cada artista a ser visto, con herramientas al servicio de las personas."
     },
     "hero": {
@@ -353,7 +364,7 @@
   "castingLandings": {
     "index": {
       "meta": {
-        "title": "Todos los tipos de casting — Agental Talents",
+        "title": "Todos los tipos de casting: Agental Talents",
         "description": "Figuración, figuración especial, papeles secundarios, publicidad, foto, voz, niños, creadores: encuentra el tipo de casting hecho para ti y deja que Agental te represente."
       },
       "eyebrow": "Tipos de casting",
@@ -708,7 +719,7 @@
       "view": "Ver",
       "welcome": "Bienvenido, {name}.",
       "welcomeAnon": "Bienvenido.",
-      "completenessHint": "Tu perfil está completo al {percent} % — complétalo para que la IA lo aproveche mejor.",
+      "completenessHint": "Tu perfil está completo al {percent} %, complétalo para que la IA lo aproveche mejor.",
       "urgentHint": "{count, plural, one {# oportunidad donde estás muy bien posicionado: cuida tu candidatura.} other {# oportunidades donde estás muy bien posicionado: cuida tus candidaturas.}}",
       "completeProfile": {
         "title": "Completa tu perfil",
@@ -734,7 +745,7 @@
     },
     "candidatures": {
       "title": "Mis candidaturas",
-      "subtitle": "Con datos y con tacto: cada estado, explicado.",
+      "subtitle": "Todas tus candidaturas y su estado, en un solo lugar.",
       "empty": "Aún no hay candidaturas.",
       "emptyList": "Aún no hay candidaturas. Los papeles aparecerán en cuanto se abra una candidatura para ti.",
       "origin": {
@@ -834,19 +845,25 @@
       "FREE": [
         "Perfil, fotos y reel",
         "Reel y self-tape",
-        "Seguimiento de carrera"
+        "Seguimiento de carrera e ingresos",
+        "4 búsquedas de papeles con IA"
       ],
       "PRO": [
-        "Todo lo de Free",
+        "Todo lo de Basic",
+        "50 búsquedas de papeles con IA al mes",
         "Comentarios de IA sobre tus self-tapes",
         "Respuestas más rápidas del equipo de Agental",
         "Soporte prioritario"
       ],
       "PREMIUM": [
-        "Todo lo de Pro"
+        "Todo lo de Pro",
+        "Más búsquedas con IA",
+        "Más coaching",
+        "Más funciones próximamente"
       ],
       "ULTIMATE": [
-        "Todo lo de Premium"
+        "Todo lo de Premium",
+        "Más búsquedas con IA"
       ]
     },
     "media": {

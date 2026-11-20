@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Talents — A real agent, augmented by AI",
+    "title": "Agental Talents: A real agent, augmented by AI",
     "description": "Build your performer profile: headshots, credits, reel and self-tapes in one place. Free during the beta."
   },
   "nav": {
@@ -62,7 +62,7 @@
       },
       {
         "title": "Every profile has a strength",
-        "body": "Productions look for real, varied personalities, for camera as much as for voice. We identify what sets you apart — your look, your accent, your presence, your timbre — and we make the case for it. Your singularity becomes an argument."
+        "body": "Productions look for real, varied personalities, for camera as much as for voice. We identify what sets you apart, your look, your accent, your presence, your timbre, and we make the case for it. Your singularity becomes an argument."
       }
     ],
     "lead": "A profile that shows what makes you singular, and tools that help you prepare."
@@ -117,14 +117,16 @@
     "popular": "Popular",
     "plans": [
       {
-        "name": "Free",
+        "name": "Basic",
         "price": "$0",
         "commission": "10%",
         "cta": "Get started",
         "features": [
           "Profile, headshots and reel",
           "Reel & Self-tape",
-          "Career and earnings tracking"
+          "Career and earnings tracking",
+          "4 AI role searches",
+          "10% commission on bookings, taken by our licensed partner agency"
         ]
       },
       {
@@ -133,28 +135,37 @@
         "commission": "10%",
         "cta": "Choose",
         "features": [
-          "Everything in Free",
+          "Everything in Basic",
+          "50 AI role searches per month",
           "AI feedback on your self-tapes",
           "Faster replies from the Agental team",
-          "Priority support"
+          "Priority support",
+          "10% commission on bookings, taken by our licensed partner agency",
+          "College student? Get a discount with your school email."
         ]
       },
       {
         "name": "Premium",
-        "price": "$49",
+        "price": "$250",
         "commission": "7.5%",
         "cta": "Choose",
         "features": [
-          "Everything in Pro"
+          "Everything in Pro",
+          "More AI searches",
+          "More coaching",
+          "More features coming soon",
+          "7.5% commission on bookings, taken by our licensed partner agency"
         ]
       },
       {
         "name": "Ultimate",
-        "price": "$79",
-        "commission": "5%",
+        "price": "$500",
+        "commission": "6%",
         "cta": "Choose",
         "features": [
-          "Everything in Premium"
+          "Everything in Premium",
+          "More AI searches",
+          "6% commission on bookings, taken by our licensed partner agency"
         ]
       }
     ]
@@ -164,15 +175,15 @@
     "items": [
       {
         "quote": "I grew up far from the capital and thought acting was not for me. Three months with Agental and I had shot in two series. The app tells me when a role matches, and the studio taught me to film my self-tapes properly.",
-        "author": "Sofiane, 22 — extra and small roles, Lyon"
+        "author": "Sofiane, 22, extra and small roles, Lyon"
       },
       {
         "quote": "I was paying for three different platforms and spending my evenings sorting listings. Now everything arrives filtered. I focus on my auditions, the agent handles the rest.",
-        "author": "Amina, 34 — advertising and voice, Marseille"
+        "author": "Amina, 34, advertising and voice, Marseille"
       },
       {
         "quote": "What convinced me was the mandate. It is a real agency, with a real contract, not a site selling hope. And a commission that drops as you rise changes everything over a year.",
-        "author": "Lucas, 41 — supporting roles, Lille"
+        "author": "Lucas, 41, supporting roles, Lille"
       }
     ]
   },
@@ -196,7 +207,7 @@
   },
   "how": {
     "meta": {
-      "title": "How it works — Agental Talents",
+      "title": "How it works: Agental Talents",
       "description": "From creating your profile to receiving your fee: how Agental represents you and works for you, step by step."
     },
     "hero": {
@@ -234,19 +245,19 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Pricing — Agental Talents",
+      "title": "Pricing: Agental Talents",
       "description": "Agental plans for performers. Free during the beta; paid plans are optional."
     },
     "hero": {
       "eyebrow": "Pricing",
       "title": "Pricing that rewards your progress",
-      "subtitle": "The Free plan covers your profile and media. Paid plans add tools and are never a toll to opportunities."
+      "subtitle": "The Basic plan covers your profile and media. Paid plans add tools and are never a toll to opportunities."
     },
     "note": "No commitment. Change plan or go back to free whenever you want."
   },
   "faq": {
     "meta": {
-      "title": "FAQ — Agental Talents",
+      "title": "FAQ: Agental Talents",
       "description": "Your questions about Agental: the agency, the mandate, the commission and how it works day to day."
     },
     "hero": {
@@ -269,7 +280,7 @@
           },
           {
             "q": "How much does it cost to start?",
-            "a": "Nothing. The Free plan covers your profile and media. Paid plans and Limelight websites are optional and never a condition for auditions or applications."
+            "a": "Nothing. The Basic plan covers your profile and media. Paid plans and Limelight websites are optional and never a condition for auditions or applications."
           },
           {
             "q": "Do I need experience to sign up?",
@@ -286,7 +297,7 @@
           },
           {
             "q": "How much commission does Agental take?",
-            "a": "10% on Free and Pro, 7.5% on Premium, 5% on Ultimate. The more you rise, the more you keep."
+            "a": "10% on Basic and Pro, 7.5% on Premium, 6% on Ultimate. The more you rise, the more you keep."
           },
           {
             "q": "Is the commission on top of the subscription?",
@@ -307,7 +318,7 @@
           },
           {
             "q": "Do I keep control of my applications?",
-            "a": "Yes. You set your preferences — project types, mobility, minimum fee — and nothing is committed in your name without your agreement. You decide, always."
+            "a": "Yes. You set your preferences, project types, mobility, minimum fee, and nothing is committed in your name without your agreement. You decide, always."
           },
           {
             "q": "Does the subscription give me privileged access to castings?",
@@ -327,7 +338,7 @@
   },
   "about": {
     "meta": {
-      "title": "About us — Agental",
+      "title": "About us: Agental",
       "description": "An idea born at the table, between a father and his son: help every performer be seen, with tools that stay in the service of people."
     },
     "hero": {
@@ -353,7 +364,7 @@
   "castingLandings": {
     "index": {
       "meta": {
-        "title": "All casting types — Agental Talents",
+        "title": "All casting types: Agental Talents",
         "description": "Extras, silhouette, supporting roles, advertising, photo, voice, children, creators: find the casting type made for you and let Agental represent you."
       },
       "eyebrow": "Casting types",
@@ -734,7 +745,7 @@
     },
     "candidatures": {
       "title": "My applications",
-      "subtitle": "Factual and kind — every status, explained.",
+      "subtitle": "Every application and its status, in one place.",
       "empty": "No applications yet.",
       "emptyList": "No applications here yet. Roles will appear as soon as an application is opened for you.",
       "origin": {
@@ -798,7 +809,7 @@
       "mandat": "Representation mandate",
       "subscription": "Subscription",
       "editProfile": "Edit my profile",
-      "mandatNote": "Free, cancellable at any time. It is what makes you represented — independently of any subscription.",
+      "mandatNote": "Free, cancellable at any time. It is what makes you represented, independently of any subscription.",
       "subNote": "Optional technology service. It never buys access to opportunities.",
       "manageSub": "Manage subscription (soon)",
       "signedOn": "Signed on {date}",
@@ -806,11 +817,11 @@
     },
     "profile": {
       "title": "My profile",
-      "subtitle": "A profile that looks like you — that is what the AI matches on."
+      "subtitle": "A profile that looks like you, that is what the AI matches on."
     },
     "selftape": {
       "title": "Reel & Self-tape",
-      "subtitle": "Your self-tape can change everything. We help you nail it — framing, light and sound in real time.",
+      "subtitle": "Your self-tape can change everything. We help you nail it: framing, light and sound in real time.",
       "takes": "Your takes",
       "degraded": "Reduced mode",
       "take": "Take {n}",
@@ -821,8 +832,8 @@
         "framing": "Center yourself and leave a little headroom.",
         "light": "Face a soft light source.",
         "sound": "Move closer to the mic and cut the background noise.",
-        "tooShort": "Your take is very short — play the whole scene.",
-        "excellent": "Great take — framing, light and sound all there."
+        "tooShort": "Your take is very short, play the whole scene.",
+        "excellent": "Great take, framing, light and sound all there."
       },
       "privacy": "Your recordings are private. Only you can see them until you choose to submit one."
     },
@@ -834,23 +845,29 @@
       "FREE": [
         "Profile, headshots and reel",
         "Reel & Self-tape",
-        "Career tracking"
+        "Career and earnings tracking",
+        "4 AI role searches"
       ],
       "PRO": [
-        "Everything in Free",
+        "Everything in Basic",
+        "50 AI role searches per month",
         "AI feedback on your self-tapes",
         "Faster replies from the Agental team",
         "Priority support"
       ],
       "PREMIUM": [
-        "Everything in Pro"
+        "Everything in Pro",
+        "More AI searches",
+        "More coaching",
+        "More features coming soon"
       ],
       "ULTIMATE": [
-        "Everything in Premium"
+        "Everything in Premium",
+        "More AI searches"
       ]
     },
     "media": {
-      "drop": "Drop your photos, reels or voice here — a reel shot on a phone is enough.",
+      "drop": "Drop your photos, reels or voice here, a reel shot on a phone is enough.",
       "setPrimary": "Set as primary",
       "delete": "Delete",
       "choose": "Choose files",
@@ -858,7 +875,7 @@
     },
     "profileEditor": {
       "completeness": "Profile completeness",
-      "completenessHint": "Your profile would benefit from more detail — the richer it is, the better it surfaces in searches.",
+      "completenessHint": "Your profile would benefit from more detail, the richer it is, the better it surfaces in searches.",
       "birthDate": "Date of birth",
       "bioPlaceholder": "A few lines about your path, what makes you unique…",
       "tabs": {
@@ -959,7 +976,7 @@
       "confirm": "Confirm deletion?"
     },
     "plans": {
-      "demo": "Demo mode — no real payment. The representation mandate stays free and separate whatever your plan.",
+      "demo": "Demo mode: no real payment. The representation mandate stays free and separate whatever your plan.",
       "current": "Current",
       "perMonth": "/month",
       "currentPlan": "Current plan",
@@ -969,7 +986,7 @@
       "title": "Subscription payback",
       "atVolume": "At your current volume, your plan",
       "save": "At your volume, the {plan} plan would save you {amount} a year.",
-      "best": "At your current volume, your {plan} plan is already the best value — no need to pay more.",
+      "best": "At your current volume, your {plan} plan is already the best value, no need to pay more.",
       "intro": "On an estimated annual volume of <strong>{amount}</strong> in fees, here is the total cost (commission + subscription) for each plan.",
       "columns": {
         "plan": "Plan",

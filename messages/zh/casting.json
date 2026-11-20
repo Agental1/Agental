@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "如何运作 — Agental Casting",
+      "title": "如何运作: Agental Casting",
       "description": "从选角需求到约见：Agental 如何筛掉 90% 的申请，只为您呈现真正相关的人选。"
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "价格 — Agental Casting",
+      "title": "价格: Agental Casting",
       "description": "按席位和用量定价，贴合您的选角业务。无需承诺。"
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "常见问题 — Agental Casting",
+      "title": "常见问题: Agental Casting",
       "description": "关于评分、中立性、自录试镜核验和 Agental Casting 价格的常见问题。"
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "项目和角色叫什么？",
-          "placeholder": "例如 Maxime — 剧集《Marée Haute》"
+          "placeholder": "例如 Maxime: 剧集《Marée Haute》"
         },
         "role": {
           "prompt": "用一句话描述这个角色。",

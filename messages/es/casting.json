@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Casting — El filtro de IA cualificado para sus cástines",
+    "title": "Agental Casting: El filtro de IA cualificado para sus cástines",
     "description": "Reciba los mejores talentos, no los más numerosos. Una lista corta, verificada y lista para convocar. Puntuación transparente, procedencia visible."
   },
   "nav": {
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "Cómo funciona — Agental Casting",
+      "title": "Cómo funciona: Agental Casting",
       "description": "Del briefing a la convocatoria: cómo Agental filtra el 90 % de las candidaturas para presentarle solo los perfiles realmente pertinentes."
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifas — Agental Casting",
+      "title": "Tarifas: Agental Casting",
       "description": "Una tarificación por puesto y por volumen, pensada para su actividad de casting. Sin compromiso."
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "Preguntas frecuentes — Agental Casting",
+      "title": "Preguntas frecuentes: Agental Casting",
       "description": "Sus dudas sobre la puntuación, la neutralidad, los self-tapes verificados y la tarificación de Agental Casting."
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "¿Cómo se llaman el proyecto y el papel?",
-          "placeholder": "p. ej. Maxime — serie Marée Haute"
+          "placeholder": "p. ej. Maxime: serie Marée Haute"
         },
         "role": {
           "prompt": "Describe al personaje en una frase.",

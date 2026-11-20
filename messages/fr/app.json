@@ -209,7 +209,7 @@
   },
   "admin": {
     "title": "Supervision",
-    "subtitle": "Back-office interne — pilotage, conformité et audit.",
+    "subtitle": "Back-office interne, pilotage, conformité et audit.",
     "nav": {
       "overview": "Supervision",
       "audit": "Audit trail",
@@ -231,7 +231,7 @@
     "noActivity": "Aucune activité.",
     "audit": {
       "title": "Audit trail",
-      "subtitle": "Toutes les décisions et actions, tracées — la neutralité prouvée.",
+      "subtitle": "Toutes les décisions et actions, tracées, la neutralité prouvée.",
       "date": "Date",
       "action": "Action",
       "resource": "Ressource",
@@ -318,7 +318,7 @@
     "languageMatch": "Langue demandée maîtrisée",
     "availability": "Disponibilité confirmée",
     "imageRights": "Droits image OK",
-    "sourcedOffRoster": "Sourcé hors roster — même scoring"
+    "sourcedOffRoster": "Sourcé hors roster, même scoring"
   },
   "rgpd": {
     "title": "Données personnelles (RGPD)",

@@ -4,18 +4,31 @@ import type { PlanB2C, PlanB2B } from "./enums";
  * Pricing & commission tables. Commission (B2C) is BUSINESS LOGIC applied to
  * cachets — never a Stripe concept. Prices are integer cents.
  */
+/**
+ * AI role-search allowance of a plan. `lifetime` is a one-time stock (Basic),
+ * `monthly` resets every calendar month (Pro). `null` means "not set yet".
+ */
+export type AiSearchAllowance =
+  | { kind: "lifetime"; count: number }
+  | { kind: "monthly"; count: number }
+  | null;
+
 export interface B2CPlanDef {
   plan: PlanB2C;
   priceCents: number;
   commissionRate: number; // fraction, e.g. 0.10
   dailyCandidatureLimit: number | null;
+  aiSearches: AiSearchAllowance;
 }
 
 export const B2C_PLANS: Record<PlanB2C, B2CPlanDef> = {
-  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0 },
-  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10 },
-  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50 },
-  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null },
+  // Internal id stays FREE (no migration); the display name is "Basic" (messages).
+  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "lifetime", count: 4 } },
+  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 } },
+  // TODO(founders): the AI search allowance for Premium and Ultimate is not decided.
+  // Until it is set, the pricing cards say "More AI searches".
+  PREMIUM: { plan: "PREMIUM", priceCents: 25000, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: null },
+  ULTIMATE: { plan: "ULTIMATE", priceCents: 50000, commissionRate: 0.06, dailyCandidatureLimit: null, aiSearches: null },
 };
 
 export interface B2BPlanDef {

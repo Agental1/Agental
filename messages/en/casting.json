@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Casting — The qualified AI filter for your castings",
+    "title": "Agental Casting: The qualified AI filter for your castings",
     "description": "Receive the best talents, not the most numerous. A short, verified short-list ready to call in. Transparent scoring, source displayed."
   },
   "nav": {
@@ -19,7 +19,7 @@
   "demo": {
     "eyebrow": "Interactive demo",
     "title": "One brief. One short-list.",
-    "subtitle": "Describe the role, the assistant structures your brief, and the short-list is generated — every profile's source is visible.",
+    "subtitle": "Describe the role, the assistant structures your brief, and the short-list is generated, every profile's source is visible.",
     "briefLabel": "Your role",
     "briefPlaceholder": "e.g. 'Maxime', male, 25–32, Breton accent, available in September",
     "generate": "Generate the short-list",
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "How it works — Agental Casting",
+      "title": "How it works: Agental Casting",
       "description": "From brief to call-in: how Agental filters 90% of applications to present you only the truly relevant profiles."
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Pricing — Agental Casting",
+      "title": "Pricing: Agental Casting",
       "description": "Per-seat and per-volume pricing, built for your casting activity. No commitment."
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "FAQ — Agental Casting",
+      "title": "FAQ: Agental Casting",
       "description": "Your questions about scoring, neutrality, verified self-tapes and Agental Casting pricing."
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "What is the project and role called?",
-          "placeholder": "e.g. Maxime — Marée Haute series"
+          "placeholder": "e.g. Maxime: Marée Haute series"
         },
         "role": {
           "prompt": "Describe the character in one sentence.",
@@ -391,7 +391,7 @@
       "skip": "Skip"
     },
     "plans": {
-      "demo": "Demo mode — no real payment. No commitment, cancel at any time.",
+      "demo": "Demo mode: no real payment. No commitment, cancel at any time.",
       "current": "Current",
       "currentPlan": "Current plan",
       "choose": "Choose",
@@ -507,7 +507,7 @@
     },
     "newBrief": {
       "title": "New brief",
-      "subtitle": "Describe the role — the assistant handles the rest."
+      "subtitle": "Describe the role, the assistant handles the rest."
     },
     "planFeatures": {
       "FREE": [

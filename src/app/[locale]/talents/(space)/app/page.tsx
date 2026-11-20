@@ -178,7 +178,7 @@ export default async function TalentsDashboard({
         </section>
       )}
 
-      {gaps.length > 0 && (
+      {!nextStep && gaps.length > 0 && (
         <section
           aria-labelledby="complete-profile"
           className="rounded-sedan border border-accent/40 bg-accent-soft/40 p-5"
