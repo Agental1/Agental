@@ -70,40 +70,44 @@ describe.skipIf(!local)("human Messages", () => {
 
   it("refuses a signed-out visitor and a casting account", async () => {
     session.mockResolvedValue(null);
-    expect(await sendMessage({ body: "Hi", clientKey: key(1) })).toEqual({
+    expect(await sendMessage({ body: "Hi", clientKey: key(1), topic: "other" })).toEqual({
       ok: false,
       error: { key: "errors.unauthorized" },
     });
     as(casting, "CASTING");
-    expect(await sendMessage({ body: "Hi", clientKey: key(1) })).toMatchObject({ ok: false });
+    expect(await sendMessage({ body: "Hi", clientKey: key(1), topic: "other" })).toMatchObject({ ok: false });
     expect(await prisma.thread.count({ where: { userId: casting } })).toBe(0);
   });
 
   it("stores a first message and shows the same thread after a reload", async () => {
     as(maya);
-    const sent = await sendMessage({ body: "  Hello, I have a question.  ", clientKey: key(2) });
+    const sent = await sendMessage({ body: "  Hello, I have a question.  ", clientKey: key(2), topic: "other" });
     expect(sent).toMatchObject({ ok: true });
     if (!sent.ok) return;
 
     const thread = await getMyThread(maya);
     expect(thread.threadId).toBe(sent.threadId);
-    expect(thread.messages).toHaveLength(1);
+    // The performer's message, then the assistant's answer.
+    expect(thread.messages).toHaveLength(2);
     expect(thread.messages[0]).toMatchObject({
       id: sent.messageId,
       body: "Hello, I have a question.",
       fromTeam: false,
+      fromAgent: false,
+      topic: "other",
       readAt: null,
     });
+    expect(thread.messages[1]).toMatchObject({ fromTeam: false, fromAgent: true });
     // Nothing about who wrote it is exposed beyond the side.
     expect(Object.keys(thread.messages[0]).sort()).toEqual(
-      ["body", "createdAt", "fromTeam", "id", "readAt"].sort()
+      ["body", "createdAt", "fromAgent", "fromTeam", "id", "readAt", "topic"].sort()
     );
   });
 
   it("stores one message when the same draft is sent twice", async () => {
     as(maya);
-    const first = await sendMessage({ body: "Sent once", clientKey: key(3) });
-    const again = await sendMessage({ body: "Sent once", clientKey: key(3) });
+    const first = await sendMessage({ body: "Sent once", clientKey: key(3), topic: "other" });
+    const again = await sendMessage({ body: "Sent once", clientKey: key(3), topic: "other" });
     expect(first).toMatchObject({ ok: true });
     expect(again).toEqual(first);
     const rows = await prisma.message.count({ where: { clientKey: key(3) } });
@@ -112,19 +116,19 @@ describe.skipIf(!local)("human Messages", () => {
 
   it("keeps one thread per performer, whatever the number of messages", async () => {
     as(maya);
-    await sendMessage({ body: "Another one", clientKey: key(4) });
+    await sendMessage({ body: "Another one", clientKey: key(4), topic: "other" });
     expect(await prisma.thread.count({ where: { userId: maya, kind: "TEAM" } })).toBe(1);
   });
 
   it("keeps two performers apart", async () => {
     as(leo);
-    const sent = await sendMessage({ body: "Leo here", clientKey: key(5) });
+    const sent = await sendMessage({ body: "Leo here", clientKey: key(5), topic: "other" });
     expect(sent).toMatchObject({ ok: true });
 
     const mine = await getMyThread(leo);
     const hers = await getMyThread(maya);
     expect(mine.threadId).not.toBe(hers.threadId);
-    expect(mine.messages.map((m) => m.body)).toEqual(["Leo here"]);
+    expect(mine.messages.filter((m) => !m.fromAgent).map((m) => m.body)).toEqual(["Leo here"]);
     expect(hers.messages.map((m) => m.body)).not.toContain("Leo here");
 
     // A performer is not the team: the team side gives them nothing, and they
@@ -161,7 +165,7 @@ describe.skipIf(!local)("human Messages", () => {
     const last = forMaya.messages.at(-1)!;
     expect(last).toMatchObject({ body: "Thanks Maya.", fromTeam: true, readAt: null });
     // Leo still sees only his own conversation.
-    expect((await getMyThread(leo)).messages.map((m) => m.body)).toEqual(["Leo here"]);
+    expect((await getMyThread(leo)).messages.filter((m) => !m.fromAgent).map((m) => m.body)).toEqual(["Leo here"]);
 
     const audit = await prisma.auditLog.findFirst({
       where: { actorUserId: admin, action: "message.team.reply" },
@@ -193,8 +197,8 @@ describe.skipIf(!local)("human Messages", () => {
   it("alerts the team inbox with the thread id only, and at most once per ten minutes", async () => {
     process.env.TEAM_INBOX_EMAIL = "inbox@test.local";
     as(leo);
-    await sendMessage({ body: "Private details here", clientKey: key(9) });
-    await sendMessage({ body: "And more", clientKey: key(10) });
+    await sendMessage({ body: "Private details here", clientKey: key(9), topic: "other" });
+    await sendMessage({ body: "And more", clientKey: key(10), topic: "other" });
     expect(sendEmail).toHaveBeenCalledTimes(1);
     const mail = sendEmail.mock.calls[0][0];
     expect(mail.to).toBe("inbox@test.local");
@@ -211,7 +215,7 @@ describe.skipIf(!local)("human Messages", () => {
     await prisma.rateLimitEvent.deleteMany({ where: { key: { startsWith: "msg-alert:" } } });
     const quiet = vi.spyOn(console, "error").mockImplementation(() => {});
     as(maya);
-    const sent = await sendMessage({ body: "Stored anyway", clientKey: key(11) });
+    const sent = await sendMessage({ body: "Stored anyway", clientKey: key(11), topic: "other" });
     quiet.mockRestore();
     expect(sent).toMatchObject({ ok: true });
     expect((await getMyThread(maya)).messages.map((m) => m.body)).toContain("Stored anyway");
@@ -221,10 +225,10 @@ describe.skipIf(!local)("human Messages", () => {
     as(leo);
     let refused = 0;
     for (let i = 0; i < 25; i += 1) {
-      const result = await sendMessage({ body: `burst ${i}`, clientKey: key(100 + i) });
+      const result = await sendMessage({ body: `burst ${i}`, clientKey: key(100 + i), topic: "other" });
       if (!result.ok && result.error.key === "errors.tooManyAttempts") refused += 1;
     }
     expect(refused).toBeGreaterThan(0);
-    expect((await getMyThread(leo)).messages.length).toBeLessThanOrEqual(20);
+    expect((await getMyThread(leo)).messages.filter((m) => !m.fromAgent).length).toBeLessThanOrEqual(20);
   });
 });

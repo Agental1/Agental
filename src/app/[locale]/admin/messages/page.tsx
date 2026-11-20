@@ -102,8 +102,12 @@ export default async function AdminMessagesPage({
                               {t("admin.messages.unread", { count: row.unread })}
                             </Badge>
                           )}
-                          {row.awaitingReply && (
-                            <Badge variant="warning">{t("admin.messages.awaitingReply")}</Badge>
+                          {row.waitingForTeam ? (
+                            <Badge variant="warning">{t("admin.messages.waitingForTeam")}</Badge>
+                          ) : (
+                            row.awaitingReply && (
+                              <Badge variant="warning">{t("admin.messages.awaitingReply")}</Badge>
+                            )
                           )}
                         </span>
                       )}
@@ -135,6 +139,11 @@ export default async function AdminMessagesPage({
                   {performerName}
                 </h2>
                 <p className="text-sm text-fg-muted">{open.user.email}</p>
+                {open.waitingForTeam && (
+                  <Badge variant="warning" className="mt-2">
+                    {t("admin.messages.waitingForTeam")}
+                  </Badge>
+                )}
               </header>
               <div className="space-y-5 p-5">
                 <MessageList
@@ -142,6 +151,8 @@ export default async function AdminMessagesPage({
                   ownSide="team"
                   teamLabel={t("admin.messages.team")}
                   performerLabel={performerName}
+                  assistantLabel={t("admin.messages.assistant")}
+                  topicLabels={{ profile: t("admin.messages.topics.profile"), application: t("admin.messages.topics.application"), other: t("admin.messages.topics.other") }}
                   locale={locale}
                 />
                 <MessageComposer

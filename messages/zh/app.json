@@ -141,7 +141,8 @@
     "studentEmailNotSchool": "请使用以 .edu 结尾的学校邮箱。",
     "studentEmailTaken": "此学校邮箱已验证过另一个账户。",
     "studentEmailAlready": "你的学生优惠已验证。",
-    "studentEmailTooMany": "请求过多，请一小时后再试。"
+    "studentEmailTooMany": "请求过多，请一小时后再试。",
+    "messageTopicRequired": "请选择消息的主题。"
   },
   "auth": {
     "name": "姓名",
@@ -293,7 +294,14 @@
       "placeholder": "写下回复",
       "send": "发送回复",
       "sending": "正在发送…",
-      "hint": "演员会在自己的“消息”页面看到这条回复。"
+      "hint": "演员会在自己的“消息”页面看到这条回复。",
+      "waitingForTeam": "等待 Agental 团队回复",
+      "assistant": "Agental 助手",
+      "topics": {
+        "profile": "我的资料",
+        "application": "角色或申请",
+        "other": "其他"
+      }
     },
     "limelight": {
       "title": "Limelight 申请",

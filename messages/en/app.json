@@ -141,7 +141,8 @@
     "studentEmailNotSchool": "Use your school address, ending in .edu.",
     "studentEmailTaken": "This school email already verified another account.",
     "studentEmailAlready": "Your student discount is already verified.",
-    "studentEmailTooMany": "Too many requests. Try again in an hour."
+    "studentEmailTooMany": "Too many requests. Try again in an hour.",
+    "messageTopicRequired": "Pick what your message is about."
   },
   "auth": {
     "name": "Name",
@@ -293,7 +294,14 @@
       "placeholder": "Write a reply",
       "send": "Send reply",
       "sending": "Sending…",
-      "hint": "The performer reads it on their Messages page."
+      "hint": "The performer reads it on their Messages page.",
+      "waitingForTeam": "Waiting for the Agental team",
+      "assistant": "Agental assistant",
+      "topics": {
+        "profile": "My profile",
+        "application": "A role or application",
+        "other": "Something else"
+      }
     },
     "limelight": {
       "title": "Limelight requests",

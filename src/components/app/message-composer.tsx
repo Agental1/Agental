@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, useTransition } from "react";
 import { Loader2, Send } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
@@ -21,7 +22,13 @@ export interface ComposerLabels {
   sending: string;
   /** One line under the field, e.g. where the answer will arrive. */
   hint?: string;
+  /** Performer side: "What is it about?" and the three choices. */
+  topicLegend?: string;
+  topics?: { profile: string; application: string; other: string };
 }
+
+type Topic = "profile" | "application" | "other";
+const TOPICS: Topic[] = ["profile", "application", "other"];
 
 /**
  * Writes one message in a performer's conversation with the Agental team.
@@ -45,15 +52,22 @@ export function MessageComposer({
   const [clientKey, setClientKey] = useState(() => crypto.randomUUID());
   const [error, setError] = useState<ActionError | undefined>();
   const [pending, start] = useTransition();
+  const locale = useLocale();
+  const needsTopic = !threadId && !!labels.topics;
+  const [topic, setTopic] = useState<Topic | null>(null);
   const empty = body.trim().length === 0;
 
   function submit(e: React.SyntheticEvent) {
     e.preventDefault();
     if (empty || pending) return;
+    if (needsTopic && !topic) {
+      setError(err("errors.messageTopicRequired"));
+      return;
+    }
     setError(undefined);
     start(async () => {
       try {
-        const input = { body, clientKey };
+        const input = needsTopic ? { body, clientKey, topic, locale } : { body, clientKey };
         const res = threadId ? await replyAsTeam(threadId, input) : await sendMessage(input);
         if (!res.ok) {
           setError(res.error);
@@ -71,6 +85,31 @@ export function MessageComposer({
 
   return (
     <form onSubmit={submit} className="space-y-3" aria-busy={pending}>
+      {needsTopic && labels.topics && (
+        <fieldset className="space-y-2">
+          <legend className="text-sm font-medium">{labels.topicLegend}</legend>
+          <div className="flex flex-wrap gap-2">
+            {TOPICS.map((value) => (
+              <label key={value} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name={`${id}-topic`}
+                  value={value}
+                  checked={topic === value}
+                  onChange={() => {
+                    setTopic(value);
+                    setError(undefined);
+                  }}
+                  className="peer sr-only"
+                />
+                <span className="inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-sm hover:border-accent peer-checked:border-accent peer-checked:bg-accent-soft peer-checked:font-bold peer-checked:text-accent peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
+                  {labels.topics![value]}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
       <label htmlFor={id} className="text-sm font-medium">
         {labels.label}
       </label>

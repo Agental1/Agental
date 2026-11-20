@@ -448,12 +448,16 @@ model Thread {
   kind          String    @default("GENERAL") // GENERAL | TEAM
   userId        String?
   lastMessageAt DateTime?
+  // Set when the assistant hands the conversation to a person; cleared when
+  // the team answers. Shown as "Waiting for the Agental team".
+  waitingForTeamSince DateTime?
   messages      Message[]
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, kind])
   @@index([kind, lastMessageAt])
+  @@index([kind, waitingForTeamSince])
   @@schema("public")
 }
 
@@ -470,6 +474,10 @@ model Message {
   fromTeam    Boolean   @default(false)
   // A random id the browser makes per draft, so a retry stores one message.
   clientKey   String?
+  // What the performer said the message is about: profile | application | other.
+  topic       String?
+  // Written by the Agental assistant, not by a person. Shown as the assistant.
+  fromAgent   Boolean   @default(false)
 
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)

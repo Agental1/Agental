@@ -1136,6 +1136,28 @@
       "confirmExpired": "Ce lien a expiré. Demande-en un nouveau depuis Abonnement.",
       "confirmTaken": "Cette adresse universitaire a déjà vérifié un autre compte.",
       "back": "Aller à Abonnement"
+    },
+    "assistant": {
+      "greeting": "Bonjour {name}.",
+      "greetingAnon": "Bonjour.",
+      "profileStatus": "Ton profil est complet à {percent} %. Prochaine étape : {next}.",
+      "profileStatusNoNext": "Ton profil est complet à {percent} %.",
+      "profileComplete": "Ton profil est complet. Tu peux lancer ta première recherche depuis le tableau de bord.",
+      "noApplications": "Tu n’as pas encore de candidature. Quand un rôle s’ouvre pour toi, il apparaît dans Candidatures.",
+      "applicationsIntro": "Tu as {count} candidature(s) :",
+      "applicationLine": "- {title} : {status}",
+      "searches": "Recherches de rôles IA en cours : {count}.",
+      "plan": "Tu es en formule {plan}. Tu peux comparer et changer de formule depuis Abonnement.",
+      "handoff": "Je ne suis pas sûr de bien pouvoir répondre, j’ai donc transmis ton message à l’équipe Agental. Elle te répondra ici.",
+      "assistant": "Assistant Agental",
+      "waiting": "En attente de l’équipe Agental",
+      "topicLegend": "C’est à propos de quoi ?",
+      "topics": {
+        "profile": "Mon profil",
+        "application": "Un rôle ou une candidature",
+        "other": "Autre chose"
+      },
+      "topicRequired": "Choisis le sujet de ton message."
     }
   },
   "responseRate": {

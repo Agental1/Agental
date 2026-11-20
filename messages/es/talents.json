@@ -1136,6 +1136,28 @@
       "confirmExpired": "Este enlace ha caducado. Pide uno nuevo desde Suscripción.",
       "confirmTaken": "Este correo universitario ya verificó otra cuenta.",
       "back": "Ir a Suscripción"
+    },
+    "assistant": {
+      "greeting": "Hola, {name}.",
+      "greetingAnon": "Hola.",
+      "profileStatus": "Tu perfil está completo al {percent} %. Siguiente paso: {next}.",
+      "profileStatusNoNext": "Tu perfil está completo al {percent} %.",
+      "profileComplete": "Tu perfil está completo. Puedes lanzar tu primera búsqueda desde el panel.",
+      "noApplications": "Aún no tienes candidaturas. Cuando se abra un papel para ti, aparecerá en Candidaturas.",
+      "applicationsIntro": "Tienes {count} candidatura(s):",
+      "applicationLine": "- {title}: {status}",
+      "searches": "Búsquedas de papeles con IA en curso: {count}.",
+      "plan": "Estás en el plan {plan}. Puedes comparar y cambiar de plan desde Suscripción.",
+      "handoff": "No estoy seguro de poder responder bien, así que he pasado tu mensaje al equipo de Agental. Te responderá aquí.",
+      "assistant": "Asistente de Agental",
+      "waiting": "Esperando al equipo de Agental",
+      "topicLegend": "¿De qué se trata?",
+      "topics": {
+        "profile": "Mi perfil",
+        "application": "Un papel o una candidatura",
+        "other": "Otra cosa"
+      },
+      "topicRequired": "Elige de qué trata tu mensaje."
     }
   },
   "responseRate": {

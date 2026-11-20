@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { hitRateLimit } from "@/lib/rate-limit";
 import { sendEmail } from "@/lib/mailer";
+import { answerMessage } from "@/lib/assistant";
 import { err, type ActionError, type ErrorKey } from "@/domain/action-result";
 import {
   MESSAGE_MAX_LENGTH,
@@ -38,6 +39,7 @@ export type MessageActionResult = { ok: true } | { ok: false; error: ActionError
 const KNOWN_INPUT_ERRORS: ReadonlySet<string> = new Set([
   "errors.messageEmpty",
   "errors.messageTooLong",
+  "errors.messageTopicRequired",
 ]);
 
 function inputError(issueMessage: string | undefined): ActionError {
@@ -87,6 +89,61 @@ async function alertTeam(threadId: string): Promise<void> {
 }
 
 /**
+ * The Agental assistant answers right after the performer's message. Its
+ * answer is a message of its own (fromAgent). When it is not confident, or a
+ * person must answer, the thread is marked "Waiting for the Agental team" and
+ * the team is alerted; the team keeps reading every thread either way.
+ * A failure here never loses the performer's message: it hands off.
+ */
+async function replyAsAssistant(input: {
+  userId: string;
+  threadId: string;
+  messageId: string;
+  topic: "profile" | "application" | "other";
+  question: string;
+  locale: string;
+}): Promise<void> {
+  let handoff = true;
+  try {
+    const recent = await prisma.message.findMany({
+      where: { threadId: input.threadId, id: { not: input.messageId } },
+      orderBy: { createdAt: "desc" },
+      take: 6,
+      select: { body: true, fromTeam: true, fromAgent: true },
+    });
+    const answer = await answerMessage({
+      userId: input.userId,
+      topic: input.topic,
+      question: input.question,
+      locale: input.locale,
+      history: recent.reverse().map((m) => ({
+        from: m.fromTeam ? "team" : m.fromAgent ? "assistant" : "performer",
+        body: m.body,
+      })),
+    });
+    handoff = answer.handoff;
+    await postMessage(prisma, {
+      threadId: input.threadId,
+      senderId: null,
+      fromTeam: false,
+      fromAgent: true,
+      body: answer.text,
+      // One answer per performer message, even if this runs twice.
+      clientKey: `agent-${input.messageId}`,
+    });
+  } catch (error) {
+    console.error("[assistant] no answer, handed to the team", error instanceof Error ? error.name : "error");
+  }
+  if (handoff) {
+    await prisma.thread.updateMany({
+      where: { id: input.threadId, waitingForTeamSince: null },
+      data: { waitingForTeamSince: new Date() },
+    });
+    await alertTeam(input.threadId);
+  }
+}
+
+/**
  * Send a message to the Agental team.
  *
  * The thread is the caller's own, found from the session: no thread id is
@@ -104,6 +161,8 @@ export async function sendMessage(input: unknown): Promise<SendMessageResult> {
   if (!parsed.success) {
     return { ok: false, error: inputError(parsed.error.issues[0]?.message) };
   }
+  const topic = parsed.data.topic;
+  if (!topic) return { ok: false, error: err("errors.messageTopicRequired") };
 
   const gate = await hitRateLimit(prisma, `msg:${userId}`, MESSAGE_RATE);
   if (!gate.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
@@ -115,11 +174,19 @@ export async function sendMessage(input: unknown): Promise<SendMessageResult> {
     fromTeam: false,
     body: parsed.data.body,
     clientKey: parsed.data.clientKey,
+    topic,
   });
   if (!posted) return { ok: false, error: err("errors.invalidInput") };
 
   if (posted.created) {
-    await alertTeam(threadId);
+    await replyAsAssistant({
+      userId,
+      threadId,
+      messageId: posted.messageId,
+      topic,
+      question: parsed.data.body,
+      locale: parsed.data.locale ?? session.user.locale ?? "en",
+    });
     revalidateMessages();
   }
   return {
@@ -138,7 +205,7 @@ export async function markMyThreadRead(): Promise<MessageActionResult> {
   await prisma.message.updateMany({
     where: {
       thread: { userId, kind: TEAM_THREAD },
-      fromTeam: true,
+      OR: [{ fromTeam: true }, { fromAgent: true }],
       readAt: null,
     },
     data: { readAt: new Date() },
@@ -193,6 +260,10 @@ export async function replyAsTeam(
       where: { threadId: thread.id, fromTeam: false, readAt: null },
       data: { readAt: posted.createdAt },
     });
+    await prisma.thread.update({
+      where: { id: thread.id },
+      data: { waitingForTeamSince: null },
+    });
     await audit({
       actorUserId: adminId,
       action: "message.team.reply",
@@ -222,6 +293,7 @@ export async function markThreadRead(threadId: string): Promise<MessageActionRes
     where: {
       thread: { id: threadId, kind: TEAM_THREAD },
       fromTeam: false,
+      fromAgent: false,
       readAt: null,
     },
     data: { readAt: new Date() },

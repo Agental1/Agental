@@ -1136,6 +1136,28 @@
       "confirmExpired": "This link has expired. Ask for a new one from Subscription.",
       "confirmTaken": "This school email already verified another account.",
       "back": "Go to Subscription"
+    },
+    "assistant": {
+      "greeting": "Hi {name}.",
+      "greetingAnon": "Hi.",
+      "profileStatus": "Your profile is {percent}% complete. Next step: {next}.",
+      "profileStatusNoNext": "Your profile is {percent}% complete.",
+      "profileComplete": "Your profile is complete. You can launch your first research from the dashboard.",
+      "noApplications": "You have no applications yet. When a role is opened for you, it shows on the Applications page.",
+      "applicationsIntro": "You have {count} application(s):",
+      "applicationLine": "- {title}: {status}",
+      "searches": "AI role searches in progress: {count}.",
+      "plan": "You are on the {plan} plan. You can compare plans and switch from the Subscription page.",
+      "handoff": "I'm not sure I can answer this well, so I've passed your message to the Agental team. They will reply here.",
+      "assistant": "Agental assistant",
+      "waiting": "Waiting for the Agental team",
+      "topicLegend": "What is it about?",
+      "topics": {
+        "profile": "My profile",
+        "application": "A role or application",
+        "other": "Something else"
+      },
+      "topicRequired": "Pick what your message is about."
     }
   },
   "responseRate": {

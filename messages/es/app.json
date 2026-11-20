@@ -141,7 +141,8 @@
     "studentEmailNotSchool": "Usa tu correo universitario, que termina en .edu.",
     "studentEmailTaken": "Este correo universitario ya verificó otra cuenta.",
     "studentEmailAlready": "Tu descuento de estudiante ya está verificado.",
-    "studentEmailTooMany": "Demasiadas solicitudes. Inténtalo de nuevo en una hora."
+    "studentEmailTooMany": "Demasiadas solicitudes. Inténtalo de nuevo en una hora.",
+    "messageTopicRequired": "Elige de qué trata tu mensaje."
   },
   "auth": {
     "name": "Nombre",
@@ -293,7 +294,14 @@
       "placeholder": "Escribe una respuesta",
       "send": "Enviar respuesta",
       "sending": "Enviando…",
-      "hint": "El artista la lee en su página de Mensajes."
+      "hint": "El artista la lee en su página de Mensajes.",
+      "waitingForTeam": "Esperando al equipo de Agental",
+      "assistant": "Asistente de Agental",
+      "topics": {
+        "profile": "Mi perfil",
+        "application": "Un papel o una candidatura",
+        "other": "Otra cosa"
+      }
     },
     "limelight": {
       "title": "Solicitudes de Limelight",

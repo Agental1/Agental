@@ -39,6 +39,10 @@ export const SendMessageInput = z.object({
         .max(MESSAGE_MAX_LENGTH, "errors.messageTooLong")
     ),
   clientKey: z.string().regex(/^[A-Za-z0-9_-]{8,100}$/, "errors.invalidInput"),
+  /** Performer messages only: what it is about (see src/domain/assistant.ts). */
+  topic: z.enum(["profile", "application", "other"], { error: "errors.messageTopicRequired" }).optional(),
+  /** The page's language, for the assistant's answer. */
+  locale: z.string().max(5).optional(),
 });
 export type SendMessageInput = z.infer<typeof SendMessageInput>;
 
@@ -48,6 +52,10 @@ export interface ThreadMessage {
   body: string;
   /** true: written by the Agental team. false: written by the performer. */
   fromTeam: boolean;
+  /** Written by the Agental assistant (fromTeam is false). */
+  fromAgent: boolean;
+  /** Performer messages: profile | application | other, when given. */
+  topic: string | null;
   createdAt: Date;
   /** When the other side opened it, or null. */
   readAt: Date | null;

@@ -28,6 +28,8 @@ const MESSAGE_FIELDS = {
   id: true,
   body: true,
   fromTeam: true,
+  fromAgent: true,
+  topic: true,
   createdAt: true,
   readAt: true,
 } as const;
@@ -35,6 +37,8 @@ const MESSAGE_FIELDS = {
 export interface MyThread {
   /** Null until the performer sends a first message. */
   threadId: string | null;
+  /** The assistant handed over and the team has not answered yet. */
+  waitingForTeam: boolean;
   /** Oldest first, the most recent THREAD_PAGE_SIZE at most. */
   messages: ThreadMessage[];
 }
@@ -53,10 +57,14 @@ async function recentMessages(db: Pick<Db, "message">, threadId: string) {
 export async function getMyThread(userId: string, db: Db = prisma): Promise<MyThread> {
   const thread = await db.thread.findUnique({
     where: { userId_kind: { userId, kind: TEAM_THREAD } },
-    select: { id: true },
+    select: { id: true, waitingForTeamSince: true },
   });
-  if (!thread) return { threadId: null, messages: [] };
-  return { threadId: thread.id, messages: await recentMessages(db, thread.id) };
+  if (!thread) return { threadId: null, waitingForTeam: false, messages: [] };
+  return {
+    threadId: thread.id,
+    waitingForTeam: thread.waitingForTeamSince !== null,
+    messages: await recentMessages(db, thread.id),
+  };
 }
 
 export interface PostedMessage {
@@ -87,10 +95,13 @@ export async function postMessage(
   db: Pick<PrismaClient, "thread" | "message">,
   input: {
     threadId: string;
-    senderId: string;
+    senderId: string | null;
     fromTeam: boolean;
     body: string;
     clientKey: string;
+    /** The Agental assistant wrote it (fromTeam stays false). */
+    fromAgent?: boolean;
+    topic?: string | null;
     now?: Date;
   }
 ): Promise<PostedMessage | null> {
@@ -101,6 +112,8 @@ export async function postMessage(
         threadId: input.threadId,
         senderId: input.senderId,
         fromTeam: input.fromTeam,
+        fromAgent: input.fromAgent ?? false,
+        topic: input.topic ?? null,
         body: input.body,
         clientKey: input.clientKey,
         createdAt: now,
@@ -170,6 +183,8 @@ export interface TeamThreadRow {
   preview: string;
   /** The latest message is the performer's: the team has not answered it. */
   awaitingReply: boolean;
+  /** The assistant handed the conversation over: "Waiting for the Agental team". */
+  waitingForTeam: boolean;
   /** Messages from the performer the team has not opened. */
   unread: number;
 }
@@ -189,13 +204,14 @@ export async function listTeamThreads(
     select: {
       id: true,
       lastMessageAt: true,
+      waitingForTeamSince: true,
       user: { select: { id: true, name: true, email: true } },
       messages: {
         orderBy: [{ createdAt: "desc" }, { id: "desc" }],
         take: 1,
-        select: { body: true, fromTeam: true },
+        select: { body: true, fromTeam: true, fromAgent: true },
       },
-      _count: { select: { messages: { where: { fromTeam: false, readAt: null } } } },
+      _count: { select: { messages: { where: { fromTeam: false, fromAgent: false, readAt: null } } } },
     },
   });
   const rows: TeamThreadRow[] = [];
@@ -207,7 +223,9 @@ export async function listTeamThreads(
       user: thread.user,
       lastMessageAt: thread.lastMessageAt,
       preview: last ? messagePreview(last.body) : "",
-      awaitingReply: last ? !last.fromTeam : false,
+      awaitingReply:
+        thread.waitingForTeamSince !== null || (last ? !last.fromTeam && !last.fromAgent : false),
+      waitingForTeam: thread.waitingForTeamSince !== null,
       unread: thread._count.messages,
     });
   }
@@ -216,6 +234,7 @@ export async function listTeamThreads(
 
 export interface TeamThread {
   threadId: string;
+  waitingForTeam: boolean;
   user: { id: string; name: string | null; email: string };
   messages: ThreadMessage[];
 }
@@ -229,11 +248,16 @@ export async function getTeamThread(
   if (!(await isTeamMember(viewerUserId, db))) return null;
   const thread = await db.thread.findFirst({
     where: { id: threadId, kind: TEAM_THREAD },
-    select: { id: true, user: { select: { id: true, name: true, email: true } } },
+    select: {
+      id: true,
+      waitingForTeamSince: true,
+      user: { select: { id: true, name: true, email: true } },
+    },
   });
   if (!thread?.user) return null;
   return {
     threadId: thread.id,
+    waitingForTeam: thread.waitingForTeamSince !== null,
     user: thread.user,
     messages: await recentMessages(db, thread.id),
   };

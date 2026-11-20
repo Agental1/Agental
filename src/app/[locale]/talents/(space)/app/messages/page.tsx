@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { MessageSquare, Users } from "lucide-react";
+import { Clock, MessageSquare, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { getMyThread } from "@/lib/messages";
 import { AgentFindPreview } from "@/components/talents/agent-find-preview";
@@ -36,7 +36,7 @@ export default async function MessagesPage({
   const session = await auth();
   if (!session?.user?.id) return null;
 
-  const { threadId, messages } = await getMyThread(session.user.id);
+  const { threadId, messages, waitingForTeam } = await getMyThread(session.user.id);
 
   return (
     <div className="space-y-6">
@@ -63,6 +63,12 @@ export default async function MessagesPage({
         </header>
 
         <div className="space-y-5 p-5">
+          {waitingForTeam && (
+            <p role="status" className="inline-flex items-center gap-2 rounded-full border border-warning/40 bg-surface-2 px-3 py-1 text-sm font-medium text-warning">
+              <Clock aria-hidden="true" className="size-4" />
+              {t("space.assistant.waiting")}
+            </p>
+          )}
           {messages.length === 0 ? (
             <div className="rounded-sedan border border-dashed border-border bg-surface-2/40 p-6 text-center">
               <MessageSquare aria-hidden="true" className="mx-auto size-7 text-accent" />
@@ -77,6 +83,8 @@ export default async function MessagesPage({
               ownSide="performer"
               teamLabel={t("space.team.title")}
               performerLabel={t("space.messages.you")}
+              assistantLabel={t("space.assistant.assistant")}
+              topicLabels={{ profile: t("space.assistant.topics.profile"), application: t("space.assistant.topics.application"), other: t("space.assistant.topics.other") }}
               locale={locale}
             />
           )}
@@ -88,6 +96,8 @@ export default async function MessagesPage({
               send: t("space.messages.send"),
               sending: t("space.messages.sending"),
               hint: t("space.messages.repliesHere"),
+              topicLegend: t("space.assistant.topicLegend"),
+              topics: { profile: t("space.assistant.topics.profile"), application: t("space.assistant.topics.application"), other: t("space.assistant.topics.other") },
             }}
           />
         </div>

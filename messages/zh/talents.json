@@ -1136,6 +1136,28 @@
       "confirmExpired": "此链接已过期，请在订阅页面重新申请。",
       "confirmTaken": "此学校邮箱已验证过另一个账户。",
       "back": "前往订阅"
+    },
+    "assistant": {
+      "greeting": "{name}，你好。",
+      "greetingAnon": "你好。",
+      "profileStatus": "你的资料已完成 {percent}%。下一步：{next}。",
+      "profileStatusNoNext": "你的资料已完成 {percent}%。",
+      "profileComplete": "你的资料已完整，可以在控制台开始第一次搜索。",
+      "noApplications": "你还没有申请。有角色为你开放时，会显示在申请页面。",
+      "applicationsIntro": "你有 {count} 个申请：",
+      "applicationLine": "- {title}：{status}",
+      "searches": "进行中的 AI 角色搜索：{count}。",
+      "plan": "你当前是{plan}方案，可以在订阅页面比较和更换方案。",
+      "handoff": "我不确定能回答好这个问题，已将你的消息转给 Agental 团队，他们会在这里回复你。",
+      "assistant": "Agental 助手",
+      "waiting": "等待 Agental 团队回复",
+      "topicLegend": "是关于什么的？",
+      "topics": {
+        "profile": "我的资料",
+        "application": "角色或申请",
+        "other": "其他"
+      },
+      "topicRequired": "请选择消息的主题。"
     }
   },
   "responseRate": {
