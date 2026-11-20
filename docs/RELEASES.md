@@ -8,6 +8,7 @@ Every version that goes live on agental.co gets a git tag and a line here, so th
 | 2026-11-18 | `live-2026-11-18-redesign` | `1e114eb` | `agental-8ey3sbi7v-agentalco.vercel.app` | Blue themes, A monogram, new public pages, app shell |
 | 2026-11-19 | `live-2026-11-19-round2` | `b506458` | `agental-rmh721urr-agentalco.vercel.app` | Audience pages with account card, home sections, Limelight templates and Try it, cookie consent, tour, uploads, Your website. Applied four database migrations. |
 | 2026-11-19 | `live-2026-11-19-release1` | `18c3287` | `agental-2bj1oiw9g-agentalco.vercel.app` | Beta notices (footer, About, Limelight), Settings > Connected accounts, forgot password, reset and email confirmation pages, release log, handoff file. No migration. |
+| 2026-11-19 | `live-2026-11-19-release2` | `bff6edb` | `agental-exmsrxj64-agentalco.vercel.app` | Beta wording, mandate step replaced by a beta notice, setup resume, Limelight flow and Maya Okafor sample, Agental Find preview, human Messages and team inbox, Limelight requests admin, Specialties and Preferences, Your website approve and publish. Applied three additive migrations. |
 
 ## Going back one step
 
