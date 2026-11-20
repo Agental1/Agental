@@ -1,11 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { SpecialtyKind } from "@/domain/enums";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
-import { useState, useTransition } from "react";
-import { Check, Loader2, Sparkles } from "lucide-react";
+import { useId, useState, useTransition } from "react";
+import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -16,6 +17,18 @@ import type { PhysicalTraits } from "@/domain/json";
 import type { HeightValue } from "@/domain/height";
 import { DEFAULT_PROFILE_TAB, type ProfileTab } from "@/domain/profile-tabs";
 import {
+  COMPENSATION,
+  PROJECT_TYPES,
+  ROLE_TYPES,
+  TRAVEL,
+  WORK_MODES,
+  type ContentBoundaries,
+  type Preferences,
+} from "@/domain/preferences";
+import {
+  addAvailability,
+  deleteAvailability,
+  saveContentBoundaries,
   saveProfileIdentity,
   saveProfilePhysical,
   saveProfileSpecialties,
@@ -39,12 +52,20 @@ export interface ProfileEditorData {
   minRateEuros?: number;
   completeness: number;
   media: MediaItem[];
-  preferences: {
-    autoApply: boolean;
-    dailyCap?: number;
-    nudity: boolean;
-    animals: boolean;
-  };
+  /** Job preferences, as readPreferences returns them: unset stays unset. */
+  preferences: Preferences;
+  /** Private to the performer. Saved apart from the preferences. */
+  contentBoundaries: ContentBoundaries;
+  /** Server-owned, like media: changed by its own actions, then refreshed. */
+  availability: AvailabilityItem[];
+}
+
+export interface AvailabilityItem {
+  id: string;
+  /** yyyy-mm-dd */
+  from: string;
+  to: string;
+  type: "AVAILABLE" | "UNAVAILABLE";
 }
 
 function splitList(v: string) {
@@ -72,10 +93,14 @@ export function ProfileEditor({
         : undefined,
   }));
 
+  // Controlled, so Preferences can send the performer to the Physical tab,
+  // where languages are edited.
+  const [tab, setTab] = useState<string>(initialTab);
+
   return (
     <div className="space-y-6">
       <Completeness value={data.completeness} />
-      <Tabs defaultValue={initialTab}>
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="flex-wrap">
           <TabsTrigger value="identite">{t("space.profileEditor.tabs.identity")}</TabsTrigger>
           <TabsTrigger value="physique">{t("space.profileEditor.tabs.physical")}</TabsTrigger>
@@ -106,7 +131,15 @@ export function ProfileEditor({
           <SpecialtiesTab data={data} setData={setData} />
         </TabsContent>
         <TabsContent value="preferences">
-          <PreferencesTab data={data} setData={setData} />
+          <div className="space-y-8">
+            <PreferencesTab
+              data={data}
+              setData={setData}
+              availability={initial.availability}
+              onEditLanguages={() => setTab("physique")}
+            />
+            <ContentBoundariesSection data={data} setData={setData} />
+          </div>
         </TabsContent>
       </Tabs>
     </div>
@@ -308,6 +341,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
   const { save, pending, saved, error } = useSave(saveProfileSpecialties);
   return (
     <div className="max-w-xl space-y-4">
+      <p className="text-sm text-fg-muted">{t("space.profileEditor.specialtiesHint")}</p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {SPECIALTY_KINDS.map((kind) => {
           const active = data.specialties.includes(kind);
@@ -354,50 +388,342 @@ function SpecialtiesTab({ data, setData }: TabProps) {
   );
 }
 
-function PreferencesTab({ data, setData }: TabProps) {
+function PreferencesTab({
+  data,
+  setData,
+  availability,
+  onEditLanguages,
+}: TabProps & { availability: AvailabilityItem[]; onEditLanguages: () => void }) {
   const t = useTranslations("talents");
   const { save, pending, saved, error } = useSave(savePreferences);
   const pr = data.preferences;
-  const setPr = (patch: Partial<Draft["preferences"]>) =>
-    setData({ ...data, preferences: { ...pr, ...patch } });
-  return (
-    <div className="max-w-xl space-y-4">
-      {/* The "auto-application" toggle and the daily cap field were removed
-          here, not reworded. Both promised behaviour the product does not have:
-          dailyCandidatureLimit (src/domain/pricing.ts) has zero readers in all
-          of src/, Candidature rows are only ever created by the casting-side
-          shortlist flow (actions/brief.ts), and there is no talent-facing apply
-          screen at all. Removing the same claim from the pricing page while
-          leaving it as a live control inside the paid product would just move
-          the problem somewhere harder to see.
+  const setPr = (patch: Partial<Preferences>) =>
+    setData((d) => ({ ...d, preferences: { ...d.preferences, ...patch } }));
+  const p = "space.profileEditor.prefs" as const;
+  const languages = data.physical.languages;
 
-          The `autoApply` and `dailyCap` fields stay in the data model, so
-          nothing is lost the day the feature actually ships. */}
-      <Toggle label={t("space.profileEditor.nudity")} checked={pr.nudity} onChange={(v) => setPr({ nudity: v })} />
-      <Toggle label={t("space.profileEditor.animals")} checked={pr.animals} onChange={(v) => setPr({ animals: v })} />
-      <SaveBar pending={pending} saved={saved} error={error} onSave={() => save(pr)} />
+  return (
+    <div className="max-w-2xl space-y-6">
+      {/* The auto-application toggle and the daily cap stay out: the product
+          has no talent-side apply flow for them to drive. Nudity moved to
+          Content boundaries, below, which only the performer sees. */}
+      <p className="text-sm text-fg-muted">{t(`${p}.optionalHint`)}</p>
+
+      <ChipGroup
+        legend={t(`${p}.projectTypes`)}
+        options={PROJECT_TYPES.map((v) => ({ value: v, label: t(`${p}.projectTypeLabels.${v}`) }))}
+        selected={pr.projectTypes}
+        onChange={(projectTypes) => setPr({ projectTypes })}
+      />
+      <ChipGroup
+        legend={t(`${p}.roleTypes`)}
+        options={ROLE_TYPES.map((v) => ({ value: v, label: t(`${p}.roleTypeLabels.${v}`) }))}
+        selected={pr.roleTypes}
+        onChange={(roleTypes) => setPr({ roleTypes })}
+      />
+      <ChipGroup
+        single
+        legend={t(`${p}.compensation`)}
+        hint={t(`${p}.clearHint`)}
+        options={COMPENSATION.map((v) => ({ value: v, label: t(`${p}.compensationLabels.${v}`) }))}
+        selected={pr.compensation ? [pr.compensation] : []}
+        onChange={(v) => setPr({ compensation: v[0] ?? null })}
+      />
+      <ChipGroup
+        single
+        legend={t(`${p}.travel`)}
+        hint={t(`${p}.clearHint`)}
+        options={TRAVEL.map((v) => ({ value: v, label: t(`${p}.travelLabels.${v}`) }))}
+        selected={pr.travel ? [pr.travel] : []}
+        onChange={(v) => setPr({ travel: v[0] ?? null })}
+      />
+      <ChipGroup
+        legend={t(`${p}.workModes`)}
+        options={WORK_MODES.map((v) => ({ value: v, label: t(`${p}.workModeLabels.${v}`) }))}
+        selected={pr.workModes}
+        onChange={(workModes) => setPr({ workModes })}
+      />
+      <TriState
+        legend={t(`${p}.animals`)}
+        value={pr.animals}
+        onChange={(animals) => setPr({ animals })}
+      />
+
+      <SaveBar
+        pending={pending}
+        saved={saved}
+        error={error}
+        onSave={() =>
+          save({
+            projectTypes: pr.projectTypes,
+            roleTypes: pr.roleTypes,
+            compensation: pr.compensation,
+            travel: pr.travel,
+            workModes: pr.workModes,
+            animals: pr.animals,
+          })
+        }
+      />
+
+      {/* Languages are stored with the physical details; shown here, edited there. */}
+      <section className="space-y-2 border-t border-border pt-6">
+        <h3 className="text-sm font-medium">{t(`${p}.languages`)}</h3>
+        <p className="text-sm text-fg-muted">
+          {languages.length > 0 ? languages.join(", ") : t(`${p}.languagesEmpty`)}
+        </p>
+        <Button variant="link" size="sm" className="px-0" onClick={onEditLanguages}>
+          {t(`${p}.languagesEdit`)}
+        </Button>
+      </section>
+
+      <AvailabilitySection items={availability} />
     </div>
   );
 }
 
-function Toggle({
-  label,
+function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
+  const t = useTranslations("talents");
+  const locale = useLocale();
+  // Stored as calendar days (UTC midnight): formatted in UTC so the day shown
+  // is the day saved, whatever the viewer's time zone.
+  const day = (iso: string) =>
+    new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(iso));
+  const router = useRouter();
+  const p = "space.profileEditor.prefs" as const;
+  const fromId = useId();
+  const toId = useId();
+  const typeId = useId();
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [type, setType] = useState<AvailabilityItem["type"]>("AVAILABLE");
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<ActionError | undefined>();
+  const errorText = useActionErrorText();
+  const valid = from !== "" && to !== "" && from <= to;
+
+  function run(action: () => Promise<{ ok: boolean; error?: ActionError }>, onDone?: () => void) {
+    setError(undefined);
+    start(async () => {
+      const res = await action();
+      if (!res.ok) return setError(res.error ?? err("errors.generic"));
+      onDone?.();
+      router.refresh();
+    });
+  }
+
+  return (
+    <section className="space-y-3 border-t border-border pt-6">
+      <div>
+        <h3 className="text-sm font-medium">{t(`${p}.availability`)}</h3>
+        <p className="text-sm text-fg-muted">{t(`${p}.availabilityHint`)}</p>
+      </div>
+      {items.length === 0 ? (
+        <p className="text-sm text-fg-muted">{t(`${p}.availabilityEmpty`)}</p>
+      ) : (
+        <ul className="divide-y divide-border rounded-sedan border border-border bg-surface">
+          {items.map((a) => (
+            <li key={a.id} className="flex items-center gap-3 px-3 py-2 text-sm">
+              <span
+                className={cn(
+                  "size-2 shrink-0 rounded-full",
+                  a.type === "AVAILABLE" ? "bg-success" : "bg-fg-subtle"
+                )}
+                aria-hidden="true"
+              />
+              <span className="flex-1">
+                {day(a.from)} → {day(a.to)}
+                <span className="ml-2 text-fg-muted">{t(`${p}.availabilityTypes.${a.type}`)}</span>
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={pending}
+                onClick={() => run(() => deleteAvailability(a.id))}
+              >
+                <Trash2 aria-hidden="true" />
+                <span className="sr-only sm:not-sr-only">{t(`${p}.availabilityRemove`)}</span>
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className="grid gap-3 sm:grid-cols-[1fr_1fr_1fr_auto] sm:items-end">
+        <div className="space-y-1.5">
+          <Label htmlFor={fromId}>{t(`${p}.availabilityFrom`)}</Label>
+          <Input id={fromId} type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor={toId}>{t(`${p}.availabilityTo`)}</Label>
+          <Input id={toId} type="date" value={to} min={from || undefined} onChange={(e) => setTo(e.target.value)} />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor={typeId}>{t(`${p}.availabilityType`)}</Label>
+          <select
+            id={typeId}
+            value={type}
+            onChange={(e) => setType(e.target.value === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}
+            className="h-11 w-full rounded-sedan border border-border bg-surface px-3 text-sm text-fg focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+          >
+            <option value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</option>
+            <option value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</option>
+          </select>
+        </div>
+        <Button
+          variant="secondary"
+          disabled={!valid || pending}
+          onClick={() =>
+            run(
+              () => addAvailability({ from, to, type }),
+              () => {
+                setFrom("");
+                setTo("");
+              }
+            )
+          }
+        >
+          {pending && <Loader2 className="size-4 animate-spin" />}
+          {t(`${p}.availabilityAdd`)}
+        </Button>
+      </div>
+      {error && <p role="alert" className="text-sm text-danger">{errorText(error)}</p>}
+    </section>
+  );
+}
+
+/**
+ * Optional and private: shown to the performer only, saved by its own
+ * action, and never part of the job preferences above.
+ */
+function ContentBoundariesSection({ data, setData }: TabProps) {
+  const t = useTranslations("talents");
+  const { save, pending, saved, error } = useSave(saveContentBoundaries);
+  const b = "space.profileEditor.boundaries" as const;
+  return (
+    <section
+      aria-labelledby="content-boundaries"
+      className="max-w-2xl space-y-4 rounded-sedan border border-border bg-surface-2/50 p-5"
+    >
+      <div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Lock aria-hidden="true" className="size-4 text-fg-muted" />
+          <h3 id="content-boundaries" className="font-display text-lg font-medium">
+            {t(`${b}.title`)}
+          </h3>
+          <span className="rounded-full border border-border px-2 py-0.5 text-xs text-fg-muted">
+            {t(`${b}.optional`)}
+          </span>
+        </div>
+        <p className="mt-1 text-sm text-fg-muted">{t(`${b}.private`)}</p>
+      </div>
+      <TriState
+        legend={t(`${b}.nudity`)}
+        value={data.contentBoundaries.nudity}
+        onChange={(nudity) => setData((d) => ({ ...d, contentBoundaries: { nudity } }))}
+      />
+      <SaveBar
+        pending={pending}
+        saved={saved}
+        error={error}
+        onSave={() => save({ nudity: data.contentBoundaries.nudity })}
+      />
+    </section>
+  );
+}
+
+/**
+ * A group of chips. Multi-select by default; with `single`, one choice at a
+ * time, and pressing the chosen one again clears it.
+ */
+function ChipGroup<T extends string>({
+  legend,
   hint,
-  checked,
+  options,
+  selected,
   onChange,
+  single = false,
 }: {
-  label: string;
+  legend: string;
   hint?: string;
-  checked: boolean;
-  onChange: (v: boolean) => void;
+  options: { value: T; label: string }[];
+  selected: T[];
+  onChange: (next: T[]) => void;
+  single?: boolean;
 }) {
   return (
-    <label className="flex items-start gap-3">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-0.5 size-4 accent-[var(--accent)]" />
-      <span>
-        <span className="text-sm font-medium">{label}</span>
-        {hint && <span className="block text-xs text-fg-muted">{hint}</span>}
-      </span>
-    </label>
+    <fieldset className="space-y-2">
+      <legend className="text-sm font-medium">{legend}</legend>
+      {hint && <p className="text-xs text-fg-muted">{hint}</p>}
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => {
+          const active = selected.includes(o.value);
+          return (
+            <button
+              key={o.value}
+              type="button"
+              aria-pressed={active}
+              onClick={() =>
+                onChange(
+                  active
+                    ? selected.filter((v) => v !== o.value)
+                    : single
+                      ? [o.value]
+                      : [...selected, o.value]
+                )
+              }
+              className={cn(
+                "min-h-9 rounded-full border px-3 py-1.5 text-sm transition-colors",
+                active
+                  ? "border-accent bg-accent-soft text-accent"
+                  : "border-border hover:border-accent"
+              )}
+            >
+              {active && <Check aria-hidden="true" className="-ml-0.5 mr-1 inline size-3.5" />}
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
+/** Not set, yes or no, as three radio buttons. Not set is a real answer: none. */
+function TriState({
+  legend,
+  value,
+  onChange,
+}: {
+  legend: string;
+  value: boolean | null;
+  onChange: (v: boolean | null) => void;
+}) {
+  const t = useTranslations("talents");
+  const name = useId();
+  const choices: { key: string; v: boolean | null; label: string }[] = [
+    { key: "unset", v: null, label: t("space.profileEditor.prefs.notSet") },
+    { key: "yes", v: true, label: t("space.profileEditor.prefs.yes") },
+    { key: "no", v: false, label: t("space.profileEditor.prefs.no") },
+  ];
+  return (
+    <fieldset className="space-y-2">
+      <legend className="text-sm font-medium">{legend}</legend>
+      <div className="inline-flex flex-wrap gap-1 rounded-sedan bg-surface-2 p-1">
+        {choices.map((c) => (
+          <label
+            key={c.key}
+            className="cursor-pointer rounded-[calc(var(--sedan)-0.25rem)] px-3 py-1.5 text-sm text-fg-muted transition-colors has-[:checked]:bg-surface has-[:checked]:font-medium has-[:checked]:text-fg has-[:checked]:shadow-sm has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
+          >
+            <input
+              type="radio"
+              name={name}
+              className="sr-only"
+              checked={value === c.v}
+              onChange={() => onChange(c.v)}
+            />
+            {c.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }

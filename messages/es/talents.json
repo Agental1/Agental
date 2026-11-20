@@ -861,8 +861,6 @@
       "completenessHint": "A tu perfil le vendría bien más detalle: cuanto más completo, mejor aparece en las búsquedas.",
       "birthDate": "Fecha de nacimiento",
       "bioPlaceholder": "Unas líneas sobre tu trayectoria, lo que te hace único…",
-      "nudity": "Acepto papeles con desnudo",
-      "animals": "Puedo actuar con animales",
       "tabs": {
         "identity": "Identidad",
         "physical": "Físico",
@@ -882,7 +880,78 @@
       "accents": "Acentos (separados por comas)",
       "minRate": "Caché mínimo ($/día)",
       "save": "Guardar",
-      "saved": "Guardado"
+      "saved": "Guardado",
+      "specialtiesHint": "Elige todos los tipos de trabajo que haces, en pantalla, en el escenario o al micrófono.",
+      "prefs": {
+        "optionalHint": "Todo es opcional. Un grupo que dejes vacío se queda sin respuesta.",
+        "clearHint": "Vuelve a tocar una opción elegida para borrarla.",
+        "notSet": "Sin indicar",
+        "yes": "Sí",
+        "no": "No",
+        "projectTypes": "Tipos de proyecto",
+        "projectTypeLabels": {
+          "film": "Cine",
+          "tv-streaming": "TV y streaming",
+          "commercial": "Publicidad",
+          "theatre": "Teatro",
+          "voice": "Voz",
+          "music-video": "Videoclips",
+          "short-film": "Cortometrajes",
+          "student-film": "Cine estudiantil",
+          "web-digital": "Web y digital",
+          "corporate": "Corporativo",
+          "live-event": "Eventos en vivo"
+        },
+        "roleTypes": "Tipos de papel",
+        "roleTypeLabels": {
+          "lead": "Protagonista",
+          "supporting": "Secundario",
+          "day-player": "Papel de un día",
+          "background": "Figuración",
+          "stand-in": "Doble de luces",
+          "voice": "Voz",
+          "host": "Presentador"
+        },
+        "compensation": "Remuneración",
+        "compensationLabels": {
+          "paid_only": "Solo trabajo pagado",
+          "paid_or_unpaid": "Pagado o sin pagar"
+        },
+        "travel": "Hasta dónde viajas por trabajo",
+        "travelLabels": {
+          "local": "Local",
+          "regional": "Regional",
+          "national": "Nacional",
+          "international": "Internacional"
+        },
+        "workModes": "Modalidad de trabajo",
+        "workModeLabels": {
+          "on_set": "En el set",
+          "remote": "En remoto"
+        },
+        "animals": "Trabajar con animales",
+        "languages": "Idiomas",
+        "languagesEmpty": "Añade tus idiomas en la pestaña Físico.",
+        "languagesEdit": "Editar en Físico",
+        "availability": "Disponibilidad",
+        "availabilityHint": "Las fechas en que puedes trabajar o no.",
+        "availabilityFrom": "Desde",
+        "availabilityTo": "Hasta",
+        "availabilityType": "Tipo",
+        "availabilityTypes": {
+          "AVAILABLE": "Disponible",
+          "UNAVAILABLE": "Sin disponibilidad"
+        },
+        "availabilityAdd": "Añadir fechas",
+        "availabilityRemove": "Quitar",
+        "availabilityEmpty": "Añade las fechas en que estás disponible o fuera."
+      },
+      "boundaries": {
+        "title": "Límites de contenido",
+        "optional": "Opcional",
+        "private": "Solo tú ves esta sección, y nunca aparece en tu perfil.",
+        "nudity": "Papeles con desnudos"
+      }
     },
     "rgpd": {
       "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",

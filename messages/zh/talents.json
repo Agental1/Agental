@@ -861,8 +861,6 @@
       "completenessHint": "你的资料可以再详细一些：内容越丰富，在搜索中越容易被看到。",
       "birthDate": "出生日期",
       "bioPlaceholder": "写几句你的经历，以及你独特在哪里……",
-      "nudity": "我接受有裸露的角色",
-      "animals": "我可以和动物一起表演",
       "tabs": {
         "identity": "身份",
         "physical": "外形",
@@ -882,7 +880,78 @@
       "accents": "口音（用逗号分隔）",
       "minRate": "最低片酬（$/天）",
       "save": "保存",
-      "saved": "已保存"
+      "saved": "已保存",
+      "specialtiesHint": "选择你从事的所有工作类型，无论是银幕、舞台还是配音。",
+      "prefs": {
+        "optionalHint": "这里的所有内容都是选填。留空的项目保持未填写。",
+        "clearHint": "再点一次已选的选项即可清除。",
+        "notSet": "未填写",
+        "yes": "是",
+        "no": "否",
+        "projectTypes": "项目类型",
+        "projectTypeLabels": {
+          "film": "电影",
+          "tv-streaming": "电视与流媒体",
+          "commercial": "广告",
+          "theatre": "戏剧",
+          "voice": "配音",
+          "music-video": "音乐视频",
+          "short-film": "短片",
+          "student-film": "学生电影",
+          "web-digital": "网络与数字",
+          "corporate": "企业宣传",
+          "live-event": "现场活动"
+        },
+        "roleTypes": "角色类型",
+        "roleTypeLabels": {
+          "lead": "主角",
+          "supporting": "配角",
+          "day-player": "日结角色",
+          "background": "群众演员",
+          "stand-in": "替身",
+          "voice": "配音",
+          "host": "主持"
+        },
+        "compensation": "报酬",
+        "compensationLabels": {
+          "paid_only": "只接有偿工作",
+          "paid_or_unpaid": "有偿或无偿均可"
+        },
+        "travel": "工作出行范围",
+        "travelLabels": {
+          "local": "本地",
+          "regional": "本地区",
+          "national": "全国",
+          "international": "国际"
+        },
+        "workModes": "工作方式",
+        "workModeLabels": {
+          "on_set": "现场",
+          "remote": "远程"
+        },
+        "animals": "与动物合作",
+        "languages": "语言",
+        "languagesEmpty": "请在“外形”标签中添加你的语言。",
+        "languagesEdit": "在“外形”中编辑",
+        "availability": "档期",
+        "availabilityHint": "你可以或不能工作的日期。",
+        "availabilityFrom": "开始",
+        "availabilityTo": "结束",
+        "availabilityType": "类型",
+        "availabilityTypes": {
+          "AVAILABLE": "有空",
+          "UNAVAILABLE": "没空"
+        },
+        "availabilityAdd": "添加日期",
+        "availabilityRemove": "移除",
+        "availabilityEmpty": "添加你有空或外出的日期。"
+      },
+      "boundaries": {
+        "title": "内容界限",
+        "optional": "选填",
+        "private": "只有你能看到这一部分，它也不会出现在你的资料中。",
+        "nudity": "含裸露的角色"
+      }
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",

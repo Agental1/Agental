@@ -861,8 +861,6 @@
       "completenessHint": "Ton profil gagnerait à être complété — plus il est riche, mieux il ressort dans les recherches.",
       "birthDate": "Date de naissance",
       "bioPlaceholder": "Quelques lignes sur ton parcours, ce qui te rend unique…",
-      "nudity": "J'accepte les rôles avec nudité",
-      "animals": "Je peux jouer avec des animaux",
       "tabs": {
         "identity": "Identité",
         "physical": "Physique",
@@ -882,7 +880,78 @@
       "accents": "Accents (virgules)",
       "minRate": "Cachet minimum ($/jour)",
       "save": "Enregistrer",
-      "saved": "Enregistré"
+      "saved": "Enregistré",
+      "specialtiesHint": "Choisis tous les types de travail que tu fais, à l’écran, sur scène ou au micro.",
+      "prefs": {
+        "optionalHint": "Tout est facultatif. Un groupe laissé vide reste sans réponse.",
+        "clearHint": "Touche à nouveau un choix sélectionné pour l’effacer.",
+        "notSet": "Non renseigné",
+        "yes": "Oui",
+        "no": "Non",
+        "projectTypes": "Types de projets",
+        "projectTypeLabels": {
+          "film": "Cinéma",
+          "tv-streaming": "Télé et streaming",
+          "commercial": "Publicité",
+          "theatre": "Théâtre",
+          "voice": "Voix",
+          "music-video": "Clips",
+          "short-film": "Courts métrages",
+          "student-film": "Films d’école",
+          "web-digital": "Web et digital",
+          "corporate": "Films d’entreprise",
+          "live-event": "Événements"
+        },
+        "roleTypes": "Types de rôles",
+        "roleTypeLabels": {
+          "lead": "Premier rôle",
+          "supporting": "Second rôle",
+          "day-player": "Rôle ponctuel",
+          "background": "Figuration",
+          "stand-in": "Doublure lumière",
+          "voice": "Voix",
+          "host": "Animation"
+        },
+        "compensation": "Rémunération",
+        "compensationLabels": {
+          "paid_only": "Uniquement rémunéré",
+          "paid_or_unpaid": "Rémunéré ou bénévole"
+        },
+        "travel": "Jusqu’où tu te déplaces pour travailler",
+        "travelLabels": {
+          "local": "Local",
+          "regional": "Régional",
+          "national": "National",
+          "international": "International"
+        },
+        "workModes": "Mode de travail",
+        "workModeLabels": {
+          "on_set": "Sur le plateau",
+          "remote": "À distance"
+        },
+        "animals": "Travailler avec des animaux",
+        "languages": "Langues",
+        "languagesEmpty": "Ajoute tes langues dans l’onglet Physique.",
+        "languagesEdit": "Modifier dans Physique",
+        "availability": "Disponibilités",
+        "availabilityHint": "Les dates où tu peux travailler, ou pas.",
+        "availabilityFrom": "Du",
+        "availabilityTo": "Au",
+        "availabilityType": "Type",
+        "availabilityTypes": {
+          "AVAILABLE": "Disponible",
+          "UNAVAILABLE": "Indisponible"
+        },
+        "availabilityAdd": "Ajouter ces dates",
+        "availabilityRemove": "Retirer",
+        "availabilityEmpty": "Ajoute les dates où tu es disponible ou absent."
+      },
+      "boundaries": {
+        "title": "Limites de contenu",
+        "optional": "Facultatif",
+        "private": "Toi seul vois cette section, et elle n’apparaît jamais sur ton profil.",
+        "nudity": "Rôles avec nudité"
+      }
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",

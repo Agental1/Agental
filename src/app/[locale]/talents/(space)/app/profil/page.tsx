@@ -8,7 +8,7 @@ import { parseJson, PhysicalTraits } from "@/domain/json";
 import { scoreProfile } from "@/domain/completeness";
 import { parseProfileTab } from "@/domain/profile-tabs";
 import { isoDate } from "@/domain/age";
-import { z } from "zod";
+import { readContentBoundaries, readPreferences } from "@/domain/preferences";
 
 export async function generateMetadata({
   params,
@@ -19,13 +19,6 @@ export async function generateMetadata({
   const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
   return { title: t("space.profile.title") };
 }
-
-const PrefsShape = z.object({
-  autoApply: z.boolean().default(false),
-  dailyCap: z.number().optional(),
-  nudity: z.boolean().default(false),
-  animals: z.boolean().default(false),
-});
 
 export default async function ProfilPage({
   params,
@@ -48,6 +41,7 @@ export default async function ProfilPage({
     include: {
       specialties: true,
       media: { orderBy: { order: "asc" } },
+      availability: { orderBy: { from: "asc" } },
     },
   });
   if (!profile) return null;
@@ -64,7 +58,10 @@ export default async function ProfilPage({
     specialtiesCount: profile.specialties.length,
     media: profile.media,
   });
-  const prefs = parseJson(PrefsShape, profile.preferences);
+  // Job preferences and the private content boundaries share one column but
+  // are read, and saved, apart. Unset answers come back unset.
+  const preferences = readPreferences(profile.preferences);
+  const contentBoundaries = readContentBoundaries(profile.preferences);
 
   return (
     <div className="space-y-6">
@@ -92,7 +89,14 @@ export default async function ProfilPage({
             isPrimary: m.isPrimary,
             mime: m.mime,
           })),
-          preferences: prefs,
+          preferences,
+          contentBoundaries,
+          availability: profile.availability.map((a) => ({
+            id: a.id,
+            from: isoDate(a.from),
+            to: isoDate(a.to),
+            type: a.type === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE",
+          })),
         }}
         initialTab={initialTab}
       />

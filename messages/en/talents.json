@@ -861,8 +861,6 @@
       "completenessHint": "Your profile would benefit from more detail — the richer it is, the better it surfaces in searches.",
       "birthDate": "Date of birth",
       "bioPlaceholder": "A few lines about your path, what makes you unique…",
-      "nudity": "I accept roles with nudity",
-      "animals": "I can act with animals",
       "tabs": {
         "identity": "Identity",
         "physical": "Physical",
@@ -882,7 +880,78 @@
       "accents": "Accents (comma-separated)",
       "minRate": "Minimum fee ($/day)",
       "save": "Save",
-      "saved": "Saved"
+      "saved": "Saved",
+      "specialtiesHint": "Pick every kind of work you do, on screen, on stage or behind the mic.",
+      "prefs": {
+        "optionalHint": "Everything here is optional. A group you leave empty stays unanswered.",
+        "clearHint": "Tap a selected choice again to clear it.",
+        "notSet": "Not set",
+        "yes": "Yes",
+        "no": "No",
+        "projectTypes": "Project types",
+        "projectTypeLabels": {
+          "film": "Film",
+          "tv-streaming": "TV and streaming",
+          "commercial": "Commercials",
+          "theatre": "Theater",
+          "voice": "Voice",
+          "music-video": "Music videos",
+          "short-film": "Short films",
+          "student-film": "Student films",
+          "web-digital": "Web and digital",
+          "corporate": "Corporate",
+          "live-event": "Live events"
+        },
+        "roleTypes": "Role types",
+        "roleTypeLabels": {
+          "lead": "Lead",
+          "supporting": "Supporting",
+          "day-player": "Day player",
+          "background": "Background",
+          "stand-in": "Stand-in",
+          "voice": "Voice",
+          "host": "Host or presenter"
+        },
+        "compensation": "Compensation",
+        "compensationLabels": {
+          "paid_only": "Paid work only",
+          "paid_or_unpaid": "Paid or unpaid"
+        },
+        "travel": "How far you travel for work",
+        "travelLabels": {
+          "local": "Local",
+          "regional": "Regional",
+          "national": "National",
+          "international": "International"
+        },
+        "workModes": "Work mode",
+        "workModeLabels": {
+          "on_set": "On set",
+          "remote": "Remote"
+        },
+        "animals": "Working with animals",
+        "languages": "Languages",
+        "languagesEmpty": "Add your languages in the Physical tab.",
+        "languagesEdit": "Edit in Physical",
+        "availability": "Availability",
+        "availabilityHint": "Dates when you can or can’t work.",
+        "availabilityFrom": "From",
+        "availabilityTo": "To",
+        "availabilityType": "Type",
+        "availabilityTypes": {
+          "AVAILABLE": "Available",
+          "UNAVAILABLE": "Unavailable"
+        },
+        "availabilityAdd": "Add dates",
+        "availabilityRemove": "Remove",
+        "availabilityEmpty": "Add the dates when you’re available or away."
+      },
+      "boundaries": {
+        "title": "Content boundaries",
+        "optional": "Optional",
+        "private": "Only you can see this section, and it never appears on your profile.",
+        "nudity": "Roles with nudity"
+      }
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",
