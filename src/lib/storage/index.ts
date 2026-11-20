@@ -1,5 +1,6 @@
 /**
- * Swappable object storage. Local disk in dev, Cloudflare R2 in production,
+ * Swappable object storage. Local disk in dev; in production Supabase Storage
+ * when SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set, else Cloudflare R2,
  * selected by environment rather than by a build flag so a preview deployment
  * can point at the same bucket without a code change.
  */
@@ -7,6 +8,16 @@ export interface StoredObject {
   key: string;
   size: number;
   mime: string;
+}
+
+/** A resumable (TUS) upload the browser runs against storage directly. */
+export interface TusUpload {
+  endpoint: string;
+  /** Signed upload token, sent as x-signature. Valid for one object. */
+  token: string;
+  bucket: string;
+  objectName: string;
+  contentType: string;
 }
 
 export interface Storage {
@@ -46,7 +57,7 @@ export interface Storage {
     key: string,
     mime: string,
     sizeBytes: number
-  ): Promise<{ url: string; headers: Record<string, string> }>;
+  ): Promise<{ url: string; headers: Record<string, string>; tus?: TusUpload }>;
 }
 
 /** The four variables an R2 bucket needs. All or nothing. */
@@ -57,7 +68,10 @@ const R2_VARS = [
   "R2_SECRET_ACCESS_KEY",
 ] as const;
 
+const SUPABASE_VARS = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"] as const;
+
 export type StorageChoice =
+  | { kind: "supabase"; config: { url: string; serviceRoleKey: string } }
   | { kind: "r2"; config: Record<(typeof R2_VARS)[number], string> }
   | { kind: "local" }
   | { kind: "error"; missing: string[] };
@@ -75,6 +89,14 @@ export function selectStorage(
   env: Readonly<Record<string, string | undefined>>,
   isProduction: boolean
 ): StorageChoice {
+  const sb = SUPABASE_VARS.filter((name) => (env[name] ?? "").trim() !== "");
+  if (sb.length === SUPABASE_VARS.length) {
+    return {
+      kind: "supabase",
+      config: { url: env.SUPABASE_URL!.trim(), serviceRoleKey: env.SUPABASE_SERVICE_ROLE_KEY!.trim() },
+    };
+  }
+  // SUPABASE_URL alone is not a mistake: it is public and set ahead of the key.
   const present = R2_VARS.filter((name) => (env[name] ?? "").trim() !== "");
 
   if (present.length === R2_VARS.length) {
@@ -109,6 +131,25 @@ export async function getStorage(): Promise<Storage> {
     );
   }
 
+  if (choice.kind === "supabase") {
+    const { SupabaseStorage } = await import("./supabase");
+    const primary = new SupabaseStorage(choice.config);
+    // Files saved on R2 before the move stay readable until they are copied
+    // (GET /api/admin/storage/copy): reads fall back to R2, writes go to Supabase.
+    const legacy = selectStorage({ ...process.env, SUPABASE_URL: "", SUPABASE_SERVICE_ROLE_KEY: "" }, false);
+    if (legacy.kind === "r2") {
+      const { R2Storage } = await import("./r2");
+      const { WithLegacyReads } = await import("./legacy");
+      cached = new WithLegacyReads(primary, new R2Storage({
+        accountId: legacy.config.R2_ACCOUNT_ID,
+        bucket: legacy.config.R2_BUCKET,
+        accessKeyId: legacy.config.R2_ACCESS_KEY_ID,
+        secretAccessKey: legacy.config.R2_SECRET_ACCESS_KEY,
+      }));
+    } else cached = primary;
+    return cached;
+  }
+
   if (choice.kind === "r2") {
     const { R2Storage } = await import("./r2");
     cached = new R2Storage({
@@ -129,3 +170,4 @@ export async function getStorage(): Promise<Storage> {
 export function mediaUrl(mediaId: string): string {
   return `/api/media/${mediaId}`;
 }
+

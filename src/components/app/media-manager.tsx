@@ -17,7 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { uploadMedia, deleteMedia, setPrimaryMedia } from "@/app/actions/media";
+import { uploadMedia as uploadSmallMedia, deleteMedia, setPrimaryMedia } from "@/app/actions/media";
+import { uploadMedia } from "@/lib/media-upload";
 
 export interface MediaItem {
   id: string;
@@ -45,10 +46,22 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
     setError(undefined);
     startTransition(async () => {
       for (const file of Array.from(files)) {
-        const fd = new FormData();
-        fd.set("file", file);
-        fd.set("type", typeForMime(file.type));
-        const res = await uploadMedia(fd);
+        const type = typeForMime(file.type);
+        let res: { ok: boolean; error?: ActionError };
+        try {
+          if (type === "AUDIO") {
+            // Audio stays on the small-file action (voice clips are short).
+            const fd = new FormData();
+            fd.set("file", file);
+            fd.set("type", type);
+            res = await uploadSmallMedia(fd);
+          } else {
+            // Photos and videos go straight to storage, never through an action body.
+            res = await uploadMedia(file, { type, destination: type === "VIDEO" ? "profile" : undefined });
+          }
+        } catch {
+          res = { ok: false, error: err("errors.uploadFailed") };
+        }
         if (!res.ok) {
           setError(res.error ?? err("errors.uploadFailed"));
           break;

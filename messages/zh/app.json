@@ -142,7 +142,9 @@
     "studentEmailTaken": "此学校邮箱已验证过另一个账户。",
     "studentEmailAlready": "你的学生优惠已验证。",
     "studentEmailTooMany": "请求过多，请一小时后再试。",
-    "messageTopicRequired": "请选择消息的主题。"
+    "messageTopicRequired": "请选择消息的主题。",
+    "mediaNotAllowed": "此账户无法添加媒体。如有疑问，请联系 Agental 团队。",
+    "sessionCheck": "保存未成功，但你仍处于登录状态。你的录像已保留，请重试。"
   },
   "auth": {
     "name": "姓名",

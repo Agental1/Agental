@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
-import { getStorage } from "@/lib/storage";
+import { getStorage, type TusUpload } from "@/lib/storage";
 import { recomputeCompleteness } from "@/lib/completeness";
 import { getQualityScorer, type TipKey } from "@/lib/ai/quality-scorer";
 import { err, type ActionError } from "@/domain/action-result";
@@ -48,6 +48,8 @@ export type CreateUploadResult =
       url: string;
       method: "PUT";
       headers: Record<string, string>;
+      /** Set when storage takes a resumable upload instead of one PUT. */
+      tus?: TusUpload;
     }
   | { ok: false; error: ActionError };
 
@@ -71,13 +73,31 @@ export type DeleteRecordingResult = { ok: true } | { ok: false; error: ActionErr
  * The signed-in talent's profile, if they may store media: the profile is
  * their own and the person is an adult. V1 stores no minor's image.
  */
-async function talentForMedia() {
+/**
+ * The signed-in performer who may add media, or the reason they may not.
+ * Only a missing session answers "errors.unauthorized" (the browser then asks
+ * the person to sign in again); every other refusal has its own key, so a
+ * signed-in person is never sent to the sign-in page.
+ */
+async function talentForMedia(): Promise<
+  { error: ActionError } | { error?: undefined; userId: string; profile: NonNullable<Awaited<ReturnType<typeof prisma.artistProfile.findUnique>>> }
+> {
   const session = await auth();
-  if (!session?.user?.id || session.user.kind !== "TALENT") return null;
+  if (!session?.user?.id) {
+    console.warn("[media] refused: no session");
+    return { error: err("errors.unauthorized") };
+  }
+  if (session.user.kind !== "TALENT") {
+    console.warn("[media] refused: not a performer account");
+    return { error: err("errors.mediaNotAllowed") };
+  }
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
   });
-  if (!profile || profile.isMinor) return null;
+  if (!profile || profile.isMinor) {
+    console.warn("[media] refused:", profile ? "minor profile" : "no profile");
+    return { error: err("errors.mediaNotAllowed") } as const;
+  }
   return { userId: session.user.id, profile };
 }
 
@@ -110,7 +130,7 @@ function revalidateMediaPages() {
 
 export async function createUpload(input: unknown): Promise<CreateUploadResult> {
   const talent = await talentForMedia();
-  if (!talent) return { ok: false, error: err("errors.unauthorized") };
+  if (talent.error) return { ok: false, error: talent.error };
 
   const parsed = CreateUploadInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: err("errors.invalidInput") };
@@ -226,7 +246,7 @@ async function placeTake(
 
 export async function completeUpload(input: unknown): Promise<CompleteUploadResult> {
   const talent = await talentForMedia();
-  if (!talent) return { ok: false, error: err("errors.unauthorized") };
+  if (talent.error) return { ok: false, error: talent.error };
 
   const parsed = CompleteUploadInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: err("errors.invalidInput") };

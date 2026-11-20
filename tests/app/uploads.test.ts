@@ -88,16 +88,19 @@ describe("createUpload", () => {
   const input = { type: "SELFTAPE", mime: "video/mp4;codecs=avc1", sizeBytes: 5 * MB };
 
   it("is refused without a session, for a casting account, with no profile, or for a minor", async () => {
+    // Only a missing session says "sign in": the browser sends the person to
+    // the sign-in page on that key alone, so a signed-in person never sees it.
     const unauthorized = { ok: false, error: { key: "errors.unauthorized" } };
+    const notAllowed = { ok: false, error: { key: "errors.mediaNotAllowed" } };
     session = null;
     expect(await createUpload(input)).toEqual(unauthorized);
     session = { user: { id: "u1", kind: "CASTING" } };
-    expect(await createUpload(input)).toEqual(unauthorized);
+    expect(await createUpload(input)).toEqual(notAllowed);
     session = { user: { id: "u1", kind: "TALENT" } };
     db.artistProfile.findUnique.mockResolvedValue(null);
-    expect(await createUpload(input)).toEqual(unauthorized);
+    expect(await createUpload(input)).toEqual(notAllowed);
     db.artistProfile.findUnique.mockResolvedValue({ ...adult, isMinor: true });
-    expect(await createUpload(input)).toEqual(unauthorized);
+    expect(await createUpload(input)).toEqual(notAllowed);
     expect(db.upload.create).not.toHaveBeenCalled();
   });
 

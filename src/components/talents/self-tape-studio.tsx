@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { err } from "@/domain/action-result";
 import { stashTake, takeStashed } from "@/lib/take-stash";
+import { stillSignedIn } from "@/lib/session-check";
 import {
   Video,
   Circle,
@@ -216,8 +217,13 @@ export function SelfTapeStudio() {
       } catch {
         res = { ok: false, error: err("errors.generic") };
       }
+      if (!res.ok && res.error.key === "errors.unauthorized" && (await stillSignedIn())) {
+        // The server said "signed out" but the session is there: never leave
+        // the page over it. The take stays on review.
+        res = { ok: false, error: err("errors.sessionCheck") };
+      }
       if (!res.ok && res.error.key === "errors.unauthorized") {
-        // Signed out meanwhile: keep the take, sign in, come back to it.
+        // Really signed out meanwhile: keep the take, sign in, come back to it.
         await stashTake({ blob, metrics, destination });
         const next = `/${locale}/talents/app/reel-self-tape?restore=1`;
         window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(next)}`);

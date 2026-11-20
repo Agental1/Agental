@@ -142,7 +142,9 @@
     "studentEmailTaken": "Este correo universitario ya verificó otra cuenta.",
     "studentEmailAlready": "Tu descuento de estudiante ya está verificado.",
     "studentEmailTooMany": "Demasiadas solicitudes. Inténtalo de nuevo en una hora.",
-    "messageTopicRequired": "Elige de qué trata tu mensaje."
+    "messageTopicRequired": "Elige de qué trata tu mensaje.",
+    "mediaNotAllowed": "No se pueden añadir medios a esta cuenta. Escribe al equipo de Agental si te parece un error.",
+    "sessionCheck": "No se pudo guardar, pero sigues con la sesión iniciada. Tu toma se conserva: inténtalo de nuevo."
   },
   "auth": {
     "name": "Nombre",

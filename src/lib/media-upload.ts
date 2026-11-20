@@ -6,6 +6,7 @@ import {
   type UploadType,
 } from "@/domain/uploads";
 import type { TipKey } from "@/lib/ai/quality-scorer";
+import { tusUpload } from "@/lib/tus-upload";
 
 /**
  * Send one file from the browser to storage, with progress.
@@ -115,7 +116,9 @@ export async function uploadMedia(
   });
   if (!created.ok) return created;
 
-  const sent = await put(created.url, created.headers, file, onProgress, signal);
+  const sent = created.tus
+    ? await tusUpload(created.tus, file, onProgress, signal)
+    : await put(created.url, created.headers, file, onProgress, signal);
   if (sent !== "done") {
     return {
       ok: false,

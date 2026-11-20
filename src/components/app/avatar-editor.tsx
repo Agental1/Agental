@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Camera, Loader2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -18,6 +18,7 @@ import { removeAvatar, setAvatar } from "@/app/actions/avatar";
 import { err, type ActionError } from "@/domain/action-result";
 import { AVATAR_SIZE_PX } from "@/domain/avatar";
 import { cn } from "@/lib/utils";
+import { stillSignedIn } from "@/lib/session-check";
 
 /** The round picture, or the initials when there is none. */
 export function Avatar({
@@ -71,6 +72,7 @@ export function AvatarEditor({
 }) {
   const t = useTranslations("talents.space.avatar");
   const router = useRouter();
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -145,6 +147,13 @@ export function AvatarEditor({
         fd.append("file", blob, "avatar.jpg");
         start(async () => {
           const res = await setAvatar(fd).catch(() => ({ ok: false as const, error: err("errors.generic") }));
+          if (!res.ok && res.error.key === "errors.unauthorized") {
+            if (await stillSignedIn()) return setError(err("errors.sessionCheck"));
+            // Really signed out: sign in again and come back to this page.
+            const here = window.location.pathname + window.location.search;
+            window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(here)}`);
+            return;
+          }
           if (!res.ok) return setError(res.error);
           reset();
           setOpen(false);

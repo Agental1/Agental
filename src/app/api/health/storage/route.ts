@@ -23,7 +23,9 @@ export async function GET() {
   if (!storage.presignUpload) {
     return NextResponse.json({ storage: "local", directUploads: false, note: "uploads go through /api/uploads" });
   }
-  const { url } = await storage.presignUpload("healthcheck/cors-probe.webm", "video/webm", 1);
+  const signed = await storage.presignUpload("healthcheck/cors-probe.webm", "video/webm", 1);
+  const url = signed.tus?.endpoint ?? signed.url;
+  const method = signed.tus ? "POST" : "PUT";
   const results = await Promise.all(
     siteOrigins().map(async (origin) => {
       try {
@@ -31,8 +33,10 @@ export async function GET() {
           method: "OPTIONS",
           headers: {
             Origin: origin,
-            "Access-Control-Request-Method": "PUT",
-            "Access-Control-Request-Headers": "content-type",
+            "Access-Control-Request-Method": method,
+            "Access-Control-Request-Headers": signed.tus
+              ? "tus-resumable,upload-length,upload-metadata,x-signature,x-upsert"
+              : "content-type",
           },
           cache: "no-store",
         });
@@ -41,7 +45,7 @@ export async function GET() {
         const allowed =
           res.ok &&
           (allowOrigin === "*" || allowOrigin === origin) &&
-          /\bPUT\b/i.test(allowMethods);
+          new RegExp(`\\b${method}\\b`, "i").test(allowMethods);
         return { origin, status: res.status, allowed };
       } catch {
         return { origin, status: 0, allowed: false };
@@ -49,7 +53,7 @@ export async function GET() {
     })
   );
   return NextResponse.json(
-    { storage: "r2", directUploads: results.every((r) => r.allowed), origins: results },
+    { storage: signed.tus ? "supabase" : "r2", directUploads: results.every((r) => r.allowed), origins: results },
     { headers: { "Cache-Control": "no-store" } }
   );
 }

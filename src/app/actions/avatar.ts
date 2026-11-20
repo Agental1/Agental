@@ -14,12 +14,20 @@ const EXT = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" } as
 
 async function talent() {
   const session = await auth();
-  if (!session?.user?.id || session.user.kind !== "TALENT") return null;
+  if (!session?.user?.id) {
+    console.warn("[avatar] refused: no session");
+    return { error: err("errors.unauthorized") } as const;
+  }
+  if (session.user.kind !== "TALENT") return { error: err("errors.mediaNotAllowed") } as const;
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
     select: { id: true, userId: true, isMinor: true, avatarKey: true },
   });
-  return profile && !profile.isMinor ? profile : null;
+  if (!profile || profile.isMinor) {
+    console.warn("[avatar] refused:", profile ? "minor profile" : "no profile");
+    return { error: err("errors.mediaNotAllowed") } as const;
+  }
+  return profile;
 }
 
 function refresh() {
@@ -33,7 +41,7 @@ function refresh() {
  */
 export async function setAvatar(formData: FormData): Promise<AvatarResult> {
   const me = await talent();
-  if (!me) return { ok: false, error: err("errors.unauthorized") };
+  if ("error" in me) return { ok: false, error: me.error };
   const file = formData.get("file");
   if (!(file instanceof Blob) || file.size === 0) return { ok: false, error: err("errors.invalidInput") };
   if (file.size > AVATAR_MAX_BYTES) return { ok: false, error: err("errors.avatarTooLarge") };
@@ -43,7 +51,12 @@ export async function setAvatar(formData: FormData): Promise<AvatarResult> {
 
   const storage = await getStorage();
   const key = `${me.userId}/avatar/${randomUUID()}.${EXT[mime]}`;
-  await storage.put(key, bytes, mime);
+  try {
+    await storage.put(key, bytes, mime);
+  } catch (error) {
+    console.error("[avatar] storage put failed", error instanceof Error ? error.message.slice(0, 120) : "error");
+    return { ok: false, error: err("errors.uploadFailed") };
+  }
   const now = new Date();
   await prisma.artistProfile.update({
     where: { id: me.id },
@@ -56,7 +69,7 @@ export async function setAvatar(formData: FormData): Promise<AvatarResult> {
 
 export async function removeAvatar(): Promise<AvatarResult> {
   const me = await talent();
-  if (!me) return { ok: false, error: err("errors.unauthorized") };
+  if ("error" in me) return { ok: false, error: me.error };
   await prisma.artistProfile.update({
     where: { id: me.id },
     data: { avatarKey: null, avatarUpdatedAt: null },
