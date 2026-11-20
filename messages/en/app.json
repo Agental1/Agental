@@ -132,7 +132,8 @@
     "domainLimitReached": "A site can have up to {limit} custom domains.",
     "draftMediaLimit": "A draft can hold up to {limit} clips.",
     "imdbUrl": "Enter an IMDb link like imdb.com/name/nm1234567.",
-    "portfolioUrl": "Enter a link that starts with https://."
+    "portfolioUrl": "Enter a link that starts with https://.",
+    "roleSearchQuota": "You have no AI searches left on your plan."
   },
   "auth": {
     "name": "Name",
@@ -217,7 +218,8 @@
       "audit": "Audit trail",
       "minors": "Minor cases",
       "messages": "Messages",
-      "limelight": "Limelight requests"
+      "limelight": "Limelight requests",
+      "roleSearches": "Role searches"
     },
     "stats": {
       "artists": "Artists",
@@ -311,6 +313,18 @@
         "NEW": "New",
         "CONTACTED": "Contacted",
         "CLOSED": "Closed"
+      }
+    },
+    "roleSearches": {
+      "title": "AI role searches",
+      "subtitle": "Every \"Start finding roles\" click. Rows wait in status queued until the workflow is connected.",
+      "empty": "No searches yet.",
+      "columns": {
+        "when": "When",
+        "who": "Account",
+        "plan": "Plan",
+        "period": "Period",
+        "status": "Status"
       }
     }
   },

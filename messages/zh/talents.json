@@ -759,6 +759,14 @@
         "title": "开始你的第一次搜索",
         "body": "你的资料已完整。开始搜索，我们的代理会为你寻找角色。",
         "cta": "开始寻找角色"
+      },
+      "findRoles": {
+        "label": "开始寻找角色",
+        "scanning": "搜索中…",
+        "sent": "我们的代理正在为你寻找角色，稍后会联系你。",
+        "left": "{count, plural, =0 {AI 搜索次数已用完} other {剩余 # 次 AI 搜索}}",
+        "leftThisMonth": "{count, plural, =0 {本月搜索次数已用完} other {本月剩余 # 次}}",
+        "upgrade": "升级到专业版，每月 {count} 次搜索"
       }
     },
     "candidatures": {
@@ -787,7 +795,11 @@
         "won": "已签约",
         "closed": "已结束"
       },
-      "ratePerDay": "${amount}/天"
+      "ratePerDay": "${amount}/天",
+      "searchInProgress": {
+        "title": "搜索进行中",
+        "body": "我们的代理正在为你寻找角色。开始于 {date}。"
+      }
     },
     "career": {
       "title": "我的事业",

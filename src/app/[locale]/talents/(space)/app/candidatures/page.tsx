@@ -6,6 +6,9 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { Radar } from "lucide-react";
+import { listMyRoleSearchesInProgress } from "@/lib/role-search";
+import { dateTime } from "@/lib/format";
 import {
   CandidaturesList,
   type CandidatureRow,
@@ -44,6 +47,8 @@ export default async function CandidaturesPage({
     orderBy: { appliedAt: "desc" },
   });
 
+  const searches = await listMyRoleSearchesInProgress(session.user.id);
+
   const rows: CandidatureRow[] = candidatures.map((c) => ({
     id: c.id,
     projectTitle: c.project.title,
@@ -67,6 +72,24 @@ export default async function CandidaturesPage({
           {t("space.candidatures.subtitle")}
         </p>
       </div>
+      {searches.length > 0 && (
+        <ul className="space-y-2">
+          {searches.map((s) => (
+            <li
+              key={s.id}
+              className="flex items-center gap-3 rounded-sedan border border-[var(--go)]/40 bg-surface p-4"
+            >
+              <Radar aria-hidden="true" className="size-5 shrink-0 text-[var(--go)]" />
+              <div className="min-w-0 flex-1">
+                <p className="font-medium">{t("space.candidatures.searchInProgress.title")}</p>
+                <p className="text-sm text-fg-muted">
+                  {t("space.candidatures.searchInProgress.body", { date: dateTime(s.createdAt, locale) })}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
       <CandidaturesList rows={rows} />
     </div>
   );

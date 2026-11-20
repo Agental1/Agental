@@ -759,6 +759,14 @@
         "title": "Lanza tu primera búsqueda",
         "body": "Tu perfil está completo. Inicia una búsqueda y nuestro agente buscará papeles para ti.",
         "cta": "Buscar papeles"
+      },
+      "findRoles": {
+        "label": "Buscar papeles",
+        "scanning": "Buscando…",
+        "sent": "Nuestro agente está buscando papeles para ti. Te responderemos pronto.",
+        "left": "{count, plural, =0 {No te quedan búsquedas con IA} one {Te queda # búsqueda con IA} other {Te quedan # búsquedas con IA}}",
+        "leftThisMonth": "{count, plural, =0 {No te quedan búsquedas este mes} one {Te queda # este mes} other {Te quedan # este mes}}",
+        "upgrade": "Pásate a Pro para {count} búsquedas al mes"
       }
     },
     "candidatures": {
@@ -787,7 +795,11 @@
         "won": "Contratadas",
         "closed": "Sin continuidad"
       },
-      "ratePerDay": "{amount} $/día"
+      "ratePerDay": "{amount} $/día",
+      "searchInProgress": {
+        "title": "Búsqueda en curso",
+        "body": "Nuestro agente está buscando papeles para ti. Iniciada el {date}."
+      }
     },
     "career": {
       "title": "Mi carrera",

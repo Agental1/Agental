@@ -1,0 +1,114 @@
+import { prisma } from "@/lib/db";
+import { getTalentPlan } from "@/lib/billing/entitlement";
+import {
+  COUNTED_STATUSES,
+  IN_PROGRESS_STATUSES,
+  allowanceFor,
+  periodKeyFor,
+  quotaFrom,
+  type RoleSearchQuota,
+} from "@/domain/role-search";
+
+/**
+ * AI role searches, server side. The quota is checked and the row written in
+ * the same transaction, under a per-user advisory lock, so double clicks and
+ * parallel tabs cannot go over the limit. The unique index on
+ * (userId, periodKey, seq) is the last guard if the lock were ever skipped.
+ *
+ * Nothing here calls a workflow: rows wait in status "queued" for n8n.
+ */
+
+export async function getRoleSearchQuota(userId: string, now = new Date()): Promise<RoleSearchQuota> {
+  const { plan } = await getTalentPlan(userId, now);
+  const periodKey = periodKeyFor(allowanceFor(plan), now);
+  const used = await prisma.roleSearchRequest.count({
+    where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
+  });
+  return quotaFrom(plan, used, now);
+}
+
+export type StartRoleSearchResult =
+  | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
+  | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota };
+
+export async function startRoleSearch(
+  userId: string,
+  clientKey: string,
+  now = new Date()
+): Promise<StartRoleSearchResult> {
+  const { plan } = await getTalentPlan(userId, now);
+  const allowance = allowanceFor(plan);
+  const periodKey = periodKeyFor(allowance, now);
+
+  return prisma.$transaction(async (tx) => {
+    // One click at a time per performer. Released at commit or rollback.
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"role-search:" + userId}))`;
+
+    // The same click sent twice (retry, double submit): answer with the row.
+    const existing = await tx.roleSearchRequest.findUnique({
+      where: { userId_clientKey: { userId, clientKey } },
+      select: { id: true },
+    });
+    const counted = await tx.roleSearchRequest.findMany({
+      where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
+      select: { seq: true },
+    });
+    if (existing) {
+      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, now) };
+    }
+    if (counted.length >= allowance.count) {
+      return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, now) };
+    }
+    // The count above decides the quota (a failed search gives its place
+    // back); seq only has to be unused, so it is the smallest free number.
+    const all = await tx.roleSearchRequest.findMany({
+      where: { userId, periodKey },
+      select: { seq: true },
+    });
+    const used = new Set(all.map((r) => r.seq));
+    let seq = 1;
+    while (used.has(seq)) seq++;
+
+    const row = await tx.roleSearchRequest.create({
+      data: { userId, plan, periodKey, seq, clientKey, status: "queued" },
+      select: { id: true },
+    });
+    return { ok: true as const, id: row.id, duplicate: false, quota: quotaFrom(plan, counted.length + 1, now) };
+  });
+}
+
+/** A performer's own searches, newest first. */
+export function listMyRoleSearches(userId: string, take = 20) {
+  return prisma.roleSearchRequest.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    take,
+    select: { id: true, status: true, createdAt: true },
+  });
+}
+
+export function listMyRoleSearchesInProgress(userId: string) {
+  return prisma.roleSearchRequest.findMany({
+    where: { userId, status: { in: [...IN_PROGRESS_STATUSES] } },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, status: true, createdAt: true },
+  });
+}
+
+/** Every search, for admins. The caller checks isAdmin. */
+export function listAllRoleSearches(take = 200) {
+  return prisma.roleSearchRequest.findMany({
+    orderBy: { createdAt: "desc" },
+    take,
+    select: {
+      id: true,
+      plan: true,
+      periodKey: true,
+      seq: true,
+      status: true,
+      createdAt: true,
+      completedAt: true,
+      user: { select: { email: true } },
+    },
+  });
+}

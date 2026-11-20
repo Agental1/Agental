@@ -62,6 +62,28 @@ Kept off or behind the mock: online payments, paid access to roles, automated su
 
 Turn on Google sign-in: `vercel deploy --prod --yes`, then `curl https://www.agental.co/api/auth/providers` must list `google`; click "Continue with Google" on `/en/connexion` and `/fr/connexion` and confirm Google's account screen opens; tag `live-YYYY-MM-DD-google`, add the row to `docs/RELEASES.md`. Then the round trip with a test user: first login, return login, sign-out, cancel, protected route while signed out, mobile width. After that, Task 3's Profile > Media.
 
+## AI role searches: contract for n8n (round 3, Group 3)
+
+"Start finding roles" on the Talent dashboard writes one row per click to `public.role_search_requests` (Prisma model `RoleSearchRequest`). The app calls no workflow. Code: `src/lib/role-search.ts`, `src/domain/role-search.ts`, action `startFindingRoles` in `src/app/actions/role-search.ts`.
+
+| Column | Meaning |
+|---|---|
+| `id` | cuid, the request id |
+| `userId` | the performer (`User.id`) |
+| `plan` | plan at click time: `FREE` (shown as Basic), `PRO`, `PREMIUM`, `ULTIMATE` |
+| `periodKey`, `seq` | quota slot: `lifetime` for Basic, `YYYY-MM` (UTC) for monthly plans |
+| `status` | `queued` (written by the app), then `running`, `done`, `failed` or `canceled` (written by the workflow) |
+| `startedAt`, `completedAt` | set by the workflow |
+| `error` | short reason when `failed`, no personal data |
+
+Status contract for the workflow:
+1. Claim a row atomically: `UPDATE role_search_requests SET status='running', "startedAt"=now(), "updatedAt"=now() WHERE id = (SELECT id FROM role_search_requests WHERE status='queued' ORDER BY "createdAt" LIMIT 1 FOR UPDATE SKIP LOCKED) RETURNING *;`
+2. Respect `User.workflowAccess` (only `ELIGIBLE` in live, `TEST` in staging). For any other value set `status='canceled'`.
+3. Finish with `status='done'` and `completedAt`, or `status='failed'` with `error`. `failed` and `canceled` give the performer's search back; `queued`, `running` and `done` count against the quota.
+4. Results go where applications already go (drafts for human review); nothing is submitted automatically.
+
+Quotas (from `B2C_PLANS.*.aiSearches` in `src/domain/pricing.ts`): Basic 4 in total, Pro 50 per calendar month. Premium and Ultimate are `TODO(founders)` and use 50 per month until set. Quota check and insert share one transaction with a per-user advisory lock; a unique index on (`userId`, `periodKey`, `seq`) and one on (`userId`, `clientKey`) back it up. Access: RLS is on with no policy (the Data API sees nothing); the app shows a performer only their own rows and the full list at `/admin/recherches` to admins. The workflow should connect with a dedicated database role or through a signed app endpoint, never with the anon key.
+
 ## Contracts agreed for the beta brief (backend branch `feat/beta-server`)
 
 Merged into `frontend-redesign` in `47670fe` and live since release 2. Full text in the shared notes.

@@ -759,6 +759,14 @@
         "title": "Launch your first research",
         "body": "Your profile is complete. Start a search and our agent will look for roles for you.",
         "cta": "Start finding roles"
+      },
+      "findRoles": {
+        "label": "Start finding roles",
+        "scanning": "Scanning…",
+        "sent": "Our agent is looking for roles for you. We'll get back to you soon.",
+        "left": "{count, plural, =0 {No AI searches left} one {# AI search left} other {# AI searches left}}",
+        "leftThisMonth": "{count, plural, =0 {No AI searches left this month} one {# left this month} other {# left this month}}",
+        "upgrade": "Upgrade to Pro for {count} searches a month"
       }
     },
     "candidatures": {
@@ -787,7 +795,11 @@
         "won": "Contracted",
         "closed": "Closed"
       },
-      "ratePerDay": "${amount}/day"
+      "ratePerDay": "${amount}/day",
+      "searchInProgress": {
+        "title": "Search in progress",
+        "body": "Our agent is looking for roles for you. Started {date}."
+      }
     },
     "career": {
       "title": "My career",

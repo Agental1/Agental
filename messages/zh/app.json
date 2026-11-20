@@ -132,7 +132,8 @@
     "domainLimitReached": "每个网站最多可绑定 {limit} 个自定义域名。",
     "draftMediaLimit": "每份草稿最多可附 {limit} 个片段。",
     "imdbUrl": "请输入类似 imdb.com/name/nm1234567 的 IMDb 链接。",
-    "portfolioUrl": "请输入以 https:// 开头的链接。"
+    "portfolioUrl": "请输入以 https:// 开头的链接。",
+    "roleSearchQuota": "你的方案已没有剩余的 AI 搜索次数。"
   },
   "auth": {
     "name": "姓名",
@@ -217,7 +218,8 @@
       "audit": "审计记录",
       "minors": "未成年人档案",
       "messages": "消息",
-      "limelight": "Limelight 申请"
+      "limelight": "Limelight 申请",
+      "roleSearches": "角色搜索"
     },
     "stats": {
       "artists": "艺人",
@@ -311,6 +313,18 @@
         "NEW": "新申请",
         "CONTACTED": "已联系",
         "CLOSED": "已关闭"
+      }
+    },
+    "roleSearches": {
+      "title": "AI 角色搜索",
+      "subtitle": "每一次点击“开始寻找角色”。在工作流接入之前，记录保持 queued 状态。",
+      "empty": "暂无搜索。",
+      "columns": {
+        "when": "时间",
+        "who": "账户",
+        "plan": "方案",
+        "period": "周期",
+        "status": "状态"
       }
     }
   },

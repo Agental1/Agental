@@ -64,6 +64,7 @@ model User {
   notifications       Notification[]
   messages            Message[]
   threads             Thread[]
+  roleSearchRequests  RoleSearchRequest[]
   sites               Site[]
   siteOrders          SiteOrder[]
   studentPriceRequest StudentPriceRequest?
@@ -929,4 +930,39 @@ model SiteRevision {
 
   @@unique([siteId, version])
   @@schema("limelight")
+}
+
+// ───────────────────── AI role searches ("Start finding roles") ─────────────────────
+
+// One row per click on "Start finding roles". The quota is checked and the row
+// written in one transaction (see src/lib/role-search.ts). n8n picks up rows
+// with status "queued"; the contract is in docs/HANDOFF.md.
+model RoleSearchRequest {
+  id          String    @id @default(cuid())
+  userId      String
+  /// Plan at the time of the click: FREE (shown as Basic), PRO, PREMIUM, ULTIMATE.
+  plan        String
+  /// "lifetime" for a one-time allowance, "YYYY-MM" (UTC) for a monthly one.
+  periodKey   String
+  /// 1..limit within (userId, periodKey). The unique index is the last guard
+  /// against going over the limit.
+  seq         Int
+  /// Random id from the browser, so a retried click stores one row.
+  clientKey   String?
+  /// queued | running | done | failed | canceled
+  status      String    @default("queued")
+  startedAt   DateTime?
+  completedAt DateTime?
+  /// Short reason when failed, written by the workflow. No personal data.
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, periodKey, seq])
+  @@unique([userId, clientKey])
+  @@index([status, createdAt])
+  @@map("role_search_requests")
+  @@schema("public")
 }

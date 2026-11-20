@@ -132,7 +132,8 @@
     "domainLimitReached": "Un sitio puede tener hasta {limit} dominios personalizados.",
     "draftMediaLimit": "Un borrador admite hasta {limit} clips.",
     "imdbUrl": "Introduce un enlace de IMDb como imdb.com/name/nm1234567.",
-    "portfolioUrl": "Introduce un enlace que empiece por https://."
+    "portfolioUrl": "Introduce un enlace que empiece por https://.",
+    "roleSearchQuota": "No te quedan búsquedas con IA en tu plan."
   },
   "auth": {
     "name": "Nombre",
@@ -217,7 +218,8 @@
       "audit": "Registro de auditoría",
       "minors": "Expedientes de menores",
       "messages": "Mensajes",
-      "limelight": "Solicitudes de Limelight"
+      "limelight": "Solicitudes de Limelight",
+      "roleSearches": "Búsquedas de papeles"
     },
     "stats": {
       "artists": "Artistas",
@@ -311,6 +313,18 @@
         "NEW": "Nueva",
         "CONTACTED": "Contactada",
         "CLOSED": "Cerrada"
+      }
+    },
+    "roleSearches": {
+      "title": "Búsquedas de papeles con IA",
+      "subtitle": "Cada clic en «Buscar papeles». Las filas esperan en estado queued hasta que se conecte el workflow.",
+      "empty": "Aún no hay búsquedas.",
+      "columns": {
+        "when": "Fecha",
+        "who": "Cuenta",
+        "plan": "Plan",
+        "period": "Periodo",
+        "status": "Estado"
       }
     }
   },

@@ -26,6 +26,9 @@ import { parseJson, PhysicalTraits } from "@/domain/json";
 import { nextMissingItem, profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
 import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
 import { getSetupState } from "@/lib/setup";
+import { getRoleSearchQuota } from "@/lib/role-search";
+import { FindRolesButton } from "@/components/app/find-roles-button";
+import { B2C_PLANS } from "@/domain/pricing";
 
 const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   photos: ImageIcon,
@@ -158,6 +161,8 @@ export default async function TalentsDashboard({
   // The sign-up basics (stage name, adult date of birth, a specialty). While
   // one is missing, a card names it and resumes the wizard there.
   const { nextStep } = await getSetupState(session.user.id);
+  const quota = await getRoleSearchQuota(session.user.id);
+  const proMonthly = B2C_PLANS.PRO.aiSearches?.count ?? 50;
 
   return (
     <div className="space-y-8">
@@ -235,6 +240,12 @@ export default async function TalentsDashboard({
           </ul>
         </section>
       )}
+
+      <FindRolesButton
+        initialQuota={quota}
+        upgradeHref="/talents/app/abonnement"
+        proMonthly={proMonthly}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (

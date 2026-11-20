@@ -759,6 +759,14 @@
         "title": "Lance ta première recherche",
         "body": "Ton profil est complet. Lance une recherche et notre agent cherchera des rôles pour toi.",
         "cta": "Trouver des rôles"
+      },
+      "findRoles": {
+        "label": "Trouver des rôles",
+        "scanning": "Recherche…",
+        "sent": "Notre agent cherche des rôles pour toi. On revient vers toi bientôt.",
+        "left": "{count, plural, =0 {Plus de recherche IA} one {# recherche IA restante} other {# recherches IA restantes}}",
+        "leftThisMonth": "{count, plural, =0 {Plus de recherche ce mois-ci} one {# restante ce mois-ci} other {# restantes ce mois-ci}}",
+        "upgrade": "Passe à Pro pour {count} recherches par mois"
       }
     },
     "candidatures": {
@@ -787,7 +795,11 @@
         "won": "Contractualisées",
         "closed": "Sans suite"
       },
-      "ratePerDay": "{amount} $/j"
+      "ratePerDay": "{amount} $/j",
+      "searchInProgress": {
+        "title": "Recherche en cours",
+        "body": "Notre agent cherche des rôles pour toi. Lancée le {date}."
+      }
     },
     "career": {
       "title": "Ma carrière",
