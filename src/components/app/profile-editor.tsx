@@ -344,7 +344,6 @@ function SpecialtiesTab({ data, setData }: TabProps) {
           save(
             {
               specialties: data.specialties.map((kind) => ({ kind, level: "BEGINNER" })),
-              mobilityCountries: ["FR"],
               minRateEuros: data.minRateEuros,
             },
             (c) => c != null && setData((d) => ({ ...d, completeness: c }))
