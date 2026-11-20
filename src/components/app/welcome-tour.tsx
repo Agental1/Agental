@@ -124,8 +124,8 @@ export function WelcomeTour({ steps, offerPhoto }: { steps: WelcomeStep[]; offer
   }
 
   if (!open) return null;
-  // Keep the card off the outlined element: top when the element sits low.
-  const cardAtTop = !!box && box.top + box.height / 2 > window.innerHeight / 2;
+  // Keep the card off the outlined element: on the side with more room.
+  const cardAtTop = !!box && box.top > window.innerHeight - (box.top + box.height);
   const motion = reducedMotion() ? "" : "transition-all duration-300";
 
   return (
