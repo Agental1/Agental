@@ -11,6 +11,7 @@ import {
   verifyEmail,
 } from "@/app/actions/account-email";
 import { logoutAction } from "@/app/actions/auth";
+import { Captcha, captchaToken } from "@/components/auth/captcha";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -69,8 +70,9 @@ export function ForgotPasswordForm() {
           onSubmit={(e) => {
             e.preventDefault();
             setError(undefined);
+            const form = e.currentTarget;
             start(async () => {
-              const res = await requestPasswordReset(email);
+              const res = await requestPasswordReset(email, captchaToken(form));
               if (res.ok) setSent(true);
               else setError(res.error);
             });
@@ -88,6 +90,7 @@ export function ForgotPasswordForm() {
               className={FIELD}
             />
           </div>
+          <Captcha />
           <ActionErrorMessage error={error} />
           <Button type="submit" size="lg" className="h-[52px] w-full" disabled={pending}>
             {t("sendLink")}

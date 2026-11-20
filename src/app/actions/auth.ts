@@ -8,6 +8,7 @@ import { signIn, signOut } from "@/auth";
 import { LoginInput, SignupInput } from "@/domain/auth";
 import { consentColumns } from "@/domain/consent";
 import { readConsentCookie } from "@/lib/consent";
+import { authAllowed, captchaPassed } from "@/lib/abuse";
 import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
@@ -31,6 +32,11 @@ export async function signupAction(
     return { error: zodError(parsed.error) };
   }
   const { email, password, kind, locale } = parsed.data;
+
+  if (!(await captchaPassed(formData.get("cf-turnstile-response")))) {
+    return { error: err("errors.captchaFailed") };
+  }
+  if (!(await authAllowed("signup", email))) return { error: err("errors.tooManyAttempts") };
 
   // In any letter case: a row stored as "Ana@X.com" before emails were
   // normalized already holds "ana@x.com".
@@ -100,6 +106,7 @@ export async function loginAction(
   if (!parsed.success) return { error: err("errors.badCredentials") };
   const { email, password } = parsed.data;
   const locale = toLocale(String(formData.get("locale") ?? ""));
+  if (!(await authAllowed("signin", email))) return { error: err("errors.tooManyAttempts") };
 
   // /continuer picks the portal and the step once the session exists, the
   // same way it does for Google and Apple. No pre-auth lookup here: choosing a

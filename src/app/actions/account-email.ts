@@ -30,6 +30,7 @@ import {
   type SendEmailResult,
 } from "@/lib/mailer";
 import { hitRateLimit } from "@/lib/rate-limit";
+import { captchaPassed } from "@/lib/abuse";
 
 /**
  * Email verification and password reset.
@@ -351,12 +352,14 @@ function runAfterResponse(work: () => Promise<void>): void {
  * then three per hour per address. Their keys are keyed hashes.
  */
 export async function requestPasswordReset(
-  email: string
+  email: string,
+  captcha?: string
 ): Promise<EmailActionResult> {
   const parsed = ResetEmail.safeParse(email);
   if (!parsed.success) {
     return { ok: false, error: err("errors.invalidInput") };
   }
+  if (!(await captchaPassed(captcha))) return { ok: false, error: err("errors.captchaFailed") };
   const address = parsed.data;
   const hdrs = await headers();
   const now = new Date();

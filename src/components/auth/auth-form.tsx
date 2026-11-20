@@ -3,6 +3,7 @@
 import { useActionErrorText } from "@/components/app/action-error";
 import type { Locale } from "next-intl";
 import { useActionState, useState } from "react";
+import { Captcha } from "@/components/auth/captcha";
 import { useTranslations } from "next-intl";
 import { AlertCircle, Check, Circle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -198,6 +199,8 @@ export function AuthForm({
           {errorText(state.error)}
         </p>
       )}
+
+      {signup && <Captcha />}
 
       {step === "credentials" && (
         <Button
