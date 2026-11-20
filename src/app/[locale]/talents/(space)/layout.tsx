@@ -45,14 +45,16 @@ export default async function TalentsAppLayout({
   if (!session?.user?.id || session.user.kind !== "TALENT") {
     return redirect({ href: "/connexion", locale });
   }
-  // Representation gate: opportunities require a signed Mandat, not a plan.
-  const profile = await prisma.artistProfile.findUnique({
+  // No setup gate: the representation agreement is out of the beta, and the
+  // dashboard's "Complete my profile" card resumes whatever is unfinished.
+  // Every page below reads the profile row, so it exists before they render
+  // (the same idempotent creation as ensureArtistProfile).
+  await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
-    include: { mandat: true },
+    create: { userId: session.user.id, stageName: "" },
+    update: {},
+    select: { id: true },
   });
-  if (!profile?.mandat?.signedAt || profile.mandat.status !== "ACTIVE") {
-    return redirect({ href: "/talents/inscription", locale });
-  }
 
   // The plan badge at the top right opens the plan switcher on every page.
   // Accounts that still have to confirm their email wait on "Check your inbox".

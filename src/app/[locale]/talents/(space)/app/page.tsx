@@ -11,7 +11,7 @@ import {
   ImageIcon,
   Ruler,
   PenLine,
-  PartyPopper,
+  ListChecks,
 } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -24,6 +24,7 @@ import { listMySites } from "@/lib/sites";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
 import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
+import { getSetupState } from "@/lib/setup";
 
 const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
   photos: ImageIcon,
@@ -48,14 +49,10 @@ function isCandidatureStatus(v: string): v is (typeof CANDIDATURE_STATUSES)[numb
 
 export default async function TalentsDashboard({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ welcome?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
-  // Set by signMandat's redirect. Only "1" counts; nothing from the URL is shown.
-  const justSigned = (await searchParams).welcome === "1";
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -66,7 +63,6 @@ export default async function TalentsDashboard({
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
     include: {
-      mandat: true,
       candidatures: { include: { project: true, matchScore: true } },
       media: true,
       _count: { select: { specialties: true } },
@@ -139,6 +135,9 @@ export default async function TalentsDashboard({
     });
 
   const hasSite = (await listMySites(session.user.id)).length > 0;
+  // The sign-up basics (stage name, adult date of birth, a specialty). While
+  // one is missing, a card names it and resumes the wizard there.
+  const { nextStep } = await getSetupState(session.user.id);
 
   return (
     <div className="space-y-8">
@@ -150,14 +149,34 @@ export default async function TalentsDashboard({
               : t("space.dashboard.welcomeAnon")}
           </h1>
           <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
-          {justSigned && (
-            <p className="mt-2 flex items-center gap-2 text-sm font-medium text-success">
-              <PartyPopper className="size-4 shrink-0" />
-              {t("space.dashboard.welcomeSigned")}
-            </p>
-          )}
         </div>
       </div>
+
+      {nextStep && (
+        <section
+          aria-labelledby="complete-setup"
+          className="flex flex-col gap-4 rounded-sedan border border-accent/40 bg-accent-soft/40 p-5 sm:flex-row sm:items-center"
+        >
+          <ListChecks aria-hidden="true" className="size-6 shrink-0 text-accent" />
+          <div className="min-w-0 flex-1">
+            <h2 id="complete-setup" className="font-display text-xl font-medium">
+              {t("space.dashboard.setup.title")}
+            </h2>
+            <p className="mt-1 text-sm text-fg-muted">{t("space.dashboard.setup.subtitle")}</p>
+            <p className="mt-2 text-sm">
+              <span className="font-medium">
+                {t("space.dashboard.setup.next", { step: t(`onboarding.steps.${nextStep}`) })}
+              </span>{" "}
+              <span className="text-fg-muted">{t(`space.dashboard.setup.steps.${nextStep}`)}</span>
+            </p>
+          </div>
+          <Button asChild className="self-start sm:self-center">
+            <Link href="/talents/inscription">
+              {t("space.dashboard.setup.cta")} <ArrowRight />
+            </Link>
+          </Button>
+        </section>
+      )}
 
       {gaps.length > 0 && (
         <section

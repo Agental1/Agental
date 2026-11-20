@@ -673,15 +673,8 @@
     "mandat": {
       "title": "Sobre el contrato de representación",
       "subtitle": "El contrato de representación estará disponible más adelante. Puedes completar tu perfil ahora.",
-      "free": "Gratis. Sin compromiso por tu parte. Cancelable cuando quieras.",
       "read": "Sobre el contrato",
-      "accept": "Acepto el mandato de representación y pido a Agental que me represente.",
-      "points": [
-        "Es el contrato estándar entre un artista y su agente, amparado por la ley francesa.",
-        "Agental te representa y negocia por ti. La comisión solo se aplica a los cachés conseguidos.",
-        "Tu material sigue siendo tuyo. Tus datos están protegidos (RGPD).",
-        "La suscripción de pago es otra decisión, más adelante, nunca mezclada con el mandato."
-      ],
+      "status": "El contrato que permite a Agental representarte todavía está en revisión. Durante la beta no firmas nada, y tu perfil, tu material y tu sitio web funcionan sin él. Cuando haya una versión lista, te la mostraremos aquí y te pediremos tu acuerdo antes de firmar.",
       "submit": "Continuar a mi perfil"
     },
     "back": "Volver",
@@ -717,7 +710,6 @@
       "welcomeAnon": "Bienvenido.",
       "completenessHint": "Tu perfil está completo al {percent} % — complétalo para que la IA lo aproveche mejor.",
       "urgentHint": "{count, plural, one {# oportunidad donde estás muy bien posicionado: cuida tu candidatura.} other {# oportunidades donde estás muy bien posicionado: cuida tus candidaturas.}}",
-      "welcomeSigned": "Tu mandato está firmado. Agental ya te representa.",
       "completeProfile": {
         "title": "Completa tu perfil",
         "subtitle": "Los directores de casting eligen según lo que ven. Añade esto para aparecer en más búsquedas.",
@@ -728,6 +720,16 @@
           "physical": "Añadir tus rasgos físicos",
           "bio": "Escribir una breve biografía"
         }
+      },
+      "setup": {
+        "title": "Completar mi perfil",
+        "subtitle": "Todavía faltan algunos datos para terminar de configurar tu cuenta.",
+        "next": "Siguiente paso: {step}.",
+        "steps": {
+          "identity": "Tu nombre artístico y tu fecha de nacimiento.",
+          "profile": "Al menos una especialidad."
+        },
+        "cta": "Continuar"
       }
     },
     "candidatures": {

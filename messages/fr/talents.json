@@ -673,15 +673,8 @@
     "mandat": {
       "title": "À propos du mandat de représentation",
       "subtitle": "Le mandat de représentation sera disponible ultérieurement. Tu peux compléter ton profil dès maintenant.",
-      "free": "Gratuit. Sans engagement de ta part. Résiliable quand tu veux.",
       "read": "À propos du mandat",
-      "accept": "J'accepte le mandat de représentation et je demande à Agental de me représenter.",
-      "points": [
-        "C'est le contrat standard entre un artiste et son agent, encadré par la loi française.",
-        "Agental te représente et négocie pour toi. La commission ne s'applique qu'aux cachets décrochés.",
-        "Tes médias restent à toi. Tes données sont protégées (RGPD).",
-        "L'abonnement payant est un autre choix, plus tard — jamais mêlé au mandat."
-      ],
+      "status": "Le mandat qui permet à Agental de te représenter est encore en cours de relecture. Pendant la bêta, tu ne signes rien, et ton profil, tes médias et ton site fonctionnent sans lui. Quand une version sera prête, on te la montrera ici et on te demandera ton accord avant toute signature.",
       "submit": "Continuer vers mon profil"
     },
     "back": "Retour",
@@ -717,7 +710,6 @@
       "welcomeAnon": "Bienvenue.",
       "completenessHint": "Ton profil est complété à {percent} % — enrichis-le pour que l'IA le fasse mieux performer.",
       "urgentHint": "{count, plural, one {# opportunité où tu es très bien classé — soigne ta candidature.} other {# opportunités où tu es très bien classé — soigne tes candidatures.}}",
-      "welcomeSigned": "Ton mandat est signé. Agental te représente désormais.",
       "completeProfile": {
         "title": "Complète ton profil",
         "subtitle": "Les directeurs de casting choisissent sur ce qu'ils voient. Ajoute ces éléments pour ressortir dans plus de recherches.",
@@ -728,6 +720,16 @@
           "physical": "Ajouter tes caractéristiques physiques",
           "bio": "Écrire une courte bio"
         }
+      },
+      "setup": {
+        "title": "Compléter mon profil",
+        "subtitle": "Il manque encore quelques informations pour finir de configurer ton compte.",
+        "next": "Prochaine étape : {step}.",
+        "steps": {
+          "identity": "Ton nom de scène et ta date de naissance.",
+          "profile": "Au moins une spécialité."
+        },
+        "cta": "Reprendre"
       }
     },
     "candidatures": {

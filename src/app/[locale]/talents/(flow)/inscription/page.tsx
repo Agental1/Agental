@@ -11,7 +11,8 @@ import { signupAction } from "@/app/actions/auth";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { isoDate } from "@/domain/age";
-import { isMandateSigned } from "@/domain/auth-routes";
+import { getSetupState } from "@/lib/setup";
+import { SETUP_STEPS } from "@/domain/setup";
 
 export async function generateMetadata({
   params,
@@ -67,22 +68,25 @@ export default async function TalentsSignupPage({
     );
   }
 
-  // Signed in → load or create profile, resume onboarding.
+  // Signed in: the basics are saved, so the wizard has nothing left to ask.
+  const { nextStep } = await getSetupState(session.user.id);
+  if (nextStep === null) {
+    return redirect({ href: "/talents/app", locale });
+  }
+
+  // Otherwise load or create the profile and resume at the first unfinished step.
   const profile = await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
-    include: { specialties: true, mandat: true },
+    include: { specialties: true },
   });
-
-  if (isMandateSigned({ mandat: profile.mandat })) {
-    return redirect({ href: "/talents/app", locale });
-  }
 
   const physical = parseJson(PhysicalTraits, profile.physical);
 
   return (
     <OnboardingWizard
+      initialStep={SETUP_STEPS.indexOf(nextStep)}
       initial={{
         stageName: profile.stageName,
         city: profile.city ?? "",

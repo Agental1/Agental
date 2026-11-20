@@ -673,15 +673,8 @@
     "mandat": {
       "title": "About the representation agreement",
       "subtitle": "The representation agreement will be available later. You can complete your profile now.",
-      "free": "Free. No commitment on your side. Cancel whenever you want.",
       "read": "About the agreement",
-      "accept": "I accept the representation mandate and ask Agental to represent me.",
-      "points": [
-        "It is the standard contract between an artist and their agent, framed by French law.",
-        "Agental represents you and negotiates for you. Commission applies only to fees you actually land.",
-        "Your media stays yours. Your data is protected (GDPR).",
-        "The paid subscription is a separate choice, later — never mixed with the mandate."
-      ],
+      "status": "The agreement that lets Agental represent you is still under review. During the beta you sign nothing, and your profile, media and website work without it. When a version is ready, we'll show it to you here and ask before anything is signed.",
       "submit": "Continue to my profile"
     },
     "back": "Back",
@@ -717,7 +710,6 @@
       "welcomeAnon": "Welcome.",
       "completenessHint": "Your profile is {percent}% complete. Fill it in so the AI can do more with it.",
       "urgentHint": "{count, plural, one {You rank very high for # opportunity. Polish your application.} other {You rank very high for # opportunities. Polish your applications.}}",
-      "welcomeSigned": "Your mandate is signed. Agental now represents you.",
       "completeProfile": {
         "title": "Complete your profile",
         "subtitle": "Casting directors choose from what they can see. Add these to show up in more searches.",
@@ -728,6 +720,16 @@
           "physical": "Add your physical details",
           "bio": "Write a short bio"
         }
+      },
+      "setup": {
+        "title": "Complete my profile",
+        "subtitle": "A few details are still missing before your account is set up.",
+        "next": "Next step: {step}.",
+        "steps": {
+          "identity": "Your stage name and date of birth.",
+          "profile": "At least one specialty."
+        },
+        "cta": "Resume"
       }
     },
     "candidatures": {

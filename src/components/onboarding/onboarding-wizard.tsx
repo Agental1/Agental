@@ -6,23 +6,22 @@ import { useActionErrorText } from "@/components/app/action-error";
 import { HeightField } from "@/components/app/height-field";
 import { err, type ActionError } from "@/domain/action-result";
 import type { HeightValue } from "@/domain/height";
-import { useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
+import { useRouter } from "@/i18n/navigation";
 import {
-  Check,
   ArrowRight,
   ArrowLeft,
   Loader2,
   ShieldCheck,
-  Info,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
   saveIdentity,
   saveProfileBasics,
-  signMandat,
+  completeBetaOnboarding,
 } from "@/app/actions/onboarding";
 
 /**
@@ -34,9 +33,9 @@ import {
 const SPECIALTY_KINDS = SpecialtyKind.options;
 
 /**
- * Three steps, the minimum to be represented. Physical details, photos and
- * videos moved to the profile editor, where the dashboard's "Complete your
- * profile" card sends the talent after signing.
+ * Three steps. Physical details, photos and videos live in the profile
+ * editor. The third step names the representation agreement, which is out
+ * of the beta: it only says so and moves on to the profile.
  */
 const STEP_KEYS = ["identity", "profile", "mandat"] as const;
 
@@ -48,10 +47,19 @@ export interface OnboardingInitial {
   specialties: string[];
 }
 
-export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
+export function OnboardingWizard({
+  initial,
+  initialStep = 0,
+}: {
+  initial: OnboardingInitial;
+  /** Where to resume: the first unfinished step (see src/domain/setup.ts). */
+  initialStep?: number;
+}) {
   const t = useTranslations("talents");
   const ta = useTranslations("app");
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() =>
+    Math.min(Math.max(initialStep, 0), STEP_KEYS.length - 1)
+  );
   const [data, setData] = useState(initial);
   // Untouched, the stored height goes back as exact centimeters.
   const [height, setHeight] = useState<HeightValue | undefined>(
@@ -201,12 +209,20 @@ export function OnboardingWizard({ initial }: { initial: OnboardingInitial }) {
   );
 }
 
+/**
+ * The third step keeps its place and its name, but during the beta it signs
+ * nothing: the representation agreement is out until counsel approves a
+ * version (src/domain/mandat.ts). The button records that the basics are
+ * done (completeBetaOnboarding) and goes where the server says.
+ */
 function MandatStep({ onBack }: { onBack: () => void }) {
   const t = useTranslations("talents");
+  const router = useRouter();
   const errorText = useActionErrorText();
-  const [accept, setAccept] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
+  const aboutId = useId();
 
   return (
     <Step
@@ -214,34 +230,26 @@ function MandatStep({ onBack }: { onBack: () => void }) {
       subtitle={t("onboarding.mandat.subtitle")}
     >
       <div className="space-y-3 rounded-sedan border border-border bg-surface p-5">
-        <div className="flex items-center gap-2 text-accent">
-          <ShieldCheck className="size-5" />
-          <span className="font-medium text-fg">
-            {t("onboarding.mandat.free")}
-          </span>
-        </div>
-        <ul className="space-y-2 text-sm text-fg-muted">
-          {(t.raw("onboarding.mandat.points") as string[]).map((point) => (
-            <li key={point} className="flex items-start gap-2">
-              <Check className="mt-0.5 size-4 shrink-0 text-success" />
-              {point}
-            </li>
-          ))}
-        </ul>
-        <Badge variant="neutral">
-          <Info className="size-3" /> {t("onboarding.mandat.read")}
-        </Badge>
+        <button
+          type="button"
+          aria-expanded={aboutOpen}
+          aria-controls={aboutId}
+          onClick={() => setAboutOpen((o) => !o)}
+          className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent hover:underline md:min-h-0"
+        >
+          <ShieldCheck className="size-5 shrink-0" />
+          {t("onboarding.mandat.read")}
+          <ChevronDown
+            aria-hidden="true"
+            className={cn("size-4 shrink-0 transition-transform", aboutOpen && "rotate-180")}
+          />
+        </button>
+        {aboutOpen && (
+          <p id={aboutId} className="text-sm text-fg-muted">
+            {t("onboarding.mandat.status")}
+          </p>
+        )}
       </div>
-
-      <label className="mt-4 flex items-start gap-3 text-sm">
-        <input
-          type="checkbox"
-          checked={accept}
-          onChange={(e) => setAccept(e.target.checked)}
-          className="mt-0.5 size-4 accent-[var(--accent)]"
-        />
-        <span>{t("onboarding.mandat.accept")}</span>
-      </label>
 
       {error && (
         <p role="alert" className="mt-2 text-sm text-danger">
@@ -252,27 +260,19 @@ function MandatStep({ onBack }: { onBack: () => void }) {
       <Button
         className="mt-5 w-full"
         size="lg"
-        disabled={!accept || pending}
+        disabled={pending}
         onClick={() =>
           startTransition(async () => {
             setError(undefined);
             try {
-              // Success redirects (it throws NEXT_REDIRECT); a refusal comes
-              // back as a translation key.
-              const res = await signMandat({ accept });
-              if (!res.ok) setError(res.error ?? err("errors.signatureFailed"));
-            } catch (e) {
-              if (
-                e &&
-                typeof e === "object" &&
-                "digest" in e &&
-                String((e as { digest: string }).digest).startsWith(
-                  "NEXT_REDIRECT"
-                )
-              ) {
-                throw e;
+              const res = await completeBetaOnboarding();
+              if (!res.ok) {
+                setError(res.error);
+                return;
               }
-              setError(err("errors.signatureFailed"));
+              router.push(res.path);
+            } catch {
+              setError(err("errors.generic"));
             }
           })
         }
