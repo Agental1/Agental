@@ -18,6 +18,8 @@ import {
 import { err, type ActionError } from "@/domain/action-result";
 import { cn } from "@/lib/utils";
 import type { Portal } from "@/lib/utils";
+import type { RoleSearchQuota } from "@/domain/role-search";
+import { SearchUsageBar } from "@/components/app/search-usage";
 
 export interface SwitcherPlan {
   /** Plan id from src/domain/pricing.ts, e.g. "PRO". */
@@ -44,6 +46,7 @@ export function PlanSwitcher({
   plans,
   detailsHref,
   studentLink,
+  usage,
 }: {
   portal: Portal;
   current: string;
@@ -51,6 +54,8 @@ export function PlanSwitcher({
   detailsHref: string;
   /** Talent only: "College student? Verify your school email." */
   studentLink?: { href: string; label: string };
+  /** Talent only: AI searches used in the current period. */
+  usage?: RoleSearchQuota;
 }) {
   const t = useTranslations("common.app");
   const router = useRouter();
@@ -159,6 +164,8 @@ export function PlanSwitcher({
         </div>
 
         <ActionErrorMessage error={error} className="mt-3" />
+
+        {usage && <SearchUsageBar quota={usage} className="mt-3" />}
 
         {studentLink && (
           <Link

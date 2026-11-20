@@ -765,9 +765,11 @@
         "label": "Start finding roles",
         "scanning": "Scanning…",
         "sent": "Our agent is looking for roles for you. We'll get back to you soon.",
-        "left": "{count, plural, =0 {No AI searches left} one {# AI search left} other {# AI searches left}}",
-        "leftThisMonth": "{count, plural, =0 {No AI searches left this month} one {# left this month} other {# left this month}}",
-        "upgrade": "Upgrade to Pro for {count} searches a month"
+        "available": "{count, plural, one {# search available} other {# searches available}}",
+        "leftOf": "{left} of {limit} {left, plural, one {search} other {searches}} left · resets in {days, plural, one {# day} other {# days}}",
+        "noneLeft": "No searches left · resets in {days, plural, one {# day} other {# days}}",
+        "upgradeMore": "Upgrade for more searches",
+        "usage": "AI searches this period"
       }
     },
     "candidatures": {

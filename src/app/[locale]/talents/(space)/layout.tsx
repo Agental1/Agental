@@ -17,6 +17,7 @@ import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { getTalentPlan } from "@/lib/billing/entitlement";
+import { getRoleSearchQuota } from "@/lib/role-search";
 
 /** Route + icon are structure; the label is looked up per locale below. */
 const NAV = [
@@ -81,6 +82,7 @@ export default async function TalentsAppLayout({
 
   // The plan the talent really has, the Limelight Pro months included.
   const { plan: current } = await getTalentPlan(session.user.id);
+  const usage = await getRoleSearchQuota(session.user.id);
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
   const plans: SwitcherPlan[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p, i) => ({
     plan: p,
@@ -135,6 +137,7 @@ export default async function TalentsAppLayout({
           current={current}
           plans={plans}
           detailsHref="/talents/app/abonnement"
+          usage={usage}
           studentLink={{ href: "/talents/app/abonnement#student", label: t("space.student.link") }}
         />
       }

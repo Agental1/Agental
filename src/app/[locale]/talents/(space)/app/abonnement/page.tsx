@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { getTalentPlan } from "@/lib/billing/entitlement";
+import { getRoleSearchQuota } from "@/lib/role-search";
+import { SearchUsageBar } from "@/components/app/search-usage";
 import { date } from "@/lib/format";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
 import { B2C_PLANS } from "@/domain/pricing";
@@ -37,6 +39,7 @@ export default async function AbonnementPage({
   const session = await auth();
   if (!session?.user?.id) return null;
   const effective = await getTalentPlan(session.user.id);
+  const usage = await getRoleSearchQuota(session.user.id);
 
   const current = effective.plan;
   const student = await prisma.user.findUnique({
@@ -69,6 +72,11 @@ export default async function AbonnementPage({
           </p>
         )}
       </div>
+
+      <section className="max-w-md rounded-sedan-xl border border-border bg-surface p-4">
+        <h2 className="mb-2 text-[15px] font-bold">{t("space.dashboard.findRoles.usage")}</h2>
+        <SearchUsageBar quota={usage} />
+      </section>
 
       <PlanSelector plans={plans} current={current} />
 

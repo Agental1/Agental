@@ -49,6 +49,8 @@ model User {
   studentVerifiedAt     DateTime?
   // The school address that proved it (lowercase). One account per address.
   studentEmail          String?   @unique
+  /// Start of the current 30-day AI search period (null before the first search).
+  searchPeriodStartedAt DateTime?
   // Sessions issued before this instant are refused (see src/auth.ts). Set
   // when a provider sign-in takes over an account whose password was never
   // proven to belong to the email's owner.

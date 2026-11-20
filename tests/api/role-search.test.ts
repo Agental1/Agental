@@ -54,7 +54,7 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(results.filter((r) => !r.ok && r.reason === "quota_exhausted")).toHaveLength(5);
     expect(await prisma.roleSearchRequest.count({ where: { userId: basic } })).toBe(5);
     const rows = await prisma.roleSearchRequest.findMany({ where: { userId: basic } });
-    expect(rows.every((r) => r.status === "queued" && r.plan === "FREE" && r.periodKey.startsWith("20"))).toBe(true);
+    expect(rows.every((r) => r.status === "queued" && r.plan === "FREE" && /^p\d+$/.test(r.periodKey))).toBe(true);
     expect((await getRoleSearchQuota(basic)).remaining).toBe(0);
   });
 
@@ -83,12 +83,30 @@ describe.skipIf(!local)("AI role searches", () => {
     });
   });
 
-  it("uses Pro's monthly allowance and month key", async () => {
+  it("starts the period at the first search and keeps it", async () => {
+    const before = await getRoleSearchQuota(pro);
+    expect(before).toMatchObject({ limit: 50, used: 0, resetsAt: null });
     const res = await startRoleSearch(pro, key(400));
-    expect(res.ok && res.quota.kind === "monthly" && res.quota.limit === 50).toBe(true);
+    expect(res.ok && res.quota.limit === 50 && res.quota.resetInDays === 30).toBe(true);
     const row = await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: pro } });
     expect(row.plan).toBe("PRO");
-    expect(row.periodKey).toMatch(/^\d{4}-\d{2}$/);
+    expect(row.periodKey).toMatch(/^p\d+$/);
+    const u = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
+    expect(u.searchPeriodStartedAt).not.toBeNull();
+    await startRoleSearch(pro, key(401));
+    const again = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
+    expect(again.searchPeriodStartedAt?.getTime()).toBe(u.searchPeriodStartedAt?.getTime());
+    expect((await getRoleSearchQuota(pro)).used).toBe(2);
+  });
+
+  it("resets after 30 days and the next search opens a new period", async () => {
+    const old = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
+    await prisma.user.update({ where: { id: pro }, data: { searchPeriodStartedAt: old } });
+    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, remaining: 50, resetsAt: null });
+    const res = await startRoleSearch(pro, key(402));
+    expect(res.ok && res.quota.used === 1).toBe(true);
+    const u = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
+    expect(u.searchPeriodStartedAt!.getTime()).toBeGreaterThan(old.getTime() + 30 * 24 * 60 * 60 * 1000);
   });
 
   it("lists only the performer's own rows", async () => {

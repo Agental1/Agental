@@ -765,9 +765,11 @@
         "label": "开始寻找角色",
         "scanning": "搜索中…",
         "sent": "我们的代理正在为你寻找角色，稍后会联系你。",
-        "left": "{count, plural, =0 {AI 搜索次数已用完} other {剩余 # 次 AI 搜索}}",
-        "leftThisMonth": "{count, plural, =0 {本月搜索次数已用完} other {本月剩余 # 次}}",
-        "upgrade": "升级到专业版，每月 {count} 次搜索"
+        "available": "可用 {count} 次搜索",
+        "leftOf": "剩余 {left} / {limit} 次搜索 · {days} 天后重置",
+        "noneLeft": "搜索次数已用完 · {days} 天后重置",
+        "upgradeMore": "升级以获得更多搜索",
+        "usage": "本周期的 AI 搜索"
       }
     },
     "candidatures": {

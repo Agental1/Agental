@@ -4,6 +4,7 @@ import {
   COUNTED_STATUSES,
   IN_PROGRESS_STATUSES,
   allowanceFor,
+  periodActive,
   periodKeyFor,
   quotaFrom,
   type RoleSearchQuota,
@@ -20,11 +21,14 @@ import {
 
 export async function getRoleSearchQuota(userId: string, now = new Date()): Promise<RoleSearchQuota> {
   const { plan } = await getTalentPlan(userId, now);
-  const periodKey = periodKeyFor(allowanceFor(plan), now);
-  const used = await prisma.roleSearchRequest.count({
-    where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
-  });
-  return quotaFrom(plan, used, now);
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { searchPeriodStartedAt: true } });
+  const start = user?.searchPeriodStartedAt ?? null;
+  const used = periodActive(start, now)
+    ? await prisma.roleSearchRequest.count({
+        where: { userId, periodKey: periodKeyFor(start), status: { in: [...COUNTED_STATUSES] } },
+      })
+    : 0;
+  return quotaFrom(plan, used, start, now);
 }
 
 export type StartRoleSearchResult =
@@ -38,11 +42,17 @@ export async function startRoleSearch(
 ): Promise<StartRoleSearchResult> {
   const { plan } = await getTalentPlan(userId, now);
   const allowance = allowanceFor(plan);
-  const periodKey = periodKeyFor(allowance, now);
 
   return prisma.$transaction(async (tx) => {
     // One click at a time per performer. Released at commit or rollback.
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"role-search:" + userId}))`;
+
+    // The period: the stored start while it runs, else a new one begins now.
+    const u = await tx.user.findUnique({ where: { id: userId }, select: { searchPeriodStartedAt: true } });
+    const stored = u?.searchPeriodStartedAt ?? null;
+    const active = periodActive(stored, now);
+    const start = active ? stored : now;
+    const periodKey = periodKeyFor(start);
 
     // The same click sent twice (retry, double submit): answer with the row.
     const existing = await tx.roleSearchRequest.findUnique({
@@ -54,10 +64,10 @@ export async function startRoleSearch(
       select: { seq: true },
     });
     if (existing) {
-      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, now) };
+      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, start, now) };
     }
     if (counted.length >= allowance.count) {
-      return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, now) };
+      return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
     }
     // The count above decides the quota (a failed search gives its place
     // back); seq only has to be unused, so it is the smallest free number.
@@ -69,11 +79,14 @@ export async function startRoleSearch(
     let seq = 1;
     while (used.has(seq)) seq++;
 
+    if (!active) {
+      await tx.user.update({ where: { id: userId }, data: { searchPeriodStartedAt: now } });
+    }
     const row = await tx.roleSearchRequest.create({
       data: { userId, plan, periodKey, seq, clientKey, status: "queued" },
       select: { id: true },
     });
-    return { ok: true as const, id: row.id, duplicate: false, quota: quotaFrom(plan, counted.length + 1, now) };
+    return { ok: true as const, id: row.id, duplicate: false, quota: quotaFrom(plan, counted.length + 1, start, now) };
   });
 }
 

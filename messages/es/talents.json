@@ -765,9 +765,11 @@
         "label": "Buscar papeles",
         "scanning": "Buscando…",
         "sent": "Nuestro agente está buscando papeles para ti. Te responderemos pronto.",
-        "left": "{count, plural, =0 {No te quedan búsquedas con IA} one {Te queda # búsqueda con IA} other {Te quedan # búsquedas con IA}}",
-        "leftThisMonth": "{count, plural, =0 {No te quedan búsquedas este mes} one {Te queda # este mes} other {Te quedan # este mes}}",
-        "upgrade": "Pásate a Pro para {count} búsquedas al mes"
+        "available": "{count, plural, one {# búsqueda disponible} other {# búsquedas disponibles}}",
+        "leftOf": "{left} de {limit} {left, plural, one {búsqueda restante} other {búsquedas restantes}} · se renueva en {days, plural, one {# día} other {# días}}",
+        "noneLeft": "No quedan búsquedas · se renueva en {days, plural, one {# día} other {# días}}",
+        "upgradeMore": "Mejora tu plan para más búsquedas",
+        "usage": "Búsquedas con IA de este periodo"
       }
     },
     "candidatures": {

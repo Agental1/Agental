@@ -765,9 +765,11 @@
         "label": "Trouver des rôles",
         "scanning": "Recherche…",
         "sent": "Notre agent cherche des rôles pour toi. On revient vers toi bientôt.",
-        "left": "{count, plural, =0 {Plus de recherche IA} one {# recherche IA restante} other {# recherches IA restantes}}",
-        "leftThisMonth": "{count, plural, =0 {Plus de recherche ce mois-ci} one {# restante ce mois-ci} other {# restantes ce mois-ci}}",
-        "upgrade": "Passe à Pro pour {count} recherches par mois"
+        "available": "{count, plural, one {# recherche disponible} other {# recherches disponibles}}",
+        "leftOf": "{left} {left, plural, one {recherche restante} other {recherches restantes}} sur {limit} · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
+        "noneLeft": "Plus de recherche · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
+        "upgradeMore": "Passe à un plan supérieur pour plus de recherches",
+        "usage": "Recherches IA de cette période"
       }
     },
     "candidatures": {

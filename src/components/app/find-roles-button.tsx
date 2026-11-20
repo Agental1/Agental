@@ -8,6 +8,7 @@ import { ActionErrorMessage } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import type { RoleSearchQuota } from "@/domain/role-search";
 import { startFindingRoles } from "@/app/actions/role-search";
+import { SearchUsageLine } from "@/components/app/search-usage";
 import { cn } from "@/lib/utils";
 
 /** How long the scanning animation plays before the confirmation shows. */
@@ -29,12 +30,9 @@ function newClientKey(): string {
 export function FindRolesButton({
   initialQuota,
   upgradeHref,
-  proMonthly,
 }: {
   initialQuota: RoleSearchQuota;
   upgradeHref: string;
-  /** Pro's monthly allowance, for the upgrade line. */
-  proMonthly: number;
 }) {
   const t = useTranslations("talents.space.dashboard.findRoles");
   const router = useRouter();
@@ -83,11 +81,6 @@ export function FindRolesButton({
     });
   }
 
-  const remainingLine =
-    quota.kind === "monthly"
-      ? t("leftThisMonth", { count: quota.remaining })
-      : t("left", { count: quota.remaining });
-
   return (
     <section
       id="find-roles"
@@ -128,7 +121,7 @@ export function FindRolesButton({
       </div>
 
       <p id="find-roles-left" className="text-sm font-medium text-fg-muted">
-        {remainingLine}
+        <SearchUsageLine quota={quota} />
       </p>
 
       <div aria-live="polite" className="min-h-6 max-w-md">
@@ -137,7 +130,7 @@ export function FindRolesButton({
 
       {exhausted && (
         <Link href={upgradeHref} className="text-sm font-bold text-accent hover:underline">
-          {t("upgrade", { count: proMonthly })}
+          {t("upgradeMore")}
         </Link>
       )}
       <ActionErrorMessage error={error} />
