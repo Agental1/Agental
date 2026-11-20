@@ -179,7 +179,7 @@ export default async function AdminLimelightPage({
                     </td>
                     <td className="px-4 py-3 font-medium">{lead.name}</td>
                     <td className="px-4 py-3">
-                      <a href={`mailto:${lead.email}`} className="break-all text-accent hover:underline">
+                      <a href={`mailto:${lead.email}`} className="whitespace-nowrap text-accent hover:underline">
                         {lead.email}
                       </a>
                     </td>

@@ -181,7 +181,9 @@ export function SitePanel({
                     ? t("approved")
                     : t("draft")}
               </p>
-              {site.live && needsApproval && (
+              {/* A site published before revisions existed has no published
+                  version: nothing newer is waiting, it only needs one approval. */}
+              {site.live && needsApproval && site.publishedVersion !== null && (
                 <p className="mt-1 text-[14px] text-fg-muted">{t("pendingChanges")}</p>
               )}
               {!site.live && needsApproval && (
