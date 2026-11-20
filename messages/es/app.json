@@ -388,6 +388,22 @@
         "limelight": "Limelight request",
         "plan": "Plan"
       }
+    },
+    "studentRequests": {
+      "title": "Student price requests",
+      "note": "The student price itself is still to be announced. Approving lets the student order at that price once it is set.",
+      "empty": "No requests yet.",
+      "failed": "That decision did not go through. Reload and try again.",
+      "requested": "Requested {date}",
+      "decided": "decided {date}",
+      "approve": "Approve",
+      "decline": "Decline",
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Declined",
+        "USED": "Used"
+      }
     }
   },
   "matchReasons": {

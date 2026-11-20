@@ -388,6 +388,22 @@
         "limelight": "Demande Limelight",
         "plan": "Formule"
       }
+    },
+    "studentRequests": {
+      "title": "Demandes de prix étudiant",
+      "note": "Le prix étudiant reste à annoncer. Une demande approuvée permettra de commander à ce prix dès qu'il sera fixé.",
+      "empty": "Aucune demande pour l'instant.",
+      "failed": "Cette décision n'a pas abouti. Recharge et réessaie.",
+      "requested": "Demandé le {date}",
+      "decided": "décidé le {date}",
+      "approve": "Approuver",
+      "decline": "Refuser",
+      "status": {
+        "PENDING": "En attente",
+        "APPROVED": "Approuvée",
+        "REJECTED": "Refusée",
+        "USED": "Utilisée"
+      }
     }
   },
   "matchReasons": {

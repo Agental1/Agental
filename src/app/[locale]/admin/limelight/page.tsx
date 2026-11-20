@@ -12,6 +12,8 @@ import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { listLimelightLeads } from "@/lib/limelight/leads";
+import { listStudentPriceRequests } from "@/lib/sites";
+import { StudentRequests } from "@/components/admin/student-requests";
 import {
   LIMELIGHT_DISCIPLINES,
   LIMELIGHT_LEAD_STATUSES,
@@ -229,6 +231,18 @@ export default async function AdminLimelightPage({
         </div>
       )}
       {highlighted && <ScrollIntoView targetId={`lead-${highlighted.reference}`} />}
+
+      <StudentRequests
+        locale={locale}
+        rows={(await listStudentPriceRequests()).map((r) => ({
+          id: r.id,
+          email: r.email,
+          name: r.name,
+          status: r.status,
+          createdAt: r.createdAt.toISOString(),
+          decidedAt: r.decidedAt ? r.decidedAt.toISOString() : null,
+        }))}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import type { NavItem } from "./header";
 import { LIMELIGHT } from "@/domain/limelight";
 import { BETA } from "@/data/beta";
+import { Wordmark } from "@/components/brand/wordmark";
 
 /**
  * Footer: the tagline and three link columns.
@@ -24,6 +25,7 @@ export function MarketingFooter({
     <footer className="mt-auto border-t border-border">
       <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] pb-10 pt-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
+          <Wordmark className="mb-5 h-7 w-auto text-fg" />
           <p className="text-[clamp(20px,2vw,26px)] font-bold leading-[1.15] tracking-[-0.02em]">
             {t("footer.tagline")}
           </p>

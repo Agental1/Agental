@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Wordmark } from "./wordmark";
 
 /**
  * The Agental monogram: an A whose left leg is blue with two cuts through it.
@@ -54,14 +55,17 @@ export function AgentalLogo({
   /** Second word of the lockup, e.g. "Talents". */
   portal?: string;
 }) {
+  // Where there is room, the full wordmark (brand/agental-wordmark.svg);
+  // otherwise the A monogram alone, unchanged.
   return (
     <span className={cn("inline-flex items-center gap-2 text-fg", className)}>
-      <AgentalMark className="h-7 w-auto" />
-      {wordmark && (
-        <span className="brand-type text-[20px] font-bold leading-none tracking-[-0.03em]">
-          Agental
-          {portal && <span className="ml-1.5 font-normal text-fg-muted">{portal}</span>}
-        </span>
+      {wordmark ? (
+        <>
+          <Wordmark className="h-[22px] w-auto" />
+          {portal && <span className="brand-type text-[20px] leading-none tracking-[-0.03em] text-fg-muted">{portal}</span>}
+        </>
+      ) : (
+        <AgentalMark className="h-7 w-auto" />
       )}
     </span>
   );

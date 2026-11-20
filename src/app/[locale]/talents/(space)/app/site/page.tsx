@@ -54,7 +54,8 @@ export default async function SitePage({
     name: site.content?.name ?? "",
     headline: site.content?.headline ?? "",
     live: site.status === "PUBLISHED" && site.publishedAt !== null,
-    address: site.customDomain ?? (site.subdomain ? `${site.subdomain}.${LIMELIGHT.siteDomain}` : null),
+    // Served today at agental.co/s/<name>; the subdomain form needs wildcard DNS.
+    address: site.customDomain ?? (site.subdomain ? `agental.co/s/${site.subdomain}` : null),
     hostingUntil: site.paidOrder?.hostingRenewsAt ? date(site.paidOrder.hostingRenewsAt, locale) : null,
     latestVersion: site.latestVersion,
     approvedVersion: site.approvedVersion,
