@@ -133,3 +133,11 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 **Video cap** is 50 MB (Supabase Free per-file limit): `VIDEO_MAX_MB` in src/domain/uploads.ts. Raise it with a paid plan.
 
 **Media bug root cause:** not yet confirmed on production (no signed-in production session available to the agent). Fixes shipped regardless: only a missing session answers errors.unauthorized, the browser re-checks the session before leaving a recording, profile media no longer goes through a 1 MB action body, and the server logs the refusal reason (`[media] refused:` / `[avatar] refused:`).
+
+## Round 4, group E (2026-11-20)
+
+- Welcome: `src/components/app/welcome-tour.tsx`, rendered by the dashboard on `?welcome=1` (new accounts now land on `/talents/app?welcome=1`; Settings replays it). Casting keeps the older dialog tour.
+- Google: names fill an empty profile (`src/lib/profile-prefill.ts`); the Google photo is only offered (`adoptProviderPhoto`). Scopes: openid profile email.
+- Privacy page `/en/talents/confidentialite` is a factual draft for the founders to review.
+- **Owner, to finish Google:** Google Cloud Console, project agental-515217, Google Auth Platform: Branding, set Application privacy policy link to `https://www.agental.co/en/talents/confidentialite` and save; Audience, Publish app. (The agent hit a password re-check there.)
+- **Owner, keys:** the Vercel marketplace Supabase "Install" creates a new Supabase account, so it was not used; paste `SUPABASE_SERVICE_ROLE_KEY` and `RESEND_API_KEY` by hand.

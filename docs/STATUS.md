@@ -84,3 +84,13 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 4. **Commission.** Removed from the plan cards, plan selector and Subscription page in release 2.
 5. **Google and Apple.** Google keys are in Vercel; a redeploy turns the button on, and a privacy-policy page lets the Google app leave Testing. Apple is set aside.
 6. **Videos** stay on Cloudflare R2, the private bucket already in place, by agreement with the backend session. The brief said Supabase Storage.
+
+## Round 4 (2026-11-20)
+
+| Group | Status | Deployment | Notes |
+|---|---|---|---|
+| A config and copy | done | `agental-j0ry17gkc` | Allowances 5/50/250/500, new About copy, assistant cost guard (docs/ASSISTANT.md). |
+| B search usage | done | `agental-9efit794l` | Rolling 30-day period from the first search, usage line and bars. |
+| C media and storage | partial | `agental-qptszo8sf`, `agental-3207nden0` | Session handling fixed, Supabase Storage built and dormant until `SUPABASE_SERVICE_ROLE_KEY` is set; 50 MB video cap. Root cause not confirmed on production. Not tested on Chrome, Safari or iOS Safari with a real account. |
+| D email verification | done, waiting on owner | `agental-3207nden0` | Gate starts 2026-11-20T09:52:48Z once `RESEND_API_KEY` is set; banner for older accounts. Not tested with a real inbox. |
+| E Google and welcome | done, waiting on owner | `agental-7ib83n3kk` | Welcome tour, Google prefill, privacy page. Google app still in Testing: add the privacy URL and publish (owner). Google round trip not tested with a real account. |
