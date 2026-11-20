@@ -43,11 +43,14 @@ export function PlanSwitcher({
   current,
   plans,
   detailsHref,
+  studentLink,
 }: {
   portal: Portal;
   current: string;
   plans: SwitcherPlan[];
   detailsHref: string;
+  /** Talent only: "College student? Verify your school email." */
+  studentLink?: { href: string; label: string };
 }) {
   const t = useTranslations("common.app");
   const router = useRouter();
@@ -156,6 +159,16 @@ export function PlanSwitcher({
         </div>
 
         <ActionErrorMessage error={error} className="mt-3" />
+
+        {studentLink && (
+          <Link
+            href={studentLink.href}
+            onClick={() => setOpen(false)}
+            className="mt-3 inline-flex min-h-11 items-center text-[14px] text-fg-muted underline-offset-4 hover:text-accent hover:underline"
+          >
+            {studentLink.label}
+          </Link>
+        )}
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <Link

@@ -144,7 +144,7 @@ describe("createUpload", () => {
       mime: "video/mp4",
       sizeBytes: 5 * MB,
     });
-    expect(String(data.storageKey)).toMatch(/^selftape\/p1\/[0-9a-f-]{36}\.mp4$/);
+    expect(String(data.storageKey)).toMatch(/^u1\/selftape\/[0-9a-f-]{36}\.mp4$/);
     expect(storage.presignUpload).toHaveBeenCalledWith(data.storageKey, "video/mp4", 5 * MB);
   });
 

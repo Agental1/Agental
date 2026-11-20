@@ -208,18 +208,24 @@ export function overQuota(
  * Self-tapes and profile media sit under different prefixes so account
  * deletion and lifecycle rules can address them separately.
  */
+/**
+ * Where a new file goes: under the owner's user id, then its kind, e.g.
+ * `{userId}/selftape/{uuid}.webm`. Files stored before 2026-11-20 sit under
+ * `media/{profileId}/` and `selftape/{profileId}/`; each Media row keeps its
+ * own key, so both layouts are read the same way.
+ */
 export function storageKeyFor(
   type: UploadType,
-  profileId: string,
+  userId: string,
   objectId: string,
   mime: string
 ): string {
-  const prefix = type === "SELFTAPE" ? "selftape" : "media";
+  const kind = type === "SELFTAPE" ? "selftape" : "media";
   const ext = EXTENSIONS[baseMime(mime)];
-  return `${prefix}/${profileId}/${objectId}${ext ? `.${ext}` : ""}`;
+  return `${userId}/${kind}/${objectId}${ext ? `.${ext}` : ""}`;
 }
 
-/** Every prefix that can hold a talent's files, for account deletion. */
-export function storagePrefixesFor(profileId: string): string[] {
-  return [`media/${profileId}/`, `selftape/${profileId}/`];
+/** Every prefix that can hold a talent's files (both layouts), for account deletion. */
+export function storagePrefixesFor(profileId: string, userId: string): string[] {
+  return [`${userId}/`, `media/${profileId}/`, `selftape/${profileId}/`];
 }

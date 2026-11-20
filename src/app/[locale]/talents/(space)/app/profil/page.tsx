@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { ProfileEditor } from "@/components/app/profile-editor";
+import { AvatarEditor } from "@/components/app/avatar-editor";
+import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { scoreProfile } from "@/domain/completeness";
 import { parseProfileTab } from "@/domain/profile-tabs";
@@ -67,9 +69,16 @@ export default async function ProfilPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-3xl font-medium">{t("space.profile.title")}</h1>
-        <p className="text-fg-muted">{t("space.profile.subtitle")}</p>
+      <div className="flex flex-wrap items-center gap-4">
+        <AvatarEditor
+          src={profile.avatarKey ? avatarSrc(session.user.id, profile.avatarUpdatedAt) : null}
+          initials={initialsOf(profile.stageName, session.user.email)}
+          size={72}
+        />
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-3xl font-medium">{t("space.profile.title")}</h1>
+          <p className="text-fg-muted">{t("space.profile.subtitle")}</p>
+        </div>
       </div>
       <ProfileEditor
         initial={{

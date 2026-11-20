@@ -151,3 +151,21 @@ export function passwordResetEmail(locale: string, link: string): EmailContent {
     link
   );
 }
+
+/** "Confirm your school email" for the college student discount. */
+export function studentEmail(locale: string, link: string): EmailContent {
+  const resolved = toLocale(locale);
+  const s = STRINGS[resolved];
+  return render(
+    resolved,
+    {
+      subject: s.studentSubject,
+      intro: s.studentIntro,
+      action: s.studentAction,
+      expiry: s.studentExpiry,
+      ignore: s.ignore,
+      signature: s.signature,
+    },
+    link
+  );
+}

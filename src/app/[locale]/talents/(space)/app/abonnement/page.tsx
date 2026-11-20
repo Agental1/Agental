@@ -8,6 +8,9 @@ import { getTalentPlan } from "@/lib/billing/entitlement";
 import { date } from "@/lib/format";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
 import { B2C_PLANS } from "@/domain/pricing";
+import { prisma } from "@/lib/db";
+import { StudentEmailCard } from "@/components/talents/student-email";
+import { STUDENT_DISCOUNT } from "@/domain/student";
 import type { PlanB2C } from "@/domain/enums";
 
 export async function generateMetadata({
@@ -36,6 +39,10 @@ export default async function AbonnementPage({
   const effective = await getTalentPlan(session.user.id);
 
   const current = effective.plan;
+  const student = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { studentEmail: true, studentVerifiedAt: true },
+  });
 
   // Display names come from the messages, in the order of the B2C_PLANS table.
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
@@ -64,6 +71,11 @@ export default async function AbonnementPage({
       </div>
 
       <PlanSelector plans={plans} current={current} />
+
+      <StudentEmailCard
+        verifiedEmail={student?.studentVerifiedAt ? student.studentEmail : null}
+        discountPercent={STUDENT_DISCOUNT.discountPercent}
+      />
 
     </div>
   );

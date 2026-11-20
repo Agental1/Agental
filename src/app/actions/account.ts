@@ -109,17 +109,17 @@ export async function deleteMyAccount(): Promise<{ ok: boolean; error?: ActionEr
   // The rows are gone; now the files. This runs before signOut, which throws
   // a redirect, so nothing after it would execute. A failure here is logged
   // and must not undo a deletion the person asked for.
-  if (profile) await removeStoredFiles(profile.id);
+  if (profile) await removeStoredFiles(profile.id, userId);
 
   await signOut({ redirectTo: "/" });
   return { ok: true };
 }
 
 /** Delete every object under the talent's folders. Best effort, logged. */
-async function removeStoredFiles(profileId: string): Promise<void> {
+async function removeStoredFiles(profileId: string, userId: string): Promise<void> {
   try {
     const storage = await getStorage();
-    for (const prefix of storagePrefixesFor(profileId)) {
+    for (const prefix of storagePrefixesFor(profileId, userId)) {
       for (const key of await storage.list(prefix)) {
         await storage.delete(key);
       }

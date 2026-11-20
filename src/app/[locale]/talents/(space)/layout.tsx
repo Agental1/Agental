@@ -4,6 +4,8 @@ import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
+import { AvatarEditor } from "@/components/app/avatar-editor";
+import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
 import { emailSenderConfigured } from "@/lib/mailer";
 
@@ -49,12 +51,16 @@ export default async function TalentsAppLayout({
   // dashboard's "Complete my profile" card resumes whatever is unfinished.
   // Every page below reads the profile row, so it exists before they render
   // (the same idempotent creation as ensureArtistProfile).
-  await prisma.artistProfile.upsert({
+  const me = await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
-    select: { id: true },
+    select: { id: true, stageName: true, avatarUpdatedAt: true, avatarKey: true },
   });
+  const avatar = {
+    src: me.avatarKey ? avatarSrc(session.user.id, me.avatarUpdatedAt) : null,
+    initials: initialsOf(me.stageName, session.user.email),
+  };
 
   // The plan badge at the top right opens the plan switcher on every page.
   // Accounts that still have to confirm their email wait on "Check your inbox".
@@ -122,12 +128,14 @@ export default async function TalentsAppLayout({
         ...NAV.slice(6).map(toItem),
       ]}
       userLabel={session.user.email ?? t("space.nav.account")}
+      avatarSlot={<AvatarEditor src={avatar.src} initials={avatar.initials} size={32} />}
       planSlot={
         <PlanSwitcher
           portal="talents"
           current={current}
           plans={plans}
           detailsHref="/talents/app/abonnement"
+          studentLink={{ href: "/talents/app/abonnement#student", label: t("space.student.link") }}
         />
       }
     >

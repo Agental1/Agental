@@ -1104,6 +1104,38 @@
     "team": {
       "title": "Agental 团队",
       "firstMessage": "给我们发送第一条消息。提个问题，或告诉我们你正在做什么。"
+    },
+    "avatar": {
+      "title": "头像",
+      "intro": "一张清晰、近期的正脸照片。它会显示在你的空间中，网站发布后也会显示在你的 Limelight 网站上。",
+      "cropHint": "拖动照片并缩放，让脸部填满圆圈。",
+      "preview": "裁剪预览",
+      "zoom": "缩放",
+      "upload": "上传照片",
+      "choose": "选择另一张照片",
+      "save": "保存头像",
+      "remove": "移除头像",
+      "add": "添加头像",
+      "change": "更换头像"
+    },
+    "student": {
+      "title": "大学生？",
+      "lead": "验证学校邮箱，即可享受专业版的学生优惠。",
+      "label": "学校邮箱",
+      "placeholder": "you@school.edu",
+      "submit": "发送链接",
+      "sent": "请查看 {email}：我们已发送确认链接，48 小时内有效。",
+      "notSent": "你的申请已保存，但邮件发送尚未开通。Agental 团队会为你确认学校邮箱。",
+      "verified": "已通过 {email} 验证学生优惠。",
+      "pending": "付费方案开放后将用于专业版。",
+      "percent": "学生优惠：专业版 {percent}% 折扣。",
+      "link": "大学生？验证你的学校邮箱。",
+      "confirmTitle": "学校邮箱",
+      "confirmed": "你的学校邮箱 {email} 已确认，学生优惠已添加到你的账户。",
+      "confirmInvalid": "此链接已失效，请在订阅页面重新申请。",
+      "confirmExpired": "此链接已过期，请在订阅页面重新申请。",
+      "confirmTaken": "此学校邮箱已验证过另一个账户。",
+      "back": "前往订阅"
     }
   },
   "responseRate": {

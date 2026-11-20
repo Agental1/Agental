@@ -47,6 +47,8 @@ model User {
   consentAt             DateTime?
   // Set when a college student code was redeemed.
   studentVerifiedAt     DateTime?
+  // The school address that proved it (lowercase). One account per address.
+  studentEmail          String?   @unique
   // Sessions issued before this instant are refused (see src/auth.ts). Set
   // when a provider sign-in takes over an account whose password was never
   // proven to belong to the email's owner.
@@ -65,6 +67,7 @@ model User {
   messages            Message[]
   threads             Thread[]
   roleSearchRequests  RoleSearchRequest[]
+  studentEmailClaims  StudentEmailClaim[]
   sites               Site[]
   siteOrders          SiteOrder[]
   studentPriceRequest StudentPriceRequest?
@@ -134,6 +137,9 @@ model ArtistProfile {
   minRateCents      Int?
   imdbUrl           String?   // optional, imdb.com/name/... only
   portfolioUrl      String?   // optional, any https URL
+  // Profile picture: a square JPEG in storage under {userId}/avatar/. Null: initials.
+  avatarKey         String?
+  avatarUpdatedAt   DateTime?
   completenessScore Int       @default(0)
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())
@@ -964,5 +970,24 @@ model RoleSearchRequest {
   @@unique([userId, clientKey])
   @@index([status, createdAt])
   @@map("role_search_requests")
+  @@schema("public")
+}
+
+// A pending "College student? Verify your school email." request. The link
+// holds a token whose SHA-256 is stored here; confirming copies the address
+// to User.studentEmail (unique) and stamps User.studentVerifiedAt.
+model StudentEmailClaim {
+  id          String    @id @default(cuid())
+  userId      String
+  email       String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  confirmedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([email])
   @@schema("public")
 }

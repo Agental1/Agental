@@ -133,7 +133,15 @@
     "draftMediaLimit": "A draft can hold up to {limit} clips.",
     "imdbUrl": "Enter an IMDb link like imdb.com/name/nm1234567.",
     "portfolioUrl": "Enter a link that starts with https://.",
-    "roleSearchQuota": "You have no AI searches left on your plan."
+    "roleSearchQuota": "You have no AI searches left on your plan.",
+    "uploadBlocked": "We couldn't reach our storage, so the take isn't saved yet. It is still here: try again in a moment.",
+    "avatarTooLarge": "This picture is too large. Choose a smaller photo.",
+    "avatarType": "Choose a JPEG, PNG or WebP photo.",
+    "studentEmailInvalid": "Enter a valid email address.",
+    "studentEmailNotSchool": "Use your school address, ending in .edu.",
+    "studentEmailTaken": "This school email already verified another account.",
+    "studentEmailAlready": "Your student discount is already verified.",
+    "studentEmailTooMany": "Too many requests. Try again in an hour."
   },
   "auth": {
     "name": "Name",
@@ -351,6 +359,10 @@
     "resetAction": "Choose a new password",
     "resetExpiry": "This link works for 1 hour and can be used once.",
     "ignore": "If this was not you, ignore this email. Nothing changes.",
-    "signature": "The Agental team"
+    "signature": "The Agental team",
+    "studentSubject": "Confirm your school email for Agental",
+    "studentIntro": "Confirm this school address to get the college student discount on Agental Pro.",
+    "studentAction": "Confirm my school email",
+    "studentExpiry": "This link works for 48 hours and can be used once."
   }
 }

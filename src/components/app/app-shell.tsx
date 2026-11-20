@@ -75,6 +75,7 @@ export function AppShell({
   userLabel,
   tag,
   planSlot,
+  avatarSlot,
   children,
 }: {
   portal: Portal;
@@ -84,6 +85,8 @@ export function AppShell({
   /** A small label after the logo, e.g. the admin console's name. */
   tag?: React.ReactNode;
   planSlot?: React.ReactNode;
+  /** The person's picture (or initials), in the sidebar and the top bar. */
+  avatarSlot?: React.ReactNode;
   children: React.ReactNode;
 }) {
   const t = useTranslations("app");
@@ -122,7 +125,10 @@ export function AppShell({
 
   const account = (
     <div className="border-t border-border pt-3">
-      <p className="truncate px-3 text-[13px] text-fg-subtle">{userLabel}</p>
+      <div className="flex items-center gap-2 px-3">
+        {avatarSlot}
+        <p className="min-w-0 truncate text-[13px] text-fg-subtle">{userLabel}</p>
+      </div>
       <LocaleSwitcher className="mt-2 px-3" />
       <form action={logoutAction}>
         <button
@@ -160,6 +166,7 @@ export function AppShell({
           </Link>
           <div className="flex items-center gap-2">
             {planSlot}
+            {avatarSlot && <span className="flex">{avatarSlot}</span>}
             <DialogPrimitive.Root open={menuOpen} onOpenChange={setMenuOpen}>
               <DialogPrimitive.Trigger
                 aria-label={tc("menu")}

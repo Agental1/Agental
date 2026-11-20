@@ -119,7 +119,9 @@ export async function uploadMedia(
   if (sent !== "done") {
     return {
       ok: false,
-      error: err("errors.uploadFailed"),
+      // "blocked": the browser never got an answer from storage (network, or
+      // a storage CORS rule that does not allow this site).
+      error: err(sent === "blocked" ? "errors.uploadBlocked" : "errors.uploadFailed"),
       ...(sent === "aborted" ? { aborted: true } : {}),
     };
   }
@@ -142,7 +144,7 @@ function put(
   body: Blob,
   onProgress: ((fraction: number) => void) | undefined,
   signal: AbortSignal | undefined
-): Promise<"done" | "failed" | "aborted"> {
+): Promise<"done" | "failed" | "blocked" | "aborted"> {
   return new Promise((resolve) => {
     if (signal?.aborted) return resolve("aborted");
 
@@ -161,7 +163,7 @@ function put(
       if (ok) onProgress?.(1);
       resolve(ok ? "done" : "failed");
     };
-    xhr.onerror = () => resolve("failed");
+    xhr.onerror = () => resolve(xhr.status === 0 ? "blocked" : "failed");
     xhr.ontimeout = () => resolve("failed");
     xhr.onabort = () => resolve("aborted");
     signal?.addEventListener("abort", () => xhr.abort(), { once: true });

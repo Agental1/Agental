@@ -133,7 +133,15 @@
     "draftMediaLimit": "Un brouillon peut contenir jusqu’à {limit} extraits.",
     "imdbUrl": "Saisis un lien IMDb du type imdb.com/name/nm1234567.",
     "portfolioUrl": "Saisis un lien qui commence par https://.",
-    "roleSearchQuota": "Tu n’as plus de recherche IA dans ta formule."
+    "roleSearchQuota": "Tu n’as plus de recherche IA dans ta formule.",
+    "uploadBlocked": "Impossible de joindre notre stockage, la prise n’est pas encore enregistrée. Elle est toujours là : réessaie dans un instant.",
+    "avatarTooLarge": "Cette photo est trop lourde. Choisis une photo plus légère.",
+    "avatarType": "Choisis une photo JPEG, PNG ou WebP.",
+    "studentEmailInvalid": "Saisis une adresse e-mail valide.",
+    "studentEmailNotSchool": "Utilise ton adresse universitaire, qui se termine par .edu.",
+    "studentEmailTaken": "Cette adresse universitaire a déjà vérifié un autre compte.",
+    "studentEmailAlready": "Ta réduction étudiante est déjà vérifiée.",
+    "studentEmailTooMany": "Trop de demandes. Réessaie dans une heure."
   },
   "auth": {
     "name": "Nom",
@@ -351,6 +359,10 @@
     "resetAction": "Choisir un nouveau mot de passe",
     "resetExpiry": "Ce lien est valable 1 heure et ne peut servir qu'une fois.",
     "ignore": "Si vous n'êtes pas à l'origine de cette demande, ignorez cet email. Rien ne change.",
-    "signature": "L'équipe Agental"
+    "signature": "L'équipe Agental",
+    "studentSubject": "Confirme ton adresse e-mail universitaire pour Agental",
+    "studentIntro": "Confirme cette adresse universitaire pour obtenir la réduction étudiante sur Agental Pro.",
+    "studentAction": "Confirmer mon adresse universitaire",
+    "studentExpiry": "Ce lien fonctionne 48 heures et une seule fois."
   }
 }

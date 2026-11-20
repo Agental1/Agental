@@ -234,17 +234,18 @@ describe("overQuota", () => {
 });
 
 describe("storage keys", () => {
-  it("uses one folder per talent, a random name and the real extension", () => {
-    expect(storageKeyFor("SELFTAPE", "p1", "abc", "video/mp4")).toBe("selftape/p1/abc.mp4");
-    expect(storageKeyFor("VIDEO", "p1", "abc", "video/webm;codecs=vp9")).toBe("media/p1/abc.webm");
-    expect(storageKeyFor("PHOTO", "p1", "abc", "image/jpeg")).toBe("media/p1/abc.jpg");
+  it("puts new files under the owner's user id, a random name and the real extension", () => {
+    expect(storageKeyFor("SELFTAPE", "u1", "abc", "video/mp4")).toBe("u1/selftape/abc.mp4");
+    expect(storageKeyFor("VIDEO", "u1", "abc", "video/webm;codecs=vp9")).toBe("u1/media/abc.webm");
+    expect(storageKeyFor("PHOTO", "u1", "abc", "image/jpeg")).toBe("u1/media/abc.jpg");
   });
 
-  it("names every folder to empty when an account is deleted", () => {
-    expect(storagePrefixesFor("p1")).toEqual(["media/p1/", "selftape/p1/"]);
+  it("names every folder to empty when an account is deleted, old layout included", () => {
+    expect(storagePrefixesFor("p1", "u1")).toEqual(["u1/", "media/p1/", "selftape/p1/"]);
     for (const type of ["PHOTO", "VIDEO", "SELFTAPE"] as const) {
-      const key = storageKeyFor(type, "p1", "x", "video/mp4");
-      expect(storagePrefixesFor("p1").some((prefix) => key.startsWith(prefix))).toBe(true);
+      const key = storageKeyFor(type, "u1", "x", "video/mp4");
+      expect(storagePrefixesFor("p1", "u1").some((prefix) => key.startsWith(prefix))).toBe(true);
     }
+    expect(`u1/avatar/x.jpg`.startsWith(storagePrefixesFor("p1", "u1")[0])).toBe(true);
   });
 });

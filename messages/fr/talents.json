@@ -1104,6 +1104,38 @@
     "team": {
       "title": "Équipe Agental",
       "firstMessage": "Envoie-nous ton premier message. Pose une question ou dis-nous sur quoi tu travailles."
+    },
+    "avatar": {
+      "title": "Photo de profil",
+      "intro": "Une photo nette et récente de ton visage. Elle apparaît dans ton espace et sur ton site Limelight une fois publié.",
+      "cropHint": "Fais glisser la photo et zoome pour que ton visage remplisse le cercle.",
+      "preview": "Aperçu du recadrage",
+      "zoom": "Zoom",
+      "upload": "Importer une photo",
+      "choose": "Choisir une autre photo",
+      "save": "Enregistrer la photo",
+      "remove": "Retirer la photo",
+      "add": "Ajouter une photo de profil",
+      "change": "Changer la photo de profil"
+    },
+    "student": {
+      "title": "Étudiant ?",
+      "lead": "Vérifie ton adresse e-mail universitaire pour obtenir la réduction étudiante sur Pro.",
+      "label": "Adresse universitaire",
+      "placeholder": "toi@universite.edu",
+      "submit": "Envoyer le lien",
+      "sent": "Regarde {email} : on t’a envoyé un lien pour la confirmer. Il fonctionne 48 heures.",
+      "notSent": "Ta demande est enregistrée, mais l’envoi d’e-mails n’est pas encore activé. L’équipe Agental confirmera ton adresse universitaire.",
+      "verified": "Réduction étudiante vérifiée avec {email}.",
+      "pending": "Elle s’appliquera à Pro dès l’ouverture des formules payantes.",
+      "percent": "Réduction étudiante : {percent} % sur Pro.",
+      "link": "Étudiant ? Vérifie ton adresse e-mail universitaire.",
+      "confirmTitle": "Adresse universitaire",
+      "confirmed": "Ton adresse universitaire {email} est confirmée. La réduction étudiante est sur ton compte.",
+      "confirmInvalid": "Ce lien n’est plus valable. Demande-en un nouveau depuis Abonnement.",
+      "confirmExpired": "Ce lien a expiré. Demande-en un nouveau depuis Abonnement.",
+      "confirmTaken": "Cette adresse universitaire a déjà vérifié un autre compte.",
+      "back": "Aller à Abonnement"
     }
   },
   "responseRate": {

@@ -1,9 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { err } from "@/domain/action-result";
+import { stashTake, takeStashed } from "@/lib/take-stash";
 import {
   Video,
   Circle,
@@ -35,6 +37,7 @@ export function SelfTapeStudio() {
   const t = useTranslations("talents");
   const errorText = useActionErrorText();
   const router = useRouter();
+  const locale = useLocale();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -188,28 +191,64 @@ export function SelfTapeStudio() {
     review(blob, metrics);
   }
 
-  /** Send the reviewed take straight to storage, with progress. */
+  /**
+   * Send the reviewed take straight to storage, with progress. The take is
+   * kept until storage confirms it: a failed save can be tried again, and an
+   * expired session keeps it in this browser while the performer signs in.
+   */
   function save() {
     if (!take) return;
     const { blob, metrics, url } = take;
     setProgress(0);
+    setResult(null);
     setPhase("processing");
     startTransition(async () => {
-      const res = await uploadMedia(blob, {
-        type: "SELFTAPE",
-        destination,
-        durationSec: metrics.durationMs / 1000,
-        metrics,
-        lowBandwidth,
-        onProgress: setProgress,
-      });
+      let res: UploadMediaResult;
+      try {
+        res = await uploadMedia(blob, {
+          type: "SELFTAPE",
+          destination,
+          durationSec: metrics.durationMs / 1000,
+          metrics,
+          lowBandwidth,
+          onProgress: setProgress,
+        });
+      } catch {
+        res = { ok: false, error: err("errors.generic") };
+      }
+      if (!res.ok && res.error.key === "errors.unauthorized") {
+        // Signed out meanwhile: keep the take, sign in, come back to it.
+        await stashTake({ blob, metrics, destination });
+        const next = `/${locale}/talents/app/reel-self-tape?restore=1`;
+        window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(next)}`);
+        return;
+      }
+      setResult(res);
+      if (!res.ok) {
+        setPhase("review");
+        return;
+      }
       URL.revokeObjectURL(url);
       setTake(null);
-      setResult(res);
       setPhase("done");
       router.refresh();
     });
   }
+
+  // Back from sign-in with a take kept in this browser: put it back on review.
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("restore")) return;
+    let cancelled = false;
+    void takeStashed().then((kept) => {
+      if (cancelled || !kept) return;
+      setDestination(kept.destination);
+      setTake({ blob: kept.blob, metrics: kept.metrics, url: URL.createObjectURL(kept.blob) });
+      setPhase("review");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function onFallbackFile(file: File | undefined) {
     if (!file) return;
@@ -416,7 +455,7 @@ export function SelfTapeStudio() {
           </Button>
         </div>
       )}
-      {phase === "done" && result && !result.ok && (
+      {(phase === "done" || phase === "review") && result && !result.ok && (
         <p className="text-sm text-danger">{errorText(result.error)}</p>
       )}
     </div>

@@ -133,7 +133,15 @@
     "draftMediaLimit": "每份草稿最多可附 {limit} 个片段。",
     "imdbUrl": "请输入类似 imdb.com/name/nm1234567 的 IMDb 链接。",
     "portfolioUrl": "请输入以 https:// 开头的链接。",
-    "roleSearchQuota": "你的方案已没有剩余的 AI 搜索次数。"
+    "roleSearchQuota": "你的方案已没有剩余的 AI 搜索次数。",
+    "uploadBlocked": "暂时无法连接存储，这条录像还没有保存。录像仍在这里，请稍后再试。",
+    "avatarTooLarge": "这张照片太大，请选择更小的照片。",
+    "avatarType": "请选择 JPEG、PNG 或 WebP 格式的照片。",
+    "studentEmailInvalid": "请输入有效的邮箱地址。",
+    "studentEmailNotSchool": "请使用以 .edu 结尾的学校邮箱。",
+    "studentEmailTaken": "此学校邮箱已验证过另一个账户。",
+    "studentEmailAlready": "你的学生优惠已验证。",
+    "studentEmailTooMany": "请求过多，请一小时后再试。"
   },
   "auth": {
     "name": "姓名",
@@ -351,6 +359,10 @@
     "resetAction": "设置新密码",
     "resetExpiry": "此链接 1 小时内有效，且只能使用一次。",
     "ignore": "如果不是你本人操作，请忽略此邮件，账号不会有任何变化。",
-    "signature": "Agental 团队"
+    "signature": "Agental 团队",
+    "studentSubject": "确认你在 Agental 的学校邮箱",
+    "studentIntro": "确认此学校邮箱，即可享受 Agental 专业版的大学生优惠。",
+    "studentAction": "确认我的学校邮箱",
+    "studentExpiry": "此链接 48 小时内有效，且只能使用一次。"
   }
 }

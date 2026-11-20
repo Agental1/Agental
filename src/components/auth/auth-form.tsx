@@ -42,6 +42,7 @@ export function AuthForm({
   locale,
   showName = false,
   size = "md",
+  next,
 }: {
   action: Action;
   submitLabel: string;
@@ -50,6 +51,8 @@ export function AuthForm({
   showName?: boolean;
   /** "lg" for the account card on the audience pages: 52px fields. */
   size?: "md" | "lg";
+  /** A page to come back to after sign-in, checked again on the server. */
+  next?: string;
 }) {
   const t = useTranslations("app");
   const errorText = useActionErrorText();
@@ -89,6 +92,7 @@ export function AuthForm({
     >
       {kind && <input type="hidden" name="kind" value={kind} />}
       <input type="hidden" name="locale" value={locale} />
+      {next && <input type="hidden" name="next" value={next} />}
 
       <div className={cn("space-y-4", step === "consent" && "hidden")}>
       {showName && (

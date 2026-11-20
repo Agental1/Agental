@@ -133,7 +133,15 @@
     "draftMediaLimit": "Un borrador admite hasta {limit} clips.",
     "imdbUrl": "Introduce un enlace de IMDb como imdb.com/name/nm1234567.",
     "portfolioUrl": "Introduce un enlace que empiece por https://.",
-    "roleSearchQuota": "No te quedan búsquedas con IA en tu plan."
+    "roleSearchQuota": "No te quedan búsquedas con IA en tu plan.",
+    "uploadBlocked": "No pudimos conectar con nuestro almacenamiento, así que la toma aún no se ha guardado. Sigue aquí: inténtalo de nuevo en un momento.",
+    "avatarTooLarge": "Esta foto es demasiado pesada. Elige una más ligera.",
+    "avatarType": "Elige una foto JPEG, PNG o WebP.",
+    "studentEmailInvalid": "Introduce un correo válido.",
+    "studentEmailNotSchool": "Usa tu correo universitario, que termina en .edu.",
+    "studentEmailTaken": "Este correo universitario ya verificó otra cuenta.",
+    "studentEmailAlready": "Tu descuento de estudiante ya está verificado.",
+    "studentEmailTooMany": "Demasiadas solicitudes. Inténtalo de nuevo en una hora."
   },
   "auth": {
     "name": "Nombre",
@@ -351,6 +359,10 @@
     "resetAction": "Elegir una nueva contraseña",
     "resetExpiry": "Este enlace es válido durante 1 hora y solo puede usarse una vez.",
     "ignore": "Si no fuiste tú, ignora este correo. Nada cambia.",
-    "signature": "El equipo de Agental"
+    "signature": "El equipo de Agental",
+    "studentSubject": "Confirma tu correo universitario para Agental",
+    "studentIntro": "Confirma esta dirección universitaria para obtener el descuento de estudiante en Agental Pro.",
+    "studentAction": "Confirmar mi correo universitario",
+    "studentExpiry": "Este enlace funciona durante 48 horas y una sola vez."
   }
 }

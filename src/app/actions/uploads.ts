@@ -153,7 +153,7 @@ export async function createUpload(input: unknown): Promise<CreateUploadResult> 
   };
   if (overQuota(usage, sizeBytes)) return { ok: false, error: err("errors.uploadQuota") };
 
-  const storageKey = storageKeyFor(type, profileId, randomUUID(), mime);
+  const storageKey = storageKeyFor(type, talent.userId, randomUUID(), mime);
   const upload = await prisma.upload.create({
     data: {
       profileId,

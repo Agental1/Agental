@@ -1104,6 +1104,38 @@
     "team": {
       "title": "Agental team",
       "firstMessage": "Send us your first message. Ask a question or tell us what you’re working on."
+    },
+    "avatar": {
+      "title": "Profile picture",
+      "intro": "A clear, recent photo of your face. It shows in your app and on your Limelight site once it is published.",
+      "cropHint": "Drag the photo and zoom so your face fills the circle.",
+      "preview": "Crop preview",
+      "zoom": "Zoom",
+      "upload": "Upload a photo",
+      "choose": "Choose another photo",
+      "save": "Save picture",
+      "remove": "Remove picture",
+      "add": "Add a profile picture",
+      "change": "Change profile picture"
+    },
+    "student": {
+      "title": "College student?",
+      "lead": "Verify your school email to get the student discount on Pro.",
+      "label": "School email",
+      "placeholder": "you@school.edu",
+      "submit": "Send the link",
+      "sent": "Check {email}: we sent a link to confirm it. It works for 48 hours.",
+      "notSent": "Your request is saved, but emails are not switched on yet. The Agental team will confirm your school email.",
+      "verified": "Student discount verified with {email}.",
+      "pending": "It applies to Pro once paid plans open.",
+      "percent": "Student discount: {percent}% off Pro.",
+      "link": "College student? Verify your school email.",
+      "confirmTitle": "School email",
+      "confirmed": "Your school email {email} is confirmed. The student discount is on your account.",
+      "confirmInvalid": "This link is not valid any more. Ask for a new one from Subscription.",
+      "confirmExpired": "This link has expired. Ask for a new one from Subscription.",
+      "confirmTaken": "This school email already verified another account.",
+      "back": "Go to Subscription"
     }
   },
   "responseRate": {

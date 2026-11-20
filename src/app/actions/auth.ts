@@ -12,6 +12,7 @@ import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
 import { toLocale } from "@/i18n/routing";
+import { safeReturnPath } from "@/domain/return-path";
 import { sendVerificationForNewUser } from "@/app/actions/account-email";
 
 export type AuthState = { error?: ActionError } | undefined;
@@ -108,7 +109,9 @@ export async function loginAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: `/${locale}/continuer`,
+      // Back to the page that asked for sign-in (an expired session while
+      // saving a take), when it is one of ours; otherwise /continuer.
+      redirectTo: safeReturnPath(formData.get("next")) ?? `/${locale}/continuer`,
     });
   } catch (error) {
     if (error instanceof AuthError) {

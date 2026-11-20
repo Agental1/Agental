@@ -55,7 +55,7 @@ export async function saveSelfTape(
   const bytes = Buffer.from(await file.arrayBuffer());
   // Safari records MP4 and labels it so; only an unlabelled blob is assumed WebM.
   const mime = baseMime(file.type) || "video/webm";
-  const key = storageKeyFor("SELFTAPE", profile.id, randomUUID(), mime);
+  const key = storageKeyFor("SELFTAPE", profile.userId, randomUUID(), mime);
   await (await getStorage()).put(key, bytes, mime);
 
   const media = await prisma.media.create({

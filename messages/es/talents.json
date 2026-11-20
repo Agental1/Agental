@@ -1104,6 +1104,38 @@
     "team": {
       "title": "Equipo de Agental",
       "firstMessage": "Envíanos tu primer mensaje. Haz una pregunta o cuéntanos en qué estás trabajando."
+    },
+    "avatar": {
+      "title": "Foto de perfil",
+      "intro": "Una foto nítida y reciente de tu cara. Aparece en tu espacio y en tu sitio Limelight cuando se publique.",
+      "cropHint": "Arrastra la foto y haz zoom para que tu cara llene el círculo.",
+      "preview": "Vista previa del recorte",
+      "zoom": "Zoom",
+      "upload": "Subir una foto",
+      "choose": "Elegir otra foto",
+      "save": "Guardar foto",
+      "remove": "Quitar foto",
+      "add": "Añadir foto de perfil",
+      "change": "Cambiar foto de perfil"
+    },
+    "student": {
+      "title": "¿Estudiante universitario?",
+      "lead": "Verifica tu correo universitario para obtener el descuento de estudiante en Pro.",
+      "label": "Correo universitario",
+      "placeholder": "tu@universidad.edu",
+      "submit": "Enviar el enlace",
+      "sent": "Revisa {email}: te enviamos un enlace para confirmarlo. Funciona durante 48 horas.",
+      "notSent": "Tu solicitud está guardada, pero el envío de correos aún no está activado. El equipo de Agental confirmará tu correo universitario.",
+      "verified": "Descuento de estudiante verificado con {email}.",
+      "pending": "Se aplicará a Pro cuando abran los planes de pago.",
+      "percent": "Descuento de estudiante: {percent} % en Pro.",
+      "link": "¿Estudiante universitario? Verifica tu correo universitario.",
+      "confirmTitle": "Correo universitario",
+      "confirmed": "Tu correo universitario {email} está confirmado. El descuento de estudiante ya está en tu cuenta.",
+      "confirmInvalid": "Este enlace ya no es válido. Pide uno nuevo desde Suscripción.",
+      "confirmExpired": "Este enlace ha caducado. Pide uno nuevo desde Suscripción.",
+      "confirmTaken": "Este correo universitario ya verificó otra cuenta.",
+      "back": "Ir a Suscripción"
     }
   },
   "responseRate": {
