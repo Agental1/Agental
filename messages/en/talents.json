@@ -253,7 +253,7 @@
       "title": "Pricing that rewards your progress",
       "subtitle": "The Basic plan covers your profile and media. Paid plans add tools and are never a toll to opportunities."
     },
-    "note": "No commitment. Change plan or go back to free whenever you want."
+    "note": "No commitment. Change plan or go back to Basic whenever you want."
   },
   "faq": {
     "meta": {
@@ -326,7 +326,7 @@
           },
           {
             "q": "What happens if I stop paying?",
-            "a": "You automatically move back to the free plan. You remain represented."
+            "a": "You automatically move back to the Basic plan. You remain represented."
           },
           {
             "q": "Does it work on a basic phone?",

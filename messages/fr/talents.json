@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Talents: Un vrai agent, augmenté par IA",
+    "title": "Agental Talents : Un vrai agent, augmenté par IA",
     "description": "Crée ton profil d’artiste : photos, CV, bande démo et self-tapes au même endroit. Gratuit pendant la bêta."
   },
   "nav": {
@@ -207,7 +207,7 @@
   },
   "how": {
     "meta": {
-      "title": "Comment ça marche: Agental Talents",
+      "title": "Comment ça marche : Agental Talents",
       "description": "De la création de ton profil au versement de ton cachet : comment Agental te représente et travaille pour toi, étape par étape."
     },
     "hero": {
@@ -245,7 +245,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifs: Agental Talents",
+      "title": "Tarifs : Agental Talents",
       "description": "Les formules Agental pour les artistes. Gratuit pendant la bêta ; les formules payantes sont optionnelles."
     },
     "hero": {
@@ -257,7 +257,7 @@
   },
   "faq": {
     "meta": {
-      "title": "FAQ: Agental Talents",
+      "title": "FAQ : Agental Talents",
       "description": "Tes questions sur Agental : l'agence, le mandat, la commission et le fonctionnement au quotidien."
     },
     "hero": {
@@ -338,7 +338,7 @@
   },
   "about": {
     "meta": {
-      "title": "Qui sommes-nous: Agental",
+      "title": "Qui sommes-nous : Agental",
       "description": "Une idée née à table, entre un père et son fils : aider chaque artiste à être vu, avec des outils au service des personnes."
     },
     "hero": {
@@ -364,7 +364,7 @@
   "castingLandings": {
     "index": {
       "meta": {
-        "title": "Tous les types de casting: Agental Talents",
+        "title": "Tous les types de casting : Agental Talents",
         "description": "Figuration, silhouette, seconds rôles, publicité, photo, voix, enfants, créateurs : trouve le type de casting fait pour toi et laisse Agental te représenter."
       },
       "eyebrow": "Types de casting",
@@ -976,7 +976,7 @@
       "confirm": "Confirmer la suppression ?"
     },
     "plans": {
-      "demo": "Mode démo: aucun paiement réel. Le mandat de représentation reste gratuit et séparé quel que soit ton plan.",
+      "demo": "Mode démo : aucun paiement réel. Le mandat de représentation reste gratuit et séparé quel que soit ton plan.",
       "current": "Actuel",
       "perMonth": "/mois",
       "currentPlan": "Plan actuel",
