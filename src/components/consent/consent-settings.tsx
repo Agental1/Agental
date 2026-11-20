@@ -23,7 +23,8 @@ import {
  *
  * The browser takes a new choice only once the account has saved it, and the
  * buttons wait while a save is in flight, so the browser never holds a choice
- * the account does not have. If the save fails, the browser keeps (or gets
+ * the account does not have. (The buttons stay focusable while saving; see
+ * ConsentChoice's busy prop.) If the save fails, the browser keeps (or gets
  * back, should the server have set the cookie already) the choice it had,
  * the form is reset to it and the error is shown.
  */
@@ -59,7 +60,10 @@ export function ConsentSettings({ current }: { current: Consent | null }) {
   }
 
   return (
-    <section className="rounded-sedan-xl border border-border bg-surface p-5">
+    <section
+      aria-busy={status === "saving"}
+      className="rounded-sedan-xl border border-border bg-surface p-5"
+    >
       <h2 className="flex items-center gap-2 text-[1.125rem]">
         <Cookie aria-hidden="true" className="size-5 text-accent" />
         {t("settingsTitle")}
@@ -70,7 +74,7 @@ export function ConsentSettings({ current }: { current: Consent | null }) {
         className="mt-4"
         initial={shown}
         writeCookie={false}
-        disabled={status === "saving"}
+        busy={status === "saving"}
         onChosen={(consent) => void save(consent)}
       />
       <ActionErrorMessage error={error} className="mt-3" />
