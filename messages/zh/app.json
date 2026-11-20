@@ -214,7 +214,8 @@
       "overview": "总览",
       "audit": "审计记录",
       "minors": "未成年人档案",
-      "messages": "消息"
+      "messages": "消息",
+      "limelight": "Limelight 申请"
     },
     "stats": {
       "artists": "艺人",
@@ -281,6 +282,34 @@
       "send": "发送回复",
       "sending": "正在发送…",
       "hint": "演员会在自己的“消息”页面看到这条回复。"
+    },
+    "limelight": {
+      "title": "Limelight 申请",
+      "subtitle": "所有网站申请，最新的在前。回复后请更改状态。",
+      "export": "导出 CSV",
+      "filter": "按状态筛选",
+      "all": "全部",
+      "refMissing": "申请 {reference} 不在此列表中。请试试“全部”筛选。",
+      "empty": "来自 Limelight 页面的申请会出现在这里。",
+      "reference": "编号",
+      "date": "日期",
+      "name": "姓名",
+      "email": "邮箱",
+      "type": "工作类型",
+      "need": "需求",
+      "contact": "联系方式",
+      "status": "状态",
+      "statusOf": "{reference} 的状态",
+      "submissions": "{count, plural, other {已提交 # 次}}",
+      "prefs": {
+        "email": "邮件",
+        "call": "电话"
+      },
+      "statuses": {
+        "NEW": "新申请",
+        "CONTACTED": "已联系",
+        "CLOSED": "已关闭"
+      }
     }
   },
   "matchReasons": {

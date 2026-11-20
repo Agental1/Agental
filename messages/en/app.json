@@ -214,7 +214,8 @@
       "overview": "Supervision",
       "audit": "Audit trail",
       "minors": "Minor cases",
-      "messages": "Messages"
+      "messages": "Messages",
+      "limelight": "Limelight requests"
     },
     "stats": {
       "artists": "Artists",
@@ -281,6 +282,34 @@
       "send": "Send reply",
       "sending": "Sending…",
       "hint": "The performer reads it on their Messages page."
+    },
+    "limelight": {
+      "title": "Limelight requests",
+      "subtitle": "Every website request, newest first. Change a status once you have answered.",
+      "export": "Export CSV",
+      "filter": "Filter by status",
+      "all": "All",
+      "refMissing": "Request {reference} is not in this list. Try the All filter.",
+      "empty": "Requests from the Limelight page appear here.",
+      "reference": "Reference",
+      "date": "Date",
+      "name": "Name",
+      "email": "Email",
+      "type": "Type of work",
+      "need": "Need",
+      "contact": "Contact preference",
+      "status": "Status",
+      "statusOf": "Status of {reference}",
+      "submissions": "{count, plural, one {Sent # time} other {Sent # times}}",
+      "prefs": {
+        "email": "Email",
+        "call": "Call"
+      },
+      "statuses": {
+        "NEW": "New",
+        "CONTACTED": "Contacted",
+        "CLOSED": "Closed"
+      }
     }
   },
   "matchReasons": {

@@ -214,7 +214,8 @@
       "overview": "Supervisión",
       "audit": "Registro de auditoría",
       "minors": "Expedientes de menores",
-      "messages": "Mensajes"
+      "messages": "Mensajes",
+      "limelight": "Solicitudes de Limelight"
     },
     "stats": {
       "artists": "Artistas",
@@ -281,6 +282,34 @@
       "send": "Enviar respuesta",
       "sending": "Enviando…",
       "hint": "El artista la lee en su página de Mensajes."
+    },
+    "limelight": {
+      "title": "Solicitudes de Limelight",
+      "subtitle": "Todas las solicitudes de sitio web, las más recientes primero. Cambia el estado cuando hayas respondido.",
+      "export": "Exportar CSV",
+      "filter": "Filtrar por estado",
+      "all": "Todas",
+      "refMissing": "La solicitud {reference} está fuera de esta lista. Prueba el filtro Todas.",
+      "empty": "Las solicitudes de la página de Limelight aparecen aquí.",
+      "reference": "Referencia",
+      "date": "Fecha",
+      "name": "Nombre",
+      "email": "Correo",
+      "type": "Tipo de trabajo",
+      "need": "Necesidad",
+      "contact": "Preferencia de contacto",
+      "status": "Estado",
+      "statusOf": "Estado de {reference}",
+      "submissions": "{count, plural, one {Enviada # vez} other {Enviada # veces}}",
+      "prefs": {
+        "email": "Correo",
+        "call": "Llamada"
+      },
+      "statuses": {
+        "NEW": "Nueva",
+        "CONTACTED": "Contactada",
+        "CLOSED": "Cerrada"
+      }
     }
   },
   "matchReasons": {
