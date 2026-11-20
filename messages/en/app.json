@@ -213,7 +213,8 @@
     "nav": {
       "overview": "Supervision",
       "audit": "Audit trail",
-      "minors": "Minor cases"
+      "minors": "Minor cases",
+      "messages": "Messages"
     },
     "stats": {
       "artists": "Artists",
@@ -263,6 +264,23 @@
         "HELD": "Held",
         "RELEASED": "Released"
       }
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Conversations between performers and the Agental team. Performers see every answer signed Agental team.",
+      "inbox": "Conversations",
+      "empty": "Conversations appear here when a performer writes to the team.",
+      "unread": "{count, plural, one {# unread} other {# unread}}",
+      "awaitingReply": "Awaiting reply",
+      "back": "All conversations",
+      "pick": "Pick a conversation to read and answer it.",
+      "notFound": "This conversation could not be found.",
+      "team": "Agental team",
+      "composerLabel": "Reply as the Agental team",
+      "placeholder": "Write a reply",
+      "send": "Send reply",
+      "sending": "Sending…",
+      "hint": "The performer reads it on their Messages page."
     }
   },
   "matchReasons": {

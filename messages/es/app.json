@@ -213,7 +213,8 @@
     "nav": {
       "overview": "Supervisión",
       "audit": "Registro de auditoría",
-      "minors": "Expedientes de menores"
+      "minors": "Expedientes de menores",
+      "messages": "Mensajes"
     },
     "stats": {
       "artists": "Artistas",
@@ -263,6 +264,23 @@
         "HELD": "Bloqueado",
         "RELEASED": "Liberado"
       }
+    },
+    "messages": {
+      "title": "Mensajes",
+      "subtitle": "Las conversaciones entre los artistas y el equipo de Agental. Los artistas ven cada respuesta firmada por el equipo de Agental.",
+      "inbox": "Conversaciones",
+      "empty": "Las conversaciones aparecen aquí cuando un artista escribe al equipo.",
+      "unread": "{count, plural, one {# sin leer} other {# sin leer}}",
+      "awaitingReply": "Pendiente de respuesta",
+      "back": "Todas las conversaciones",
+      "pick": "Elige una conversación para leerla y responder.",
+      "notFound": "Esta conversación no se encuentra.",
+      "team": "Equipo de Agental",
+      "composerLabel": "Responder como equipo de Agental",
+      "placeholder": "Escribe una respuesta",
+      "send": "Enviar respuesta",
+      "sending": "Enviando…",
+      "hint": "El artista la lee en su página de Mensajes."
     }
   },
   "matchReasons": {

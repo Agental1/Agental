@@ -779,9 +779,15 @@
     },
     "messages": {
       "title": "Messages",
-      "subtitle": "Your conversations with Agental and casting teams.",
-      "empty": "No messages yet. When a casting team takes an interest in your profile, or your agent has news, it lands here.",
-      "conversation": "Conversation"
+      "subtitle": "Write to the Agental team. A person reads every message and answers here.",
+      "empty": "Your conversation with the Agental team starts here.",
+      "to": "To",
+      "you": "You",
+      "composerLabel": "Your message",
+      "placeholder": "Write your message",
+      "send": "Send",
+      "sending": "Sending…",
+      "repliesHere": "Replies arrive here in Messages."
     },
     "settings": {
       "title": "Settings",

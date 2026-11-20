@@ -779,9 +779,15 @@
     },
     "messages": {
       "title": "Messages",
-      "subtitle": "Tes échanges avec Agental et les castings.",
-      "empty": "Pas encore de message. Quand un casting s'intéresse à ton profil ou que ton agent a une info, ça se passe ici.",
-      "conversation": "Conversation"
+      "subtitle": "Écris à l’équipe Agental. Une personne lit chaque message et te répond ici.",
+      "empty": "Ta conversation avec l’équipe Agental commence ici.",
+      "to": "À",
+      "you": "Toi",
+      "composerLabel": "Ton message",
+      "placeholder": "Écris ton message",
+      "send": "Envoyer",
+      "sending": "Envoi…",
+      "repliesHere": "Les réponses arrivent ici, dans Messages."
     },
     "settings": {
       "title": "Paramètres",

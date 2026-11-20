@@ -213,7 +213,8 @@
     "nav": {
       "overview": "总览",
       "audit": "审计记录",
-      "minors": "未成年人档案"
+      "minors": "未成年人档案",
+      "messages": "消息"
     },
     "stats": {
       "artists": "艺人",
@@ -263,6 +264,23 @@
         "HELD": "已托管",
         "RELEASED": "已释放"
       }
+    },
+    "messages": {
+      "title": "消息",
+      "subtitle": "演员与 Agental 团队之间的对话。演员看到的每条回复都署名为 Agental 团队。",
+      "inbox": "对话",
+      "empty": "演员给团队写信后，对话会出现在这里。",
+      "unread": "{count, plural, other {# 条未读}}",
+      "awaitingReply": "等待回复",
+      "back": "全部对话",
+      "pick": "选择一个对话来阅读和回复。",
+      "notFound": "找不到这个对话。",
+      "team": "Agental 团队",
+      "composerLabel": "以 Agental 团队的名义回复",
+      "placeholder": "写下回复",
+      "send": "发送回复",
+      "sending": "正在发送…",
+      "hint": "演员会在自己的“消息”页面看到这条回复。"
     }
   },
   "matchReasons": {

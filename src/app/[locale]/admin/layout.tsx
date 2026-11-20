@@ -8,6 +8,7 @@ import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
+  { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },
 ] as const;

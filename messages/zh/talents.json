@@ -779,9 +779,15 @@
     },
     "messages": {
       "title": "消息",
-      "subtitle": "你与 Agental 和选角团队的对话。",
-      "empty": "还没有消息。当选角团队对你的资料感兴趣，或者经纪人有消息时，会出现在这里。",
-      "conversation": "对话"
+      "subtitle": "给 Agental 团队写信。每条消息都有专人阅读，并在这里回复你。",
+      "empty": "你和 Agental 团队的对话从这里开始。",
+      "to": "收件人",
+      "you": "你",
+      "composerLabel": "你的消息",
+      "placeholder": "写下你的消息",
+      "send": "发送",
+      "sending": "正在发送…",
+      "repliesHere": "回复会出现在这里的“消息”页面。"
     },
     "settings": {
       "title": "设置",
