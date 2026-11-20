@@ -10,7 +10,7 @@ describe("CAPTCHA (Turnstile)", () => {
   });
 
   it("is off, and lets everything through, until both keys are set", async () => {
-    expect(captchaEnabled({})).toBe(false);
+    expect(captchaEnabled({} as NodeJS.ProcessEnv)).toBe(false);
     expect(await captchaPassed(undefined)).toBe(true);
   });
 

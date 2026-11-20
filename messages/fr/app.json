@@ -233,7 +233,8 @@
       "minors": "Dossiers mineurs",
       "messages": "Messages",
       "limelight": "Demandes Limelight",
-      "roleSearches": "Recherches de rôles"
+      "roleSearches": "Recherches de rôles",
+      "accounts": "Comptes"
     },
     "stats": {
       "artists": "Artistes",
@@ -346,6 +347,46 @@
         "plan": "Formule",
         "period": "Période",
         "status": "Statut"
+      }
+    },
+    "accounts": {
+      "title": "Comptes",
+      "subtitle": "{count} comptes. Chaque consultation et export est journalisé.",
+      "search": "Nom ou email",
+      "all": "Tous",
+      "filter": "Filtrer",
+      "csv": "Exporter en CSV",
+      "yes": "Oui",
+      "no": "Non",
+      "back": "Tous les comptes",
+      "timeline": "Chronologie",
+      "open": "Ouvrir",
+      "cols": {
+        "name": "Nom",
+        "email": "Email",
+        "audience": "Public",
+        "plan": "Formule",
+        "created": "Créé le",
+        "method": "Inscription",
+        "verified": "Email vérifié",
+        "completeness": "Profil",
+        "media": "Médias",
+        "website": "Site"
+      },
+      "site": {
+        "none": "Aucun",
+        "draft": "Brouillon",
+        "published": "Publié"
+      },
+      "events": {
+        "signup": "Inscription",
+        "verified": "Email vérifié",
+        "audit": "Action",
+        "media": "Média ajouté",
+        "search": "Recherche IA",
+        "message": "Message",
+        "limelight": "Demande Limelight",
+        "plan": "Formule"
       }
     }
   },

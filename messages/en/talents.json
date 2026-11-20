@@ -770,7 +770,13 @@
         "noneLeft": "No searches left · resets in {days, plural, one {# day} other {# days}}",
         "upgradeMore": "Upgrade for more searches",
         "usage": "AI searches this period"
-      }
+      },
+      "nextAction": "Next action",
+      "checkApplications": {
+        "title": "Check your applications",
+        "body": "See the roles found for you and where each one stands."
+      },
+      "noSuggestions": "Nothing else for now. Your next action is at the top."
     },
     "candidatures": {
       "title": "My applications",
@@ -879,24 +885,28 @@
         "Profile, headshots and reel",
         "Reel & Self-tape",
         "Career and earnings tracking",
-        "5 AI role searches per month"
+        "5 AI role searches per month",
+        "10% commission on bookings, taken by our licensed partner agency"
       ],
       "PRO": [
         "Everything in Basic",
         "50 AI role searches per month",
         "AI feedback on your self-tapes",
         "Faster replies from the Agental team",
-        "Priority support"
+        "Priority support",
+        "10% commission on bookings, taken by our licensed partner agency"
       ],
       "PREMIUM": [
         "Everything in Pro",
         "250 AI role searches per month",
         "More coaching",
-        "More features coming soon"
+        "More features coming soon",
+        "7.5% commission on bookings, taken by our licensed partner agency"
       ],
       "ULTIMATE": [
         "Everything in Premium",
-        "500 AI role searches per month"
+        "500 AI role searches per month",
+        "6% commission on bookings, taken by our licensed partner agency"
       ]
     },
     "media": {

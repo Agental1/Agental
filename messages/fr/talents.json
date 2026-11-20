@@ -770,7 +770,13 @@
         "noneLeft": "Plus de recherche · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
         "upgradeMore": "Passe à un plan supérieur pour plus de recherches",
         "usage": "Recherches IA de cette période"
-      }
+      },
+      "nextAction": "Prochaine action",
+      "checkApplications": {
+        "title": "Consulte tes candidatures",
+        "body": "Vois les rôles trouvés pour toi et où en est chacun."
+      },
+      "noSuggestions": "Rien d'autre pour l'instant. Ta prochaine action est en haut."
     },
     "candidatures": {
       "title": "Mes candidatures",
@@ -879,24 +885,28 @@
         "Profil, photos et bande démo",
         "Bande démo & self-tape",
         "Suivi de carrière et de revenus",
-        "5 recherches de rôles par l’IA par mois"
+        "5 recherches de rôles par l’IA par mois",
+        "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "PRO": [
         "Tout le Basic",
         "50 recherches de rôles par l’IA par mois",
         "Retours IA sur tes self-tapes",
         "Réponses plus rapides de l’équipe Agental",
-        "Support prioritaire"
+        "Support prioritaire",
+        "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "PREMIUM": [
         "Tout le Pro",
         "250 recherches de rôles par l’IA par mois",
         "Plus de coaching",
-        "D’autres fonctionnalités bientôt"
+        "D’autres fonctionnalités bientôt",
+        "7,5 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "ULTIMATE": [
         "Tout le Premium",
-        "500 recherches de rôles par l’IA par mois"
+        "500 recherches de rôles par l’IA par mois",
+        "6 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ]
     },
     "media": {

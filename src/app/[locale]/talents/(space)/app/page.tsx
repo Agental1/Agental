@@ -116,29 +116,23 @@ export default async function TalentsDashboard({
   // The "Complete your profile" card covers photos, video, physical details
   // and bio. These suggestions pick up what it does not list.
   const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = [];
-  // First suggestion: finish the profile while it is below 100%, then launch
-  // the first research (the "Start finding roles" button).
+  // The one next action (F3.5): finish the profile while it is below 100%,
+  // then launch the first search, then check the applications.
   const nextItem = nextMissingItem(completenessInput);
-  if (completeness < 100) {
-    suggestions.push({
-      text: nextItem
-        ? t("space.dashboard.nextItem", {
-            percent: completeness,
-            item: t(`space.dashboard.missing.${nextItem}`),
-          })
-        : t("space.dashboard.completenessHint", { percent: completeness }),
-      href: "/talents/app/profil",
-      cta: t("space.dashboard.completeProfile.title"),
-      icon: UserCog,
-    });
-  } else {
-    suggestions.push({
-      text: t("space.dashboard.launch.body"),
-      href: "/talents/app#find-roles",
-      cta: t("space.dashboard.launch.title"),
-      icon: Sparkles,
-    });
-  }
+  const searchedOnce = (await prisma.roleSearchRequest.count({ where: { userId: session.user.id } })) > 0;
+  const nextAction =
+    completeness < 100
+      ? {
+          title: t("space.dashboard.completeProfile.title"),
+          text: nextItem
+            ? t("space.dashboard.nextItem", { percent: completeness, item: t(`space.dashboard.missing.${nextItem}`) })
+            : t("space.dashboard.completenessHint", { percent: completeness }),
+          href: "/talents/app/profil",
+          icon: UserCog,
+        }
+      : !searchedOnce
+        ? { title: t("space.dashboard.launch.title"), text: t("space.dashboard.launch.body"), href: "/talents/app#find-roles", icon: Sparkles }
+        : { title: t("space.dashboard.checkApplications.title"), text: t("space.dashboard.checkApplications.body"), href: "/talents/app/candidatures", icon: Send };
   // A reel clears the card's video item; a self-tape is still worth asking for.
   if (
     !gaps.includes("video") &&
@@ -208,6 +202,20 @@ export default async function TalentsDashboard({
           <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
         </div>
       </div>
+
+      <Link
+        href={nextAction.href}
+        data-tour="next-action"
+        className="pressable flex items-center gap-4 rounded-sedan border border-accent/40 bg-surface p-5 [--hover-scale:1.01] [--press-scale:0.99]"
+      >
+        <nextAction.icon aria-hidden="true" className="size-6 shrink-0 text-accent" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-[13px] font-bold uppercase tracking-wide text-accent">{t("space.dashboard.nextAction")}</span>
+          <span className="block font-display text-xl font-medium">{nextAction.title}</span>
+          <span className="block text-sm text-fg-muted">{nextAction.text}</span>
+        </span>
+        <ArrowRight aria-hidden="true" className="size-5 shrink-0 text-fg-subtle" />
+      </Link>
 
       {nextStep && (
         <section
@@ -336,6 +344,7 @@ export default async function TalentsDashboard({
             <Sparkles className="size-5 text-accent" /> {t("space.dashboard.suggestions")}
           </h2>
           <div className="space-y-2">
+            {suggestions.length === 0 && <p className="text-sm text-fg-muted">{t("space.dashboard.noSuggestions")}</p>}
             {suggestions.map((s) => (
               <div
                 key={s.cta}

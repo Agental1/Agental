@@ -233,7 +233,8 @@
       "minors": "未成年人档案",
       "messages": "消息",
       "limelight": "Limelight 申请",
-      "roleSearches": "角色搜索"
+      "roleSearches": "角色搜索",
+      "accounts": "Accounts"
     },
     "stats": {
       "artists": "艺人",
@@ -346,6 +347,46 @@
         "plan": "方案",
         "period": "周期",
         "status": "状态"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "{count} accounts. Every view and export is logged.",
+      "search": "Name or email",
+      "all": "All",
+      "filter": "Filter",
+      "csv": "Export CSV",
+      "yes": "Yes",
+      "no": "No",
+      "back": "All accounts",
+      "timeline": "Timeline",
+      "open": "Open",
+      "cols": {
+        "name": "Name",
+        "email": "Email",
+        "audience": "Audience",
+        "plan": "Plan",
+        "created": "Created",
+        "method": "Sign-up",
+        "verified": "Email verified",
+        "completeness": "Profile",
+        "media": "Media",
+        "website": "Website"
+      },
+      "site": {
+        "none": "None",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "events": {
+        "signup": "Signed up",
+        "verified": "Email verified",
+        "audit": "Action",
+        "media": "Media uploaded",
+        "search": "AI search",
+        "message": "Message",
+        "limelight": "Limelight request",
+        "plan": "Plan"
       }
     }
   },

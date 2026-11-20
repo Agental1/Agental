@@ -770,7 +770,13 @@
         "noneLeft": "No quedan búsquedas · se renueva en {days, plural, one {# día} other {# días}}",
         "upgradeMore": "Mejora tu plan para más búsquedas",
         "usage": "Búsquedas con IA de este periodo"
-      }
+      },
+      "nextAction": "Siguiente paso",
+      "checkApplications": {
+        "title": "Revisa tus candidaturas",
+        "body": "Mira los papeles encontrados para ti y en qué punto está cada uno."
+      },
+      "noSuggestions": "Nada más por ahora. Tu siguiente paso está arriba."
     },
     "candidatures": {
       "title": "Mis candidaturas",
@@ -879,24 +885,28 @@
         "Perfil, fotos y reel",
         "Reel y self-tape",
         "Seguimiento de carrera e ingresos",
-        "5 búsquedas de papeles con IA al mes"
+        "5 búsquedas de papeles con IA al mes",
+        "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "PRO": [
         "Todo lo de Basic",
         "50 búsquedas de papeles con IA al mes",
         "Comentarios de IA sobre tus self-tapes",
         "Respuestas más rápidas del equipo de Agental",
-        "Soporte prioritario"
+        "Soporte prioritario",
+        "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "PREMIUM": [
         "Todo lo de Pro",
         "250 búsquedas de papeles con IA al mes",
         "Más coaching",
-        "Más funciones próximamente"
+        "Más funciones próximamente",
+        "7,5 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "ULTIMATE": [
         "Todo lo de Premium",
-        "500 búsquedas de papeles con IA al mes"
+        "500 búsquedas de papeles con IA al mes",
+        "6 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ]
     },
     "media": {

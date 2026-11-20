@@ -233,7 +233,8 @@
       "minors": "Expedientes de menores",
       "messages": "Mensajes",
       "limelight": "Solicitudes de Limelight",
-      "roleSearches": "Búsquedas de papeles"
+      "roleSearches": "Búsquedas de papeles",
+      "accounts": "Accounts"
     },
     "stats": {
       "artists": "Artistas",
@@ -346,6 +347,46 @@
         "plan": "Plan",
         "period": "Periodo",
         "status": "Estado"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "{count} accounts. Every view and export is logged.",
+      "search": "Name or email",
+      "all": "All",
+      "filter": "Filter",
+      "csv": "Export CSV",
+      "yes": "Yes",
+      "no": "No",
+      "back": "All accounts",
+      "timeline": "Timeline",
+      "open": "Open",
+      "cols": {
+        "name": "Name",
+        "email": "Email",
+        "audience": "Audience",
+        "plan": "Plan",
+        "created": "Created",
+        "method": "Sign-up",
+        "verified": "Email verified",
+        "completeness": "Profile",
+        "media": "Media",
+        "website": "Website"
+      },
+      "site": {
+        "none": "None",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "events": {
+        "signup": "Signed up",
+        "verified": "Email verified",
+        "audit": "Action",
+        "media": "Media uploaded",
+        "search": "AI search",
+        "message": "Message",
+        "limelight": "Limelight request",
+        "plan": "Plan"
       }
     }
   },
