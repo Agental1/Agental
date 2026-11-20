@@ -69,9 +69,13 @@ const MB = 1024 ** 2;
 const get = (query = "") => route.GET(new Request(`https://app.test/api/admin/storage/copy${query}`));
 const keysOf = (n: number) => Array.from({ length: n }, (_, i) => `u1/media/${String(i).padStart(2, "0")}.mp4`);
 
+// Kept as a reference (not vi.mocked) so the file also runs under bun test,
+// which the pregate uses for changed test files.
+let consoleError: ReturnType<typeof vi.spyOn>;
+
 beforeEach(() => {
   vi.resetAllMocks();
-  vi.spyOn(console, "error").mockImplementation(() => {});
+  consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
   currentAdminId.mockResolvedValue("admin-1");
   mediaRows.mockResolvedValue([]);
   avatarRows.mockResolvedValue([]);
@@ -180,7 +184,7 @@ describe("GET /api/admin/storage/copy", () => {
 
     expect(body).toEqual({ copied: 25, failed: 1, tooBig: 0, vanished: 0, left: 5 });
     expect(supabase.files.has(keys[1])).toBe(true);
-    const logged = vi.mocked(console.error).mock.calls.flat().join(" ");
+    const logged = consoleError.mock.calls.flat().join(" ");
     expect(logged).toContain("[storage-copy] failed");
     expect(logged).not.toContain(keys[0]);
   });
