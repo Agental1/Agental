@@ -141,3 +141,15 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 - Privacy page `/en/talents/confidentialite` is a factual draft for the founders to review.
 - **Owner, to finish Google:** Google Cloud Console, project agental-515217, Google Auth Platform: Branding, set Application privacy policy link to `https://www.agental.co/en/talents/confidentialite` and save; Audience, Publish app. (The agent hit a password re-check there.)
 - **Owner, keys:** the Vercel marketplace Supabase "Install" creates a new Supabase account, so it was not used; paste `SUPABASE_SERVICE_ROLE_KEY` and `RESEND_API_KEY` by hand.
+
+## Round 5, group A (2026-11-20)
+
+**Data conservation (A3).**
+- Production and preview deployments both read the Supabase Postgres database (`DATABASE_URL` is set for Production and Preview in Vercel; it never resets). Migrations run on production builds only (`tools/db/migrate-on-production-build.mjs`) and stay additive.
+- `prisma/seed.ts` refuses to run unless `ALLOW_DEMO_SEED=true`, `NODE_ENV` is not production, and the database host is this machine (localhost); it only upserts `@demo.agental.co` accounts. `tools/db/purge-demo-accounts.ts` only matches `@demo.agental.co` and is a dry run unless `--apply`.
+- Tests run against a local Prisma dev database (`localhost:51234`), never Supabase; integration tests skip unless the URL is local.
+- Nothing in the repo deletes real accounts. chasques@usc.edu and other test accounts keep their data.
+
+**Choices remembered on the account (A2).** Language: every app page writes the language in use to `User.locale`, and sign-in lands in that language. Cookie choice: saved on the account already; the app now puts it back in a browser that has none, so the banner does not ask again after sign-in. The Limelight design studio draft (public page, before an account exists) stays in the browser by design; the in-app "Your website" draft is saved on the server.
+
+**Media (A1).** Refusals now say why: casting account, profile under 18, or no profile (`errors.mediaCastingAccount`, `errors.mediaMinor`, `errors.mediaNotAllowed`), and the server logs it. Recorder: 720p at 2.5 Mb/s, stops by itself before 50 MB, limit shown before recording; profile pictures 512 x 512 under 500 KB. Library: lists both destinations from the media list, with play and delete. Supabase Storage still waits on `SUPABASE_SERVICE_ROLE_KEY` (owner).

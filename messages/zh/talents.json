@@ -1056,7 +1056,8 @@
       "toLibraryHint": "在你决定提交之前保持私密。",
       "save": "保存",
       "again": "重新录制",
-      "uploading": "上传中，{percent}%"
+      "uploading": "上传中，{percent}%",
+      "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。"
     },
     "find": {
       "intro": "你的私人经纪助手即将来到消息中心。现在就来设置。",
@@ -1161,6 +1162,12 @@
         "other": "其他"
       },
       "topicRequired": "请选择消息的主题。"
+    },
+    "library": {
+      "empty": "还没有录像。保存的录像会显示在这里。",
+      "delete": "删除",
+      "confirmDelete": "永久删除此录像？",
+      "video": "视频"
     }
   },
   "responseRate": {

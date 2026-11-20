@@ -18,14 +18,14 @@ async function talent() {
     console.warn("[avatar] refused: no session");
     return { error: err("errors.unauthorized") } as const;
   }
-  if (session.user.kind !== "TALENT") return { error: err("errors.mediaNotAllowed") } as const;
+  if (session.user.kind !== "TALENT") return { error: err("errors.mediaCastingAccount") } as const;
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
     select: { id: true, userId: true, isMinor: true, avatarKey: true },
   });
   if (!profile || profile.isMinor) {
     console.warn("[avatar] refused:", profile ? "minor profile" : "no profile");
-    return { error: err("errors.mediaNotAllowed") } as const;
+    return { error: err(profile ? "errors.mediaMinor" : "errors.mediaNotAllowed") } as const;
   }
   return profile;
 }

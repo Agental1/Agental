@@ -1056,7 +1056,8 @@
       "toLibraryHint": "Private until you choose to submit it.",
       "save": "Save",
       "again": "Record again",
-      "uploading": "Uploading, {percent}%"
+      "uploading": "Uploading, {percent}%",
+      "limit": "Up to {minutes} minutes per take ({mb} MB). Recording stops by itself at the limit."
     },
     "find": {
       "intro": "Your personal agent is coming to Messages. Set it up now.",
@@ -1161,6 +1162,12 @@
         "other": "Something else"
       },
       "topicRequired": "Pick what your message is about."
+    },
+    "library": {
+      "empty": "No recordings yet. Your saved takes show up here.",
+      "delete": "Delete",
+      "confirmDelete": "Delete this recording for good?",
+      "video": "Video"
     }
   },
   "responseRate": {

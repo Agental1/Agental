@@ -144,7 +144,9 @@
     "studentEmailTooMany": "请求过多，请一小时后再试。",
     "messageTopicRequired": "请选择消息的主题。",
     "mediaNotAllowed": "此账户无法添加媒体。如有疑问，请联系 Agental 团队。",
-    "sessionCheck": "保存未成功，但你仍处于登录状态。你的录像已保留，请重试。"
+    "sessionCheck": "保存未成功，但你仍处于登录状态。你的录像已保留，请重试。",
+    "mediaMinor": "未满 18 岁的资料无法添加媒体。如果出生日期有误，请在资料页更正。",
+    "mediaCastingAccount": "这是选角账户，请使用表演者账户添加媒体。"
   },
   "auth": {
     "name": "姓名",

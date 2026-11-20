@@ -59,7 +59,10 @@ export default async function ContinuePage({
         data: { onboardingCompletedAt: new Date() },
       });
     }
-    return redirect({ href: target.slice(`/${locale}`.length), locale });
+    // Land in the account's language (saved from the app), not the sign-in page's.
+    const saved = await prisma.user.findUnique({ where: { id: session.user.id }, select: { locale: true } });
+    const home = saved?.locale && saved.locale !== locale ? toLocale(saved.locale) : locale;
+    return redirect({ href: target.slice(`/${locale}`.length), locale: home });
   }
 
   const pending = await readPendingCookie();

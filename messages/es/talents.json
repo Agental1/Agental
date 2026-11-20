@@ -1056,7 +1056,8 @@
       "toLibraryHint": "Privada hasta que decidas enviarla.",
       "save": "Guardar",
       "again": "Grabar de nuevo",
-      "uploading": "Subiendo, {percent} %"
+      "uploading": "Subiendo, {percent} %",
+      "limit": "Hasta {minutes} minutos por toma ({mb} MB). La grabación se detiene sola al llegar al límite."
     },
     "find": {
       "intro": "Tu agente personal llega a Mensajes. Configúralo ahora.",
@@ -1161,6 +1162,12 @@
         "other": "Otra cosa"
       },
       "topicRequired": "Elige de qué trata tu mensaje."
+    },
+    "library": {
+      "empty": "Aún no hay grabaciones. Tus tomas guardadas aparecen aquí.",
+      "delete": "Eliminar",
+      "confirmDelete": "¿Eliminar esta grabación para siempre?",
+      "video": "Vídeo"
     }
   },
   "responseRate": {

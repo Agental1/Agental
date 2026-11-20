@@ -22,8 +22,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { uploadMedia, type UploadMediaResult } from "@/lib/media-upload";
-import type { UploadDestination } from "@/domain/uploads";
+import { UPLOAD_LIMITS, VIDEO_MAX_MB, type UploadDestination } from "@/domain/uploads";
 import type { QualityMetrics } from "@/lib/ai/quality-scorer";
+
+/** 2.5 Mb/s video plus 128 kb/s audio: two minutes is about 40 MB. */
+const TAKE_VIDEO_BPS = 2_500_000;
+/** Longest take that still fits in VIDEO_MAX_MB at that bitrate, with a margin. */
+const MAX_TAKE_SECONDS = Math.floor(((VIDEO_MAX_MB * 1024 * 1024 * 8) / (TAKE_VIDEO_BPS + 128_000)) * 0.85);
 
 type Phase = "idle" | "ready" | "recording" | "review" | "processing" | "done" | "denied";
 
@@ -152,11 +157,20 @@ export function SelfTapeStudio() {
     // Safari records MP4, Chrome and Firefox record WebM. Ask for whichever the
     // browser supports and keep the recorder's own answer for the file.
     const preferred = ["video/mp4", "video/webm"].find((type) => MediaRecorder.isTypeSupported(type));
-    const rec = new MediaRecorder(streamRef.current, preferred ? { mimeType: preferred } : undefined);
+    // 720p at a bitrate that keeps a take under the 50 MB file limit.
+    const rec = new MediaRecorder(streamRef.current, {
+      ...(preferred ? { mimeType: preferred } : {}),
+      videoBitsPerSecond: lowBandwidth ? 800_000 : TAKE_VIDEO_BPS,
+      audioBitsPerSecond: 128_000,
+    });
     rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data);
     rec.onstop = onStop;
-    rec.start();
+    rec.start(1000);
     recorderRef.current = rec;
+    // Stop by itself before the file would pass the limit.
+    window.setTimeout(() => {
+      if (rec.state === "recording") rec.stop();
+    }, MAX_TAKE_SECONDS * 1000);
     setPhase("recording");
   }
 
@@ -200,6 +214,10 @@ export function SelfTapeStudio() {
   function save() {
     if (!take) return;
     const { blob, metrics, url } = take;
+    if (blob.size > UPLOAD_LIMITS.SELFTAPE.maxBytes) {
+      setResult({ ok: false, error: err("errors.uploadTooLarge", { limit: VIDEO_MAX_MB }) });
+      return;
+    }
     setProgress(0);
     setResult(null);
     setPhase("processing");
@@ -337,6 +355,9 @@ export function SelfTapeStudio() {
             />
             {t("space.studio.reducedMode")}
           </label>
+          <p className="text-[13px] text-fg-muted">
+            {t("space.studio.limit", { minutes: Math.floor(MAX_TAKE_SECONDS / 60), mb: VIDEO_MAX_MB })}
+          </p>
 
           {phase === "ready" && (
             <Button className="w-full" onClick={startRecording}>

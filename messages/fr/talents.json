@@ -1056,7 +1056,8 @@
       "toLibraryHint": "Privé tant que tu n’as pas choisi de l’envoyer.",
       "save": "Enregistrer",
       "again": "Recommencer",
-      "uploading": "Envoi en cours, {percent} %"
+      "uploading": "Envoi en cours, {percent} %",
+      "limit": "Jusqu'à {minutes} minutes par prise ({mb} Mo). L'enregistrement s'arrête seul à la limite."
     },
     "find": {
       "intro": "Ton agent personnel arrive dans Messages. Configure-le dès maintenant.",
@@ -1161,6 +1162,12 @@
         "other": "Autre chose"
       },
       "topicRequired": "Choisis le sujet de ton message."
+    },
+    "library": {
+      "empty": "Aucun enregistrement pour l'instant. Tes prises enregistrées apparaissent ici.",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer définitivement cet enregistrement ?",
+      "video": "Vidéo"
     }
   },
   "responseRate": {

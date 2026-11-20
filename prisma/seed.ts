@@ -21,6 +21,20 @@ if (process.env.ALLOW_DEMO_SEED !== "true") {
 if (process.env.NODE_ENV === "production") {
   throw new Error("Refusing to seed demo accounts with NODE_ENV=production.");
 }
+// Real accounts live in Supabase: only a database on this machine may be seeded.
+{
+  const url = process.env.DIRECT_URL || process.env.DATABASE_URL || "";
+  const host = (() => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return "";
+    }
+  })();
+  if (!["localhost", "127.0.0.1", "::1"].includes(host)) {
+    throw new Error(`Refusing to seed a database that is not on this machine (${host || "unknown host"}).`);
+  }
+}
 
 const PASSWORD_HASH = bcrypt.hashSync("demo1234", 10);
 

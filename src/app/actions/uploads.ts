@@ -89,14 +89,14 @@ async function talentForMedia(): Promise<
   }
   if (session.user.kind !== "TALENT") {
     console.warn("[media] refused: not a performer account");
-    return { error: err("errors.mediaNotAllowed") };
+    return { error: err("errors.mediaCastingAccount") };
   }
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
   });
   if (!profile || profile.isMinor) {
     console.warn("[media] refused:", profile ? "minor profile" : "no profile");
-    return { error: err("errors.mediaNotAllowed") } as const;
+    return { error: err(profile ? "errors.mediaMinor" : "errors.mediaNotAllowed") } as const;
   }
   return { userId: session.user.id, profile };
 }

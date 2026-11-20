@@ -7,6 +7,8 @@ import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
 import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
+import { ConsentSync } from "@/components/consent/consent-sync";
+import { syncAccountPrefs } from "@/lib/account-prefs";
 import { prefillFromProvider } from "@/lib/profile-prefill";
 import { emailSenderConfigured } from "@/lib/mailer";
 
@@ -79,6 +81,7 @@ export default async function TalentsAppLayout({
   if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
   }
+  const prefs = await syncAccountPrefs(session.user.id, locale);
   const verifyBanner = !!emailState && showsVerifyBanner(emailState, emailOpts);
 
   // The plan the talent really has, the Limelight Pro months included.
@@ -121,6 +124,7 @@ export default async function TalentsAppLayout({
         />
       }
     >
+      <ConsentSync consent={prefs.consent} />
       <MessagesShortcut />
       {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}

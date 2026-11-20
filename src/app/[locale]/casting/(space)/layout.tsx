@@ -6,6 +6,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
 import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
+import { ConsentSync } from "@/components/consent/consent-sync";
+import { syncAccountPrefs } from "@/lib/account-prefs";
 import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
@@ -64,6 +66,7 @@ export default async function CastingAppLayout({
   if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
   }
+  const prefs = await syncAccountPrefs(session.user.id, locale);
   const verifyBanner = !!emailState && showsVerifyBanner(emailState, emailOpts);
 
   // The plan badge at the top right opens the plan switcher on every page.
@@ -129,6 +132,7 @@ export default async function CastingAppLayout({
       <Suspense fallback={null}>
         <FirstRunTour portal="casting" steps={tourSteps} />
       </Suspense>
+      <ConsentSync consent={prefs.consent} />
       {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}
     </AppShell>

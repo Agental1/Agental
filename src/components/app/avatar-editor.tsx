@@ -140,29 +140,37 @@ export function AvatarEditor({
     const sy = (h / 2 - VIEW / 2 - pos.y) / scale;
     const side = VIEW / scale;
     g.drawImage(image, sx, sy, side, side, 0, 0, AVATAR_SIZE_PX, AVATAR_SIZE_PX);
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) return setError(err("errors.generic"));
-        const fd = new FormData();
-        fd.append("file", blob, "avatar.jpg");
-        start(async () => {
-          const res = await setAvatar(fd).catch(() => ({ ok: false as const, error: err("errors.generic") }));
-          if (!res.ok && res.error.key === "errors.unauthorized") {
-            if (await stillSignedIn()) return setError(err("errors.sessionCheck"));
-            // Really signed out: sign in again and come back to this page.
-            const here = window.location.pathname + window.location.search;
-            window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(here)}`);
-            return;
-          }
-          if (!res.ok) return setError(res.error);
-          reset();
-          setOpen(false);
-          router.refresh();
-        });
-      },
-      "image/jpeg",
-      0.88
-    );
+    // 512 x 512 JPEG, under 500 KB: lower the quality until it fits.
+    const encode = (quality: number) =>
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return setError(err("errors.generic"));
+          if (blob.size > 500 * 1024 && quality > 0.5) return encode(quality - 0.1);
+          send(blob);
+        },
+        "image/jpeg",
+        quality
+      );
+    encode(0.88);
+  }
+
+  function send(blob: Blob) {
+    const fd = new FormData();
+    fd.append("file", blob, "avatar.jpg");
+    start(async () => {
+      const res = await setAvatar(fd).catch(() => ({ ok: false as const, error: err("errors.generic") }));
+      if (!res.ok && res.error.key === "errors.unauthorized") {
+        if (await stillSignedIn()) return setError(err("errors.sessionCheck"));
+        // Really signed out: sign in again and come back to this page.
+        const here = window.location.pathname + window.location.search;
+        window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(here)}`);
+        return;
+      }
+      if (!res.ok) return setError(res.error);
+      reset();
+      setOpen(false);
+      router.refresh();
+    });
   }
 
   function remove() {

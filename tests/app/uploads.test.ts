@@ -95,12 +95,12 @@ describe("createUpload", () => {
     session = null;
     expect(await createUpload(input)).toEqual(unauthorized);
     session = { user: { id: "u1", kind: "CASTING" } };
-    expect(await createUpload(input)).toEqual(notAllowed);
+    expect(await createUpload(input)).toEqual({ ok: false, error: { key: "errors.mediaCastingAccount" } });
     session = { user: { id: "u1", kind: "TALENT" } };
     db.artistProfile.findUnique.mockResolvedValue(null);
     expect(await createUpload(input)).toEqual(notAllowed);
     db.artistProfile.findUnique.mockResolvedValue({ ...adult, isMinor: true });
-    expect(await createUpload(input)).toEqual(notAllowed);
+    expect(await createUpload(input)).toEqual({ ok: false, error: { key: "errors.mediaMinor" } });
     expect(db.upload.create).not.toHaveBeenCalled();
   });
 

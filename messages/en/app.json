@@ -144,7 +144,9 @@
     "studentEmailTooMany": "Too many requests. Try again in an hour.",
     "messageTopicRequired": "Pick what your message is about.",
     "mediaNotAllowed": "Media can't be added to this account. Contact the Agental team if this looks wrong.",
-    "sessionCheck": "The save didn't go through, but you are still signed in. Your take is kept: try again."
+    "sessionCheck": "The save didn't go through, but you are still signed in. Your take is kept: try again.",
+    "mediaMinor": "Media is turned off for profiles under 18. If your date of birth is wrong, correct it on your Profile page.",
+    "mediaCastingAccount": "This is a casting account. Media can be added from a performer account."
   },
   "auth": {
     "name": "Name",

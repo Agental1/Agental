@@ -144,7 +144,9 @@
     "studentEmailTooMany": "Trop de demandes. Réessaie dans une heure.",
     "messageTopicRequired": "Choisis le sujet de ton message.",
     "mediaNotAllowed": "Impossible d'ajouter des médias à ce compte. Contacte l'équipe Agental si cela te semble anormal.",
-    "sessionCheck": "L'enregistrement n'a pas abouti, mais tu es toujours connecté. Ta prise est conservée : réessaie."
+    "sessionCheck": "L'enregistrement n'a pas abouti, mais tu es toujours connecté. Ta prise est conservée : réessaie.",
+    "mediaMinor": "Les médias sont désactivés pour les profils de moins de 18 ans. Si ta date de naissance est erronée, corrige-la sur ta page Profil.",
+    "mediaCastingAccount": "Ce compte est un compte casting. Les médias s'ajoutent depuis un compte artiste."
   },
   "auth": {
     "name": "Nom",
