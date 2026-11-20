@@ -1,0 +1,7 @@
+http://localhost:3000@evil.example
+https://u:p@x.com
+https://u:p@x.com",
+https://user:secret@example.com
+postgresql://postgres.abcdefgh:s3cr%40t@aws-0-eu-west-1.pooler.supabase.com:5432
+postgresql://postgres.abcdefgh:s3cr%40t@aws-0-eu-west-1.pooler.supabase.com:6543
+postgresql://postgres:s3cr%40t@db.abcdefgh.supabase.co:5432
