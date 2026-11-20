@@ -7,8 +7,8 @@ Updated 2026-11-19. Read this first, then `docs/STATUS.md` (every task of the fi
 | | |
 |---|---|
 | Repository | `Agental1/Agental` (public: no secrets, no `docs/PLAN.md`) |
-| Working branch | `frontend-redesign`, pull request #7, stacked on #2. It contains the backend branches `feat/auth-onboarding` (#6) and `feat/round2-server` (#8). |
-| Live site | agental.co runs tag `live-2026-11-19-round2` (`b506458`), deployment `agental-rmh721urr-agentalco.vercel.app` |
+| Working branch | `frontend-redesign`, pull request #7, stacked on #2. It contains the backend branches `feat/auth-onboarding` (#6), `feat/round2-server` (#8) and `feat/beta-server` (#9, merged in `47670fe`). |
+| Live site | agental.co runs release 2: tag `live-2026-11-19-release2` (`bff6edb`), deployment `agental-exmsrxj64-agentalco.vercel.app`. Previous: release 1, `agental-2bj1oiw9g-agentalco.vercel.app`. |
 | Going back | `docs/RELEASES.md`: one tag and one deployment per live version; `vercel promote <deployment>` puts an older one back |
 | Deploying | `vercel deploy --prod` from this Mac (the GitHub link to Vercel is not approved). The build applies pending Prisma migrations to production. After a deploy: tag, push the tag, add a row to `docs/RELEASES.md`. |
 | Local run | Node and bun in `~/Downloads/agental-workflows/.tools`. Database: `./node_modules/.bin/prisma dev start agental-local`. Dev server: launch config `agental-site-db` (port 3200). Seed logins are in the README, local only. If a nested page answers 404 in dev, restart the server. |
@@ -25,7 +25,7 @@ Rules from the owner: design is approved, keep it; every amount in US dollars; A
 |---|---|---|
 | 1. Finish in-progress work | partial | Open items: see "Open items" below. |
 | 1. Beta notices | done, local | Footer under the legal links (every public page), About page, Limelight hero. Flags in `src/data/beta.ts`, copy in `common.beta`. Not deployed yet. |
-| 2. Google sign-in | waiting on one paste | Google Cloud project `agental-515217` (organization agental.co) now has the consent configuration (app name Agental, External audience, contact@agental.co) and a Web client "Agental website" with origin `https://www.agental.co` and redirects `https://www.agental.co/api/auth/callback/google` and `http://localhost:3200/api/auth/callback/google`. The Vercel form is open with `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` named for Production; the owner pastes the two values and saves. Then: publish the app in Google Cloud (Audience > Publish, it starts in Testing), redeploy, tag, run the real round trip. |
+| 2. Google sign-in | waiting on a redeploy | Google Cloud project `agental-515217` (organization agental.co): consent configuration (app name Agental, External audience, contact@agental.co) and Web client "Agental website" (origin `https://www.agental.co`, redirects `https://www.agental.co/api/auth/callback/google` and `http://localhost:3200/api/auth/callback/google`). `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` are saved in Vercel for Production (the owner pasted the secret). Release 2 was built before they were saved, so the live `/api/auth/providers` still lists credentials only. Next: redeploy, check the button on `/en/connexion` and `/fr/connexion`, tag, run the round trip. The Google app stays in Testing (only listed test users can sign in) until the site has a privacy-policy page to give Google. |
 | 3. Media and connected accounts | partial | Settings > Connected accounts is built in both apps. Reel & Self-tape records, reviews and uploads to private storage with a destination choice. To do: Profile > Media sections (Headshots, Reel/Voice, Self-tapes), share and revoke, attach to a draft, delete across storage, the two-identity access test. |
 | 4. Workflows | not started here | Backend session. n8n exports are in `~/Downloads/agental-workflows/` and `n8n/`. Nothing live is connected. |
 | 5. One-performer calibration | not started | Backend session, with a synthetic performer. |
@@ -46,7 +46,8 @@ Rules from the owner: design is approved, keep it; every amount in US dollars; A
 | Action | Where | Unblocks |
 |---|---|---|
 | Sign in to Google Cloud as contact@agental.co when asked | Chrome | Creating the Google sign-in client |
-| Paste the Google client secret | Vercel > agental > Settings > Environment Variables > Production, name `AUTH_GOOGLE_SECRET` | Google sign-in on the live site |
+| Paste the Google client secret | Done 2026-11-19 | Google sign-in on the live site, after the next deploy |
+| Privacy-policy page, then publish the Google app | Write the page (counsel), then Google Cloud > Audience > Publish | Google sign-in for everyone, beyond test users |
 | Add the CORS rule from `docs/MEDIA_HOSTING.md` | Cloudflare > R2 > bucket `agental-media` > Settings | Video uploads on the live site |
 | Resend API key and DNS records for agental.co | Resend, then Vercel variables | Verification and password-reset emails |
 | Stripe keys, after counsel signs off | Vercel variables | Real payments |
@@ -59,11 +60,11 @@ Kept off or behind the mock: online payments, paid access to roles, automated su
 
 ## Next concrete task
 
-Finish Google sign-in: once the owner has signed in to Google Cloud in Chrome, create the OAuth client (type Web application; origin `https://www.agental.co`; redirect `https://www.agental.co/api/auth/callback/google`; add `http://localhost:3200/api/auth/callback/google` for local tests), set `AUTH_GOOGLE_ID` in Vercel, have the owner paste `AUTH_GOOGLE_SECRET`, redeploy, tag, and run the round trip: first login, return login, sign-out, cancel, protected route while signed out, mobile width. Then Task 3's Profile > Media.
+Turn on Google sign-in: `vercel deploy --prod --yes`, then `curl https://www.agental.co/api/auth/providers` must list `google`; click "Continue with Google" on `/en/connexion` and `/fr/connexion` and confirm Google's account screen opens; tag `live-YYYY-MM-DD-google`, add the row to `docs/RELEASES.md`. Then the round trip with a test user: first login, return login, sign-out, cancel, protected route while signed out, mobile width. After that, Task 3's Profile > Media.
 
 ## Contracts agreed for the beta brief (backend branch `feat/beta-server`)
 
-Not merged yet; the UI builds against these names. Full text in the shared notes.
+Merged into `frontend-redesign` in `47670fe` and live since release 2. Full text in the shared notes.
 
 - **Tapes**: `uploadMedia(file, { type: "SELFTAPE", tapeId?, title?, demoBrief? })`; `listTapes(profileId)` in `src/lib/tapes.ts`; `renameTape`, `deleteTape` in `src/app/actions/tapes.ts`.
 - **Sharing**: `createShareLink(mediaId, { expiresInHours? })` (shown once; 72 hours by default, 7 days at most, 5 active per clip), `revokeShareLink(shareId)`, `listShareLinks(mediaId)`; public file at `GET /api/share/<token>`; the viewing page `/[locale]/partage/[token]` is front-end work.
@@ -74,14 +75,13 @@ Not merged yet; the UI builds against these names. Full text in the shared notes
 
 Backend boundaries: `feat/beta-server` adds a migration, so it goes to production only on the owner's word; n8n exports stay out of the public repository; payments stay off.
 
-## Paused 2026-11-19 (deployments and research brief)
+## State at the end of the deployments and research brief (2026-11-19)
 
 Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 
-- **Live**: release 1, deployment `agental-2bj1oiw9g-agentalco.vercel.app`, commit `18c3287`, tag `live-2026-11-19-release1`. Nothing is deploying.
-- **Pushed, not deployed** (branch `frontend-redesign`, head after `3eb5a98`): Sections 1, 3, 4, 5 and the Messages menu order and shortcut of Section 6.
-- **Google sign-in**: off in production. Vercel has no `AUTH_GOOGLE_ID` or `AUTH_GOOGLE_SECRET`. Google Cloud project `agental-515217`, Web client "Agental website" (origin `https://www.agental.co`, redirects `/api/auth/callback/google` on www and `http://localhost:3200`). The owner has to paste the client secret in Vercel; the assistant may not type secrets. If the secret can no longer be shown, add a new secret on the client in Google Cloud > Clients. App is in Testing until a privacy-policy URL exists.
-- **Waiting on the backend session** (`feat/beta-server`, not pushed yet): Section 2 (`completeBetaOnboarding`, `getSetupState`), Section 3 storage (`requestPortfolioSite`), Section 6 (`sendMessage`, `getMyThread`, team inbox), Section 7 (preferences, specialties, content boundaries), Research 2.
-- **Research**: R1, R3, R4 drafted in `~/Downloads/agental-workflows/reports/` and copied to Google Docs; R2 waits on the backend comparison.
-
-**Next step on resume:** check `vercel env ls production` for the Google variables; if present, redeploy, verify the Google button on `/en/connexion` and `/fr/connexion`, report the deployment ID. Then merge `origin/feat/beta-server` slices and wire Sections 2, 6, 7; run checks; deploy release 2; tag it.
+- **Live**: release 2, deployment `agental-exmsrxj64-agentalco.vercel.app`, commit `bff6edb`, tag `live-2026-11-19-release2`. Its three additive migrations (`20261122000000_beta_server`, `20261122010000_account_timestamps`, `20261122020000_team_messages`) applied during the build. Nothing is deploying.
+- **Verified on production**: public pages answer 200 (home, Talents, Limelight, the Maya Okafor sample, French About, both sign-in pages), the new copy shows, signed-in and admin pages send a signed-out visitor to sign-in. Signed-in flows (sign-up, Messages, Preferences, admin) were checked locally only.
+- **Google sign-in**: both variables saved in Vercel; one redeploy turns the button on (see "Next concrete task").
+- **Research**: four Google Docs (v2) in the owner's Drive. Markdown sources in `~/Downloads/agental-workflows/reports/`, outside this public repository. Open question for the owner: R4 says "a team that started in France and at USC" where the owner's story is "built by a father and son"; restore the original unless told otherwise.
+- **Small UI question**: during setup the dashboard can show two "complete your profile" cards at once.
+- **Still unset**: Limelight student price; a postal address for outreach drafts.

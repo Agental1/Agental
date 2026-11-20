@@ -1,8 +1,8 @@
 # Status: v1 brief and round 2 brief
 
-Updated 2026-11-19, branch `frontend-redesign` (pull request #7, which now carries the backend branch `feat/auth-onboarding`, pull request #6).
+Updated 2026-11-19, branch `frontend-redesign` (pull request #7, which carries the backend branches `feat/auth-onboarding` #6, `feat/round2-server` #8 and `feat/beta-server` #9).
 
-**Production** (agental.co) runs the v1 state through Phase 3. Everything marked "done, local" below is committed and checked against a local database, and is waiting for the round 2 deploy (G3).
+**Production** (agental.co) runs release 2 (`live-2026-11-19-release2`, deployment `agental-exmsrxj64-agentalco.vercel.app`). Round 2 went live on 2026-11-19, then release 1 and release 2 the same day, so the rows marked "done, local" below are now live unless their note says otherwise. Later work is tracked in `docs/HANDOFF.md`.
 
 Status values: **done** (live), **done, local** (committed, checked locally, waiting for deploy), **partial**, **blocked**, **open**.
 
@@ -59,7 +59,7 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | B1.4 forgot password | done, local | See F5.3. |
 | B1.5 signed-in redirect | done, local | Home and audience pages send signed-in visitors to their dashboard. |
 | B2 cookie consent | done, local | Sign-up has a cookie choice step; Settings has "Cookie preferences"; the choice is saved on the account. The site sets strictly necessary cookies only; analytics is cookieless and loads only after consent. A Google or Apple sign-up starts with strictly necessary only. |
-| B3 Google and Apple | partial | Built and merged; `docs/OAUTH_SETUP.md` lists the steps for the founders. The buttons appear once the provider keys exist. Using Google with the email of a password account lands on that same account. |
+| B3 Google and Apple | partial | Built and merged. Google: client created in Google Cloud project `agental-515217`, `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` saved in Vercel Production. The button appears after the next deploy (release 2 was built before the keys were saved). The Google app stays in Testing until a privacy-policy page exists. Apple is set aside. Using Google with the email of a password account lands on that same account. |
 | C1 plan button | done | |
 | C2 badges removed | done, local | "Represented" and the plan badge are gone from both dashboards. The "SIRET verified" badge on the Casting dashboard stays: it is a status, and nothing else shows it. |
 | C3 AI suggestions | done | Unchanged. |
@@ -74,13 +74,13 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | F account creation checks | partial | Profile row, Free plan, plan button, consent choice and tutorial work locally. Landing on Profile completeness at first sign-in is server. |
 | G1 finish v1 | partial | This file. |
 | G2 QA | open | |
-| G3 deploy | open | Waits for G2. |
+| G3 deploy | done | Round 2, release 1 and release 2 are live; see `docs/RELEASES.md`. |
 
 ## Open questions for the founders
 
 1. **Email sender.** Verification and password reset need the Resend API key and DNS records for agental.co.
 2. **Payments.** A Limelight purchase, the 4 free Pro months and the student code need Stripe keys. Until then they can only run as a mock.
 3. **Student price for the $99 Limelight offer.** No amount is set.
-4. **Commission.** The brief says Agental takes none; the plan cards, Talent settings and the payback table show 10%, 7.5% and 5%.
-5. **Google and Apple.** Someone with access must create the Google client and the Apple Services ID and add the keys in Vercel.
+4. **Commission.** Removed from the plan cards, plan selector and Subscription page in release 2.
+5. **Google and Apple.** Google keys are in Vercel; a redeploy turns the button on, and a privacy-policy page lets the Google app leave Testing. Apple is set aside.
 6. **Videos** stay on Cloudflare R2, the private bucket already in place, by agreement with the backend session. The brief said Supabase Storage.

@@ -10,6 +10,8 @@ Every version that goes live on agental.co gets a git tag and a line here, so th
 | 2026-11-19 | `live-2026-11-19-release1` | `18c3287` | `agental-2bj1oiw9g-agentalco.vercel.app` | Beta notices (footer, About, Limelight), Settings > Connected accounts, forgot password, reset and email confirmation pages, release log, handoff file. No migration. |
 | 2026-11-19 | `live-2026-11-19-release2` | `bff6edb` | `agental-exmsrxj64-agentalco.vercel.app` | Beta wording, mandate step replaced by a beta notice, setup resume, Limelight flow and Maya Okafor sample, Agental Find preview, human Messages and team inbox, Limelight requests admin, Specialties and Preferences, Your website approve and publish. Applied three additive migrations. |
 
+Next pending: a redeploy to turn on Google sign-in. `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` were saved in Vercel Production after release 2 was built, so release 2 has no Google button. Going back to release 2 or earlier after that redeploy hides the button again (each Vercel deployment keeps the variables it was built with).
+
 ## Going back one step
 
 The fastest way: make the previous deployment the live one again. Nothing is rebuilt.
