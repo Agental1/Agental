@@ -117,7 +117,7 @@ describe("createUpload", () => {
     });
     expect(await createUpload({ ...input, sizeBytes: 151 * MB })).toEqual({
       ok: false,
-      error: { key: "errors.uploadTooLarge", values: { limit: 150 } },
+      error: { key: "errors.uploadTooLarge", values: { limit: 50 } },
     });
     expect(db.upload.create).not.toHaveBeenCalled();
     expect(storage.presignUpload).not.toHaveBeenCalled();

@@ -1,4 +1,5 @@
 import type { Storage, StoredObject, TusUpload } from "./index";
+import { VIDEO_MAX_MB } from "@/domain/uploads";
 
 /**
  * Supabase Storage, private buckets, through its REST API with the
@@ -21,10 +22,11 @@ export interface SupabaseConfig {
   serviceRoleKey: string;
 }
 
+const VIDEO_BYTES = VIDEO_MAX_MB * 1024 * 1024;
 export const BUCKETS = {
-  selftapes: { fileSizeLimit: 150 * 1024 * 1024 },
+  selftapes: { fileSizeLimit: VIDEO_BYTES },
   avatars: { fileSizeLimit: 2 * 1024 * 1024 },
-  media: { fileSizeLimit: 150 * 1024 * 1024 },
+  media: { fileSizeLimit: VIDEO_BYTES },
 } as const;
 export type BucketName = keyof typeof BUCKETS;
 

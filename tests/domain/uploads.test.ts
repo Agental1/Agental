@@ -43,7 +43,7 @@ describe("checkUpload", () => {
 
   it("refuses a file over the limit and says the limit in MB", () => {
     const refusal = checkUpload("SELFTAPE", "video/mp4", UPLOAD_LIMITS.SELFTAPE.maxBytes + 1);
-    expect(refusal).toEqual({ key: "errors.uploadTooLarge", values: { limit: 150 } });
+    expect(refusal).toEqual({ key: "errors.uploadTooLarge", values: { limit: 50 } });
     expect(checkUpload("PHOTO", "image/png", 16 * MB)?.values).toEqual({ limit: 15 });
   });
 

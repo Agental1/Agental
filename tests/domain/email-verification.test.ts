@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   parseRequiredSince,
   requiresEmailVerification,
+  showsVerifyBanner,
 } from "@/domain/email-verification";
 
 const since = new Date("2026-12-01T00:00:00Z");
@@ -111,5 +112,21 @@ describe("parseRequiredSince", () => {
         requiredSince: parseRequiredSince("soon"),
       })
     ).toBe(false);
+  });
+});
+
+describe("showsVerifyBanner", () => {
+  const before = new Date("2026-11-20T09:00:00Z");
+  it("asks an older unconfirmed password account to verify, without locking it", () => {
+    expect(showsVerifyBanner(account({ createdAt: before }), on)).toBe(true);
+    expect(requiresEmailVerification(account({ createdAt: before }), on)).toBe(false);
+  });
+  it("is not shown to a new account (the gate holds it), a confirmed one, or a Google one", () => {
+    expect(showsVerifyBanner(account(), on)).toBe(false);
+    expect(showsVerifyBanner(account({ createdAt: before, emailVerified: before }), on)).toBe(false);
+    expect(showsVerifyBanner(account({ createdAt: before, passwordHash: null }), on)).toBe(false);
+  });
+  it("stays hidden while no email can be sent", () => {
+    expect(showsVerifyBanner(account({ createdAt: before }), { ...on, senderConfigured: false })).toBe(false);
   });
 });

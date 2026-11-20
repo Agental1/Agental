@@ -6,7 +6,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
-import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
+import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
+import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
 import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
@@ -70,15 +71,14 @@ export default async function TalentsAppLayout({
     where: { id: session.user.id },
     select: { emailVerified: true, passwordHash: true, createdAt: true },
   });
-  if (
-    emailState &&
-    requiresEmailVerification(emailState, {
-      senderConfigured: emailSenderConfigured(),
-      requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
-    })
-  ) {
+  const emailOpts = {
+    senderConfigured: emailSenderConfigured(),
+    requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
+  };
+  if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
   }
+  const verifyBanner = !!emailState && showsVerifyBanner(emailState, emailOpts);
 
   // The plan the talent really has, the Limelight Pro months included.
   const { plan: current } = await getTalentPlan(session.user.id);
@@ -146,6 +146,7 @@ export default async function TalentsAppLayout({
         <FirstRunTour portal="talents" steps={tourSteps} />
       </Suspense>
       <MessagesShortcut />
+      {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}
     </AppShell>
   );

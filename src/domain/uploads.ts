@@ -24,6 +24,12 @@ export type UploadDestination = (typeof UPLOAD_DESTINATIONS)[number];
 
 const MB = 1024 * 1024;
 
+/**
+ * Video size cap. 50 MB is the per-file limit of Supabase's Free plan; raise
+ * it here and in src/lib/storage/supabase.ts (BUCKETS) once on a paid plan.
+ */
+export const VIDEO_MAX_MB = 50;
+
 const VIDEO_MIMES = ["video/mp4", "video/webm", "video/quicktime"] as const;
 
 export const UPLOAD_LIMITS: Record<
@@ -35,8 +41,8 @@ export const UPLOAD_LIMITS: Record<
     mimes: ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"],
   },
   // Chrome and Firefox record WebM, Safari records MP4, phones upload MOV.
-  VIDEO: { maxBytes: 150 * MB, mimes: VIDEO_MIMES },
-  SELFTAPE: { maxBytes: 150 * MB, mimes: VIDEO_MIMES },
+  VIDEO: { maxBytes: VIDEO_MAX_MB * MB, mimes: VIDEO_MIMES },
+  SELFTAPE: { maxBytes: VIDEO_MAX_MB * MB, mimes: VIDEO_MIMES },
 };
 
 /** Per profile, counting finished media and uploads still in flight. */

@@ -227,7 +227,8 @@ export function VerifyEmailButton({ token }: { token: string }) {
  */
 export function CheckInbox({ email }: { email: string }) {
   const t = useTranslations("common.emailFlow");
-  const [cooldown, setCooldown] = useState(0);
+  // The sign-up just sent the first email: the resend opens after 60 s.
+  const [cooldown, setCooldown] = useState(60);
   const [resent, setResent] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
   const [pending, start] = useTransition();

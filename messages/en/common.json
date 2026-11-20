@@ -266,6 +266,9 @@
     "resend": "Send the email again",
     "resendIn": "Send again in {seconds} s",
     "resent": "A new email is on its way.",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "bannerTitle": "Verify your email.",
+    "bannerBody": "Confirm {email} so we can reach you about castings and your account.",
+    "bannerResend": "Send the link"
   }
 }

@@ -4,7 +4,8 @@ import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
+import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
+import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
 import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
@@ -56,15 +57,14 @@ export default async function CastingAppLayout({
     where: { id: session.user.id },
     select: { emailVerified: true, passwordHash: true, createdAt: true },
   });
-  if (
-    emailState &&
-    requiresEmailVerification(emailState, {
-      senderConfigured: emailSenderConfigured(),
-      requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
-    })
-  ) {
+  const emailOpts = {
+    senderConfigured: emailSenderConfigured(),
+    requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
+  };
+  if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
   }
+  const verifyBanner = !!emailState && showsVerifyBanner(emailState, emailOpts);
 
   // The plan badge at the top right opens the plan switcher on every page.
   const current = membership.organization.plan as PlanB2B;
@@ -129,6 +129,7 @@ export default async function CastingAppLayout({
       <Suspense fallback={null}>
         <FirstRunTour portal="casting" steps={tourSteps} />
       </Suspense>
+      {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}
     </AppShell>
   );

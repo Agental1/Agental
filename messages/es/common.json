@@ -266,6 +266,9 @@
     "resend": "Enviar el correo de nuevo",
     "resendIn": "Enviar de nuevo en {seconds} s",
     "resent": "Un nuevo correo está en camino.",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "bannerTitle": "Verifica tu email.",
+    "bannerBody": "Confirma {email} para que podamos escribirte sobre castings y tu cuenta.",
+    "bannerResend": "Enviar el enlace"
   }
 }

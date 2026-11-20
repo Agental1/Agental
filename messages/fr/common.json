@@ -266,6 +266,9 @@
     "resend": "Renvoyer l’e-mail",
     "resendIn": "Renvoyer dans {seconds} s",
     "resent": "Un nouvel e-mail est en route.",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "bannerTitle": "Vérifie ton adresse email.",
+    "bannerBody": "Confirme {email} pour qu'on puisse te joindre au sujet des castings et de ton compte.",
+    "bannerResend": "Envoyer le lien"
   }
 }

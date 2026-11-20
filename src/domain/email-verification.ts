@@ -42,6 +42,21 @@ export function requiresEmailVerification(
   return user.createdAt.getTime() >= opts.requiredSince.getTime();
 }
 
+/**
+ * An account that keeps working but has not confirmed its address: a
+ * password account, unconfirmed, that the gate does not hold (created before
+ * the start date). It sees a "Verify your email" banner, never a lock. Shown
+ * only while email can be sent, so the resend button does something.
+ */
+export function showsVerifyBanner(
+  user: EmailVerificationUser,
+  opts: EmailVerificationOptions
+): boolean {
+  if (!opts.senderConfigured) return false;
+  if (!user.passwordHash || user.emailVerified) return false;
+  return !requiresEmailVerification(user, opts);
+}
+
 // A full ISO 8601 instant with its zone, or a calendar day.
 const RequiredSince = z.union([z.iso.datetime({ offset: true }), z.iso.date()]);
 
