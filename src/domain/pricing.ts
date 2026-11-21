@@ -25,8 +25,8 @@ export const B2C_PLANS: Record<PlanB2C, B2CPlanDef> = {
   // Internal id stays FREE (no migration); the display name is "Basic" (messages).
   FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 } },
   PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 } },
-  PREMIUM: { plan: "PREMIUM", priceCents: 25000, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 } },
-  ULTIMATE: { plan: "ULTIMATE", priceCents: 50000, commissionRate: 0.06, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 } },
+  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 } },
+  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 } },
 };
 
 export interface B2BPlanDef {

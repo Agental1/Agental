@@ -2,7 +2,7 @@ import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -14,6 +14,7 @@ import { StepsOverview } from "@/components/marketing/steps-overview";
 import { SectionNav } from "@/components/marketing/section-nav";
 import { LimelightBlock } from "@/components/marketing/limelight-block";
 import { FaqAccordion, type FaqGroup } from "@/components/marketing/faq-accordion";
+import { fillFaqGroups } from "@/lib/plan-price";
 import { TalentsPricingGrid } from "@/components/marketing/pricing-grids";
 
 /**
@@ -233,7 +234,7 @@ function Pricing() {
 function Faq() {
   const t = useTranslations("talents.faq");
   const ta = useTranslations("common.audience");
-  const groups = (t.raw("groups") as FaqGroup[]).slice(0, 1);
+  const groups = fillFaqGroups((t.raw("groups") as FaqGroup[]).slice(0, 1), useLocale());
   return (
     <section id="faq" aria-labelledby="faq-title" className={SECTION}>
       <h2 id="faq-title" className="display-md">

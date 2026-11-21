@@ -82,7 +82,7 @@ Status contract for the workflow:
 3. Finish with `status='done'` and `completedAt`, or `status='failed'` with `error`. `failed` and `canceled` give the performer's search back; `queued`, `running` and `done` count against the quota.
 4. Results go where applications already go (drafts for human review); nothing is submitted automatically.
 
-Quotas (from `B2C_PLANS.*.aiSearches` in `src/domain/pricing.ts`): Basic 4 in total, Pro 50 per calendar month. Premium and Ultimate are `TODO(founders)` and use 50 per month until set. Quota check and insert share one transaction with a per-user advisory lock; a unique index on (`userId`, `periodKey`, `seq`) and one on (`userId`, `clientKey`) back it up. Access: RLS is on with no policy (the Data API sees nothing); the app shows a performer only their own rows and the full list at `/admin/recherches` to admins. The workflow should connect with a dedicated database role or through a signed app endpoint, never with the anon key.
+Quotas (from `B2C_PLANS.*.aiSearches` in `src/domain/pricing.ts`): Basic 5, Pro 50, Premium 250, Ultimate 500. The server counts each allowance over a rolling 30-day period from the first search (`PERIOD_DAYS` in `src/domain/role-search.ts`). Quota check and insert share one transaction with a per-user advisory lock; a unique index on (`userId`, `periodKey`, `seq`) and one on (`userId`, `clientKey`) back it up. Access: RLS is on with no policy (the Data API sees nothing); the app shows a performer only their own rows and the full list at `/admin/recherches` to admins. The workflow should connect with a dedicated database role or through a signed app endpoint, never with the anon key.
 
 ## Round 3, Group 4 (2026-11-20): what is live and what waits on the owner
 

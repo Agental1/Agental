@@ -118,54 +118,46 @@
     "plans": [
       {
         "name": "Basic",
-        "price": "0 $",
-        "commission": "10 %",
         "cta": "Commencer",
         "features": [
           "Profil, photos et bande démo",
           "Bande démo & self-tape",
           "Suivi de carrière et de revenus",
-          "5 recherches de rôles par l’IA par mois",
-          "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{searches} recherches de rôles par l’IA par mois",
+          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
         ]
       },
       {
         "name": "Pro",
-        "price": "19 $",
-        "commission": "10 %",
         "cta": "Choisir",
         "features": [
           "Tout le Basic",
-          "50 recherches de rôles par l’IA par mois",
+          "{searches} recherches de rôles par l’IA par mois",
           "Retours IA sur tes self-tapes",
           "Réponses plus rapides de l’équipe Agental",
           "Support prioritaire",
-          "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée",
+          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée",
           "Étudiant ? Profite d’une réduction avec ton adresse e-mail universitaire."
         ]
       },
       {
         "name": "Premium",
-        "price": "250 $",
-        "commission": "7,5 %",
         "cta": "Choisir",
         "features": [
           "Tout le Pro",
-          "250 recherches de rôles par l’IA par mois",
+          "{searches} recherches de rôles par l’IA par mois",
           "Plus de coaching",
           "D’autres fonctionnalités bientôt",
-          "7,5 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
         ]
       },
       {
         "name": "Ultimate",
-        "price": "500 $",
-        "commission": "6 %",
         "cta": "Choisir",
         "features": [
           "Tout le Premium",
-          "500 recherches de rôles par l’IA par mois",
-          "6 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{searches} recherches de rôles par l’IA par mois",
+          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
         ]
       }
     ]
@@ -297,7 +289,7 @@
           },
           {
             "q": "Combien prend Agental de commission ?",
-            "a": "10 % en Basic et Pro, 7,5 % en Premium, 6 % en Ultimate. Plus tu montes, plus tu gardes."
+            "a": "{commission_FREE} en Basic et Pro, {commission_PREMIUM} en Premium, {commission_ULTIMATE} en Ultimate. Plus tu montes, plus tu gardes."
           },
           {
             "q": "La commission, c'est en plus de l'abonnement ?",
@@ -885,28 +877,28 @@
         "Profil, photos et bande démo",
         "Bande démo & self-tape",
         "Suivi de carrière et de revenus",
-        "5 recherches de rôles par l’IA par mois",
-        "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{searches} recherches de rôles par l’IA par mois",
+        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "PRO": [
         "Tout le Basic",
-        "50 recherches de rôles par l’IA par mois",
+        "{searches} recherches de rôles par l’IA par mois",
         "Retours IA sur tes self-tapes",
         "Réponses plus rapides de l’équipe Agental",
         "Support prioritaire",
-        "10 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "PREMIUM": [
         "Tout le Pro",
-        "250 recherches de rôles par l’IA par mois",
+        "{searches} recherches de rôles par l’IA par mois",
         "Plus de coaching",
         "D’autres fonctionnalités bientôt",
-        "7,5 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ],
       "ULTIMATE": [
         "Tout le Premium",
-        "500 recherches de rôles par l’IA par mois",
-        "6 % de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{searches} recherches de rôles par l’IA par mois",
+        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
       ]
     },
     "media": {
