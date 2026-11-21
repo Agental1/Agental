@@ -27,7 +27,7 @@ local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa`
 4. Account deletion: proposal in `docs/ACCOUNT_DELETION_PROPOSAL.md`, nothing deleted.
 
 **Part C is ready to deploy** (code; `8be1372`). Contract and C1 trace in `docs/N8N_LINK.md`.
-Reviewed by one adversarial reviewer (11 findings; all fixed except none open), QA end to end on
+Reviewed by one adversarial reviewer (11 findings, all fixed), QA end to end on
 the local DB (search queued, claimed, completed with two fictional roles; performer sees
 "Search completed" and "Roles found for you" with source and draft; nothing sent). 2235 tests
 pass. Not verified: a live call from n8n (needs the staging host and the secret, see access list).
