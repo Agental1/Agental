@@ -1,4 +1,4 @@
-import { askN8nSupport } from "@/lib/n8n/support";
+import { askN8nSupport, n8nSupportConfig } from "@/lib/n8n/support";
 import en from "../../../messages/en/talents.json";
 import fr from "../../../messages/fr/talents.json";
 import es from "../../../messages/es/talents.json";
@@ -51,6 +51,17 @@ export function assistantStrings(locale: Locale): { s: AssistantStrings; raw: Ra
 
 const PLAN_INDEX = { FREE: 0, PRO: 1, PREMIUM: 2, ULTIMATE: 3 } as const;
 
+/** Test accounts only, and under the assistant's daily cap. */
+async function n8nSupportAllowed(userId: string): Promise<boolean> {
+  const u = await prisma.user.findUnique({ where: { id: userId }, select: { accountStatus: true } });
+  if (u?.accountStatus !== "TEST") return false;
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const today = await prisma.message.count({
+    where: { fromAgent: true, createdAt: { gte: since }, thread: { userId, kind: "TEAM" } },
+  });
+  return today < assistantDailyLimit();
+}
+
 export async function answerMessage(input: {
   userId: string;
   topic: MessageTopic;
@@ -65,8 +76,9 @@ export async function answerMessage(input: {
   const { s, raw, planNames } = assistantStrings(locale);
   const planName = planNames[PLAN_INDEX[ctx.plan]] ?? ctx.plan;
 
-  // Staging only: the n8n support entry answers (AGENTAL_FIND_STAGING=1).
-  if (input.requestId) {
+  // Staging only: the n8n support entry answers (AGENTAL_FIND_STAGING=1),
+  // for test accounts only, under the same daily cap as the model.
+  if (input.requestId && n8nSupportConfig() && (await n8nSupportAllowed(input.userId))) {
     const n8n = await askN8nSupport({ requestId: input.requestId, question: input.question });
     if (n8n) {
       const text = n8n.handoff ? `${n8n.text}\n${raw.handoff}` : n8n.text;

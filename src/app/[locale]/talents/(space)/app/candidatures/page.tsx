@@ -125,7 +125,7 @@ export default async function CandidaturesPage({
                 </p>
                 {d.brief.sourceRef && (
                   <a href={d.brief.sourceRef} target="_blank" rel="noopener noreferrer nofollow" className="text-sm font-bold text-accent hover:underline">
-                    {t("space.candidatures.found.source")}
+                    {t("space.candidatures.found.source")} ({new URL(d.brief.sourceRef).hostname})
                   </a>
                 )}
                 {d.note && (

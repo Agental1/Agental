@@ -6,7 +6,10 @@ import { z } from "zod";
  *
  *   AGENTAL_FIND_STAGING=1
  *   N8N_SUPPORT_WEBHOOK_URL   the workflow's "Website Support Request" URL (https)
- *   N8N_SHARED_SECRET         sent as `Authorization: Bearer <secret>`
+ *   N8N_SUPPORT_SECRET        sent as `Authorization: Bearer <secret>`; its own
+ *                             value, never the inbound N8N_SHARED_SECRET
+ *
+ * The URL must be an n8n Cloud host (*.app.n8n.cloud).
  *
  * Only the question leaves the app (no name, email or profile data). Any
  * failure or unexpected answer returns null and the in-app rules answer as
@@ -18,8 +21,15 @@ type Env = Record<string, string | undefined>;
 export function n8nSupportConfig(env: Env = process.env): { url: string; secret: string } | null {
   if ((env.AGENTAL_FIND_STAGING ?? "").trim() !== "1") return null;
   const url = (env.N8N_SUPPORT_WEBHOOK_URL ?? "").trim();
-  const secret = (env.N8N_SHARED_SECRET ?? "").trim();
-  if (!url.startsWith("https://") || secret.length < 24) return null;
+  const secret = (env.N8N_SUPPORT_SECRET ?? "").trim();
+  let host = "";
+  try {
+    const u = new URL(url);
+    host = u.protocol === "https:" && !u.username && !u.password ? u.hostname.toLowerCase() : "";
+  } catch {
+    host = "";
+  }
+  if (!host.endsWith(".app.n8n.cloud") || secret.length < 24) return null;
   return { url, secret };
 }
 

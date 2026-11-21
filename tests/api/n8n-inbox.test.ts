@@ -10,7 +10,7 @@ const routes = {
   complete: await import("@/app/api/n8n/inbox/complete/route"),
   review: await import("@/app/api/n8n/inbox/review/route"),
 };
-const { listInboxForReview } = await import("@/lib/n8n/inbox");
+const { listInboxForReview, markInboxReviewed } = await import("@/lib/n8n/inbox");
 const post = (k: keyof typeof routes, body: unknown, auth = `Bearer ${SECRET}`) =>
   routes[k]
     .POST(new Request("https://app.test/x", { method: "POST", headers: { authorization: auth, "content-type": "application/json" }, body: JSON.stringify(body) }))
@@ -53,5 +53,16 @@ describe.skipIf(!local)("n8n inbox endpoints", () => {
     expect((await post("review", { threadId: `${T}a`, messageId: "m1", reason: "x" })).body).toEqual({ queued: false, status: "sent" });
     const list = (await listInboxForReview()).filter((r) => r.gmailThreadId.startsWith(T));
     expect(list.map((r) => [r.gmailThreadId, r.reason, r.priority])).toEqual([[`${T}c`, "account_security", "urgent"]]);
+  });
+
+  it("lists a claim that never got its receipt after 30 minutes, until staff mark it handled", async () => {
+    const row = await prisma.inboxReply.create({
+      data: { gmailThreadId: `${T}d`, gmailMessageId: "m5", createdAt: new Date(Date.now() - 31 * 60 * 1000) },
+    });
+    const ids = (await listInboxForReview()).map((r) => r.id);
+    expect(ids).toContain(row.id);
+    expect(await markInboxReviewed(row.id)).toBe(true);
+    expect(await markInboxReviewed(row.id)).toBe(false);
+    expect((await listInboxForReview()).map((r) => r.id)).not.toContain(row.id);
   });
 });

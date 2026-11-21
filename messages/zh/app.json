@@ -322,7 +322,8 @@
       "waitingShown": "Showing the {shown} oldest of {count}.",
       "emails": {
         "title": "Emails waiting for a person ({count})",
-        "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these."
+        "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these.",
+        "done": "Mark handled"
       }
     },
     "limelight": {

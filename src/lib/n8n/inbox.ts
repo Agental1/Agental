@@ -99,12 +99,31 @@ export async function queueInboxReview(input: z.infer<typeof InboxReviewInput>) 
   return { queued: row.status === "needs_human_review", status: row.status };
 }
 
-/** For the admin: what waits for a person, oldest first. Caller checks admin. */
-export function listInboxForReview(take = 100) {
+/** A claim this old never got its receipt: the email may be unanswered. */
+export const INBOX_CLAIM_TTL_MS = 30 * 60 * 1000;
+
+/**
+ * For the admin: what waits for a person, oldest first, including claims
+ * that never got a receipt (a crashed run), so no email is lost silently.
+ * Caller checks admin.
+ */
+export function listInboxForReview(take = 100, now = new Date()) {
   return prisma.inboxReply.findMany({
-    where: { status: { in: ["needs_human_review", "send_needs_reconciliation"] }, reviewedAt: null },
+    where: {
+      reviewedAt: null,
+      OR: [
+        { status: { in: ["needs_human_review", "send_needs_reconciliation"] } },
+        { status: "claimed", createdAt: { lt: new Date(now.getTime() - INBOX_CLAIM_TTL_MS) } },
+      ],
+    },
     orderBy: { createdAt: "asc" },
     take,
     select: { id: true, gmailThreadId: true, status: true, reason: true, queue: true, priority: true, createdAt: true },
   });
+}
+
+/** Staff handled it in Gmail. Caller checks admin and writes the audit entry. */
+export async function markInboxReviewed(id: string, now = new Date()) {
+  const r = await prisma.inboxReply.updateMany({ where: { id, reviewedAt: null }, data: { reviewedAt: now } });
+  return r.count === 1;
 }

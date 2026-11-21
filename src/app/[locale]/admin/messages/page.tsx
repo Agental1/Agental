@@ -10,6 +10,7 @@ import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { countWaitingThreads, getTeamThread, isTeamMember, listTeamThreads } from "@/lib/messages";
 import { listInboxForReview } from "@/lib/n8n/inbox";
+import { markInboxReviewedForm } from "@/app/actions/admin-inbox";
 import { MessageList } from "@/components/app/message-list";
 import { MarkThreadRead, MessageComposer } from "@/components/app/message-composer";
 
@@ -109,6 +110,12 @@ export default async function AdminMessagesPage({
                 <span className="font-mono text-xs">{e.gmailThreadId}</span>
                 <Badge variant={e.priority === "urgent" ? "danger" : "warning"}>{e.queue ?? e.status}</Badge>
                 <span className="text-fg-muted">{e.reason ?? e.status}</span>
+                <form action={markInboxReviewedForm} className="ml-auto">
+                  <input type="hidden" name="id" value={e.id} />
+                  <button className="min-h-9 rounded-sedan border border-border px-3 text-xs font-bold hover:border-accent">
+                    {t("admin.messages.emails.done")}
+                  </button>
+                </form>
               </li>
             ))}
           </ul>

@@ -4,8 +4,8 @@ import { askN8nSupport, n8nSupportConfig } from "@/lib/n8n/support";
 /** Messages answered by n8n only behind the staging flag, with the question alone sent. */
 const env = {
   AGENTAL_FIND_STAGING: "1",
-  N8N_SUPPORT_WEBHOOK_URL: "https://n8n.example/webhook/agental-pilot-support-v1",
-  N8N_SHARED_SECRET: "a-shared-secret-long-enough-123",
+  N8N_SUPPORT_WEBHOOK_URL: "https://agental.app.n8n.cloud/webhook/agental-pilot-support-v1",
+  N8N_SUPPORT_SECRET: "a-support-secret-long-enough-123",
 };
 const reply = (body: unknown, status = 200) => vi.fn(async () => new Response(JSON.stringify(body), { status }));
 
@@ -13,8 +13,12 @@ describe("n8n support answers", () => {
   it("stays off without the flag, an https URL or a long secret", () => {
     expect(n8nSupportConfig({ ...env, AGENTAL_FIND_STAGING: "" })).toBeNull();
     expect(n8nSupportConfig({ ...env, AGENTAL_FIND_STAGING: "true" })).toBeNull();
-    expect(n8nSupportConfig({ ...env, N8N_SUPPORT_WEBHOOK_URL: "http://n8n.example/x" })).toBeNull();
-    expect(n8nSupportConfig({ ...env, N8N_SHARED_SECRET: "short" })).toBeNull();
+    expect(n8nSupportConfig({ ...env, N8N_SUPPORT_WEBHOOK_URL: "http://agental.app.n8n.cloud/x" })).toBeNull();
+    expect(n8nSupportConfig({ ...env, N8N_SUPPORT_WEBHOOK_URL: "https://evil.example/webhook" })).toBeNull();
+    expect(n8nSupportConfig({ ...env, N8N_SUPPORT_WEBHOOK_URL: "https://user@agental.app.n8n.cloud/x" })).toBeNull();
+    // The inbound secret is never sent out.
+    expect(n8nSupportConfig({ AGENTAL_FIND_STAGING: "1", N8N_SUPPORT_WEBHOOK_URL: env.N8N_SUPPORT_WEBHOOK_URL, N8N_SHARED_SECRET: "x".repeat(40) })).toBeNull();
+    expect(n8nSupportConfig({ ...env, N8N_SUPPORT_SECRET: "short" })).toBeNull();
     expect(n8nSupportConfig(env)).not.toBeNull();
   });
 
@@ -24,7 +28,7 @@ describe("n8n support answers", () => {
     expect(out).toEqual({ text: "Use Forgot password? on the sign-in page.", handoff: false });
     const [url, init] = f.mock.calls[0] as unknown as [string, RequestInit];
     expect(url).toBe(env.N8N_SUPPORT_WEBHOOK_URL);
-    expect((init.headers as Record<string, string>).Authorization).toBe(`Bearer ${env.N8N_SHARED_SECRET}`);
+    expect((init.headers as Record<string, string>).Authorization).toBe(`Bearer ${env.N8N_SUPPORT_SECRET}`);
     expect(JSON.parse(init.body as string)).toEqual({ requestId: "m1", assistant: "Samantha", question: "How do I reset my password?" });
   });
 

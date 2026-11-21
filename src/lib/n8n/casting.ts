@@ -84,6 +84,12 @@ export interface CastingJob {
 
 const SIX_HOURS = 6 * 60 * 60 * 1000;
 const SCHEDULED_PER_CLAIM = 50;
+/** A claim older than this never got its completion (crash, missing result). */
+export const CLAIM_TTL_MS = 30 * 60 * 1000;
+const TX = { timeout: 20_000, maxWait: 10_000 };
+
+/** Casting sites the workflow searches; the only hosts a "source" link may point at. */
+export const CASTING_DOMAINS = ["actorsaccess.com", "castingnetworks.com", "backstage.com", "playbill.com", "projectcasting.com"];
 
 /**
  * Queue one search per six-hour window for performers who turned on the
@@ -92,16 +98,15 @@ const SCHEDULED_PER_CLAIM = 50;
  */
 export async function queueScheduledSearches(now: Date, mode: WorkflowMode): Promise<number> {
   const window = Math.floor(now.getTime() / SIX_HOURS);
-  const users = await prisma.user.findMany({
-    where: { autoSearchOptIn: true, kind: "TALENT" },
-    select: { id: true },
-    orderBy: { id: "asc" },
-    take: SCHEDULED_PER_CLAIM,
-  });
+  const where = { autoSearchOptIn: true, kind: "TALENT" };
+  const total = await prisma.user.count({ where });
+  // A different slice each window, so everyone gets a turn.
+  const skip = total > SCHEDULED_PER_CLAIM ? (window * SCHEDULED_PER_CLAIM) % total : 0;
+  const users = await prisma.user.findMany({ where, select: { id: true }, orderBy: { id: "asc" }, skip, take: SCHEDULED_PER_CLAIM });
   let queued = 0;
   for (const u of users) {
     if (!(await agentEligibility(u.id, { mode, now })).ok) continue;
-    const res = await startRoleSearch(u.id, `auto6h_${window}`, now, mode);
+    const res = await startRoleSearch(u.id, `auto6h_${window}`, now, mode, true);
     if (res.ok && !res.duplicate) queued += 1;
   }
   return queued;
@@ -118,6 +123,11 @@ export async function claimCastingJobs(
   const now = opts.now ?? new Date();
   const mode = opts.mode ?? workflowMode();
   return prisma.$transaction(async (tx) => {
+    // Claims that never completed: fail them, which gives the search back.
+    await tx.roleSearchRequest.updateMany({
+      where: { status: "running", startedAt: { lt: new Date(now.getTime() - CLAIM_TTL_MS) } },
+      data: { status: "failed", completedAt: now, error: "timed out" },
+    });
     const held = await tx.roleSearchRequest.findMany({
       where: { status: "running", claimedBy: input.executionId },
       select: { id: true, userId: true },
@@ -156,7 +166,7 @@ export async function claimCastingJobs(
       jobs.push({ requestId: row.id, profile: castingProfile(facts) });
     }
     return { jobs, canceled };
-  });
+  }, TX);
 }
 
 // ------------------------------------------------------------- completion
@@ -168,7 +178,14 @@ const httpsUrl = z
   .max(1200)
   .refine((v) => {
     try {
-      return new URL(v).protocol === "https:";
+      const u = new URL(v);
+      const host = u.hostname.toLowerCase();
+      return (
+        u.protocol === "https:" &&
+        !u.username &&
+        !u.password &&
+        CASTING_DOMAINS.some((d) => host === d || host.endsWith("." + d))
+      );
     } catch {
       return false;
     }
@@ -197,7 +214,7 @@ export type RankedRole = z.infer<typeof RankedRole>;
 const ResultInput = z.object({
   requestId: z.string().trim().min(1).max(64),
   status: text(60).min(1),
-  roles: z.array(z.unknown()).max(8).catch([]),
+  roles: z.array(z.unknown()).catch([]).transform((a) => a.slice(0, 8)),
 });
 
 export const CompleteInput = z.object({
@@ -262,24 +279,34 @@ async function completeOne(
       return p.success ? [p.data] : [];
     });
     const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
+    if (!profile) {
+      await tx.roleSearchRequest.update({ where: { id: requestId }, data: { status: "failed", completedAt: now, error: "no profile" } });
+      return { requestId, outcome: "failed" as const };
+    }
     let drafts = 0;
-    if (profile) {
+    {
       for (const role of roles) {
-        const brief = await tx.brief.upsert({
-          where: { dedupeKey: `n8n:${dedupe(role.sourceUrl + "|" + role.roleKey)}` },
-          create: {
-            source: "n8n-beta-v2",
-            sourceRef: role.sourceUrl,
-            dedupeKey: `n8n:${dedupe(role.sourceUrl + "|" + role.roleKey)}`,
-            title: role.project,
-            roleName: role.role,
-            location: role.city ?? null,
-            remote: role.remote ?? null,
-            raw: JSON.stringify(role).slice(0, 20000),
-          },
-          update: {},
-          select: { id: true },
+        const dedupeKey = `n8n:${dedupe(role.sourceUrl + "|" + role.roleKey)}`;
+        // ON CONFLICT DO NOTHING: two completions for the same role cannot
+        // abort each other. The shared brief keeps no performer's draft.
+        const { draft: _personal, ...listing } = role;
+        void _personal;
+        await tx.brief.createMany({
+          data: [
+            {
+              source: "n8n-beta-v2",
+              sourceRef: role.sourceUrl,
+              dedupeKey,
+              title: role.project,
+              roleName: role.role,
+              location: role.city ?? null,
+              remote: role.remote ?? null,
+              raw: JSON.stringify(listing).slice(0, 20000),
+            },
+          ],
+          skipDuplicates: true,
         });
+        const brief = await tx.brief.findUniqueOrThrow({ where: { dedupeKey }, select: { id: true } });
         const note = role.draft ? `${role.draft.subject}\n\n${role.draft.body}` : null;
         const existing = await tx.applicationDraft.findUnique({
           where: { profileId_briefId: { profileId: profile.id, briefId: brief.id } },
@@ -317,5 +344,5 @@ async function completeOne(
     });
     await tx.roleSearchRequest.update({ where: { id: requestId }, data: { status: "done", completedAt: now } });
     return { requestId, outcome: roles.length ? ("done" as const) : ("no_matches" as const), drafts };
-  });
+  }, TX);
 }

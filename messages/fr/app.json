@@ -322,7 +322,8 @@
       "waitingShown": "{shown} plus anciennes affichées sur {count}.",
       "emails": {
         "title": "Emails en attente d’une personne ({count})",
-        "help": "Personnes qui ont écrit directement à l’équipe. Ouvre le fil Gmail avec cet identifiant dans la boîte de l’équipe ; rien n’a été envoyé pour ceux-ci."
+        "help": "Personnes qui ont écrit directement à l’équipe. Ouvre le fil Gmail avec cet identifiant dans la boîte de l’équipe ; rien n’a été envoyé pour ceux-ci.",
+        "done": "Traité"
       }
     },
     "limelight": {

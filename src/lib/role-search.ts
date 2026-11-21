@@ -46,7 +46,9 @@ export async function startRoleSearch(
   userId: string,
   clientKey: string,
   now = new Date(),
-  mode?: WorkflowMode
+  mode?: WorkflowMode,
+  /** A six-hour scheduled search: its gate needs the existing opt-in and it stamps no click. */
+  scheduled = false
 ): Promise<StartRoleSearchResult> {
   const { plan } = await getTalentPlan(userId, now);
   const allowance = allowanceFor(plan);
@@ -74,7 +76,7 @@ export async function startRoleSearch(
     // The gate, before anything is queued or a retried click is answered.
     // Checked under the lock, so a status changed by staff a moment earlier
     // is the one that counts.
-    const eligible = await agentEligibility(userId, { clicking: true, mode, db: tx, now });
+    const eligible = await agentEligibility(userId, { clicking: !scheduled, mode, db: tx, now });
     if (!eligible.ok) {
       return {
         ok: false as const,
@@ -102,7 +104,9 @@ export async function startRoleSearch(
     if (!active) {
       await tx.user.update({ where: { id: userId }, data: { searchPeriodStartedAt: now } });
     }
-    await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
+    if (!scheduled) {
+      await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
+    }
     const row = await tx.roleSearchRequest.create({
       data: { userId, plan, periodKey, seq, clientKey, status: "queued" },
       select: { id: true },

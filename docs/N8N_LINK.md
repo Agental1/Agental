@@ -34,6 +34,9 @@ Rules the code enforces:
   (`claimedBy`); a retried claim of the same execution gets the same rows. A completion is
   accepted once, only from the execution that claimed the row; a retry answers
   `already_recorded` and writes nothing.
+- **Source links.** A role's source must be an https page on one of the casting sites the
+  workflow searches (Actors Access, Casting Networks, Backstage, Playbill, Project Casting);
+  the performer sees the host name next to the link.
 - **Minimum data.** The profile sent is: profile id, country, adult flag, city, languages,
   skills (specialty kinds and tags), preferred project types. No name, email, birth date, media
   or contact detail.
@@ -47,11 +50,16 @@ Rules the code enforces:
 - **Six-hour search.** Each claim first queues one search per six-hour window for performers who
   turned it on (`User.autoSearchOptIn`), under the same gate and quota. There is no switch for
   performers in the UI yet.
-- **Messages (C3).** With `AGENTAL_FIND_STAGING=1` and `N8N_SUPPORT_WEBHOOK_URL`, the assistant
-  sends the question alone to the workflow's "Website Support Request" entry and uses its
-  answer; a recommended handoff, a failure or any odd answer falls back to the in-app rules. The
-  handoff is now recorded (thread marked waiting) before the message saying so is posted. The
-  Agental Find preview stays UI-only.
+- **Messages (C3).** With `AGENTAL_FIND_STAGING=1`, `N8N_SUPPORT_WEBHOOK_URL` (an
+  `*.app.n8n.cloud` URL) and `N8N_SUPPORT_SECRET` (its own value, never the inbound secret), the
+  assistant sends the question alone to the workflow's "Website Support Request" entry, for
+  accounts marked Test only and under the assistant's daily cap. Its answer is posted; when it
+  recommends a handoff, the thread is marked waiting first, then the answer and the handoff line
+  are posted. A failure or an odd answer falls back to the in-app rules. The Agental Find preview
+  stays UI-only.
+- **Stale work.** A casting claim with no completion after 30 minutes is marked failed (the
+  search is given back). An email claim with no receipt after 30 minutes appears in the admin
+  list so it is never lost; staff press "Mark handled" once done in Gmail.
 - **Email replies.** One claim per Gmail message (unique index), one receipt, review items
   listed in Admin, Messages, "Waiting for the Agental team". Only Gmail ids and reasons are
   stored.
@@ -63,7 +71,9 @@ Rules the code enforces:
 | `N8N_SHARED_SECRET` | random, at least 24 characters (`openssl rand -base64 32`); the same value goes in the n8n Header Auth credential as `Bearer <value>` under the header name `Authorization` |
 | `WORKFLOW_MODE` | unset (staging: test accounts only) or `live` (approved accounts only) |
 | `AGENTAL_FIND_STAGING` | `1` to let n8n answer Messages (staging only) |
-| `N8N_SUPPORT_WEBHOOK_URL` | the workflow's "Website Support Request" test or production webhook URL |
+| `N8N_SUPPORT_WEBHOOK_URL` | the workflow's "Website Support Request" webhook URL (`*.app.n8n.cloud`) |
+| `N8N_SUPPORT_SECRET` | a second random value, different from `N8N_SHARED_SECRET`; the same value goes in the n8n Header Auth credential of the "Website Support Request" webhook |
+| `ADMIN_EMAILS` | optional; unset means contact@agental.co is the only admin in production |
 
 ## Can people email us from the app today?
 

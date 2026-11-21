@@ -44,12 +44,14 @@ const role = (n: number, over: Record<string, unknown> = {}) => ({
 let ok: string;
 let later: string;
 let auto: string;
+let parked: { id: string; status: string; startedAt: Date | null; claimedBy: string | null }[] = [];
 
 describe.skipIf(!local)("n8n casting link", () => {
   beforeAll(async () => {
     vi.stubEnv("N8N_SHARED_SECRET", SECRET);
-    // Nothing else may sit in the queue for these tests.
-    await prisma.roleSearchRequest.updateMany({ where: { status: { in: ["queued", "running"] } }, data: { status: "canceled", error: "test isolation" } });
+    // Nothing else may sit in the queue for these tests; other rows are parked and put back after.
+    parked = await prisma.roleSearchRequest.findMany({ where: { status: { in: ["queued", "running"] } }, select: { id: true, status: true, startedAt: true, claimedBy: true } });
+    await prisma.roleSearchRequest.updateMany({ where: { id: { in: parked.map((r) => r.id) } }, data: { status: "parked_by_test" } });
     const make = (name: string, over: Record<string, unknown> = {}) =>
       prisma.user
         .create({
@@ -76,6 +78,9 @@ describe.skipIf(!local)("n8n casting link", () => {
 
   afterAll(async () => {
     vi.unstubAllEnvs();
+    for (const r of parked) {
+      await prisma.roleSearchRequest.update({ where: { id: r.id }, data: { status: r.status, startedAt: r.startedAt, claimedBy: r.claimedBy } });
+    }
     const rows = await prisma.roleSearchRequest.findMany({ where: { user: { email: { startsWith: P } } }, select: { id: true } });
     await prisma.workflowRun.deleteMany({ where: { subjectRef: { in: rows.map((r) => r.id) } } });
     const briefs = await prisma.brief.findMany({ where: { source: "n8n-beta-v2", title: { startsWith: "Project " } }, select: { id: true } });
@@ -133,7 +138,15 @@ describe.skipIf(!local)("n8n casting link", () => {
           requestId: okRow.id,
           profileId: "ignored",
           status: "completed",
-          roles: [role(1), role(2), role(3, { sourceUrl: "http://insecure.example/x" }), role(4, { project: "" }), "junk"],
+          roles: [
+            role(1),
+            role(2),
+            role(3, { sourceUrl: "http://www.backstage.com/x" }),
+            role(4, { project: "" }),
+            role(5, { sourceUrl: "https://evil.example/casting" }),
+            role(6, { sourceUrl: "https://user@www.backstage.com/x" }),
+            "junk",
+          ],
         },
       ],
     };
@@ -149,6 +162,13 @@ describe.skipIf(!local)("n8n casting link", () => {
     expect(await prisma.workflowRun.count({ where: { subjectRef: okRow.id } })).toBe(1);
   });
 
+  it("fails a claim that never completed after 30 minutes, which gives the search back", async () => {
+    const old = new Date(Date.now() - 31 * 60 * 1000);
+    const id = (await prisma.roleSearchRequest.create({ data: { userId: ok, plan: "FREE", periodKey: "p1", seq: 9, status: "running", claimedBy: "lost", startedAt: old } })).id;
+    await claimCastingJobs({ limit: 1, executionId: "exec9" });
+    expect(await prisma.roleSearchRequest.findUniqueOrThrow({ where: { id } })).toMatchObject({ status: "failed", error: "timed out" });
+  });
+
   it("records a source failure as failed, with a short reason", async () => {
     const id = (await prisma.roleSearchRequest.create({ data: { userId: ok, plan: "FREE", periodKey: "p1", seq: 2, status: "running", claimedBy: "exec3" } })).id;
     const res = await (await call(completeRoute, { executionId: "exec3", results: [{ requestId: id, status: "perplexity_unavailable <b>", roles: [] }] })).json();
@@ -162,6 +182,8 @@ describe.skipIf(!local)("n8n casting link", () => {
     expect(await queueScheduledSearches(new Date("2027-01-01T01:00:00Z"), "staging")).toBeGreaterThanOrEqual(1);
     await queueScheduledSearches(new Date("2027-01-01T05:00:00Z"), "staging"); // same window
     expect(await prisma.roleSearchRequest.count({ where: inWindow })).toBe(before + 1);
+    // A scheduled search never stamps the click opt-in.
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: auto } })).agentsOptInAt).toBeNull();
     await prisma.user.update({ where: { id: auto }, data: { accountStatus: "UNREVIEWED" } });
     await queueScheduledSearches(new Date("2027-01-01T07:00:00Z"), "staging"); // next window, no longer eligible
     expect(await prisma.roleSearchRequest.count({ where: inWindow })).toBe(before + 1);
