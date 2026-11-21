@@ -26,15 +26,47 @@ local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa`
    unreviewed; past clicks count as the opt-in).
 4. Account deletion: proposal in `docs/ACCOUNT_DELETION_PROPOSAL.md`, nothing deleted.
 
-**Part C (built, review and QA pending)** commits up to `2f5e3d5`: contract in `docs/N8N_LINK.md`
-(C1 trace table, five `/api/n8n/*` routes, Bearer secret, atomic claim with eligibility re-check,
-idempotent completion, drafts for review, six-hour searches, Messages via n8n behind
-`AGENTAL_FIND_STAGING=1`, handoff recorded before announced, inbox endpoints and admin email
-list). Migrations `20261128010000_search_claim`, `20261128020000_inbox_replies` (additive). 2228
-tests pass locally. **Exact next step:** run `/review` and `/qa` on Part C (pages: Applications
-for a performer with drafts, Admin Messages waiting view), then Part D (import Direct Replies
-into n8n, unpublished; point its five backend URLs at the staging host `/api/n8n/...`; bind
-saved credentials; provider test).
+**Part C is ready to deploy** (code; `8be1372`). Contract and C1 trace in `docs/N8N_LINK.md`.
+Reviewed by one adversarial reviewer (11 findings; all fixed except none open), QA end to end on
+the local DB (search queued, claimed, completed with two fictional roles; performer sees
+"Search completed" and "Roles found for you" with source and draft; nothing sent). 2235 tests
+pass. Not verified: a live call from n8n (needs the staging host and the secret, see access list).
+
+**Founders' answers (2026-11-20, recorded in `docs/DECISIONS.md`):** admin is contact@agental.co
+only (now enforced in code: `src/domain/admin.ts`, `isAdmin` flag AND allowlist, every server
+check uses it); keep test mode (`WORKFLOW_MODE` stays unset in production); archive only.
+
+**Still to do for Part A (owner added it 2026-11-20): the admin site at admin.agental.co.**
+Exact next steps, in order:
+1. Host routing in `src/proxy.ts`: when the host is `admin.agental.co` (and `admin.localhost`
+   for local checks), `/` redirects to `/en/admin`; allow `/{locale}/admin/**`,
+   `/{locale}/connexion`, `/api/auth/**`, `/api/admin/**`, `/api/media/**`, `/api/avatar/**`,
+   static assets; everything else answers 404. The admin layout already checks the role on the
+   server (`isAdminAccount`). Session cookies are per host: email and password sign-in works on
+   the admin host; Google sign-in there needs the redirect URI
+   `https://admin.agental.co/api/auth/callback/google` added in Google Cloud (owner) and a check
+   of `AUTH_URL` (set to www today).
+2. Data views (read-only, search, filters, CSV each): accounts (exists), profiles, media (open
+   only through `/api/media/<id>`, signed URLs), AI searches (exists), applications (exists),
+   messages (exists), Limelight (exists), audit log (exists at `/admin/audit`; add search, CSV).
+   New pages: `/admin/profils`, `/admin/medias`, CSV routes under `/api/admin/*`.
+3. Email log: additive table `EmailLog` (to, subject, kind, resendId, status queued, sent,
+   delivered, bounced, failed, timestamps). Record in `sendEmail` (`src/lib/mailer.ts`) with the
+   Resend id from the API answer; `POST /api/webhooks/resend` verifies the Svix signature with
+   `RESEND_WEBHOOK_SECRET` (owner pastes it from Resend, Webhooks, signing secret, into Vercel
+   Production) and updates the status. Page `/admin/emails`.
+4. Domain: `vercel domains add admin.agental.co` on project agental (owner approval), then the
+   DNS record Vercel prints (a CNAME `admin` to `cname.vercel-dns.com`) at name.com.
+5. Grant admin on production at deploy time: set `isAdmin = true` for contact@agental.co only
+   (one UPDATE, with a dry run first that lists current admins); the code already refuses any
+   other admin in production.
+6. `/review` and `/qa` on the admin site, then "Part A is ready to deploy".
+
+**Part D (not started):** import "Beta V2 - Direct Replies" into n8n as a separate inactive
+workflow; point its five backend URLs at the staging host `/api/n8n/...` (casting claim and
+complete, inbox claim, complete, review); set the HTTP nodes to the saved Header Auth credential
+(`Authorization: Bearer <N8N_SHARED_SECRET>`); bind saved OpenAI, Perplexity, Gmail credentials;
+provider test with `mode: providers`; prepare D3 and stop for the owner.
 
 **Part B is ready to deploy** (commit `2115a74`). Trace, sample submission and answers in
 `docs/LIMELIGHT_TRACE.md`. Changes: the in-app request is recorded as "In the app" (allowlisted
