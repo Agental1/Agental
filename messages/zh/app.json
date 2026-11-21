@@ -392,7 +392,7 @@
     },
     "accounts": {
       "title": "Accounts",
-      "subtitle": "{count} accounts match. Every view, export and status change is logged.",
+      "subtitle": "{count, plural, one {# account matches.} other {# accounts match.}} Every view, export and status change is logged.",
       "search": "Name or email",
       "all": "All",
       "filter": "Filter",

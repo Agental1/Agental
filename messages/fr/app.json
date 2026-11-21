@@ -392,7 +392,7 @@
     },
     "accounts": {
       "title": "Comptes",
-      "subtitle": "{count} comptes correspondent. Chaque consultation, export et changement de statut est journalisé.",
+      "subtitle": "{count, plural, one {# compte correspond.} other {# comptes correspondent.}} Chaque consultation, export et changement de statut est journalisé.",
       "search": "Nom ou email",
       "all": "Tous",
       "filter": "Filtrer",

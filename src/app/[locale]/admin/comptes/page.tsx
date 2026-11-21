@@ -158,7 +158,7 @@ export default async function AccountsPage({
         <div className="flex flex-wrap items-end gap-2">
           <label className="flex flex-col gap-1 text-sm">
             <span className="font-bold">{t("admin.accounts.setStatus")}</span>
-            <select name="status" required defaultValue="" className={select}>
+            <select name="status" required defaultValue="" className={select} aria-label={t("admin.accounts.setStatus")}>
               <option value="" disabled>
                 {t("admin.accounts.cols.status")}
               </option>
