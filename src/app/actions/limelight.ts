@@ -1,5 +1,6 @@
 "use server";
 
+import { isAdminAccount } from "@/domain/admin";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -229,9 +230,9 @@ export async function setLeadStatus(
   if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
   const me = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { isAdmin: true },
+    select: { isAdmin: true, email: true },
   });
-  if (!me?.isAdmin) return { ok: false, error: err("errors.forbidden") };
+  if (!isAdminAccount(me)) return { ok: false, error: err("errors.forbidden") };
 
   const id = LeadId.safeParse(leadId);
   const next = LimelightLeadStatus.safeParse(status);

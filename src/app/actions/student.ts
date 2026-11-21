@@ -1,5 +1,6 @@
 "use server";
 
+import { isAdminAccount } from "@/domain/admin";
 import { z } from "zod";
 import { err, zodError, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
@@ -77,9 +78,9 @@ export async function createStudentCode(input: {
   // The session carries no admin flag. The row decides, on every call.
   const me = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { isAdmin: true },
+    select: { isAdmin: true, email: true },
   });
-  if (!me?.isAdmin) return { ok: false, error: err("errors.forbidden") };
+  if (!isAdminAccount(me)) return { ok: false, error: err("errors.forbidden") };
 
   const parsed = CreateStudentCodeInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: zodError(parsed.error) };

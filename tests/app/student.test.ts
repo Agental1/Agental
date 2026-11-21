@@ -137,7 +137,7 @@ describe("createStudentCode", () => {
     });
     expect(db.user.findUnique).toHaveBeenCalledWith({
       where: { id: "u1" },
-      select: { isAdmin: true },
+      select: { isAdmin: true, email: true },
     });
     expect(createCode).not.toHaveBeenCalled();
     expect(db.auditLog.create).not.toHaveBeenCalled();

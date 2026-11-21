@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -33,7 +34,7 @@ export default async function AdminLayout({
   const session = await auth();
   if (!session?.user?.id) return redirect({ href: "/connexion", locale });
   const me = await prisma.user.findUnique({ where: { id: session.user.id } });
-  if (!me?.isAdmin) return redirect({ href: "/", locale });
+  if (!isAdminAccount(me)) return redirect({ href: "/", locale });
 
   return (
     <AppShell

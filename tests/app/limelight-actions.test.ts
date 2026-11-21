@@ -302,7 +302,7 @@ describe("setLeadStatus", () => {
   it.each([false, null])("refuses a signed-in account that is not an admin (isAdmin: %j)", async (isAdmin) => {
     signIn(isAdmin);
     expect(await setLeadStatus("lead1", "CONTACTED")).toEqual({ ok: false, error: { key: "errors.forbidden" } });
-    expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: "u1" }, select: { isAdmin: true } });
+    expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: "u1" }, select: { isAdmin: true, email: true } });
     expect(changeLeadStatus).not.toHaveBeenCalled();
   });
 

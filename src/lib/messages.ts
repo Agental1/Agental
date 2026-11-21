@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import type { Prisma, PrismaClient } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import {
@@ -171,8 +172,8 @@ export async function ensureTeamThread(db: Tx, userId: string): Promise<string> 
 /* ── Team side ───────────────────────────────────────────────────────────── */
 
 export async function isTeamMember(userId: string, db: Pick<Db, "user"> = prisma): Promise<boolean> {
-  const user = await db.user.findUnique({ where: { id: userId }, select: { isAdmin: true } });
-  return user?.isAdmin === true;
+  const user = await db.user.findUnique({ where: { id: userId }, select: { isAdmin: true, email: true } });
+  return isAdminAccount(user);
 }
 
 export interface TeamThreadRow {

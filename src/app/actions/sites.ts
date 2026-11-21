@@ -1,5 +1,6 @@
 "use server";
 
+import { isAdminAccount } from "@/domain/admin";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { err, type ActionError } from "@/domain/action-result";
@@ -98,9 +99,9 @@ async function adminUserId(): Promise<string | Failure> {
   if (!session?.user?.id) return fail("errors.unauthorized");
   const me = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { isAdmin: true },
+    select: { isAdmin: true, email: true },
   });
-  return me?.isAdmin ? session.user.id : fail("errors.forbidden");
+  return isAdminAccount(me) ? session.user.id : fail("errors.forbidden");
 }
 
 /** Who is calling a site action. */
@@ -126,8 +127,8 @@ async function siteActor(): Promise<Actor | null> {
     kind: session.user.kind,
     isAdmin: () =>
       (admin ??= prisma.user
-        .findUnique({ where: { id }, select: { isAdmin: true } })
-        .then((me) => me?.isAdmin === true)),
+        .findUnique({ where: { id }, select: { isAdmin: true, email: true } })
+        .then((me) => isAdminAccount(me))),
   };
   if (actor.kind === "TALENT") return actor;
   return (await actor.isAdmin()) ? actor : null;
