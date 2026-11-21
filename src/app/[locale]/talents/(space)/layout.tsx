@@ -17,7 +17,7 @@ import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher"
 import { MessagesShortcut } from "@/components/app/messages-shortcut";
 import { B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
-import { formatPlanPrice } from "@/lib/plan-price";
+import { formatPlanPrice, planFeatureLines } from "@/lib/plan-price";
 import { getTalentPlan } from "@/lib/billing/entitlement";
 import { getRoleSearchQuota } from "@/lib/role-search";
 
@@ -93,7 +93,7 @@ export default async function TalentsAppLayout({
     name: planNames[i] ?? p,
     price: formatPlanPrice(B2C_PLANS[p].priceCents, locale),
     unit: t("pricing.perMonth"),
-    features: t.raw(`space.planFeatures.${p}`) as string[],
+    features: planFeatureLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
   }));
 
   const toItem = (n: (typeof NAV)[number]): AppNavItem => ({

@@ -1,5 +1,5 @@
 import { percent } from "@/lib/format";
-import { formatPlanPrice } from "@/lib/plan-price";
+import { formatPlanPrice, planFeatureLines } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -58,7 +58,7 @@ export default async function AbonnementPage({
     // still advertised "Auto-candidature IA" and daily quotas — the promises
     // the pricing-copy pass removed from the message files. It was rewritten
     // there and never wired up, so the subscription screen kept selling them.
-    features: t.raw(`space.planFeatures.${p}`) as string[],
+    features: planFeatureLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
   }));
 
   return (

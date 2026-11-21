@@ -118,54 +118,46 @@
     "plans": [
       {
         "name": "Basic",
-        "price": "0 $",
-        "commission": "10 %",
         "cta": "Empezar",
         "features": [
           "Perfil, fotos y reel",
           "Reel y self-tape",
           "Seguimiento de carrera e ingresos",
-          "5 búsquedas de papeles con IA al mes",
-          "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+          "{searches} búsquedas de papeles con IA al mes",
+          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
       {
         "name": "Pro",
-        "price": "19 $",
-        "commission": "10 %",
         "cta": "Elegir",
         "features": [
           "Todo lo de Basic",
-          "50 búsquedas de papeles con IA al mes",
+          "{searches} búsquedas de papeles con IA al mes",
           "Comentarios de IA sobre tus self-tapes",
           "Respuestas más rápidas del equipo de Agental",
           "Soporte prioritario",
-          "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia",
+          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia",
           "¿Estudiante universitario? Obtén un descuento con tu correo del centro."
         ]
       },
       {
         "name": "Premium",
-        "price": "250 $",
-        "commission": "7,5 %",
         "cta": "Elegir",
         "features": [
           "Todo lo de Pro",
-          "250 búsquedas de papeles con IA al mes",
+          "{searches} búsquedas de papeles con IA al mes",
           "Más coaching",
           "Más funciones próximamente",
-          "7,5 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
       {
         "name": "Ultimate",
-        "price": "500 $",
-        "commission": "6 %",
         "cta": "Elegir",
         "features": [
           "Todo lo de Premium",
-          "500 búsquedas de papeles con IA al mes",
-          "6 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+          "{searches} búsquedas de papeles con IA al mes",
+          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       }
     ]
@@ -297,7 +289,7 @@
           },
           {
             "q": "¿Qué comisión se lleva Agental?",
-            "a": "10 % en Basic y Pro, 7,5 % en Premium, 6 % en Ultimate. Cuanto más progresas, más conservas."
+            "a": "{commission_FREE} en Basic y Pro, {commission_PREMIUM} en Premium, {commission_ULTIMATE} en Ultimate. Cuanto más progresas, más conservas."
           },
           {
             "q": "¿La comisión se suma a la suscripción?",
@@ -885,28 +877,28 @@
         "Perfil, fotos y reel",
         "Reel y self-tape",
         "Seguimiento de carrera e ingresos",
-        "5 búsquedas de papeles con IA al mes",
-        "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+        "{searches} búsquedas de papeles con IA al mes",
+        "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "PRO": [
         "Todo lo de Basic",
-        "50 búsquedas de papeles con IA al mes",
+        "{searches} búsquedas de papeles con IA al mes",
         "Comentarios de IA sobre tus self-tapes",
         "Respuestas más rápidas del equipo de Agental",
         "Soporte prioritario",
-        "10 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+        "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "PREMIUM": [
         "Todo lo de Pro",
-        "250 búsquedas de papeles con IA al mes",
+        "{searches} búsquedas de papeles con IA al mes",
         "Más coaching",
         "Más funciones próximamente",
-        "7,5 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+        "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ],
       "ULTIMATE": [
         "Todo lo de Premium",
-        "500 búsquedas de papeles con IA al mes",
-        "6 % de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
+        "{searches} búsquedas de papeles con IA al mes",
+        "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
       ]
     },
     "media": {

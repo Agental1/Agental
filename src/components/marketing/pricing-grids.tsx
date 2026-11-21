@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2B, PlanB2C } from "@/domain/enums";
-import { formatPlanPrice as formatPrice } from "@/lib/plan-price";
+import { formatPlanPrice as formatPrice, planFeatureLines } from "@/lib/plan-price";
 import { cn } from "@/lib/utils";
 
 /**
@@ -22,7 +22,6 @@ const CASTING_PLAN_ORDER: PlanB2B[] = ["FREE", "PRO", "STUDIO", "ENTERPRISE"];
 
 type TalentsPlan = {
   name: string;
-  commission: string;
   cta: string;
   features: string[];
 };
@@ -123,7 +122,8 @@ export function TalentsPricingGrid({
       )}
     >
       {plans.map((plan, i) => {
-        const def = B2C_PLANS[TALENT_PLAN_ORDER[i]];
+        const id = TALENT_PLAN_ORDER[i];
+        const def = B2C_PLANS[id];
         return (
           <PlanCard
             key={plan.name}
@@ -134,7 +134,7 @@ export function TalentsPricingGrid({
             cta={plan.cta}
             href="/talents/inscription"
             details={tc("details")}
-            lines={plan.features}
+            lines={planFeatureLines(plan.features, locale, id)}
             highlighted={i === 1}
             expanded={expanded}
           />

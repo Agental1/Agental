@@ -118,54 +118,46 @@
     "plans": [
       {
         "name": "Basic",
-        "price": "$0",
-        "commission": "10%",
         "cta": "Get started",
         "features": [
           "Profile, headshots and reel",
           "Reel & Self-tape",
           "Career and earnings tracking",
-          "5 AI role searches per month",
-          "10% commission on bookings, taken by our licensed partner agency"
+          "{searches} AI role searches per month",
+          "{commission} commission on bookings, taken by our licensed partner agency"
         ]
       },
       {
         "name": "Pro",
-        "price": "$19",
-        "commission": "10%",
         "cta": "Choose",
         "features": [
           "Everything in Basic",
-          "50 AI role searches per month",
+          "{searches} AI role searches per month",
           "AI feedback on your self-tapes",
           "Faster replies from the Agental team",
           "Priority support",
-          "10% commission on bookings, taken by our licensed partner agency",
+          "{commission} commission on bookings, taken by our licensed partner agency",
           "College student? Get a discount with your school email."
         ]
       },
       {
         "name": "Premium",
-        "price": "$250",
-        "commission": "7.5%",
         "cta": "Choose",
         "features": [
           "Everything in Pro",
-          "250 AI role searches per month",
+          "{searches} AI role searches per month",
           "More coaching",
           "More features coming soon",
-          "7.5% commission on bookings, taken by our licensed partner agency"
+          "{commission} commission on bookings, taken by our licensed partner agency"
         ]
       },
       {
         "name": "Ultimate",
-        "price": "$500",
-        "commission": "6%",
         "cta": "Choose",
         "features": [
           "Everything in Premium",
-          "500 AI role searches per month",
-          "6% commission on bookings, taken by our licensed partner agency"
+          "{searches} AI role searches per month",
+          "{commission} commission on bookings, taken by our licensed partner agency"
         ]
       }
     ]
@@ -297,7 +289,7 @@
           },
           {
             "q": "How much commission does Agental take?",
-            "a": "10% on Basic and Pro, 7.5% on Premium, 6% on Ultimate. The more you rise, the more you keep."
+            "a": "{commission_FREE} on Basic and Pro, {commission_PREMIUM} on Premium, {commission_ULTIMATE} on Ultimate. The more you rise, the more you keep."
           },
           {
             "q": "Is the commission on top of the subscription?",
@@ -885,28 +877,28 @@
         "Profile, headshots and reel",
         "Reel & Self-tape",
         "Career and earnings tracking",
-        "5 AI role searches per month",
-        "10% commission on bookings, taken by our licensed partner agency"
+        "{searches} AI role searches per month",
+        "{commission} commission on bookings, taken by our licensed partner agency"
       ],
       "PRO": [
         "Everything in Basic",
-        "50 AI role searches per month",
+        "{searches} AI role searches per month",
         "AI feedback on your self-tapes",
         "Faster replies from the Agental team",
         "Priority support",
-        "10% commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, taken by our licensed partner agency"
       ],
       "PREMIUM": [
         "Everything in Pro",
-        "250 AI role searches per month",
+        "{searches} AI role searches per month",
         "More coaching",
         "More features coming soon",
-        "7.5% commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, taken by our licensed partner agency"
       ],
       "ULTIMATE": [
         "Everything in Premium",
-        "500 AI role searches per month",
-        "6% commission on bookings, taken by our licensed partner agency"
+        "{searches} AI role searches per month",
+        "{commission} commission on bookings, taken by our licensed partner agency"
       ]
     },
     "media": {
