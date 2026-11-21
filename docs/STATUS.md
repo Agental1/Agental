@@ -108,3 +108,15 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 
 **Waiting on the owner:** `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY` (and DNS at name.com), Google privacy URL and publish, optional Turnstile keys.
 **Plans to buy:** Vercel Pro (Hobby forbids commercial use; needed before charging subscriptions). Supabase: Free is enough for now (50 MB files, 1 GB storage); Pro ($25/month) when storage passes 1 GB or to stop the weekly pause.
+
+## Round 6 (2026-11-21)
+
+| Part | Status | Deployment | Notes |
+|---|---|---|---|
+| Step 0 Supabase key | done | `agental-4zl9j1leb` | `SUPABASE_SERVICE_ROLE_KEY` in Vercel Production (owner). `/api/health/storage` reports `"storage":"supabase","directUploads":true`. |
+| 1.1 storage switch | done | `agental-4zl9j1leb` | Confirmed on production. Previews do not get the key (Production only), so they still read R2. |
+| 1.2 copy R2 to Supabase | partial | `agental-96u1fwos4` | The admin route is ready (dry run with sizes, Free-plan fit, referenced-file counts; copies only files an account uses). The copy itself has not been run yet: it needs an admin signed in on production. |
+| 1.3 remove R2 | open | | After the copy is verified, in its own change. Follow-ups for that change are listed outside the repository. |
+| 1.4 media test on production | open | | Needs the owner signed in on production with their test account. |
+| 1.5 choices on the account | done | `agental-96u1fwos4` | The cookie choice was the only setting kept in the browser; it now follows the account (stricter choice wins). The remaining browser storage holds drafts and a temporary take stash by design. Persistent data: production and preview deployments read the same Supabase Postgres through `DATABASE_URL`, set for both in Vercel; migrations run on production builds only and stay additive (see HANDOFF, Round 5 group A). |
+| Parts 2 to 4 | open | | shadcn/ui design upgrade, remaining round 5 items, email codes. |

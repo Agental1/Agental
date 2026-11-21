@@ -162,3 +162,12 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 4. **Google:** Google Cloud, project agental-515217, Google Auth Platform, Branding: privacy policy link `https://www.agental.co/en/talents/confidentialite`, Save; Audience: Publish app.
 5. **Redeploy** the latest production deployment in Vercel so the keys are live.
 6. Then the agent: copy R2 files (`/api/admin/storage/copy?copy=1` as admin), test uploads, real inbox emails and the Google round trip, and remove R2 once copied.
+
+## Round 6, part 1 (2026-11-21)
+
+- **Live:** `live-2026-11-21-r6-p1`, deployment `agental-96u1fwos4-agentalco.vercel.app`, commit `760942e` (PR #10, v0.5.2.0). Rollback: `vercel promote agental-4zl9j1leb-agentalco.vercel.app`.
+- **Storage:** Supabase Storage is on in production since the owner added `SUPABASE_SERVICE_ROLE_KEY`. Next: as an admin on production, open `/api/admin/storage/copy` (dry run), check `fitsFreePlan` is true, then `?copy=1` until `left` is 0; the move is done when `notYetCopied` and `referencedOnlyOnR2` are 0 with `complete: true`. Then remove R2 in its own change.
+- **Cookie choice:** follows the account on every signed-in page (stricter choice per category). Settings writes the cookie only after the account has saved it.
+- **Local builds:** `.env` points `DATABASE_URL` at the production pooler, so a local `bun run build` pre-renders admin pages against production and can time out. Build with `DATABASE_URL` and `DIRECT_URL` set to the local prisma dev database instead.
+- **Push guard:** a credential pre-push hook is installed locally. `.gstack-redact-allowlist` lists seven known test fixtures (placeholder hosts only); every push prints what it suppresses.
+
