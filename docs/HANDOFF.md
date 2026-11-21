@@ -2,6 +2,22 @@
 
 Updated 2026-11-19. Read this first, then `docs/STATUS.md` (every task of the first two briefs) and `docs/FRONTEND_BACKEND_HANDOFF.md` (contracts between the two working sessions).
 
+## Round 6 closeout and Part 2 (2026-11-21): start here
+
+Read `docs/DECISIONS.md` first.
+
+1. **Live:** the closeout shipped as v0.5.3.0 (PR #11, tag `live-2026-11-21-r6-closeout`, deployment `agental-4p7r3jjg8`). It contains: Talent pricing restored (Premium $49, Ultimate $79, 5% commission), figures only in `src/domain/pricing.ts` with `{price}`, `{commission}`, `{searches}` tokens in the copy (`src/lib/plan-price.ts`); root `CLAUDE.md`; `docs/DECISIONS.md` with "Differences found" (Casting $99/$299 vs deck $95/$295, "per month" wording vs rolling 30 days, email link vs code, Limelight figures in copy, Apple, R2 fallback).
+2. **In review:** branch `round6-part2-v2` (Part 2 replayed onto the live `frontend-redesign`): shadcn/ui in the signed-in app. `components.json` by hand (no `init`), shadcn names mapped to our roles in `@theme inline`, `dark:` = Casting theme. Toasts, Button `loading`/`destructive`, Sheet phone menu, Select, Switch, Progress, page skeletons (`loading.tsx` for talents app, casting app, admin), `IconTip` tooltips, AlertDialog in place of `window.confirm`. Not yet done in Part 2: before/after screenshots per page (the browser pane was hidden), Casting pages not clicked through, native selects left in `height-field.tsx`, `lead-status-select.tsx` and admin filters (they submit GET forms). Known trade-off (owner decision, 2026-11-20): the `loading.tsx` skeletons stream app pages, so a `notFound()` there answers HTTP 200 with the not-found screen and noindex, and page-level `redirect()` happens in the browser; signed-in pages are not indexed.
+
+Local checks for both: typecheck, lint, i18n parity, 2160 tests (`npx vitest run --no-file-parallelism` on the local DB), `bun run build` on the local DB.
+
+### Exact next steps
+1. **R2 copy (needs the owner at the Mac).** Aside is not installed, so gstack `/browse` falls back to its headless browser, which needs the owner's cookies: run `/setup-browser-cookies` for `www.agental.co` only (the owner picks the Chrome profile, there are 12, and approves Keychain). Then open `https://www.agental.co/api/admin/storage/copy`, check `complete: true` and `fitsFreePlan: true`; stop and report if false. Then `?copy=1` until `left` is 0, re-run the dry run, compare counts. Then the R2-removal change (items 1 to 9 in `shared-notes/ROUND6_CARRYOVER.md`, outside the repo). The video and photo test stays with the owner.
+2. **Part 3** (plan in the round 6 plan, "Part 3"): first sign-in lands on Profile completeness (DECISIONS: Product rules); admin hub columns (sign-up method, media count, website status); clean wordmark SVG; Turnstile waits for its two keys; Google sign-in needs the owner (Testing mode); Limelight own address needs the owner's choice (`name.agental.site`, a subdomain, or keep `/s/<name>`).
+3. **Part 4** (email codes): additive `EmailCode` table, HMAC with `AUTH_SECRET`, 10 minutes, 5 attempts, 60 s resend, 5 per hour; sign-up six-box screen; forgot-password code then a 15-minute grant cookie; `sessionsValidAfter` on reset; DNS records at name.com for Resend; the owner pastes `RESEND_API_KEY`.
+
+Gstack prompts skipped while the owner was away: CLAUDE.md skill routing injection (twice). Mobile push is off in the owner's Claude settings, so push notifications did not arrive.
+
 ## Where things stand
 
 | | |

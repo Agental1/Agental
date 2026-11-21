@@ -76,7 +76,13 @@
     "allDetails": "Voir le détail des formules",
     "contact": "Nous contacter pour un devis",
     "close": "Fermer",
-    "openMessages": "Ouvrir Messages"
+    "openMessages": "Ouvrir Messages",
+    "toast": {
+      "saved": "Enregistré",
+      "uploaded": "Importé",
+      "sent": "Envoyé",
+      "loading": "Chargement"
+    }
   },
   "account": {
     "create": "Créer un compte",

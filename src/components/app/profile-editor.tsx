@@ -9,6 +9,8 @@ import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input, Label } from "@/components/ui/input";
 import { MediaManager, type MediaItem } from "./media-manager";
 import { HeightField } from "./height-field";
@@ -177,30 +179,29 @@ type TabProps = {
 
 function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionError; completeness?: number }>) {
   const [pending, start] = useTransition();
-  const [saved, setSaved] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
+  const t = useTranslations("talents");
   function save(input: unknown, onDone?: (c?: number) => void) {
     setError(undefined);
-    setSaved(false);
     start(async () => {
       const res = await fn(input);
-      if (!res.ok) return setError(res.error ?? err("errors.generic"));
-      setSaved(true);
+      if (!res.ok) {
+        // Errors stay inline next to the form until fixed; success is a toast.
+        return setError(res.error ?? err("errors.generic"));
+      }
+      toast.success(t("space.profileEditor.saved"));
       onDone?.(res.completeness);
-      setTimeout(() => setSaved(false), 2000);
     });
   }
-  return { save, pending, saved, error };
+  return { save, pending, error };
 }
 
 function SaveBar({
   pending,
-  saved,
   error,
   onSave,
 }: {
   pending: boolean;
-  saved: boolean;
   error?: ActionError;
   onSave: () => void;
 }) {
@@ -208,15 +209,9 @@ function SaveBar({
   const t = useTranslations("talents");
   return (
     <div className="flex items-center gap-3 pt-2">
-      <Button onClick={onSave} disabled={pending}>
-        {pending && <Loader2 className="size-4 animate-spin" />}
+      <Button onClick={onSave} loading={pending}>
         {t("space.profileEditor.save")}
       </Button>
-      {saved && (
-        <span className="flex items-center gap-1 text-sm text-success">
-          <Check className="size-4" /> {t("space.profileEditor.saved")}
-        </span>
-      )}
       {error && <span className="text-sm text-danger">{errorText(error)}</span>}
     </div>
   );
@@ -233,7 +228,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function IdentityTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveProfileIdentity);
+  const { save, pending, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
       <Field label={t("space.profileEditor.stageName")}>
@@ -285,7 +280,6 @@ function IdentityTab({ data, setData }: TabProps) {
       </p>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -308,7 +302,7 @@ function IdentityTab({ data, setData }: TabProps) {
 
 function PhysicalTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveProfilePhysical);
+  const { save, pending, error } = useSave(saveProfilePhysical);
   const p = data.physical;
   const setP = (patch: Partial<PhysicalTraits>) =>
     setData({ ...data, physical: { ...p, ...patch } });
@@ -342,7 +336,6 @@ function PhysicalTab({ data, setData }: TabProps) {
       </Field>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -365,7 +358,7 @@ function PhysicalTab({ data, setData }: TabProps) {
 function SpecialtiesTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
   const ta = useTranslations("app");
-  const { save, pending, saved, error } = useSave(saveProfileSpecialties);
+  const { save, pending, error } = useSave(saveProfileSpecialties);
   return (
     <div className="max-w-xl space-y-4">
       <p className="text-sm text-fg-muted">{t("space.profileEditor.specialtiesHint")}</p>
@@ -399,7 +392,6 @@ function SpecialtiesTab({ data, setData }: TabProps) {
       </Field>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -422,7 +414,7 @@ function PreferencesTab({
   onEditLanguages,
 }: TabProps & { availability: AvailabilityItem[]; onEditLanguages: () => void }) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(savePreferences);
+  const { save, pending, error } = useSave(savePreferences);
   const pr = data.preferences;
   const setPr = (patch: Partial<Preferences>) =>
     setData((d) => ({ ...d, preferences: { ...d.preferences, ...patch } }));
@@ -478,7 +470,6 @@ function PreferencesTab({
 
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save({
@@ -585,15 +576,15 @@ function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
         </div>
         <div className="space-y-1.5">
           <Label htmlFor={typeId}>{t(`${p}.availabilityType`)}</Label>
-          <select
-            id={typeId}
-            value={type}
-            onChange={(e) => setType(e.target.value === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}
-            className="h-11 w-full rounded-sedan border border-border bg-surface px-3 text-sm text-fg focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
-          >
-            <option value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</option>
-            <option value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</option>
-          </select>
+          <Select value={type} onValueChange={(v) => setType(v === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}>
+            <SelectTrigger id={typeId} className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent data-portal="talents">
+              <SelectItem value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</SelectItem>
+              <SelectItem value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <Button
           variant="secondary"
@@ -623,7 +614,7 @@ function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
  */
 function ContentBoundariesSection({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveContentBoundaries);
+  const { save, pending, error } = useSave(saveContentBoundaries);
   const b = "space.profileEditor.boundaries" as const;
   return (
     <section
@@ -649,7 +640,6 @@ function ContentBoundariesSection({ data, setData }: TabProps) {
       />
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() => save({ nudity: data.contentBoundaries.nudity })}
       />

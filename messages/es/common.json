@@ -76,7 +76,13 @@
     "allDetails": "Ver todos los detalles de los planes",
     "contact": "Contáctanos para un presupuesto",
     "close": "Cerrar",
-    "openMessages": "Abrir Mensajes"
+    "openMessages": "Abrir Mensajes",
+    "toast": {
+      "saved": "Guardado",
+      "uploaded": "Subido",
+      "sent": "Enviado",
+      "loading": "Cargando"
+    }
   },
   "account": {
     "create": "Crear cuenta",

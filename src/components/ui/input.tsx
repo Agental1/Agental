@@ -12,6 +12,7 @@ export function Input({ className, ...props }: React.ComponentProps<"input">) {
         "placeholder:text-fg-subtle shadow-sm transition-colors",
         "focus-visible:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-ring/40",
         "disabled:cursor-not-allowed disabled:opacity-50",
+        "aria-invalid:border-danger aria-invalid:ring-danger/25",
         className
       )}
       {...props}

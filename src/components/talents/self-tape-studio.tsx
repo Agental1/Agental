@@ -19,6 +19,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { uploadMedia, type UploadMediaResult } from "@/lib/media-upload";
@@ -416,12 +417,7 @@ export function SelfTapeStudio() {
                   ? t("space.studio.uploading", { percent: Math.round(progress * 100) })
                   : t("space.studio.analysing")}
               </p>
-              <div className="h-2 overflow-hidden rounded-full bg-surface-2">
-                <div
-                  className="h-full rounded-full bg-accent transition-[width] duration-200"
-                  style={{ width: `${Math.round(progress * 100)}%` }}
-                />
-              </div>
+              <Progress value={Math.round(progress * 100)} aria-label={t("space.studio.uploading", { percent: Math.round(progress * 100) })} />
             </div>
           )}
 

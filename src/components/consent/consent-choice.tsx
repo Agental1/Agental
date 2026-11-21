@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { NECESSARY_ONLY, readConsent, writeConsent, type Consent } from "./consent-cookie";
 
@@ -74,12 +75,11 @@ export function ConsentChoice({
             {cat.locked ? (
               <span className="shrink-0 pt-0.5 text-[13px] font-bold text-fg-muted">{t("alwaysOn")}</span>
             ) : managing ? (
-              <input
-                type="checkbox"
+              <Switch
                 aria-label={t(cat.key)}
                 checked={draft[cat.key]}
-                onChange={(e) => setDraft({ ...draft, [cat.key]: e.target.checked })}
-                className="mt-1 size-5 shrink-0 accent-[var(--accent)]"
+                onCheckedChange={(on) => setDraft({ ...draft, [cat.key]: on })}
+                className="mt-1 shrink-0"
               />
             ) : null}
           </li>

@@ -13,6 +13,7 @@ import { createBrief } from "@/app/actions/brief";
 
 export function BriefAssistant() {
   const t = useTranslations("casting");
+  const ta = useTranslations("app");
   const errorText = useActionErrorText();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<BriefAnswers>({});
@@ -115,8 +116,13 @@ export function BriefAssistant() {
                   }
                   type={q.kind === "number" ? "number" : "text"}
                 />
-                <Button type="submit" disabled={pending}>
-                  {q.optional && !value.trim() ? t("space.brief.skip") : <Send className="size-4" />}
+                <Button
+                  type="submit"
+                  loading={pending}
+                  // The spinner and the icon carry no text, so the button needs its own name.
+                  aria-label={q.optional && !value.trim() ? undefined : ta("actions.send")}
+                >
+                  {q.optional && !value.trim() ? t("space.brief.skip") : !pending && <Send className="size-4" />}
                 </Button>
               </form>
             )}

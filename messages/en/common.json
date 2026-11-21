@@ -76,7 +76,13 @@
     "allDetails": "See all plan details",
     "contact": "Contact us for a quote",
     "close": "Close",
-    "openMessages": "Open Messages"
+    "openMessages": "Open Messages",
+    "toast": {
+      "saved": "Saved",
+      "uploaded": "Uploaded",
+      "sent": "Sent",
+      "loading": "Loading"
+    }
   },
   "account": {
     "create": "Create account",
