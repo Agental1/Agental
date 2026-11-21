@@ -115,7 +115,7 @@ export function BriefAssistant() {
                   }
                   type={q.kind === "number" ? "number" : "text"}
                 />
-                <Button type="submit" disabled={pending}>
+                <Button type="submit" loading={pending}>
                   {q.optional && !value.trim() ? t("space.brief.skip") : <Send className="size-4" />}
                 </Button>
               </form>

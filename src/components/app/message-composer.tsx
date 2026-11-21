@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useId, useState, useTransition } from "react";
-import { Loader2, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { MESSAGE_MAX_LENGTH } from "@/domain/messages";
@@ -47,6 +48,7 @@ export function MessageComposer({
   labels: ComposerLabels;
 }) {
   const router = useRouter();
+  const tt = useTranslations("common.app.toast");
   const id = useId();
   const [body, setBody] = useState("");
   const [clientKey, setClientKey] = useState(() => crypto.randomUUID());
@@ -75,6 +77,7 @@ export function MessageComposer({
         }
         setBody("");
         setClientKey(crypto.randomUUID());
+        toast.success(tt("sent"));
         router.refresh();
       } catch {
         // A network failure: the draft and its key stay for the retry.
@@ -130,8 +133,8 @@ export function MessageComposer({
       <ActionErrorMessage error={error} />
       <div className="flex flex-wrap items-center justify-between gap-3">
         {labels.hint ? <p className="text-xs text-fg-muted">{labels.hint}</p> : <span />}
-        <Button type="submit" disabled={empty || pending}>
-          {pending ? <Loader2 className="size-4 animate-spin" /> : <Send />}
+        <Button type="submit" disabled={empty} loading={pending}>
+          {!pending && <Send />}
           {pending ? labels.sending : labels.send}
         </Button>
       </div>

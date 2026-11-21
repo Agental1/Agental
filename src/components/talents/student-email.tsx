@@ -69,7 +69,7 @@ export function StudentEmailCard({
                 required
               />
             </div>
-            <Button type="submit" disabled={pending}>
+            <Button type="submit" loading={pending}>
               {t("submit")}
             </Button>
           </div>
@@ -109,7 +109,7 @@ export function ConfirmStudentEmail({ token }: { token: string }) {
     <form action={action} className="space-y-4 text-center">
       <input type="hidden" name="token" value={token} />
       <p className="text-fg-muted">{t("lead")}</p>
-      <Button type="submit" size="lg" disabled={pending}>
+      <Button type="submit" size="lg" loading={pending}>
         {tc("confirm")}
       </Button>
     </form>

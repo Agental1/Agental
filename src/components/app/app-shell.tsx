@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   LayoutDashboard,
   User,
@@ -27,6 +26,8 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { logoutAction } from "@/app/actions/auth";
 import { AgentalLogo, AgentalMark } from "@/components/brand/logo";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Portal } from "@/lib/utils";
 
@@ -168,41 +169,40 @@ export function AppShell({
           <div className="flex items-center gap-2">
             {planSlot}
             {avatarSlot && <span className="flex">{avatarSlot}</span>}
-            <DialogPrimitive.Root open={menuOpen} onOpenChange={setMenuOpen}>
-              <DialogPrimitive.Trigger
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+              <SheetTrigger
                 aria-label={tc("menu")}
                 className="pressable inline-flex size-11 items-center justify-center rounded-full border border-border bg-surface text-fg md:hidden"
               >
                 <Menu aria-hidden="true" className="size-5" />
-              </DialogPrimitive.Trigger>
-              <DialogPrimitive.Portal>
-                <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/45 md:hidden" />
-                <DialogPrimitive.Content
-                  data-portal={portal}
-                  aria-describedby={undefined}
-                  className="enter fixed inset-x-2 top-2 z-50 flex max-h-[calc(100svh-1rem)] flex-col overflow-y-auto rounded-sedan-2xl border border-border bg-surface bg-none p-3 text-fg shadow-xl outline-none md:hidden"
-                >
-                  <div className="flex items-center justify-between pb-2 pl-2">
-                    <DialogPrimitive.Title asChild>
-                      <span className="flex items-center gap-2">
-                        <AgentalLogo />
-                        <span className="sr-only">{tc("menu")}</span>
-                      </span>
-                    </DialogPrimitive.Title>
-                    <DialogPrimitive.Close
-                      aria-label={tc("closeMenu")}
-                      className="pressable inline-flex size-11 items-center justify-center rounded-full border border-border text-fg"
-                    >
-                      <X aria-hidden="true" className="size-5" />
-                    </DialogPrimitive.Close>
-                  </div>
-                  <nav aria-label={tc("navLabel")} className="flex flex-col gap-1 pb-3">
-                    {items(() => setMenuOpen(false))}
-                  </nav>
-                  {account}
-                </DialogPrimitive.Content>
-              </DialogPrimitive.Portal>
-            </DialogPrimitive.Root>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                showCloseButton={false}
+                data-portal={portal}
+                aria-describedby={undefined}
+                className="w-[min(20rem,88vw)] overflow-y-auto bg-none p-3 md:hidden"
+              >
+                <div className="flex items-center justify-between pb-2 pl-2">
+                  <SheetTitle asChild>
+                    <span className="flex items-center gap-2">
+                      <AgentalLogo />
+                      <span className="sr-only">{tc("menu")}</span>
+                    </span>
+                  </SheetTitle>
+                  <SheetClose
+                    aria-label={tc("closeMenu")}
+                    className="pressable inline-flex size-11 items-center justify-center rounded-full border border-border text-fg"
+                  >
+                    <X aria-hidden="true" className="size-5" />
+                  </SheetClose>
+                </div>
+                <nav aria-label={tc("navLabel")} className="flex flex-col gap-1 pb-3">
+                  {items(() => setMenuOpen(false))}
+                </nav>
+                {account}
+              </SheetContent>
+            </Sheet>
           </div>
         </header>
 
@@ -210,6 +210,7 @@ export function AppShell({
           {children}
         </main>
       </div>
+      <Toaster position="bottom-center" />
     </div>
   );
 }
