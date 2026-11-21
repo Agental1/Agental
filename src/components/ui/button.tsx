@@ -58,7 +58,16 @@ export function Button({
 }: ButtonProps) {
   if (asChild) {
     return (
-      <SlotPrimitive.Root className={cn(buttonVariants({ variant, size }), className)} aria-disabled={disabled || undefined} {...props}>
+      // The child gets disabled too, so a wrapped <button> is off for the
+      // keyboard as well; a Link ignores it and keeps aria-disabled. loading
+      // needs the spinner the plain branch draws, so asChild callers show
+      // their own pending state.
+      <SlotPrimitive.Root
+        className={cn(buttonVariants({ variant, size }), className)}
+        aria-disabled={disabled || undefined}
+        {...props}
+        {...{ disabled }}
+      >
         {children}
       </SlotPrimitive.Root>
     );

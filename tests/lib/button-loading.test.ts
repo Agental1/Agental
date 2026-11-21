@@ -29,4 +29,10 @@ describe("Button loading", () => {
     expect(onClick).toHaveBeenCalledOnce();
     expect(el.props["aria-busy"]).toBeUndefined();
   });
+
+  it("hands disabled to the child when asChild", () => {
+    const el = Button({ asChild: true, disabled: true, children: "Go" }) as ReactElement<Props>;
+    expect(el.props.disabled).toBe(true);
+    expect(el.props["aria-disabled"]).toBe(true);
+  });
 });
