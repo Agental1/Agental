@@ -50,6 +50,7 @@ export default async function AccountPage({
           <select
             name="status"
             defaultValue={isAccountStatus(user.accountStatus) ? user.accountStatus : "UNREVIEWED"}
+            aria-label={t("admin.accounts.statusOne")}
             className="h-10 rounded-sedan border border-border bg-surface px-2 text-sm"
           >
             {ACCOUNT_STATUSES.map((s) => (

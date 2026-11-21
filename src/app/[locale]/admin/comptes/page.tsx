@@ -86,7 +86,7 @@ export default async function AccountsPage({
         <h2 id="signups" className="font-display text-lg font-medium">
           {t("admin.accounts.totals.title")}
         </h2>
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {cards.map((c) => (
             <div key={c.label} className="rounded-sedan border border-border bg-surface p-4">
               <p className="font-display text-2xl tabular-nums">{c.value}</p>

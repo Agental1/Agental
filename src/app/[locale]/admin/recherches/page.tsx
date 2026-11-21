@@ -75,7 +75,7 @@ export default async function JobsAdminPage({
         <p className="text-fg-muted">{t("admin.roleSearches.subtitle")}</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         {(["queued", "running", "completed", "failed", "canceled"] as const).map((s) => (
           <div key={s} className="rounded-sedan border border-border bg-surface p-4">
             <p className="font-display text-2xl tabular-nums">{counts[s]}</p>
