@@ -165,6 +165,15 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(again.agentsOptInAt?.getTime()).toBe(u.agentsOptInAt?.getTime());
   });
 
+  it("refuses a retried click once the account is no longer eligible", async () => {
+    session.mockResolvedValue({ user: { id: other, kind: "TALENT" } });
+    const first = await startFindingRoles(key(800));
+    expect(first.ok).toBe(true);
+    await prisma.user.update({ where: { id: other }, data: { accountStatus: "SPAM" } });
+    expect(await startFindingRoles(key(800))).toMatchObject({ ok: false, error: { key: "errors.agentsUnavailable" } });
+    await prisma.user.update({ where: { id: other }, data: { accountStatus: "TEST" } });
+  });
+
   it("lists only the performer's own rows", async () => {
     const mine = await listMyRoleSearches(other);
     const owners = await prisma.roleSearchRequest.findMany({

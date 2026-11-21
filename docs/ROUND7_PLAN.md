@@ -84,10 +84,20 @@ local database; answer the brief's questions in `docs/LIMELIGHT_TRACE.md`. Findi
 
 ## Part C. App to "Beta V2"
 
-C1 trace table; C2 signed endpoints `/api/n8n/casting/claim` and `/complete` (HMAC with
-`N8N_SHARED_SECRET`, timestamp window, idempotency key per job), eligibility re-checked at claim,
-minimum payload, results stored as drafts; C3 Messages behind `AGENTAL_FIND_STAGING=1`, inbox
-`/api/n8n/inbox/claim|complete|review`.
+C1 trace table; C2 endpoints the workflow already calls (paths kept as in the export):
+`/internal/agental/n8n/casting/claim` (body `{limit, executionId}`, answers `{jobs:[{requestId,
+profile:{...}}]}`) and `/internal/agental/n8n/casting/complete` (body `{executionId, results:
+[{requestId, profileId, status, roles:[...]}]}`). The workflow's HTTP nodes use n8n "Header Auth"
+(one fixed header), so the link is a shared secret in one header (`x-agental-n8n-secret`,
+compared in constant time), with `N8N_SHARED_SECRET` in Vercel; per-request signing would need
+Code nodes and is not worth the change. Claim is atomic (`FOR UPDATE SKIP LOCKED`), re-checks
+eligibility, and stamps the n8n execution id; complete is idempotent per request id (a retry
+returns the stored outcome, no second set of drafts). Minimum profile payload: the fields
+the ranking reads (country, adult flag, city, travel cities, dates, languages, skills, playing
+age, categories, materials). Results stored as drafts for the performer's review; nothing is
+submitted. C3 Messages behind `AGENTAL_FIND_STAGING=1`; inbox endpoints
+`/internal/agental/n8n/inbox/claim|complete|review` (claim answers `{status: claimed|existing|busy,
+threadId, messageId, claimId}`).
 
 ## Part D. "Beta V2 - Direct Replies"
 

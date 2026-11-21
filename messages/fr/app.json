@@ -318,7 +318,8 @@
       "viewWaiting": "En attente de l’équipe Agental ({count})",
       "waitingHelp": "La plus ancienne d’abord. Répondre ici retire le statut d’attente.",
       "emptyWaiting": "Aucune conversation n’attend l’équipe.",
-      "waitingSince": "En attente depuis le {date}"
+      "waitingSince": "En attente depuis le {date}",
+      "waitingShown": "{shown} plus anciennes affichées sur {count}."
     },
     "limelight": {
       "title": "Demandes Limelight",

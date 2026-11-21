@@ -236,7 +236,7 @@
       "minors": "未成年人档案",
       "messages": "消息",
       "limelight": "Limelight 申请",
-      "roleSearches": "Applications and AI jobs",
+      "roleSearches": "申请与 AI",
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team"
@@ -318,7 +318,8 @@
       "viewWaiting": "Waiting for the Agental team ({count})",
       "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
       "emptyWaiting": "No conversation is waiting for the team.",
-      "waitingSince": "Waiting since {date}"
+      "waitingSince": "Waiting since {date}",
+      "waitingShown": "Showing the {shown} oldest of {count}."
     },
     "limelight": {
       "title": "Limelight 申请",
@@ -356,38 +357,38 @@
       }
     },
     "roleSearches": {
-      "title": "Applications and AI jobs",
-      "subtitle": "Every AI search, workflow run and application with the status as recorded. Nothing here is submitted automatically.",
+      "title": "申请与 AI 任务",
+      "subtitle": "每一次 AI 搜索、工作流运行和申请及其记录的状态。不会自动提交任何内容。",
       "empty": "暂无搜索。",
       "columns": {
-        "when": "Created",
-        "who": "Account",
-        "plan": "Plan",
-        "period": "Period",
-        "status": "Status",
-        "started": "Started",
-        "completed": "Finished",
-        "error": "Error",
-        "kind": "Kind",
-        "attempts": "Attempts",
-        "role": "Role",
-        "type": "Type",
-        "reviewed": "Reviewed"
+        "when": "时间",
+        "who": "账户",
+        "plan": "方案",
+        "period": "周期",
+        "status": "状态",
+        "started": "开始",
+        "completed": "结束",
+        "error": "错误",
+        "kind": "类型",
+        "attempts": "尝试次数",
+        "role": "角色",
+        "type": "类别",
+        "reviewed": "已审阅"
       },
-      "searches": "AI role searches",
-      "runs": "Workflow runs",
-      "applications": "Applications",
-      "applicationsHelp": "Drafts wait for the performer's review. Candidatures are applications casting teams received.",
-      "emptyRuns": "No workflow run yet.",
-      "emptyApplications": "No application yet.",
-      "draft": "Draft",
-      "candidature": "Candidature",
+      "searches": "AI 角色搜索",
+      "runs": "工作流运行",
+      "applications": "申请",
+      "applicationsHelp": "草稿等待演员审阅。投递是选角团队收到的申请。",
+      "emptyRuns": "暂无运行。",
+      "emptyApplications": "暂无申请。",
+      "draft": "草稿",
+      "candidature": "投递",
       "states": {
-        "queued": "Queued",
-        "running": "Running",
-        "completed": "Completed",
-        "failed": "Failed",
-        "canceled": "Canceled"
+        "queued": "排队中",
+        "running": "运行中",
+        "completed": "已完成",
+        "failed": "失败",
+        "canceled": "已取消"
       }
     },
     "accounts": {

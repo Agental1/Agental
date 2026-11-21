@@ -318,7 +318,8 @@
       "viewWaiting": "Waiting for the Agental team ({count})",
       "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
       "emptyWaiting": "No conversation is waiting for the team.",
-      "waitingSince": "Waiting since {date}"
+      "waitingSince": "Waiting since {date}",
+      "waitingShown": "Showing the {shown} oldest of {count}."
     },
     "limelight": {
       "title": "Limelight requests",

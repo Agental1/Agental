@@ -236,7 +236,7 @@
       "minors": "Expedientes de menores",
       "messages": "Mensajes",
       "limelight": "Solicitudes de Limelight",
-      "roleSearches": "Applications and AI jobs",
+      "roleSearches": "Candidaturas e IA",
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team"
@@ -318,7 +318,8 @@
       "viewWaiting": "Waiting for the Agental team ({count})",
       "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
       "emptyWaiting": "No conversation is waiting for the team.",
-      "waitingSince": "Waiting since {date}"
+      "waitingSince": "Waiting since {date}",
+      "waitingShown": "Showing the {shown} oldest of {count}."
     },
     "limelight": {
       "title": "Solicitudes de Limelight",
@@ -356,38 +357,38 @@
       }
     },
     "roleSearches": {
-      "title": "Applications and AI jobs",
-      "subtitle": "Every AI search, workflow run and application with the status as recorded. Nothing here is submitted automatically.",
+      "title": "Candidaturas y tareas de IA",
+      "subtitle": "Cada búsqueda con IA, ejecución de workflow y candidatura con el estado registrado. Nada se envía automáticamente.",
       "empty": "Aún no hay búsquedas.",
       "columns": {
-        "when": "Created",
-        "who": "Account",
+        "when": "Fecha",
+        "who": "Cuenta",
         "plan": "Plan",
-        "period": "Period",
-        "status": "Status",
-        "started": "Started",
-        "completed": "Finished",
+        "period": "Periodo",
+        "status": "Estado",
+        "started": "Inicio",
+        "completed": "Fin",
         "error": "Error",
-        "kind": "Kind",
-        "attempts": "Attempts",
-        "role": "Role",
-        "type": "Type",
-        "reviewed": "Reviewed"
+        "kind": "Tipo",
+        "attempts": "Intentos",
+        "role": "Papel",
+        "type": "Clase",
+        "reviewed": "Revisada"
       },
-      "searches": "AI role searches",
-      "runs": "Workflow runs",
-      "applications": "Applications",
-      "applicationsHelp": "Drafts wait for the performer's review. Candidatures are applications casting teams received.",
-      "emptyRuns": "No workflow run yet.",
-      "emptyApplications": "No application yet.",
-      "draft": "Draft",
-      "candidature": "Candidature",
+      "searches": "Búsquedas de papeles con IA",
+      "runs": "Ejecuciones de workflow",
+      "applications": "Candidaturas",
+      "applicationsHelp": "Los borradores esperan la revisión del artista. Las candidaturas son las que recibieron los equipos de casting.",
+      "emptyRuns": "Aún no hay ejecuciones.",
+      "emptyApplications": "Aún no hay candidaturas.",
+      "draft": "Borrador",
+      "candidature": "Candidatura",
       "states": {
-        "queued": "Queued",
-        "running": "Running",
-        "completed": "Completed",
-        "failed": "Failed",
-        "canceled": "Canceled"
+        "queued": "En cola",
+        "running": "En curso",
+        "completed": "Completada",
+        "failed": "Fallida",
+        "canceled": "Cancelada"
       }
     },
     "accounts": {

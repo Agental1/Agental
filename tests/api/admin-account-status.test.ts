@@ -11,9 +11,10 @@ const P = "test-acctstatus-";
 const session = vi.fn();
 vi.mock("@/auth", () => ({ auth: session }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
-vi.mock("@/i18n/navigation", () => ({ redirect: vi.fn() }));
+const redirect = vi.fn();
+vi.mock("@/i18n/navigation", () => ({ redirect }));
 
-const { setAccountStatus } = await import("@/app/actions/admin-accounts");
+const { setAccountStatus, setAccountStatusForm } = await import("@/app/actions/admin-accounts");
 const { listAccounts, signupTotals } = await import("@/lib/admin/accounts");
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
@@ -60,6 +61,28 @@ describe.skipIf(!local)("account review status", () => {
     expect(await setAccountStatus([], "TEST")).toEqual({ ok: false, reason: "invalid" });
     expect(await setAccountStatus(["bad id;"], "TEST")).toEqual({ ok: false, reason: "invalid" });
     expect(await setAccountStatus(Array.from({ length: 501 }, (_, i) => `id${i}`), "TEST")).toEqual({ ok: false, reason: "invalid" });
+  });
+
+  it("form: a non-admin changes nothing, and an outside return path is replaced", async () => {
+    const form = (back: string) => {
+      const fd = new FormData();
+      fd.set("locale", "en");
+      fd.append("id", a);
+      fd.set("status", "SPAM");
+      fd.set("back", back);
+      return fd;
+    };
+    session.mockResolvedValue({ user: { id: plain, kind: "TALENT" } });
+    redirect.mockClear();
+    await setAccountStatusForm(form("https://evil.example/admin/comptes"));
+    expect(redirect).toHaveBeenCalledWith({ href: "/admin/comptes?statusError=forbidden", locale: "en" });
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: a } })).accountStatus).toBe("UNREVIEWED");
+    session.mockResolvedValue({ user: { id: admin } });
+    redirect.mockClear();
+    await setAccountStatusForm(form("//evil.example"));
+    expect(redirect.mock.calls[0][0].href).toMatch(/^\/admin\/comptes\?updated=1$/);
+    await setAccountStatus([a], "UNREVIEWED");
+    await prisma.auditLog.deleteMany({ where: { resourceId: a, action: "admin.account.status" } });
   });
 
   it("changes many at once, with one audit entry per changed account", async () => {

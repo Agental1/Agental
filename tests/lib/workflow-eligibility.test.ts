@@ -104,7 +104,7 @@ describe("loadProfileFacts", () => {
     preferences: "{}",
     mobilityCountries: '["US"]',
     minRateCents: null,
-    user,
+    user: user && { passwordHash: "x", accounts: [], ...user },
     specialties: [],
     availability: [],
   });
@@ -117,6 +117,8 @@ describe("loadProfileFacts", () => {
     row("excluded", { id: "u6", emailVerified: verified, accountStatus: "SPAM", agentsOptInAt: verified, autoSearchOptIn: false }),
     row("not-opted-in", { id: "u7", emailVerified: verified, accountStatus: "TEST", agentsOptInAt: null, autoSearchOptIn: false }),
     row("six-hour", { id: "u8", emailVerified: verified, accountStatus: "TEST", agentsOptInAt: null, autoSearchOptIn: true }),
+    // An older Google account: no password, no emailVerified stamp. Same rule as the click gate.
+    row("google", { id: "u9", emailVerified: null, passwordHash: null, accounts: [{ provider: "google" }], accountStatus: "TEST", agentsOptInAt: verified, autoSearchOptIn: false }),
   ];
   const ids = rows.map((r) => r.id);
   const db = { artistProfile: { findMany: vi.fn(async () => rows) } } as never;
@@ -124,14 +126,14 @@ describe("loadProfileFacts", () => {
 
   it("runs only the test account in staging, which is the default", async () => {
     const loaded = await loadProfileFacts(db, ids, now);
-    expect(loaded.profiles.map((p) => p.profileId)).toEqual(["test", "six-hour"]);
+    expect(loaded.profiles.map((p) => p.profileId)).toEqual(["test", "six-hour", "google"]);
     expect(loaded.skipped).toBe(6);
   });
 
   it("runs only the reviewed, verified performer in live", async () => {
     const loaded = await loadProfileFacts(db, ids, now, "live");
     expect(loaded.profiles.map((p) => p.profileId)).toEqual(["real"]);
-    expect(loaded.skipped).toBe(7);
+    expect(loaded.skipped).toBe(8);
   });
 
   it("reports how many were left out, never who", async () => {

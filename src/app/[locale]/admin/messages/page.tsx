@@ -85,7 +85,12 @@ export default async function AdminMessagesPage({
           </Link>
         ))}
       </nav>
-      {waiting && <p className="text-sm text-fg-muted">{t("admin.messages.waitingHelp")}</p>}
+      {waiting && (
+        <p className="text-sm text-fg-muted">
+          {t("admin.messages.waitingHelp")}
+          {waitingCount > threads.length && ` ${t("admin.messages.waitingShown", { shown: threads.length, count: waitingCount })}`}
+        </p>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[20rem_1fr]">
         <section aria-labelledby="inbox" className={cn(open && "hidden lg:block")}>

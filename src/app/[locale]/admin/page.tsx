@@ -12,7 +12,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
-import { auth } from "@/auth";
+import { notFound } from "next/navigation";
+import { currentAdminId } from "@/lib/limelight/admin";
 import { signupTotals } from "@/lib/admin/accounts";
 import { jobCounts } from "@/lib/admin/jobs";
 import { countWaitingThreads } from "@/lib/messages";
@@ -39,8 +40,8 @@ export default async function AdminDashboard({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "app" });
 
-  const session = await auth();
-  const viewerId = session?.user?.id ?? "";
+  const viewerId = await currentAdminId();
+  if (!viewerId) notFound();
   const [totals, waiting, newLeads, jobs, projects, pendingMinors, recentAudits] = await Promise.all([
     signupTotals(),
     countWaitingThreads(viewerId),

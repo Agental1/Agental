@@ -71,11 +71,9 @@ export async function startRoleSearch(
       where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
       select: { seq: true },
     });
-    if (existing) {
-      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, start, now) };
-    }
-    // The gate, before anything is queued. Checked under the lock, so a
-    // status changed by staff a moment earlier is the one that counts.
+    // The gate, before anything is queued or a retried click is answered.
+    // Checked under the lock, so a status changed by staff a moment earlier
+    // is the one that counts.
     const eligible = await agentEligibility(userId, { clicking: true, mode, db: tx, now });
     if (!eligible.ok) {
       return {
@@ -84,6 +82,9 @@ export async function startRoleSearch(
         why: eligible.reason,
         quota: quotaFrom(plan, counted.length, active ? start : null, now),
       };
+    }
+    if (existing) {
+      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, start, now) };
     }
     if (counted.length >= allowance.count) {
       return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };

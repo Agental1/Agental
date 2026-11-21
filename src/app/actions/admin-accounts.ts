@@ -34,9 +34,16 @@ export async function setAccountStatus(ids: string[], status: AccountStatus): Pr
       where: { id: { in: unique }, accountStatus: { not: status } },
       select: { id: true, accountStatus: true },
     });
-    if (before.length === 0) return 0;
-    await tx.user.updateMany({ where: { id: { in: before.map((u) => u.id) } }, data: { accountStatus: status } });
+    let n = 0;
     for (const u of before) {
+      // Conditional on the status just read: a concurrent change makes this
+      // match nothing, so the audit entry never records a wrong "before".
+      const { count } = await tx.user.updateMany({
+        where: { id: u.id, accountStatus: u.accountStatus },
+        data: { accountStatus: status },
+      });
+      if (count !== 1) continue;
+      n += 1;
       await audit(
         {
           actorUserId: adminId,
@@ -49,7 +56,7 @@ export async function setAccountStatus(ids: string[], status: AccountStatus): Pr
         tx
       );
     }
-    return before.length;
+    return n;
   });
   revalidatePath("/[locale]/admin/comptes", "page");
   revalidatePath("/[locale]/admin/comptes/[id]", "page");
