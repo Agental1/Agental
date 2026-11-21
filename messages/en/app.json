@@ -134,6 +134,9 @@
     "imdbUrl": "Enter an IMDb link like imdb.com/name/nm1234567.",
     "portfolioUrl": "Enter a link that starts with https://.",
     "roleSearchQuota": "You have no AI searches left on your plan.",
+    "agentsEmailUnverified": "Verify your email address first, then start your search.",
+    "agentsUnderReview": "The Agental team is reviewing your account. Your AI searches open once it is approved.",
+    "agentsUnavailable": "AI searches are not available on this account. Write to us in Messages if you think this is a mistake.",
     "uploadBlocked": "We couldn't reach our storage, so the take isn't saved yet. It is still here: try again in a moment.",
     "avatarTooLarge": "This picture is too large. Choose a smaller photo.",
     "avatarType": "Choose a JPEG, PNG or WebP photo.",
@@ -351,7 +354,7 @@
     },
     "accounts": {
       "title": "Accounts",
-      "subtitle": "{count} accounts. Every view and export is logged.",
+      "subtitle": "{count} accounts match. Every view, export and status change is logged.",
       "search": "Name or email",
       "all": "All",
       "filter": "Filter",
@@ -371,7 +374,9 @@
         "verified": "Email verified",
         "completeness": "Profile",
         "media": "Media",
-        "website": "Website"
+        "website": "Website",
+        "status": "Status",
+        "agents": "Agents enabled"
       },
       "site": {
         "none": "None",
@@ -387,7 +392,43 @@
         "message": "Message",
         "limelight": "Limelight request",
         "plan": "Plan"
-      }
+      },
+      "totals": {
+        "title": "Signups",
+        "all": "All accounts",
+        "performers": "Performers",
+        "casting": "Casting",
+        "staff": "Staff",
+        "test": "Test",
+        "spam": "Spam",
+        "split": "{approved} approved, {unreviewed} to review",
+        "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
+      },
+      "mode": {
+        "staging": "Agents mode: staging. Only accounts marked Test can trigger an agent.",
+        "live": "Agents mode: live. Only accounts marked Approved can trigger an agent."
+      },
+      "statusLabel": "Status",
+      "agentsLabel": "Agents enabled",
+      "statuses": {
+        "UNREVIEWED": "Unreviewed",
+        "APPROVED": "Approved",
+        "TEST": "Test",
+        "STAFF": "Staff",
+        "SPAM": "Spam"
+      },
+      "selectAll": "Select every account on this page",
+      "select": "Select {name}",
+      "setStatus": "Set status of selected accounts",
+      "apply": "Apply",
+      "updated": "{count, plural, =0 {No account changed.} one {# account updated.} other {# accounts updated.}}",
+      "statusError": "Nothing changed. Select at least one account and a status.",
+      "page": "Page {page} of {pages}",
+      "prev": "Previous",
+      "next": "Next",
+      "agentsHelp": "Yes when the email is verified, the status allows it in this mode, the person is an adult and opted in (clicked Start finding roles or turned on the six-hour search).",
+      "statusOne": "Account status",
+      "admin": "admin"
     },
     "studentRequests": {
       "title": "Student price requests",

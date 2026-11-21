@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+import { agentEligibility } from "@/lib/agents";
+import type { IneligibleReason, WorkflowMode } from "@/domain/workflow/eligibility";
 import { getTalentPlan } from "@/lib/billing/entitlement";
 import {
   COUNTED_STATUSES,
@@ -17,6 +19,10 @@ import {
  * (userId, periodKey, seq) is the last guard if the lock were ever skipped.
  *
  * Nothing here calls a workflow: rows wait in status "queued" for n8n.
+ *
+ * Round 7: no row is written for an account that may not trigger an agent
+ * (src/domain/workflow/eligibility.ts): verified email, adult, status
+ * APPROVED in live (TEST in staging). The click is the opt-in and is stamped.
  */
 
 export async function getRoleSearchQuota(userId: string, now = new Date()): Promise<RoleSearchQuota> {
@@ -33,12 +39,14 @@ export async function getRoleSearchQuota(userId: string, now = new Date()): Prom
 
 export type StartRoleSearchResult =
   | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
-  | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota };
+  | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota }
+  | { ok: false; reason: "ineligible"; why: IneligibleReason; quota: RoleSearchQuota };
 
 export async function startRoleSearch(
   userId: string,
   clientKey: string,
-  now = new Date()
+  now = new Date(),
+  mode?: WorkflowMode
 ): Promise<StartRoleSearchResult> {
   const { plan } = await getTalentPlan(userId, now);
   const allowance = allowanceFor(plan);
@@ -66,6 +74,17 @@ export async function startRoleSearch(
     if (existing) {
       return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, start, now) };
     }
+    // The gate, before anything is queued. Checked under the lock, so a
+    // status changed by staff a moment earlier is the one that counts.
+    const eligible = await agentEligibility(userId, { clicking: true, mode, db: tx, now });
+    if (!eligible.ok) {
+      return {
+        ok: false as const,
+        reason: "ineligible" as const,
+        why: eligible.reason,
+        quota: quotaFrom(plan, counted.length, active ? start : null, now),
+      };
+    }
     if (counted.length >= allowance.count) {
       return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
     }
@@ -82,6 +101,7 @@ export async function startRoleSearch(
     if (!active) {
       await tx.user.update({ where: { id: userId }, data: { searchPeriodStartedAt: now } });
     }
+    await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
     const row = await tx.roleSearchRequest.create({
       data: { userId, plan, periodKey, seq, clientKey, status: "queued" },
       select: { id: true },

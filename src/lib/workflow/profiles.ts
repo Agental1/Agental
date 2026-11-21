@@ -40,7 +40,7 @@ export async function loadProfileFacts(
       preferences: true,
       mobilityCountries: true,
       minRateCents: true,
-      user: { select: { id: true, emailVerified: true, workflowAccess: true } },
+      user: { select: { id: true, emailVerified: true, accountStatus: true, agentsOptInAt: true, autoSearchOptIn: true } },
       specialties: { select: { kind: true, level: true, tags: true } },
       availability: { select: { from: true, to: true, type: true, zones: true } },
     },
@@ -54,9 +54,10 @@ export async function loadProfileFacts(
     const facts = toProfileFacts(row, now);
     const eligible = workflowEligibility(
       {
-        workflowAccess: row.user.workflowAccess,
+        accountStatus: row.user.accountStatus,
         emailVerified: row.user.emailVerified,
         isAdult: facts.isAdult,
+        optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn,
       },
       mode
     );

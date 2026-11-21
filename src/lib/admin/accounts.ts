@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+import { ELIGIBILITY_SELECT, factsFrom } from "@/lib/agents";
+import { agentsEnabled, isAccountStatus, workflowMode, type AccountStatus } from "@/domain/workflow/eligibility";
 
 /**
  * The admin data hub: every account with the facts the team asks about, and
@@ -11,6 +13,8 @@ export interface AccountFilters {
   plan?: string;
   method?: "email" | "google";
   verified?: "yes" | "no";
+  status?: AccountStatus;
+  agents?: "yes" | "no";
 }
 
 export interface AccountRow {
@@ -22,18 +26,48 @@ export interface AccountRow {
   createdAt: Date;
   method: "email" | "google" | "other";
   emailVerified: boolean;
+  status: AccountStatus;
+  isAdmin: boolean;
+  agentsEnabled: boolean;
   completeness: number | null;
   mediaCount: number;
   website: "none" | "draft" | "published";
 }
 
-export async function listAccounts(f: AccountFilters = {}, take = 500): Promise<AccountRow[]> {
+/** Read a filter set from URL parameters (page and CSV route share it). */
+export function accountFiltersFrom(get: (k: string) => string | null | undefined): AccountFilters {
+  const one = (k: string) => get(k) || undefined;
+  const audience = one("audience");
+  const method = one("method");
+  const verified = one("verified");
+  const status = one("status");
+  const agents = one("agents");
+  const plan = one("plan");
+  return {
+    q: one("q")?.slice(0, 100),
+    audience: audience === "TALENT" || audience === "CASTING" ? audience : undefined,
+    plan: plan && ["FREE", "PRO", "PREMIUM", "ULTIMATE"].includes(plan) ? plan : undefined,
+    method: method === "email" || method === "google" ? method : undefined,
+    verified: verified === "yes" || verified === "no" ? verified : undefined,
+    status: isAccountStatus(status) ? status : undefined,
+    agents: agents === "yes" || agents === "no" ? agents : undefined,
+  };
+}
+
+/**
+ * Every account matching the filters, newest first. Loaded whole (the list is
+ * a few thousand rows at most) so plan, method and "Agents enabled", which are
+ * computed, filter and page exactly like the stored columns.
+ */
+export async function listAccounts(f: AccountFilters = {}, take = 10000): Promise<AccountRow[]> {
   const q = f.q?.trim();
+  const now = new Date();
+  const mode = workflowMode();
   const users = await prisma.user.findMany({
     where: {
       ...(q ? { OR: [{ email: { contains: q, mode: "insensitive" } }, { name: { contains: q, mode: "insensitive" } }] } : {}),
       ...(f.audience ? { kind: f.audience } : {}),
-      ...(f.verified === "yes" ? { emailVerified: { not: null } } : f.verified === "no" ? { emailVerified: null } : {}),
+      ...(f.status ? { accountStatus: f.status } : {}),
     },
     orderBy: { createdAt: "desc" },
     take,
@@ -42,11 +76,12 @@ export async function listAccounts(f: AccountFilters = {}, take = 500): Promise<
       name: true,
       email: true,
       kind: true,
+      isAdmin: true,
       createdAt: true,
-      emailVerified: true,
-      passwordHash: true,
-      accounts: { select: { provider: true } },
-      artistProfile: { select: { id: true, stageName: true, completenessScore: true, _count: { select: { media: true } } } },
+      ...ELIGIBILITY_SELECT,
+      artistProfile: {
+        select: { id: true, stageName: true, completenessScore: true, birthDate: true, isMinor: true, _count: { select: { media: true } } },
+      },
       sites: { select: { status: true } },
     },
   });
@@ -57,23 +92,80 @@ export async function listAccounts(f: AccountFilters = {}, take = 500): Promise<
   const planOf = new Map(
     subs.map((s) => [
       s.subjectId,
-      s.status !== "ACTIVE" ? "FREE" : s.plan === "FREE" && s.compPlan && s.compUntil && s.compUntil > new Date() ? s.compPlan : s.plan,
+      s.status !== "ACTIVE" ? "FREE" : s.plan === "FREE" && s.compPlan && s.compUntil && s.compUntil > now ? s.compPlan : s.plan,
     ])
   );
-  const rows: AccountRow[] = users.map((u) => ({
-    id: u.id,
-    name: u.artistProfile?.stageName || u.name || "",
-    email: u.email,
-    audience: u.kind,
-    plan: u.kind === "TALENT" ? (planOf.get(u.id) ?? "FREE") : "",
-    createdAt: u.createdAt,
-    method: u.accounts.some((a) => a.provider === "google") ? "google" : u.passwordHash ? "email" : "other",
-    emailVerified: !!u.emailVerified || (!u.passwordHash && u.accounts.length > 0),
-    completeness: u.artistProfile?.completenessScore ?? null,
-    mediaCount: u.artistProfile?._count.media ?? 0,
-    website: u.sites.some((s) => s.status === "PUBLISHED") ? "published" : u.sites.length > 0 ? "draft" : "none",
-  }));
-  return rows.filter((r) => (!f.plan || r.plan === f.plan) && (!f.method || r.method === f.method));
+  const rows: AccountRow[] = users.map((u) => {
+    const facts = factsFrom(u, now);
+    return {
+      id: u.id,
+      name: u.artistProfile?.stageName || u.name || "",
+      email: u.email,
+      audience: u.kind,
+      plan: u.kind === "TALENT" ? (planOf.get(u.id) ?? "FREE") : "",
+      createdAt: u.createdAt,
+      method: u.accounts.some((a) => a.provider === "google") ? "google" : u.passwordHash ? "email" : "other",
+      emailVerified: facts.emailVerified !== null,
+      status: isAccountStatus(u.accountStatus) ? u.accountStatus : "UNREVIEWED",
+      isAdmin: u.isAdmin,
+      agentsEnabled: u.kind === "TALENT" && agentsEnabled(facts, mode),
+      completeness: u.artistProfile?.completenessScore ?? null,
+      mediaCount: u.artistProfile?._count.media ?? 0,
+      website: u.sites.some((s) => s.status === "PUBLISHED") ? "published" : u.sites.length > 0 ? "draft" : "none",
+    };
+  });
+  return rows.filter(
+    (r) =>
+      (!f.plan || r.plan === f.plan) &&
+      (!f.method || r.method === f.method) &&
+      (!f.verified || r.emailVerified === (f.verified === "yes")) &&
+      (!f.agents || r.agentsEnabled === (f.agents === "yes"))
+  );
+}
+
+export interface SignupTotals {
+  /** Unique registered accounts, every kind and status. */
+  all: number;
+  /** Real accounts (not staff, test or spam), by type and review state. */
+  performers: { total: number; approved: number; unreviewed: number };
+  casting: { total: number; approved: number; unreviewed: number };
+  staff: number;
+  test: number;
+  spam: number;
+}
+
+/**
+ * The signup counts. One row per User (email is unique), so an account is
+ * counted once. Staff means status STAFF or an admin, whatever the status.
+ * Limelight leads live in their own table and are never counted here.
+ */
+export async function signupTotals(): Promise<SignupTotals> {
+  const groups = await prisma.user.groupBy({
+    by: ["kind", "accountStatus", "isAdmin"],
+    _count: { _all: true },
+  });
+  const t: SignupTotals = {
+    all: 0,
+    performers: { total: 0, approved: 0, unreviewed: 0 },
+    casting: { total: 0, approved: 0, unreviewed: 0 },
+    staff: 0,
+    test: 0,
+    spam: 0,
+  };
+  for (const g of groups) {
+    const n = g._count._all;
+    t.all += n;
+    if (g.isAdmin || g.accountStatus === "STAFF") t.staff += n;
+    else if (g.accountStatus === "TEST") t.test += n;
+    else if (g.accountStatus === "SPAM") t.spam += n;
+    else {
+      const side = g.kind === "CASTING" ? t.casting : t.performers;
+      side.total += n;
+      if (g.accountStatus === "APPROVED") side.approved += n;
+      else side.unreviewed += n;
+    }
+  }
+  return t;
 }
 
 export type TimelineKind = "signup" | "verified" | "audit" | "media" | "search" | "message" | "limelight" | "plan";
@@ -95,6 +187,10 @@ export async function accountTimeline(userId: string) {
       kind: true,
       createdAt: true,
       emailVerified: true,
+      accountStatus: true,
+      isAdmin: true,
+      agentsOptInAt: true,
+      autoSearchOptIn: true,
       artistProfile: { select: { id: true, stageName: true, completenessScore: true } },
     },
   });
@@ -144,9 +240,9 @@ export function accountsCsv(rows: AccountRow[]): string {
     if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const head = ["id", "name", "email", "audience", "plan", "created_at", "signup", "email_verified", "completeness", "media", "website"];
+  const head = ["id", "name", "email", "audience", "plan", "created_at", "signup", "email_verified", "status", "admin", "agents_enabled", "completeness", "media", "website"];
   const lines = rows.map((r) =>
-    [r.id, r.name, r.email, r.audience, r.plan, r.createdAt, r.method, r.emailVerified, r.completeness ?? "", r.mediaCount, r.website]
+    [r.id, r.name, r.email, r.audience, r.plan, r.createdAt, r.method, r.emailVerified, r.status, r.isAdmin, r.agentsEnabled, r.completeness ?? "", r.mediaCount, r.website]
       .map(cell)
       .join(",")
   );

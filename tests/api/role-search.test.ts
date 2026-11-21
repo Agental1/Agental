@@ -19,14 +19,37 @@ const key = (n: number) => `${P.replace(/-/g, "_")}${String(n).padStart(6, "0")}
 let basic: string;
 let other: string;
 let pro: string;
+let unreviewed: string;
+let unverified: string;
+let approved: string;
+let spam: string;
+let minor: string;
 
 describe.skipIf(!local)("AI role searches", () => {
   beforeAll(async () => {
-    const make = (name: string) =>
-      prisma.user.create({ data: { email: `${P}${name}@test.local`, name, kind: "TALENT" } });
+    // Verified, adult test accounts: the only kind staging lets through.
+    const make = (name: string, over: Record<string, unknown> = {}) =>
+      prisma.user.create({
+        data: {
+          email: `${P}${name}@test.local`,
+          name,
+          kind: "TALENT",
+          emailVerified: new Date(),
+          accountStatus: "TEST",
+          artistProfile: { create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z") } },
+          ...over,
+        },
+      });
     basic = (await make("basic")).id;
     other = (await make("other")).id;
     pro = (await make("pro")).id;
+    unreviewed = (await make("unreviewed", { accountStatus: "UNREVIEWED" })).id;
+    unverified = (await make("unverified", { emailVerified: null, passwordHash: "x" })).id;
+    approved = (await make("approved", { accountStatus: "APPROVED" })).id;
+    spam = (await make("spam", { accountStatus: "SPAM" })).id;
+    minor = (await make("minor", {
+      artistProfile: { create: { stageName: "minor", birthDate: new Date(Date.now() - 15 * 365 * 24 * 3600 * 1000), isMinor: true } },
+    })).id;
     await prisma.subscription.create({
       data: { subjectType: "ARTIST", subjectId: pro, plan: "PRO", status: "ACTIVE" },
     });
@@ -107,6 +130,39 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(res.ok && res.quota.used === 1).toBe(true);
     const u = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
     expect(u.searchPeriodStartedAt!.getTime()).toBeGreaterThan(old.getTime() + 30 * 24 * 60 * 60 * 1000);
+  });
+
+  it("queues nothing for an account that may not trigger agents", async () => {
+    const cases: [string, string][] = [
+      [unreviewed, "errors.agentsUnderReview"],
+      [unverified, "errors.agentsEmailUnverified"],
+      [approved, "errors.agentsUnavailable"], // a real account never runs in staging
+      [spam, "errors.agentsUnavailable"],
+      [minor, "errors.agentsUnavailable"],
+    ];
+    for (const [id, errorKey] of cases) {
+      session.mockResolvedValue({ user: { id, kind: "TALENT" } });
+      expect(await startFindingRoles(key(500))).toMatchObject({ ok: false, error: { key: errorKey } });
+      expect(await prisma.roleSearchRequest.count({ where: { userId: id } })).toBe(0);
+      const u = await prisma.user.findUniqueOrThrow({ where: { id } });
+      expect(u.agentsOptInAt).toBeNull();
+      expect(u.searchPeriodStartedAt).toBeNull();
+    }
+  });
+
+  it("lets an approved account through in live, never a test account", async () => {
+    const live = await startRoleSearch(approved, key(600), new Date(), "live");
+    expect(live.ok).toBe(true);
+    const test = await startRoleSearch(pro, key(601), new Date(), "live");
+    expect(test).toMatchObject({ ok: false, reason: "ineligible", why: "test_account" });
+  });
+
+  it("stamps the opt-in on the first accepted click only", async () => {
+    const u = await prisma.user.findUniqueOrThrow({ where: { id: other } });
+    expect(u.agentsOptInAt).not.toBeNull();
+    await startRoleSearch(other, key(700));
+    const again = await prisma.user.findUniqueOrThrow({ where: { id: other } });
+    expect(again.agentsOptInAt?.getTime()).toBe(u.agentsOptInAt?.getTime());
   });
 
   it("lists only the performer's own rows", async () => {

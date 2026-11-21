@@ -5,14 +5,15 @@ import { auth } from "@/auth";
 import { err, type ActionError } from "@/domain/action-result";
 import { RoleSearchClientKey, type RoleSearchQuota } from "@/domain/role-search";
 import { startRoleSearch } from "@/lib/role-search";
+import { refusalKey } from "@/domain/workflow/eligibility";
 
 export type StartRoleSearchState =
   | { ok: true; id: string; quota: RoleSearchQuota }
   | { ok: false; error: ActionError; quota?: RoleSearchQuota };
 
 /**
- * "Start finding roles". Checks the quota and stores a queued request in one
- * transaction (src/lib/role-search.ts). Calls no workflow.
+ * "Start finding roles". Checks eligibility and the quota and stores a queued
+ * request in one transaction (src/lib/role-search.ts). Calls no workflow.
  */
 export async function startFindingRoles(clientKey: string): Promise<StartRoleSearchState> {
   const session = await auth();
@@ -24,6 +25,9 @@ export async function startFindingRoles(clientKey: string): Promise<StartRoleSea
 
   try {
     const res = await startRoleSearch(session.user.id, key.data);
+    if (!res.ok && res.reason === "ineligible") {
+      return { ok: false, error: err(refusalKey(res.why)), quota: res.quota };
+    }
     if (!res.ok) return { ok: false, error: err("errors.roleSearchQuota"), quota: res.quota };
     revalidatePath("/[locale]/talents/(space)/app", "page");
     revalidatePath("/[locale]/talents/(space)/app/candidatures", "page");
