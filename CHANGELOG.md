@@ -3,6 +3,19 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.5.0] - 2026-11-21
+
+### Added (round 7, branch `round7`)
+
+- **Admin portal for accounts and AI work.** Each account has a status (Unreviewed, Approved, Test, Staff, Spam) that staff can change one by one or in bulk, with signup totals, filters and CSV. Admin also lists the conversations waiting for the Agental team (oldest first), applications and AI jobs with their states, and revenue as "Unavailable" until payments exist. Every change is in the audit log.
+- **The AI agents start only for eligible accounts.** A search needs a verified email, an adult performer and the right status: Test while the app is in test mode (the default), Approved once the founders switch it to live. The server checks this at the click and again when n8n picks up the search.
+- **Connection points for the n8n workflows "Beta V2" and "Beta V2 - Direct Replies".** Five routes for casting searches and email replies, closed (404) until the shared secret is set. Results arrive as drafts the performer sees under Applications, "Roles found for you", with the casting site link. Nothing is sent or submitted.
+- **Limelight requests record where they came from** (the Limelight page or the app's site panel), and the confirmation scrolls into view after sending.
+
+### Changed
+
+- **Admin is limited to contact@agental.co in production.** An account with the admin flag and any other email is refused on every admin page and action.
+
 ## [0.5.4.0] - 2026-11-20
 
 ### Changed (round 6 part 2, branch `round6-part2-v2`)
