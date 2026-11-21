@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.3.0] - 2026-11-20
+
+### Changed (round 6 closeout, branch `round6-closeout`)
+
+- **Talent prices are back to the original grid.** Premium is $49 a month and Ultimate $79 a month, and Ultimate's commission on bookings is 5%. Basic ($0, 10%) and Pro ($19, 10%) are unchanged, as are the search allowances (5, 50, 250, 500). Every place that shows a price, a commission or a search allowance now reads it from one table, `src/domain/pricing.ts`: the pricing page, the Talent page, the plan cards, the plan switcher, Subscription and the FAQ, in English, French, Spanish and Chinese.
+- **The copy can no longer drift from the prices.** Plan feature lines and the FAQ answer about commission carry placeholders filled from the pricing table, and a test fails if a figure is typed back into that copy.
+
+### Added
+
+- **A permanent project memory.** `docs/DECISIONS.md` records the founders' decisions (products, prices, brand, stack, rules) and lists where the code still differs from them. `CLAUDE.md` tells every future session to read it first and never to change a price, plan, commission, allowance or brand rule without the founders' instruction.
+
 ## [0.5.2.0] - 2026-11-20
 
 ### Changed (2026-11-20, round 6 part 1, branch `round6`)
