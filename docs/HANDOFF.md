@@ -2,7 +2,41 @@
 
 Updated 2026-11-21. Read this first, then `docs/STATUS.md` (every task of the first two briefs) and `docs/FRONTEND_BACKEND_HANDOFF.md` (contracts between the two working sessions).
 
-## Round 6 closeout and Part 2 (2026-11-21): start here
+## Round 7 (2026-11-20): start here
+
+Brief: owner's `Agental_Cowork_Round7_Prompt.md` (Desktop). Plan: `docs/ROUND7_PLAN.md`. Branch
+`round7` (from `frontend-redesign` at `27e874c`), pushed, no PR yet, nothing deployed.
+
+**Part A is ready to deploy** (commit `0c61cac`). Admin portal: account status (unreviewed,
+approved, test, staff, spam) set one by one or in bulk with one audit entry each; signup totals
+(performers and casting, staff/test/spam apart, Limelight leads excluded); "Agents enabled" in
+the list; Start finding roles refused on the server before any job is queued unless email
+verified, adult, status approved (live) or test (staging), opted in; waiting-for-team view;
+applications and AI jobs; revenue "Unavailable"; Limelight team-alert column. Additive
+migration `20261128000000_account_status`. Checks: typecheck, lint, i18n, 2212 tests on the
+local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa` (report in
+`.gstack/qa-reports/run-20261121T061338Z/`, local only).
+
+**Before deploying Part A (owner):**
+1. Decide `WORKFLOW_MODE`: without `WORKFLOW_MODE=live` in Vercel Production, only Test
+   accounts can start a search. With it, only Approved accounts. Mark real performers Approved
+   in Admin, Accounts first.
+2. Decide the admin account (contact@agental.co proposed; nothing granted).
+3. Decisions listed in `docs/ROUND7_PLAN.md` (C: backfill; old EXCLUDED rows go back to
+   unreviewed; past clicks count as the opt-in).
+4. Account deletion: proposal in `docs/ACCOUNT_DELETION_PROPOSAL.md`, nothing deleted.
+
+**Known follow-up for Part C:** searches already queued before an account lost eligibility are
+still in the queue; the n8n claim endpoint re-checks eligibility and cancels them.
+
+**Part B:** traced in `docs/LIMELIGHT_TRACE.md`; alerts stay Pending in production until
+`RESEND_API_KEY` and `LIMELIGHT_ALERT_EMAIL` are set.
+
+**Not available to the agent this run:** Remote Control (auto mode refused to turn it on, so
+push notifications do not reach the phone); allow rules in `.claude/settings.local.json`
+(refused by auto mode).
+
+## Round 6 closeout and Part 2 (2026-11-21)
 
 **Live now:** v0.5.4.0, Part 2 (PR #12, merge `347340c`, tag `live-2026-11-21-r6-p2`, deployment `agental-82c7l3r32`). Rollback: `vercel promote agental-4p7r3jjg8-agentalco.vercel.app` (the closeout). Checked after deploy: public pages, pricing ($0, $19, $49, $79, no raw placeholders), FAQ, auth endpoints and the storage health route answer normally. Not checked: signed-in pages (no session in the browser pane), so the save message, delete dialog and phone menu still need one look on production.
 
