@@ -981,6 +981,9 @@ model RoleSearchRequest {
   completedAt DateTime?
   /// Short reason when failed, written by the workflow. No personal data.
   error       String?
+  /// The n8n execution that claimed the row (round 7). A completion from any
+  /// other execution is refused, so a retried or stray run cannot write twice.
+  claimedBy   String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
