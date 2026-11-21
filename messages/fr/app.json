@@ -319,7 +319,11 @@
       "waitingHelp": "La plus ancienne d’abord. Répondre ici retire le statut d’attente.",
       "emptyWaiting": "Aucune conversation n’attend l’équipe.",
       "waitingSince": "En attente depuis le {date}",
-      "waitingShown": "{shown} plus anciennes affichées sur {count}."
+      "waitingShown": "{shown} plus anciennes affichées sur {count}.",
+      "emails": {
+        "title": "Emails en attente d’une personne ({count})",
+        "help": "Personnes qui ont écrit directement à l’équipe. Ouvre le fil Gmail avec cet identifiant dans la boîte de l’équipe ; rien n’a été envoyé pour ceux-ci."
+      }
     },
     "limelight": {
       "title": "Demandes Limelight",

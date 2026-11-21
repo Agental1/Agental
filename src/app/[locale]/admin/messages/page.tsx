@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { countWaitingThreads, getTeamThread, isTeamMember, listTeamThreads } from "@/lib/messages";
+import { listInboxForReview } from "@/lib/n8n/inbox";
 import { MessageList } from "@/components/app/message-list";
 import { MarkThreadRead, MessageComposer } from "@/components/app/message-composer";
 
@@ -48,9 +49,10 @@ export default async function AdminMessagesPage({
   const waiting = sp.waiting === "1";
   const threadParam = typeof rawThread === "string" && rawThread.length <= 100 ? rawThread : null;
 
-  const [threads, waitingCount] = await Promise.all([
+  const [threads, waitingCount, emails] = await Promise.all([
     listTeamThreads(viewerId, waiting ? { waiting: true, limit: 200 } : {}),
     countWaitingThreads(viewerId),
+    waiting ? listInboxForReview() : Promise.resolve([]),
   ]);
   const open = threadParam ? await getTeamThread(viewerId, threadParam) : null;
   const performerName = open ? (open.user.name?.trim() || open.user.email) : "";
@@ -90,6 +92,27 @@ export default async function AdminMessagesPage({
           {t("admin.messages.waitingHelp")}
           {waitingCount > threads.length && ` ${t("admin.messages.waitingShown", { shown: threads.length, count: waitingCount })}`}
         </p>
+      )}
+
+      {waiting && emails.length > 0 && (
+        <section aria-labelledby="emails" className="space-y-2">
+          <h2 id="emails" className="font-display text-lg font-medium">
+            {t("admin.messages.emails.title", { count: emails.length })}
+          </h2>
+          <p className="text-sm text-fg-muted">{t("admin.messages.emails.help")}</p>
+          <ul className="divide-y divide-border overflow-hidden rounded-sedan border border-border bg-surface text-sm">
+            {emails.map((e) => (
+              <li key={e.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 p-3">
+                <time dateTime={e.createdAt.toISOString()} className="text-fg-muted">
+                  {dateTime(e.createdAt, locale)}
+                </time>
+                <span className="font-mono text-xs">{e.gmailThreadId}</span>
+                <Badge variant={e.priority === "urgent" ? "danger" : "warning"}>{e.queue ?? e.status}</Badge>
+                <span className="text-fg-muted">{e.reason ?? e.status}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       <div className="grid gap-6 lg:grid-cols-[20rem_1fr]">

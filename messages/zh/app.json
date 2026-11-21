@@ -319,7 +319,11 @@
       "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
       "emptyWaiting": "No conversation is waiting for the team.",
       "waitingSince": "Waiting since {date}",
-      "waitingShown": "Showing the {shown} oldest of {count}."
+      "waitingShown": "Showing the {shown} oldest of {count}.",
+      "emails": {
+        "title": "Emails waiting for a person ({count})",
+        "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these."
+      }
     },
     "limelight": {
       "title": "Limelight 申请",

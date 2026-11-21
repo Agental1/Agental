@@ -1014,3 +1014,29 @@ model StudentEmailClaim {
   @@index([email])
   @@schema("public")
 }
+
+/// Replies to people who email the team directly, handled by the n8n "Beta V2
+/// Direct Replies" workflow (round 7). One row per inbound Gmail message: the
+/// claim that keeps a reply single, then the outcome. Gmail ids and reasons
+/// only; the email text stays in Gmail.
+model InboxReply {
+  id             String    @id @default(cuid())
+  gmailThreadId  String
+  gmailMessageId String
+  /// Returned to the workflow on claim; the completion must carry it.
+  claimId        String    @unique @default(cuid())
+  executionId    String?
+  /// claimed | sent | send_needs_reconciliation | needs_human_review | send_skipped
+  status         String    @default("claimed")
+  sentMessageId  String?
+  reason         String?
+  queue          String?
+  priority       String?
+  reviewedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([gmailThreadId, gmailMessageId])
+  @@index([status, createdAt])
+  @@schema("public")
+}
