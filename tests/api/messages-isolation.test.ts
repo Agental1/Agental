@@ -24,7 +24,7 @@ vi.mock("@/lib/mailer", () => ({ sendEmail }));
 const { sendMessage, replyAsTeam, markThreadRead, markMyThreadRead } = await import(
   "@/app/actions/messages"
 );
-const { getMyThread, listTeamThreads, getTeamThread } = await import("@/lib/messages");
+const { countWaitingThreads, getMyThread, listTeamThreads, getTeamThread } = await import("@/lib/messages");
 
 let maya: string;
 let leo: string;
@@ -185,6 +185,27 @@ describe.skipIf(!local)("human Messages", () => {
     expect((await getMyThread(leo)).messages[0].readAt).toBeNull();
   });
 
+  it("lists the threads waiting for a person, oldest handoff first, and a reply clears it", async () => {
+    const [m, l] = [(await getMyThread(maya)).threadId!, (await getMyThread(leo)).threadId!];
+    const older = new Date(Date.now() - 2 * 3600 * 1000);
+    const newer = new Date(Date.now() - 3600 * 1000);
+    await prisma.thread.update({ where: { id: l }, data: { waitingForTeamSince: older } });
+    await prisma.thread.update({ where: { id: m }, data: { waitingForTeamSince: newer } });
+    const waiting = (await listTeamThreads(admin, { waiting: true })).filter((r) => [m, l].includes(r.threadId));
+    expect(waiting.map((r) => r.threadId)).toEqual([l, m]);
+    expect(waiting[0].waitingSince?.getTime()).toBe(older.getTime());
+    expect(await countWaitingThreads(admin)).toBeGreaterThanOrEqual(2);
+    expect(await countWaitingThreads(leo)).toBe(0);
+    expect(await listTeamThreads(leo, { waiting: true })).toEqual([]);
+
+    as(admin);
+    expect(await replyAsTeam(l, { body: "On it, Leo.", clientKey: key(20) })).toMatchObject({ ok: true });
+    const still = (await listTeamThreads(admin, { waiting: true })).map((r) => r.threadId);
+    expect(still).not.toContain(l);
+    expect(still).toContain(m);
+    await prisma.thread.update({ where: { id: m }, data: { waitingForTeamSince: null } });
+  });
+
   it("answers 'not found' for a thread that does not exist", async () => {
     as(admin);
     expect(await replyAsTeam("nope", { body: "x", clientKey: key(8) })).toEqual({
@@ -229,6 +250,6 @@ describe.skipIf(!local)("human Messages", () => {
       if (!result.ok && result.error.key === "errors.tooManyAttempts") refused += 1;
     }
     expect(refused).toBeGreaterThan(0);
-    expect((await getMyThread(leo)).messages.filter((m) => !m.fromAgent).length).toBeLessThanOrEqual(20);
+    expect((await getMyThread(leo)).messages.filter((m) => !m.fromAgent && !m.fromTeam).length).toBeLessThanOrEqual(20);
   });
 });

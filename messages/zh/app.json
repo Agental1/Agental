@@ -236,8 +236,10 @@
       "minors": "未成年人档案",
       "messages": "消息",
       "limelight": "Limelight 申请",
-      "roleSearches": "角色搜索",
-      "accounts": "Accounts"
+      "roleSearches": "Applications and AI jobs",
+      "accounts": "Accounts",
+      "revenue": "Revenue",
+      "waiting": "Waiting for the team"
     },
     "stats": {
       "artists": "艺人",
@@ -310,7 +312,13 @@
         "profile": "我的资料",
         "application": "角色或申请",
         "other": "其他"
-      }
+      },
+      "views": "Conversation views",
+      "viewAll": "All conversations",
+      "viewWaiting": "Waiting for the Agental team ({count})",
+      "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
+      "emptyWaiting": "No conversation is waiting for the team.",
+      "waitingSince": "Waiting since {date}"
     },
     "limelight": {
       "title": "Limelight 申请",
@@ -338,18 +346,48 @@
         "NEW": "新申请",
         "CONTACTED": "已联系",
         "CLOSED": "已关闭"
+      },
+      "alert": "Team alert",
+      "alerts": {
+        "PENDING": "Pending",
+        "SENT": "Sent",
+        "DEAD": "Failed",
+        "NONE": "None"
       }
     },
     "roleSearches": {
-      "title": "AI 角色搜索",
-      "subtitle": "每一次点击“开始寻找角色”。在工作流接入之前，记录保持 queued 状态。",
+      "title": "Applications and AI jobs",
+      "subtitle": "Every AI search, workflow run and application with the status as recorded. Nothing here is submitted automatically.",
       "empty": "暂无搜索。",
       "columns": {
-        "when": "时间",
-        "who": "账户",
-        "plan": "方案",
-        "period": "周期",
-        "status": "状态"
+        "when": "Created",
+        "who": "Account",
+        "plan": "Plan",
+        "period": "Period",
+        "status": "Status",
+        "started": "Started",
+        "completed": "Finished",
+        "error": "Error",
+        "kind": "Kind",
+        "attempts": "Attempts",
+        "role": "Role",
+        "type": "Type",
+        "reviewed": "Reviewed"
+      },
+      "searches": "AI role searches",
+      "runs": "Workflow runs",
+      "applications": "Applications",
+      "applicationsHelp": "Drafts wait for the performer's review. Candidatures are applications casting teams received.",
+      "emptyRuns": "No workflow run yet.",
+      "emptyApplications": "No application yet.",
+      "draft": "Draft",
+      "candidature": "Candidature",
+      "states": {
+        "queued": "Queued",
+        "running": "Running",
+        "completed": "Completed",
+        "failed": "Failed",
+        "canceled": "Canceled"
       }
     },
     "accounts": {
@@ -445,6 +483,18 @@
         "REJECTED": "Declined",
         "USED": "Used"
       }
+    },
+    "revenue": {
+      "title": "Revenue",
+      "subtitle": "Payments received through a verified live payment source.",
+      "unavailable": "Unavailable",
+      "why": "No live payment source is verified yet. Stripe is not connected, so there is no revenue to show.",
+      "mock": "{count, plural, =0 {No mock order exists.} one {# mock order exists. It is a test and never counts as revenue.} other {# mock orders exist. They are tests and never count as revenue.}}"
+    },
+    "hub": {
+      "newLeads": "New Limelight requests",
+      "toReview": "Accounts to review",
+      "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
     }
   },
   "matchReasons": {

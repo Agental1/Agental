@@ -236,8 +236,10 @@
       "minors": "Dossiers mineurs",
       "messages": "Messages",
       "limelight": "Demandes Limelight",
-      "roleSearches": "Recherches de rôles",
-      "accounts": "Comptes"
+      "roleSearches": "Candidatures et IA",
+      "accounts": "Comptes",
+      "revenue": "Revenus",
+      "waiting": "En attente de l’équipe"
     },
     "stats": {
       "artists": "Artistes",
@@ -310,7 +312,13 @@
         "profile": "Mon profil",
         "application": "Un rôle ou une candidature",
         "other": "Autre chose"
-      }
+      },
+      "views": "Vues des conversations",
+      "viewAll": "Toutes les conversations",
+      "viewWaiting": "En attente de l’équipe Agental ({count})",
+      "waitingHelp": "La plus ancienne d’abord. Répondre ici retire le statut d’attente.",
+      "emptyWaiting": "Aucune conversation n’attend l’équipe.",
+      "waitingSince": "En attente depuis le {date}"
     },
     "limelight": {
       "title": "Demandes Limelight",
@@ -338,18 +346,48 @@
         "NEW": "Nouvelle",
         "CONTACTED": "Contactée",
         "CLOSED": "Close"
+      },
+      "alert": "Alerte équipe",
+      "alerts": {
+        "PENDING": "En attente",
+        "SENT": "Envoyée",
+        "DEAD": "Échec",
+        "NONE": "Aucune"
       }
     },
     "roleSearches": {
-      "title": "Recherches de rôles IA",
-      "subtitle": "Chaque clic sur « Trouver des rôles ». Les lignes restent en statut queued jusqu’au branchement du workflow.",
+      "title": "Candidatures et tâches IA",
+      "subtitle": "Chaque recherche IA, exécution de workflow et candidature avec le statut enregistré. Rien n’est envoyé automatiquement.",
       "empty": "Aucune recherche pour l’instant.",
       "columns": {
-        "when": "Date",
+        "when": "Créée",
         "who": "Compte",
         "plan": "Formule",
         "period": "Période",
-        "status": "Statut"
+        "status": "Statut",
+        "started": "Démarrée",
+        "completed": "Terminée",
+        "error": "Erreur",
+        "kind": "Type",
+        "attempts": "Tentatives",
+        "role": "Rôle",
+        "type": "Nature",
+        "reviewed": "Relue"
+      },
+      "searches": "Recherches de rôles IA",
+      "runs": "Exécutions de workflow",
+      "applications": "Candidatures",
+      "applicationsHelp": "Les brouillons attendent la relecture de l’artiste. Les candidatures sont celles reçues par les équipes casting.",
+      "emptyRuns": "Aucune exécution pour l’instant.",
+      "emptyApplications": "Aucune candidature pour l’instant.",
+      "draft": "Brouillon",
+      "candidature": "Candidature",
+      "states": {
+        "queued": "En file",
+        "running": "En cours",
+        "completed": "Terminée",
+        "failed": "Échec",
+        "canceled": "Annulée"
       }
     },
     "accounts": {
@@ -445,6 +483,18 @@
         "REJECTED": "Refusée",
         "USED": "Utilisée"
       }
+    },
+    "revenue": {
+      "title": "Revenus",
+      "subtitle": "Paiements reçus par une source de paiement réelle vérifiée.",
+      "unavailable": "Indisponible",
+      "why": "Aucune source de paiement réelle n’est vérifiée. Stripe n’est pas connecté, il n’y a donc aucun revenu à afficher.",
+      "mock": "{count, plural, =0 {Aucune commande fictive.} one {# commande fictive existe. C’est un test, jamais compté comme revenu.} other {# commandes fictives existent. Ce sont des tests, jamais comptés comme revenus.}}"
+    },
+    "hub": {
+      "newLeads": "Nouvelles demandes Limelight",
+      "toReview": "Comptes à vérifier",
+      "jobs": "Tâches IA : {queued} en file, {running} en cours, {failed} en échec"
     }
   },
   "matchReasons": {

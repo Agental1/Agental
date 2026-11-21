@@ -140,8 +140,10 @@ export function listAllRoleSearches(take = 200) {
       seq: true,
       status: true,
       createdAt: true,
+      startedAt: true,
       completedAt: true,
-      user: { select: { email: true } },
+      error: true,
+      user: { select: { id: true, email: true } },
     },
   });
 }

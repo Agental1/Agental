@@ -8,7 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { getTeamThread, isTeamMember, listTeamThreads } from "@/lib/messages";
+import { countWaitingThreads, getTeamThread, isTeamMember, listTeamThreads } from "@/lib/messages";
 import { MessageList } from "@/components/app/message-list";
 import { MarkThreadRead, MessageComposer } from "@/components/app/message-composer";
 
@@ -32,7 +32,7 @@ export default async function AdminMessagesPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ thread?: string | string[] }>;
+  searchParams: Promise<{ thread?: string | string[]; waiting?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
@@ -43,10 +43,15 @@ export default async function AdminMessagesPage({
   const viewerId = session?.user?.id;
   if (!viewerId || !(await isTeamMember(viewerId))) notFound();
 
-  const rawThread = (await searchParams).thread;
+  const sp = await searchParams;
+  const rawThread = sp.thread;
+  const waiting = sp.waiting === "1";
   const threadParam = typeof rawThread === "string" && rawThread.length <= 100 ? rawThread : null;
 
-  const threads = await listTeamThreads(viewerId);
+  const [threads, waitingCount] = await Promise.all([
+    listTeamThreads(viewerId, waiting ? { waiting: true, limit: 200 } : {}),
+    countWaitingThreads(viewerId),
+  ]);
   const open = threadParam ? await getTeamThread(viewerId, threadParam) : null;
   const performerName = open ? (open.user.name?.trim() || open.user.email) : "";
 
@@ -57,6 +62,31 @@ export default async function AdminMessagesPage({
         <p className="text-fg-muted">{t("admin.messages.subtitle")}</p>
       </div>
 
+      <nav aria-label={t("admin.messages.views")} className="flex flex-wrap gap-2">
+        {[
+          { key: "all", href: "/admin/messages", active: !waiting, label: t("admin.messages.viewAll") },
+          {
+            key: "waiting",
+            href: "/admin/messages?waiting=1",
+            active: waiting,
+            label: t("admin.messages.viewWaiting", { count: waitingCount }),
+          },
+        ].map((v) => (
+          <Link
+            key={v.key}
+            href={v.href}
+            aria-current={v.active ? "page" : undefined}
+            className={cn(
+              "inline-flex min-h-10 items-center rounded-full border px-4 text-sm font-bold",
+              v.active ? "border-accent bg-accent-soft text-accent" : "border-border text-fg-muted hover:border-accent"
+            )}
+          >
+            {v.label}
+          </Link>
+        ))}
+      </nav>
+      {waiting && <p className="text-sm text-fg-muted">{t("admin.messages.waitingHelp")}</p>}
+
       <div className="grid gap-6 lg:grid-cols-[20rem_1fr]">
         <section aria-labelledby="inbox" className={cn(open && "hidden lg:block")}>
           <h2 id="inbox" className="sr-only">
@@ -65,7 +95,7 @@ export default async function AdminMessagesPage({
           {threads.length === 0 ? (
             <div className="rounded-sedan border border-dashed border-border bg-surface/60 p-8 text-center">
               <MessageSquare aria-hidden="true" className="mx-auto size-7 text-accent" />
-              <p className="mt-3 text-sm text-fg-muted">{t("admin.messages.empty")}</p>
+              <p className="mt-3 text-sm text-fg-muted">{waiting ? t("admin.messages.emptyWaiting") : t("admin.messages.empty")}</p>
             </div>
           ) : (
             <ul className="divide-y divide-border overflow-hidden rounded-sedan border border-border bg-surface">
@@ -74,7 +104,7 @@ export default async function AdminMessagesPage({
                 return (
                   <li key={row.threadId}>
                     <Link
-                      href={{ pathname: "/admin/messages", query: { thread: row.threadId } }}
+                      href={{ pathname: "/admin/messages", query: waiting ? { waiting: "1", thread: row.threadId } : { thread: row.threadId } }}
                       aria-current={active ? "true" : undefined}
                       className={cn(
                         "block p-4 transition-colors hover:bg-surface-2/60",
@@ -103,7 +133,11 @@ export default async function AdminMessagesPage({
                             </Badge>
                           )}
                           {row.waitingForTeam ? (
-                            <Badge variant="warning">{t("admin.messages.waitingForTeam")}</Badge>
+                            <Badge variant="warning">
+                              {row.waitingSince
+                                ? t("admin.messages.waitingSince", { date: dateTime(row.waitingSince, locale) })
+                                : t("admin.messages.waitingForTeam")}
+                            </Badge>
                           ) : (
                             row.awaitingReply && (
                               <Badge variant="warning">{t("admin.messages.awaitingReply")}</Badge>

@@ -152,6 +152,7 @@ export default async function AdminLimelightPage({
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.need")}</th>
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.contact")}</th>
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.status")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.limelight.alert")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -222,6 +223,11 @@ export default async function AdminLimelightPage({
                         status={lead.status}
                         label={t("admin.limelight.statusOf", { reference: lead.reference })}
                       />
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3">
+                      <Badge variant={lead.alert === "SENT" ? "success" : lead.alert === "DEAD" ? "danger" : lead.alert === "PENDING" ? "warning" : "neutral"}>
+                        {t(`admin.limelight.alerts.${lead.alert ?? "NONE"}`)}
+                      </Badge>
                     </td>
                   </tr>
                 );

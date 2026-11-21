@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
+  { href: "/admin/revenus", key: "revenue", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },
 ] as const;
