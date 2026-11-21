@@ -17,7 +17,10 @@ export function FaqPage({
   ctaHref: string;
 }) {
   const t = useTranslations(namespace);
-  const groups = fillFaqGroups(t.raw("groups") as FaqGroup[], useLocale());
+  const locale = useLocale();
+  const raw = t.raw("groups") as FaqGroup[];
+  // Plan figures are Talent figures: the Casting FAQ is shown as written.
+  const groups = namespace === "talents.faq" ? fillFaqGroups(raw, locale) : raw;
   // Same source as the rendered accordion: structured data that drifts from the
   // visible page is a reason for Google to distrust the rest of the markup.
   const items: FaqItem[] = groups.flatMap((g) => g.items as FaqItem[]);

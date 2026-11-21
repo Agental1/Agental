@@ -30,6 +30,19 @@ describe("plan figures in the copy", () => {
     expect(fillPlanTokens("{commission_ULTIMATE}", "en")).toBe("5%");
   });
 
+  it("drops a search line when a plan has no allowance set", () => {
+    const def = B2C_PLANS.PRO;
+    const saved = def.aiSearches;
+    def.aiSearches = null;
+    try {
+      expect(planFeatureLines(["Everything in Basic", "{searches} AI role searches per month"], "en", "PRO")).toEqual([
+        "Everything in Basic",
+      ]);
+    } finally {
+      def.aiSearches = saved;
+    }
+  });
+
   it("leaves a token it cannot resolve as it is", () => {
     expect(fillPlanTokens("{commission}", "en")).toBe("{commission}");
   });
@@ -44,7 +57,7 @@ describe("plan figures in the copy", () => {
   });
 
   for (const locale of LOCALES) {
-    it(`${locale}: no figure is written in the message files, and every token resolves`, () => {
+    it(`${locale}: every token in plan and FAQ copy resolves`, () => {
       const m = talents(locale);
       const ids = ["FREE", "PRO", "PREMIUM", "ULTIMATE"] as const;
       const lines = [
@@ -59,6 +72,24 @@ describe("plan figures in the copy", () => {
       const ultimate = planFeatureLines(m.space.planFeatures.ULTIMATE, locale, "ULTIMATE").join(" ");
       expect(ultimate).toContain("500");
       expect(ultimate).toMatch(/5\s?%/u);
+    });
+  }
+});
+
+// A figure typed back into plan or FAQ copy is the stale-price mistake this
+// refactor prevents: the copy must carry tokens, never amounts or rates.
+const FIGURE = /(\$\s?\d|\d\s?\$|\d\s?美元|\d([.,]\d)?[\s  ]?%)/u;
+
+describe("talent plan copy carries no literal figures", () => {
+  for (const locale of LOCALES) {
+    it(`${locale}: feature lines and FAQ answers use tokens only`, () => {
+      const m = talents(locale);
+      const lines: string[] = [
+        ...m.pricing.plans.flatMap((p: { features: string[] }) => p.features),
+        ...Object.values(m.space.planFeatures as Record<string, string[]>).flat(),
+        ...m.faq.groups.flatMap((g: { items: { a: string }[] }) => g.items.map((i) => i.a)),
+      ];
+      for (const line of lines) expect(line).not.toMatch(FIGURE);
     });
   }
 });

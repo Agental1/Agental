@@ -19,7 +19,8 @@ export function formatPlanPrice(cents: number, locale: string): string {
 }
 
 type TalentPlanId = PlanB2C;
-const TOKEN = /\{(price|commission|searches)(?:_(FREE|PRO|PREMIUM|ULTIMATE))?\}/g;
+// The plan names come from the pricing table, so a new plan never shows a raw token.
+const TOKEN = new RegExp(`\\{(price|commission|searches)(?:_(${Object.keys(B2C_PLANS).join("|")}))?\\}`, "g");
 
 /**
  * Fills the plan figures into a message line, so no price, commission or
@@ -39,9 +40,12 @@ export function fillPlanTokens(text: string, locale: string, plan?: TalentPlanId
   });
 }
 
-/** A talent plan's feature lines with its figures filled in. */
+/**
+ * A talent plan's feature lines with its figures filled in. A plan with no
+ * search allowance set loses its searches line rather than showing the token.
+ */
 export function planFeatureLines(lines: string[], locale: string, plan: TalentPlanId): string[] {
-  return lines.map((line) => fillPlanTokens(line, locale, plan));
+  return lines.map((line) => fillPlanTokens(line, locale, plan)).filter((line) => !line.includes("{searches}"));
 }
 
 /** FAQ groups with the plan figures filled into every answer. */

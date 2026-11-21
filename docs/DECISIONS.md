@@ -4,7 +4,7 @@ The single source of truth for what the founders decided. Read this first in eve
 Change a line here only on an explicit instruction from the founders in the current
 conversation, in the same commit as the code change, with the date.
 
-Last updated: 2026-11-21 (written from the founders' decisions across rounds 1 to 6).
+Last updated: 2026-11-20 (written from the founders' decisions across rounds 1 to 6).
 
 ## Products
 
@@ -31,7 +31,7 @@ the `{price}`, `{commission}` and `{searches}` tokens filled by `src/lib/plan-pr
 | Ultimate | $79/month | 5% | 500 |
 
 The internal id of Basic stays `FREE`. College student discount on Pro through a verified
-school email; amount not decided yet. (Restored to this grid on 2026-11-21.)
+school email; amount not decided yet. (Restored to this grid on 2026-11-20.)
 
 ## Casting pricing (pitch deck V2)
 
@@ -82,7 +82,7 @@ US dollars.
   (50 MB per file, 1 GB of storage); say so when something needs a paid plan.
 - Emails through Resend from the agental.co domain (account of contact@agental.co).
 - Google sign-in on; Apple set aside.
-- n8n Cloud (agental.app.n8n.cloud) runs the agent workflows, connected to the site in
+- n8n Cloud runs the agent workflows, connected to the site in
   round 7. Everything the agents produce is a draft; nothing is sent or submitted without the
   performer's approval.
 - The in-app assistant runs in rules mode (no API key). When a key is added: Claude Haiku
@@ -128,12 +128,12 @@ US dollars.
 
 - Student discount amounts (Pro and Limelight).
 - Stripe connection date.
-- Vercel plan (Hobby does not allow commercial use).
+- Vercel plan for commercial use.
 - Supabase Pro when real users upload videos.
 
 ## Differences found
 
-Checked against the code on 2026-11-21. Not fixed; each waits for a founders' decision,
+Checked against the code on 2026-11-20. Not fixed; each waits for a founders' decision,
 except the Talent pricing, which was restored in the same change as this file.
 
 1. **Casting prices.** `src/domain/pricing.ts` (`B2B_PLANS`) charges Pro $99 per seat and

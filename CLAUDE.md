@@ -39,8 +39,8 @@ figure in a message file.
 - Package manager: bun (not pnpm or npm). Checks: `bun run typecheck`, `bun run lint`,
   `bun run i18n:check`, `npx vitest run --no-file-parallelism` (the local database takes one
   connection; parallel files drop it).
-- Local `.env` points at the production database: run database tests and `bun run build`
-  against a local database (`DATABASE_URL`/`DIRECT_URL` on localhost), never production.
+- Never run database tests or `bun run build` against the database in `.env`: point
+  `DATABASE_URL`/`DIRECT_URL` at the local database (localhost) first.
 
 ## Skill routing
 
