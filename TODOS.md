@@ -229,3 +229,11 @@ Toaster in the locale layout.
 `height-field.tsx`, `lead-status-select.tsx` and the admin filters still use the
 browser's select. **Resume when:** those screens are next edited.
 
+
+### Button `asChild` ignores `loading`
+
+`src/components/ui/button.tsx`: the `asChild` branch draws no spinner, sets no
+`aria-busy` and does not block repeat clicks when `loading` is set. No caller
+combines the two today (every `asChild` Button wraps a Link). **Resume when:**
+a caller needs `asChild` with `loading`; either handle it in that branch or
+make the two props exclusive in the types.
