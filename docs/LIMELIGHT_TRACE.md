@@ -3,6 +3,16 @@
 Traced on branch `round7` from the code, then checked with one sample submission on the local
 database (section "Sample submission").
 
+## Sample submission (2026-11-20, local database, fictional person)
+
+Public form on `localhost:3200/en/talents/limelight`, name "Riley Test Sample",
+`riley.sample.r7@example.com`, sent three times:
+
+- one `LimelightLead`, reference `LL-1H5F0SDM`, `submissions: 3`, status New, source public form;
+- one `OutboxMessage` alert, status Pending (no sender configured locally), created with the
+  first submission only;
+- Admin, Limelight requests shows the row with "Public form", "Sent 3 times", New, Pending.
+
 ## Two entry points, one path
 
 | Entry point | Where | UI component | Server action |
@@ -65,14 +75,14 @@ the preview and records an audit entry, but sends no email and writes no outbox 
 it is a separate event: an outbox kind `limelight.site.published` written in the same
 transaction as the publish, drained by the same path, with its own admin column.
 
-## Gaps found
+## Gaps found and fixed in round 7
 
-1. Both UI entry points save `source: "limelight-page"`, so staff cannot tell an in-app request
-   from the public form. Fix: a `source` value from an allowlist (`limelight-page`,
-   `app-site-panel`).
-2. The comment in `limelight-contact-form.tsx` (TODO: `requestPortfolioSite` replaces
-   `submitLimelightLead`) is stale: `submitLimelightLead` already stores through
-   `recordInterest` with an alert.
+1. Both UI entry points saved `source: "limelight-page"`. Now the in-app form sends
+   `app-site-panel` (allowlist, anything else falls back to the public page) and the admin shows
+   "Public form" or "In the app" under the reference.
+2. After a successful send, the confirmation rendered above the screen, so the person saw the
+   FAQ and could think nothing happened. It now scrolls into view and takes focus.
+3. A stale TODO in `limelight-contact-form.tsx` was replaced with what the form does.
 
 ## Separate workflow?
 

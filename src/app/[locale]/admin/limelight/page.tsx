@@ -169,7 +169,12 @@ export default async function AdminLimelightPage({
                       isHighlighted ? "bg-accent-soft/60 outline outline-2 -outline-offset-2 outline-accent" : "bg-surface"
                     )}
                   >
-                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{lead.reference}</td>
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
+                      {lead.reference}
+                      <span className="block font-sans text-fg-muted">
+                        {t(`admin.limelight.sources.${lead.source === "app-site-panel" ? "app" : lead.source === "limelight-page" ? "page" : "other"}`)}
+                      </span>
+                    </td>
                     <td className="whitespace-nowrap px-4 py-3 text-fg-muted">
                       <time dateTime={lead.firstSeenAt.toISOString()}>
                         {dateTime(lead.firstSeenAt, locale)}

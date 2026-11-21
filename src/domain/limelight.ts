@@ -63,6 +63,9 @@ export const LIMELIGHT_DISCIPLINES = [
 export const LIMELIGHT_NEEDS = ["new", "redo", "unsure"] as const;
 export const LIMELIGHT_BUDGETS = ["essential", "signature", "custom", "unsure"] as const;
 export const LIMELIGHT_CONTACT_PREFS = ["email", "call"] as const;
+/** Where the "Start your site" form was sent from, so staff can tell them apart. */
+export const LIMELIGHT_FORM_SOURCES = ["limelight-page", "app-site-panel"] as const;
+export type LimelightFormSource = (typeof LIMELIGHT_FORM_SOURCES)[number];
 
 /**
  * The "Start your site" form. Messages are app.errors keys (see
@@ -78,6 +81,7 @@ export const LimelightLeadInput = z.object({
   phone: z.string().trim().max(40).optional().default(""),
   message: z.string().trim().max(2000).optional().default(""),
   locale: z.string().max(5).default("en"),
+  source: z.enum(LIMELIGHT_FORM_SOURCES).catch("limelight-page"),
 });
 
 export type LimelightLead = z.infer<typeof LimelightLeadInput>;

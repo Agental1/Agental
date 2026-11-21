@@ -354,6 +354,11 @@
         "SENT": "Sent",
         "DEAD": "Failed",
         "NONE": "None"
+      },
+      "sources": {
+        "page": "Public form",
+        "app": "In the app",
+        "other": "Other"
       }
     },
     "roleSearches": {

@@ -354,6 +354,11 @@
         "SENT": "Envoyée",
         "DEAD": "Échec",
         "NONE": "Aucune"
+      },
+      "sources": {
+        "page": "Formulaire public",
+        "app": "Dans l’app",
+        "other": "Autre"
       }
     },
     "roleSearches": {
