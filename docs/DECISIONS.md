@@ -99,6 +99,15 @@ US dollars.
   skip it.
 - Profile prefill from Google (name, email, photo with confirmation).
 
+## Admin and agents (round 7, decided 2026-11-20)
+
+- Admin role: contact@agental.co only. No other account is admin.
+- Agents stay in test mode in production (`WORKFLOW_MODE` unset): only accounts marked Test can
+  trigger an agent. Live mode waits until the founders have reviewed the admin portal and marked
+  real performers Approved themselves.
+- Account cleanup: archive only. Junk accounts get the Spam status; nothing is deleted.
+- A separate staff-only admin site at admin.agental.co (same codebase and database).
+
 ## Rules for every session
 
 1. Keep all data, including the founders' test accounts. Never wipe or reseed. Migrations are
