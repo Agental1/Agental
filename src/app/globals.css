@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/* shadcn/ui components ship `dark:` classes. Here "dark" means the Casting
+   theme, never the visitor's OS setting: the Talent theme stays light. */
+@custom-variant dark (&:where([data-portal="casting"], [data-portal="casting"] *));
 
 /* =============================================================================
    Agental token layer (2026-11 redesign)
@@ -178,6 +183,25 @@
   --color-border-inverse: var(--border-inverse);
   --color-signal: var(--signal);
 
+  /* shadcn/ui names, mapped onto the Agental roles above, so every shadcn
+     component follows the Talent or Casting theme with no extra palette.
+     `accent` keeps its Agental meaning (the blue); shadcn's neutral hover
+     color is `accent-soft` in our components. */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-fg);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--fg-muted);
+  --color-destructive: var(--danger);
+  --color-input: var(--field-border);
+
   /* `text-accent` is blue text, which needs more contrast than a blue fill:
      it reads the ink variant, while `bg-accent` and `border-accent` stay
      #246BFE. */
@@ -328,6 +352,15 @@ body {
 
 /* A short entrance: at most 12px of travel and a quarter of a second. */
 @media (prefers-reduced-motion: no-preference) {
+  /* A short pop on a finished state: saved, upload done, search launched. */
+  .pop {
+    animation: pop 220ms ease-out both;
+  }
+  @keyframes pop {
+    0% { transform: scale(0.92); opacity: 0.4; }
+    60% { transform: scale(1.04); opacity: 1; }
+    100% { transform: none; }
+  }
   .enter {
     animation: enter var(--enter-duration) ease-out both;
   }
@@ -369,6 +402,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* shadcn/ui open and close motion (tw-animate-css), and the "done" pop. */
+  .animate-in,
+  .animate-out,
+  .pop {
+    animation: none !important;
   }
   .pressable,
   .cta-fill {

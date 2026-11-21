@@ -76,7 +76,13 @@
     "allDetails": "查看全部方案详情",
     "contact": "联系我们获取报价",
     "close": "关闭",
-    "openMessages": "打开消息"
+    "openMessages": "打开消息",
+    "toast": {
+      "saved": "已保存",
+      "uploaded": "已上传",
+      "sent": "已发送",
+      "loading": "加载中"
+    }
   },
   "account": {
     "create": "创建账号",

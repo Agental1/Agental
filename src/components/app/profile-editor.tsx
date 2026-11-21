@@ -9,6 +9,8 @@ import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input, Label } from "@/components/ui/input";
 import { MediaManager, type MediaItem } from "./media-manager";
 import { HeightField } from "./height-field";
@@ -179,13 +181,20 @@ function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionEr
   const [pending, start] = useTransition();
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
+  const t = useTranslations("talents");
+  const errorText = useActionErrorText();
   function save(input: unknown, onDone?: (c?: number) => void) {
     setError(undefined);
     setSaved(false);
     start(async () => {
       const res = await fn(input);
-      if (!res.ok) return setError(res.error ?? err("errors.generic"));
+      if (!res.ok) {
+        const e = res.error ?? err("errors.generic");
+        toast.error(errorText(e));
+        return setError(e);
+      }
       setSaved(true);
+      toast.success(t("space.profileEditor.saved"));
       onDone?.(res.completeness);
       setTimeout(() => setSaved(false), 2000);
     });
@@ -208,12 +217,11 @@ function SaveBar({
   const t = useTranslations("talents");
   return (
     <div className="flex items-center gap-3 pt-2">
-      <Button onClick={onSave} disabled={pending}>
-        {pending && <Loader2 className="size-4 animate-spin" />}
+      <Button onClick={onSave} loading={pending}>
         {t("space.profileEditor.save")}
       </Button>
       {saved && (
-        <span className="flex items-center gap-1 text-sm text-success">
+        <span className="enter flex items-center gap-1 text-sm text-success">
           <Check className="size-4" /> {t("space.profileEditor.saved")}
         </span>
       )}
@@ -585,15 +593,15 @@ function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
         </div>
         <div className="space-y-1.5">
           <Label htmlFor={typeId}>{t(`${p}.availabilityType`)}</Label>
-          <select
-            id={typeId}
-            value={type}
-            onChange={(e) => setType(e.target.value === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}
-            className="h-11 w-full rounded-sedan border border-border bg-surface px-3 text-sm text-fg focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
-          >
-            <option value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</option>
-            <option value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</option>
-          </select>
+          <Select value={type} onValueChange={(v) => setType(v === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}>
+            <SelectTrigger id={typeId} className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent data-portal="talents">
+              <SelectItem value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</SelectItem>
+              <SelectItem value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <Button
           variant="secondary"

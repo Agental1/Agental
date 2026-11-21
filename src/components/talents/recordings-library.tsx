@@ -2,12 +2,23 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Film, Loader2, Trash2 } from "lucide-react";
+import { Film, Trash2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { deleteRecording } from "@/app/actions/uploads";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { err, type ActionError } from "@/domain/action-result";
 
 export interface LibraryItem {
@@ -26,13 +37,13 @@ export interface LibraryItem {
  */
 export function RecordingsLibrary({ items }: { items: LibraryItem[] }) {
   const t = useTranslations("talents.space");
+  const ta = useTranslations("app");
   const router = useRouter();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<ActionError | undefined>();
   const [, start] = useTransition();
 
   function remove(id: string) {
-    if (!window.confirm(t("library.confirmDelete"))) return;
     setBusy(id);
     setError(undefined);
     start(async () => {
@@ -74,10 +85,28 @@ export function RecordingsLibrary({ items }: { items: LibraryItem[] }) {
                 {new Date(item.createdAt).toLocaleDateString()}
                 {item.qualityScore !== null ? ` · ${item.qualityScore}/100` : ""}
               </span>
-              <Button variant="ghost" size="sm" disabled={busy === item.id} onClick={() => remove(item.id)}>
-                {busy === item.id ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
-                {t("library.delete")}
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="sm" loading={busy === item.id}>
+                    {busy !== item.id && <Trash2 className="size-4" />}
+                    {t("library.delete")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent data-portal="talents">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t("library.confirmDelete")}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {item.title || (item.takeNumber ? t("selftape.take", { n: item.takeNumber }) : t("library.video"))}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{ta("actions.cancel")}</AlertDialogCancel>
+                    <AlertDialogAction variant="destructive" onClick={() => remove(item.id)}>
+                      {t("library.delete")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         ))}
