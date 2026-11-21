@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
-import { syncAccountPrefs } from "@/lib/account-prefs";
+import { getAccountConsent, syncAccountPrefs } from "@/lib/account-prefs";
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
 const email = "test-prefs-sync@test.local";
@@ -26,5 +26,22 @@ describe.skipIf(!local)("choices saved on the account", () => {
       data: { consentAnalytics: true, consentMarketing: false, consentAt: new Date() },
     });
     expect((await syncAccountPrefs(id, "fr")).consent).toEqual({ analytics: true, marketing: false });
+  });
+
+  it("treats a half-recorded choice as no choice", async () => {
+    await prisma.user.update({
+      where: { id },
+      data: { consentAnalytics: true, consentMarketing: true, consentAt: null },
+    });
+    expect(await getAccountConsent(id)).toBeNull();
+    await prisma.user.update({
+      where: { id },
+      data: { consentAnalytics: true, consentMarketing: null, consentAt: new Date() },
+    });
+    expect(await getAccountConsent(id)).toBeNull();
+  });
+
+  it("answers null for an account that does not exist", async () => {
+    expect(await getAccountConsent("no-such-user")).toBeNull();
   });
 });

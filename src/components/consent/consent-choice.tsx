@@ -18,20 +18,37 @@ import { NECESSARY_ONLY, readConsent, writeConsent, type Consent } from "./conse
  */
 export function ConsentChoice({
   onChosen,
+  initial,
+  writeCookie = true,
+  busy = false,
   submit = false,
   className,
 }: {
   onChosen?: (consent: Consent) => void;
+  /** The choice to start from. Defaults to this browser's cookie. */
+  initial?: Consent | null;
+  /**
+   * Write the choice to the cookie before calling onChosen. Settings turns
+   * this off and writes it itself once the account has saved it.
+   */
+  writeCookie?: boolean;
+  /**
+   * While a choice is being saved. The buttons stay enabled so keyboard focus
+   * stays on them (a focused button that becomes disabled drops focus to the
+   * page); they are marked aria-disabled and presses are ignored.
+   */
+  busy?: boolean;
   /** Render the answer buttons as submit buttons (inside the sign-up form). */
   submit?: boolean;
   className?: string;
 }) {
   const t = useTranslations("common.consent");
   const [managing, setManaging] = useState(false);
-  const [draft, setDraft] = useState<Consent>(() => readConsent() ?? NECESSARY_ONLY);
+  const [draft, setDraft] = useState<Consent>(() => initial ?? readConsent() ?? NECESSARY_ONLY);
 
   function choose(consent: Consent) {
-    writeConsent(consent);
+    if (busy) return;
+    if (writeCookie) writeConsent(consent);
     onChosen?.(consent);
   }
 
@@ -70,15 +87,15 @@ export function ConsentChoice({
       </ul>
 
       {managing ? (
-        <Button type={type} className="w-full" onClick={() => choose(draft)}>
+        <Button type={type} className="w-full" aria-disabled={busy || undefined} onClick={() => choose(draft)}>
           {t("saveChoice")}
         </Button>
       ) : (
         <div className="grid gap-2">
-          <Button type={type} onClick={() => choose({ analytics: true, marketing: true })}>
+          <Button type={type} aria-disabled={busy || undefined} onClick={() => choose({ analytics: true, marketing: true })}>
             {t("acceptAll")}
           </Button>
-          <Button type={type} variant="secondary" className="border-border-strong" onClick={() => choose(NECESSARY_ONLY)}>
+          <Button type={type} variant="secondary" className="border-border-strong" aria-disabled={busy || undefined} onClick={() => choose(NECESSARY_ONLY)}>
             {t("reject")}
           </Button>
           <Button type="button" variant="secondary" className="border-border-strong" onClick={() => setManaging(true)}>
