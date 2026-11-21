@@ -51,7 +51,8 @@ export async function setAccountStatus(ids: string[], status: AccountStatus): Pr
     }
     return before.length;
   });
-  revalidatePath("/[locale]/admin/comptes", "layout");
+  revalidatePath("/[locale]/admin/comptes", "page");
+  revalidatePath("/[locale]/admin/comptes/[id]", "page");
   revalidatePath("/[locale]/admin", "page");
   return { ok: true, changed };
 }
