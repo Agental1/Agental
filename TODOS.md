@@ -192,3 +192,40 @@ statut signifie qu'un humain a décidé, et survit à une relance.
 | **Relecture humaine EN/ES des espaces connectés** | Choix C3 : vous relisez le marketing, le reste part généré. Environ 600 clés non relues | Avant de communiquer sur le trilingue |
 | **`global-error.tsx` non localisé** | Impossible : il remplace le root layout, donc pas de provider intl, pas de params, pas de police. Assumé et documenté dans le fichier | Aucun — c'est une limite du framework |
 | **Migration des types de projet vers des ids** | `Organization.scope` stocke les libellés **français** ; ils sont affichés traduits via une table `{ id, value }`. Basculer le stockage exige de rejouer les organisations existantes | Si une quatrième langue arrive |
+
+---
+
+## Round 6 part 2 (UI kit), deferred at /ship on 2026-11-20
+
+### Screen behavior has no automated test
+
+The coverage audit found tests for 7 of 20 code paths. The 13 gaps are screen
+behavior (save toast, upload toast, phone menu sheet, delete confirmation,
+availability Select, consent Switch, loading skeletons), which this repo's
+Vitest cannot render: it runs in node, with no DOM. /qa covered the main flows
+by hand in the browser. **Resume when:** a jsdom plus Testing Library setup is
+added, or before the next change to `profile-editor.tsx`, `app-shell.tsx` or
+`recordings-library.tsx`.
+
+### Popups under Casting would take Talent colors
+
+Tooltip, Select and AlertDialog content render outside the page's
+`[data-portal]` root. Callers set `data-portal="talents"` by hand, and IconTip
+sets nothing, so the same popup used on a Casting page would show Talent colors
+and `dark:` would not match. All current uses are Talent pages. **Resume when:**
+the first Tooltip, Select or AlertDialog goes on a Casting or admin page; pass
+the portal through context.
+
+### Toasts only show inside AppShell
+
+The Toaster is mounted in `src/components/app/app-shell.tsx`. Profile saves now
+confirm only with a toast, so a save rendered outside AppShell (onboarding, a
+modal route) would give no feedback. Every current caller is inside AppShell.
+**Resume when:** a form that calls `toast` is used outside AppShell; mount the
+Toaster in the locale layout.
+
+### Native selects remain
+
+`height-field.tsx`, `lead-status-select.tsx` and the admin filters still use the
+browser's select. **Resume when:** those screens are next edited.
+

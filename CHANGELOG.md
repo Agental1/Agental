@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.4.0] - 2026-11-20
+
+### Changed (round 6 part 2, branch `round6-part2-v2`)
+
+- **Saving now confirms itself with a short message at the bottom of the screen.** Profile saves, uploads and sent messages show "Saved", "Uploaded" or "Sent" for a few seconds. Errors still appear next to the field or button that failed, so they stay on screen until you fix them.
+- **Buttons show a spinner while they work** and ignore repeat clicks, without losing keyboard focus. Icon-only buttons in the media manager show their name on hover and on keyboard focus.
+- **Deleting a recording asks first** in a proper dialog, with the recording's name, instead of the browser's own pop-up.
+- **The phone menu is a sliding panel** in the Talent app, the Casting app and admin, with a Close button and the same theme as the page.
+- **Loading screens** show the page's outline while it loads, in all three apps, and screen readers hear "Loading" once.
+- **Cleaner controls:** the availability field is a styled list, the cookie choices are switches, and the AI search allowance and self-tape upload show a progress bar. Motion stays off when your system asks for reduced motion.
+- Under the hood: the interface kit is shadcn/ui, mapped onto the Agental colors in both themes, with one copy of Radix (`radix-ui`) instead of three separate packages.
+
 ## [0.5.3.0] - 2026-11-20
 
 ### Changed (round 6 closeout, branch `round6-closeout`)
