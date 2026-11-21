@@ -8,22 +8,22 @@ import type { MetadataRoute } from "next";
  * measures because it only shows up outside the browser.
  *
  * Single-locale on purpose: a manifest is per-origin, not per-route, so it
- * cannot vary with /fr, /en or /es. The default locale's wording is used, and
- * the start URL points at the French entry the proxy would negotiate anyway.
+ * cannot vary with the locale. It uses the default locale's wording (English).
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Agental",
     short_name: "Agental",
     description:
-      "La première agence artistique nativement augmentée par IA. Un vrai agent régulé, une IA qui travaille pour toi.",
+      "The first talent agency built around AI from day one. A real regulated agent, with AI working for you.",
     start_url: "/en/talents",
     display: "standalone",
-    background_color: "#f8f4ec",
-    theme_color: "#6e4527",
+    background_color: "#ffffff",
+    theme_color: "#246bfe",
     lang: "en",
     icons: [
-      { src: "/icon", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icon/192", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icon/512", sizes: "512x512", type: "image/png", purpose: "any" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png" },
     ],
   };

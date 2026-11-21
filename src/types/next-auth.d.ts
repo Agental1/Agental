@@ -18,5 +18,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     kind?: string;
     locale?: string;
+    /** When this session began (ms). Compared with User.sessionsValidAfter. */
+    authAt?: number;
   }
 }

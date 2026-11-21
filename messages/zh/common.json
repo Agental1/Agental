@@ -15,7 +15,7 @@
   "footer": {
     "tagline": "首家原生由 AI 加持的艺人经纪公司。",
     "legalTitle": "法律信息",
-    "prefectorale": "已在法国主管部门登记的艺人经纪公司",
+    "prefectorale": "美国测试版。代理服务不在测试范围内。",
     "rgpd": "GDPR 隐私",
     "mentions": "法律声明",
     "cgu": "使用条款",
@@ -48,12 +48,314 @@
   "meta": {
     "title": "Agental",
     "template": "%s · Agental",
-    "description": "从第一天起就围绕 AI 打造的艺人经纪公司。真正受监管的经纪人，加上为你工作的 AI。"
+    "description": "Agental 帮助表演者创建资料、准备选角材料，也帮助选角团队找到合适的人。测试中。"
   },
   "entry": {
     "talents": "我是演员",
     "casting": "我负责选角",
     "enterTalents": "进入 Agental Talents",
-    "enterCasting": "进入 Agental Casting"
+    "enterCasting": "进入 Agental Casting",
+    "line": "从这里开始：你是表演者，还是选角方？",
+    "createTalents": "创建表演者账号",
+    "createCasting": "创建选角账号"
+  },
+  "pricing": {
+    "details": "包含内容"
+  },
+  "app": {
+    "menu": "菜单",
+    "closeMenu": "关闭菜单",
+    "navLabel": "应用导航",
+    "plan": "{name} 方案",
+    "changePlan": "更换方案",
+    "changePlanLead": "选择方案，查看包含内容，然后确认。",
+    "current": "当前方案",
+    "confirm": "切换到 {name}",
+    "confirmCurrent": "这是你的方案",
+    "switching": "正在切换…",
+    "allDetails": "查看全部方案详情",
+    "contact": "联系我们获取报价",
+    "close": "关闭",
+    "openMessages": "打开消息",
+    "toast": {
+      "saved": "已保存",
+      "uploaded": "已上传",
+      "sent": "已发送",
+      "loading": "加载中"
+    }
+  },
+  "account": {
+    "create": "创建账号",
+    "signIn": "登录",
+    "seeMore": "了解更多",
+    "tabs": "创建账号或登录"
+  },
+  "audience": {
+    "menu": "本页内容",
+    "how": "如何运作",
+    "agent": "你的 AI 经纪人",
+    "selftape": "试镜自拍",
+    "websites": "个人网站",
+    "pricing": "价格",
+    "faq": "常见问题",
+    "types": "选角类型",
+    "ranking": "入围名单如何排序",
+    "allPlans": "查看全部方案",
+    "allFaq": "查看全部问题",
+    "forPerformers": "面向表演者",
+    "forCasting": "面向选角团队",
+    "typesTitle": "我们选角的角色",
+    "typesLead": "从群众演员到配角、广告和配音。一份简报，一份入围名单。",
+    "student": "在校大学生？选择方案时可以输入学生码。"
+  },
+  "home": {
+    "what": {
+      "title": "Agental 是什么",
+      "body": "Agental 是一个面向表演者和选角团队的 AI 平台，目前处于测试阶段。每位表演者用照片、履历、作品集和自录试镜创建资料，AI 助手会准备投递草稿，由表演者审核后才会发出。选角团队会收到排好序的入围名单，并能看到排序理由。代理服务不在测试范围内。",
+      "facts": [
+        {
+          "title": "免费加入",
+          "body": "创建个人资料不收费。"
+        },
+        {
+          "title": "每次投递都由你确认",
+          "body": "经纪人负责准备，是否发出由你决定。"
+        },
+        {
+          "title": "入围名单有据可查",
+          "body": "每个排名都会显示理由。"
+        }
+      ]
+    },
+    "how": {
+      "title": "Agental 如何运作",
+      "performer": "表演者",
+      "casting": "选角团队",
+      "performerSteps": [
+        "创建个人资料",
+        "AI 经纪人寻找角色",
+        "你确认投递",
+        "你获得角色"
+      ],
+      "castingSteps": [
+        "发布角色",
+        "收到排好序的入围名单",
+        "联系合适的人"
+      ],
+      "meet": "签约",
+      "meetBody": "双方在这里相遇：合适的表演者，合适的角色。",
+      "websites": "没有个人网站的表演者可以用 Limelight 创建一个。"
+    },
+    "limelight": {
+      "title": "需要个人网站？几分钟就能建好。",
+      "try": "试一试",
+      "pricing": "查看价格"
+    },
+    "pricing": {
+      "title": "价格",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "个人网站",
+      "free": "免费",
+      "perMonth": "每月 {price}",
+      "perSeat": "每席位每月 {price}",
+      "oneTime": "{price}，一次性付费",
+      "talentLink": "Talent 价格",
+      "castingLink": "Casting 价格",
+      "websitesLink": "网站价格"
+    },
+    "final": {
+      "title": "准备好开始了吗？"
+    }
+  },
+  "consent": {
+    "title": "你的 Cookie 选择",
+    "lead": "Agental 需要少量 Cookie 才能运行。其余的默认关闭，除非你主动开启，并且可以随时在设置中更改。",
+    "necessary": "必要 Cookie",
+    "necessaryBody": "登录、安全、语言以及本次选择。始终开启。",
+    "analytics": "统计分析",
+    "analyticsBody": "帮助我们了解哪些页面被使用。目前未设置此类 Cookie。",
+    "marketing": "营销",
+    "marketingBody": "用于衡量广告效果。目前未设置此类 Cookie。",
+    "alwaysOn": "始终开启",
+    "acceptAll": "全部接受",
+    "reject": "拒绝非必要 Cookie",
+    "manage": "管理偏好",
+    "saveChoice": "保存我的选择",
+    "back": "返回",
+    "settingsTitle": "Cookie 偏好",
+    "saved": "你的选择已保存。",
+    "continue": "继续"
+  },
+  "tour": {
+    "start": "从这里开始",
+    "title": "使用指南",
+    "step": "第 {n} 步，共 {total} 步",
+    "next": "下一步",
+    "back": "返回",
+    "done": "知道了",
+    "skip": "跳过",
+    "replay": "重新查看指南",
+    "open": "打开{page}",
+    "talent": [
+      {
+        "title": "完善个人资料",
+        "body": "照片、作品集和个人信息是选角导演最先看到的内容。资料越完整，出现在搜索中的机会越多。"
+      },
+      {
+        "title": "你的控制台",
+        "body": "你的状态和下一步要做的事，都在这里。AI 建议排在最前面。"
+      },
+      {
+        "title": "查看你的投递",
+        "body": "经纪人为你准备的每个角色及其状态。每次投递发出前都由你确认。"
+      },
+      {
+        "title": "订阅方案",
+        "body": "免费方案包含：{free}。Pro 每月 {price}，额外包含：{pro}。在校大学生可享受优惠。"
+      }
+    ],
+    "casting": [
+      {
+        "title": "发布第一个角色",
+        "body": "用几行文字描述角色，助手会把它整理成清晰的简报。"
+      },
+      {
+        "title": "查看入围名单",
+        "body": "人选按排名送达，每位都附有评分和理由。"
+      },
+      {
+        "title": "订阅方案",
+        "body": "免费方案包含：{free}。Pro 每席位每月 {price}，额外包含：{pro}。"
+      }
+    ],
+    "welcome": "欢迎",
+    "usePhoto": "使用我的 Google 头像",
+    "photoSaved": "你的 Google 头像现已设为资料照片，可随时在右上角更换。",
+    "photoFailed": "无法获取你的 Google 头像，请在右上角添加照片。",
+    "w1": {
+      "title": "完善你的资料",
+      "body": "你的资料已完成 {percent}%。下一步：{item}。资料越完整，越容易出现在搜索中。",
+      "bodyDone": "你的资料已完成 {percent}%。请随时保持更新。",
+      "fromGoogle": "已从 Google 填写：姓名（{name}）和邮箱（{email}）。可在资料页修改。"
+    },
+    "w2": {
+      "title": "开始 AI 角色搜索",
+      "body": "按下绿色按钮，我们的代理会为你寻找合适的角色。你的方案每个周期有 {count} 次搜索。周期从第一次搜索开始，30 天后重置。"
+    },
+    "w3": {
+      "title": "跟踪申请和消息",
+      "body": "结果会显示在申请页并标明状态。Agental 团队和助手的回复会显示在消息页。"
+    }
+  },
+  "beta": {
+    "agental": "Agental 目前处于测试阶段，功能和可用范围可能会调整。",
+    "limelight": "Limelight 目前处于测试阶段，作品集网站暂时按申请开通。"
+  },
+  "connected": {
+    "title": "已关联账号",
+    "lead": "与你的 Agental 账号关联的服务、各自共享的内容，以及如何更改。",
+    "google": "Google",
+    "googleWhat": "用于登录。Agental 会从 Google 获得你的姓名、邮箱地址和头像。关于你的资料、媒体或投递，不会向 Google 发送任何信息。",
+    "password": "邮箱和密码",
+    "passwordWhat": "使用你的邮箱地址和自己设置的密码登录。",
+    "connected": "已关联",
+    "notConnected": "未关联",
+    "unavailable": "暂未开放",
+    "connect": "关联 Google",
+    "permissions": "权限：姓名、邮箱地址、头像。",
+    "keepOne": "你始终至少保留一种登录方式。",
+    "none": "没有关联其他服务。Agental 无法访问你的社交账号或邮箱。"
+  },
+  "emailFlow": {
+    "forgot": "忘记密码？",
+    "forgotTitle": "重置密码",
+    "forgotLead": "请输入你的邮箱地址。如果有账号使用该邮箱，我们会发送一个设置新密码的链接。",
+    "sendLink": "发送链接",
+    "sent": "如果有账号使用该邮箱，链接已在路上，1 小时内有效。",
+    "backToSignIn": "返回登录",
+    "resetTitle": "设置新密码",
+    "resetLead": "请选择一个你没有在别处使用的密码。",
+    "newPassword": "新密码",
+    "savePassword": "保存新密码",
+    "resetDone": "密码已更改，请使用新密码登录。",
+    "missingToken": "此页面需要邮件中的链接。请打开邮件并点击其中的按钮。",
+    "verifyTitle": "确认你的邮箱",
+    "verifyLead": "点击一次即可确认该邮箱属于你。",
+    "confirm": "确认我的邮箱",
+    "verified": "你的邮箱已确认。",
+    "continue": "继续",
+    "inboxTitle": "请查收邮件",
+    "inboxLead": "我们已向 {email} 发送确认链接。打开链接即可完成账号创建。",
+    "resend": "重新发送邮件",
+    "resendIn": "{seconds} 秒后可重新发送",
+    "resent": "新的邮件已在路上。",
+    "signOut": "退出登录",
+    "bannerTitle": "请验证你的邮箱。",
+    "bannerBody": "请确认 {email}，以便我们就选角和账户事宜联系你。",
+    "bannerResend": "发送链接"
+  },
+  "privacy": {
+    "meta": {
+      "title": "隐私政策：Agental",
+      "description": "Agental 收集哪些数据、原因、存放位置以及如何删除。"
+    },
+    "eyebrow": "法律",
+    "title": "隐私政策",
+    "updated": "最后更新：2026 年 11 月 20 日。完整内容为英文。",
+    "footerLink": "隐私",
+    "sections": [
+      {
+        "title": "Who we are",
+        "body": [
+          "Agental (agental.co) helps performers build a profile, prepare casting materials and find roles. Questions about your data: contact@agental.co."
+        ]
+      },
+      {
+        "title": "What we collect",
+        "body": [
+          "Your account: email address, name, password (stored only as a hash) or your Google sign-in.",
+          "Your profile: what you enter (stage name, specialties, physical details, preferences, links), your photos, videos, self-tapes and profile picture.",
+          "Your activity in the app: applications, AI role searches, messages with the Agental team and the assistant.",
+          "Technical data: a session cookie to keep you signed in, and privacy-friendly visit counts without personal identifiers."
+        ]
+      },
+      {
+        "title": "Google sign-in",
+        "body": [
+          "If you sign in with Google, we receive only your name, email address and profile photo (the openid, email and profile scopes). We use them to create your account and, if you confirm, as your profile picture. We do not access your Gmail, Drive, contacts or anything else in your Google account."
+        ]
+      },
+      {
+        "title": "Why we use it",
+        "body": [
+          "To run your account and show your profile to casting teams you apply to, to search for roles that fit you, to answer your messages, and to keep the service secure. We do not sell your data and do not use it for advertising."
+        ]
+      },
+      {
+        "title": "Where it is kept",
+        "body": [
+          "Your data is stored by our service providers: Vercel (hosting), Supabase (database and private file storage) and Cloudflare (file storage). Your media files are private; they are shown only through short-lived links to you, to the Agental team, and to the people you choose to share them with or apply to."
+        ]
+      },
+      {
+        "title": "The assistant",
+        "body": [
+          "Answers in Messages are written from a small set of facts about your profile and applications. Contact details, private content preferences and media are never included."
+        ]
+      },
+      {
+        "title": "How long we keep it, and your choices",
+        "body": [
+          "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co."
+        ]
+      },
+      {
+        "title": "Changes",
+        "body": [
+          "If this policy changes, the date at the top changes too, and we tell signed-in users about important changes in the app."
+        ]
+      }
+    ]
   }
 }

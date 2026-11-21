@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
@@ -8,12 +9,49 @@ import {
   ArrowRight,
   UserCog,
   Video,
+  ImageIcon,
+  Ruler,
+  PenLine,
+  ListChecks,
+  Link as LinkIcon,
 } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { WebsiteCard } from "@/components/talents/website-card";
+import { LIMELIGHT } from "@/domain/limelight";
+import { listMySites } from "@/lib/sites";
+import { parseJson, PhysicalTraits } from "@/domain/json";
+import { nextMissingItem, profileGaps, scoreProfile, type ProfileGap } from "@/domain/completeness";
+import { GAP_TAB, profileTabHref } from "@/domain/profile-tabs";
+import { getSetupState } from "@/lib/setup";
+import { getRoleSearchQuota } from "@/lib/role-search";
+import { FindRolesButton } from "@/components/app/find-roles-button";
+import { WelcomeTour, type WelcomeStep } from "@/components/app/welcome-tour";
+
+const GAP_ICON: Record<ProfileGap, typeof UserCog> = {
+  photos: ImageIcon,
+  video: Video,
+  physical: Ruler,
+  bio: PenLine,
+  links: LinkIcon,
+};
+
+const CANDIDATURE_STATUSES = [
+  "NEW",
+  "SHORTLISTED",
+  "STARRED",
+  "EXCLUDED",
+  "SELFTAPE_REQUESTED",
+  "INVITED",
+  "CONTRACTED",
+  "REJECTED",
+] as const;
+function isCandidatureStatus(v: string): v is (typeof CANDIDATURE_STATUSES)[number] {
+  return (CANDIDATURE_STATUSES as readonly string[]).includes(v);
+}
 
 export default async function TalentsDashboard({
   params,
@@ -24,18 +62,35 @@ export default async function TalentsDashboard({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
+  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: session.user.id },
     include: {
-      mandat: true,
       candidatures: { include: { project: true, matchScore: true } },
       media: true,
+      _count: { select: { specialties: true } },
     },
   });
   if (!profile) return null;
+
+  // Scored here rather than read from completenessScore, so the card and the
+  // percentage cannot disagree, even on rows scored by the old rule.
+  const completenessInput = {
+    stageName: profile.stageName,
+    birthDate: profile.birthDate,
+    city: profile.city,
+    bio: profile.bio,
+    physical: parseJson(PhysicalTraits, profile.physical),
+    specialtiesCount: profile._count.specialties,
+    media: profile.media,
+    imdbUrl: profile.imdbUrl,
+    portfolioUrl: profile.portfolioUrl,
+  };
+  const gaps = profileGaps(completenessInput);
+  const completeness = scoreProfile(completenessInput);
 
   const cands = profile.candidatures;
   const active = cands.filter((c) =>
@@ -58,20 +113,34 @@ export default async function TalentsDashboard({
     { label: t("space.dashboard.urgent"), value: urgent, icon: Sparkles },
   ];
 
+  // The "Complete your profile" card covers photos, video, physical details
+  // and bio. These suggestions pick up what it does not list.
   const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = [];
-  if (profile.completenessScore < 100)
-    suggestions.push({
-      text: t("space.dashboard.completenessHint", {
-        percent: profile.completenessScore,
-      }),
-      href: "/talents/app/profil",
-      cta: t("space.dashboard.complete"),
-      icon: UserCog,
-    });
-  if (profile.media.filter((m) => m.type === "SELFTAPE").length === 0)
+  // The one next action (F3.5): finish the profile while it is below 100%,
+  // then launch the first search, then check the applications.
+  const nextItem = nextMissingItem(completenessInput);
+  const searchedOnce = (await prisma.roleSearchRequest.count({ where: { userId: session.user.id } })) > 0;
+  const nextAction =
+    completeness < 100
+      ? {
+          title: t("space.dashboard.completeProfile.title"),
+          text: nextItem
+            ? t("space.dashboard.nextItem", { percent: completeness, item: t(`space.dashboard.missing.${nextItem}`) })
+            : t("space.dashboard.completenessHint", { percent: completeness }),
+          href: "/talents/app/profil",
+          icon: UserCog,
+        }
+      : !searchedOnce
+        ? { title: t("space.dashboard.launch.title"), text: t("space.dashboard.launch.body"), href: "/talents/app#find-roles", icon: Sparkles }
+        : { title: t("space.dashboard.checkApplications.title"), text: t("space.dashboard.checkApplications.body"), href: "/talents/app/candidatures", icon: Send };
+  // A reel clears the card's video item; a self-tape is still worth asking for.
+  if (
+    !gaps.includes("video") &&
+    profile.media.filter((m) => m.type === "SELFTAPE").length === 0
+  )
     suggestions.push({
       text: t("space.dashboard.selftapeHint"),
-      href: "/talents/app/self-tape",
+      href: "/talents/app/reel-self-tape",
       cta: t("space.selftape.title"),
       icon: Video,
     });
@@ -83,22 +152,148 @@ export default async function TalentsDashboard({
       icon: Sparkles,
     });
 
+  const hasSite = (await listMySites(session.user.id)).length > 0;
+  // The sign-up basics (stage name, adult date of birth, a specialty). While
+  // one is missing, a card names it and resumes the wizard there.
+  const { nextStep } = await getSetupState(session.user.id);
+  const quota = await getRoleSearchQuota(session.user.id);
+
+  // The three-step welcome (shown on ?welcome=1). Each step names the real
+  // element it outlines. Google accounts see what was filled for them.
+  const tc = await getTranslations({ locale, namespace: "common" });
+  const account = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { email: true, image: true, accounts: { select: { provider: true } } },
+  });
+  const fromGoogle = !!account?.accounts.some((a) => a.provider === "google");
+  const welcomeSteps: WelcomeStep[] = [
+    {
+      title: tc("tour.w1.title"),
+      body: nextItem
+        ? tc("tour.w1.body", { percent: completeness, item: t(`space.dashboard.missing.${nextItem}`) })
+        : tc("tour.w1.bodyDone", { percent: completeness }),
+      notes: fromGoogle
+        ? [tc("tour.w1.fromGoogle", { name: profile.stageName || "-", email: account?.email ?? "" })]
+        : undefined,
+      targets: ['[data-tour="profile"]'],
+      fallback: '[data-tour="profile-fallback"]',
+    },
+    {
+      title: tc("tour.w2.title"),
+      body: tc("tour.w2.body", { count: quota.limit }),
+      targets: ["#find-roles"],
+    },
+    {
+      title: tc("tour.w3.title"),
+      body: tc("tour.w3.body"),
+      targets: ['a[data-nav="/talents/app/candidatures"]', 'a[data-nav="/talents/app/messages"]'],
+    },
+  ];
+
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-medium">
+          <h1 data-tour="profile-fallback" className="font-display text-3xl font-medium">
             {profile.stageName
               ? t("space.dashboard.welcome", { name: profile.stageName })
               : t("space.dashboard.welcomeAnon")}
           </h1>
           <p className="text-fg-muted">{t("space.dashboard.tagline")}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="success">{t("space.dashboard.represented")}</Badge>
-          <Badge variant="neutral">Plan Free</Badge>
-        </div>
       </div>
+
+      <Link
+        href={nextAction.href}
+        data-tour="next-action"
+        className="pressable flex items-center gap-4 rounded-sedan border border-accent/40 bg-surface p-5 [--hover-scale:1.01] [--press-scale:0.99]"
+      >
+        <nextAction.icon aria-hidden="true" className="size-6 shrink-0 text-accent" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-[13px] font-bold uppercase tracking-wide text-accent">{t("space.dashboard.nextAction")}</span>
+          <span className="block font-display text-xl font-medium">{nextAction.title}</span>
+          <span className="block text-sm text-fg-muted">{nextAction.text}</span>
+        </span>
+        <ArrowRight aria-hidden="true" className="size-5 shrink-0 text-fg-subtle" />
+      </Link>
+
+      {nextStep && (
+        <section
+          data-tour="profile"
+          aria-labelledby="complete-setup"
+          className="flex flex-col gap-4 rounded-sedan border border-accent/40 bg-accent-soft/40 p-5 sm:flex-row sm:items-center"
+        >
+          <ListChecks aria-hidden="true" className="size-6 shrink-0 text-accent" />
+          <div className="min-w-0 flex-1">
+            <h2 id="complete-setup" className="font-display text-xl font-medium">
+              {t("space.dashboard.setup.title")}
+            </h2>
+            <p className="mt-1 text-sm text-fg-muted">{t("space.dashboard.setup.subtitle")}</p>
+            <p className="mt-2 text-sm">
+              <span className="font-medium">
+                {t("space.dashboard.setup.next", { step: t(`onboarding.steps.${nextStep}`) })}
+              </span>{" "}
+              <span className="text-fg-muted">{t(`space.dashboard.setup.steps.${nextStep}`)}</span>
+            </p>
+          </div>
+          <Button asChild className="self-start sm:self-center">
+            <Link href="/talents/inscription">
+              {t("space.dashboard.setup.cta")} <ArrowRight />
+            </Link>
+          </Button>
+        </section>
+      )}
+
+      {!nextStep && gaps.length > 0 && (
+        <section
+          data-tour="profile"
+          aria-labelledby="complete-profile"
+          className="rounded-sedan border border-accent/40 bg-accent-soft/40 p-5"
+        >
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 id="complete-profile" className="font-display text-xl font-medium">
+              {t("space.dashboard.completeProfile.title")}
+            </h2>
+            <span className="text-sm text-fg-muted">
+              {t("space.dashboard.completeProfile.percent", { percent: completeness })}
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-fg-muted">
+            {t("space.dashboard.completeProfile.subtitle")}
+          </p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {gaps.map((gap) => {
+              const Icon = GAP_ICON[gap];
+              return (
+                <li key={gap}>
+                  <Link
+                    href={profileTabHref(GAP_TAB[gap])}
+                    className="flex min-h-11 items-center gap-3 rounded-sedan border border-border bg-surface p-3 text-sm transition-colors hover:border-accent"
+                  >
+                    <Icon className="size-4 shrink-0 text-accent" />
+                    <span className="flex-1 font-medium">
+                      {t(`space.dashboard.completeProfile.gaps.${gap}`)}
+                    </span>
+                    <ArrowRight className="size-4 shrink-0 text-fg-subtle" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
+      <Suspense fallback={null}>
+        <WelcomeTour
+          steps={welcomeSteps}
+          offerPhoto={fromGoogle && !profile.avatarKey && !!account?.image}
+        />
+      </Suspense>
+
+      <FindRolesButton
+        initialQuota={quota}
+        upgradeHref="/talents/app/abonnement"
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (
@@ -135,7 +330,9 @@ export default async function TalentsDashboard({
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">
                     {c.project.title}
                   </span>
-                  <Badge variant="accent">{c.status === "SHORTLISTED" ? "Shortlistée" : c.status}</Badge>
+                  <Badge variant="accent">
+                    {isCandidatureStatus(c.status) ? ta(`candidatureStatus.${c.status}`) : c.status}
+                  </Badge>
                 </li>
               ))}
             </ul>
@@ -147,6 +344,7 @@ export default async function TalentsDashboard({
             <Sparkles className="size-5 text-accent" /> {t("space.dashboard.suggestions")}
           </h2>
           <div className="space-y-2">
+            {suggestions.length === 0 && <p className="text-sm text-fg-muted">{t("space.dashboard.noSuggestions")}</p>}
             {suggestions.map((s) => (
               <div
                 key={s.cta}
@@ -163,6 +361,10 @@ export default async function TalentsDashboard({
           </div>
         </section>
       </div>
+
+      {/* Last on the page, so the status, the figures and the AI suggestions
+          keep their place. */}
+      {!hasSite && <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} appHref="/talents/app/site" />}
     </div>
   );
 }

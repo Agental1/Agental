@@ -94,7 +94,7 @@ export default async function ProjectShortlistPage({
     );
     return {
       id: c.id,
-      name: c.externalTalent?.name ?? "Talent externe",
+      name: c.externalTalent?.name ?? t("space.project.externalTalent"),
       score: c.matchScore?.score ?? null,
       reasons: parseJson(MatchReasons, c.matchScore?.reasons ?? null),
       source: "EXTERNAL",

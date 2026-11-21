@@ -15,9 +15,12 @@ import {
   ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
+import { IconTip } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { uploadMedia, deleteMedia, setPrimaryMedia } from "@/app/actions/media";
+import { uploadMedia as uploadSmallMedia, deleteMedia, setPrimaryMedia } from "@/app/actions/media";
+import { uploadMedia } from "@/lib/media-upload";
 
 export interface MediaItem {
   id: string;
@@ -34,6 +37,7 @@ function typeForMime(mime: string): "PHOTO" | "VIDEO" | "AUDIO" {
 
 export function MediaManager({ media }: { media: MediaItem[] }) {
   const t = useTranslations("talents");
+  const tt = useTranslations("common.app.toast");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, startTransition] = useTransition();
@@ -45,14 +49,28 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
     setError(undefined);
     startTransition(async () => {
       for (const file of Array.from(files)) {
-        const fd = new FormData();
-        fd.set("file", file);
-        fd.set("type", typeForMime(file.type));
-        const res = await uploadMedia(fd);
+        const type = typeForMime(file.type);
+        let res: { ok: boolean; error?: ActionError };
+        try {
+          if (type === "AUDIO") {
+            // Audio stays on the small-file action (voice clips are short).
+            const fd = new FormData();
+            fd.set("file", file);
+            fd.set("type", type);
+            res = await uploadSmallMedia(fd);
+          } else {
+            // Photos and videos go straight to storage, never through an action body.
+            res = await uploadMedia(file, { type, destination: type === "VIDEO" ? "profile" : undefined });
+          }
+        } catch {
+          res = { ok: false, error: err("errors.uploadFailed") };
+        }
         if (!res.ok) {
-          setError(res.error ?? err("errors.uploadFailed"));
+          const e = res.error ?? err("errors.uploadFailed");
+          setError(e);
           break;
         }
+        toast.success(tt("uploaded"), { description: file.name });
       }
       router.refresh();
     });
@@ -81,11 +99,10 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         <Button
           variant="outline"
           size="sm"
-          disabled={pending}
+          loading={pending}
           onClick={() => inputRef.current?.click()}
         >
-          {pending ? <Loader2 className="size-4 animate-spin" /> : null}
-          Choisir des fichiers
+          {t("space.media.choose")}
         </Button>
       </div>
 
@@ -131,7 +148,7 @@ function MediaCard({
       </div>
       {media.isPrimary && (
         <Badge variant="solid" className="absolute left-2 top-2">
-          Principale
+          {t("space.media.primary")}
         </Badge>
       )}
       <div
@@ -141,37 +158,43 @@ function MediaCard({
         )}
       >
         {media.type === "PHOTO" && !media.isPrimary && (
+          <IconTip label={t("space.media.setPrimary")}>
+            <button
+              aria-label={t("space.media.setPrimary")}
+              aria-disabled={pending || undefined}
+              onClick={() =>
+                !pending &&
+                startTransition(async () => {
+                  await setPrimaryMedia(media.id);
+                  onChanged();
+                })
+              }
+              className="rounded p-1.5 text-white hover:bg-white/20"
+            >
+              <Star className="size-4" />
+            </button>
+          </IconTip>
+        )}
+        <IconTip label={t("space.media.delete")}>
           <button
-            aria-label={t("space.media.setPrimary")}
-            disabled={pending}
+            aria-label={t("space.media.delete")}
+            aria-disabled={pending || undefined}
             onClick={() =>
+              !pending &&
               startTransition(async () => {
-                await setPrimaryMedia(media.id);
+                await deleteMedia(media.id);
                 onChanged();
               })
             }
             className="rounded p-1.5 text-white hover:bg-white/20"
           >
-            <Star className="size-4" />
+            {pending ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Trash2 className="size-4" />
+            )}
           </button>
-        )}
-        <button
-          aria-label={t("space.media.delete")}
-          disabled={pending}
-          onClick={() =>
-            startTransition(async () => {
-              await deleteMedia(media.id);
-              onChanged();
-            })
-          }
-          className="rounded p-1.5 text-white hover:bg-white/20"
-        >
-          {pending ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            <Trash2 className="size-4" />
-          )}
-        </button>
+        </IconTip>
       </div>
     </div>
   );

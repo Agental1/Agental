@@ -12,20 +12,28 @@
  * work in server components and quietly break in client ones.
  */
 
-/** Euro amount from cents, e.g. 48000 → "480 €" (fr) / "€480" (en). */
-export function euros(cents: number, locale: string): string {
+/**
+ * Every amount on the site is in US dollars: plan prices, Limelight offers,
+ * fees and rates. One currency, set here.
+ */
+export const CURRENCY = "USD";
+
+/** Dollar amount from cents, rounded to whole dollars, e.g. 48000 → "$480". */
+export function money(cents: number, locale: string): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "EUR",
+    currency: CURRENCY,
+    currencyDisplay: "narrowSymbol",
     maximumFractionDigits: 0,
   }).format(Math.round(cents / 100));
 }
 
-/** Euro amount keeping cents, for figures where the decimals matter. */
-export function eurosExact(cents: number, locale: string): string {
+/** Dollar amount keeping cents, for figures where the decimals matter. */
+export function moneyExact(cents: number, locale: string): string {
   return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "EUR",
+    currency: CURRENCY,
+    currencyDisplay: "narrowSymbol",
   }).format(cents / 100);
 }
 

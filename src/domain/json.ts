@@ -16,6 +16,22 @@ export const PhysicalTraits = z.object({
 });
 export type PhysicalTraits = z.infer<typeof PhysicalTraits>;
 
+/**
+ * Set or clear the height while keeping every other physical trait. Signup
+ * asks only for the height, and writing the step's input as the whole column
+ * would erase hair, eyes and languages saved from the profile editor. The
+ * field is prefilled from the stored value, so a blank one means the talent
+ * cleared it.
+ */
+export function withHeight(
+  existing: PhysicalTraits,
+  heightCm: number | undefined
+): PhysicalTraits {
+  const { heightCm: _previous, ...rest } = existing;
+  void _previous;
+  return heightCm === undefined ? rest : { ...rest, heightCm };
+}
+
 export const RoleSpec = z.object({
   role: z.string().optional(),
   gender: z.string().optional(),

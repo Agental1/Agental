@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useId, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Input, Label } from "@/components/ui/input";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { submitLimelightLead, type LimelightLeadState } from "@/app/actions/limelight";
 import {
+  LIMELIGHT,
   LIMELIGHT_BUDGETS,
   LIMELIGHT_CONTACT_PREFS,
   LIMELIGHT_DISCIPLINES,
@@ -15,14 +16,35 @@ import {
 } from "@/domain/limelight";
 import { cn } from "@/lib/utils";
 
+type Pref = (typeof LIMELIGHT_CONTACT_PREFS)[number];
+
 /**
- * "Start your site": the one form on the Limelight page. Both paths (talk to
- * us first, or get started) land here in phase 1; the photo upload intake
- * arrives in phase 2. Choice groups are radio chips so every option is visible
- * on a phone without opening a menu.
+ * "Request my site": the one form on the Limelight page, open to visitors who
+ * have no account.
+ *
+ * Name, email, type of work and what they need; the phone field appears only
+ * when they ask for a call. The build price, hosting and renewal terms sit
+ * right under the offer choice, read from LIMELIGHT. Every field is
+ * controlled, so a failed send keeps what was typed; the button rests while a
+ * request is in flight, so a double click sends once. Success shows only after
+ * the server answers.
+ *
+ * TODO(backend): `requestPortfolioSite` (feat/beta-server) replaces
+ * `submitLimelightLead` with a stored, deduplicated request and a team alert.
  */
-export function LimelightContactForm() {
+export function LimelightContactForm({
+  defaults,
+  preview,
+  submitLabel,
+}: {
+  /** Values to start from, for a signed-in performer. */
+  defaults?: { name?: string; email?: string; message?: string };
+  /** Shown above the fields, e.g. the site preview the request is about. */
+  preview?: React.ReactNode;
+  submitLabel?: string;
+} = {}) {
   const t = useTranslations("talents.limelight.contact");
+  const to = useTranslations("talents.limelight.offers");
   const locale = useLocale();
   const [state, action, pending] = useActionState<LimelightLeadState, FormData>(
     submitLimelightLead,
@@ -30,19 +52,34 @@ export function LimelightContactForm() {
   );
   const id = useId();
 
+  const [name, setName] = useState(defaults?.name ?? "");
+  const [email, setEmail] = useState(defaults?.email ?? "");
+  const [discipline, setDiscipline] = useState<string>("actor");
+  const [need, setNeed] = useState<string>("new");
+  const [budget, setBudget] = useState<string>("unsure");
+  const [pref, setPref] = useState<Pref>("email");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState(defaults?.message ?? "");
+
+  const usd = (amount: number) =>
+    new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "USD",
+      currencyDisplay: "narrowSymbol",
+      maximumFractionDigits: 0,
+    }).format(amount);
+
   if (state?.ok) {
     return (
       <div
         role="status"
-        className="flex flex-col items-start gap-4 self-start rounded-[10px] border border-border bg-bg p-[clamp(24px,3vw,40px)]"
+        className="flex flex-col items-start gap-4 self-start rounded-sedan-xl border border-border bg-surface p-[clamp(24px,3vw,40px)]"
       >
-        <span className="flex size-11 items-center justify-center rounded-[8px] bg-accent text-accent-fg">
-          <Check className="size-5" />
+        <span className="flex size-11 items-center justify-center rounded-full bg-accent text-accent-fg">
+          <Check aria-hidden="true" className="size-5" />
         </span>
-        <h3 className="text-[22px] font-semibold">{t("successTitle")}</h3>
-        {state.email && (
-          <p className="text-[16px] text-fg-muted">{t("successBody", { email: state.email })}</p>
-        )}
+        <h3 className="text-[22px] font-bold">{t("successTitle")}</h3>
+        <p className="text-[16px] text-fg-muted">{t("successBody", { email: state.email || email })}</p>
       </div>
     );
   }
@@ -53,8 +90,9 @@ export function LimelightContactForm() {
     <form
       action={action}
       noValidate
-      className="grid gap-6 rounded-[10px] border border-border bg-bg p-[clamp(20px,3vw,36px)]"
+      className="grid gap-6 rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,36px)]"
     >
+      {preview}
       <input type="hidden" name="locale" value={locale} />
       {/* Honeypot: hidden from people and screen readers, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -66,51 +104,95 @@ export function LimelightContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field id={`${id}-name`} label={t("name")}>
-          <Input id={`${id}-name`} name="name" autoComplete="name" required />
+          <Input
+            id={`${id}-name`}
+            name="name"
+            autoComplete="name"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="h-12 px-4 text-base sm:h-12 sm:text-base"
+          />
         </Field>
         <Field id={`${id}-email`} label={t("email")}>
-          <Input id={`${id}-email`} name="email" type="email" autoComplete="email" required />
+          <Input
+            id={`${id}-email`}
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="h-12 px-4 text-base sm:h-12 sm:text-base"
+          />
         </Field>
       </div>
 
       <Chips
         legend={t("discipline")}
         name="discipline"
+        value={discipline}
+        onChange={setDiscipline}
         options={LIMELIGHT_DISCIPLINES.map((v) => ({ value: v, label: t(`disciplines.${v}`) }))}
-        defaultValue="actor"
       />
       <Chips
         legend={t("need")}
         name="need"
+        value={need}
+        onChange={setNeed}
         options={LIMELIGHT_NEEDS.map((v) => ({ value: v, label: t(`needs.${v}`) }))}
-        defaultValue="new"
       />
-      <Chips
-        legend={t("budget")}
-        name="budget"
-        options={LIMELIGHT_BUDGETS.map((v) => ({ value: v, label: t(`budgets.${v}`) }))}
-        defaultValue="unsure"
-      />
-
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-2">
         <Chips
-          legend={t("contactPref")}
-          name="contactPref"
-          options={LIMELIGHT_CONTACT_PREFS.map((v) => ({ value: v, label: t(`prefs.${v}`) }))}
-          defaultValue="email"
+          legend={t("budget")}
+          name="budget"
+          value={budget}
+          onChange={setBudget}
+          options={LIMELIGHT_BUDGETS.map((v) => ({ value: v, label: t(`budgets.${v}`) }))}
         />
-        <Field id={`${id}-phone`} label={t("phone")}>
-          <Input id={`${id}-phone`} name="phone" type="tel" autoComplete="tel" />
-        </Field>
+        <p className="max-w-[64ch] text-[13.5px] leading-relaxed text-fg-muted">
+          {t("terms", {
+            essential: to("essential.name"),
+            essentialPrice: usd(LIMELIGHT.plans.essential.priceUsd),
+            essentialRenewal: usd(LIMELIGHT.plans.essential.renewalUsdPerYear),
+            signature: to("signature.name"),
+            signaturePrice: usd(LIMELIGHT.plans.signature.priceUsd),
+            signatureRenewal: usd(LIMELIGHT.plans.signature.renewalUsdPerYear),
+            months: LIMELIGHT.includedProMonths,
+          })}
+        </p>
       </div>
+
+      <Chips
+        legend={t("contactPref")}
+        name="contactPref"
+        value={pref}
+        onChange={(v) => setPref(v as Pref)}
+        options={LIMELIGHT_CONTACT_PREFS.map((v) => ({ value: v, label: t(`prefs.${v}`) }))}
+      />
+      {pref === "call" && (
+        <Field id={`${id}-phone`} label={t("phone")}>
+          <Input
+            id={`${id}-phone`}
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="enter h-12 max-w-sm px-4 text-base sm:h-12 sm:text-base"
+          />
+        </Field>
+      )}
 
       <Field id={`${id}-message`} label={t("message")} hint={t("messageHint")}>
         <textarea
           id={`${id}-message`}
           name="message"
-          rows={4}
+          rows={3}
           aria-describedby={`${id}-message-hint`}
-          className="w-full rounded-sedan border border-field bg-surface px-3 py-2.5 text-base text-fg shadow-sm transition-colors placeholder:text-fg-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 sm:text-sm"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full rounded-sedan border border-field bg-surface px-4 py-3 text-base text-fg shadow-sm transition-colors placeholder:text-fg-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
         />
       </Field>
 
@@ -118,7 +200,7 @@ export function LimelightContactForm() {
 
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
         <Button type="submit" size="lg" disabled={pending}>
-          {pending ? t("sending") : t("submit")}
+          {pending ? t("sending") : (submitLabel ?? t("submit"))}
         </Button>
         <p className="text-[13px] text-fg-subtle">{t("privacy")}</p>
       </div>
@@ -155,12 +237,14 @@ function Chips({
   legend,
   name,
   options,
-  defaultValue,
+  value,
+  onChange,
 }: {
   legend: string;
   name: string;
   options: { value: string; label: string }[];
-  defaultValue: string;
+  value: string;
+  onChange: (value: string) => void;
 }) {
   return (
     <fieldset className="grid gap-2.5">
@@ -172,14 +256,15 @@ function Chips({
               type="radio"
               name={name}
               value={o.value}
-              defaultChecked={o.value === defaultValue}
+              checked={o.value === value}
+              onChange={() => onChange(o.value)}
               className="peer sr-only"
             />
             <span
               className={cn(
-                "inline-flex min-h-10 items-center rounded-[var(--btn-radius)] border border-field bg-surface px-3.5 text-[14px] transition-colors",
+                "pressable inline-flex min-h-11 items-center rounded-full border border-field bg-surface px-4 text-[14.5px] [--hover-scale:1.02] [--press-scale:1.04]",
                 "hover:border-accent",
-                "peer-checked:border-accent peer-checked:bg-accent-soft peer-checked:font-medium peer-checked:text-accent",
+                "peer-checked:border-accent peer-checked:bg-accent-soft peer-checked:font-bold peer-checked:text-accent",
                 "peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-bg"
               )}
             >

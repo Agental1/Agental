@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Casting — Le filtre IA qualifié pour vos castings",
+    "title": "Agental Casting : Le filtre IA qualifié pour vos castings",
     "description": "Recevez les meilleurs talents, pas les plus nombreux. Une short-list courte, vérifiée, prête à convoquer. Scoring transparent, source affichée."
   },
   "nav": {
@@ -19,7 +19,7 @@
   "demo": {
     "eyebrow": "Démo interactive",
     "title": "Un brief. Une short-list.",
-    "subtitle": "Décrivez le rôle, l'assistant met votre brief en forme, la short-list se génère — source de chaque profil visible.",
+    "subtitle": "Décrivez le rôle, l'assistant met votre brief en forme, la short-list se génère, source de chaque profil visible.",
     "briefLabel": "Votre rôle",
     "briefPlaceholder": "ex. « Maxime », homme, 25–32 ans, accent breton, disponible en septembre",
     "generate": "Générer la short-list",
@@ -37,7 +37,7 @@
       "3": "physique proche du rôle · self-tape vérifié",
       "4": "expérience séries · accent régional crédible"
     },
-    "perDay": "{amount} €/j"
+    "perDay": "{amount} $/j"
   },
   "benefits": {
     "eyebrow": "Ce que vous gagnez avec Agental",
@@ -128,11 +128,11 @@
     "eyebrow": "Tarifs",
     "title": "Une tarification pensée pour votre volume de casting",
     "note": "Sans engagement. Vous changez de formule ou résiliez à tout moment.",
-    "recommended": "RECOMMANDÉ",
+    "recommended": "Recommandé",
     "plans": [
       {
         "name": "Free",
-        "price": "0 €",
+        "price": "0 $",
         "priceUnit": "",
         "cta": "Tester",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "Pro",
-        "price": "99 €",
+        "price": "99 $",
         "priceUnit": "/siège/mois",
         "cta": "Choisir Pro",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "Studio",
-        "price": "299 €",
+        "price": "299 $",
         "priceUnit": "/mois",
         "cta": "Choisir",
         "features": [
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "Comment ça marche — Agental Casting",
+      "title": "Comment ça marche : Agental Casting",
       "description": "Du brief à la convocation : comment Agental filtre 90 % des candidatures pour ne vous présenter que les profils réellement pertinents."
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifs — Agental Casting",
+      "title": "Tarifs : Agental Casting",
       "description": "Une tarification par siège et par volume, pensée pour votre activité de casting. Sans engagement."
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "FAQ — Agental Casting",
+      "title": "FAQ : Agental Casting",
       "description": "Vos questions sur le scoring, la neutralité, les self-tapes vérifiés et la tarification d'Agental Casting."
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "Quel est le titre du projet et du rôle ?",
-          "placeholder": "ex. Maxime — série Marée Haute"
+          "placeholder": "ex. Maxime : série Marée Haute"
         },
         "role": {
           "prompt": "Décrivez le personnage en une phrase.",
@@ -379,7 +379,7 @@
           "placeholder": "septembre 2026"
         },
         "budget": {
-          "prompt": "Budget indicatif par jour (€) ?",
+          "prompt": "Budget indicatif par jour ($) ?",
           "placeholder": "600"
         }
       },
@@ -387,10 +387,16 @@
         "H": "H",
         "F": "F",
         "Indifférent": "Indifférent"
-      }
+      },
+      "skip": "Passer"
     },
     "plans": {
-      "demo": "Mode démo — aucun paiement réel. Sans engagement, résiliable à tout moment."
+      "demo": "Mode démo : aucun paiement réel. Sans engagement, résiliable à tout moment.",
+      "current": "Actuel",
+      "currentPlan": "Plan actuel",
+      "choose": "Choisir",
+      "contact": "Nous contacter",
+      "activeSeats": "soit {count, plural, one {# siège actif} other {# sièges actifs}}"
     },
     "minors": {
       "title": "Protection du mineur",
@@ -407,12 +413,33 @@
       "confirm": "Confirmer",
       "escrowLabel": "Séquestre de {percent}% du cachet jusqu'à la majorité",
       "escrowHeld": "Bloqué",
-      "escrowTodo": "À bloquer"
+      "escrowTodo": "À bloquer",
+      "ready": "Prêt à convoquer",
+      "open": "Ouvrir le dossier de protection",
+      "hold": "Bloquer"
     },
     "shortlist": {
       "empty": "Aucun profil ne correspond à ces filtres.",
       "minor": "Mineur",
-      "similarProfile": "profil similaire"
+      "similarProfile": "profil similaire",
+      "neutrality": "Neutralité :",
+      "diversity": "Diversité : {distinct}/{total} profils distincts",
+      "filters": "Filtres",
+      "minScore": "Score min",
+      "allSources": "Toutes sources",
+      "sort": "Trier",
+      "sortBy": {
+        "score": "Score",
+        "rate": "Tarif",
+        "name": "Nom"
+      },
+      "photo": "Photo",
+      "actions": {
+        "star": "Étoile",
+        "selftape": "Self-tape",
+        "audition": "Audition",
+        "exclude": "Exclure"
+      }
     },
     "subscription": {
       "title": "Abonnement",
@@ -434,7 +461,8 @@
       "yours": "Vos projets",
       "open": "Projets ouverts",
       "shortlisting": "Short-lists en cours",
-      "shortlisted": "Talents shortlistés"
+      "shortlisted": "Talents shortlistés",
+      "plan": "Plan {plan}"
     },
     "projectStatus": {
       "DRAFT": "Brouillon",
@@ -479,7 +507,7 @@
     },
     "newBrief": {
       "title": "Nouveau brief",
-      "subtitle": "Décrivez le rôle — l'assistant s'occupe du reste."
+      "subtitle": "Décrivez le rôle, l'assistant s'occupe du reste."
     },
     "planFeatures": {
       "FREE": [
@@ -508,5 +536,10 @@
         "Grandes maisons"
       ]
     }
+  },
+  "oauth": {
+    "google": "Continuer avec Google",
+    "apple": "Continuer avec Apple",
+    "or": "ou"
   }
 }

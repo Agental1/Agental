@@ -8,11 +8,10 @@
  * were monolingual by construction.
  *
  * Fees stay numeric so Intl.NumberFormat can render them per locale — a French
- * "800–3 000 €" is not how a Spanish or English reader expects to see money.
+ * "800–3 000 $" is not how a Spanish or English reader expects to see money.
  * `createurs` genuinely has no figure, hence the optional fields: the display
  * falls back to a translated "Varies".
  */
-import type { AgeBand } from "./portraits";
 
 export type CachetUnit = "day" | "session" | "project";
 
@@ -37,15 +36,9 @@ export type CastingTypeSlug =
 
 export interface CastingType {
   slug: CastingTypeSlug;
-  /**
-   * Which age-band portrait illustrates this type. Six bands, nine types, so
-   * some repeat — deliberately, and placed here rather than hardcoded in the
-   * JSX so the mapping is reviewable in one place. See src/data/portraits.ts.
-   */
-  ageBand: AgeBand;
-  /** Lower bound in euros. Absent when the fee is project-dependent. */
+  /** Lower bound in US dollars. Absent when the fee is project-dependent. */
   cachetMin?: number;
-  /** Upper bound in euros. Absent when the fee is project-dependent. */
+  /** Upper bound in US dollars. Absent when the fee is project-dependent. */
   cachetMax?: number;
   /** Which translated unit label to render next to the amount. */
   cachetUnit: CachetUnit;
@@ -54,14 +47,14 @@ export interface CastingType {
 }
 
 export const CASTING_TYPES: CastingType[] = [
-  { slug: "figuration", ageBand: "adulte", cachetMin: 80, cachetMax: 180, cachetUnit: "day" },
-  { slug: "silhouette", ageBand: "jeune-adulte", cachetMin: 100, cachetMax: 250, cachetUnit: "day" },
-  { slug: "seconds-roles", ageBand: "senior", cachetMin: 350, cachetMax: 800, cachetUnit: "day" },
-  { slug: "publicite", ageBand: "jeune-adulte", cachetMin: 800, cachetMax: 3000, cachetUnit: "day" },
-  { slug: "photo", ageBand: "adulte", cachetMin: 200, cachetMax: 600, cachetUnit: "day" },
-  { slug: "voix-doublage", ageBand: "senior-plus", cachetMin: 200, cachetMax: 800, cachetUnit: "session" },
-  { slug: "enfants", ageBand: "enfant", cachetMin: 80, cachetMax: 800, cachetUnit: "day", minors: true },
-  { slug: "createurs", ageBand: "adolescent", cachetUnit: "project" },
+  { slug: "figuration", cachetMin: 80, cachetMax: 180, cachetUnit: "day" },
+  { slug: "silhouette", cachetMin: 100, cachetMax: 250, cachetUnit: "day" },
+  { slug: "seconds-roles", cachetMin: 350, cachetMax: 800, cachetUnit: "day" },
+  { slug: "publicite", cachetMin: 800, cachetMax: 3000, cachetUnit: "day" },
+  { slug: "photo", cachetMin: 200, cachetMax: 600, cachetUnit: "day" },
+  { slug: "voix-doublage", cachetMin: 200, cachetMax: 800, cachetUnit: "session" },
+  { slug: "enfants", cachetMin: 80, cachetMax: 800, cachetUnit: "day", minors: true },
+  { slug: "createurs", cachetUnit: "project" },
   /**
    * Ninth landing, added with the New LP redesign. The mockups merge figuration
    * and silhouette into one page and add this; we keep both existing slugs —
@@ -71,7 +64,7 @@ export const CASTING_TYPES: CastingType[] = [
    * No fee range: it swings with the discipline, so it falls back to the
    * translated "Variable" label the same way createurs does.
    */
-  { slug: "performeurs", ageBand: "jeune-adulte", cachetUnit: "project" },
+  { slug: "performeurs", cachetUnit: "project" },
 ];
 
 export const CASTING_TYPE_SLUGS = CASTING_TYPES.map((t) => t.slug);
@@ -84,8 +77,8 @@ export function getCastingType(slug: string): CastingType | undefined {
  * Fee range for display, formatted for the locale.
  *
  * Slugs never change with locale (translating them would break the SEO already
- * earned and every inbound link), but the money does: en-US wants "€800–€3,000"
- * where fr-FR wants "800–3 000 €".
+ * earned and every inbound link), but the money does: en-US wants "$800–$3,000"
+ * where fr-FR wants "800–3 000 $".
  */
 export function formatCachet(
   type: CastingType,
@@ -97,7 +90,8 @@ export function formatCachet(
   }
   const money = new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "EUR",
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
     maximumFractionDigits: 0,
   });
   return `${money.format(type.cachetMin)}–${money.format(type.cachetMax)}`;

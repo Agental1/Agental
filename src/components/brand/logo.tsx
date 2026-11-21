@@ -1,85 +1,71 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Wordmark } from "./wordmark";
 
-/** Agental four-point star — inherits currentColor (spike tape by default). */
+/**
+ * The Agental monogram: an A whose left leg is blue with two cuts through it.
+ *
+ * Same shapes as `brand/agental-a-dark.svg` and `brand/agental-a-white.svg`.
+ * The blue is fixed; the rest of the letter takes the current text color, so
+ * the one component is near-black on the Talent theme and white on Casting.
+ * It replaces the four-point star and the "T" tape mark everywhere.
+ */
+export const MARK_VIEWBOX = "160 200 932 857";
+export const MARK_BLUE = [
+  "577,210 680,210 625,355 460,435",
+  "420,517 596,430 568,508 380,600",
+  "340,683 530,590 330,1047 185,1047 170,1025",
+];
+/** The blue leg without the cuts, for sizes too small to show them. */
+export const MARK_BLUE_SOLID = "577,210 680,210 330,1047 185,1047 170,1025";
+export const MARK_INK = "680,210 1082,1025 1067,1047 918,1047 828,850 415,850 461,748 782,748 617,393 625,355";
+
 export function AgentalMark({
   className,
   ...props
 }: React.ComponentProps<"svg">) {
   return (
     <svg
-      viewBox="0 0 100 140"
+      viewBox={MARK_VIEWBOX}
       className={cn("inline-block", className)}
       aria-hidden="true"
       {...props}
     >
-      <path
-        d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-        fill="currentColor"
-      />
+      {MARK_BLUE.map((points) => (
+        <polygon key={points} fill="#246bfe" points={points} />
+      ))}
+      <polygon fill="currentColor" points={MARK_INK} />
     </svg>
   );
 }
 
 /**
- * Talents mark (2026-11): the T of spike tape an actor hits on set. Replaces
- * the four-point star on the Talents side, which reads as the generic AI
- * "sparkle". Casting keeps the star. Inherits currentColor.
- */
-export function TapeMark({
-  className,
-  ...props
-}: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      viewBox="0 0 32 28"
-      className={cn("inline-block", className)}
-      aria-hidden="true"
-      {...props}
-    >
-      <rect x="0" y="0" width="32" height="8" rx="1" fill="currentColor" />
-      <rect x="12" y="6" width="8" height="22" rx="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-/**
- * Star + wordmark lockup.
+ * The monogram with "Agental" beside it where there is room.
  *
- * v1 redesign: the wordmark is set like the display type — Geist, tight,
- * sentence case — with the portal name trailing at lighter weight: `Agental Talents`.
- * `portal` is optional so the 404 page and the auth screens, which belong to
- * no portal, still render a bare `AGENTAL`.
+ * `portal` is optional so pages that belong to neither audience (the entry
+ * screen, sign-in, the 404) render a bare "Agental".
  */
 export function AgentalLogo({
   className,
   wordmark = true,
   portal,
-  mark = portal === "Talents" ? "tape" : "star",
 }: {
   className?: string;
   wordmark?: boolean;
-  /** Second word of the lockup, e.g. "Talents". Rendered uppercase. */
+  /** Second word of the lockup, e.g. "Talents". */
   portal?: string;
-  /** "tape" on every Talents surface, "star" everywhere else. */
-  mark?: "tape" | "star";
 }) {
+  // Where there is room, the full wordmark (brand/agental-wordmark.svg);
+  // otherwise the A monogram alone, unchanged.
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      {mark === "tape" ? (
-        <TapeMark className="h-[18px] w-auto text-accent" />
+    <span className={cn("inline-flex items-center gap-2 text-fg", className)}>
+      {wordmark ? (
+        <>
+          <Wordmark className="h-[22px] w-auto" />
+          {portal && <span className="brand-type text-[20px] leading-none tracking-[-0.03em] text-fg-muted">{portal}</span>}
+        </>
       ) : (
-        <AgentalMark className="h-[22px] w-auto text-signal" />
-      )}
-      {wordmark && (
-        <span className="brand-type text-[20px] font-semibold leading-none tracking-[-0.045em] text-fg">
-          Agental
-          {portal && (
-            <span className="brand-type ml-1.5 font-normal tracking-[-0.03em] text-fg/45">
-              {portal}
-            </span>
-          )}
-        </span>
+        <AgentalMark className="h-7 w-auto" />
       )}
     </span>
   );

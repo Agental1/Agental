@@ -62,6 +62,14 @@ export const SpecialtyKind = z.enum([
   "enfants",
   "createurs",
   "performeurs",
+  // Added for the U.S. beta. "publicite" and "voix" above already are
+  // commercial work and voiceover, so those two have no second entry here.
+  "screen-acting",
+  "stage-acting",
+  "musical-theatre",
+  "improv",
+  "movement",
+  "stunt-combat",
 ]);
 export type SpecialtyKind = z.infer<typeof SpecialtyKind>;
 

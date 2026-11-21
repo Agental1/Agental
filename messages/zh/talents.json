@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Agental Talents：真正的经纪人，由 AI 加持",
-    "description": "专注你的表演，其余交给我们。真正受监管的经纪人，全天候工作的 AI，免费开始。"
+    "description": "创建你的表演者资料：照片、履历、作品集和自录试镜集中在一处。测试期间免费。"
   },
   "nav": {
     "cta": "成为会员",
@@ -10,11 +10,11 @@
   "hero": {
     "title": "专注你的表演。",
     "titleEmph": "其余交给我们。",
-    "subtitle": "一位代理你的真正经纪人，加上全天候工作的 AI：追踪选角、递交申请、跟进反馈。我们寻找为你而生的角色，也辅导你，让你的申请尽可能贴近角色的要求。群演、特约群演、广告、配音、内容创作：我们知道你独特在哪里，并把它放在最关键的位置。",
+    "subtitle": "一个资料，集中你的照片、履历、作品集和自录试镜。现在就准备你的选角材料；投递开放后，每份草稿发送前都由你审核。",
     "ctaPrimary": "成为会员",
     "ctaSecondary": "看看如何运作",
     "eyebrow": "新一代艺人经纪公司",
-    "note": "经纪委托免费。无需承诺。随时可以取消。",
+    "note": "测试期间免费。接下来：三个简短步骤完成资料设置。",
     "collage": [
       "男孩，17 岁",
       "女性，23 岁",
@@ -24,16 +24,16 @@
   },
   "proof": {
     "regulated": {
-      "title": "真正受监管的经纪人。",
-      "body": "一份受法国法律约束的书面经纪委托。"
+      "title": "你的材料集中在一处。",
+      "body": "照片、履历、作品集和自录试镜，都在你掌控的资料里。"
     },
     "ai": {
-      "title": "全天候工作的 AI。",
-      "body": "你在表演时，它在找机会、递申请、做跟进。"
+      "title": "草稿由你批准。",
+      "body": "投递开放后，未经你同意，任何内容都不会发出。"
     },
     "free": {
-      "title": "免费开始。",
-      "body": "被代理，你一分钱都不用付。"
+      "title": "测试期间免费。",
+      "body": "创建资料不收费。"
     }
   },
   "why": {
@@ -41,8 +41,8 @@
     "title": "一家真正为你工作的经纪公司",
     "items": [
       {
-        "title": "一位真正代理你的经纪人",
-        "body": "你签署一份经纪委托，就像每位演员和自己的经纪人那样。我们维护你的权益，帮你谈合同，确保一切合法。代理是免费的，你随时可以终止。"
+        "title": "为你所用的个人资料",
+        "body": "你的照片、履历、作品集和专长都在一份由你掌控的资料中。展示什么、何时展示，由你决定。"
       },
       {
         "title": "你在表演，经纪人在工作",
@@ -57,15 +57,15 @@
         "body": "我们知道你独特在哪里，并把它放在对的位置。我们的自录试镜工作室会在取景、灯光、收音和表演上指导你，让每一次提交都像你、都瞄得准。"
       },
       {
-        "title": "走得越远，留得越多",
-        "body": "我们的佣金是递减的。选择更高的方案，你就能从片酬中留下更大的份额，佣金从 10% 降到 5%。你也可以一直使用免费版，想用多久都行。"
+        "title": "代理服务不在测试范围内",
+        "body": "测试期间，Agental 不代理表演者，也不收取佣金。未来如有代理协议，将是一份独立文件，由你阅读并自行决定是否接受，与任何方案或网站无关。"
       },
       {
         "title": "每个人都有自己的强项",
         "body": "制作方在找真实、多样的个性，无论是镜头前还是配音。我们找出让你与众不同的地方：你的外形、口音、气场、音色，并据此为你争取。你的独特，就是你的筹码。"
       }
     ],
-    "lead": "大多数演员从来没有过经纪人。Agental 改变了这一点。我们代理那些被传统经纪公司忽略的人，标准一样，委托也是正式的。"
+    "lead": "一份展现你独特之处的资料，以及帮助你准备的工具。"
   },
   "steps": {
     "eyebrow": "五个步骤",
@@ -77,8 +77,8 @@
         "body": "身份、外形、媒体资料、专长和档期。"
       },
       {
-        "title": "签署经纪委托",
-        "body": "免费、受法律约束、随时可以解除。"
+        "title": "添加你的材料",
+        "body": "照片、履历、作品集或自录试镜。"
       },
       {
         "title": "让 AI 工作",
@@ -89,8 +89,8 @@
         "body": "我们指导你，让你脱颖而出。"
       },
       {
-        "title": "拿下角色",
-        "body": "我们谈判、敲定合同，并把片酬付给你。"
+        "title": "审核你的草稿",
+        "body": "投递开放后，每份草稿发送前都由你批准。"
       }
     ]
   },
@@ -111,53 +111,53 @@
   "pricing": {
     "eyebrow": "价格",
     "title": "回报你成长的定价",
-    "note": "经纪委托免费且独立。订阅是可选的服务。",
+    "note": "所有方案均为可选。代理服务不在测试范围内。",
     "perMonth": "每月",
     "commission": "佣金 {rate}",
     "popular": "热门",
     "plans": [
       {
-        "name": "免费版",
-        "price": "€0",
-        "commission": "10%",
+        "name": "基础版",
         "cta": "开始使用",
         "features": [
-          "经纪委托",
-          "完整资料与媒体",
-          "自录试镜工作室",
-          "事业与收入追踪"
+          "资料、照片和作品集",
+          "作品集与自录试镜",
+          "职业与收入记录",
+          "每月 {searches} 次 AI 角色搜索",
+          "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
         ]
       },
       {
         "name": "专业版",
-        "price": "€19",
-        "commission": "10%",
         "cta": "选择",
         "features": [
-          "包含免费版全部功能",
+          "包含基础版全部功能",
+          "每月 {searches} 次 AI 角色搜索",
           "AI 点评你的自录试镜",
-          "与经纪人私信沟通",
-          "优先支持"
+          "Agental 团队更快回复",
+          "优先支持",
+          "预订佣金 {commission}，由我们的持牌合作经纪公司收取",
+          "大学生？使用学校邮箱即可享受折扣。"
         ]
       },
       {
         "name": "高级版",
-        "price": "€49",
-        "commission": "7.5%",
         "cta": "选择",
         "features": [
           "包含专业版全部功能",
-          "佣金降至 7.5%"
+          "每月 {searches} 次 AI 角色搜索",
+          "更多辅导",
+          "更多功能即将推出",
+          "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
         ]
       },
       {
         "name": "旗舰版",
-        "price": "€79",
-        "commission": "5%",
         "cta": "选择",
         "features": [
           "包含高级版全部功能",
-          "佣金降至 5%"
+          "每月 {searches} 次 AI 角色搜索",
+          "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
         ]
       }
     ]
@@ -167,15 +167,15 @@
     "items": [
       {
         "quote": "我在远离首都的地方长大，一直以为表演跟我没关系。加入 Agental 三个月，我已经拍了两部剧。应用会告诉我哪个角色适合我，工作室也教会了我怎样好好录自录试镜。",
-        "author": "Sofiane，22 岁 — 群演和小角色，里昂"
+        "author": "Sofiane，22 岁, 群演和小角色，里昂"
       },
       {
         "quote": "我以前同时付三个平台的钱，晚上都在筛选信息。现在一切都过滤好了才到我手里。我专心准备试镜，其余交给经纪人。",
-        "author": "Amina，34 岁 — 广告和配音，马赛"
+        "author": "Amina，34 岁, 广告和配音，马赛"
       },
       {
         "quote": "让我下决心的是经纪委托。这是一家真正的经纪公司，有正式合同，不是一个贩卖希望的网站。佣金随着你的成长而降低，一年下来差别很大。",
-        "author": "Lucas，41 岁 — 配角，里尔"
+        "author": "Lucas，41 岁, 配角，里尔"
       }
     ]
   },
@@ -199,7 +199,7 @@
   },
   "how": {
     "meta": {
-      "title": "如何运作 — Agental Talents",
+      "title": "如何运作: Agental Talents",
       "description": "从创建资料到拿到片酬：Agental 如何代理你、为你工作，一步一步讲清楚。"
     },
     "hero": {
@@ -237,19 +237,19 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "价格 — Agental Talents",
-      "description": "经纪委托免费。订阅是可选的，并以递减的佣金回报你的成长。"
+      "title": "价格: Agental Talents",
+      "description": "Agental 表演者方案。测试期间免费；付费方案为可选。"
     },
     "hero": {
       "eyebrow": "价格",
       "title": "回报你成长的定价",
-      "subtitle": "经纪委托免费且独立。订阅是可选的技术服务，绝不是获得机会的门票。"
+      "subtitle": "免费方案涵盖你的资料和媒体。付费方案提供更多工具，绝不是获得机会的门槛。"
     },
-    "note": "无需承诺。随时更换方案或回到免费版。"
+    "note": "无需承诺。随时更换方案或回到基础版。"
   },
   "faq": {
     "meta": {
-      "title": "常见问题 — Agental Talents",
+      "title": "常见问题: Agental Talents",
       "description": "关于 Agental 的常见问题：经纪公司、经纪委托、佣金以及日常如何运作。"
     },
     "hero": {
@@ -264,15 +264,15 @@
         "items": [
           {
             "q": "Agental 是什么？",
-            "a": "一家真正受监管的艺人经纪公司，跟进、准备、辅导这些日常工作由 AI 加持。我们代理你，工具在你身边一起工作。"
+            "a": "一个面向表演者的平台，目前处于测试阶段。你可以创建资料，把照片、履历、作品集和自录试镜集中在一处，并准备选角材料。投递草稿始终等待你的审核。"
           },
           {
-            "q": "这是真正的经纪公司，还是信息发布平台？",
-            "a": "是真正的经纪公司：书面经纪委托、官方登记、职业责任保险。不是让你自己去投简历的信息网站。"
+            "q": "Agental 会代理我吗？",
+            "a": "测试期间不会。Agental 不担任你的经纪人，也不收取佣金。如果以后开放代理服务，将附有独立的书面协议，由你选择是否接受。"
           },
           {
             "q": "开始要花多少钱？",
-            "a": "不花钱。经纪委托免费，免费版让你不付费也能被代理。付费订阅是可选的。"
+            "a": "不收费。免费方案涵盖你的资料和媒体。付费方案和 Limelight 网站均为可选，绝不作为参加试镜或投递的条件。"
           },
           {
             "q": "注册需要有经验吗？",
@@ -289,7 +289,7 @@
           },
           {
             "q": "Agental 抽多少佣金？",
-            "a": "免费版和专业版 10%，高级版 7.5%，旗舰版 5%。你走得越远，留下的越多。"
+            "a": "基础版和专业版 {commission_FREE}，高级版 {commission_PREMIUM}，旗舰版 {commission_ULTIMATE}。你走得越远，留下的越多。"
           },
           {
             "q": "佣金是在订阅之外另算的吗？",
@@ -318,7 +318,7 @@
           },
           {
             "q": "停止付费会怎样？",
-            "a": "你会自动回到免费版，仍然被代理。"
+            "a": "你会自动回到基础版，仍然被代理。"
           },
           {
             "q": "普通手机也能用吗？",
@@ -330,25 +330,26 @@
   },
   "about": {
     "meta": {
-      "title": "关于我们 — Agental",
-      "description": "一个诞生在餐桌上的想法：通过由 AI 加持的真正经纪人，让每个人都能获得艺人代理。"
+      "title": "关于我们: Agental",
+      "description": "一群年轻的演员和创造者，在校园里，根在法国和 USC：让每位表演者都有公平的机会获得角色。"
     },
     "hero": {
       "eyebrow": "关于我们",
       "title": "我们是谁",
-      "subtitle": "Agental 是新一代艺人经纪公司。技术背后是一个家庭、一份信念，和一个在餐桌旁诞生的想法。"
+      "subtitle": "Agental 为表演者和选角团队打造工具。技术背后，是一群年轻的演员和创造者，以及一个信念。"
     },
     "origin": {
-      "title": "诞生在餐桌上的想法",
-      "body": "一切始于一顿午饭，一位父亲和他的儿子。聊起这一行，我们从两边同时说出了同一个观察。一边，是那么多演员，因为没在对的时机被看见，始终走不出阴影；那么多梦想表演的年轻人，不知道去哪里、怎样找到一位好经纪人。另一边，是那么多制片人和选角导演，本可以在寻找人选时得到更好的支持，找到稀有的面孔，把人和角色匹配得更精准。我们觉得可以让每个人的处境都变好。Agental 就诞生于那次谈话。"
+      "title": "我们的故事",
+      "body": "Agental 由一群年轻的演员和创造者发起，他们看到通往一个角色的道路可以多么不公平。代理往往只流向少数已有人脉、住在合适城市或请得起经纪人的人。我们希望每位表演者都有同样公平的机会。",
+      "body2": "我们从身边开始：在校园里，根在法国和 USC。我们从这里起步，一次帮助一位表演者。"
     },
     "stance": {
       "title": "我们的立场",
-      "body": "我们相信，口音、出身或独特的外形都是优势，因为制作方要找的是真实而多样的个性。我们相信，严肃的代理可以向所有人开放，而且起步免费。我们也相信，技术必须清清楚楚地为人服务。所以 Agental 原生由 AI 加持。这个 AI 持续工作，帮演员找出真正匹配的角色，也帮选角导演更快找到合适的人选。始终由受监管的经纪人负责，AI 的每个决定都能解释清楚。"
+      "body": "我们相信，口音、出身或独特的外形都是优势，因为制作方寻找的是真实而多样的个性。我们相信，好的起点应当向所有人开放，并且免费。我们也相信，技术必须清晰地服务于人：Agental 用 AI 帮助表演者做准备，帮助选角团队更快找到合适的人选，而且每一条建议都可以解释。做决定的始终是人。"
     },
     "mission": {
       "title": "我们的使命",
-      "body": "让艺人代理向所有人开放，让寻找人才变得更公平、更有效。我们希望在两边，对的相遇终于能够发生。",
+      "body": "帮助每位表演者被看见，让人才搜寻更公平、更高效。我们希望双方都能遇见对的人。",
       "ctaPrimary": "成为会员",
       "ctaSecondary": "了解 Agental Casting"
     }
@@ -356,7 +357,7 @@
   "castingLandings": {
     "index": {
       "meta": {
-        "title": "全部选角类型 — Agental Talents",
+        "title": "全部选角类型: Agental Talents",
         "description": "群演、特约群演、配角、广告、平面、配音、儿童、内容创作者：找到适合你的选角类型，让 Agental 代理你。"
       },
       "eyebrow": "选角类型",
@@ -647,7 +648,7 @@
   "signup": {
     "metaTitle": "成为会员",
     "title": "创建你的演员账号",
-    "subtitle": "免费。我们代理你，AI 为你工作。",
+    "subtitle": "创建你的个人资料，准备你的选角材料。",
     "submit": "创建我的账号",
     "already": "已经是会员？",
     "signIn": "登录"
@@ -655,59 +656,30 @@
   "onboarding": {
     "steps": {
       "identity": "身份",
-      "physical": "外形",
-      "media": "媒体",
-      "specialties": "专长",
-      "mandat": "经纪委托"
+      "profile": "资料",
+      "mandat": "代理协议"
     },
     "identity": {
       "title": "你是谁？",
       "subtitle": "先从基本信息开始。",
       "stageName": "艺名",
       "stageNamePlaceholder": "你的艺名",
-      "legalName": "真实姓名（不公开）",
       "birthDate": "出生日期",
       "city": "城市",
-      "cityPlaceholder": "里昂",
-      "phone": "电话"
+      "cityPlaceholder": "里昂"
     },
-    "physical": {
-      "title": "你的外形",
-      "subtitle": "选角导演会看的信息。全部选填。",
-      "height": "身高（cm）",
-      "build": "体型",
-      "buildPlaceholder": "偏瘦、健壮……",
-      "hair": "发色",
-      "eyes": "瞳色",
-      "languages": "语言（用逗号分隔）",
-      "languagesPlaceholder": "中文, 英语",
-      "accents": "口音",
-      "accentsPlaceholder": "布列塔尼, 马赛"
-    },
-    "media": {
-      "title": "你的媒体资料",
-      "subtitle": "照片、作品集、声音：怎么能展现你就怎么来。",
-      "note": "用手机拍的作品集就足够起步。注册后，你可以随时在资料页添加媒体。",
-      "skip": "跳过这一步"
-    },
-    "specialties": {
+    "profile": {
       "title": "你的专长",
-      "subtitle": "选出适合你的，至少一项。",
-      "minRate": "最低片酬（€/天，选填）"
+      "subtitle": "至少选择一项专长。身高为选填。",
+      "specialties": "专长",
+      "height": "身高（选填）"
     },
     "mandat": {
-      "title": "你的经纪委托",
-      "subtitle": "最后一步，你就正式被代理了。",
-      "free": "免费。你无需做任何承诺。随时可以取消。",
-      "read": "阅读完整的经纪委托",
-      "accept": "我接受经纪委托，并请 Agental 代理我。",
-      "points": [
-        "这是演员和经纪人之间的标准合同，受法国法律约束。",
-        "Agental 代理你、替你谈判。佣金只针对你实际拿到的片酬。",
-        "你的媒体资料始终归你。你的数据受到保护（GDPR）。",
-        "付费订阅是之后单独的选择，绝不和经纪委托混在一起。"
-      ],
-      "submit": "签署并激活我的账号"
+      "title": "关于代理协议",
+      "subtitle": "代理协议将在以后提供。你现在就可以完善个人资料。",
+      "read": "关于代理协议",
+      "status": "让 Agental 代理你的协议仍在审核中。测试期间你无需签署任何文件，你的资料、媒体和网站都可以照常使用。协议准备好后，我们会在这里给你看，并在签署前征得你的同意。",
+      "submit": "继续前往我的资料"
     },
     "back": "返回",
     "continue": "继续"
@@ -717,7 +689,7 @@
       "dashboard": "仪表盘",
       "profile": "资料",
       "candidatures": "申请",
-      "selftape": "自录试镜",
+      "selftape": "作品集与自录试镜",
       "career": "事业",
       "subscription": "订阅",
       "messages": "消息",
@@ -741,11 +713,66 @@
       "welcome": "欢迎，{name}。",
       "welcomeAnon": "欢迎。",
       "completenessHint": "你的资料已完成 {percent}%。补充完整，AI 就能为你做更多。",
-      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}"
+      "urgentHint": "{count, plural, other {有 # 个你排名非常靠前的机会，好好打磨你的申请吧。}}",
+      "completeProfile": {
+        "title": "完善你的资料",
+        "subtitle": "选角导演根据看到的内容做选择。补充这些内容，就能出现在更多搜索中。",
+        "percent": "已完成 {percent}%",
+        "gaps": {
+          "photos": "添加照片",
+          "video": "添加自录试镜或作品集视频",
+          "physical": "添加外形信息",
+          "bio": "写一段简短的个人介绍",
+          "links": "添加 IMDb 或作品集链接"
+        }
+      },
+      "setup": {
+        "title": "完善我的资料",
+        "subtitle": "完成账户设置还差几项信息。",
+        "next": "下一步：{step}。",
+        "steps": {
+          "identity": "你的艺名和出生日期。",
+          "profile": "至少选择一项专长。"
+        },
+        "cta": "继续"
+      },
+      "nextItem": "资料已完成 {percent}%。下一步：{item}。",
+      "missing": {
+        "photos": "添加照片",
+        "video": "添加自录试镜或作品集视频",
+        "physical": "填写外形信息",
+        "bio": "写一段简短简介",
+        "links": "添加 IMDb 或作品集链接",
+        "city": "填写城市",
+        "specialties": "选择一个专长",
+        "birthDate": "填写出生日期",
+        "stageName": "填写艺名"
+      },
+      "launch": {
+        "title": "开始你的第一次搜索",
+        "body": "你的资料已完整。开始搜索，我们的代理会为你寻找角色。",
+        "cta": "开始寻找角色"
+      },
+      "findRoles": {
+        "label": "开始寻找角色",
+        "scanning": "搜索中…",
+        "sent": "我们的代理正在为你寻找角色，稍后会联系你。",
+        "available": "可用 {count} 次搜索",
+        "leftOf": "剩余 {left} / {limit} 次搜索 · {days} 天后重置",
+        "noneLeft": "搜索次数已用完 · {days} 天后重置",
+        "upgradeMore": "升级以获得更多搜索",
+        "usage": "本周期的 AI 搜索"
+      },
+      "nextAction": "下一步",
+      "checkApplications": {
+        "title": "查看你的申请",
+        "body": "查看为你找到的角色以及每个的进展。"
+      },
+      "noSuggestions": "暂时没有其他建议，下一步在页面顶部。"
     },
     "candidatures": {
       "title": "我的申请",
-      "subtitle": "如实而友善：每个状态都有解释。",
+      "subtitle": "所有申请及其状态，集中在一处。",
       "empty": "还没有申请。",
       "emptyList": "这里还没有申请。一旦有为你开启的申请，角色就会出现在这里。",
       "origin": {
@@ -768,6 +795,11 @@
         "short": "已入围",
         "won": "已签约",
         "closed": "已结束"
+      },
+      "ratePerDay": "${amount}/天",
+      "searchInProgress": {
+        "title": "搜索进行中",
+        "body": "我们的代理正在为你寻找角色。开始于 {date}。"
       }
     },
     "career": {
@@ -783,13 +815,21 @@
       "net": "实际到手",
       "agencyCommission": "Agental 佣金",
       "paid": "已支付",
-      "pending": "待支付"
+      "pending": "待支付",
+      "rolesBooked": "已拿下的角色",
+      "grossFee": "税前片酬"
     },
     "messages": {
       "title": "消息",
-      "subtitle": "你与 Agental 和选角团队的对话。",
-      "empty": "还没有消息。当选角团队对你的资料感兴趣，或者经纪人有消息时，会出现在这里。",
-      "conversation": "对话"
+      "subtitle": "给 Agental 团队写信。每条消息都有专人阅读，并在这里回复你。",
+      "empty": "你和 Agental 团队的对话从这里开始。",
+      "to": "收件人",
+      "you": "你",
+      "composerLabel": "你的消息",
+      "placeholder": "写下你的消息",
+      "send": "发送",
+      "sending": "正在发送…",
+      "repliesHere": "回复会出现在这里的“消息”页面。"
     },
     "settings": {
       "title": "设置",
@@ -803,14 +843,15 @@
       "mandatNote": "免费，随时可以解除。是它让你被正式代理，与任何订阅无关。",
       "subNote": "可选的技术服务。它绝不能买到机会。",
       "manageSub": "管理订阅（即将推出）",
-      "signedOn": "签署于 {date}"
+      "signedOn": "签署于 {date}",
+      "planSummary": "每月 {price}"
     },
     "profile": {
       "title": "我的资料",
       "subtitle": "一份像你的资料：AI 就是根据它来匹配的。"
     },
     "selftape": {
-      "title": "自录试镜工作室",
+      "title": "作品集与自录试镜",
       "subtitle": "一条自录试镜可以改变一切。我们帮你录好：实时指导取景、灯光和收音。",
       "takes": "你录的版本",
       "degraded": "精简模式",
@@ -824,7 +865,8 @@
         "sound": "离麦克风近一点，消除背景噪音。",
         "tooShort": "这条很短，把整场戏演完吧。",
         "excellent": "这条很棒：取景、灯光、收音都到位了。"
-      }
+      },
+      "privacy": "你的录像是私密的。在你决定提交之前，只有你自己能看到。"
     },
     "subscription": {
       "title": "订阅",
@@ -832,38 +874,45 @@
     },
     "planFeatures": {
       "FREE": [
-        "经纪委托与资料",
-        "完整资料与媒体",
-        "自录试镜工作室",
-        "事业追踪"
+        "资料、照片和作品集",
+        "作品集与自录试镜",
+        "职业与收入记录",
+        "每月 {searches} 次 AI 角色搜索",
+        "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
       ],
       "PRO": [
-        "包含免费版全部功能",
+        "包含基础版全部功能",
+        "每月 {searches} 次 AI 角色搜索",
         "AI 点评你的自录试镜",
-        "与经纪人私信沟通",
-        "优先支持"
+        "Agental 团队更快回复",
+        "优先支持",
+        "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
       ],
       "PREMIUM": [
         "包含专业版全部功能",
-        "佣金降至 7.5%"
+        "每月 {searches} 次 AI 角色搜索",
+        "更多辅导",
+        "更多功能即将推出",
+        "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
       ],
       "ULTIMATE": [
         "包含高级版全部功能",
-        "佣金降至 5%"
+        "每月 {searches} 次 AI 角色搜索",
+        "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
       ]
     },
     "media": {
       "drop": "把照片、作品集或声音拖到这里。用手机拍的作品集就足够。",
       "setPrimary": "设为主图",
-      "delete": "删除"
+      "delete": "删除",
+      "choose": "选择文件",
+      "primary": "主图"
     },
     "profileEditor": {
       "completeness": "资料完成度",
       "completenessHint": "你的资料可以再详细一些：内容越丰富，在搜索中越容易被看到。",
       "birthDate": "出生日期",
       "bioPlaceholder": "写几句你的经历，以及你独特在哪里……",
-      "nudity": "我接受有裸露的角色",
-      "animals": "我可以和动物一起表演",
       "tabs": {
         "identity": "身份",
         "physical": "外形",
@@ -875,13 +924,91 @@
       "city": "城市",
       "phone": "电话",
       "bio": "简介",
-      "height": "身高（cm）",
+      "height": "身高",
       "build": "体型",
       "hair": "发色",
       "eyes": "瞳色",
       "languages": "语言（用逗号分隔）",
       "accents": "口音（用逗号分隔）",
-      "minRate": "最低片酬（€/天）"
+      "minRate": "最低片酬（$/天）",
+      "save": "保存",
+      "saved": "已保存",
+      "specialtiesHint": "选择你从事的所有工作类型，无论是银幕、舞台还是配音。",
+      "prefs": {
+        "optionalHint": "这里的所有内容都是选填。留空的项目保持未填写。",
+        "clearHint": "再点一次已选的选项即可清除。",
+        "notSet": "未填写",
+        "yes": "是",
+        "no": "否",
+        "projectTypes": "项目类型",
+        "projectTypeLabels": {
+          "film": "电影",
+          "tv-streaming": "电视与流媒体",
+          "commercial": "广告",
+          "theatre": "戏剧",
+          "voice": "配音",
+          "music-video": "音乐视频",
+          "short-film": "短片",
+          "student-film": "学生电影",
+          "web-digital": "网络与数字",
+          "corporate": "企业宣传",
+          "live-event": "现场活动"
+        },
+        "roleTypes": "角色类型",
+        "roleTypeLabels": {
+          "lead": "主角",
+          "supporting": "配角",
+          "day-player": "日结角色",
+          "background": "群众演员",
+          "stand-in": "替身",
+          "voice": "配音",
+          "host": "主持"
+        },
+        "compensation": "报酬",
+        "compensationLabels": {
+          "paid_only": "只接有偿工作",
+          "paid_or_unpaid": "有偿或无偿均可"
+        },
+        "travel": "工作出行范围",
+        "travelLabels": {
+          "local": "本地",
+          "regional": "本地区",
+          "national": "全国",
+          "international": "国际"
+        },
+        "workModes": "工作方式",
+        "workModeLabels": {
+          "on_set": "现场",
+          "remote": "远程"
+        },
+        "animals": "与动物合作",
+        "languages": "语言",
+        "languagesEmpty": "请在“外形”标签中添加你的语言。",
+        "languagesEdit": "在“外形”中编辑",
+        "availability": "档期",
+        "availabilityHint": "你可以或不能工作的日期。",
+        "availabilityFrom": "开始",
+        "availabilityTo": "结束",
+        "availabilityType": "类型",
+        "availabilityTypes": {
+          "AVAILABLE": "有空",
+          "UNAVAILABLE": "没空"
+        },
+        "availabilityAdd": "添加日期",
+        "availabilityRemove": "移除",
+        "availabilityEmpty": "添加你有空或外出的日期。"
+      },
+      "boundaries": {
+        "title": "内容界限",
+        "optional": "选填",
+        "private": "只有你能看到这一部分，它也不会出现在你的资料中。",
+        "nudity": "含裸露的角色"
+      },
+      "imdbUrl": "IMDb 链接",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "作品集或网站链接",
+      "portfolioUrlPlaceholder": "https://your-site.com",
+      "noLinks": "我没有作品集或 IMDb 链接"
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",
@@ -889,7 +1016,11 @@
       "confirm": "确认删除？"
     },
     "plans": {
-      "demo": "演示模式：不会真实扣款。无论你选哪个方案，经纪委托都始终免费且独立。"
+      "demo": "演示模式：不会真实扣款。无论你选哪个方案，经纪委托都始终免费且独立。",
+      "current": "当前",
+      "perMonth": "/月",
+      "currentPlan": "当前方案",
+      "choose": "选择"
     },
     "profitability": {
       "title": "订阅回本测算",
@@ -911,7 +1042,134 @@
       "record": "开始录制",
       "analysing": "正在分析你录的这一条……",
       "import": "上传视频",
-      "score": "这一条的质量评分"
+      "score": "这一条的质量评分",
+      "overlays": "AI 实时提示",
+      "lighting": "灯光",
+      "meterOk": "良好",
+      "meterAdjust": "需调整",
+      "reducedMode": "精简模式（网速慢或设备性能有限）",
+      "stop": "停止",
+      "newTake": "再录一条",
+      "review": "检查这一条",
+      "saveTo": "保存到哪里",
+      "toProfile": "我的资料媒体",
+      "toProfileHint": "你投递的选角团队可以看到。",
+      "toLibrary": "作品集与自录试镜库",
+      "toLibraryHint": "在你决定提交之前保持私密。",
+      "save": "保存",
+      "again": "重新录制",
+      "uploading": "上传中，{percent}%",
+      "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。"
+    },
+    "find": {
+      "intro": "你的私人经纪助手即将来到消息中心。现在就来设置。",
+      "previewOnly": "仅为预览",
+      "explain": "Agental Find 尚未上线。你可以试用下面的设置；在上线前，不会保存、发送或搜索任何内容。",
+      "start": "开始设置",
+      "steps": {
+        "name": "选择你的助手",
+        "help": "需要它帮你做什么？",
+        "review": "查看并保存"
+      },
+      "stepOf": "第 {n} 步，共 {total} 步",
+      "nameLead": "两个名字，同一个助手。选你喜欢的那个。",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian"
+      },
+      "helpLead": "可以选择一项或多项。",
+      "helps": {
+        "roles": {
+          "title": "寻找合适的角色",
+          "sample": "例如：洛杉矶独立长片中的配角，英语或西班牙语。"
+        },
+        "profile": {
+          "title": "检查我的资料",
+          "sample": "例如：提示缺少的照片或没有年份的作品。"
+        },
+        "selftape": {
+          "title": "准备自录试镜",
+          "sample": "例如：录制两分钟场景前的构图、灯光和声音建议。"
+        },
+        "draft": {
+          "title": "起草投递供我审阅",
+          "sample": "例如：为某个角色写一段简短说明，你修改并批准后才会发送。"
+        }
+      },
+      "reviewLead": "检查你的选择，保存前可以修改。",
+      "assistant": "助手",
+      "helpWith": "协助内容",
+      "none": "尚未选择",
+      "edit": "修改",
+      "back": "返回",
+      "next": "下一步",
+      "save": "保存助手偏好",
+      "saved": "预览完成。Agental Find 上线后即可保存偏好。",
+      "restart": "重新开始"
+    },
+    "team": {
+      "title": "Agental 团队",
+      "firstMessage": "给我们发送第一条消息。提个问题，或告诉我们你正在做什么。"
+    },
+    "avatar": {
+      "title": "头像",
+      "intro": "一张清晰、近期的正脸照片。它会显示在你的空间中，网站发布后也会显示在你的 Limelight 网站上。",
+      "cropHint": "拖动照片并缩放，让脸部填满圆圈。",
+      "preview": "裁剪预览",
+      "zoom": "缩放",
+      "upload": "上传照片",
+      "choose": "选择另一张照片",
+      "save": "保存头像",
+      "remove": "移除头像",
+      "add": "添加头像",
+      "change": "更换头像"
+    },
+    "student": {
+      "title": "大学生？",
+      "lead": "验证学校邮箱，即可享受专业版的学生优惠。",
+      "label": "学校邮箱",
+      "placeholder": "you@school.edu",
+      "submit": "发送链接",
+      "sent": "请查看 {email}：我们已发送确认链接，48 小时内有效。",
+      "notSent": "你的申请已保存，但邮件发送尚未开通。Agental 团队会为你确认学校邮箱。",
+      "verified": "已通过 {email} 验证学生优惠。",
+      "pending": "付费方案开放后将用于专业版。",
+      "percent": "学生优惠：专业版 {percent}% 折扣。",
+      "link": "大学生？验证你的学校邮箱。",
+      "confirmTitle": "学校邮箱",
+      "confirmed": "你的学校邮箱 {email} 已确认，学生优惠已添加到你的账户。",
+      "confirmInvalid": "此链接已失效，请在订阅页面重新申请。",
+      "confirmExpired": "此链接已过期，请在订阅页面重新申请。",
+      "confirmTaken": "此学校邮箱已验证过另一个账户。",
+      "back": "前往订阅"
+    },
+    "assistant": {
+      "greeting": "{name}，你好。",
+      "greetingAnon": "你好。",
+      "profileStatus": "你的资料已完成 {percent}%。下一步：{next}。",
+      "profileStatusNoNext": "你的资料已完成 {percent}%。",
+      "profileComplete": "你的资料已完整，可以在控制台开始第一次搜索。",
+      "noApplications": "你还没有申请。有角色为你开放时，会显示在申请页面。",
+      "applicationsIntro": "你有 {count} 个申请：",
+      "applicationLine": "- {title}：{status}",
+      "searches": "进行中的 AI 角色搜索：{count}。",
+      "plan": "你当前是{plan}方案，可以在订阅页面比较和更换方案。",
+      "handoff": "我不确定能回答好这个问题，已将你的消息转给 Agental 团队，他们会在这里回复你。",
+      "assistant": "Agental 助手",
+      "waiting": "等待 Agental 团队回复",
+      "topicLegend": "是关于什么的？",
+      "topics": {
+        "profile": "我的资料",
+        "application": "角色或申请",
+        "other": "其他"
+      },
+      "topicRequired": "请选择消息的主题。"
+    },
+    "library": {
+      "empty": "还没有录像。保存的录像会显示在这里。",
+      "delete": "删除",
+      "confirmDelete": "永久删除此录像？",
+      "video": "视频"
     }
   },
   "responseRate": {
@@ -950,22 +1208,24 @@
     },
     "hero": {
       "eyebrow": "Limelight by Agental",
-      "title": "让你的名字亮起来。",
+      "title": "你的照片、履历和作品集，一个链接全搞定。",
       "subtitle": "发来你的照片、作品集锦和几句关于你作品的介绍。我们打造一个选角导演一键就能打开的网站，由你来让它成为你的。为演员，也为所有表演者。",
       "ctaPrimary": "创建我的网站",
       "ctaSecondary": "查看方案",
-      "note": "一次性付费，99 美元起。含第一年托管。",
-      "scrollHint": "向下滚动，看它一步步成形"
+      "note": "我们用你的材料制作作品集网站。上线前你可以先审阅预览。",
+      "scrollHint": "向下滚动，看它一步步成形",
+      "request": "申请我的网站",
+      "explore": "查看示例"
     },
     "frame": {
       "address": "yourname.agental.site",
       "name": "Maya Okafor",
-      "role": "演员，洛杉矶",
-      "line": "配角与广告作品。英语和西班牙语双语。",
+      "role": "影视与舞台演员，洛杉矶",
+      "line": "影视与舞台。英语和西班牙语。",
       "reel": "观看集锦",
       "resume": "简历",
       "contact": "联系",
-      "caption": "虚构表演者的示例网站。"
+      "caption": "虚构示例"
     },
     "how": {
       "title": "三步拥有你的网站",
@@ -987,43 +1247,43 @@
     "templates": {
       "title": "选一种风格",
       "lead": "每个模板都有多种配色，专为衬托头像照而选。你的网站保留自己的配色，与 Agental 的配色无关。",
-      "caption": "示例网站中的表演者均为虚构。",
+      "caption": "虚构示例",
       "items": [
         {
           "name": "Marquee",
           "fit": "大字姓名，配一张有力的头像照",
           "performer": "Maya Okafor",
-          "role": "演员"
+          "role": "影视与舞台演员，洛杉矶"
         },
         {
           "name": "印样",
           "fit": "为一组好照片而设计",
-          "performer": "Daniel Reyes",
-          "role": "演员、模特"
+          "performer": "Maya Okafor",
+          "role": "影视与舞台演员，洛杉矶"
         },
         {
           "name": "集锦优先",
           "fit": "页面一打开就播放你的集锦",
-          "performer": "Iris Chen",
-          "role": "演员"
+          "performer": "Maya Okafor",
+          "role": "影视与舞台演员，洛杉矶"
         },
         {
           "name": "后台入口",
           "fit": "舞台作品、剧评与媒体报道",
-          "performer": "Theo Marchand",
-          "role": "舞台演员"
+          "performer": "Maya Okafor",
+          "role": "影视与舞台演员，洛杉矶"
         },
         {
           "name": "录音间",
           "fit": "音频小样放在最前",
-          "performer": "June Parker",
-          "role": "配音演员"
+          "performer": "Maya Okafor",
+          "role": "影视与舞台演员，洛杉矶"
         },
         {
           "name": "影棚",
           "fit": "干净明亮，适合广告与平面",
-          "performer": "Sam Adler",
-          "role": "广告艺人"
+          "performer": "Maya Okafor",
+          "role": "影视与舞台演员，洛杉矶"
         }
       ]
     },
@@ -1064,7 +1324,13 @@
         "body": "乐队的电子新闻资料、多语言网站、双人组合的主页。告诉我们你的想法。",
         "cta": "联系我们"
       },
-      "usd": "价格以美元计。"
+      "usd": "价格以美元计。",
+      "student": "在校大学生？请将在读证明（学生证或 .edu 邮箱）发送至 contact@agental.co，即可获得学生价。",
+      "studentPrice": "学生价：{price}",
+      "studentPending": "学生价：即将公布。",
+      "proIncluded": "包含 {months} 个月的 Agental Pro，免费。",
+      "websitesPro": "每个网站都包含 {months} 个月的 Agental Pro。",
+      "renewalShort": "之后托管每年 {price}"
     },
     "faq": {
       "title": "表演者常问的问题",
@@ -1096,11 +1362,11 @@
       ]
     },
     "contact": {
-      "title": "开始你的网站",
-      "lead": "告诉我们你是谁、需要什么。我们会通过邮件回复下一步，如果你愿意也可以给你打电话。沟通之后再发照片即可。",
+      "title": "申请我的网站",
+      "lead": "告诉我们你是谁、需要什么。我们会通过邮件发送后续步骤。如果你已准备好开始，也可以申请电话沟通。",
       "name": "你的名字",
       "email": "邮箱",
-      "discipline": "你的领域",
+      "discipline": "工作类型",
       "disciplines": {
         "actor": "表演",
         "musician": "音乐",
@@ -1111,34 +1377,133 @@
         "creator": "内容创作",
         "other": "其他"
       },
-      "need": "你需要什么",
+      "need": "你的需求",
       "needs": {
         "new": "一个新网站",
         "redo": "重做我的网站",
         "unsure": "还在考虑"
       },
-      "budget": "哪个方案",
+      "budget": "选择方案",
       "budgets": {
         "essential": "基础版，99 美元",
         "signature": "Signature，199 美元",
         "custom": "定制",
         "unsure": "帮我选择"
       },
-      "contactPref": "最方便的联系方式",
+      "contactPref": "我们如何联系你？",
       "prefs": {
-        "email": "邮件",
-        "call": "电话"
+        "email": "通过邮件发送后续步骤",
+        "call": "申请电话沟通"
       },
-      "phone": "电话（如需来电）",
+      "phone": "通话电话号码",
       "message": "还有什么想告诉我们的？",
       "messageHint": "附上集锦、IMDb 或社交账号链接会很有帮助。",
-      "submit": "发送",
+      "submit": "申请我的网站",
       "sending": "发送中…",
-      "successTitle": "谢谢，已收到。",
-      "successBody": "我们会回复到 {email}。",
-      "privacy": "你的信息仅用于回复你。"
+      "successTitle": "你的申请已保存。",
+      "successBody": "我们会将后续步骤发送至 {email}。",
+      "privacy": "你的信息仅用于回复你。",
+      "terms": "{essential}：一次性 {essentialPrice}，第一年后托管每年 {essentialRenewal}。{signature}：一次性 {signaturePrice}，托管和域名每年 {signatureRenewal}。两者均包含 {months} 个月 Agental Pro。价格以美元计。"
     },
-    "footerNote": "购买网站完全自愿，绝不是加入 Agental 或被推荐给选角导演的条件。"
+    "footerNote": "购买网站完全自愿，绝不是加入 Agental 或被推荐给选角导演的条件。",
+    "try": {
+      "title": "现在就试试",
+      "lead": "选择一个模板，输入你的名字和一句简介。网站会随着你的输入即时呈现。",
+      "name": "你的名字",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "你的简介",
+      "headlinePlaceholder": "演员，洛杉矶",
+      "template": "模板",
+      "save": "保存我的网站",
+      "saveNote": "只有保存或发布时才需要账号。你输入的内容会一并带上。",
+      "saved": "已保存在此设备上。创建账号即可保留。",
+      "address": "你的网址"
+    },
+    "row": {
+      "open": "预览 {name}",
+      "use": "使用此模板",
+      "close": "关闭预览",
+      "hint": "左右滑动查看全部模板。"
+    },
+    "card": {
+      "title": "创建你的网站",
+      "body": "选角导演一键即可打开的个人网站。选一个模板，看看配上你名字的效果。",
+      "cta": "创建你的网站",
+      "resume": "继续编辑你的网站"
+    },
+    "navApp": "个人网站",
+    "app": {
+      "title": "你的网站",
+      "lead": "你的网站、它的状态和下一步。",
+      "empty": "你还没有网站。",
+      "emptyCta": "试用模板",
+      "fromDraft": "你在创建账号之前已经开始制作网站。",
+      "saveDraft": "保存到我的账号",
+      "draft": "草稿",
+      "published": "已上线：{address}",
+      "publish": "发布",
+      "unpublish": "下线",
+      "hostingUntil": "托管服务包含至 {date}。",
+      "edit": "更换模板或文字",
+      "proUntil": "Agental Pro 包含至 {date}。",
+      "live": "已上线",
+      "approved": "已确认，可以发布",
+      "approveHint": "请查看预览。满意后确认，网站即可发布。",
+      "pendingChanges": "你最近的修改在确认并重新发布前不会公开。",
+      "approve": "确认预览",
+      "betaNote": "测试期间，团队会协助你发布网站。现在无需付款。",
+      "contactLabel": "在网站上显示我的联系方式",
+      "contactHint": "默认关闭。只有开启时，你的邮箱才会显示在公开网站上。",
+      "sendRequest": "发送我的申请",
+      "requestMessage": "网站：{name}。模板：{template}。预览版本 {version}。",
+      "requestPreview": "这是我们团队处理你的申请时使用的预览：{name}。"
+    },
+    "sample": {
+      "label": "虚构示例",
+      "name": "Maya Okafor",
+      "role": "影视与舞台演员，洛杉矶",
+      "bio": "Maya 在洛杉矶的影视与舞台之间工作。她偏爱真实、以人物为核心的角色，在片场能自如切换英语和西班牙语。",
+      "languages": "英语、西班牙语",
+      "languagesLabel": "语言",
+      "resume": "3 部短片、1 部独立长片、2 部舞台剧",
+      "resumeLabel": "示例履历",
+      "tabs": {
+        "overview": "概览",
+        "credits": "作品",
+        "reel": "作品集"
+      },
+      "credits": [
+        {
+          "role": "Nina",
+          "billing": "配角",
+          "title": "The Lucent Room",
+          "year": "2026",
+          "kind": "长片"
+        },
+        {
+          "role": "Elena",
+          "billing": "主角",
+          "title": "Last Tram to Alder Street",
+          "year": "2025",
+          "kind": "短片"
+        },
+        {
+          "role": "Rosa",
+          "billing": "群戏",
+          "title": "A Window for the Tide",
+          "year": "2024",
+          "kind": "舞台剧"
+        }
+      ],
+      "reelLayout": "版式预览。添加后，你的作品集视频会在这里播放。",
+      "contact": "联系",
+      "contactNote": "只有在你选择展示时，联系方式才会出现。",
+      "close": "关闭预览",
+      "dialogTitle": "{template} 模板，虚构示例",
+      "pageTitle": "示例作品集",
+      "back": "返回 Limelight",
+      "useTemplate": "申请此模板"
+    }
   },
   "stepsDemo": {
     "illustration": "示意图",
@@ -1153,5 +1518,10 @@
     "bookedTitle": "已拿下角色",
     "bookedBody": "你的经纪人已确认日期，并把合同发给了你。",
     "progress": "第 {n} 步，共 {total} 步"
+  },
+  "oauth": {
+    "google": "使用 Google 继续",
+    "apple": "使用 Apple 继续",
+    "or": "或"
   }
 }

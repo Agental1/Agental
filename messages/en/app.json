@@ -67,6 +67,8 @@
     "projectTypeRequired": "Select at least one project type.",
     "emailInvalid": "Invalid email address.",
     "passwordTooShort": "8 characters minimum.",
+    "passwordNeedsUppercase": "Add at least one uppercase letter.",
+    "passwordNeedsSpecial": "Add at least one special character, such as ! or #.",
     "invalidPlan": "Invalid plan.",
     "invalidMediaType": "Invalid media type.",
     "profileNotFound": "Profile not found.",
@@ -81,14 +83,101 @@
     "billingUnavailable": "Paid plans are not available yet.",
     "limelightContactRequired": "Add your name so we know who to reply to.",
     "limelightSendFailed": "Your message didn’t go through. Try again in a moment, or email us.",
-    "limelightTooMany": "Too many messages from this connection. Try again in a few minutes."
+    "limelightTooMany": "Too many messages from this connection. Try again in a few minutes.",
+    "oauthNoAccount": "That sign-in has expired. Start again with Google or Apple.",
+    "oauthEmailUnverified": "Your Google or Apple account needs a verified email address to sign in here.",
+    "oauthLinkRequiresPassword": "An account already uses this email address. Sign in with your email and password.",
+    "oauthGeneric": "Sign-in with Google or Apple failed. Try again.",
+    "adultsOnly": "You must be 18 or older to join Agental.",
+    "birthDateRequired": "Enter your date of birth.",
+    "birthDateInvalid": "Check your date of birth.",
+    "heightRange": "Height must be between 3 ft and 7 ft 11 in (91 to 241 cm).",
+    "mandatAlreadySigned": "Your mandate is already signed.",
+    "uploadTooLarge": "This file is too large. The limit is {limit} MB.",
+    "uploadTypeNotAllowed": "This file type is not supported.",
+    "uploadQuota": "Your media storage is full. Delete a file to add a new one.",
+    "uploadNotFound": "This upload expired. Start it again.",
+    "studentCodeInvalid": "This code is not valid.",
+    "studentCodeExpired": "This code has expired.",
+    "studentCodeUsedUp": "This code has reached its limit.",
+    "tooManyAttempts": "Too many attempts. Try again later.",
+    "siteNotFound": "This website was not found.",
+    "siteInvalid": "Some website details are missing or too long.",
+    "sitePaymentRequired": "Choose an offer before publishing your website.",
+    "siteLimitReached": "You can have up to {limit} websites.",
+    "emailLinkInvalid": "This link is not valid. Request a new one.",
+    "emailLinkExpired": "This link has expired. Request a new one.",
+    "emailSendFailed": "The email could not be sent. Try again in a few minutes.",
+    "shareNotFound": "This share link was not found.",
+    "shareLimitReached": "This clip already has {limit} active links. Revoke one first.",
+    "mediaNotReady": "This clip is still processing. Try again in a moment.",
+    "tapeNotFound": "This self-tape was not found.",
+    "draftNotFound": "This draft was not found.",
+    "draftAlreadyReviewed": "This draft was already reviewed.",
+    "lastLoginMethod": "Add a password before disconnecting, so you can still sign in.",
+    "providerNotConnected": "This account is not connected.",
+    "urlInvalid": "Enter a full web address, starting with https://.",
+    "nameRequired": "Enter your name.",
+    "consentRequired": "Confirm that we may contact you about your request.",
+    "domainInvalid": "Enter a domain name, such as yourname.com.",
+    "domainTaken": "This domain is already connected to a site.",
+    "domainNotVerified": "We could not find the DNS record yet. It can take a few hours to appear.",
+    "siteNotApproved": "Approve the preview before the site is published.",
+    "mandatUnavailable": "The representation agreement will be available later.",
+    "messageEmpty": "Write a message first.",
+    "messageTooLong": "Your message is too long. Keep it under {limit} characters.",
+    "phoneRequired": "Add a phone number so we can call you.",
+    "phoneInvalid": "Check the phone number.",
+    "sitePreviewChanged": "The preview changed since you opened it. Review the latest version, then approve.",
+    "domainLimitReached": "A site can have up to {limit} custom domains.",
+    "draftMediaLimit": "A draft can hold up to {limit} clips.",
+    "imdbUrl": "Enter an IMDb link like imdb.com/name/nm1234567.",
+    "portfolioUrl": "Enter a link that starts with https://.",
+    "roleSearchQuota": "You have no AI searches left on your plan.",
+    "uploadBlocked": "We couldn't reach our storage, so the take isn't saved yet. It is still here: try again in a moment.",
+    "avatarTooLarge": "This picture is too large. Choose a smaller photo.",
+    "avatarType": "Choose a JPEG, PNG or WebP photo.",
+    "studentEmailInvalid": "Enter a valid email address.",
+    "studentEmailNotSchool": "Use your school address, ending in .edu.",
+    "studentEmailTaken": "This school email already verified another account.",
+    "studentEmailAlready": "Your student discount is already verified.",
+    "studentEmailTooMany": "Too many requests. Try again in an hour.",
+    "messageTopicRequired": "Pick what your message is about.",
+    "mediaNotAllowed": "Media can't be added to this account. Contact the Agental team if this looks wrong.",
+    "sessionCheck": "The save didn't go through, but you are still signed in. Your take is kept: try again.",
+    "mediaMinor": "Media is turned off for profiles under 18. If your date of birth is wrong, correct it on your Profile page.",
+    "mediaCastingAccount": "This is a casting account. Media can be added from a performer account.",
+    "captchaFailed": "The security check didn't pass. Reload the page and try again."
   },
   "auth": {
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "emailPlaceholder": "first.last@example.com",
-    "passwordPlaceholder": "8 characters minimum"
+    "passwordPlaceholder": "8+ characters, one uppercase, one special character",
+    "choose": {
+      "metaTitle": "Choose your space",
+      "title": "One last step",
+      "subtitle": "Pick the space for {email}.",
+      "talent": "I'm a talent",
+      "talentHint": "Get represented and find roles.",
+      "casting": "I'm a casting director",
+      "castingHint": "Post projects and build shortlists."
+    },
+    "rules": {
+      "title": "Your password needs",
+      "length": "8 characters or more",
+      "uppercase": "One uppercase letter",
+      "special": "One special character"
+    }
+  },
+  "height": {
+    "unit": "Height unit",
+    "imperial": "ft / in",
+    "metric": "cm",
+    "feet": "Feet",
+    "inches": "Inches",
+    "centimeters": "Centimeters"
   },
   "specialties": {
     "figuration": "Background acting",
@@ -99,7 +188,13 @@
     "voix": "Voice & dubbing",
     "enfants": "Children & teens",
     "createurs": "Creators",
-    "performeurs": "Performers & stage"
+    "performeurs": "Performers & stage",
+    "screen-acting": "Screen acting",
+    "stage-acting": "Stage acting",
+    "musical-theatre": "Musical theatre",
+    "improv": "Improv",
+    "movement": "Movement",
+    "stunt-combat": "Stunts and stage combat"
   },
   "levels": {
     "BEGINNER": "Beginner",
@@ -131,11 +226,15 @@
   },
   "admin": {
     "title": "Supervision",
-    "subtitle": "Internal back-office — steering, compliance and audit.",
+    "subtitle": "Internal back-office, steering, compliance and audit.",
     "nav": {
       "overview": "Supervision",
       "audit": "Audit trail",
-      "minors": "Minor cases"
+      "minors": "Minor cases",
+      "messages": "Messages",
+      "limelight": "Limelight requests",
+      "roleSearches": "Role searches",
+      "accounts": "Accounts"
     },
     "stats": {
       "artists": "Artists",
@@ -151,7 +250,7 @@
     "noActivity": "No activity.",
     "audit": {
       "title": "Audit trail",
-      "subtitle": "Every decision and action, traced — neutrality proven.",
+      "subtitle": "Every decision and action, traced, neutrality proven.",
       "date": "Date",
       "action": "Action",
       "resource": "Resource",
@@ -171,7 +270,140 @@
       "waiting": "Documents pending",
       "ready": "Ready",
       "held": "Held",
-      "toConfirm": "To confirm"
+      "toConfirm": "To confirm",
+      "blocked": "Blocked",
+      "confirmed": "Confirmed",
+      "auth": {
+        "NONE": "To request",
+        "REQUESTED": "Requested",
+        "GRANTED": "Granted",
+        "REFUSED": "Refused"
+      },
+      "escrowStatus": {
+        "PENDING": "To hold",
+        "HELD": "Held",
+        "RELEASED": "Released"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Conversations between performers and the Agental team. Performers see every answer signed Agental team.",
+      "inbox": "Conversations",
+      "empty": "Conversations appear here when a performer writes to the team.",
+      "unread": "{count, plural, one {# unread} other {# unread}}",
+      "awaitingReply": "Awaiting reply",
+      "back": "All conversations",
+      "pick": "Pick a conversation to read and answer it.",
+      "notFound": "This conversation could not be found.",
+      "team": "Agental team",
+      "composerLabel": "Reply as the Agental team",
+      "placeholder": "Write a reply",
+      "send": "Send reply",
+      "sending": "Sending…",
+      "hint": "The performer reads it on their Messages page.",
+      "waitingForTeam": "Waiting for the Agental team",
+      "assistant": "Agental assistant",
+      "topics": {
+        "profile": "My profile",
+        "application": "A role or application",
+        "other": "Something else"
+      }
+    },
+    "limelight": {
+      "title": "Limelight requests",
+      "subtitle": "Every website request, newest first. Change a status once you have answered.",
+      "export": "Export CSV",
+      "filter": "Filter by status",
+      "all": "All",
+      "refMissing": "Request {reference} is not in this list. Try the All filter.",
+      "empty": "Requests from the Limelight page appear here.",
+      "reference": "Reference",
+      "date": "Date",
+      "name": "Name",
+      "email": "Email",
+      "type": "Type of work",
+      "need": "Need",
+      "contact": "Contact preference",
+      "status": "Status",
+      "statusOf": "Status of {reference}",
+      "submissions": "{count, plural, one {Sent # time} other {Sent # times}}",
+      "prefs": {
+        "email": "Email",
+        "call": "Call"
+      },
+      "statuses": {
+        "NEW": "New",
+        "CONTACTED": "Contacted",
+        "CLOSED": "Closed"
+      }
+    },
+    "roleSearches": {
+      "title": "AI role searches",
+      "subtitle": "Every \"Start finding roles\" click. Rows wait in status queued until the workflow is connected.",
+      "empty": "No searches yet.",
+      "columns": {
+        "when": "When",
+        "who": "Account",
+        "plan": "Plan",
+        "period": "Period",
+        "status": "Status"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "{count} accounts. Every view and export is logged.",
+      "search": "Name or email",
+      "all": "All",
+      "filter": "Filter",
+      "csv": "Export CSV",
+      "yes": "Yes",
+      "no": "No",
+      "back": "All accounts",
+      "timeline": "Timeline",
+      "open": "Open",
+      "cols": {
+        "name": "Name",
+        "email": "Email",
+        "audience": "Audience",
+        "plan": "Plan",
+        "created": "Created",
+        "method": "Sign-up",
+        "verified": "Email verified",
+        "completeness": "Profile",
+        "media": "Media",
+        "website": "Website"
+      },
+      "site": {
+        "none": "None",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "events": {
+        "signup": "Signed up",
+        "verified": "Email verified",
+        "audit": "Action",
+        "media": "Media uploaded",
+        "search": "AI search",
+        "message": "Message",
+        "limelight": "Limelight request",
+        "plan": "Plan"
+      }
+    },
+    "studentRequests": {
+      "title": "Student price requests",
+      "note": "The student price itself is still to be announced. Approving lets the student order at that price once it is set.",
+      "empty": "No requests yet.",
+      "failed": "That decision did not go through. Reload and try again.",
+      "requested": "Requested {date}",
+      "decided": "decided {date}",
+      "approve": "Approve",
+      "decline": "Decline",
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Declined",
+        "USED": "Used"
+      }
     }
   },
   "matchReasons": {
@@ -180,6 +412,27 @@
     "languageMatch": "Speaks the required language",
     "availability": "Availability confirmed",
     "imageRights": "Image rights cleared",
-    "sourcedOffRoster": "Sourced off-roster — same scoring"
+    "sourcedOffRoster": "Sourced off-roster, same scoring"
+  },
+  "rgpd": {
+    "title": "Personal data (GDPR)",
+    "export": "Export my data",
+    "confirmDelete": "Yes, delete"
+  },
+  "emails": {
+    "verifySubject": "Confirm your email address for Agental",
+    "verifyIntro": "Confirm that this address is yours to finish creating your Agental account.",
+    "verifyAction": "Confirm my email",
+    "verifyExpiry": "This link works for 24 hours.",
+    "resetSubject": "Reset your Agental password",
+    "resetIntro": "Someone asked to reset the password of the Agental account for this address.",
+    "resetAction": "Choose a new password",
+    "resetExpiry": "This link works for 1 hour and can be used once.",
+    "ignore": "If this was not you, ignore this email. Nothing changes.",
+    "signature": "The Agental team",
+    "studentSubject": "Confirm your school email for Agental",
+    "studentIntro": "Confirm this school address to get the college student discount on Agental Pro.",
+    "studentAction": "Confirm my school email",
+    "studentExpiry": "This link works for 48 hours and can be used once."
   }
 }

@@ -1,12 +1,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { AgentalMark } from "@/components/brand/logo";
 import type { NavItem } from "./header";
 import { LIMELIGHT } from "@/domain/limelight";
+import { BETA } from "@/data/beta";
+import { Wordmark } from "@/components/brand/wordmark";
 
 /**
- * Footer (v1 redesign). Link columns on top; the wordmark set edge to edge at
- * the bottom, cropped by the page edge, after the Alture board.
+ * Footer: the tagline and three link columns.
  *
  * Legal entries stay plain text: their pages and copy belong to the founders
  * (decision log D20), and a link to a page that does not exist is worse than
@@ -22,10 +22,11 @@ export function MarketingFooter({
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto overflow-hidden border-t border-border">
+    <footer className="mt-auto border-t border-border">
       <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] pb-10 pt-16 md:grid-cols-[2fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <p className="text-[clamp(20px,2vw,26px)] font-medium leading-[1.15] tracking-[-0.035em]">
+          <Wordmark className="mb-5 h-7 w-auto text-fg" />
+          <p className="text-[clamp(20px,2vw,26px)] font-bold leading-[1.15] tracking-[-0.02em]">
             {t("footer.tagline")}
           </p>
           <p className="mt-4 text-[13px] text-fg-subtle">
@@ -98,9 +99,19 @@ export function MarketingFooter({
           </h4>
           <ul className="mt-3 text-[15px] text-fg-muted">
             <li className="flex min-h-9 items-center">{t("footer.mentions")}</li>
-            <li className="flex min-h-9 items-center">{t("footer.rgpd")}</li>
+            <li>
+              <Link
+                href="/talents/confidentialite"
+                className="inline-flex min-h-9 items-center text-fg transition-colors hover:text-fg-muted"
+              >
+                {t("privacy.footerLink")}
+              </Link>
+            </li>
             <li className="flex min-h-9 items-center">{t("footer.cgu")}</li>
           </ul>
+          {BETA.agental && (
+            <p className="mt-2 max-w-[28ch] text-[13px] leading-snug text-fg-subtle">{t("beta.agental")}</p>
+          )}
         </div>
       </div>
 
@@ -111,16 +122,6 @@ export function MarketingFooter({
         </a>
       </div>
 
-      {/* Decorative: the accessible name of the brand is in the header. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none relative flex select-none items-end justify-center px-[clamp(8px,1.5vw,24px)]"
-      >
-        <span className="brand-type translate-y-[0.1em] whitespace-nowrap text-[clamp(5rem,24vw,24rem)] font-semibold leading-[0.8] tracking-[-0.075em] text-fg">
-          Agental
-        </span>
-        <AgentalMark className="absolute right-[clamp(12px,3vw,48px)] top-[8%] h-[clamp(28px,5vw,80px)] w-auto text-signal" />
-      </div>
     </footer>
   );
 }

@@ -14,6 +14,8 @@ import {
 } from "@/components/casting/minor-workflow";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { MatchReasons } from "@/domain/match-reason";
+import { formatHeight } from "@/domain/height";
+import { SpecialtyKind } from "@/domain/enums";
 import { z } from "zod";
 
 export async function generateMetadata({
@@ -124,7 +126,9 @@ export default async function FicheTalentPage({
           </div>
           <div className="mt-1 flex flex-wrap gap-3 text-sm text-fg-muted">
             {p?.city && <span>{p.city}</span>}
-            {rate != null && <span className="font-medium text-fg">{rate} €/j</span>}
+            {rate != null && (
+              <span className="font-medium text-fg">{t("demo.perDay", { amount: rate })}</span>
+            )}
             <Badge variant="success">{t("space.talentSheet.available")}</Badge>
           </div>
         </div>
@@ -158,12 +162,23 @@ export default async function FicheTalentPage({
       {/* Data */}
       {p && (
         <section className="grid gap-4 rounded-sedan border border-border bg-surface p-5 sm:grid-cols-2">
-          <Data label="Langues" value={phys?.languages.join(", ") || "—"} />
-          <Data label="Accents" value={phys?.accents.join(", ") || "—"} />
-          <Data label="Taille" value={phys?.heightCm ? `${phys.heightCm} cm` : "—"} />
+          <Data label={t("space.talentSheet.languages")} value={phys?.languages.join(", ") || "—"} />
+          <Data label={t("space.talentSheet.accents")} value={phys?.accents.join(", ") || "—"} />
+          {/* Feet and inches for English, centimeters elsewhere. */}
           <Data
-            label="Spécialités"
-            value={p.specialties.map((s) => s.kind).join(", ") || "—"}
+            label={t("space.talentSheet.height")}
+            value={phys?.heightCm ? formatHeight(phys.heightCm, locale) : "—"}
+          />
+          <Data
+            label={t("space.talentSheet.specialties")}
+            value={
+              p.specialties
+                .map((s) => {
+                  const kind = SpecialtyKind.safeParse(s.kind);
+                  return kind.success ? ta(`specialties.${kind.data}`) : s.kind;
+                })
+                .join(", ") || "—"
+            }
           />
         </section>
       )}

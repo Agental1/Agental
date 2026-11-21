@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { date, dateTime, euros, eurosExact, integer, percent } from "@/lib/format";
+import { date, dateTime, money, moneyExact, integer, percent } from "@/lib/format";
 import { formatCachet, getCastingType } from "@/data/casting-types";
 
 /**
@@ -12,32 +12,33 @@ import { formatCachet, getCastingType } from "@/data/casting-types";
  * ICU changes its space characters between versions (U+00A0 vs U+202F), and a
  * literal expectation would fail on a Node upgrade for no real reason.
  */
-describe("euros", () => {
+describe("money", () => {
   it("differs between French and English", () => {
-    expect(euros(48000, "fr")).not.toBe(euros(48000, "en"));
+    expect(money(48000, "fr")).not.toBe(money(48000, "en"));
   });
 
-  it("matches Intl for the locale, rounded to whole euros", () => {
+  it("matches Intl for the locale, rounded to whole dollars", () => {
     const expected = new Intl.NumberFormat("fr", {
       style: "currency",
-      currency: "EUR",
+      currency: "USD",
+      currencyDisplay: "narrowSymbol",
       maximumFractionDigits: 0,
     }).format(480);
-    expect(euros(48000, "fr")).toBe(expected);
+    expect(money(48000, "fr")).toBe(expected);
   });
 
   it("puts the symbol before the amount in English", () => {
-    expect(euros(48000, "en")).toMatch(/^€/);
+    expect(money(48000, "en")).toMatch(/^\$/);
   });
 
   it("rounds cents rather than truncating", () => {
-    expect(euros(49999, "en")).toBe(euros(50000, "en"));
+    expect(money(49999, "en")).toBe(money(50000, "en"));
   });
 });
 
-describe("eurosExact", () => {
-  it("keeps the decimals euros() drops", () => {
-    expect(eurosExact(1234, "en")).toContain("12.34");
+describe("moneyExact", () => {
+  it("keeps the decimals money() drops", () => {
+    expect(moneyExact(1234, "en")).toContain("12.34");
   });
 });
 
@@ -69,7 +70,7 @@ describe("date and dateTime", () => {
 describe("formatCachet", () => {
   it("formats a range for a type that has figures", () => {
     const figuration = getCastingType("figuration")!;
-    expect(formatCachet(figuration, "en", "Varies")).toBe("€80–€180");
+    expect(formatCachet(figuration, "en", "Varies")).toBe("$80–$180");
   });
 
   it("falls back to the translated label when the fee is project-dependent", () => {

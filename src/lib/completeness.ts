@@ -1,20 +1,31 @@
 import { prisma } from "@/lib/db";
+import { scoreProfile } from "@/domain/completeness";
+import { parseJson, PhysicalTraits } from "@/domain/json";
 
-/** AI-style profile completeness (0–100). Shared by onboarding + profile edits. */
+/**
+ * Recompute and store a profile's completeness (0-100). Shared by onboarding,
+ * profile edits, media and self-tape changes. The rule itself is the pure
+ * scoreProfile() in src/domain/completeness.ts.
+ */
 export async function recomputeCompleteness(profileId: string): Promise<number> {
   const p = await prisma.artistProfile.findUniqueOrThrow({
     where: { id: profileId },
-    include: { specialties: true, media: true },
+    include: {
+      media: { select: { type: true } },
+      _count: { select: { specialties: true } },
+    },
   });
-  let score = 0;
-  if (p.stageName) score += 15;
-  if (p.birthDate) score += 10;
-  if (p.city) score += 10;
-  if (p.bio) score += 10;
-  if (p.physical && p.physical !== "{}") score += 15;
-  if (p.specialties.length > 0) score += 20;
-  if (p.media.length > 0) score += 20;
-  const final = Math.min(100, score);
+  const final = scoreProfile({
+    stageName: p.stageName,
+    birthDate: p.birthDate,
+    city: p.city,
+    bio: p.bio,
+    physical: parseJson(PhysicalTraits, p.physical),
+    specialtiesCount: p._count.specialties,
+    media: p.media,
+    imdbUrl: p.imdbUrl,
+    portfolioUrl: p.portfolioUrl,
+  });
   await prisma.artistProfile.update({
     where: { id: profileId },
     data: { completenessScore: final },

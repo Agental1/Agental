@@ -2,13 +2,11 @@ import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { seo } from "@/lib/seo";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { useTranslations, useLocale } from "next-intl";
-import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Section } from "@/components/marketing/section";
-import { PORTRAITS } from "@/data/portraits";
 import { CASTING_TYPES, formatCachet } from "@/data/casting-types";
 
 export async function generateMetadata({
@@ -43,7 +41,6 @@ export default async function CastingsIndex({
 
 function IndexContent({ locale }: { locale: string }) {
   const t = useTranslations("talents.castingLandings");
-  const activeLocale = toLocale(useLocale());
   // Copy now lives in messages; only structure and figures stay in the data file.
   const tt = useTranslations("talents.castingTypes");
   return (
@@ -59,22 +56,11 @@ function IndexContent({ locale }: { locale: string }) {
             <Link
               key={type.slug}
               href={`/castings/${type.slug}`}
-              className="group flex flex-col rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,26px)] transition-colors hover:border-accent"
+              className="pressable group flex flex-col rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,26px)] hover:border-accent"
             >
-              <div className="flex items-start gap-4">
-                {/* Six age bands for nine types, so some repeat. The mapping
-                    lives in casting-types.ts, not here. alt="" because the
-                    heading beside it already names the type. */}
-                <Image
-                  src={PORTRAITS[activeLocale].ages[type.ageBand]}
-                  alt=""
-                  sizes="56px"
-                  className="size-14 shrink-0 rounded-sedan object-cover"
-                />
-                <h2 className="text-xl font-bold leading-tight tracking-[-0.01em]">
-                  {tt(`${type.slug}.name`)}
-                </h2>
-              </div>
+              <h2 className="text-xl font-bold leading-tight tracking-[-0.01em]">
+                {tt(`${type.slug}.name`)}
+              </h2>
               <p className="mt-3 flex-1 text-[15px] leading-relaxed text-fg-muted">
                 {tt(`${type.slug}.tagline`)}
               </p>

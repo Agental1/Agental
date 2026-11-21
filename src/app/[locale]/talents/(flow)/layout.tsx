@@ -23,7 +23,7 @@ export default function TalentsOnboardingLayout({
       <header className="border-b border-border">
         <div className="mx-auto flex h-16 max-w-3xl items-center px-4 sm:px-6">
           <Link href="/talents" aria-label="Agental">
-            <AgentalLogo mark="tape" />
+            <AgentalLogo />
           </Link>
           <LocaleSwitcher className="ml-auto" />
         </div>

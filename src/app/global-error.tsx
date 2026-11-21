@@ -39,8 +39,8 @@ export default function GlobalError({
           gap: "1rem",
           padding: "2rem",
           textAlign: "center",
-          background: "#f8f4ec",
-          color: "#3a2f26",
+          background: "#ffffff",
+          color: "#0b0f1a",
           fontFamily:
             "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
         }}
@@ -48,7 +48,7 @@ export default function GlobalError({
         <h1 style={{ fontSize: "1.5rem", fontWeight: 500, margin: 0 }}>
           Une erreur inattendue est survenue
         </h1>
-        <p style={{ color: "#6b5d4c", margin: 0, maxWidth: "32rem" }}>
+        <p style={{ color: "#4a5468", margin: 0, maxWidth: "32rem" }}>
           L&apos;incident a été enregistré. Réessayer suffit le plus souvent.
         </p>
         <button
@@ -60,8 +60,8 @@ export default function GlobalError({
             padding: "0 1.5rem",
             borderRadius: "0.6rem",
             border: "none",
-            background: "#6e4527",
-            color: "#f8f4ec",
+            background: "#246bfe",
+            color: "#ffffff",
             fontSize: "1rem",
             cursor: "pointer",
           }}
@@ -69,7 +69,7 @@ export default function GlobalError({
           Réessayer
         </button>
         {error.digest && (
-          <p style={{ fontSize: "0.75rem", color: "#9a8b76", margin: 0 }}>
+          <p style={{ fontSize: "0.75rem", color: "#566178", margin: 0 }}>
             {error.digest}
           </p>
         )}

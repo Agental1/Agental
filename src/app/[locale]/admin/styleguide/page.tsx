@@ -171,7 +171,7 @@ function Showcase({ portal }: { portal: Portal }) {
         <Card className="max-w-sm">
           <CardHeader>
             <CardTitle>Pro</CardTitle>
-            <CardDescription>19 €/mois · commission 7,5 %</CardDescription>
+            <CardDescription>19 $/mois · commission 7,5 %</CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-fg-muted">
             Auto-candidature par l&apos;IA, veille prioritaire, Self-tape Studio

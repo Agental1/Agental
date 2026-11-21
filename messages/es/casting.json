@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Agental Casting — El filtro de IA cualificado para sus cástines",
+    "title": "Agental Casting: El filtro de IA cualificado para sus cástines",
     "description": "Reciba los mejores talentos, no los más numerosos. Una lista corta, verificada y lista para convocar. Puntuación transparente, procedencia visible."
   },
   "nav": {
@@ -37,7 +37,7 @@
       "3": "físico cercano al papel · self-tape verificado",
       "4": "experiencia en series · acento regional creíble"
     },
-    "perDay": "{amount} €/día"
+    "perDay": "{amount} $/día"
   },
   "benefits": {
     "eyebrow": "Lo que gana con Agental",
@@ -128,11 +128,11 @@
     "eyebrow": "Tarifas",
     "title": "Una tarificación pensada para su volumen de casting",
     "note": "Sin compromiso. Cambia de modalidad o cancela cuando quiera.",
-    "recommended": "RECOMENDADO",
+    "recommended": "Recomendado",
     "plans": [
       {
         "name": "Free",
-        "price": "0 €",
+        "price": "0 $",
         "priceUnit": "",
         "cta": "Probar",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "Pro",
-        "price": "99 €",
+        "price": "99 $",
         "priceUnit": "/puesto/mes",
         "cta": "Elegir Pro",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "Studio",
-        "price": "299 €",
+        "price": "299 $",
         "priceUnit": "/mes",
         "cta": "Elegir",
         "features": [
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "Cómo funciona — Agental Casting",
+      "title": "Cómo funciona: Agental Casting",
       "description": "Del briefing a la convocatoria: cómo Agental filtra el 90 % de las candidaturas para presentarle solo los perfiles realmente pertinentes."
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "Tarifas — Agental Casting",
+      "title": "Tarifas: Agental Casting",
       "description": "Una tarificación por puesto y por volumen, pensada para su actividad de casting. Sin compromiso."
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "Preguntas frecuentes — Agental Casting",
+      "title": "Preguntas frecuentes: Agental Casting",
       "description": "Sus dudas sobre la puntuación, la neutralidad, los self-tapes verificados y la tarificación de Agental Casting."
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "¿Cómo se llaman el proyecto y el papel?",
-          "placeholder": "p. ej. Maxime — serie Marée Haute"
+          "placeholder": "p. ej. Maxime: serie Marée Haute"
         },
         "role": {
           "prompt": "Describe al personaje en una frase.",
@@ -379,7 +379,7 @@
           "placeholder": "septiembre de 2026"
         },
         "budget": {
-          "prompt": "¿Presupuesto diario orientativo (€)?",
+          "prompt": "¿Presupuesto diario orientativo ($)?",
           "placeholder": "600"
         }
       },
@@ -387,10 +387,16 @@
         "H": "H",
         "F": "M",
         "Indifférent": "Indistinto"
-      }
+      },
+      "skip": "Omitir"
     },
     "plans": {
-      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento."
+      "demo": "Modo demo: ningún pago real. Sin compromiso, cancelable en cualquier momento.",
+      "current": "Actual",
+      "currentPlan": "Plan actual",
+      "choose": "Elegir",
+      "contact": "Contáctenos",
+      "activeSeats": "es decir, {count, plural, one {# puesto activo} other {# puestos activos}}"
     },
     "minors": {
       "title": "Protección del menor",
@@ -407,12 +413,33 @@
       "confirm": "Confirmar",
       "escrowLabel": "{percent} % del caché bloqueado hasta la mayoría de edad",
       "escrowHeld": "Bloqueado",
-      "escrowTodo": "Por bloquear"
+      "escrowTodo": "Por bloquear",
+      "ready": "Listo para convocar",
+      "open": "Abrir el expediente de protección",
+      "hold": "Bloquear"
     },
     "shortlist": {
       "empty": "Ningún perfil coincide con estos filtros.",
       "minor": "Menor",
-      "similarProfile": "perfil similar"
+      "similarProfile": "perfil similar",
+      "neutrality": "Neutralidad:",
+      "diversity": "Diversidad: {distinct}/{total} perfiles distintos",
+      "filters": "Filtros",
+      "minScore": "Puntuación mín.",
+      "allSources": "Todas las fuentes",
+      "sort": "Ordenar",
+      "sortBy": {
+        "score": "Puntuación",
+        "rate": "Tarifa",
+        "name": "Nombre"
+      },
+      "photo": "Foto",
+      "actions": {
+        "star": "Destacar",
+        "selftape": "Self-tape",
+        "audition": "Audición",
+        "exclude": "Descartar"
+      }
     },
     "subscription": {
       "title": "Suscripción",
@@ -434,7 +461,8 @@
       "yours": "Sus proyectos",
       "open": "Proyectos abiertos",
       "shortlisting": "Listas cortas en curso",
-      "shortlisted": "Talentos preseleccionados"
+      "shortlisted": "Talentos preseleccionados",
+      "plan": "Plan {plan}"
     },
     "projectStatus": {
       "DRAFT": "Borrador",
@@ -508,5 +536,10 @@
         "Grandes productoras"
       ]
     }
+  },
+  "oauth": {
+    "google": "Continuar con Google",
+    "apple": "Continuar con Apple",
+    "or": "o"
   }
 }

@@ -1,16 +1,27 @@
 import { ImageResponse } from "next/og";
+import { MARK_BLUE, MARK_BLUE_SOLID, MARK_INK, MARK_VIEWBOX } from "@/components/brand/logo";
 
 /**
- * App icon, drawn from the design tokens rather than shipped as a binary.
- *
- * public/ held only the create-next-app default SVGs, so there was no brand
- * asset to point at. Generating it means the mark can never drift from the
- * palette in globals.css, and there is no file to remember to regenerate.
+ * App icons, drawn from the monogram's own shapes (components/brand/logo.tsx)
+ * so they cannot drift from the logo on the page: 32px for the browser tab,
+ * 192 and 512px for "Add to home screen". The 32px one drops the two cuts in
+ * the blue leg, which would close up at that size.
  */
-export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
-export default function Icon() {
+const SIZES = [32, 192, 512] as const;
+
+export function generateImageMetadata() {
+  return SIZES.map((px) => ({
+    id: String(px),
+    size: { width: px, height: px },
+    contentType,
+  }));
+}
+
+export default async function Icon({ id }: { id: Promise<string | number> }) {
+  const px = Number(await id) || 32;
+  const glyph = Math.round(px * 0.8);
   return new ImageResponse(
     (
       <div
@@ -20,17 +31,18 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#f8f4ec",
+          background: "#ffffff",
+          borderRadius: px * 0.22,
         }}
       >
-        <svg width="300" height="420" viewBox="0 0 100 140">
-          <path
-            d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-            fill="#6e4527"
-          />
+        <svg width={glyph} height={glyph} viewBox={MARK_VIEWBOX}>
+          {(px <= 32 ? [MARK_BLUE_SOLID] : MARK_BLUE).map((points) => (
+            <polygon key={points} fill="#246bfe" points={points} />
+          ))}
+          <polygon fill="#0b0f1a" points={MARK_INK} />
         </svg>
       </div>
     ),
-    size
+    { width: px, height: px }
   );
 }

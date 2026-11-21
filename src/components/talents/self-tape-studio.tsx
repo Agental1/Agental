@@ -1,14 +1,16 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { err } from "@/domain/action-result";
+import { stashTake, takeStashed } from "@/lib/take-stash";
+import { stillSignedIn } from "@/lib/session-check";
 import {
   Video,
   Circle,
   Square,
-  Loader2,
   Upload,
   Sun,
   Mic,
@@ -17,17 +19,32 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { saveSelfTape, type SelfTapeResult } from "@/app/actions/selftape";
+import { uploadMedia, type UploadMediaResult } from "@/lib/media-upload";
+import { UPLOAD_LIMITS, VIDEO_MAX_MB, type UploadDestination } from "@/domain/uploads";
 import type { QualityMetrics } from "@/lib/ai/quality-scorer";
 
-type Phase = "idle" | "ready" | "recording" | "processing" | "done" | "denied";
+/** 2.5 Mb/s video plus 128 kb/s audio: two minutes is about 40 MB. */
+const TAKE_VIDEO_BPS = 2_500_000;
+/** Longest take that still fits in VIDEO_MAX_MB at that bitrate, with a margin. */
+const MAX_TAKE_SECONDS = Math.floor(((VIDEO_MAX_MB * 1024 * 1024 * 8) / (TAKE_VIDEO_BPS + 128_000)) * 0.85);
+
+type Phase = "idle" | "ready" | "recording" | "review" | "processing" | "done" | "denied";
+
+/** A finished take waiting for the performer to keep or redo it. */
+interface Take {
+  blob: Blob;
+  metrics: QualityMetrics;
+  url: string;
+}
 
 export function SelfTapeStudio() {
   const t = useTranslations("talents");
   const errorText = useActionErrorText();
   const router = useRouter();
+  const locale = useLocale();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -41,7 +58,10 @@ export function SelfTapeStudio() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [lowBandwidth, setLowBandwidth] = useState(false);
   const [live, setLive] = useState({ framing: 0, light: 0, sound: 0 });
-  const [result, setResult] = useState<SelfTapeResult | null>(null);
+  const [result, setResult] = useState<UploadMediaResult | null>(null);
+  const [take, setTake] = useState<Take | null>(null);
+  const [destination, setDestination] = useState<UploadDestination>("library");
+  const [progress, setProgress] = useState(0);
   const [pending, startTransition] = useTransition();
 
   async function enableCamera() {
@@ -133,24 +153,48 @@ export function SelfTapeStudio() {
     if (!streamRef.current) return;
     chunksRef.current = [];
     samplesRef.current = [];
+    // eslint-disable-next-line react-hooks/purity -- runs from the Record button, never during render
     startedAtRef.current = performance.now?.() ?? 0;
+    // Safari records MP4, Chrome and Firefox record WebM. Ask for whichever the
+    // browser supports and keep the recorder's own answer for the file.
+    const preferred = ["video/mp4", "video/webm"].find((type) => MediaRecorder.isTypeSupported(type));
+    // 720p at a bitrate that keeps a take under the 50 MB file limit.
     const rec = new MediaRecorder(streamRef.current, {
-      mimeType: MediaRecorder.isTypeSupported("video/webm") ? "video/webm" : "",
+      ...(preferred ? { mimeType: preferred } : {}),
+      videoBitsPerSecond: lowBandwidth ? 800_000 : TAKE_VIDEO_BPS,
+      audioBitsPerSecond: 128_000,
     });
     rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data);
     rec.onstop = onStop;
-    rec.start();
+    rec.start(1000);
     recorderRef.current = rec;
+    // Stop by itself before the file would pass the limit.
+    window.setTimeout(() => {
+      if (rec.state === "recording") rec.stop();
+    }, MAX_TAKE_SECONDS * 1000);
     setPhase("recording");
   }
 
   function stopRecording() {
     recorderRef.current?.stop();
-    setPhase("processing");
+  }
+
+  /** Hold the take for review: watch it, choose where it goes, or redo it. */
+  function review(blob: Blob, metrics: QualityMetrics) {
+    setTake({ blob, metrics, url: URL.createObjectURL(blob) });
+    setPhase("review");
+  }
+
+  function discardTake() {
+    if (take) URL.revokeObjectURL(take.url);
+    setTake(null);
+    setPhase(streamRef.current ? "ready" : "idle");
   }
 
   function onStop() {
-    const blob = new Blob(chunksRef.current, { type: "video/webm" });
+    // The real container, never a guess: recorder first, then the first chunk.
+    const type = (recorderRef.current?.mimeType || chunksRef.current[0]?.type || "video/webm").split(";")[0];
+    const blob = new Blob(chunksRef.current, { type });
     const samples = samplesRef.current;
     const avg = (k: "framing" | "light" | "sound") =>
       samples.length ? samples.reduce((a, s) => a + s[k], 0) / samples.length : 0;
@@ -160,27 +204,81 @@ export function SelfTapeStudio() {
       sound: avg("sound"),
       durationMs: (performance.now?.() ?? 0) - startedAtRef.current,
     };
-    submit(blob, metrics);
+    review(blob, metrics);
   }
 
-  function submit(blob: Blob, metrics: QualityMetrics) {
+  /**
+   * Send the reviewed take straight to storage, with progress. The take is
+   * kept until storage confirms it: a failed save can be tried again, and an
+   * expired session keeps it in this browser while the performer signs in.
+   */
+  function save() {
+    if (!take) return;
+    const { blob, metrics, url } = take;
+    if (blob.size > UPLOAD_LIMITS.SELFTAPE.maxBytes) {
+      setResult({ ok: false, error: err("errors.uploadTooLarge", { limit: VIDEO_MAX_MB }) });
+      return;
+    }
+    setProgress(0);
+    setResult(null);
+    setPhase("processing");
     startTransition(async () => {
-      const fd = new FormData();
-      fd.set("file", new File([blob], "selftape.webm", { type: blob.type }));
-      fd.set("metrics", JSON.stringify(metrics));
-      fd.set("lowBandwidth", String(lowBandwidth));
-      const res = await saveSelfTape(fd);
+      let res: UploadMediaResult;
+      try {
+        res = await uploadMedia(blob, {
+          type: "SELFTAPE",
+          destination,
+          durationSec: metrics.durationMs / 1000,
+          metrics,
+          lowBandwidth,
+          onProgress: setProgress,
+        });
+      } catch {
+        res = { ok: false, error: err("errors.generic") };
+      }
+      if (!res.ok && res.error.key === "errors.unauthorized" && (await stillSignedIn())) {
+        // The server said "signed out" but the session is there: never leave
+        // the page over it. The take stays on review.
+        res = { ok: false, error: err("errors.sessionCheck") };
+      }
+      if (!res.ok && res.error.key === "errors.unauthorized") {
+        // Really signed out meanwhile: keep the take, sign in, come back to it.
+        await stashTake({ blob, metrics, destination });
+        const next = `/${locale}/talents/app/reel-self-tape?restore=1`;
+        window.location.assign(`/${locale}/connexion?next=${encodeURIComponent(next)}`);
+        return;
+      }
       setResult(res);
+      if (!res.ok) {
+        setPhase("review");
+        return;
+      }
+      URL.revokeObjectURL(url);
+      setTake(null);
       setPhase("done");
       router.refresh();
     });
   }
 
+  // Back from sign-in with a take kept in this browser: put it back on review.
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("restore")) return;
+    let cancelled = false;
+    void takeStashed().then((kept) => {
+      if (cancelled || !kept) return;
+      setDestination(kept.destination);
+      setTake({ blob: kept.blob, metrics: kept.metrics, url: URL.createObjectURL(kept.blob) });
+      setPhase("review");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   function onFallbackFile(file: File | undefined) {
     if (!file) return;
-    setPhase("processing");
-    // No live metrics available for an uploaded file — neutral estimate.
-    submit(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: 8000 });
+    // No live metrics for an uploaded file: a neutral estimate.
+    review(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: 8000 });
   }
 
   useEffect(() => {
@@ -202,6 +300,9 @@ export function SelfTapeStudio() {
             className="size-full object-cover"
           />
           <canvas ref={canvasRef} className="hidden" />
+          {phase === "review" && take && (
+            <video src={take.url} controls playsInline className="absolute inset-0 size-full bg-black object-contain" />
+          )}
 
           {(phase === "ready" || phase === "recording") && (
             <div className="pointer-events-none absolute inset-0">
@@ -238,11 +339,11 @@ export function SelfTapeStudio() {
         <div className="space-y-4">
           <div className="rounded-sedan border border-border bg-surface p-4">
             <p className="mb-3 flex items-center gap-2 text-sm font-medium">
-              <Sparkles className="size-4 text-accent" /> Surimpressions IA
+              <Sparkles className="size-4 text-accent" /> {t("space.studio.overlays")}
             </p>
-            <Meter icon={Crop} label="Cadrage" value={live.framing} />
-            <Meter icon={Sun} label="Lumière" value={live.light} />
-            <Meter icon={Mic} label="Son" value={live.sound} />
+            <Meter icon={Crop} label={t("space.selftape.framing")} value={live.framing} />
+            <Meter icon={Sun} label={t("space.studio.lighting")} value={live.light} />
+            <Meter icon={Mic} label={t("space.selftape.sound")} value={live.sound} />
           </div>
 
           <label className="flex items-center gap-2 text-sm">
@@ -253,8 +354,11 @@ export function SelfTapeStudio() {
               onChange={(e) => setLowBandwidth(e.target.checked)}
               className="size-4 accent-[var(--accent)]"
             />
-            Mode dégradé (bas débit / terminal modeste)
+            {t("space.studio.reducedMode")}
           </label>
+          <p className="text-[13px] text-fg-muted">
+            {t("space.studio.limit", { minutes: Math.floor(MAX_TAKE_SECONDS / 60), mb: VIDEO_MAX_MB })}
+          </p>
 
           {phase === "ready" && (
             <Button className="w-full" onClick={startRecording}>
@@ -262,12 +366,59 @@ export function SelfTapeStudio() {
           )}
           {phase === "recording" && (
             <Button variant="danger" className="w-full" onClick={stopRecording}>
-              <Square className="size-4 fill-current" /> Arrêter
+              <Square className="size-4 fill-current" /> {t("space.studio.stop")}
             </Button>
           )}
+          {phase === "review" && (
+            <div className="space-y-3 rounded-sedan border border-border bg-surface p-4">
+              <p className="font-bold">{t("space.studio.review")}</p>
+              <fieldset>
+                <legend className="text-sm text-fg-muted">{t("space.studio.saveTo")}</legend>
+                <div className="mt-2 space-y-2">
+                  {(["library", "profile"] as const).map((d) => (
+                    <label
+                      key={d}
+                      className={cn(
+                        "pressable flex cursor-pointer items-start gap-3 rounded-sedan border px-3 py-2.5 [--hover-scale:1.01] [--press-scale:1.02]",
+                        destination === d ? "border-accent accent-wash" : "border-border"
+                      )}
+                    >
+                      <input
+                        type="radio"
+                        name="destination"
+                        checked={destination === d}
+                        onChange={() => setDestination(d)}
+                        className="mt-1 size-4 accent-[var(--accent)]"
+                      />
+                      <span className="block">
+                        <span className="block text-sm font-bold">
+                          {t(d === "library" ? "space.studio.toLibrary" : "space.studio.toProfile")}
+                        </span>
+                        <span className="block text-[13px] text-fg-muted">
+                          {t(d === "library" ? "space.studio.toLibraryHint" : "space.studio.toProfileHint")}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="secondary" className="border-border-strong" onClick={discardTake}>
+                  {t("space.studio.again")}
+                </Button>
+                <Button onClick={save}>{t("space.studio.save")}</Button>
+              </div>
+            </div>
+          )}
           {(phase === "processing" || pending) && (
-            <div className="flex items-center gap-2 text-sm text-fg-muted">
-              <Loader2 className="size-4 animate-spin" />{t("space.studio.analysing")}</div>
+            <div role="status" className="space-y-2">
+              <p className="text-sm text-fg-muted">
+                {progress < 1
+                  ? t("space.studio.uploading", { percent: Math.round(progress * 100) })
+                  : t("space.studio.analysing")}
+              </p>
+              <Progress value={Math.round(progress * 100)} aria-label={t("space.studio.uploading", { percent: Math.round(progress * 100) })} />
+            </div>
           )}
 
           {(phase === "denied" || phase === "done") && (
@@ -300,7 +451,7 @@ export function SelfTapeStudio() {
               <p className="font-medium">{t("space.studio.score")}</p>
               <p className="text-sm text-fg-muted">
                 {t("space.selftape.framing")} {result.breakdown?.framing} ·{" "}
-                {t("space.selftape.light")} {result.breakdown?.light} ·{" "}
+                {t("space.studio.lighting")} {result.breakdown?.light} ·{" "}
                 {t("space.selftape.sound")} {result.breakdown?.sound}
               </p>
             </div>
@@ -323,11 +474,11 @@ export function SelfTapeStudio() {
               setPhase(streamRef.current ? "ready" : "idle");
             }}
           >
-            Nouvelle prise
+            {t("space.studio.newTake")}
           </Button>
         </div>
       )}
-      {phase === "done" && result && !result.ok && (
+      {(phase === "done" || phase === "review") && result && !result.ok && (
         <p className="text-sm text-danger">{errorText(result.error)}</p>
       )}
     </div>
@@ -343,6 +494,7 @@ function Meter({
   label: string;
   value: number;
 }) {
+  const t = useTranslations("talents");
   const pct = Math.round(value * 100);
   const good = value >= 0.6;
   return (
@@ -351,7 +503,7 @@ function Meter({
         <span className="flex items-center gap-1.5 text-fg-muted">
           <Icon className="size-3.5" /> {label}
         </span>
-        <Badge variant={good ? "success" : "warning"}>{good ? "OK" : "à ajuster"}</Badge>
+        <Badge variant={good ? "success" : "warning"}>{good ? t("space.studio.meterOk") : t("space.studio.meterAdjust")}</Badge>
       </div>
       <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
         <div

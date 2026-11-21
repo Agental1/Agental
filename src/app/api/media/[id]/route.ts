@@ -34,11 +34,22 @@ export async function GET(
 
   const media = await prisma.media.findUnique({
     where: { id },
-    select: { storageKey: true, mime: true, profileId: true },
+    select: {
+      storageKey: true,
+      mime: true,
+      profileId: true,
+      destination: true,
+      status: true,
+    },
   });
   if (!media) return new Response("Not found", { status: 404 });
 
-  if (!(await canReadMedia(userId, media.profileId))) {
+  if (
+    !(await canReadMedia(userId, media.profileId, {
+      destination: media.destination,
+      status: media.status,
+    }))
+  ) {
     return new Response("Not found", { status: 404 });
   }
 
@@ -53,7 +64,7 @@ export async function GET(
     return new Response(null, {
       status: 302,
       headers: {
-        Location: await storage.signedUrl(media.storageKey),
+        Location: await storage.signedUrl(media.storageKey, { mime: media.mime }),
         // Never cache the redirect itself: it outlives the URL it points at,
         // and a cached 302 would send the browser to an expired signature.
         "Cache-Control": "private, no-store",

@@ -65,15 +65,13 @@ export function PlanSelector({
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-display text-lg">{p.name}</h3>
-                {isCurrent && <Badge variant="solid">Actuel</Badge>}
+                {isCurrent && <Badge variant="solid">{t("space.plans.current")}</Badge>}
               </div>
               <div className="mt-2 flex items-baseline gap-1">
                 <span className="font-display text-2xl">{p.price}</span>
-                <span className="text-xs text-fg-muted">/mois</span>
+                <span className="text-xs text-fg-muted">{t("space.plans.perMonth")}</span>
               </div>
-              <p className="mt-0.5 text-xs text-fg-subtle">
-                commission {p.commission}
-              </p>
+              
               <ul className="mt-4 flex-1 space-y-1.5">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs">
@@ -89,7 +87,7 @@ export function PlanSelector({
                 onClick={() => choose(p.plan)}
               >
                 {busy === p.plan && <Loader2 className="size-4 animate-spin" />}
-                {isCurrent ? "Plan actuel" : "Choisir"}
+                {isCurrent ? t("space.plans.currentPlan") : t("space.plans.choose")}
               </Button>
             </div>
           );

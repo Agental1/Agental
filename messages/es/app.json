@@ -67,6 +67,8 @@
     "projectTypeRequired": "Seleccione al menos un tipo de proyecto.",
     "emailInvalid": "Dirección de correo no válida.",
     "passwordTooShort": "Mínimo 8 caracteres.",
+    "passwordNeedsUppercase": "Añade al menos una mayúscula.",
+    "passwordNeedsSpecial": "Añade al menos un carácter especial, como ! o #.",
     "invalidPlan": "Plan no válido.",
     "invalidMediaType": "Tipo de medio no válido.",
     "profileNotFound": "Perfil no encontrado.",
@@ -81,14 +83,101 @@
     "billingUnavailable": "Los planes de pago aún no están disponibles.",
     "limelightContactRequired": "Añade tu nombre para saber a quién responder.",
     "limelightSendFailed": "Tu mensaje no se envió. Inténtalo de nuevo en un momento o escríbenos por email.",
-    "limelightTooMany": "Demasiados mensajes desde esta conexión. Inténtalo de nuevo en unos minutos."
+    "limelightTooMany": "Demasiados mensajes desde esta conexión. Inténtalo de nuevo en unos minutos.",
+    "oauthNoAccount": "Este inicio de sesión ha caducado. Vuelve a empezar con Google o Apple.",
+    "oauthEmailUnverified": "Tu cuenta de Google o Apple necesita un correo verificado para iniciar sesión aquí.",
+    "oauthLinkRequiresPassword": "Ya existe una cuenta con este correo. Inicia sesión con tu correo y tu contraseña.",
+    "oauthGeneric": "Error al iniciar sesión con Google o Apple. Inténtalo de nuevo.",
+    "adultsOnly": "Debes tener 18 años o más para unirte a Agental.",
+    "birthDateRequired": "Indica tu fecha de nacimiento.",
+    "birthDateInvalid": "Revisa tu fecha de nacimiento.",
+    "heightRange": "La altura debe estar entre 91 y 241 cm.",
+    "mandatAlreadySigned": "Tu mandato ya está firmado.",
+    "uploadTooLarge": "Este archivo es demasiado grande. El límite es de {limit} MB.",
+    "uploadTypeNotAllowed": "Este tipo de archivo no es compatible.",
+    "uploadQuota": "Tu espacio de medios está lleno. Elimina un archivo para añadir otro.",
+    "uploadNotFound": "Esta subida caducó. Vuelve a iniciarla.",
+    "studentCodeInvalid": "Este código no es válido.",
+    "studentCodeExpired": "Este código ha caducado.",
+    "studentCodeUsedUp": "Este código alcanzó su límite de usos.",
+    "tooManyAttempts": "Demasiados intentos. Inténtalo más tarde.",
+    "siteNotFound": "No encontramos este sitio web.",
+    "siteInvalid": "Faltan datos del sitio web o son demasiado largos.",
+    "sitePaymentRequired": "Elige una oferta antes de publicar tu sitio web.",
+    "siteLimitReached": "Puedes tener hasta {limit} sitios web.",
+    "emailLinkInvalid": "Este enlace no es válido. Solicita uno nuevo.",
+    "emailLinkExpired": "Este enlace ha caducado. Solicita uno nuevo.",
+    "emailSendFailed": "No pudimos enviar el correo. Inténtalo de nuevo en unos minutos.",
+    "shareNotFound": "No encontramos este enlace para compartir.",
+    "shareLimitReached": "Este clip ya tiene {limit} enlaces activos. Revoca uno primero.",
+    "mediaNotReady": "Este clip aún se está procesando. Inténtalo de nuevo en un momento.",
+    "tapeNotFound": "No encontramos este self-tape.",
+    "draftNotFound": "No encontramos este borrador.",
+    "draftAlreadyReviewed": "Este borrador ya fue revisado.",
+    "lastLoginMethod": "Añade una contraseña antes de desconectar esta cuenta, para poder seguir iniciando sesión.",
+    "providerNotConnected": "Esta cuenta no está conectada.",
+    "urlInvalid": "Escribe una dirección web completa, que empiece por https://.",
+    "nameRequired": "Escribe tu nombre.",
+    "consentRequired": "Confirma que podemos contactarte sobre tu solicitud.",
+    "domainInvalid": "Escribe un nombre de dominio, por ejemplo tunombre.com.",
+    "domainTaken": "Este dominio ya está conectado a un sitio.",
+    "domainNotVerified": "Aún no encontramos el registro DNS. Puede tardar unas horas en aparecer.",
+    "siteNotApproved": "Aprueba la vista previa antes de publicar el sitio.",
+    "mandatUnavailable": "El acuerdo de representación estará disponible más adelante.",
+    "messageEmpty": "Escribe primero un mensaje.",
+    "messageTooLong": "Tu mensaje es demasiado largo. Límite: {limit} caracteres.",
+    "phoneRequired": "Añade un número de teléfono para que podamos llamarte.",
+    "phoneInvalid": "Revisa el número de teléfono.",
+    "sitePreviewChanged": "La vista previa cambió desde que la abriste. Revisa la última versión y luego aprueba.",
+    "domainLimitReached": "Un sitio puede tener hasta {limit} dominios personalizados.",
+    "draftMediaLimit": "Un borrador admite hasta {limit} clips.",
+    "imdbUrl": "Introduce un enlace de IMDb como imdb.com/name/nm1234567.",
+    "portfolioUrl": "Introduce un enlace que empiece por https://.",
+    "roleSearchQuota": "No te quedan búsquedas con IA en tu plan.",
+    "uploadBlocked": "No pudimos conectar con nuestro almacenamiento, así que la toma aún no se ha guardado. Sigue aquí: inténtalo de nuevo en un momento.",
+    "avatarTooLarge": "Esta foto es demasiado pesada. Elige una más ligera.",
+    "avatarType": "Elige una foto JPEG, PNG o WebP.",
+    "studentEmailInvalid": "Introduce un correo válido.",
+    "studentEmailNotSchool": "Usa tu correo universitario, que termina en .edu.",
+    "studentEmailTaken": "Este correo universitario ya verificó otra cuenta.",
+    "studentEmailAlready": "Tu descuento de estudiante ya está verificado.",
+    "studentEmailTooMany": "Demasiadas solicitudes. Inténtalo de nuevo en una hora.",
+    "messageTopicRequired": "Elige de qué trata tu mensaje.",
+    "mediaNotAllowed": "No se pueden añadir medios a esta cuenta. Escribe al equipo de Agental si te parece un error.",
+    "sessionCheck": "No se pudo guardar, pero sigues con la sesión iniciada. Tu toma se conserva: inténtalo de nuevo.",
+    "mediaMinor": "Los medios están desactivados para perfiles de menores de 18 años. Si tu fecha de nacimiento es incorrecta, corrígela en tu Perfil.",
+    "mediaCastingAccount": "Esta es una cuenta de casting. Los medios se añaden desde una cuenta de artista.",
+    "captchaFailed": "La comprobación de seguridad no se superó. Recarga la página e inténtalo de nuevo."
   },
   "auth": {
     "name": "Nombre",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "emailPlaceholder": "nombre@ejemplo.es",
-    "passwordPlaceholder": "mínimo 8 caracteres"
+    "passwordPlaceholder": "8 caracteres o más, una mayúscula, un carácter especial",
+    "choose": {
+      "metaTitle": "Elige tu espacio",
+      "title": "Un último paso",
+      "subtitle": "Elige el espacio para {email}.",
+      "talent": "Soy talento",
+      "talentHint": "Consigue representación y encuentra papeles.",
+      "casting": "Soy director o directora de casting",
+      "castingHint": "Publica proyectos y crea shortlists."
+    },
+    "rules": {
+      "title": "Tu contraseña necesita",
+      "length": "8 caracteres o más",
+      "uppercase": "Una letra mayúscula",
+      "special": "Un carácter especial"
+    }
+  },
+  "height": {
+    "unit": "Unidad de altura",
+    "imperial": "ft / in",
+    "metric": "cm",
+    "feet": "Pies",
+    "inches": "Pulgadas",
+    "centimeters": "Centímetros"
   },
   "specialties": {
     "figuration": "Figuración",
@@ -99,7 +188,13 @@
     "voix": "Voz y doblaje",
     "enfants": "Niños y adolescentes",
     "createurs": "Creadores",
-    "performeurs": "Performers y escena"
+    "performeurs": "Performers y escena",
+    "screen-acting": "Actuación para cámara",
+    "stage-acting": "Teatro",
+    "musical-theatre": "Teatro musical",
+    "improv": "Improvisación",
+    "movement": "Movimiento",
+    "stunt-combat": "Escenas de riesgo y combate escénico"
   },
   "levels": {
     "BEGINNER": "Principiante",
@@ -135,7 +230,11 @@
     "nav": {
       "overview": "Supervisión",
       "audit": "Registro de auditoría",
-      "minors": "Expedientes de menores"
+      "minors": "Expedientes de menores",
+      "messages": "Mensajes",
+      "limelight": "Solicitudes de Limelight",
+      "roleSearches": "Búsquedas de papeles",
+      "accounts": "Accounts"
     },
     "stats": {
       "artists": "Artistas",
@@ -171,7 +270,140 @@
       "waiting": "Documentos pendientes",
       "ready": "Listo",
       "held": "Bloqueado",
-      "toConfirm": "Por confirmar"
+      "toConfirm": "Por confirmar",
+      "blocked": "Bloqueado",
+      "confirmed": "Confirmada",
+      "auth": {
+        "NONE": "Por solicitar",
+        "REQUESTED": "Solicitada",
+        "GRANTED": "Concedida",
+        "REFUSED": "Denegada"
+      },
+      "escrowStatus": {
+        "PENDING": "Por bloquear",
+        "HELD": "Bloqueado",
+        "RELEASED": "Liberado"
+      }
+    },
+    "messages": {
+      "title": "Mensajes",
+      "subtitle": "Las conversaciones entre los artistas y el equipo de Agental. Los artistas ven cada respuesta firmada por el equipo de Agental.",
+      "inbox": "Conversaciones",
+      "empty": "Las conversaciones aparecen aquí cuando un artista escribe al equipo.",
+      "unread": "{count, plural, one {# sin leer} other {# sin leer}}",
+      "awaitingReply": "Pendiente de respuesta",
+      "back": "Todas las conversaciones",
+      "pick": "Elige una conversación para leerla y responder.",
+      "notFound": "Esta conversación no se encuentra.",
+      "team": "Equipo de Agental",
+      "composerLabel": "Responder como equipo de Agental",
+      "placeholder": "Escribe una respuesta",
+      "send": "Enviar respuesta",
+      "sending": "Enviando…",
+      "hint": "El artista la lee en su página de Mensajes.",
+      "waitingForTeam": "Esperando al equipo de Agental",
+      "assistant": "Asistente de Agental",
+      "topics": {
+        "profile": "Mi perfil",
+        "application": "Un papel o una candidatura",
+        "other": "Otra cosa"
+      }
+    },
+    "limelight": {
+      "title": "Solicitudes de Limelight",
+      "subtitle": "Todas las solicitudes de sitio web, las más recientes primero. Cambia el estado cuando hayas respondido.",
+      "export": "Exportar CSV",
+      "filter": "Filtrar por estado",
+      "all": "Todas",
+      "refMissing": "La solicitud {reference} está fuera de esta lista. Prueba el filtro Todas.",
+      "empty": "Las solicitudes de la página de Limelight aparecen aquí.",
+      "reference": "Referencia",
+      "date": "Fecha",
+      "name": "Nombre",
+      "email": "Correo",
+      "type": "Tipo de trabajo",
+      "need": "Necesidad",
+      "contact": "Preferencia de contacto",
+      "status": "Estado",
+      "statusOf": "Estado de {reference}",
+      "submissions": "{count, plural, one {Enviada # vez} other {Enviada # veces}}",
+      "prefs": {
+        "email": "Correo",
+        "call": "Llamada"
+      },
+      "statuses": {
+        "NEW": "Nueva",
+        "CONTACTED": "Contactada",
+        "CLOSED": "Cerrada"
+      }
+    },
+    "roleSearches": {
+      "title": "Búsquedas de papeles con IA",
+      "subtitle": "Cada clic en «Buscar papeles». Las filas esperan en estado queued hasta que se conecte el workflow.",
+      "empty": "Aún no hay búsquedas.",
+      "columns": {
+        "when": "Fecha",
+        "who": "Cuenta",
+        "plan": "Plan",
+        "period": "Periodo",
+        "status": "Estado"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "{count} accounts. Every view and export is logged.",
+      "search": "Name or email",
+      "all": "All",
+      "filter": "Filter",
+      "csv": "Export CSV",
+      "yes": "Yes",
+      "no": "No",
+      "back": "All accounts",
+      "timeline": "Timeline",
+      "open": "Open",
+      "cols": {
+        "name": "Name",
+        "email": "Email",
+        "audience": "Audience",
+        "plan": "Plan",
+        "created": "Created",
+        "method": "Sign-up",
+        "verified": "Email verified",
+        "completeness": "Profile",
+        "media": "Media",
+        "website": "Website"
+      },
+      "site": {
+        "none": "None",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "events": {
+        "signup": "Signed up",
+        "verified": "Email verified",
+        "audit": "Action",
+        "media": "Media uploaded",
+        "search": "AI search",
+        "message": "Message",
+        "limelight": "Limelight request",
+        "plan": "Plan"
+      }
+    },
+    "studentRequests": {
+      "title": "Student price requests",
+      "note": "The student price itself is still to be announced. Approving lets the student order at that price once it is set.",
+      "empty": "No requests yet.",
+      "failed": "That decision did not go through. Reload and try again.",
+      "requested": "Requested {date}",
+      "decided": "decided {date}",
+      "approve": "Approve",
+      "decline": "Decline",
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Declined",
+        "USED": "Used"
+      }
     }
   },
   "matchReasons": {
@@ -181,5 +413,26 @@
     "availability": "Disponibilidad confirmada",
     "imageRights": "Derechos de imagen en regla",
     "sourcedOffRoster": "Localizado fuera del roster: mismo baremo"
+  },
+  "rgpd": {
+    "title": "Datos personales (RGPD)",
+    "export": "Exportar mis datos",
+    "confirmDelete": "Sí, eliminar"
+  },
+  "emails": {
+    "verifySubject": "Confirma tu correo para Agental",
+    "verifyIntro": "Confirma que esta dirección es tuya para terminar de crear tu cuenta de Agental.",
+    "verifyAction": "Confirmar mi correo",
+    "verifyExpiry": "Este enlace es válido durante 24 horas.",
+    "resetSubject": "Restablece tu contraseña de Agental",
+    "resetIntro": "Alguien pidió restablecer la contraseña de la cuenta de Agental asociada a esta dirección.",
+    "resetAction": "Elegir una nueva contraseña",
+    "resetExpiry": "Este enlace es válido durante 1 hora y solo puede usarse una vez.",
+    "ignore": "Si no fuiste tú, ignora este correo. Nada cambia.",
+    "signature": "El equipo de Agental",
+    "studentSubject": "Confirma tu correo universitario para Agental",
+    "studentIntro": "Confirma esta dirección universitaria para obtener el descuento de estudiante en Agental Pro.",
+    "studentAction": "Confirmar mi correo universitario",
+    "studentExpiry": "Este enlace funciona durante 48 horas y una sola vez."
   }
 }

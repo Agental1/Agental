@@ -1,0 +1,59 @@
+# Releases and how to go back
+
+Every version that goes live on agental.co gets a git tag and a line here, so the site can be put back one step (or several) at any time.
+
+| Date | Tag | Commit | Vercel deployment | What changed |
+|---|---|---|---|---|
+| 2026-11-18 | `live-2026-11-18-limelight` | `000f695` | `agental-49debvfve-agentalco.vercel.app` | Limelight page, Green room look |
+| 2026-11-18 | `live-2026-11-18-redesign` | `1e114eb` | `agental-8ey3sbi7v-agentalco.vercel.app` | Blue themes, A monogram, new public pages, app shell |
+| 2026-11-19 | `live-2026-11-19-round2` | `b506458` | `agental-rmh721urr-agentalco.vercel.app` | Audience pages with account card, home sections, Limelight templates and Try it, cookie consent, tour, uploads, Your website. Applied four database migrations. |
+| 2026-11-19 | `live-2026-11-19-release1` | `18c3287` | `agental-2bj1oiw9g-agentalco.vercel.app` | Beta notices (footer, About, Limelight), Settings > Connected accounts, forgot password, reset and email confirmation pages, release log, handoff file. No migration. |
+| 2026-11-19 | `live-2026-11-19-release2` | `bff6edb` | `agental-exmsrxj64-agentalco.vercel.app` | Beta wording, mandate step replaced by a beta notice, setup resume, Limelight flow and Maya Okafor sample, Agental Find preview, human Messages and team inbox, Limelight requests admin, Specialties and Preferences, Your website approve and publish. Applied three additive migrations. |
+| 2026-11-19 | `live-2026-11-19-google` | `bff6edb` | `agental-o7qjzmknb-agentalco.vercel.app` | Redeploy of release 2 with `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET`: Google button on sign-in pages. No code change, no migration. |
+| 2026-11-19 | `live-2026-11-19-r3-g1` | `30b45cf` | `agental-aczt7s6b1-agentalco.vercel.app` | Round 3 group 1: Free renamed Basic (display only), pricing $0/$19/$250/$500, commission 10/10/7.5/6%, AI search allowances in `src/domain/pricing.ts`, plan details on every card, em dashes removed from copy, Applications subtitle, one profile card on the dashboard. No migration. Previous: `agental-o7qjzmknb-agentalco.vercel.app`. |
+| 2026-11-19 | `live-2026-11-19-r3-g2` | `0432f98` | `agental-h3rvlrm8b-agentalco.vercel.app` | Round 3 group 2: IMDb and portfolio links on Profile (counted in completeness), Your website shows the two Limelight offers and "Send my request" (prefilled form, saved to the Limelight requests), first sign-in suggestion (complete profile, then launch research). Migration `20261123000000_profile_links` (two nullable columns, additive). Previous: `agental-aczt7s6b1-agentalco.vercel.app`. |
+| 2026-11-19 | `live-2026-11-19-r3-g3` | `1ac001e` | `agental-ja5xp4vui-agentalco.vercel.app` | Round 3 group 3: "Start finding roles" green button with AI searches left, quota checked and row written in one transaction (Basic 4, Pro 50 a month), radar animation (reduced motion respected), "Search in progress" on Applications, admin list at /admin/recherches. Migration `20261124000000_role_search_requests` (new table, RLS on). No workflow called. Previous: `agental-h3rvlrm8b-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r3-g4` | `94a07a5` | `agental-f0q6s40mu-agentalco.vercel.app` | Round 3 group 4: self-tape save keeps the take on failure and across an expired session (sign-in returns to the studio), clear message when storage is unreachable, new files under `{userId}/`, storage self-check at `/api/health/storage`, profile picture (crop, replace, remove; header, sidebar, Profile), college student discount by school email (.edu, one account per address, rate-limited, 48 h links). Migration `20261125000000_avatar_student_email` (additive). Previous: `agental-ja5xp4vui-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r3-g5` | `662d285` | `agental-5t8vbm9ag-agentalco.vercel.app` | Round 3 group 5: Messages asks the topic first (My profile, A role or application, Something else); the Agental assistant answers each message from a minimal server-side context (no contact details, content boundaries or media links), rule-based until ASSISTANT_MODEL_ENABLED and ANTHROPIC_API_KEY are set; handoff marks the thread "Waiting for the Agental team" in the performer view and /admin/messages. Migration `20261126000000_assistant_messages` (additive). Previous: `agental-f0q6s40mu-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r4-a` | `2a8971a` | `agental-j0ry17gkc-agentalco.vercel.app` | Round 4 group A: AI search allowances 5, 50, 250, 500 a month; new About page copy in four languages (no father-and-son story); assistant cost guard (Haiku 5.5 default, 300-token cap, daily limit, no retry on another model, docs/ASSISTANT.md). Rollback: `agental-5t8vbm9ag-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r4-b` | `24ce849` | `agental-9efit794l-agentalco.vercel.app` | Round 4 group B: rolling 30-day AI search period from the first search (stored in User.searchPeriodStartedAt, migration 20261127000000_search_period), usage line under the button, usage bars in Subscription and the plan switcher, enforced on the server; a plan change keeps the reset date. Rollback: `agental-j0ry17gkc-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r4-c1` | `7819cbe` | `agental-qptszo8sf-agentalco.vercel.app` | Round 4 group C part 1: Supabase Storage driver (private buckets selftapes/avatars/media, TUS resumable uploads, signed URLs, R2 read fallback, admin copy route), dormant until SUPABASE_SERVICE_ROLE_KEY is set; only a missing session answers errors.unauthorized and the browser re-checks the session before leaving a recording; profile photos and videos go straight to storage. Rollback: `agental-9efit794l-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r4-cd` | `3df2971` | `agental-3207nden0-agentalco.vercel.app` | Round 4 groups C (part 2) and D: 50 MB video cap (Supabase Free); Verify your email banner with resend for older unconfirmed password accounts; 60 s resend cooldown on Check your inbox; EMAIL_FROM and EMAIL_VERIFICATION_REQUIRED_SINCE=2026-11-20T09:52:48Z set in Vercel (gate starts once RESEND_API_KEY is added). Rollback: `agental-qptszo8sf-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r4-e` | `9e70d84` | `agental-7ib83n3kk-agentalco.vercel.app` | Round 4 group E: three-step welcome on the dashboard for new performers (outlines the profile card, the green button, Applications and Messages; skippable, replayable from Settings, reduced motion), Google name prefill and optional Google photo, explicit openid/profile/email scopes, privacy page /talents/confidentialite (draft for founders) linked in the footer. Rollback: `agental-3207nden0-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r5-a` | `21bde16` | `agental-2vqur6k92-agentalco.vercel.app` | Round 5 group A: media refusals name their reason (casting account, under 18, no profile); recorder 720p 2.5 Mb/s with auto-stop under 50 MB and the limit shown; avatar under 500 KB; Reel & Self-tape library lists both destinations with play and delete; language and cookie choice remembered on the account; seed refuses non-local databases. Supabase Storage still dormant (no service key). Rollback: `agental-7ib83n3kk-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r5-b` | `9bfb613` | `agental-ix4wun8un-agentalco.vercel.app` | Round 5 group B: rate limits on sign-up (5/h per address, 3/h per email) and sign-in (30 and 10 per 15 min); Cloudflare Turnstile on sign-up and forgot password, off until NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY are set. Real emails and Google round trip wait on owner keys. Rollback: `agental-2vqur6k92-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r5-c` | `4173bd1` | `agental-6w87jhyyf-agentalco.vercel.app` | Round 5 group C: admin accounts index (filters, CSV export) and per-account timeline at /admin/comptes, every view and export logged; one next-action block on the dashboard (profile, then first search, then applications); commission lines back in the in-app plan lists. Rollback: `agental-ix4wun8un-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r5-d` | `dfdd420` | `agental-qyd7mz7oh-agentalco.vercel.app` | Round 5 group D: published Limelight sites at agental.co/s/<name> (profile picture, contact switch respected, gone on Take offline); student price requests listed in /admin/limelight with approve and decline; traced Agental wordmark SVG in the header, sign-in and footer (A monogram unchanged). Rollback: `agental-6w87jhyyf-agentalco.vercel.app`. |
+| 2026-11-20 | `live-2026-11-20-r5-e` | `e751b3b` | `agental-7025u9gzw-agentalco.vercel.app` | Round 5 group E: QA pass (local, phone size, EN and FR), welcome card placed away from the outlined element, STATUS.md rows all done or blocked with reason. Rollback: `agental-qyd7mz7oh-agentalco.vercel.app`. |
+| 2026-11-20 | (no tag; same code as `live-2026-11-20-r5-e`) | `e751b3b` | `agental-4zl9j1leb-agentalco.vercel.app` | Owner redeploy with `SUPABASE_SERVICE_ROLE_KEY` in Production: `/api/health/storage` reports `"storage":"supabase"`, uploads go to Supabase Storage, R2 stays as a read fallback. No code change, no migration. Rollback: `agental-7025u9gzw-agentalco.vercel.app`. |
+| 2026-11-21 | `live-2026-11-21-r6-p1` | `760942e` | `agental-96u1fwos4-agentalco.vercel.app` | Round 6 part 1 (v0.5.2.0, PR #10): the cookie choice follows the account (stricter choice wins per category; Settings saves to the account first, keeps keyboard focus, shows errors); admin R2 to Supabase copy reports sizes and Free-plan fit and copies only files an account still uses. No migration. Rollback: `agental-4zl9j1leb-agentalco.vercel.app`. |
+| 2026-11-21 | `live-2026-11-21-r6-closeout` | `d13f590` | `agental-4p7r3jjg8-agentalco.vercel.app` | Round 6 closeout (v0.5.3.0, PR #11): Talent pricing back to the original grid (Premium $49, Ultimate $79, 5% commission on Ultimate), every plan figure in the copy filled from `src/domain/pricing.ts`, root `CLAUDE.md` and `docs/DECISIONS.md` (founders' decisions and differences found). No migration. Previous: `agental-96u1fwos4-agentalco.vercel.app`. |
+
+Google sign-in: the button is live and reaches Google's account screen. The Google app is still in Testing with no test users, so nobody can finish signing in yet; publishing needs a privacy-policy page (see `docs/HANDOFF.md`).
+
+## Going back one step
+
+The fastest way: make the previous deployment the live one again. Nothing is rebuilt.
+
+```bash
+vercel promote agental-8ey3sbi7v-agentalco.vercel.app
+```
+
+Use the deployment name from the row you want. `vercel rollback` does the same for the deployment just before the current one.
+
+To continue working from an older version of the code:
+
+```bash
+git checkout -b back-to-redesign live-2026-11-18-redesign
+```
+
+## What a rollback does not undo
+
+- **The database.** Migrations are additive (new tables and columns, tighter privileges). Older code runs on the newer database; no data is removed by going back.
+- **Settings in Vercel, Google or Cloudflare.** They stay as they are.
+
+## Rule
+
+Before each production deploy: all checks pass, the tree is committed and pushed. After it: tag the commit `live-YYYY-MM-DD-name`, push the tag, add a row above.
+
+The showcase preview `agental-m1vwewu0h-agentalco.vercel.app` is frozen and never changed or deleted.

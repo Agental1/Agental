@@ -1,26 +1,27 @@
-import { useTranslations } from "next-intl";
-import { Check } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { Check, ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
+import type { PlanB2B, PlanB2C } from "@/domain/enums";
+import { formatPlanPrice as formatPrice, planFeatureLines } from "@/lib/plan-price";
 import { cn } from "@/lib/utils";
 
 /**
- * The highlighted card sits on --surface-inverse, so its secondary text needs
- * the inverse muted role rather than --fg-muted, which would be unreadable.
+ * Plan cards for both audiences, compact: name, price and one button, with
+ * the feature list behind "What's included". The pricing pages pass
+ * `expanded` so the lists start open there.
  *
- * Colour ONLY. It used to also carry `text-sm`, which meant `cn()` — twMerge —
- * resolved the font-size conflict in its favour and silently rendered the 11px
- * commission line at 14px. A helper that names one axis must not smuggle another.
+ * Prices come from `src/domain/pricing.ts`, the same table billing reads, so a
+ * card can never show a figure the server would not charge. Plan names,
+ * feature lines and button labels come from the message files, matched to the
+ * table by position.
  */
-function muted(onInverse: boolean): string {
-  return onInverse ? "text-fg-inverse-muted" : "text-fg-muted";
-}
+const TALENT_PLAN_ORDER: PlanB2C[] = ["FREE", "PRO", "PREMIUM", "ULTIMATE"];
+const CASTING_PLAN_ORDER: PlanB2B[] = ["FREE", "PRO", "STUDIO", "ENTERPRISE"];
 
 type TalentsPlan = {
   name: string;
-  price: string;
-  commission: string;
   cta: string;
   features: string[];
 };
@@ -32,115 +33,144 @@ type CastingPlan = {
   features: string[];
 };
 
-/** B2C pricing cards (Free/Pro/Premium/Ultimate), popular = Pro. */
-export function TalentsPricingGrid() {
-  const t = useTranslations("talents.pricing");
-  const plans = t.raw("plans") as TalentsPlan[];
+function PlanCard({
+  name,
+  price,
+  unit,
+  badge,
+  cta,
+  href,
+  details,
+  lines,
+  highlighted,
+  expanded,
+}: {
+  name: string;
+  price: string;
+  unit?: string;
+  badge?: string;
+  cta: string;
+  href: string;
+  details: string;
+  lines: string[];
+  highlighted: boolean;
+  expanded: boolean;
+}) {
   return (
-    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <div
+      className={cn(
+        "flex flex-col rounded-sedan-xl border bg-surface p-5",
+        highlighted ? "accent-wash border-accent" : "border-border"
+      )}
+    >
+      <div className="flex min-h-7 items-center justify-between gap-3">
+        <h3 className="text-[1.25rem] leading-none">{name}</h3>
+        {badge && (
+          <span className="rounded-full bg-accent px-2.5 py-1 text-[12px] font-bold leading-none text-accent-fg">
+            {badge}
+          </span>
+        )}
+      </div>
+      <p className="mt-4 flex items-baseline gap-1.5">
+        <span className="text-[2rem] font-bold leading-none tracking-[-0.03em] tabular-nums">
+          {price}
+        </span>
+        {unit && <span className="text-[14px] text-fg-muted">{unit}</span>}
+      </p>
+      <Button asChild className="mt-5" variant={highlighted ? "primary" : "secondary"}>
+        <Link href={href}>{cta}</Link>
+      </Button>
+      <details open={expanded} className="group mt-4 border-t border-border pt-1">
+        <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-sedan text-[14px] font-bold text-accent">
+          {details}
+          <ChevronDown
+            aria-hidden="true"
+            className="size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
+          />
+        </summary>
+        <ul className="enter space-y-2 pb-1 pt-1">
+          {lines.map((line) => (
+            <li key={line} className="flex items-start gap-2 text-[14px] leading-snug text-fg-muted">
+              <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-success" />
+              {line}
+            </li>
+          ))}
+        </ul>
+      </details>
+    </div>
+  );
+}
+
+/** Talent plans (Free, Pro, Premium, Ultimate); Pro is the highlighted one. */
+export function TalentsPricingGrid({
+  expanded = false,
+  only,
+}: {
+  expanded?: boolean;
+  /** Show only the first n plans (the audience page shows Free and Pro). */
+  only?: number;
+}) {
+  const t = useTranslations("talents.pricing");
+  const tc = useTranslations("common.pricing");
+  const locale = useLocale();
+  const plans = (t.raw("plans") as TalentsPlan[]).slice(0, only);
+  return (
+    <div
+      className={cn(
+        "grid items-start gap-3 sm:grid-cols-2",
+        only && only <= 2 ? "max-w-[44rem]" : "lg:grid-cols-4"
+      )}
+    >
       {plans.map((plan, i) => {
-        const popular = i === 1;
+        const id = TALENT_PLAN_ORDER[i];
+        const def = B2C_PLANS[id];
         return (
-          <div
+          <PlanCard
             key={plan.name}
-            className={cn(
-              "flex flex-col rounded-sedan-xl border p-[clamp(20px,3vw,26px)]",
-              popular
-                ? "border-transparent bg-surface-inverse text-fg-inverse"
-                : "border-border bg-surface"
-            )}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-lg font-bold">{plan.name}</h3>
-              {popular && <Badge variant="mono">{t("popular")}</Badge>}
-            </div>
-            <div className="mt-3 flex items-baseline gap-1.5">
-              <span className="font-mono text-[32px] font-bold leading-none">
-                {plan.price}
-              </span>
-              <span className={cn("text-sm", muted(popular))}>/{t("perMonth")}</span>
-            </div>
-            <p className={cn("mt-1.5 font-mono text-[11px]", muted(popular))}>
-              {t("commission", { rate: plan.commission })}
-            </p>
-            <ul className="mt-5 flex-1 space-y-2">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check
-                    className={cn(
-                      "mt-0.5 size-4 shrink-0",
-                      popular ? "text-success-inverse" : "text-success"
-                    )}
-                  />
-                  <span className={muted(popular)}>{f}</span>
-                </li>
-              ))}
-            </ul>
-            <Button
-              asChild
-              className="mt-6"
-              variant={popular ? "primary" : "secondary"}
-            >
-              <Link href="/talents/inscription">{plan.cta}</Link>
-            </Button>
-          </div>
+            name={plan.name}
+            price={formatPrice(def.priceCents, locale)}
+            unit={t("perMonth")}
+            badge={i === 1 ? t("popular") : undefined}
+            cta={plan.cta}
+            href="/talents/inscription"
+            details={tc("details")}
+            lines={planFeatureLines(plan.features, locale, id)}
+            highlighted={i === 1}
+            expanded={expanded}
+          />
         );
       })}
     </div>
   );
 }
 
-/** B2B pricing cards (Free/Pro/Studio/Enterprise), recommended = Pro. */
-export function CastingPricingGrid() {
+/** Casting plans (Free, Pro, Studio, Enterprise); Pro is the highlighted one. */
+export function CastingPricingGrid({ expanded = false }: { expanded?: boolean }) {
   const t = useTranslations("casting.pricing");
+  const tc = useTranslations("common.pricing");
+  const locale = useLocale();
   const plans = t.raw("plans") as CastingPlan[];
   return (
-    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid items-start gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {plans.map((plan, i) => {
-        const recommended = i === 1;
+        const id = CASTING_PLAN_ORDER[i];
+        const def = B2B_PLANS[id];
+        // Enterprise is quoted, so its "price" is the wording in the messages.
+        const price = id === "ENTERPRISE" ? plan.price : formatPrice(def.priceCents, locale);
         return (
-          <div
+          <PlanCard
             key={plan.name}
-            className={cn(
-              "flex flex-col rounded-sedan-xl border p-[clamp(20px,3vw,26px)]",
-              recommended
-                ? "border-transparent bg-surface-inverse text-fg-inverse"
-                : "border-border bg-surface"
-            )}
-          >
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-lg font-bold">{plan.name}</h3>
-              {recommended && <Badge variant="mono">{t("recommended")}</Badge>}
-            </div>
-            <div className="mt-3 flex items-baseline gap-1.5">
-              <span className="font-mono text-[32px] font-bold leading-none">
-                {plan.price}
-              </span>
-              {plan.priceUnit && (
-                <span className={cn("text-sm", muted(recommended))}>{plan.priceUnit}</span>
-              )}
-            </div>
-            <ul className="mt-5 flex-1 space-y-2">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check
-                    className={cn(
-                      "mt-0.5 size-4 shrink-0",
-                      recommended ? "text-success-inverse" : "text-success"
-                    )}
-                  />
-                  <span className={muted(recommended)}>{f}</span>
-                </li>
-              ))}
-            </ul>
-            <Button
-              asChild
-              className="mt-6"
-              variant={recommended ? "primary" : "secondary"}
-            >
-              <Link href="/casting/inscription">{plan.cta}</Link>
-            </Button>
-          </div>
+            name={plan.name}
+            price={price}
+            unit={plan.priceUnit || undefined}
+            badge={i === 1 ? t("recommended") : undefined}
+            cta={plan.cta}
+            href="/casting/inscription"
+            details={tc("details")}
+            lines={plan.features}
+            highlighted={i === 1}
+            expanded={expanded}
+          />
         );
       })}
     </div>

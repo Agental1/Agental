@@ -1,13 +1,34 @@
 import { z } from "zod";
-import { IdentityStep, PhysicalStep, SpecialtiesStep } from "./onboarding";
+import { IdentityStep, SpecialtiesStep } from "./onboarding";
+import { HeightInput } from "./height";
+import { ProfileLinks } from "./profile-links";
 
 /** Identity + bio, used on the profile edit screen. */
 export const ProfileIdentity = IdentityStep.extend({
   bio: z.string().max(600).optional(),
+  /** Absent keeps the stored link; an empty string clears it. */
+  imdbUrl: ProfileLinks.shape.imdbUrl.optional(),
+  portfolioUrl: ProfileLinks.shape.portfolioUrl.optional(),
 });
 export type ProfileIdentity = z.infer<typeof ProfileIdentity>;
 
-export const ProfilePhysical = PhysicalStep;
+/**
+ * Physical tab. Height arrives unit-tagged (feet and inches, or centimeters)
+ * and leaves as the stored shape, `heightCm` in whole centimeters.
+ */
+export const ProfilePhysical = z
+  .object({
+    height: HeightInput.optional(),
+    hair: z.string().optional(),
+    eyes: z.string().optional(),
+    build: z.string().optional(),
+    languages: z.array(z.string()).default([]),
+    accents: z.array(z.string()).default([]),
+  })
+  .transform(({ height, ...rest }) =>
+    height === undefined ? rest : { heightCm: height, ...rest }
+  );
+export type ProfilePhysical = z.infer<typeof ProfilePhysical>;
 export const ProfileSpecialties = SpecialtiesStep;
 
 export const AvailabilityInput = z.object({
@@ -18,13 +39,8 @@ export const AvailabilityInput = z.object({
 });
 export type AvailabilityInput = z.infer<typeof AvailabilityInput>;
 
-/** Auto-candidature & career preferences. */
-export const PreferencesInput = z.object({
-  autoApply: z.boolean().default(false),
-  projectTypes: z.array(z.string()).default([]),
-  dailyCap: z.coerce.number().int().min(0).max(100).optional(),
-  minRateEuros: z.coerce.number().min(0).optional(),
-  nudity: z.boolean().default(false),
-  animals: z.boolean().default(false),
-});
-export type PreferencesInput = z.infer<typeof PreferencesInput>;
+/**
+ * Job preferences and content boundaries live in ./preferences.ts. Re-exported
+ * so existing imports of PreferencesInput from this file keep working.
+ */
+export { ContentBoundariesInput, PreferencesInput } from "./preferences";

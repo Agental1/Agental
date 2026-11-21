@@ -1,6 +1,8 @@
 import {
   DeleteObjectCommand,
   GetObjectCommand,
+  HeadObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -21,8 +23,15 @@ export interface R2Config {
   secretAccessKey: string;
 }
 
-/** How long a presigned read URL stays valid. */
-const SIGNED_URL_TTL_SECONDS = 300;
+/**
+ * How long a presigned read URL stays valid. One hour: a video player keeps
+ * asking for byte ranges from the same URL while it plays, and a five-minute
+ * URL stalled anything longer than that or paused for a while.
+ */
+const SIGNED_URL_TTL_SECONDS = 60 * 60;
+
+/** How long a presigned upload URL stays valid. Matches UPLOAD_TTL_MS. */
+const UPLOAD_URL_TTL_SECONDS = 30 * 60;
 
 export class R2Storage implements Storage {
   private readonly client: S3Client;
@@ -86,17 +95,92 @@ export class R2Storage implements Storage {
    * access control. The TTL is deliberately short: a leaked URL stops working
    * in minutes rather than being a permanent public link to a self-tape.
    */
-  async signedUrl(key: string): Promise<string> {
+  async signedUrl(
+    key: string,
+    opts?: { mime?: string | null; expiresInSeconds?: number }
+  ): Promise<string> {
+    const asked = opts?.expiresInSeconds;
+    const expiresIn =
+      typeof asked === "number" && Number.isFinite(asked) && asked >= 1
+        ? Math.min(Math.floor(asked), SIGNED_URL_TTL_SECONDS)
+        : SIGNED_URL_TTL_SECONDS;
     return getSignedUrl(
       this.client,
-      new GetObjectCommand({ Bucket: this.bucket, Key: key }),
-      { expiresIn: SIGNED_URL_TTL_SECONDS }
+      new GetObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+        // Serve the type we recorded and play in the page: the stored
+        // Content-Type is whatever the browser sent at upload time.
+        ...(opts?.mime ? { ResponseContentType: opts.mime } : {}),
+        ResponseContentDisposition: "inline",
+      }),
+      { expiresIn }
     );
+  }
+
+  async head(key: string): Promise<{ size: number; mime: string } | null> {
+    try {
+      const res = await this.client.send(
+        new HeadObjectCommand({ Bucket: this.bucket, Key: key })
+      );
+      return {
+        size: res.ContentLength ?? 0,
+        mime: res.ContentType ?? "application/octet-stream",
+      };
+    } catch (error) {
+      if (isNotFound(error)) return null;
+      throw error;
+    }
+  }
+
+  async list(prefix: string): Promise<string[]> {
+    const keys: string[] = [];
+    let token: string | undefined;
+    do {
+      const res = await this.client.send(
+        new ListObjectsV2Command({
+          Bucket: this.bucket,
+          Prefix: prefix,
+          ContinuationToken: token,
+        })
+      );
+      for (const item of res.Contents ?? []) if (item.Key) keys.push(item.Key);
+      token = res.IsTruncated ? res.NextContinuationToken : undefined;
+    } while (token);
+    return keys;
+  }
+
+  /**
+   * A URL the browser PUTs the file to. Content-Length is signed, so the URL
+   * accepts exactly the size that was declared and checked. The browser must
+   * send the returned Content-Type header; the bucket needs a CORS rule that
+   * allows PUT with that header from the site's origins.
+   */
+  async presignUpload(
+    key: string,
+    mime: string,
+    sizeBytes: number
+  ): Promise<{ url: string; headers: Record<string, string> }> {
+    const url = await getSignedUrl(
+      this.client,
+      new PutObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+        ContentType: mime,
+        ContentLength: sizeBytes,
+      }),
+      { expiresIn: UPLOAD_URL_TTL_SECONDS }
+    );
+    return { url, headers: { "Content-Type": mime } };
   }
 }
 
 /** R2 answers a missing key with NoSuchKey, or a bare 404 on HeadObject. */
 function isNotFound(error: unknown): boolean {
   const e = error as { name?: string; $metadata?: { httpStatusCode?: number } };
-  return e?.name === "NoSuchKey" || e?.$metadata?.httpStatusCode === 404;
+  return (
+    e?.name === "NoSuchKey" ||
+    e?.name === "NotFound" ||
+    e?.$metadata?.httpStatusCode === 404
+  );
 }

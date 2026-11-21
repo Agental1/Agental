@@ -67,6 +67,8 @@
     "projectTypeRequired": "Sélectionnez au moins un type de projet.",
     "emailInvalid": "Adresse email invalide.",
     "passwordTooShort": "8 caractères minimum.",
+    "passwordNeedsUppercase": "Ajoute au moins une majuscule.",
+    "passwordNeedsSpecial": "Ajoute au moins un caractère spécial, comme ! ou #.",
     "invalidPlan": "Plan invalide.",
     "invalidMediaType": "Type de média invalide.",
     "profileNotFound": "Profil introuvable.",
@@ -81,14 +83,101 @@
     "billingUnavailable": "Les offres payantes ne sont pas encore disponibles.",
     "limelightContactRequired": "Ajoute ton nom pour qu’on sache à qui répondre.",
     "limelightSendFailed": "Ton message n’est pas parti. Réessaie dans un instant, ou écris-nous par email.",
-    "limelightTooMany": "Trop de messages depuis cette connexion. Réessaie dans quelques minutes."
+    "limelightTooMany": "Trop de messages depuis cette connexion. Réessaie dans quelques minutes.",
+    "oauthNoAccount": "Cette connexion a expiré. Recommence avec Google ou Apple.",
+    "oauthEmailUnverified": "Ton compte Google ou Apple doit avoir une adresse email vérifiée pour te connecter ici.",
+    "oauthLinkRequiresPassword": "Un compte utilise déjà cette adresse email. Connecte-toi avec ton email et ton mot de passe.",
+    "oauthGeneric": "La connexion avec Google ou Apple a échoué. Réessaie.",
+    "adultsOnly": "Il faut avoir 18 ans ou plus pour rejoindre Agental.",
+    "birthDateRequired": "Indique ta date de naissance.",
+    "birthDateInvalid": "Vérifie ta date de naissance.",
+    "heightRange": "La taille doit être comprise entre 91 et 241 cm.",
+    "mandatAlreadySigned": "Ton mandat est déjà signé.",
+    "uploadTooLarge": "Ce fichier est trop lourd. La limite est de {limit} Mo.",
+    "uploadTypeNotAllowed": "Ce type de fichier n'est pas pris en charge.",
+    "uploadQuota": "Ton espace média est plein. Supprime un fichier pour en ajouter un nouveau.",
+    "uploadNotFound": "Cet envoi a expiré. Relance-le.",
+    "studentCodeInvalid": "Ce code n'est pas valide.",
+    "studentCodeExpired": "Ce code a expiré.",
+    "studentCodeUsedUp": "Ce code a atteint sa limite d'utilisation.",
+    "tooManyAttempts": "Trop de tentatives. Réessaie plus tard.",
+    "siteNotFound": "Ce site est introuvable.",
+    "siteInvalid": "Des informations du site manquent ou sont trop longues.",
+    "sitePaymentRequired": "Choisis une offre avant de publier ton site.",
+    "siteLimitReached": "Tu peux avoir jusqu'à {limit} sites.",
+    "emailLinkInvalid": "Ce lien n'est pas valide. Demande-en un nouveau.",
+    "emailLinkExpired": "Ce lien a expiré. Demande-en un nouveau.",
+    "emailSendFailed": "L'email n'a pas pu être envoyé. Réessaie dans quelques minutes.",
+    "shareNotFound": "Ce lien de partage est introuvable.",
+    "shareLimitReached": "Ce clip a déjà {limit} liens actifs. Révoque-en un d'abord.",
+    "mediaNotReady": "Ce clip est encore en cours de traitement. Réessaie dans un instant.",
+    "tapeNotFound": "Cette self-tape est introuvable.",
+    "draftNotFound": "Ce brouillon est introuvable.",
+    "draftAlreadyReviewed": "Ce brouillon a déjà été relu.",
+    "lastLoginMethod": "Ajoute un mot de passe avant de déconnecter ce compte, pour pouvoir encore te connecter.",
+    "providerNotConnected": "Ce compte n'est pas connecté.",
+    "urlInvalid": "Saisis une adresse web complète, commençant par https://.",
+    "nameRequired": "Saisis ton nom.",
+    "consentRequired": "Confirme que nous pouvons te contacter au sujet de ta demande.",
+    "domainInvalid": "Saisis un nom de domaine, par exemple tonnom.com.",
+    "domainTaken": "Ce domaine est déjà relié à un site.",
+    "domainNotVerified": "L'enregistrement DNS est introuvable pour l'instant. Il peut mettre quelques heures à apparaître.",
+    "siteNotApproved": "Valide l'aperçu avant la publication du site.",
+    "mandatUnavailable": "Le mandat de représentation sera disponible ultérieurement.",
+    "messageEmpty": "Écris d’abord un message.",
+    "messageTooLong": "Ton message est trop long. Limite : {limit} caractères.",
+    "phoneRequired": "Ajoute un numéro de téléphone pour qu’on puisse t’appeler.",
+    "phoneInvalid": "Vérifie le numéro de téléphone.",
+    "sitePreviewChanged": "L’aperçu a changé depuis que tu l’as ouvert. Relis la dernière version, puis approuve.",
+    "domainLimitReached": "Un site peut avoir jusqu’à {limit} domaines personnalisés.",
+    "draftMediaLimit": "Un brouillon peut contenir jusqu’à {limit} extraits.",
+    "imdbUrl": "Saisis un lien IMDb du type imdb.com/name/nm1234567.",
+    "portfolioUrl": "Saisis un lien qui commence par https://.",
+    "roleSearchQuota": "Tu n’as plus de recherche IA dans ta formule.",
+    "uploadBlocked": "Impossible de joindre notre stockage, la prise n’est pas encore enregistrée. Elle est toujours là : réessaie dans un instant.",
+    "avatarTooLarge": "Cette photo est trop lourde. Choisis une photo plus légère.",
+    "avatarType": "Choisis une photo JPEG, PNG ou WebP.",
+    "studentEmailInvalid": "Saisis une adresse e-mail valide.",
+    "studentEmailNotSchool": "Utilise ton adresse universitaire, qui se termine par .edu.",
+    "studentEmailTaken": "Cette adresse universitaire a déjà vérifié un autre compte.",
+    "studentEmailAlready": "Ta réduction étudiante est déjà vérifiée.",
+    "studentEmailTooMany": "Trop de demandes. Réessaie dans une heure.",
+    "messageTopicRequired": "Choisis le sujet de ton message.",
+    "mediaNotAllowed": "Impossible d'ajouter des médias à ce compte. Contacte l'équipe Agental si cela te semble anormal.",
+    "sessionCheck": "L'enregistrement n'a pas abouti, mais tu es toujours connecté. Ta prise est conservée : réessaie.",
+    "mediaMinor": "Les médias sont désactivés pour les profils de moins de 18 ans. Si ta date de naissance est erronée, corrige-la sur ta page Profil.",
+    "mediaCastingAccount": "Ce compte est un compte casting. Les médias s'ajoutent depuis un compte artiste.",
+    "captchaFailed": "La vérification de sécurité a échoué. Recharge la page et réessaie."
   },
   "auth": {
     "name": "Nom",
     "email": "Email",
     "password": "Mot de passe",
     "emailPlaceholder": "prenom@exemple.fr",
-    "passwordPlaceholder": "8 caractères minimum"
+    "passwordPlaceholder": "8 caractères ou plus, une majuscule, un caractère spécial",
+    "choose": {
+      "metaTitle": "Choisis ton espace",
+      "title": "Une dernière étape",
+      "subtitle": "Choisis l’espace pour {email}.",
+      "talent": "Je suis un talent",
+      "talentHint": "Être représenté et trouver des rôles.",
+      "casting": "Je suis directeur ou directrice de casting",
+      "castingHint": "Publier des projets et constituer des shortlists."
+    },
+    "rules": {
+      "title": "Ton mot de passe doit contenir",
+      "length": "8 caractères ou plus",
+      "uppercase": "Une majuscule",
+      "special": "Un caractère spécial"
+    }
+  },
+  "height": {
+    "unit": "Unité de taille",
+    "imperial": "pi / po",
+    "metric": "cm",
+    "feet": "Pieds",
+    "inches": "Pouces",
+    "centimeters": "Centimètres"
   },
   "specialties": {
     "figuration": "Figuration",
@@ -99,7 +188,13 @@
     "voix": "Voix & doublage",
     "enfants": "Enfants & ados",
     "createurs": "Créateurs",
-    "performeurs": "Performeurs & scène"
+    "performeurs": "Performeurs & scène",
+    "screen-acting": "Jeu à l’écran",
+    "stage-acting": "Théâtre",
+    "musical-theatre": "Comédie musicale",
+    "improv": "Improvisation",
+    "movement": "Mouvement",
+    "stunt-combat": "Cascades et combat scénique"
   },
   "levels": {
     "BEGINNER": "Débutant",
@@ -131,11 +226,15 @@
   },
   "admin": {
     "title": "Supervision",
-    "subtitle": "Back-office interne — pilotage, conformité et audit.",
+    "subtitle": "Back-office interne, pilotage, conformité et audit.",
     "nav": {
       "overview": "Supervision",
       "audit": "Audit trail",
-      "minors": "Dossiers mineurs"
+      "minors": "Dossiers mineurs",
+      "messages": "Messages",
+      "limelight": "Demandes Limelight",
+      "roleSearches": "Recherches de rôles",
+      "accounts": "Comptes"
     },
     "stats": {
       "artists": "Artistes",
@@ -151,7 +250,7 @@
     "noActivity": "Aucune activité.",
     "audit": {
       "title": "Audit trail",
-      "subtitle": "Toutes les décisions et actions, tracées — la neutralité prouvée.",
+      "subtitle": "Toutes les décisions et actions, tracées, la neutralité prouvée.",
       "date": "Date",
       "action": "Action",
       "resource": "Ressource",
@@ -171,7 +270,140 @@
       "waiting": "Pièces en attente",
       "ready": "Prêt",
       "held": "Bloqué",
-      "toConfirm": "À confirmer"
+      "toConfirm": "À confirmer",
+      "blocked": "Bloqué",
+      "confirmed": "Confirmée",
+      "auth": {
+        "NONE": "À demander",
+        "REQUESTED": "Demandée",
+        "GRANTED": "Accordée",
+        "REFUSED": "Refusée"
+      },
+      "escrowStatus": {
+        "PENDING": "À bloquer",
+        "HELD": "Bloqué",
+        "RELEASED": "Libéré"
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Les conversations entre les artistes et l’équipe Agental. Les artistes voient chaque réponse signée Équipe Agental.",
+      "inbox": "Conversations",
+      "empty": "Les conversations apparaissent ici dès qu’un artiste écrit à l’équipe.",
+      "unread": "{count, plural, one {# non lu} other {# non lus}}",
+      "awaitingReply": "En attente de réponse",
+      "back": "Toutes les conversations",
+      "pick": "Choisissez une conversation pour la lire et y répondre.",
+      "notFound": "Cette conversation est introuvable.",
+      "team": "Équipe Agental",
+      "composerLabel": "Répondre au nom de l’équipe Agental",
+      "placeholder": "Écrire une réponse",
+      "send": "Envoyer la réponse",
+      "sending": "Envoi…",
+      "hint": "L’artiste la lit sur sa page Messages.",
+      "waitingForTeam": "En attente de l’équipe Agental",
+      "assistant": "Assistant Agental",
+      "topics": {
+        "profile": "Mon profil",
+        "application": "Un rôle ou une candidature",
+        "other": "Autre chose"
+      }
+    },
+    "limelight": {
+      "title": "Demandes Limelight",
+      "subtitle": "Toutes les demandes de site, les plus récentes d’abord. Changez le statut une fois la réponse envoyée.",
+      "export": "Exporter en CSV",
+      "filter": "Filtrer par statut",
+      "all": "Toutes",
+      "refMissing": "La demande {reference} ne figure pas dans cette liste. Essayez le filtre Toutes.",
+      "empty": "Les demandes envoyées depuis la page Limelight apparaissent ici.",
+      "reference": "Référence",
+      "date": "Date",
+      "name": "Nom",
+      "email": "Email",
+      "type": "Type de travail",
+      "need": "Besoin",
+      "contact": "Contact souhaité",
+      "status": "Statut",
+      "statusOf": "Statut de {reference}",
+      "submissions": "{count, plural, one {Envoyée # fois} other {Envoyée # fois}}",
+      "prefs": {
+        "email": "Email",
+        "call": "Appel"
+      },
+      "statuses": {
+        "NEW": "Nouvelle",
+        "CONTACTED": "Contactée",
+        "CLOSED": "Close"
+      }
+    },
+    "roleSearches": {
+      "title": "Recherches de rôles IA",
+      "subtitle": "Chaque clic sur « Trouver des rôles ». Les lignes restent en statut queued jusqu’au branchement du workflow.",
+      "empty": "Aucune recherche pour l’instant.",
+      "columns": {
+        "when": "Date",
+        "who": "Compte",
+        "plan": "Formule",
+        "period": "Période",
+        "status": "Statut"
+      }
+    },
+    "accounts": {
+      "title": "Comptes",
+      "subtitle": "{count} comptes. Chaque consultation et export est journalisé.",
+      "search": "Nom ou email",
+      "all": "Tous",
+      "filter": "Filtrer",
+      "csv": "Exporter en CSV",
+      "yes": "Oui",
+      "no": "Non",
+      "back": "Tous les comptes",
+      "timeline": "Chronologie",
+      "open": "Ouvrir",
+      "cols": {
+        "name": "Nom",
+        "email": "Email",
+        "audience": "Public",
+        "plan": "Formule",
+        "created": "Créé le",
+        "method": "Inscription",
+        "verified": "Email vérifié",
+        "completeness": "Profil",
+        "media": "Médias",
+        "website": "Site"
+      },
+      "site": {
+        "none": "Aucun",
+        "draft": "Brouillon",
+        "published": "Publié"
+      },
+      "events": {
+        "signup": "Inscription",
+        "verified": "Email vérifié",
+        "audit": "Action",
+        "media": "Média ajouté",
+        "search": "Recherche IA",
+        "message": "Message",
+        "limelight": "Demande Limelight",
+        "plan": "Formule"
+      }
+    },
+    "studentRequests": {
+      "title": "Demandes de prix étudiant",
+      "note": "Le prix étudiant reste à annoncer. Une demande approuvée permettra de commander à ce prix dès qu'il sera fixé.",
+      "empty": "Aucune demande pour l'instant.",
+      "failed": "Cette décision n'a pas abouti. Recharge et réessaie.",
+      "requested": "Demandé le {date}",
+      "decided": "décidé le {date}",
+      "approve": "Approuver",
+      "decline": "Refuser",
+      "status": {
+        "PENDING": "En attente",
+        "APPROVED": "Approuvée",
+        "REJECTED": "Refusée",
+        "USED": "Utilisée"
+      }
     }
   },
   "matchReasons": {
@@ -180,6 +412,27 @@
     "languageMatch": "Langue demandée maîtrisée",
     "availability": "Disponibilité confirmée",
     "imageRights": "Droits image OK",
-    "sourcedOffRoster": "Sourcé hors roster — même scoring"
+    "sourcedOffRoster": "Sourcé hors roster, même scoring"
+  },
+  "rgpd": {
+    "title": "Données personnelles (RGPD)",
+    "export": "Exporter mes données",
+    "confirmDelete": "Oui, supprimer"
+  },
+  "emails": {
+    "verifySubject": "Confirmez votre adresse email pour Agental",
+    "verifyIntro": "Confirmez que cette adresse est bien la vôtre pour terminer la création de votre compte Agental.",
+    "verifyAction": "Confirmer mon email",
+    "verifyExpiry": "Ce lien est valable 24 heures.",
+    "resetSubject": "Réinitialisez votre mot de passe Agental",
+    "resetIntro": "Une demande de réinitialisation du mot de passe a été faite pour le compte Agental lié à cette adresse.",
+    "resetAction": "Choisir un nouveau mot de passe",
+    "resetExpiry": "Ce lien est valable 1 heure et ne peut servir qu'une fois.",
+    "ignore": "Si vous n'êtes pas à l'origine de cette demande, ignorez cet email. Rien ne change.",
+    "signature": "L'équipe Agental",
+    "studentSubject": "Confirme ton adresse e-mail universitaire pour Agental",
+    "studentIntro": "Confirme cette adresse universitaire pour obtenir la réduction étudiante sur Agental Pro.",
+    "studentAction": "Confirmer mon adresse universitaire",
+    "studentExpiry": "Ce lien fonctionne 48 heures et une seule fois."
   }
 }

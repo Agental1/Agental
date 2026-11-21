@@ -70,8 +70,8 @@ surfaces protégées sont inatteignables sur une base fraîche.
 | `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
 | `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
 | `bun run db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
+| `bun run db:lowercase-emails` | Liste les comptes dont l'email ne diffère que par la casse : la migration `20261120000000_normalize_user_emails` s'arrête tant qu'il en reste (simulation par défaut, `-- --apply` pour réécrire les autres). Marche à suivre : `docs/SUPABASE_ENVIRONMENTS.md` |
 | `bun run extract` | Pipeline d'extraction des assets de charte |
-| `bun run assets:portraits` | Portraits par locale : sources dans `.assets/` (non versionné) → WebP dans `src/assets/portraits/` |
 
 ### Tests
 

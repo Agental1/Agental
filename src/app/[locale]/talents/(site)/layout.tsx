@@ -4,7 +4,6 @@ import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { MarketingHeader, type NavItem } from "@/components/marketing/header";
 import { MarketingFooter } from "@/components/marketing/footer";
-import { ScrollMotion } from "@/components/talents/scroll-motion";
 
 export default function TalentsLayout({
   children,
@@ -39,12 +38,11 @@ export default function TalentsLayout({
         portal="talents"
         home="/talents"
         nav={nav}
-        cta={{ href: "/talents/inscription", label: tt("nav.cta") }}
+        cta={{ href: "/talents#account", label: tt("nav.cta") }}
         crossLink={{ href: "/casting", label: tt("nav.crossLink") }}
       />
       <main id="main" className="flex-1">{children}</main>
       <MarketingFooter home="/talents" nav={nav} />
-      <ScrollMotion />
     </div>
   );
 }

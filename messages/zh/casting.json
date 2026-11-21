@@ -37,7 +37,7 @@
       "3": "外形贴近角色 · 自录试镜已核验",
       "4": "有剧集经验 · 地方口音可信"
     },
-    "perDay": "€{amount}/天"
+    "perDay": "${amount}/天"
   },
   "benefits": {
     "eyebrow": "Agental 为您带来什么",
@@ -132,7 +132,7 @@
     "plans": [
       {
         "name": "免费版",
-        "price": "€0",
+        "price": "$0",
         "priceUnit": "",
         "cta": "试用",
         "features": [
@@ -144,7 +144,7 @@
       },
       {
         "name": "专业版",
-        "price": "€99",
+        "price": "$99",
         "priceUnit": "/席位/月",
         "cta": "选择专业版",
         "features": [
@@ -158,7 +158,7 @@
       },
       {
         "name": "工作室版",
-        "price": "€299",
+        "price": "$299",
         "priceUnit": "/月",
         "cta": "选择",
         "features": [
@@ -190,7 +190,7 @@
   },
   "how": {
     "meta": {
-      "title": "如何运作 — Agental Casting",
+      "title": "如何运作: Agental Casting",
       "description": "从选角需求到约见：Agental 如何筛掉 90% 的申请，只为您呈现真正相关的人选。"
     },
     "hero": {
@@ -224,7 +224,7 @@
   },
   "pricingPage": {
     "meta": {
-      "title": "价格 — Agental Casting",
+      "title": "价格: Agental Casting",
       "description": "按席位和用量定价，贴合您的选角业务。无需承诺。"
     },
     "hero": {
@@ -236,7 +236,7 @@
   },
   "faq": {
     "meta": {
-      "title": "常见问题 — Agental Casting",
+      "title": "常见问题: Agental Casting",
       "description": "关于评分、中立性、自录试镜核验和 Agental Casting 价格的常见问题。"
     },
     "hero": {
@@ -357,7 +357,7 @@
       "questions": {
         "title": {
           "prompt": "项目和角色叫什么？",
-          "placeholder": "例如 Maxime — 剧集《Marée Haute》"
+          "placeholder": "例如 Maxime: 剧集《Marée Haute》"
         },
         "role": {
           "prompt": "用一句话描述这个角色。",
@@ -379,7 +379,7 @@
           "placeholder": "2026 年 9 月"
         },
         "budget": {
-          "prompt": "参考日薪预算（€）？",
+          "prompt": "参考日薪预算（$）？",
           "placeholder": "600"
         }
       },
@@ -387,10 +387,16 @@
         "H": "男",
         "F": "女",
         "Indifférent": "不限"
-      }
+      },
+      "skip": "跳过"
     },
     "plans": {
-      "demo": "演示模式：不会真实扣款。无需承诺，随时可以取消。"
+      "demo": "演示模式：不会真实扣款。无需承诺，随时可以取消。",
+      "current": "当前",
+      "currentPlan": "当前方案",
+      "choose": "选择",
+      "contact": "联系我们",
+      "activeSeats": "{count, plural, other {即 # 个活跃席位}}"
     },
     "minors": {
       "title": "未成年人保护",
@@ -407,12 +413,33 @@
       "confirm": "确认",
       "escrowLabel": "{percent}% 的片酬托管至成年",
       "escrowHeld": "已托管",
-      "escrowTodo": "待托管"
+      "escrowTodo": "待托管",
+      "ready": "可以通知复试",
+      "open": "开启保护档案",
+      "hold": "托管"
     },
     "shortlist": {
       "empty": "没有符合这些筛选条件的资料。",
       "minor": "未成年",
-      "similarProfile": "相似人选"
+      "similarProfile": "相似人选",
+      "neutrality": "中立性：",
+      "diversity": "多样性：{distinct}/{total} 份资料互不相似",
+      "filters": "筛选",
+      "minScore": "最低评分",
+      "allSources": "全部来源",
+      "sort": "排序",
+      "sortBy": {
+        "score": "评分",
+        "rate": "报价",
+        "name": "姓名"
+      },
+      "photo": "照片",
+      "actions": {
+        "star": "标星",
+        "selftape": "自录试镜",
+        "audition": "试镜",
+        "exclude": "排除"
+      }
     },
     "subscription": {
       "title": "订阅",
@@ -434,7 +461,8 @@
       "yours": "您的项目",
       "open": "进行中的项目",
       "shortlisting": "正在生成的候选名单",
-      "shortlisted": "已入围的艺人"
+      "shortlisted": "已入围的艺人",
+      "plan": "{plan}方案"
     },
     "projectStatus": {
       "DRAFT": "草稿",
@@ -508,5 +536,10 @@
         "大型制片厂"
       ]
     }
+  },
+  "oauth": {
+    "google": "使用 Google 继续",
+    "apple": "使用 Apple 继续",
+    "or": "或"
   }
 }

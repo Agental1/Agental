@@ -14,12 +14,17 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const STATUS: Record<string, { label: string; variant: "accent" | "success" | "neutral" | "warning" }> = {
-  DRAFT: { label: "Brouillon", variant: "neutral" },
-  OPEN: { label: "Ouvert", variant: "warning" },
-  SHORTLISTING: { label: "Short-list", variant: "accent" },
-  CLOSED: { label: "Fermé", variant: "neutral" },
-};
+// Variant only: the label is looked up in `space.projectStatus` by the same key.
+const STATUS = {
+  DRAFT: "neutral",
+  OPEN: "warning",
+  SHORTLISTING: "accent",
+  CLOSED: "neutral",
+} as const;
+
+function isProjectStatus(s: string): s is keyof typeof STATUS {
+  return s in STATUS;
+}
 
 export default async function CastingProjectsDashboard({
   params,
@@ -61,7 +66,6 @@ export default async function CastingProjectsDashboard({
           ) : (
             <Badge variant="warning">{t("space.projects.siretPending")}</Badge>
           )}
-          <Badge variant="neutral">Plan {org?.plan}</Badge>
           <Button asChild size="sm">
             <Link href="/casting/app/projets/nouveau">
               <Plus />{t("space.projects.newBrief")}</Link>
@@ -71,9 +75,9 @@ export default async function CastingProjectsDashboard({
 
       <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { label: "Projets ouverts", value: openCount, icon: FolderKanban },
-          { label: "Short-lists en cours", value: projects.filter((p) => p.status === "SHORTLISTING").length, icon: CheckCircle2 },
-          { label: "Talents shortlistés", value: totalCandidates, icon: Users },
+          { label: t("space.projects.open"), value: openCount, icon: FolderKanban },
+          { label: t("space.projects.shortlisting"), value: projects.filter((p) => p.status === "SHORTLISTING").length, icon: CheckCircle2 },
+          { label: t("space.projects.shortlisted"), value: totalCandidates, icon: Users },
         ].map((k) => (
           <div key={k.label} className="rounded-sedan border border-border bg-surface p-5">
             <k.icon className="size-5 text-accent" />
@@ -106,11 +110,13 @@ export default async function CastingProjectsDashboard({
                   <div className="min-w-0 flex-1">
                     <p className="font-medium">{p.title}</p>
                     <p className="text-sm text-fg-muted">
-                      {p.candidatures.length} profil(s) shortlisté(s)
+                      {t("space.project.profilesKept", { count: p.candidatures.length })}
                     </p>
                   </div>
-                  <Badge variant={STATUS[p.status]?.variant ?? "neutral"}>
-                    {STATUS[p.status]?.label ?? p.status}
+                  <Badge variant={isProjectStatus(p.status) ? STATUS[p.status] : "neutral"}>
+                    {isProjectStatus(p.status)
+                      ? t(`space.projectStatus.${p.status}`)
+                      : p.status}
                   </Badge>
                   <ArrowRight className="size-4 text-fg-subtle" />
                 </Link>

@@ -67,6 +67,8 @@
     "projectTypeRequired": "请至少选择一种项目类型。",
     "emailInvalid": "邮箱地址无效。",
     "passwordTooShort": "至少 8 个字符。",
+    "passwordNeedsUppercase": "请至少包含一个大写字母。",
+    "passwordNeedsSpecial": "请至少包含一个特殊字符，例如 ! 或 #。",
     "invalidPlan": "方案无效。",
     "invalidMediaType": "媒体类型无效。",
     "profileNotFound": "未找到该资料。",
@@ -81,14 +83,101 @@
     "billingUnavailable": "付费方案暂未开放。",
     "limelightContactRequired": "请填写你的名字，方便我们回复。",
     "limelightSendFailed": "消息未能发送。请稍后再试，或给我们发邮件。",
-    "limelightTooMany": "此连接发送的消息过多，请几分钟后再试。"
+    "limelightTooMany": "此连接发送的消息过多，请几分钟后再试。",
+    "oauthNoAccount": "此次登录已过期，请重新使用 Google 或 Apple 登录。",
+    "oauthEmailUnverified": "你的 Google 或 Apple 账号需要已验证的邮箱才能在此登录。",
+    "oauthLinkRequiresPassword": "该邮箱已注册账号，请使用邮箱和密码登录。",
+    "oauthGeneric": "Google 或 Apple 登录失败，请重试。",
+    "adultsOnly": "年满 18 岁方可加入 Agental。",
+    "birthDateRequired": "请填写出生日期。",
+    "birthDateInvalid": "请检查出生日期。",
+    "heightRange": "身高须在 91 至 241 厘米之间。",
+    "mandatAlreadySigned": "你的经纪委托已签署。",
+    "uploadTooLarge": "文件过大，上限为 {limit} MB。",
+    "uploadTypeNotAllowed": "不支持这种文件类型。",
+    "uploadQuota": "你的媒体空间已满，请先删除一个文件。",
+    "uploadNotFound": "本次上传已过期，请重新开始。",
+    "studentCodeInvalid": "此代码无效。",
+    "studentCodeExpired": "此代码已过期。",
+    "studentCodeUsedUp": "此代码已达到使用上限。",
+    "tooManyAttempts": "尝试次数过多，请稍后再试。",
+    "siteNotFound": "未找到该网站。",
+    "siteInvalid": "网站信息缺失或过长。",
+    "sitePaymentRequired": "发布网站前请先选择方案。",
+    "siteLimitReached": "最多可创建 {limit} 个网站。",
+    "emailLinkInvalid": "此链接无效，请重新获取。",
+    "emailLinkExpired": "此链接已过期，请重新获取。",
+    "emailSendFailed": "邮件发送失败，请几分钟后重试。",
+    "shareNotFound": "未找到该分享链接。",
+    "shareLimitReached": "该片段已有 {limit} 个有效链接，请先撤销一个。",
+    "mediaNotReady": "该片段仍在处理中，请稍后再试。",
+    "tapeNotFound": "未找到该试镜视频。",
+    "draftNotFound": "未找到该草稿。",
+    "draftAlreadyReviewed": "该草稿已审核过。",
+    "lastLoginMethod": "请先设置密码再断开此账号，以便仍能登录。",
+    "providerNotConnected": "此账号未连接。",
+    "urlInvalid": "请输入以 https:// 开头的完整网址。",
+    "nameRequired": "请输入你的姓名。",
+    "consentRequired": "请确认我们可以就你的申请与你联系。",
+    "domainInvalid": "请输入域名，例如 yourname.com。",
+    "domainTaken": "该域名已连接到其他网站。",
+    "domainNotVerified": "暂未找到 DNS 记录，可能需要几个小时才会生效。",
+    "siteNotApproved": "发布网站前请先确认预览。",
+    "mandatUnavailable": "代理协议将稍后提供。",
+    "messageEmpty": "请先输入消息。",
+    "messageTooLong": "消息太长，请控制在 {limit} 个字符以内。",
+    "phoneRequired": "请填写电话号码，方便我们致电。",
+    "phoneInvalid": "请检查电话号码。",
+    "sitePreviewChanged": "预览在你打开后已更新。请查看最新版本后再批准。",
+    "domainLimitReached": "每个网站最多可绑定 {limit} 个自定义域名。",
+    "draftMediaLimit": "每份草稿最多可附 {limit} 个片段。",
+    "imdbUrl": "请输入类似 imdb.com/name/nm1234567 的 IMDb 链接。",
+    "portfolioUrl": "请输入以 https:// 开头的链接。",
+    "roleSearchQuota": "你的方案已没有剩余的 AI 搜索次数。",
+    "uploadBlocked": "暂时无法连接存储，这条录像还没有保存。录像仍在这里，请稍后再试。",
+    "avatarTooLarge": "这张照片太大，请选择更小的照片。",
+    "avatarType": "请选择 JPEG、PNG 或 WebP 格式的照片。",
+    "studentEmailInvalid": "请输入有效的邮箱地址。",
+    "studentEmailNotSchool": "请使用以 .edu 结尾的学校邮箱。",
+    "studentEmailTaken": "此学校邮箱已验证过另一个账户。",
+    "studentEmailAlready": "你的学生优惠已验证。",
+    "studentEmailTooMany": "请求过多，请一小时后再试。",
+    "messageTopicRequired": "请选择消息的主题。",
+    "mediaNotAllowed": "此账户无法添加媒体。如有疑问，请联系 Agental 团队。",
+    "sessionCheck": "保存未成功，但你仍处于登录状态。你的录像已保留，请重试。",
+    "mediaMinor": "未满 18 岁的资料无法添加媒体。如果出生日期有误，请在资料页更正。",
+    "mediaCastingAccount": "这是选角账户，请使用表演者账户添加媒体。",
+    "captchaFailed": "安全验证未通过，请刷新页面后重试。"
   },
   "auth": {
     "name": "姓名",
     "email": "邮箱",
     "password": "密码",
     "emailPlaceholder": "name@example.com",
-    "passwordPlaceholder": "至少 8 个字符"
+    "passwordPlaceholder": "至少 8 个字符，含一个大写字母和一个特殊字符",
+    "choose": {
+      "metaTitle": "选择你的空间",
+      "title": "最后一步",
+      "subtitle": "为 {email} 选择空间。",
+      "talent": "我是艺人",
+      "talentHint": "获得代理，寻找角色。",
+      "casting": "我是选角导演",
+      "castingHint": "发布项目，建立候选名单。"
+    },
+    "rules": {
+      "title": "密码需要包含",
+      "length": "至少 8 个字符",
+      "uppercase": "一个大写字母",
+      "special": "一个特殊字符"
+    }
+  },
+  "height": {
+    "unit": "身高单位",
+    "imperial": "英尺/英寸",
+    "metric": "厘米",
+    "feet": "英尺",
+    "inches": "英寸",
+    "centimeters": "厘米"
   },
   "specialties": {
     "figuration": "群众演员",
@@ -99,7 +188,13 @@
     "voix": "配音",
     "enfants": "儿童与青少年",
     "createurs": "内容创作者",
-    "performeurs": "表演者与舞台"
+    "performeurs": "表演者与舞台",
+    "screen-acting": "影视表演",
+    "stage-acting": "舞台表演",
+    "musical-theatre": "音乐剧",
+    "improv": "即兴表演",
+    "movement": "形体与动作",
+    "stunt-combat": "特技与舞台格斗"
   },
   "levels": {
     "BEGINNER": "新人",
@@ -135,7 +230,11 @@
     "nav": {
       "overview": "总览",
       "audit": "审计记录",
-      "minors": "未成年人档案"
+      "minors": "未成年人档案",
+      "messages": "消息",
+      "limelight": "Limelight 申请",
+      "roleSearches": "角色搜索",
+      "accounts": "Accounts"
     },
     "stats": {
       "artists": "艺人",
@@ -171,7 +270,140 @@
       "waiting": "等待材料",
       "ready": "已就绪",
       "held": "已托管",
-      "toConfirm": "待确认"
+      "toConfirm": "待确认",
+      "blocked": "受阻",
+      "confirmed": "已确认",
+      "auth": {
+        "NONE": "待申请",
+        "REQUESTED": "已申请",
+        "GRANTED": "已批准",
+        "REFUSED": "已拒绝"
+      },
+      "escrowStatus": {
+        "PENDING": "待托管",
+        "HELD": "已托管",
+        "RELEASED": "已释放"
+      }
+    },
+    "messages": {
+      "title": "消息",
+      "subtitle": "演员与 Agental 团队之间的对话。演员看到的每条回复都署名为 Agental 团队。",
+      "inbox": "对话",
+      "empty": "演员给团队写信后，对话会出现在这里。",
+      "unread": "{count, plural, other {# 条未读}}",
+      "awaitingReply": "等待回复",
+      "back": "全部对话",
+      "pick": "选择一个对话来阅读和回复。",
+      "notFound": "找不到这个对话。",
+      "team": "Agental 团队",
+      "composerLabel": "以 Agental 团队的名义回复",
+      "placeholder": "写下回复",
+      "send": "发送回复",
+      "sending": "正在发送…",
+      "hint": "演员会在自己的“消息”页面看到这条回复。",
+      "waitingForTeam": "等待 Agental 团队回复",
+      "assistant": "Agental 助手",
+      "topics": {
+        "profile": "我的资料",
+        "application": "角色或申请",
+        "other": "其他"
+      }
+    },
+    "limelight": {
+      "title": "Limelight 申请",
+      "subtitle": "所有网站申请，最新的在前。回复后请更改状态。",
+      "export": "导出 CSV",
+      "filter": "按状态筛选",
+      "all": "全部",
+      "refMissing": "申请 {reference} 不在此列表中。请试试“全部”筛选。",
+      "empty": "来自 Limelight 页面的申请会出现在这里。",
+      "reference": "编号",
+      "date": "日期",
+      "name": "姓名",
+      "email": "邮箱",
+      "type": "工作类型",
+      "need": "需求",
+      "contact": "联系方式",
+      "status": "状态",
+      "statusOf": "{reference} 的状态",
+      "submissions": "{count, plural, other {已提交 # 次}}",
+      "prefs": {
+        "email": "邮件",
+        "call": "电话"
+      },
+      "statuses": {
+        "NEW": "新申请",
+        "CONTACTED": "已联系",
+        "CLOSED": "已关闭"
+      }
+    },
+    "roleSearches": {
+      "title": "AI 角色搜索",
+      "subtitle": "每一次点击“开始寻找角色”。在工作流接入之前，记录保持 queued 状态。",
+      "empty": "暂无搜索。",
+      "columns": {
+        "when": "时间",
+        "who": "账户",
+        "plan": "方案",
+        "period": "周期",
+        "status": "状态"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "subtitle": "{count} accounts. Every view and export is logged.",
+      "search": "Name or email",
+      "all": "All",
+      "filter": "Filter",
+      "csv": "Export CSV",
+      "yes": "Yes",
+      "no": "No",
+      "back": "All accounts",
+      "timeline": "Timeline",
+      "open": "Open",
+      "cols": {
+        "name": "Name",
+        "email": "Email",
+        "audience": "Audience",
+        "plan": "Plan",
+        "created": "Created",
+        "method": "Sign-up",
+        "verified": "Email verified",
+        "completeness": "Profile",
+        "media": "Media",
+        "website": "Website"
+      },
+      "site": {
+        "none": "None",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "events": {
+        "signup": "Signed up",
+        "verified": "Email verified",
+        "audit": "Action",
+        "media": "Media uploaded",
+        "search": "AI search",
+        "message": "Message",
+        "limelight": "Limelight request",
+        "plan": "Plan"
+      }
+    },
+    "studentRequests": {
+      "title": "Student price requests",
+      "note": "The student price itself is still to be announced. Approving lets the student order at that price once it is set.",
+      "empty": "No requests yet.",
+      "failed": "That decision did not go through. Reload and try again.",
+      "requested": "Requested {date}",
+      "decided": "decided {date}",
+      "approve": "Approve",
+      "decline": "Decline",
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Declined",
+        "USED": "Used"
+      }
     }
   },
   "matchReasons": {
@@ -181,5 +413,26 @@
     "availability": "档期已确认",
     "imageRights": "肖像权已确认",
     "sourcedOffRoster": "来自外部渠道，评分标准相同"
+  },
+  "rgpd": {
+    "title": "个人数据（GDPR）",
+    "export": "导出我的数据",
+    "confirmDelete": "是的，删除"
+  },
+  "emails": {
+    "verifySubject": "请确认你在 Agental 的邮箱地址",
+    "verifyIntro": "请确认这个邮箱属于你，以完成 Agental 账号的创建。",
+    "verifyAction": "确认我的邮箱",
+    "verifyExpiry": "此链接 24 小时内有效。",
+    "resetSubject": "重置你的 Agental 密码",
+    "resetIntro": "有人请求重置与此邮箱关联的 Agental 账号的密码。",
+    "resetAction": "设置新密码",
+    "resetExpiry": "此链接 1 小时内有效，且只能使用一次。",
+    "ignore": "如果不是你本人操作，请忽略此邮件，账号不会有任何变化。",
+    "signature": "Agental 团队",
+    "studentSubject": "确认你在 Agental 的学校邮箱",
+    "studentIntro": "确认此学校邮箱，即可享受 Agental 专业版的大学生优惠。",
+    "studentAction": "确认我的学校邮箱",
+    "studentExpiry": "此链接 48 小时内有效，且只能使用一次。"
   }
 }

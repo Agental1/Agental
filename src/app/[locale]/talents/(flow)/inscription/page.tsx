@@ -6,9 +6,13 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { AuthForm } from "@/components/auth/auth-form";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { signupAction } from "@/app/actions/auth";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
-import { parseJson, parseStringArray, PhysicalTraits } from "@/domain/json";
+import { parseJson, PhysicalTraits } from "@/domain/json";
+import { isoDate } from "@/domain/age";
+import { getSetupState } from "@/lib/setup";
+import { SETUP_STEPS } from "@/domain/setup";
 
 export async function generateMetadata({
   params,
@@ -41,6 +45,13 @@ export default async function TalentsSignupPage({
           </h1>
           <p className="text-sm text-fg-muted">{t("signup.subtitle")}</p>
         </div>
+        <OAuthButtons
+          className="mb-4"
+          mode="signup"
+          kind="TALENT"
+          locale={locale}
+          namespace="talents"
+        />
         <AuthForm
           action={signupAction}
           submitLabel={t("signup.submit")}
@@ -57,36 +68,31 @@ export default async function TalentsSignupPage({
     );
   }
 
-  // Signed in → load or create profile, resume onboarding.
+  // Signed in: the basics are saved, so the wizard has nothing left to ask.
+  const { nextStep } = await getSetupState(session.user.id);
+  if (nextStep === null) {
+    return redirect({ href: "/talents/app", locale });
+  }
+
+  // Otherwise load or create the profile and resume at the first unfinished step.
   const profile = await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
-    include: { specialties: true, mandat: true },
+    include: { specialties: true },
   });
-
-  if (profile.mandat?.status === "ACTIVE" && profile.mandat.signedAt) {
-    return redirect({ href: "/talents/app", locale });
-  }
 
   const physical = parseJson(PhysicalTraits, profile.physical);
 
   return (
     <OnboardingWizard
+      initialStep={SETUP_STEPS.indexOf(nextStep)}
       initial={{
         stageName: profile.stageName,
-        legalName: profile.legalName ?? "",
-        phone: profile.phone ?? "",
         city: profile.city ?? "",
-        birthDate: profile.birthDate
-          ? profile.birthDate.toISOString().slice(0, 10)
-          : "",
-        physical,
+        birthDate: profile.birthDate ? isoDate(profile.birthDate) : "",
+        heightCm: physical.heightCm,
         specialties: profile.specialties.map((s) => s.kind),
-        mobilityCountries: parseStringArray(profile.mobilityCountries),
-        minRateEuros: profile.minRateCents
-          ? profile.minRateCents / 100
-          : undefined,
       }}
     />
   );

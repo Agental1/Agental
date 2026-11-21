@@ -36,17 +36,14 @@ export interface ShortlistCard {
   similar: boolean;
 }
 
-const SORTS = [
-  { key: "score", label: "Score" },
-  { key: "rate", label: "Tarif" },
-  { key: "name", label: "Nom" },
-] as const;
+// Keys only: the labels are looked up in `space.shortlist.sortBy`.
+const SORTS = ["score", "rate", "name"] as const;
 
 export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
   const t = useTranslations("casting");
   const [minScore, setMinScore] = useState(0);
   const [source, setSource] = useState<"all" | "AGENTAL" | "EXTERNAL">("all");
-  const [sort, setSort] = useState<(typeof SORTS)[number]["key"]>("score");
+  const [sort, setSort] = useState<(typeof SORTS)[number]>("score");
 
   const visible = useMemo(() => {
     let list = cards.filter(
@@ -71,22 +68,26 @@ export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
     <div className="space-y-4">
       {/* Diversity + provenance summary */}
       <div className="flex flex-wrap items-center gap-3 rounded-sedan border border-border bg-surface p-4 text-sm">
-        <span className="font-medium">Neutralité :</span>
-        <Badge variant="solid">{agental} Agental</Badge>
-        <Badge variant="neutral">{external} External</Badge>
+        <span className="font-medium">{t("space.shortlist.neutrality")}</span>
+        <Badge variant="solid">
+          {agental} {t("demo.sourceAgental")}
+        </Badge>
+        <Badge variant="neutral">
+          {external} {t("demo.sourceExternal")}
+        </Badge>
         <span className="text-fg-muted">·</span>
         <span className="text-fg-muted">
-          Diversité : {diverse}/{cards.length} profils distincts
+          {t("space.shortlist.diversity", { distinct: diverse, total: cards.length })}
         </span>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3 rounded-sedan border border-border bg-surface p-3">
         <span className="flex items-center gap-1.5 text-sm text-fg-muted">
-          <SlidersHorizontal className="size-4" /> Filtres
+          <SlidersHorizontal className="size-4" /> {t("space.shortlist.filters")}
         </span>
         <label className="flex items-center gap-2 text-sm">
-          Score min
+          {t("space.shortlist.minScore")}
           <input
             type="range"
             min={0}
@@ -102,17 +103,17 @@ export function ShortlistBoard({ cards }: { cards: ShortlistCard[] }) {
           value={source}
           onChange={(v) => setSource(v as typeof source)}
           options={[
-            { key: "all", label: "Toutes sources" },
-            { key: "AGENTAL", label: "Agental" },
-            { key: "EXTERNAL", label: "External" },
+            { key: "all", label: t("space.shortlist.allSources") },
+            { key: "AGENTAL", label: t("demo.sourceAgental") },
+            { key: "EXTERNAL", label: t("demo.sourceExternal") },
           ]}
         />
         <div className="ml-auto flex items-center gap-1 text-sm">
-          Trier
+          {t("space.shortlist.sort")}
           <Segmented
             value={sort}
             onChange={(v) => setSort(v as typeof sort)}
-            options={SORTS.map((s) => ({ key: s.key, label: s.label }))}
+            options={SORTS.map((s) => ({ key: s, label: t(`space.shortlist.sortBy.${s}`) }))}
           />
         </div>
       </div>
@@ -158,7 +159,7 @@ function ShortlistItem({ card }: { card: ShortlistCard }) {
             <img src={`/api/media/${card.primaryMediaId}`} alt="" className="size-full object-cover" />
           ) : (
             <div className="flex size-full items-center justify-center text-xs text-fg-subtle">
-              photo
+              {t("space.shortlist.photo")}
             </div>
           )}
         </div>
@@ -184,7 +185,7 @@ function ShortlistItem({ card }: { card: ShortlistCard }) {
             <span className="font-medium">{card.name}</span>
           )}
           <Badge variant={card.source === "AGENTAL" ? "solid" : "neutral"}>
-            {card.source === "AGENTAL" ? "Agental" : "External"}
+            {card.source === "AGENTAL" ? t("demo.sourceAgental") : t("demo.sourceExternal")}
           </Badge>
           {card.isMinor && (
             <Badge variant="warning">
@@ -206,14 +207,18 @@ function ShortlistItem({ card }: { card: ShortlistCard }) {
               <MapPin className="size-3" /> {card.city}
             </span>
           )}
-          {card.rateEuros != null && <span className="font-medium text-fg">{card.rateEuros} €/j</span>}
+          {card.rateEuros != null && (
+            <span className="font-medium text-fg">
+              {t("demo.perDay", { amount: card.rateEuros })}
+            </span>
+          )}
         </div>
 
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <Act active={starred} pending={pending} onClick={() => act(starred ? "star" : "star")} icon={Star} label="Étoile" />
-          <Act active={selftape} pending={pending} onClick={() => act("selftape")} icon={Video} label="Self-tape" />
-          <Act active={invited} pending={pending} onClick={() => act("invite")} icon={CalendarPlus} label="Audition" />
-          <Act pending={pending} onClick={() => act("exclude")} icon={Ban} label="Exclure" danger />
+          <Act active={starred} pending={pending} onClick={() => act(starred ? "star" : "star")} icon={Star} label={t("space.shortlist.actions.star")} />
+          <Act active={selftape} pending={pending} onClick={() => act("selftape")} icon={Video} label={t("space.shortlist.actions.selftape")} />
+          <Act active={invited} pending={pending} onClick={() => act("invite")} icon={CalendarPlus} label={t("space.shortlist.actions.audition")} />
+          <Act pending={pending} onClick={() => act("exclude")} icon={Ban} label={t("space.shortlist.actions.exclude")} danger />
         </div>
       </div>
     </li>

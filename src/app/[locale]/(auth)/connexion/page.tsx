@@ -1,9 +1,13 @@
+import { safeReturnPath } from "@/domain/return-path";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AuthForm } from "@/components/auth/auth-form";
 import { loginAction } from "@/app/actions/auth";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
+import { ActionErrorMessage } from "@/components/app/action-error";
+import { authErrorKey } from "@/domain/auth-errors";
 
 export async function generateMetadata({
   params,
@@ -17,10 +21,17 @@ export async function generateMetadata({
 
 export default async function LoginPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ error?: string | string[]; next?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
+  // ?error= comes from our OAuth redirects and from Auth.js. It is mapped to a
+  // known message key and never rendered as is.
+  const sp = await searchParams;
+  const errorKey = authErrorKey(sp.error);
+  const next = safeReturnPath(Array.isArray(sp.next) ? sp.next[0] : sp.next) ?? undefined;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -30,7 +41,9 @@ export default async function LoginPage({
         <h1 className="font-display text-2xl font-medium">{t("login.title")}</h1>
         <p className="text-sm text-fg-muted">{t("login.subtitle")}</p>
       </div>
-      <AuthForm action={loginAction} submitLabel={t("login.submit")} locale={locale} />
+      {errorKey && <ActionErrorMessage error={{ key: errorKey }} />}
+      <OAuthButtons mode="signin" locale={locale} namespace="talents" />
+      <AuthForm action={loginAction} submitLabel={t("login.submit")} locale={locale} next={next} />
       <p className="text-center text-sm text-fg-muted">
         {t("login.noAccount")}{" "}
         <Link href="/talents/inscription" className="inline-flex min-h-11 items-center md:min-h-0 text-accent hover:underline">

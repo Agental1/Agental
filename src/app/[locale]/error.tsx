@@ -34,7 +34,7 @@ export default function LocaleError({
       data-portal="talents"
       className="flex min-h-screen flex-col items-center justify-center bg-bg px-4 text-center text-fg"
     >
-      <AgentalMark className="h-20 w-auto text-accent-soft" />
+      <AgentalMark className="h-20 w-auto text-fg" />
       <h1 className="mt-6 font-display text-3xl font-medium tracking-tight">
         {t("error.title")}
       </h1>

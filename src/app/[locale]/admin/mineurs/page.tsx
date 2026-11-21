@@ -15,12 +15,20 @@ export async function generateMetadata({
   return { title: `Bang — ${t("admin.nav.minors")}` };
 }
 
-const STATE_LABEL: Record<string, string> = {
-  OPENED: "Ouvert",
-  DOCS_PENDING: "Pièces en attente",
-  READY: "Prêt",
-  BLOCKED: "Bloqué",
-};
+// Stored code -> message key under `admin.minors`. The columns are plain
+// String columns, so an unknown code falls back to the raw value.
+const STATE_KEY = {
+  OPENED: "open",
+  DOCS_PENDING: "waiting",
+  READY: "ready",
+  BLOCKED: "blocked",
+} as const;
+const AUTH_CODES = ["NONE", "REQUESTED", "GRANTED", "REFUSED"] as const;
+const ESCROW_CODES = ["PENDING", "HELD", "RELEASED"] as const;
+
+function oneOf<T extends string>(codes: readonly T[], value: string): T | null {
+  return (codes as readonly string[]).includes(value) ? (value as T) : null;
+}
 
 export default async function AdminMinorsPage({
   params,
@@ -63,36 +71,51 @@ export default async function AdminMinorsPage({
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {cases.map((c) => (
-                <tr key={c.id} className="bg-surface">
-                  <td className="px-4 py-2.5 font-medium">
-                    {c.artistProfile.stageName}
-                  </td>
-                  <td className="px-4 py-2.5 text-fg-muted">
-                    {c.project?.title ?? "—"}
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <Badge variant={c.prefectoralAuthStatus === "GRANTED" ? "success" : "warning"}>
-                      {c.prefectoralAuthStatus}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <Badge variant={c.escrowStatus === "HELD" ? "success" : "warning"}>
-                      {c.escrowPercent}% · {c.escrowStatus}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <Badge variant={c.parentalPresence ? "success" : "warning"}>
-                      {c.parentalPresence ? "OK" : "À confirmer"}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <Badge variant={c.state === "READY" ? "success" : "neutral"}>
-                      {STATE_LABEL[c.state] ?? c.state}
-                    </Badge>
-                  </td>
-                </tr>
-              ))}
+              {cases.map((c) => {
+                const authCode = oneOf(AUTH_CODES, c.prefectoralAuthStatus);
+                const escrowCode = oneOf(ESCROW_CODES, c.escrowStatus);
+                const stateCode = oneOf(
+                  Object.keys(STATE_KEY) as (keyof typeof STATE_KEY)[],
+                  c.state
+                );
+                return (
+                  <tr key={c.id} className="bg-surface">
+                    <td className="px-4 py-2.5 font-medium">
+                      {c.artistProfile.stageName}
+                    </td>
+                    <td className="px-4 py-2.5 text-fg-muted">
+                      {c.project?.title ?? "—"}
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <Badge variant={c.prefectoralAuthStatus === "GRANTED" ? "success" : "warning"}>
+                        {authCode
+                          ? t(`admin.minors.auth.${authCode}`)
+                          : c.prefectoralAuthStatus}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <Badge variant={c.escrowStatus === "HELD" ? "success" : "warning"}>
+                        {c.escrowPercent}% ·{" "}
+                        {escrowCode
+                          ? t(`admin.minors.escrowStatus.${escrowCode}`)
+                          : c.escrowStatus}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <Badge variant={c.parentalPresence ? "success" : "warning"}>
+                        {c.parentalPresence
+                          ? t("admin.minors.confirmed")
+                          : t("admin.minors.toConfirm")}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <Badge variant={c.state === "READY" ? "success" : "neutral"}>
+                        {stateCode ? t(`admin.minors.${STATE_KEY[stateCode]}`) : c.state}
+                      </Badge>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

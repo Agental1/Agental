@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
+import { MARK_BLUE, MARK_INK, MARK_VIEWBOX } from "@/components/brand/logo";
 
 /**
- * Apple touch icon — the same four-point mark at the 180px iOS asks for.
- *
- * Separate from icon.tsx because iOS ignores the generic one and falls back to
- * a screenshot of the page when this is missing, which is how "Add to home
- * screen" ends up showing a blurry crop of the header.
+ * Apple touch icon: the monogram at the 180px iOS asks for, on white with no
+ * rounding (iOS rounds the corners itself). Separate from icon.tsx because iOS
+ * ignores the generic one and falls back to a screenshot of the page.
  */
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -20,14 +19,14 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#f8f4ec",
+          background: "#ffffff",
         }}
       >
-        <svg width="106" height="148" viewBox="0 0 100 140">
-          <path
-            d="M50 4 Q56 58 90 70 Q56 82 50 136 Q44 82 10 70 Q44 58 50 4 Z"
-            fill="#6e4527"
-          />
+        <svg width="132" height="132" viewBox={MARK_VIEWBOX}>
+          {MARK_BLUE.map((points) => (
+            <polygon key={points} fill="#246bfe" points={points} />
+          ))}
+          <polygon fill="#0b0f1a" points={MARK_INK} />
         </svg>
       </div>
     ),

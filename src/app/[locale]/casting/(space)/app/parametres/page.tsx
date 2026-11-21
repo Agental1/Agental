@@ -9,6 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
+import { ConsentSettings } from "@/components/consent/consent-settings";
+import { getAccountConsent } from "@/lib/account-prefs";
+import { ConnectedAccounts } from "@/components/app/connected-accounts";
+import { B2B_PLANS } from "@/domain/pricing";
 
 export async function generateMetadata({
   params,
@@ -29,6 +33,7 @@ export default async function CastingParametresPage({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "casting" });
+  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -39,6 +44,11 @@ export default async function CastingParametresPage({
   if (!membership) return null;
   const org = membership.organization;
   const activeSeats = org.seats.filter((s) => s.status === "ACTIVE").length;
+  // Display name from the messages, in the order of the B2B_PLANS table.
+  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
+  const planName = planNames[Object.keys(B2B_PLANS).indexOf(org.plan)] ?? org.plan;
+
+  const tc = await getTranslations({ locale, namespace: "common" });
 
   return (
     <div className="max-w-2xl space-y-6">
@@ -47,9 +57,9 @@ export default async function CastingParametresPage({
         <p className="text-fg-muted">{t("space.settings.subtitle")}</p>
       </div>
 
-      <Section icon={Building2} title="Structure">
-        <Row label="Nom" value={org.name} />
-        <Row label="SIRET" value={org.siret ?? "—"} />
+      <Section icon={Building2} title={t("space.settings.org")}>
+        <Row label={t("space.settings.name")} value={org.name} />
+        <Row label={t("space.settings.siret")} value={org.siret ?? "—"} />
         <div className="flex items-center gap-2">
           {org.siretStatus === "VERIFIED" ? (
             <Badge variant="success"><ShieldCheck />{t("space.settings.verified")}</Badge>
@@ -59,22 +69,33 @@ export default async function CastingParametresPage({
         </div>
       </Section>
 
-      <Section icon={Users} title="Sièges">
-        <Row label="Sièges actifs" value={String(activeSeats)} />
+      <Section icon={Users} title={t("space.settings.seats")}>
+        <Row label={t("space.settings.activeSeats")} value={String(activeSeats)} />
       </Section>
 
-      <Section icon={CreditCard} title="Abonnement">
-        <Row label="Plan" value={org.plan} />
+      <Section icon={CreditCard} title={t("space.settings.subscription")}>
+        <Row label={t("space.settings.plan")} value={planName} />
         <Button asChild variant="outline" size="sm">
           <Link href="/casting/app/abonnement">{t("space.settings.manageSub")}</Link>
         </Button>
       </Section>
 
+      <Link
+        href="/casting/app?welcome=1"
+        className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+      >
+        {tc("tour.replay")}
+      </Link>
+
+      <ConnectedAccounts userId={session.user.id} locale={locale} />
+
+      <ConsentSettings current={await getAccountConsent(session.user.id)} />
+
       <RgpdSection />
 
       <form action={logoutAction}>
         <Button type="submit" variant="ghost">
-          <LogOut className="size-4" /> Se déconnecter
+          <LogOut className="size-4" /> {ta("actions.logout")}
         </Button>
       </form>
     </div>

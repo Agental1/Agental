@@ -4,6 +4,8 @@ import { err, type ActionError } from "@/domain/action-result";
 import { auth, signOut } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
+import { getStorage } from "@/lib/storage";
+import { storagePrefixesFor } from "@/domain/uploads";
 
 export type ExportResult =
   | { ok: true; data: unknown }
@@ -34,9 +36,12 @@ export async function exportMyData(): Promise<ExportResult> {
   });
   if (!user) return { ok: false, error: err("errors.notFound") };
 
-  const subscription = await prisma.subscription.findUnique({
-    where: { subjectId: userId },
-  });
+  const [subscription, sites, siteOrders, studentPriceRequest] = await Promise.all([
+    prisma.subscription.findUnique({ where: { subjectId: userId } }),
+    prisma.site.findMany({ where: { userId } }),
+    prisma.siteOrder.findMany({ where: { userId } }),
+    prisma.studentPriceRequest.findUnique({ where: { userId } }),
+  ]);
 
   // Redact secrets.
   const { passwordHash: _drop, ...safeUser } = user;
@@ -55,6 +60,9 @@ export async function exportMyData(): Promise<ExportResult> {
       exportedAt: new Date().toISOString(),
       user: safeUser,
       subscription,
+      sites,
+      siteOrders,
+      studentPriceRequest,
     },
   };
 }
@@ -88,9 +96,35 @@ export async function deleteMyAccount(): Promise<{ ok: boolean; error?: ActionEr
       await prisma.organization.delete({ where: { id: m.organizationId } });
     }
   }
+  // Read before the delete: the profile id names the folders that hold this
+  // person's photos, videos and self-tapes.
+  const profile = await prisma.artistProfile.findUnique({
+    where: { userId },
+    select: { id: true },
+  });
+
   await prisma.subscription.deleteMany({ where: { subjectId: userId } });
   await prisma.user.delete({ where: { id: userId } }); // cascades profile, media rows, etc.
 
+  // The rows are gone; now the files. This runs before signOut, which throws
+  // a redirect, so nothing after it would execute. A failure here is logged
+  // and must not undo a deletion the person asked for.
+  if (profile) await removeStoredFiles(profile.id, userId);
+
   await signOut({ redirectTo: "/" });
   return { ok: true };
+}
+
+/** Delete every object under the talent's folders. Best effort, logged. */
+async function removeStoredFiles(profileId: string, userId: string): Promise<void> {
+  try {
+    const storage = await getStorage();
+    for (const prefix of storagePrefixesFor(profileId, userId)) {
+      for (const key of await storage.list(prefix)) {
+        await storage.delete(key);
+      }
+    }
+  } catch (error) {
+    console.error("[account] stored files not fully removed", { profileId, error });
+  }
 }

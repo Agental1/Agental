@@ -98,7 +98,7 @@ export function CandidaturesList({ rows }: { rows: CandidatureRow[] }) {
                 {r.rateEuros != null && (
                   <div className="flex items-center gap-1 text-sm text-fg-muted">
                     <MapPin className="size-3.5" />
-                    {r.rateEuros} €/j
+                    {t("space.candidatures.ratePerDay", { amount: r.rateEuros })}
                   </div>
                 )}
               </li>

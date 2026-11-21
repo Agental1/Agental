@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { Tabs as TabsPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 export const Tabs = TabsPrimitive.Root;
@@ -28,7 +28,7 @@ export function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        "inline-flex items-center justify-center gap-1.5 rounded-[calc(var(--sedan)-0.2rem)] px-3 py-1.5 text-sm font-medium text-fg-muted transition-colors",
+        "inline-flex items-center justify-center gap-1.5 rounded-[calc(var(--sedan)-0.25rem)] px-3 py-1.5 text-sm font-medium text-fg-muted transition-colors",
         "outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "hover:text-fg data-[state=active]:bg-surface data-[state=active]:text-fg data-[state=active]:shadow-sm",
         className

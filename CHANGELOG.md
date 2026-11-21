@@ -3,7 +3,48 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
-## [Unreleased]
+## [0.5.4.0] - 2026-11-20
+
+### Changed (round 6 part 2, branch `round6-part2-v2`)
+
+- **Saving now confirms itself with a short message at the bottom of the screen.** Profile saves, uploads and sent messages show "Saved", "Uploaded" or "Sent" for a few seconds. Errors still appear next to the field or button that failed, so they stay on screen until you fix them.
+- **Buttons show a spinner while they work** and ignore repeat clicks, without losing keyboard focus. Icon-only buttons in the media manager show their name on hover and on keyboard focus.
+- **Deleting a recording asks first** in a proper dialog, with the recording's name, instead of the browser's own pop-up.
+- **The phone menu is a sliding panel** in the Talent app, the Casting app and admin, with a Close button and the same theme as the page.
+- **Loading screens** show the page's outline while it loads, in all three apps, and screen readers hear "Loading" once.
+- **Cleaner controls:** the availability field is a styled list, the cookie choices are switches, and the AI search allowance and self-tape upload show a progress bar. Motion stays off when your system asks for reduced motion.
+- Under the hood: the interface kit is shadcn/ui, mapped onto the Agental colors in both themes, with one copy of Radix (`radix-ui`) instead of three separate packages.
+
+## [0.5.3.0] - 2026-11-20
+
+### Changed (round 6 closeout, branch `round6-closeout`)
+
+- **Talent prices are back to the original grid.** Premium is $49 a month and Ultimate $79 a month, and Ultimate's commission on bookings is 5%. Basic ($0, 10%) and Pro ($19, 10%) are unchanged, as are the search allowances (5, 50, 250, 500). Every place that shows a price, a commission or a search allowance now reads it from one table, `src/domain/pricing.ts`: the pricing page, the Talent page, the plan cards, the plan switcher, Subscription and the FAQ, in English, French, Spanish and Chinese.
+- **The copy can no longer drift from the prices.** Plan feature lines and the FAQ answer about commission carry placeholders filled from the pricing table, and a test fails if a figure is typed back into that copy.
+
+### Added
+
+- **A permanent project memory.** `docs/DECISIONS.md` records the founders' decisions (products, prices, brand, stack, rules) and lists where the code still differs from them. `CLAUDE.md` tells every future session to read it first and never to change a price, plan, commission, allowance or brand rule without the founders' instruction.
+
+## [0.5.2.0] - 2026-11-20
+
+### Changed (2026-11-20, round 6 part 1, branch `round6`)
+
+- **Your cookie choice now follows your account.** Signing out and back in, or using the same browser for two accounts, no longer brings back a different choice. When the browser and the account disagree, the stricter answer wins for each category, so a refusal is never undone without you choosing again.
+- **Settings › Cookie preferences shows what this browser actually applies** and says "Your choice is saved" only once the account has it. If the save fails, the browser keeps its previous choice and the error is shown.
+- **Keyboard users keep their place** after pressing a cookie button in Settings; focus no longer jumps to the top of the page while the choice saves.
+- **Safer move of stored files from R2 to Supabase** (admin route `/api/admin/storage/copy`). The dry run reports sizes, what Supabase already holds, whether the copy fits the Free plan, and every file the database points to, profile pictures included. The copy moves only files an account still uses, passes over broken, oversized or vanished files, and logs failures without file names.
+
+### Changed (2026-11-18, front-end redesign, branch `frontend-redesign`)
+
+- **Two mirrored themes, one accent.** Talent and Limelight run from white to pale blue (`#FFFFFF` to `#DCEAFF`) with near-black text; Casting runs from near-black to deep blue (`#080B12` to `#102B63`) with white text. Both share the accent `#246BFE`. The Green room and Spotlight palettes, the four web fonts and the scroll-tied animations are gone; type is Helvetica Bold and Regular from the system. Tokens and contrast figures: `src/app/globals.css`.
+- **The A monogram** replaces the "T" tape mark and the four-point star everywhere, app icons included. Files and usage: `brand/README.md`.
+- **Public site.** The entry screen is two tiles ("I'm a performer", "I cast roles") that lead to account creation. Both landings are down to a hero, the steps to join, and compact plan cards; Limelight shows a sample site first, then the offers and the form. No photos of people and no testimonials. Plan prices are read from `src/domain/pricing.ts` and shown in US dollars.
+- **Signed-in apps.** New shell (`src/components/app/app-shell.tsx`): sidebar flush with the left edge from 768px, sticky top bar and menu sheet below, in the Talent app, the Casting app and admin. The plan badge at the top right opens a plan switcher. Text that was hard-coded in French now comes from the message files in all four locales.
+- **Career page.** Shows Roles booked, Gross fee and Net received; the commission figure and column are removed.
+
+Details by task, decisions and open items: `docs/FRONTEND_AUDIT.md` and `docs/FRONTEND_BACKEND_HANDOFF.md`.
+
 
 ### Changed
 

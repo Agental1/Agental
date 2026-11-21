@@ -48,7 +48,7 @@ function TarifsContent() {
         subtitle={t("hero.subtitle")}
       />
       <Section rhythm="major">
-        <CastingPricingGrid />
+        <CastingPricingGrid expanded />
         <p className="mt-6 text-sm text-fg-subtle">{tp("note")}</p>
       </Section>
     </>

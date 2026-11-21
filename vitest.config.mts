@@ -33,6 +33,15 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],
+    server: {
+      deps: {
+        // next-auth imports "next/server" without an extension, and next has
+        // no package.json "exports" map, so Node's ESM resolver refuses it.
+        // Inlined, the import goes through Vite's resolver, which finds
+        // next/server.js. Only tests/lib/auth-config.test.ts loads next-auth.
+        inline: ["next-auth"],
+      },
+    },
     coverage: {
       provider: "v8",
       include: ["src/domain/**", "src/lib/**", "src/data/**", "src/i18n/**"],

@@ -1,8 +1,8 @@
-import { date, euros } from "@/lib/format";
+import { date, money, integer } from "@/lib/format";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { TrendingUp, Wallet, Percent } from "lucide-react";
+import { TrendingUp, Wallet, Clapperboard } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
@@ -45,10 +45,10 @@ export default async function CarrierePage({
   const commissionCents = entries.reduce((s, e) => s + e.commissionCents, 0);
   const netCents = grossCents - commissionCents;
 
+  // Two money figures only. The commission is never shown on this page.
   const stats = [
-    { label: "Cachets bruts", value: euros(grossCents, locale), icon: Wallet },
-    { label: "Net perçu", value: euros(netCents, locale), icon: TrendingUp },
-    { label: "Commission Agental", value: euros(commissionCents, locale), icon: Percent },
+    { label: t("space.career.grossFee"), value: money(grossCents, locale), icon: Wallet },
+    { label: t("space.career.net"), value: money(netCents, locale), icon: TrendingUp },
   ];
 
   return (
@@ -58,7 +58,12 @@ export default async function CarrierePage({
         <p className="text-fg-muted">{t("space.career.subtitle")}</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-sedan border border-border bg-surface p-5 sm:col-span-2">
+          <Clapperboard className="size-5 text-accent" />
+          <p className="mt-3 font-display text-2xl">{integer(entries.length, locale)}</p>
+          <p className="text-sm text-fg-muted">{t("space.career.rolesBooked")}</p>
+        </div>
         {stats.map((s) => (
           <div key={s.label} className="rounded-sedan border border-border bg-surface p-5">
             <s.icon className="size-5 text-accent" />
@@ -78,7 +83,6 @@ export default async function CarrierePage({
                 <th className="px-4 py-3 font-medium">{t("space.career.role")}</th>
                 <th className="px-4 py-3 font-medium">{t("space.career.date")}</th>
                 <th className="px-4 py-3 font-medium text-right">{t("space.career.fee")}</th>
-                <th className="px-4 py-3 font-medium text-right">{t("space.career.commission")}</th>
                 <th className="px-4 py-3 font-medium">{t("space.career.status")}</th>
               </tr>
             </thead>
@@ -89,13 +93,10 @@ export default async function CarrierePage({
                   <td className="px-4 py-3 text-fg-muted">
                     {date(e.date, locale)}
                   </td>
-                  <td className="px-4 py-3 text-right">{euros(e.cachetCents, locale)}</td>
-                  <td className="px-4 py-3 text-right text-fg-muted">
-                    {euros(e.commissionCents, locale)} ({Math.round(e.commissionRate * 100)}%)
-                  </td>
+                  <td className="px-4 py-3 text-right">{money(e.cachetCents, locale)}</td>
                   <td className="px-4 py-3">
                     <Badge variant={e.status === "PAID" ? "success" : "warning"}>
-                      {e.status === "PAID" ? "Payé" : "En attente"}
+                      {e.status === "PAID" ? t("space.career.paid") : t("space.career.pending")}
                     </Badge>
                   </td>
                 </tr>

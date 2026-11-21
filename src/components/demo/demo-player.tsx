@@ -253,7 +253,7 @@ export default function DemoPlayer() {
           onClick={() => void run()}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 bg-surface-inverse px-6 text-center text-fg-inverse"
         >
-          <AgentalMark className="h-14 w-auto text-cta" />
+          <AgentalMark className="h-14 w-auto text-fg" />
           <span className="text-[clamp(36px,5vw,56px)] font-bold leading-none tracking-[0.18em]">
             AGENTAL
           </span>
@@ -314,7 +314,7 @@ export default function DemoPlayer() {
             dangerouslySetInnerHTML={{ __html: end.title }}
           />
           <div className="mt-[1.2em] flex items-center gap-4 border-t-2 border-border-inverse pt-[0.8em] font-mono text-[clamp(16px,1.4vw,24px)]">
-            <AgentalMark className="h-7 w-auto text-cta" />
+            <AgentalMark className="h-7 w-auto text-fg" />
             {HOST}
           </div>
           {end.note && (
