@@ -2,7 +2,7 @@
 
 Updated 2026-11-19, branch `frontend-redesign` (pull request #7, which carries the backend branches `feat/auth-onboarding` #6, `feat/round2-server` #8 and `feat/beta-server` #9).
 
-**Production** (agental.co) runs round 5 (`live-2026-11-20-r5-e`). Earlier: release 2 (`live-2026-11-19-release2`, deployment `agental-exmsrxj64-agentalco.vercel.app`); every release is in docs/RELEASES.md. Round 2 went live on 2026-11-19, then release 1 and release 2 the same day, so the rows marked "done, local" below are now live unless their note says otherwise. Later work is tracked in `docs/HANDOFF.md`.
+**Production** (agental.co) runs v0.5.4.0, round 6 part 2 (`live-2026-11-21-r6-p2`). Earlier: release 2 (`live-2026-11-19-release2`, deployment `agental-exmsrxj64-agentalco.vercel.app`); every release is in docs/RELEASES.md. Round 2 went live on 2026-11-19, then release 1 and release 2 the same day, so the rows marked "done, local" below are now live unless their note says otherwise. Later work is tracked in `docs/HANDOFF.md`.
 
 Status values: **done** (live), **done, local** (committed, checked locally, waiting for deploy), **partial**, **blocked**, **open**.
 
@@ -119,5 +119,5 @@ Status values: **done** (live), **done, local** (committed, checked locally, wai
 | 1.3 remove R2 | open | | After the copy is verified, in its own change. Follow-ups for that change are listed outside the repository. |
 | 1.4 media test on production | open | | Needs the owner signed in on production with their test account. |
 | 1.5 choices on the account | done | `agental-96u1fwos4` | The cookie choice was the only setting kept in the browser; it now follows the account (stricter choice wins). The remaining browser storage holds drafts and a temporary take stash by design. Persistent data: production and preview deployments read the same Supabase Postgres through `DATABASE_URL`, set for both in Vercel; migrations run on production builds only and stay additive (see HANDOFF, Round 5 group A). |
-| Part 2 shadcn/ui | partial | | v0.5.4.0 on branch `round6-part2-v2`, in review, not deployed: toasts, Button loading, Sheet phone menu, Select, Switch, Progress, page skeletons, icon tooltips, AlertDialog for deleting a recording. Not done: before/after screenshots, Casting pages not clicked through, native selects in `height-field.tsx`, `lead-status-select.tsx` and admin filters (see `docs/HANDOFF.md` and `TODOS.md`). |
+| Part 2 shadcn/ui | done (partial scope) | | v0.5.4.0 live (tag `live-2026-11-21-r6-p2`, deployment `agental-82c7l3r32`): toasts, Button loading, Sheet phone menu, Select, Switch, Progress, page skeletons, icon tooltips, AlertDialog for deleting a recording. Not done: before/after screenshots, Casting pages not clicked through, native selects in `height-field.tsx`, `lead-status-select.tsx` and admin filters (see `docs/HANDOFF.md` and `TODOS.md`). |
 | Parts 3 and 4 | open | | Remaining round 5 items, email codes. |
