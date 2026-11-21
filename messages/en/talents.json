@@ -800,6 +800,25 @@
       "searchInProgress": {
         "title": "Search in progress",
         "body": "Our agent is looking for roles for you. Started {date}."
+      },
+      "searches": {
+        "label": "Your recent AI searches",
+        "queued": "Search queued",
+        "running": "Search running",
+        "completed": "Search completed",
+        "failed": "Search failed. It does not count against your searches.",
+        "canceled": "Search canceled. It does not count against your searches.",
+        "started": "Started {date}."
+      },
+      "found": {
+        "title": "Roles found for you",
+        "body": "Each one comes with its source and a draft you can edit. Nothing is sent or submitted until you decide.",
+        "source": "Open the casting notice",
+        "draft": "Draft application",
+        "status": {
+          "draft": "Waiting for your review",
+          "reviewed": "Reviewed"
+        }
       }
     },
     "career": {

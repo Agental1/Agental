@@ -800,6 +800,25 @@
       "searchInProgress": {
         "title": "Búsqueda en curso",
         "body": "Nuestro agente está buscando papeles para ti. Iniciada el {date}."
+      },
+      "searches": {
+        "label": "Tus búsquedas recientes con IA",
+        "queued": "Búsqueda en cola",
+        "running": "Búsqueda en curso",
+        "completed": "Búsqueda completada",
+        "failed": "La búsqueda falló. No cuenta en tus búsquedas.",
+        "canceled": "Búsqueda cancelada. No cuenta en tus búsquedas.",
+        "started": "Iniciada el {date}."
+      },
+      "found": {
+        "title": "Papeles encontrados para ti",
+        "body": "Cada uno con su fuente y un borrador que puedes editar. No se envía nada hasta que lo decidas.",
+        "source": "Abrir el anuncio",
+        "draft": "Borrador de candidatura",
+        "status": {
+          "draft": "Esperando tu revisión",
+          "reviewed": "Revisado"
+        }
       }
     },
     "career": {

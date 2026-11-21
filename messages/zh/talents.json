@@ -800,6 +800,25 @@
       "searchInProgress": {
         "title": "搜索进行中",
         "body": "我们的代理正在为你寻找角色。开始于 {date}。"
+      },
+      "searches": {
+        "label": "你最近的 AI 搜索",
+        "queued": "搜索排队中",
+        "running": "搜索进行中",
+        "completed": "搜索已完成",
+        "failed": "搜索失败，不计入你的搜索次数。",
+        "canceled": "搜索已取消，不计入你的搜索次数。",
+        "started": "开始于 {date}。"
+      },
+      "found": {
+        "title": "为你找到的角色",
+        "body": "每个角色都附有来源和一份可编辑的草稿。在你决定之前不会发送或提交任何内容。",
+        "source": "打开选角公告",
+        "draft": "申请草稿",
+        "status": {
+          "draft": "等待你的审阅",
+          "reviewed": "已审阅"
+        }
       }
     },
     "career": {

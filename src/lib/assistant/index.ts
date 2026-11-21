@@ -1,3 +1,4 @@
+import { askN8nSupport } from "@/lib/n8n/support";
 import en from "../../../messages/en/talents.json";
 import fr from "../../../messages/fr/talents.json";
 import es from "../../../messages/es/talents.json";
@@ -56,11 +57,22 @@ export async function answerMessage(input: {
   question: string;
   locale: string;
   history: { from: "performer" | "team" | "assistant"; body: string }[];
+  /** The performer's message id: one n8n request per message. */
+  requestId?: string;
 }): Promise<AssistantAnswer & { ctx: AssistantContext }> {
   const locale = toLocale(input.locale);
   const ctx = await buildAssistantContext(input.userId, input.topic, locale);
   const { s, raw, planNames } = assistantStrings(locale);
   const planName = planNames[PLAN_INDEX[ctx.plan]] ?? ctx.plan;
+
+  // Staging only: the n8n support entry answers (AGENTAL_FIND_STAGING=1).
+  if (input.requestId) {
+    const n8n = await askN8nSupport({ requestId: input.requestId, question: input.question });
+    if (n8n) {
+      const text = n8n.handoff ? `${n8n.text}\n${raw.handoff}` : n8n.text;
+      return { text, handoff: n8n.handoff, source: "model", ctx };
+    }
+  }
 
   if (assistantModelEnabled()) {
     // Daily cap per performer: past it, messages go to the team.
