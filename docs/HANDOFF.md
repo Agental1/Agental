@@ -2,85 +2,94 @@
 
 Updated 2026-11-21. Read this first, then `docs/STATUS.md` (every task of the first two briefs) and `docs/FRONTEND_BACKEND_HANDOFF.md` (contracts between the two working sessions).
 
-## Round 7 (2026-11-20): start here
+## Round 7 (2026-11-21): start here
 
-Brief: owner's `Agental_Cowork_Round7_Prompt.md` (Desktop). Plan: `docs/ROUND7_PLAN.md`. Branch
-`round7` (from `frontend-redesign` at `27e874c`), pushed, no PR yet, nothing deployed.
+Brief: owner's `Agental_Cowork_Round7_Prompt.md` (Desktop). Plan: `docs/ROUND7_PLAN.md`. n8n
+contract: `docs/N8N_LINK.md`. Limelight: `docs/LIMELIGHT_TRACE.md`. Founders' answers
+(admin = contact@agental.co only, test mode kept, archive only): `docs/DECISIONS.md`.
 
-**Part A is ready to deploy** (commit `0c61cac`). Admin portal: account status (unreviewed,
-approved, test, staff, spam) set one by one or in bulk with one audit entry each; signup totals
-(performers and casting, staff/test/spam apart, Limelight leads excluded); "Agents enabled" in
-the list; Start finding roles refused on the server before any job is queued unless email
-verified, adult, status approved (live) or test (staging), opted in; waiting-for-team view;
-applications and AI jobs; revenue "Unavailable"; Limelight team-alert column. Additive
-migration `20261128000000_account_status`. Checks: typecheck, lint, i18n, 2212 tests on the
-local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa` (report in
-`.gstack/qa-reports/run-20261121T061338Z/`, local only).
+### Live since 2026-11-21: v0.5.5.0
 
-**Before deploying Part A (owner):**
-1. Decide `WORKFLOW_MODE`: without `WORKFLOW_MODE=live` in Vercel Production, only Test
-   accounts can start a search. With it, only Approved accounts. Mark real performers Approved
-   in Admin, Accounts first.
-2. Decide the admin account (contact@agental.co proposed; nothing granted).
-3. Decisions listed in `docs/ROUND7_PLAN.md` (C: backfill; old EXCLUDED rows go back to
-   unreviewed; past clicks count as the opt-in).
-4. Account deletion: proposal in `docs/ACCOUNT_DELETION_PROPOSAL.md`, nothing deleted.
+PR Agental1/Agental#13, squash `2f492d4` on `frontend-redesign`, deployment
+`agental-h6k87gtud-agentalco.vercel.app`, tag `live-2026-11-21-r7`. Rollback:
+`vercel promote agental-82c7l3r32-agentalco.vercel.app`. Parts B and C, with the Part A
+portal they depend on (account status, Agents gate, waiting view, jobs, revenue). The build
+applied three additive migrations (`20261128000000_account_status`, `..._search_claim`,
+`..._inbox_replies`).
 
-**Part C is ready to deploy** (code; `8be1372`). Contract and C1 trace in `docs/N8N_LINK.md`.
-Reviewed by one adversarial reviewer (11 findings, all fixed), QA end to end on
-the local DB (search queued, claimed, completed with two fictional roles; performer sees
-"Search completed" and "Roles found for you" with source and draft; nothing sent). 2235 tests
-pass. Not verified: a live call from n8n (needs the staging host and the secret, see access list).
+Checked on production (signed out): pages load; the Limelight form sends
+`source=limelight-page`; `/en/admin` and Applications redirect to sign-in; all five
+`/api/n8n/*` routes answer 404 (no `N8N_SHARED_SECRET` in Production; fail closed is also
+tested in `tests/api/n8n-fail-closed.test.ts`). `WORKFLOW_MODE`, `AGENTAL_FIND_STAGING` and
+`ADMIN_EMAILS` are not set in Production: test mode, only Test accounts can start a search.
+Not checked: the signed-in admin pages on production (needs the admin account below).
 
-**Founders' answers (2026-11-20, recorded in `docs/DECISIONS.md`):** admin is contact@agental.co
-only (now enforced in code: `src/domain/admin.ts`, `isAdmin` flag AND allowlist, every server
-check uses it); keep test mode (`WORKFLOW_MODE` stays unset in production); archive only.
+**Owner, first: grant admin (the agent could not reach the production database).** Supabase,
+project agental, SQL editor:
 
-**Still to do for Part A (owner added it 2026-11-20): the admin site at admin.agental.co.**
-Exact next steps, in order:
-1. Host routing in `src/proxy.ts`: when the host is `admin.agental.co` (and `admin.localhost`
-   for local checks), `/` redirects to `/en/admin`; allow `/{locale}/admin/**`,
-   `/{locale}/connexion`, `/api/auth/**`, `/api/admin/**`, `/api/media/**`, `/api/avatar/**`,
-   static assets; everything else answers 404. The admin layout already checks the role on the
-   server (`isAdminAccount`). Session cookies are per host: email and password sign-in works on
-   the admin host; Google sign-in there needs the redirect URI
-   `https://admin.agental.co/api/auth/callback/google` added in Google Cloud (owner) and a check
-   of `AUTH_URL` (set to www today).
-2. Data views (read-only, search, filters, CSV each): accounts (exists), profiles, media (open
-   only through `/api/media/<id>`, signed URLs), AI searches (exists), applications (exists),
-   messages (exists), Limelight (exists), audit log (exists at `/admin/audit`; add search, CSV).
-   New pages: `/admin/profils`, `/admin/medias`, CSV routes under `/api/admin/*`.
-3. Email log: additive table `EmailLog` (to, subject, kind, resendId, status queued, sent,
-   delivered, bounced, failed, timestamps). Record in `sendEmail` (`src/lib/mailer.ts`) with the
-   Resend id from the API answer; `POST /api/webhooks/resend` verifies the Svix signature with
-   `RESEND_WEBHOOK_SECRET` (owner pastes it from Resend, Webhooks, signing secret, into Vercel
-   Production) and updates the status. Page `/admin/emails`.
-4. Domain: `vercel domains add admin.agental.co` on project agental (owner approval), then the
-   DNS record Vercel prints (a CNAME `admin` to `cname.vercel-dns.com`) at name.com.
-5. Grant admin on production at deploy time: set `isAdmin = true` for contact@agental.co only
-   (one UPDATE, with a dry run first that lists current admins); the code already refuses any
-   other admin in production.
-6. `/review` and `/qa` on the admin site, then "Part A is ready to deploy".
+```sql
+-- 1. Who has the flag today
+SELECT id, email, "accountStatus" FROM "User" WHERE "isAdmin" = true ORDER BY email;
+-- 2. Grant it to contact@agental.co only
+UPDATE "User" SET "isAdmin" = true WHERE lower(email) = 'contact@agental.co';
+-- 3. Optional: clear it from anyone else listed in 1 (the code already refuses them)
+UPDATE "User" SET "isAdmin" = false WHERE "isAdmin" = true AND lower(email) <> 'contact@agental.co';
+```
 
-**Part D (not started):** import "Beta V2 - Direct Replies" into n8n as a separate inactive
-workflow; point its five backend URLs at the staging host `/api/n8n/...` (casting claim and
-complete, inbox claim, complete, review); set the HTTP nodes to the saved Header Auth credential
-(`Authorization: Bearer <N8N_SHARED_SECRET>`); bind saved OpenAI, Perplexity, Gmail credentials;
-provider test with `mode: providers`; prepare D3 and stop for the owner.
+Then sign in as contact@agental.co on www.agental.co and open `/en/admin`: the hub, Accounts
+(totals, statuses), Messages (waiting tab), Applications and AI jobs, Revenue, Limelight.
 
-**Part B is ready to deploy** (commit `2115a74`). Trace, sample submission and answers in
-`docs/LIMELIGHT_TRACE.md`. Changes: the in-app request is recorded as "In the app" (allowlisted
-`source`), the confirmation after sending scrolls into view and takes focus (it rendered above
-the screen before). Checked on the local DB: three sends of one email gave one request
-(`LL-1H5F0SDM`), one reference, one alert, Pending; that fictional sample was then removed from
-the local DB because `tests/api/limelight-leads.test.ts` refuses to run while any alert is
-pending. Review: inline (small diff); QA: browser on the public form; the in-app path is
-covered by a unit test only. Alerts stay Pending in production until `RESEND_API_KEY` and
-`LIMELIGHT_ALERT_EMAIL` are set in Vercel. No alert exists for "site finished".
+### Next 1: Part D, "Beta V2 - Direct Replies" (not started)
 
-**Not available to the agent this run:** Remote Control (auto mode refused to turn it on, so
-push notifications do not reach the phone); allow rules in `.claude/settings.local.json`
-(refused by auto mode).
+Needs from the owner first: an n8n API key in `~/.config/agental/n8n.env`; confirmation that
+Vercel Preview uses the agental-dev database; `N8N_SHARED_SECRET` (random, at least 24
+characters, `openssl rand -base64 32`) pasted in Vercel Preview only, and the same value in an
+n8n Header Auth credential (name `Authorization`, value `Bearer <secret>`); a Vercel protection
+bypass token for the preview; the names of the saved OpenAI, Perplexity and Gmail credentials
+and the Gmail mailbox. Never set the secret in Production during Part D.
+
+1. Deploy `frontend-redesign` as a preview (`vercel deploy`, no `--prod`); previews run no
+   migrations, so the dev database must already have the three round 7 migrations
+   (`bun --bun run prisma migrate deploy` against it, owner confirms the database first).
+2. Import `n8n/agental-pilot/Beta V2 - Direct Replies.json` (outside the repo) as a new,
+   inactive, unpublished workflow. No other workflow is used, copied or edited.
+3. Point its five backend URLs at `<preview>/api/n8n/...` (casting claim and complete, inbox
+   claim, complete, review), with the bypass token; set every HTTP node to the Header Auth
+   credential; bind the saved OpenAI, Perplexity and Gmail credentials.
+4. Provider test: run with `mode: providers` only. Check each provider answers; nothing sent.
+5. Prepare D3 (exact input, expected rows in `inbox_replies`, what the owner clicks), write it
+   here, and stop: the owner runs D3.
+
+### Next 2: Part A addition, the admin site at admin.agental.co (not started)
+
+Same codebase and database; only contact@agental.co as admin; every page checks the role on the
+server; read-only except account status, waiting replies and Limelight follow-up; no secret
+ever displayed. In order:
+1. Host routing in `src/proxy.ts`: on `admin.agental.co` (and `admin.localhost` locally), `/`
+   redirects to `/en/admin`; allow `/{locale}/admin/**`, `/{locale}/connexion`, `/api/auth/**`,
+   `/api/admin/**`, `/api/media/**`, `/api/avatar/**`, static assets; everything else 404.
+   Sessions are per host: email sign-in works there; Google needs the redirect URI
+   `https://admin.agental.co/api/auth/callback/google` (owner, Google Cloud) and a check of
+   `AUTH_URL` (www today).
+2. Data views with search, filters and CSV: profiles (`/admin/profils`), media
+   (`/admin/medias`, opened only through `/api/media/<id>`), audit log (search and CSV added);
+   accounts, searches, applications, messages and Limelight exist.
+3. Email log: additive `EmailLog` table (to, subject, kind, resendId, status queued, sent,
+   delivered, bounced, failed, timestamps); record in `sendEmail` (`src/lib/mailer.ts`);
+   `POST /api/webhooks/resend` checks the Svix signature with `RESEND_WEBHOOK_SECRET` (owner
+   pastes it from Resend, Webhooks, into Vercel Production); page `/admin/emails`.
+4. Domain: `vercel domains add admin.agental.co` (owner approval), then the CNAME `admin` to
+   `cname.vercel-dns.com` at name.com.
+5. `/review` and `/qa`, then report "Part A is ready to deploy"; deploy only on the owner's
+   "deploy".
+
+### Still open from round 7
+
+- Limelight alerts stay Pending until `RESEND_API_KEY` and `LIMELIGHT_ALERT_EMAIL` are set in
+  Vercel Production (`CRON_SECRET` too, for the retry cron).
+- Run tests with Node (`~/Downloads/agental-workflows/.tools/node/bin`), not `bunx vitest`:
+  Bun keeps the CSV byte-order mark and two Limelight CSV tests fail under it.
+- Remote Control and `.claude/settings.local.json` allow rules were refused by auto mode.
 
 ## Round 6 closeout and Part 2 (2026-11-21)
 
