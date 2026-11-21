@@ -26,8 +26,15 @@ local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa`
    unreviewed; past clicks count as the opt-in).
 4. Account deletion: proposal in `docs/ACCOUNT_DELETION_PROPOSAL.md`, nothing deleted.
 
-**Known follow-up for Part C:** searches already queued before an account lost eligibility are
-still in the queue; the n8n claim endpoint re-checks eligibility and cancels them.
+**Part C (built, review and QA pending)** commits up to `2f5e3d5`: contract in `docs/N8N_LINK.md`
+(C1 trace table, five `/api/n8n/*` routes, Bearer secret, atomic claim with eligibility re-check,
+idempotent completion, drafts for review, six-hour searches, Messages via n8n behind
+`AGENTAL_FIND_STAGING=1`, handoff recorded before announced, inbox endpoints and admin email
+list). Migrations `20261128010000_search_claim`, `20261128020000_inbox_replies` (additive). 2228
+tests pass locally. **Exact next step:** run `/review` and `/qa` on Part C (pages: Applications
+for a performer with drafts, Admin Messages waiting view), then Part D (import Direct Replies
+into n8n, unpublished; point its five backend URLs at the staging host `/api/n8n/...`; bind
+saved credentials; provider test).
 
 **Part B is ready to deploy** (commit `2115a74`). Trace, sample submission and answers in
 `docs/LIMELIGHT_TRACE.md`. Changes: the in-app request is recorded as "In the app" (allowlisted
