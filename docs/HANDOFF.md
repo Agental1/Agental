@@ -29,8 +29,15 @@ local DB; `/review` (one combined adversarial reviewer, fixes applied) and `/qa`
 **Known follow-up for Part C:** searches already queued before an account lost eligibility are
 still in the queue; the n8n claim endpoint re-checks eligibility and cancels them.
 
-**Part B:** traced in `docs/LIMELIGHT_TRACE.md`; alerts stay Pending in production until
-`RESEND_API_KEY` and `LIMELIGHT_ALERT_EMAIL` are set.
+**Part B is ready to deploy** (commit `2115a74`). Trace, sample submission and answers in
+`docs/LIMELIGHT_TRACE.md`. Changes: the in-app request is recorded as "In the app" (allowlisted
+`source`), the confirmation after sending scrolls into view and takes focus (it rendered above
+the screen before). Checked on the local DB: three sends of one email gave one request
+(`LL-1H5F0SDM`), one reference, one alert, Pending; that fictional sample was then removed from
+the local DB because `tests/api/limelight-leads.test.ts` refuses to run while any alert is
+pending. Review: inline (small diff); QA: browser on the public form; the in-app path is
+covered by a unit test only. Alerts stay Pending in production until `RESEND_API_KEY` and
+`LIMELIGHT_ALERT_EMAIL` are set in Vercel. No alert exists for "site finished".
 
 **Not available to the agent this run:** Remote Control (auto mode refused to turn it on, so
 push notifications do not reach the phone); allow rules in `.claude/settings.local.json`
