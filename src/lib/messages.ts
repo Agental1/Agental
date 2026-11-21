@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import type { Prisma, PrismaClient } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import {
@@ -171,8 +172,8 @@ export async function ensureTeamThread(db: Tx, userId: string): Promise<string> 
 /* ── Team side ───────────────────────────────────────────────────────────── */
 
 export async function isTeamMember(userId: string, db: Pick<Db, "user"> = prisma): Promise<boolean> {
-  const user = await db.user.findUnique({ where: { id: userId }, select: { isAdmin: true } });
-  return user?.isAdmin === true;
+  const user = await db.user.findUnique({ where: { id: userId }, select: { isAdmin: true, email: true } });
+  return isAdminAccount(user);
 }
 
 export interface TeamThreadRow {
@@ -185,21 +186,29 @@ export interface TeamThreadRow {
   awaitingReply: boolean;
   /** The assistant handed the conversation over: "Waiting for the Agental team". */
   waitingForTeam: boolean;
+  /** When the handoff was recorded, or null. */
+  waitingSince: Date | null;
   /** Messages from the performer the team has not opened. */
   unread: number;
 }
 
-/** The team inbox, most recent conversation first. Empty for a non-admin. */
+/**
+ * The team inbox, most recent conversation first. With `waiting`, only the
+ * threads handed to a person ("Waiting for the Agental team"), the oldest
+ * handoff first. Empty for a non-admin.
+ */
 export async function listTeamThreads(
   viewerUserId: string,
-  opts: { limit?: number } = {},
+  opts: { limit?: number; waiting?: boolean } = {},
   db: Db = prisma
 ): Promise<TeamThreadRow[]> {
   if (!(await isTeamMember(viewerUserId, db))) return [];
   const limit = Math.min(Math.max(Math.trunc(opts.limit ?? 50), 1), 200);
   const threads = await db.thread.findMany({
-    where: { kind: TEAM_THREAD, userId: { not: null } },
-    orderBy: [{ lastMessageAt: "desc" }, { createdAt: "desc" }],
+    where: { kind: TEAM_THREAD, userId: { not: null }, ...(opts.waiting ? { waitingForTeamSince: { not: null } } : {}) },
+    orderBy: opts.waiting
+      ? [{ waitingForTeamSince: "asc" }, { id: "asc" }]
+      : [{ lastMessageAt: "desc" }, { createdAt: "desc" }],
     take: limit,
     select: {
       id: true,
@@ -226,6 +235,7 @@ export async function listTeamThreads(
       awaitingReply:
         thread.waitingForTeamSince !== null || (last ? !last.fromTeam && !last.fromAgent : false),
       waitingForTeam: thread.waitingForTeamSince !== null,
+      waitingSince: thread.waitingForTeamSince,
       unread: thread._count.messages,
     });
   }
@@ -261,4 +271,10 @@ export async function getTeamThread(
     user: thread.user,
     messages: await recentMessages(db, thread.id),
   };
+}
+
+/** How many conversations wait for a person. Zero for a non-admin. */
+export async function countWaitingThreads(viewerUserId: string, db: Db = prisma): Promise<number> {
+  if (!(await isTeamMember(viewerUserId, db))) return 0;
+  return db.thread.count({ where: { kind: TEAM_THREAD, userId: { not: null }, waitingForTeamSince: { not: null } } });
 }

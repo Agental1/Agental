@@ -19,7 +19,7 @@ describe.skipIf(!local)("admin data hub", () => {
 
   it("lists an account with its facts and filters", async () => {
     const [row] = await listAccounts({ q: P });
-    expect(row).toMatchObject({ email: `${P}a@test.local`, audience: "TALENT", plan: "FREE", method: "email", emailVerified: false, website: "none" });
+    expect(row).toMatchObject({ email: `${P}a@test.local`, audience: "TALENT", plan: "FREE", method: "email", emailVerified: false, website: "none", status: "UNREVIEWED", agentsEnabled: false });
     expect(await listAccounts({ q: P, method: "google" })).toHaveLength(0);
   });
 
@@ -29,7 +29,7 @@ describe.skipIf(!local)("admin data hub", () => {
   });
 
   it("neutralizes spreadsheet formulas in the CSV", () => {
-    const csv = accountsCsv([{ id: "1", name: "=cmd", email: "a@b", audience: "TALENT", plan: "FREE", createdAt: new Date(0), method: "email", emailVerified: true, completeness: 10, mediaCount: 0, website: "none" }]);
+    const csv = accountsCsv([{ id: "1", name: "=cmd", email: "a@b", audience: "TALENT", plan: "FREE", createdAt: new Date(0), method: "email", emailVerified: true, status: "UNREVIEWED", isAdmin: false, agentsEnabled: false, completeness: 10, mediaCount: 0, website: "none" }]);
     expect(csv).toContain("'=cmd");
   });
 });

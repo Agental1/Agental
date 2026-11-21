@@ -9,8 +9,14 @@ import {
   FolderKanban,
   Send,
   ShieldAlert,
+  MessageSquare,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
+import { notFound } from "next/navigation";
+import { currentAdminId } from "@/lib/limelight/admin";
+import { signupTotals } from "@/lib/admin/accounts";
+import { jobCounts } from "@/lib/admin/jobs";
+import { countWaitingThreads } from "@/lib/messages";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 
@@ -34,33 +40,31 @@ export default async function AdminDashboard({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "app" });
 
-  const [
-    talents,
-    castings,
-    activeProfiles,
-    orgs,
-    projects,
-    candidatures,
-    pendingMinors,
-    recentAudits,
-  ] = await Promise.all([
-    prisma.user.count({ where: { kind: "TALENT" } }),
-    prisma.user.count({ where: { kind: "CASTING" } }),
-    prisma.artistProfile.count({ where: { status: "ACTIVE" } }),
-    prisma.organization.count(),
+  const viewerId = await currentAdminId();
+  if (!viewerId) notFound();
+  const [totals, waiting, newLeads, jobs, projects, pendingMinors, recentAudits] = await Promise.all([
+    signupTotals(),
+    countWaitingThreads(viewerId),
+    prisma.limelightLead.count({ where: { status: "NEW" } }),
+    jobCounts(),
     prisma.project.count(),
-    prisma.candidature.count(),
     prisma.minorCase.count({ where: { state: { not: "READY" } } }),
     prisma.auditLog.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
   ]);
 
   const kpis = [
-    { label: t("admin.stats.artists"), value: talents, icon: Users },
-    { label: t("admin.stats.activeProfiles"), value: activeProfiles, icon: UserCheck },
-    { label: t("admin.stats.castingDirectors"), value: castings, icon: Users },
-    { label: t("admin.stats.orgs"), value: orgs, icon: Building2 },
-    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban },
-    { label: t("admin.stats.candidatures"), value: candidatures, icon: Send },
+    { label: t("admin.accounts.totals.performers"), value: totals.performers.total, icon: Users, href: "/admin/comptes?audience=TALENT" },
+    { label: t("admin.accounts.totals.casting"), value: totals.casting.total, icon: Building2, href: "/admin/comptes?audience=CASTING" },
+    { label: t("admin.accounts.totals.staff"), value: totals.staff, icon: UserCheck, href: "/admin/comptes?status=STAFF" },
+    { label: t("admin.accounts.totals.test"), value: totals.test, icon: UserCheck, href: "/admin/comptes?status=TEST" },
+    { label: t("admin.accounts.totals.spam"), value: totals.spam, icon: ShieldAlert, href: "/admin/comptes?status=SPAM" },
+    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban, href: "/admin" },
+  ];
+  const todo = [
+    { label: t("admin.nav.waiting"), value: waiting, icon: MessageSquare, href: "/admin/messages?waiting=1" },
+    { label: t("admin.hub.newLeads"), value: newLeads, icon: Send, href: "/admin/limelight?status=NEW" },
+    { label: t("admin.hub.toReview"), value: totals.performers.unreviewed + totals.casting.unreviewed, icon: Users, href: "/admin/comptes?status=UNREVIEWED" },
+    { label: t("admin.hub.jobs", { queued: jobs.queued, running: jobs.running, failed: jobs.failed }), value: jobs.queued + jobs.running, icon: FolderKanban, href: "/admin/recherches" },
   ];
 
   return (
@@ -72,11 +76,22 @@ export default async function AdminDashboard({
 
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {kpis.map((k) => (
-          <div key={k.label} className="rounded-sedan border border-border bg-surface p-4">
+          <Link key={k.label} href={k.href} className="rounded-sedan border border-border bg-surface p-4 transition-colors hover:border-accent">
             <k.icon className="size-4 text-accent" />
-            <p className="mt-2 font-display text-2xl">{k.value}</p>
+            <p className="mt-2 font-display text-2xl tabular-nums">{k.value}</p>
             <p className="text-xs text-fg-muted">{k.label}</p>
-          </div>
+          </Link>
+        ))}
+      </div>
+      <p className="text-xs text-fg-muted">{t("admin.accounts.totals.note")}</p>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {todo.map((k) => (
+          <Link key={k.href} href={k.href} className="flex items-center gap-3 rounded-sedan border border-border bg-surface p-4 transition-colors hover:border-accent">
+            <k.icon className="size-5 shrink-0 text-accent" />
+            <span className="min-w-0 flex-1 text-sm font-medium">{k.label}</span>
+            <Badge variant={k.value > 0 ? "warning" : "neutral"}>{k.value}</Badge>
+          </Link>
         ))}
       </div>
 

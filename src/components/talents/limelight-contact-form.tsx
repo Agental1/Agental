@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
   LIMELIGHT_CONTACT_PREFS,
   LIMELIGHT_DISCIPLINES,
   LIMELIGHT_NEEDS,
+  type LimelightFormSource,
 } from "@/domain/limelight";
 import { cn } from "@/lib/utils";
 
@@ -29,19 +30,22 @@ type Pref = (typeof LIMELIGHT_CONTACT_PREFS)[number];
  * request is in flight, so a double click sends once. Success shows only after
  * the server answers.
  *
- * TODO(backend): `requestPortfolioSite` (feat/beta-server) replaces
- * `submitLimelightLead` with a stored, deduplicated request and a team alert.
+ * `submitLimelightLead` stores the request (one per email) with one team alert
+ * through `recordInterest`, the same path as `POST /api/limelight/interest`.
  */
 export function LimelightContactForm({
   defaults,
   preview,
   submitLabel,
+  source = "limelight-page",
 }: {
   /** Values to start from, for a signed-in performer. */
   defaults?: { name?: string; email?: string; message?: string };
   /** Shown above the fields, e.g. the site preview the request is about. */
   preview?: React.ReactNode;
   submitLabel?: string;
+  /** Recorded on the lead, so staff see where the request came from. */
+  source?: LimelightFormSource;
 } = {}) {
   const t = useTranslations("talents.limelight.contact");
   const to = useTranslations("talents.limelight.offers");
@@ -51,6 +55,16 @@ export function LimelightContactForm({
     undefined
   );
   const id = useId();
+  // The confirmation is shorter than the form it replaces, so it can land
+  // above the screen: bring it into view and give it focus.
+  const successRef = useRef<HTMLDivElement>(null);
+  const ok = state?.ok === true;
+  useEffect(() => {
+    if (!ok) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    successRef.current?.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+    successRef.current?.focus({ preventScroll: true });
+  }, [ok]);
 
   const [name, setName] = useState(defaults?.name ?? "");
   const [email, setEmail] = useState(defaults?.email ?? "");
@@ -72,8 +86,10 @@ export function LimelightContactForm({
   if (state?.ok) {
     return (
       <div
+        ref={successRef}
+        tabIndex={-1}
         role="status"
-        className="flex flex-col items-start gap-4 self-start rounded-sedan-xl border border-border bg-surface p-[clamp(24px,3vw,40px)]"
+        className="flex scroll-mt-24 flex-col items-start gap-4 self-start rounded-sedan-xl border border-border bg-surface p-[clamp(24px,3vw,40px)] outline-none"
       >
         <span className="flex size-11 items-center justify-center rounded-full bg-accent text-accent-fg">
           <Check aria-hidden="true" className="size-5" />
@@ -94,6 +110,7 @@ export function LimelightContactForm({
     >
       {preview}
       <input type="hidden" name="locale" value={locale} />
+      <input type="hidden" name="source" value={source} />
       {/* Honeypot: hidden from people and screen readers, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>

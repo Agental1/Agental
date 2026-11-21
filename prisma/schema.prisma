@@ -58,7 +58,16 @@ model User {
   // Who may go through a real casting workflow run. UNREVIEWED (the default)
   // is refused, so an account nobody has classified never runs. TEST marks the
   // owner's own test accounts: staging and synthetic runs only.
-  workflowAccess        String    @default("UNREVIEWED") // UNREVIEWED | TEST | ELIGIBLE | EXCLUDED
+  workflowAccess        String    @default("UNREVIEWED") // UNREVIEWED | TEST | ELIGIBLE | EXCLUDED (round 7: no longer read, see accountStatus)
+  // Set by staff on /admin/comptes, every change audited (round 7).
+  // UNREVIEWED (default) | APPROVED (a real account) | TEST | STAFF | SPAM.
+  // Agents run only for APPROVED accounts in live, TEST accounts in staging
+  // (src/domain/workflow/eligibility.ts).
+  accountStatus         String    @default("UNREVIEWED")
+  // First "Start finding roles" click: the performer's opt-in to the agents.
+  agentsOptInAt         DateTime?
+  // Opt-in to the six-hour automatic search.
+  autoSearchOptIn       Boolean   @default(false)
 
   accounts            Account[]
   sessions            Session[]
@@ -75,6 +84,7 @@ model User {
   studentPriceRequest StudentPriceRequest?
   studentRedemptions  StudentCodeRedemption[]
 
+  @@index([accountStatus])
   @@schema("public")
 }
 
@@ -971,6 +981,9 @@ model RoleSearchRequest {
   completedAt DateTime?
   /// Short reason when failed, written by the workflow. No personal data.
   error       String?
+  /// The n8n execution that claimed the row (round 7). A completion from any
+  /// other execution is refused, so a retried or stray run cannot write twice.
+  claimedBy   String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -999,5 +1012,31 @@ model StudentEmailClaim {
 
   @@index([userId, createdAt])
   @@index([email])
+  @@schema("public")
+}
+
+/// Replies to people who email the team directly, handled by the n8n "Beta V2
+/// Direct Replies" workflow (round 7). One row per inbound Gmail message: the
+/// claim that keeps a reply single, then the outcome. Gmail ids and reasons
+/// only; the email text stays in Gmail.
+model InboxReply {
+  id             String    @id @default(cuid())
+  gmailThreadId  String
+  gmailMessageId String
+  /// Returned to the workflow on claim; the completion must carry it.
+  claimId        String    @unique @default(cuid())
+  executionId    String?
+  /// claimed | sent | send_needs_reconciliation | needs_human_review | send_skipped
+  status         String    @default("claimed")
+  sentMessageId  String?
+  reason         String?
+  queue          String?
+  priority       String?
+  reviewedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([gmailThreadId, gmailMessageId])
+  @@index([status, createdAt])
   @@schema("public")
 }

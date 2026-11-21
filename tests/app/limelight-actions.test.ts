@@ -177,6 +177,16 @@ describe("submitLimelightLead (the form on the page today)", () => {
     expect(scheduleOutboxDrain).toHaveBeenCalledTimes(1);
   });
 
+  it("records the in-app source, and falls back to the public page for anything else", async () => {
+    recordInterest.mockResolvedValue(stored);
+    await submitLimelightLead(undefined, form({ ...fields, source: "app-site-panel" }));
+    expect(recordInterest.mock.calls[0][0]).toMatchObject({ source: "app-site-panel" });
+    recordInterest.mockClear();
+    recordInterest.mockResolvedValue(stored);
+    await submitLimelightLead(undefined, form({ ...fields, source: "evil-campaign" }));
+    expect(recordInterest.mock.calls[0][0]).toMatchObject({ source: "limelight-page" });
+  });
+
   it("sends the choice alone when there is no message", async () => {
     recordInterest.mockResolvedValue(stored);
 
@@ -292,7 +302,7 @@ describe("setLeadStatus", () => {
   it.each([false, null])("refuses a signed-in account that is not an admin (isAdmin: %j)", async (isAdmin) => {
     signIn(isAdmin);
     expect(await setLeadStatus("lead1", "CONTACTED")).toEqual({ ok: false, error: { key: "errors.forbidden" } });
-    expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: "u1" }, select: { isAdmin: true } });
+    expect(db.user.findUnique).toHaveBeenCalledWith({ where: { id: "u1" }, select: { isAdmin: true, email: true } });
     expect(changeLeadStatus).not.toHaveBeenCalled();
   });
 

@@ -1,5 +1,6 @@
 "use server";
 
+import { isAdminAccount } from "@/domain/admin";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -138,7 +139,8 @@ function needFromLegacyForm(
  * names and its return type unchanged.
  *
  * It stores the lead through the same core as `requestPortfolioSite`:
- * `discipline` becomes `performerType`, the source is "limelight-page", and
+ * `discipline` becomes `performerType`, the source is the form's own
+ * ("limelight-page" on the public page, "app-site-panel" in the app), and
  * the consent version is the one of the privacy line that form shows.
  * `contactPref` and `phone` go through as they are, under the same rule as
  * everywhere: a phone number is required when the person asks for a call,
@@ -169,6 +171,7 @@ export async function submitLimelightLead(
     phone: formData.get("phone") ?? "",
     message: formData.get("message") ?? "",
     locale: formData.get("locale") ?? "en",
+    source: formData.get("source") ?? undefined,
   });
   if (!parsed.success) return { error: zodError(parsed.error) };
   const { need, messageKept } = needFromLegacyForm(parsed.data.need, parsed.data.message);
@@ -184,7 +187,7 @@ export async function submitLimelightLead(
       phone: parsed.data.phone,
       marketingOptIn: false,
       consentVersion: LIMELIGHT_DEFAULT_CONSENT_VERSION,
-      source: "limelight-page",
+      source: parsed.data.source,
     },
     { clientKey: clientAddressKey(await headers()) }
   );
@@ -227,9 +230,9 @@ export async function setLeadStatus(
   if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
   const me = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { isAdmin: true },
+    select: { isAdmin: true, email: true },
   });
-  if (!me?.isAdmin) return { ok: false, error: err("errors.forbidden") };
+  if (!isAdminAccount(me)) return { ok: false, error: err("errors.forbidden") };
 
   const id = LeadId.safeParse(leadId);
   const next = LimelightLeadStatus.safeParse(status);

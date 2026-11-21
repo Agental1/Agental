@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@/generated/prisma/client";
 import { toProfileFacts, type ProfileFacts } from "@/domain/workflow/profile";
 import { workflowEligibility, type WorkflowMode } from "@/domain/workflow/eligibility";
+import { emailIsVerified } from "@/lib/agents";
 
 /**
  * Loading of the pilot profiles a run evaluates.
@@ -40,7 +41,7 @@ export async function loadProfileFacts(
       preferences: true,
       mobilityCountries: true,
       minRateCents: true,
-      user: { select: { id: true, emailVerified: true, workflowAccess: true } },
+      user: { select: { id: true, emailVerified: true, passwordHash: true, accounts: { select: { provider: true } }, accountStatus: true, agentsOptInAt: true, autoSearchOptIn: true } },
       specialties: { select: { kind: true, level: true, tags: true } },
       availability: { select: { from: true, to: true, type: true, zones: true } },
     },
@@ -54,9 +55,10 @@ export async function loadProfileFacts(
     const facts = toProfileFacts(row, now);
     const eligible = workflowEligibility(
       {
-        workflowAccess: row.user.workflowAccess,
-        emailVerified: row.user.emailVerified,
+        accountStatus: row.user.accountStatus,
+        emailVerified: emailIsVerified(row.user),
         isAdult: facts.isAdult,
+        optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn,
       },
       mode
     );

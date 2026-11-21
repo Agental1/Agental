@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
@@ -15,7 +16,7 @@ export async function currentAdminId(): Promise<string | null> {
   if (!id) return null;
   const me = await prisma.user.findUnique({
     where: { id },
-    select: { isAdmin: true },
+    select: { isAdmin: true, email: true },
   });
-  return me?.isAdmin === true ? id : null;
+  return isAdminAccount(me) ? id : null;
 }

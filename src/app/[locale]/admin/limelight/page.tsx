@@ -152,6 +152,7 @@ export default async function AdminLimelightPage({
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.need")}</th>
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.contact")}</th>
                 <th className="px-4 py-3 font-medium">{t("admin.limelight.status")}</th>
+                <th className="px-4 py-3 font-medium">{t("admin.limelight.alert")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -168,7 +169,12 @@ export default async function AdminLimelightPage({
                       isHighlighted ? "bg-accent-soft/60 outline outline-2 -outline-offset-2 outline-accent" : "bg-surface"
                     )}
                   >
-                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{lead.reference}</td>
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
+                      {lead.reference}
+                      <span className="block font-sans text-fg-muted">
+                        {t(`admin.limelight.sources.${lead.source === "app-site-panel" ? "app" : lead.source === "limelight-page" ? "page" : "other"}`)}
+                      </span>
+                    </td>
                     <td className="whitespace-nowrap px-4 py-3 text-fg-muted">
                       <time dateTime={lead.firstSeenAt.toISOString()}>
                         {dateTime(lead.firstSeenAt, locale)}
@@ -222,6 +228,11 @@ export default async function AdminLimelightPage({
                         status={lead.status}
                         label={t("admin.limelight.statusOf", { reference: lead.reference })}
                       />
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-3">
+                      <Badge variant={lead.alert === "SENT" ? "success" : lead.alert === "DEAD" ? "danger" : lead.alert === "PENDING" ? "warning" : "neutral"}>
+                        {t(`admin.limelight.alerts.${lead.alert ?? "NONE"}`)}
+                      </Badge>
                     </td>
                   </tr>
                 );

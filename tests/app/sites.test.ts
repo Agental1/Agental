@@ -461,7 +461,7 @@ describe("site actions: who may call them", () => {
     expect(await call()).toEqual({ ok: false, error: { key: "errors.forbidden" } });
     expect(db.user.findUnique).toHaveBeenCalledWith({
       where: { id: "u1" },
-      select: { isAdmin: true },
+      select: { isAdmin: true, email: true },
     });
     expectNoWrites();
     expect(db.studentPriceRequest.findUnique).not.toHaveBeenCalled();

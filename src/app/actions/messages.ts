@@ -112,6 +112,7 @@ async function replyAsAssistant(input: {
       select: { body: true, fromTeam: true, fromAgent: true },
     });
     const answer = await answerMessage({
+      requestId: input.messageId,
       userId: input.userId,
       topic: input.topic,
       question: input.question,
@@ -122,6 +123,10 @@ async function replyAsAssistant(input: {
       })),
     });
     handoff = answer.handoff;
+    if (handoff) {
+      // Recorded for the team before the performer is told it was handed off.
+      await markWaitingForTeam(input.threadId);
+    }
     await postMessage(prisma, {
       threadId: input.threadId,
       senderId: null,
@@ -135,12 +140,16 @@ async function replyAsAssistant(input: {
     console.error("[assistant] no answer, handed to the team", error instanceof Error ? error.name : "error");
   }
   if (handoff) {
-    await prisma.thread.updateMany({
-      where: { id: input.threadId, waitingForTeamSince: null },
-      data: { waitingForTeamSince: new Date() },
-    });
+    await markWaitingForTeam(input.threadId);
     await alertTeam(input.threadId);
   }
+}
+
+function markWaitingForTeam(threadId: string) {
+  return prisma.thread.updateMany({
+    where: { id: threadId, waitingForTeamSince: null },
+    data: { waitingForTeamSince: new Date() },
+  });
 }
 
 /**

@@ -6,10 +6,19 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { accountTimeline } from "@/lib/admin/accounts";
 import { dateTime } from "@/lib/format";
+import { ACCOUNT_STATUSES, isAccountStatus } from "@/domain/workflow/eligibility";
+import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 
 /** One account's timeline. Media open through the private media route (signed link). */
-export default async function AccountPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
+export default async function AccountPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string; id: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const { locale: raw, id } = await params;
+  const sp = await searchParams;
   const locale = toLocale(raw);
   setRequestLocale(locale);
   const adminId = await currentAdminId();
@@ -32,6 +41,35 @@ export default async function AccountPage({ params }: { params: Promise<{ locale
           {user.artistProfile ? ` · ${user.artistProfile.completenessScore}%` : ""}
         </p>
       </div>
+      <form action={setAccountStatusForm} className="flex flex-wrap items-end gap-2 rounded-sedan border border-border bg-surface p-4">
+        <input type="hidden" name="locale" value={locale} />
+        <input type="hidden" name="id" value={user.id} />
+        <input type="hidden" name="back" value={`/admin/comptes/${user.id}`} />
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="font-bold">{t("admin.accounts.statusOne")}</span>
+          <select
+            name="status"
+            defaultValue={isAccountStatus(user.accountStatus) ? user.accountStatus : "UNREVIEWED"}
+            aria-label={t("admin.accounts.statusOne")}
+            className="h-10 rounded-sedan border border-border bg-surface px-2 text-sm"
+          >
+            {ACCOUNT_STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {t(`admin.accounts.statuses.${s}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button className="h-10 rounded-sedan border border-accent px-4 text-sm font-bold text-accent hover:bg-accent/10">
+          {t("admin.accounts.apply")}
+        </button>
+        {typeof sp.updated === "string" && (
+          <p role="status" className="text-sm text-fg-muted">
+            {t("admin.accounts.updated", { count: Number(sp.updated) || 0 })}
+          </p>
+        )}
+        {user.isAdmin && <span className="text-xs text-fg-muted">{t("admin.accounts.admin")}</span>}
+      </form>
       <h2 className="font-display text-xl font-medium">{t("admin.accounts.timeline")}</h2>
       <ol className="space-y-2">
         {events.map((e, i) => (

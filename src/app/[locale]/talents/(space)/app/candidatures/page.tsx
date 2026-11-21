@@ -7,8 +7,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Radar } from "lucide-react";
-import { listMyRoleSearchesInProgress } from "@/lib/role-search";
+import { listMyRoleSearches } from "@/lib/role-search";
+import { searchState } from "@/lib/admin/jobs";
 import { dateTime } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import {
   CandidaturesList,
   type CandidatureRow,
@@ -47,7 +49,14 @@ export default async function CandidaturesPage({
     orderBy: { appliedAt: "desc" },
   });
 
-  const searches = await listMyRoleSearchesInProgress(session.user.id);
+  const searches = await listMyRoleSearches(session.user.id, 5);
+  // Roles found by the agents: drafts the performer reviews. Nothing is sent.
+  const found = await prisma.applicationDraft.findMany({
+    where: { profileId: profile.id, brief: { source: "n8n-beta-v2" } },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+    select: { id: true, status: true, note: true, createdAt: true, brief: { select: { title: true, roleName: true, sourceRef: true, location: true } } },
+  });
 
   const rows: CandidatureRow[] = candidatures.map((c) => ({
     id: c.id,
@@ -73,22 +82,62 @@ export default async function CandidaturesPage({
         </p>
       </div>
       {searches.length > 0 && (
-        <ul className="space-y-2">
-          {searches.map((s) => (
-            <li
-              key={s.id}
-              className="flex items-center gap-3 rounded-sedan border border-[var(--go)]/40 bg-surface p-4"
-            >
-              <Radar aria-hidden="true" className="size-5 shrink-0 text-[var(--go)]" />
-              <div className="min-w-0 flex-1">
-                <p className="font-medium">{t("space.candidatures.searchInProgress.title")}</p>
-                <p className="text-sm text-fg-muted">
-                  {t("space.candidatures.searchInProgress.body", { date: dateTime(s.createdAt, locale) })}
-                </p>
-              </div>
-            </li>
-          ))}
+        <ul className="space-y-2" aria-label={t("space.candidatures.searches.label")}>
+          {searches.map((s) => {
+            const state = searchState(s.status);
+            const active = state === "queued" || state === "running";
+            return (
+              <li
+                key={s.id}
+                className={cn(
+                  "flex items-center gap-3 rounded-sedan border bg-surface p-4",
+                  active ? "border-[var(--go)]/40" : "border-border"
+                )}
+              >
+                <Radar aria-hidden="true" className={cn("size-5 shrink-0", active ? "text-[var(--go)]" : "text-fg-muted")} />
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium">{t(`space.candidatures.searches.${state}`)}</p>
+                  <p className="text-sm text-fg-muted">
+                    {t("space.candidatures.searches.started", { date: dateTime(s.createdAt, locale) })}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
+      )}
+      {found.length > 0 && (
+        <section aria-labelledby="found-roles" className="space-y-3">
+          <h2 id="found-roles" className="font-display text-xl font-medium">
+            {t("space.candidatures.found.title")}
+          </h2>
+          <p className="text-sm text-fg-muted">{t("space.candidatures.found.body")}</p>
+          <ul className="space-y-3">
+            {found.map((d) => (
+              <li key={d.id} className="rounded-sedan border border-border bg-surface p-4">
+                <p className="font-medium">
+                  {d.brief.roleName ? `${d.brief.roleName} · ` : ""}
+                  {d.brief.title}
+                </p>
+                <p className="text-sm text-fg-muted">
+                  {d.brief.location ? `${d.brief.location} · ` : ""}
+                  {t(`space.candidatures.found.status.${d.status === "DRAFT" ? "draft" : "reviewed"}`)}
+                </p>
+                {d.brief.sourceRef && (
+                  <a href={d.brief.sourceRef} target="_blank" rel="noopener noreferrer nofollow" className="text-sm font-bold text-accent hover:underline">
+                    {t("space.candidatures.found.source")} ({new URL(d.brief.sourceRef).hostname})
+                  </a>
+                )}
+                {d.note && (
+                  <details className="mt-2 text-sm">
+                    <summary className="cursor-pointer font-bold">{t("space.candidatures.found.draft")}</summary>
+                    <p className="mt-2 whitespace-pre-wrap text-fg-muted">{d.note}</p>
+                  </details>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
       <CandidaturesList rows={rows} />
     </div>

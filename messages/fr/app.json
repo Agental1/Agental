@@ -134,6 +134,9 @@
     "imdbUrl": "Saisis un lien IMDb du type imdb.com/name/nm1234567.",
     "portfolioUrl": "Saisis un lien qui commence par https://.",
     "roleSearchQuota": "Tu n’as plus de recherche IA dans ta formule.",
+    "agentsEmailUnverified": "Confirme d’abord ton adresse email, puis lance ta recherche.",
+    "agentsUnderReview": "L’équipe Agental vérifie ton compte. Tes recherches IA s’ouvrent dès qu’il est approuvé.",
+    "agentsUnavailable": "Les recherches IA ne sont pas disponibles sur ce compte. Écris-nous dans Messages si c’est une erreur.",
     "uploadBlocked": "Impossible de joindre notre stockage, la prise n’est pas encore enregistrée. Elle est toujours là : réessaie dans un instant.",
     "avatarTooLarge": "Cette photo est trop lourde. Choisis une photo plus légère.",
     "avatarType": "Choisis une photo JPEG, PNG ou WebP.",
@@ -233,8 +236,10 @@
       "minors": "Dossiers mineurs",
       "messages": "Messages",
       "limelight": "Demandes Limelight",
-      "roleSearches": "Recherches de rôles",
-      "accounts": "Comptes"
+      "roleSearches": "Candidatures et IA",
+      "accounts": "Comptes",
+      "revenue": "Revenus",
+      "waiting": "En attente de l’équipe"
     },
     "stats": {
       "artists": "Artistes",
@@ -307,6 +312,18 @@
         "profile": "Mon profil",
         "application": "Un rôle ou une candidature",
         "other": "Autre chose"
+      },
+      "views": "Vues des conversations",
+      "viewAll": "Toutes les conversations",
+      "viewWaiting": "En attente de l’équipe Agental ({count})",
+      "waitingHelp": "La plus ancienne d’abord. Répondre ici retire le statut d’attente.",
+      "emptyWaiting": "Aucune conversation n’attend l’équipe.",
+      "waitingSince": "En attente depuis le {date}",
+      "waitingShown": "{shown} plus anciennes affichées sur {count}.",
+      "emails": {
+        "title": "Emails en attente d’une personne ({count})",
+        "help": "Personnes qui ont écrit directement à l’équipe. Ouvre le fil Gmail avec cet identifiant dans la boîte de l’équipe ; rien n’a été envoyé pour ceux-ci.",
+        "done": "Traité"
       }
     },
     "limelight": {
@@ -335,23 +352,58 @@
         "NEW": "Nouvelle",
         "CONTACTED": "Contactée",
         "CLOSED": "Close"
+      },
+      "alert": "Alerte équipe",
+      "alerts": {
+        "PENDING": "En attente",
+        "SENT": "Envoyée",
+        "DEAD": "Échec",
+        "NONE": "Aucune"
+      },
+      "sources": {
+        "page": "Formulaire public",
+        "app": "Dans l’app",
+        "other": "Autre"
       }
     },
     "roleSearches": {
-      "title": "Recherches de rôles IA",
-      "subtitle": "Chaque clic sur « Trouver des rôles ». Les lignes restent en statut queued jusqu’au branchement du workflow.",
+      "title": "Candidatures et tâches IA",
+      "subtitle": "Chaque recherche IA, exécution de workflow et candidature avec le statut enregistré. Rien n’est envoyé automatiquement.",
       "empty": "Aucune recherche pour l’instant.",
       "columns": {
-        "when": "Date",
+        "when": "Créée",
         "who": "Compte",
         "plan": "Formule",
         "period": "Période",
-        "status": "Statut"
+        "status": "Statut",
+        "started": "Démarrée",
+        "completed": "Terminée",
+        "error": "Erreur",
+        "kind": "Type",
+        "attempts": "Tentatives",
+        "role": "Rôle",
+        "type": "Nature",
+        "reviewed": "Relue"
+      },
+      "searches": "Recherches de rôles IA",
+      "runs": "Exécutions de workflow",
+      "applications": "Candidatures",
+      "applicationsHelp": "Les brouillons attendent la relecture de l’artiste. Les candidatures sont celles reçues par les équipes casting.",
+      "emptyRuns": "Aucune exécution pour l’instant.",
+      "emptyApplications": "Aucune candidature pour l’instant.",
+      "draft": "Brouillon",
+      "candidature": "Candidature",
+      "states": {
+        "queued": "En file",
+        "running": "En cours",
+        "completed": "Terminée",
+        "failed": "Échec",
+        "canceled": "Annulée"
       }
     },
     "accounts": {
       "title": "Comptes",
-      "subtitle": "{count} comptes. Chaque consultation et export est journalisé.",
+      "subtitle": "{count, plural, one {# compte correspond.} other {# comptes correspondent.}} Chaque consultation, export et changement de statut est journalisé.",
       "search": "Nom ou email",
       "all": "Tous",
       "filter": "Filtrer",
@@ -371,7 +423,9 @@
         "verified": "Email vérifié",
         "completeness": "Profil",
         "media": "Médias",
-        "website": "Site"
+        "website": "Site",
+        "status": "Statut",
+        "agents": "Agents activés"
       },
       "site": {
         "none": "Aucun",
@@ -387,7 +441,43 @@
         "message": "Message",
         "limelight": "Demande Limelight",
         "plan": "Formule"
-      }
+      },
+      "totals": {
+        "title": "Inscriptions",
+        "all": "Tous les comptes",
+        "performers": "Artistes",
+        "casting": "Casting",
+        "staff": "Équipe",
+        "test": "Test",
+        "spam": "Spam",
+        "split": "{approved} approuvés, {unreviewed} à vérifier",
+        "note": "Comptes inscrits uniques. Les comptes équipe, test et spam sont comptés à part. Les demandes Limelight ne sont pas des comptes et ne sont pas comptées."
+      },
+      "mode": {
+        "staging": "Mode des agents : staging. Seuls les comptes Test peuvent lancer un agent.",
+        "live": "Mode des agents : live. Seuls les comptes Approuvés peuvent lancer un agent."
+      },
+      "statusLabel": "Statut",
+      "agentsLabel": "Agents activés",
+      "statuses": {
+        "UNREVIEWED": "À vérifier",
+        "APPROVED": "Approuvé",
+        "TEST": "Test",
+        "STAFF": "Équipe",
+        "SPAM": "Spam"
+      },
+      "selectAll": "Sélectionner tous les comptes de cette page",
+      "select": "Sélectionner {name}",
+      "setStatus": "Statut des comptes sélectionnés",
+      "apply": "Appliquer",
+      "updated": "{count, plural, =0 {Aucun compte modifié.} one {# compte mis à jour.} other {# comptes mis à jour.}}",
+      "statusError": "Rien n’a changé. Sélectionne au moins un compte et un statut.",
+      "page": "Page {page} sur {pages}",
+      "prev": "Précédente",
+      "next": "Suivante",
+      "agentsHelp": "Oui quand l’email est vérifié, que le statut le permet dans ce mode, que la personne est majeure et qu’elle a choisi les agents (clic sur Lancer la recherche ou recherche toutes les six heures).",
+      "statusOne": "Statut du compte",
+      "admin": "admin"
     },
     "studentRequests": {
       "title": "Demandes de prix étudiant",
@@ -404,6 +494,18 @@
         "REJECTED": "Refusée",
         "USED": "Utilisée"
       }
+    },
+    "revenue": {
+      "title": "Revenus",
+      "subtitle": "Paiements reçus par une source de paiement réelle vérifiée.",
+      "unavailable": "Indisponible",
+      "why": "Aucune source de paiement réelle n’est vérifiée. Stripe n’est pas connecté, il n’y a donc aucun revenu à afficher.",
+      "mock": "{count, plural, =0 {Aucune commande fictive.} one {# commande fictive existe. C’est un test, jamais compté comme revenu.} other {# commandes fictives existent. Ce sont des tests, jamais comptés comme revenus.}}"
+    },
+    "hub": {
+      "newLeads": "Nouvelles demandes Limelight",
+      "toReview": "Comptes à vérifier",
+      "jobs": "Tâches IA : {queued} en file, {running} en cours, {failed} en échec"
     }
   },
   "matchReasons": {

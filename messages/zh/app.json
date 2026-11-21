@@ -134,6 +134,9 @@
     "imdbUrl": "请输入类似 imdb.com/name/nm1234567 的 IMDb 链接。",
     "portfolioUrl": "请输入以 https:// 开头的链接。",
     "roleSearchQuota": "你的方案已没有剩余的 AI 搜索次数。",
+    "agentsEmailUnverified": "请先验证你的邮箱地址，然后再开始搜索。",
+    "agentsUnderReview": "Agental 团队正在审核你的账户。账户通过审核后即可使用 AI 搜索。",
+    "agentsUnavailable": "此账户无法使用 AI 搜索。如果你认为有误，请在消息中联系我们。",
     "uploadBlocked": "暂时无法连接存储，这条录像还没有保存。录像仍在这里，请稍后再试。",
     "avatarTooLarge": "这张照片太大，请选择更小的照片。",
     "avatarType": "请选择 JPEG、PNG 或 WebP 格式的照片。",
@@ -233,8 +236,10 @@
       "minors": "未成年人档案",
       "messages": "消息",
       "limelight": "Limelight 申请",
-      "roleSearches": "角色搜索",
-      "accounts": "Accounts"
+      "roleSearches": "申请与 AI",
+      "accounts": "Accounts",
+      "revenue": "Revenue",
+      "waiting": "Waiting for the team"
     },
     "stats": {
       "artists": "艺人",
@@ -307,6 +312,18 @@
         "profile": "我的资料",
         "application": "角色或申请",
         "other": "其他"
+      },
+      "views": "Conversation views",
+      "viewAll": "All conversations",
+      "viewWaiting": "Waiting for the Agental team ({count})",
+      "waitingHelp": "Oldest handoff first. Replying here clears the waiting status.",
+      "emptyWaiting": "No conversation is waiting for the team.",
+      "waitingSince": "Waiting since {date}",
+      "waitingShown": "Showing the {shown} oldest of {count}.",
+      "emails": {
+        "title": "Emails waiting for a person ({count})",
+        "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these.",
+        "done": "Mark handled"
       }
     },
     "limelight": {
@@ -335,23 +352,58 @@
         "NEW": "新申请",
         "CONTACTED": "已联系",
         "CLOSED": "已关闭"
+      },
+      "alert": "Team alert",
+      "alerts": {
+        "PENDING": "Pending",
+        "SENT": "Sent",
+        "DEAD": "Failed",
+        "NONE": "None"
+      },
+      "sources": {
+        "page": "Public form",
+        "app": "In the app",
+        "other": "Other"
       }
     },
     "roleSearches": {
-      "title": "AI 角色搜索",
-      "subtitle": "每一次点击“开始寻找角色”。在工作流接入之前，记录保持 queued 状态。",
+      "title": "申请与 AI 任务",
+      "subtitle": "每一次 AI 搜索、工作流运行和申请及其记录的状态。不会自动提交任何内容。",
       "empty": "暂无搜索。",
       "columns": {
         "when": "时间",
         "who": "账户",
         "plan": "方案",
         "period": "周期",
-        "status": "状态"
+        "status": "状态",
+        "started": "开始",
+        "completed": "结束",
+        "error": "错误",
+        "kind": "类型",
+        "attempts": "尝试次数",
+        "role": "角色",
+        "type": "类别",
+        "reviewed": "已审阅"
+      },
+      "searches": "AI 角色搜索",
+      "runs": "工作流运行",
+      "applications": "申请",
+      "applicationsHelp": "草稿等待演员审阅。投递是选角团队收到的申请。",
+      "emptyRuns": "暂无运行。",
+      "emptyApplications": "暂无申请。",
+      "draft": "草稿",
+      "candidature": "投递",
+      "states": {
+        "queued": "排队中",
+        "running": "运行中",
+        "completed": "已完成",
+        "failed": "失败",
+        "canceled": "已取消"
       }
     },
     "accounts": {
       "title": "Accounts",
-      "subtitle": "{count} accounts. Every view and export is logged.",
+      "subtitle": "{count, plural, one {# account matches.} other {# accounts match.}} Every view, export and status change is logged.",
       "search": "Name or email",
       "all": "All",
       "filter": "Filter",
@@ -371,7 +423,9 @@
         "verified": "Email verified",
         "completeness": "Profile",
         "media": "Media",
-        "website": "Website"
+        "website": "Website",
+        "status": "Status",
+        "agents": "Agents enabled"
       },
       "site": {
         "none": "None",
@@ -387,7 +441,43 @@
         "message": "Message",
         "limelight": "Limelight request",
         "plan": "Plan"
-      }
+      },
+      "totals": {
+        "title": "Signups",
+        "all": "All accounts",
+        "performers": "Performers",
+        "casting": "Casting",
+        "staff": "Staff",
+        "test": "Test",
+        "spam": "Spam",
+        "split": "{approved} approved, {unreviewed} to review",
+        "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
+      },
+      "mode": {
+        "staging": "Agents mode: staging. Only accounts marked Test can trigger an agent.",
+        "live": "Agents mode: live. Only accounts marked Approved can trigger an agent."
+      },
+      "statusLabel": "Status",
+      "agentsLabel": "Agents enabled",
+      "statuses": {
+        "UNREVIEWED": "Unreviewed",
+        "APPROVED": "Approved",
+        "TEST": "Test",
+        "STAFF": "Staff",
+        "SPAM": "Spam"
+      },
+      "selectAll": "Select every account on this page",
+      "select": "Select {name}",
+      "setStatus": "Set status of selected accounts",
+      "apply": "Apply",
+      "updated": "{count, plural, =0 {No account changed.} one {# account updated.} other {# accounts updated.}}",
+      "statusError": "Nothing changed. Select at least one account and a status.",
+      "page": "Page {page} of {pages}",
+      "prev": "Previous",
+      "next": "Next",
+      "agentsHelp": "Yes when the email is verified, the status allows it in this mode, the person is an adult and opted in (clicked Start finding roles or turned on the six-hour search).",
+      "statusOne": "Account status",
+      "admin": "admin"
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -404,6 +494,18 @@
         "REJECTED": "Declined",
         "USED": "Used"
       }
+    },
+    "revenue": {
+      "title": "Revenue",
+      "subtitle": "Payments received through a verified live payment source.",
+      "unavailable": "Unavailable",
+      "why": "No live payment source is verified yet. Stripe is not connected, so there is no revenue to show.",
+      "mock": "{count, plural, =0 {No mock order exists.} one {# mock order exists. It is a test and never counts as revenue.} other {# mock orders exist. They are tests and never count as revenue.}}"
+    },
+    "hub": {
+      "newLeads": "New Limelight requests",
+      "toReview": "Accounts to review",
+      "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
     }
   },
   "matchReasons": {

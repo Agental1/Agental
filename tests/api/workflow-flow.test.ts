@@ -124,7 +124,8 @@ describe.skipIf(!hasDb)("dry-run workflow, end to end", () => {
           email: `${P}-${label}@test.local`,
           kind: "TALENT",
           emailVerified: new Date(),
-          workflowAccess: "TEST",
+          accountStatus: "TEST",
+          agentsOptInAt: new Date(),
         },
       });
       const profile = await prisma.artistProfile.create({

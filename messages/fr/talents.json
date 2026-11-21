@@ -800,6 +800,25 @@
       "searchInProgress": {
         "title": "Recherche en cours",
         "body": "Notre agent cherche des rôles pour toi. Lancée le {date}."
+      },
+      "searches": {
+        "label": "Tes dernières recherches IA",
+        "queued": "Recherche en file",
+        "running": "Recherche en cours",
+        "completed": "Recherche terminée",
+        "failed": "Recherche échouée. Elle ne compte pas dans tes recherches.",
+        "canceled": "Recherche annulée. Elle ne compte pas dans tes recherches.",
+        "started": "Lancée le {date}."
+      },
+      "found": {
+        "title": "Rôles trouvés pour toi",
+        "body": "Chacun avec sa source et un brouillon que tu peux modifier. Rien n’est envoyé tant que tu ne décides pas.",
+        "source": "Ouvrir l’annonce",
+        "draft": "Brouillon de candidature",
+        "status": {
+          "draft": "En attente de ta relecture",
+          "reviewed": "Relu"
+        }
       }
     },
     "career": {

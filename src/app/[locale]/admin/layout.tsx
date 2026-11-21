@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -12,6 +13,7 @@ const NAV = [
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
+  { href: "/admin/revenus", key: "revenue", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },
 ] as const;
@@ -32,7 +34,7 @@ export default async function AdminLayout({
   const session = await auth();
   if (!session?.user?.id) return redirect({ href: "/connexion", locale });
   const me = await prisma.user.findUnique({ where: { id: session.user.id } });
-  if (!me?.isAdmin) return redirect({ href: "/", locale });
+  if (!isAdminAccount(me)) return redirect({ href: "/", locale });
 
   return (
     <AppShell

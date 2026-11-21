@@ -252,6 +252,7 @@ export function SitePanel({
                 }),
               }}
               submitLabel={t("sendRequest")}
+              source="app-site-panel"
               preview={
                 <div className="flex items-center gap-4">
                   <div className="ll-frame w-40 shrink-0">

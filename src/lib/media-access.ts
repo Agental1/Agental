@@ -1,3 +1,4 @@
+import { isAdminAccount } from "@/domain/admin";
 import { prisma } from "@/lib/db";
 
 /**
@@ -30,10 +31,10 @@ export async function canReadMedia(
     }),
     prisma.user.findUnique({
       where: { id: userId },
-      select: { isAdmin: true },
+      select: { isAdmin: true, email: true },
     }),
   ]);
-  if (owned || user?.isAdmin) return true;
+  if (owned || isAdminAccount(user)) return true;
 
   // A file that is still processing, or that failed, is the owner's to see
   // and nobody else's.
