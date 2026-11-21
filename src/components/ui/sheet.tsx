@@ -49,16 +49,19 @@ function SheetContent({
   side = "right",
   showCloseButton = true,
   closeLabel = "Close",
+  overlayClassName,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left"
   showCloseButton?: boolean
   /** Screen-reader name of the close button; pass the translated word. */
   closeLabel?: string
+  /** Classes for the dimmed overlay, e.g. "md:hidden" for a phone-only menu. */
+  overlayClassName?: string
 }) {
   return (
     <SheetPortal>
-      <SheetOverlay />
+      <SheetOverlay className={overlayClassName} />
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(

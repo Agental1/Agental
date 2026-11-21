@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
+import { Slot as SlotPrimitive } from "radix-ui";
 import { Loader2 } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -58,9 +58,9 @@ export function Button({
 }: ButtonProps) {
   if (asChild) {
     return (
-      <Slot className={cn(buttonVariants({ variant, size }), className)} {...props}>
+      <SlotPrimitive.Root className={cn(buttonVariants({ variant, size }), className)} aria-disabled={disabled || undefined} {...props}>
         {children}
-      </Slot>
+      </SlotPrimitive.Root>
     );
   }
   return (

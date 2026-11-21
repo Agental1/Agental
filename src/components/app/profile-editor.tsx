@@ -179,37 +179,29 @@ type TabProps = {
 
 function useSave(fn: (input: unknown) => Promise<{ ok: boolean; error?: ActionError; completeness?: number }>) {
   const [pending, start] = useTransition();
-  const [saved, setSaved] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
   const t = useTranslations("talents");
-  const errorText = useActionErrorText();
   function save(input: unknown, onDone?: (c?: number) => void) {
     setError(undefined);
-    setSaved(false);
     start(async () => {
       const res = await fn(input);
       if (!res.ok) {
-        const e = res.error ?? err("errors.generic");
-        toast.error(errorText(e));
-        return setError(e);
+        // Errors stay inline next to the form until fixed; success is a toast.
+        return setError(res.error ?? err("errors.generic"));
       }
-      setSaved(true);
       toast.success(t("space.profileEditor.saved"));
       onDone?.(res.completeness);
-      setTimeout(() => setSaved(false), 2000);
     });
   }
-  return { save, pending, saved, error };
+  return { save, pending, error };
 }
 
 function SaveBar({
   pending,
-  saved,
   error,
   onSave,
 }: {
   pending: boolean;
-  saved: boolean;
   error?: ActionError;
   onSave: () => void;
 }) {
@@ -220,11 +212,6 @@ function SaveBar({
       <Button onClick={onSave} loading={pending}>
         {t("space.profileEditor.save")}
       </Button>
-      {saved && (
-        <span className="enter flex items-center gap-1 text-sm text-success">
-          <Check className="size-4" /> {t("space.profileEditor.saved")}
-        </span>
-      )}
       {error && <span className="text-sm text-danger">{errorText(error)}</span>}
     </div>
   );
@@ -241,7 +228,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function IdentityTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveProfileIdentity);
+  const { save, pending, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
       <Field label={t("space.profileEditor.stageName")}>
@@ -293,7 +280,6 @@ function IdentityTab({ data, setData }: TabProps) {
       </p>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -316,7 +302,7 @@ function IdentityTab({ data, setData }: TabProps) {
 
 function PhysicalTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveProfilePhysical);
+  const { save, pending, error } = useSave(saveProfilePhysical);
   const p = data.physical;
   const setP = (patch: Partial<PhysicalTraits>) =>
     setData({ ...data, physical: { ...p, ...patch } });
@@ -350,7 +336,6 @@ function PhysicalTab({ data, setData }: TabProps) {
       </Field>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -373,7 +358,7 @@ function PhysicalTab({ data, setData }: TabProps) {
 function SpecialtiesTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
   const ta = useTranslations("app");
-  const { save, pending, saved, error } = useSave(saveProfileSpecialties);
+  const { save, pending, error } = useSave(saveProfileSpecialties);
   return (
     <div className="max-w-xl space-y-4">
       <p className="text-sm text-fg-muted">{t("space.profileEditor.specialtiesHint")}</p>
@@ -407,7 +392,6 @@ function SpecialtiesTab({ data, setData }: TabProps) {
       </Field>
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save(
@@ -430,7 +414,7 @@ function PreferencesTab({
   onEditLanguages,
 }: TabProps & { availability: AvailabilityItem[]; onEditLanguages: () => void }) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(savePreferences);
+  const { save, pending, error } = useSave(savePreferences);
   const pr = data.preferences;
   const setPr = (patch: Partial<Preferences>) =>
     setData((d) => ({ ...d, preferences: { ...d.preferences, ...patch } }));
@@ -486,7 +470,6 @@ function PreferencesTab({
 
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() =>
           save({
@@ -631,7 +614,7 @@ function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
  */
 function ContentBoundariesSection({ data, setData }: TabProps) {
   const t = useTranslations("talents");
-  const { save, pending, saved, error } = useSave(saveContentBoundaries);
+  const { save, pending, error } = useSave(saveContentBoundaries);
   const b = "space.profileEditor.boundaries" as const;
   return (
     <section
@@ -657,7 +640,6 @@ function ContentBoundariesSection({ data, setData }: TabProps) {
       />
       <SaveBar
         pending={pending}
-        saved={saved}
         error={error}
         onSave={() => save({ nudity: data.contentBoundaries.nudity })}
       />

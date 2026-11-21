@@ -12,7 +12,7 @@ const css = readFileSync(join(process.cwd(), "src/app/globals.css"), "utf8");
  * the kit on our own helpers and our own theme switch.
  */
 describe("shadcn/ui kit stays on Agental's own helpers and theme", () => {
-  it.each(files)("%s imports cn from @/lib/utils, never a package", (f) => {
+  it.each(files)("%s never imports cn or next-themes from a package", (f) => {
     const src = readFileSync(join(UI, f), "utf8");
     expect(src).not.toMatch(/from ["'](cn|next-themes)["']/);
   });

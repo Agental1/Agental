@@ -352,15 +352,6 @@ body {
 
 /* A short entrance: at most 12px of travel and a quarter of a second. */
 @media (prefers-reduced-motion: no-preference) {
-  /* A short pop on a finished state: saved, upload done, search launched. */
-  .pop {
-    animation: pop 220ms ease-out both;
-  }
-  @keyframes pop {
-    0% { transform: scale(0.92); opacity: 0.4; }
-    60% { transform: scale(1.04); opacity: 1; }
-    100% { transform: none; }
-  }
   .enter {
     animation: enter var(--enter-duration) ease-out both;
   }
@@ -403,10 +394,12 @@ body {
   html {
     scroll-behavior: auto;
   }
-  /* shadcn/ui open and close motion (tw-animate-css), and the "done" pop. */
+  /* shadcn/ui open and close motion (tw-animate-css), including the
+     data-[state=open]:animate-in style variants. */
   .animate-in,
   .animate-out,
-  .pop {
+  [class*="animate-in"],
+  [class*="animate-out"] {
     animation: none !important;
   }
   .pressable,

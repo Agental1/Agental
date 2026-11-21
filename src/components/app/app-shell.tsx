@@ -179,6 +179,7 @@ export function AppShell({
               <SheetContent
                 side="right"
                 showCloseButton={false}
+                overlayClassName="md:hidden"
                 data-portal={portal}
                 aria-describedby={undefined}
                 className="w-[min(20rem,88vw)] overflow-y-auto bg-none p-3 md:hidden"

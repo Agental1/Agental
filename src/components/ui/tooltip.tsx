@@ -17,10 +17,16 @@ function TooltipProvider({
   )
 }
 
+// Each Tooltip brings its own provider, so it works anywhere in the tree;
+// without one Radix throws and takes the whole page down.
 function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+  return (
+    <TooltipProvider>
+      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+    </TooltipProvider>
+  )
 }
 
 function TooltipTrigger({

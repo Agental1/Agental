@@ -68,7 +68,6 @@ export function MediaManager({ media }: { media: MediaItem[] }) {
         if (!res.ok) {
           const e = res.error ?? err("errors.uploadFailed");
           setError(e);
-          toast.error(errorText(e));
           break;
         }
         toast.success(tt("uploaded"), { description: file.name });
@@ -162,8 +161,9 @@ function MediaCard({
           <IconTip label={t("space.media.setPrimary")}>
             <button
               aria-label={t("space.media.setPrimary")}
-              disabled={pending}
+              aria-disabled={pending || undefined}
               onClick={() =>
+                !pending &&
                 startTransition(async () => {
                   await setPrimaryMedia(media.id);
                   onChanged();
@@ -178,8 +178,9 @@ function MediaCard({
         <IconTip label={t("space.media.delete")}>
           <button
             aria-label={t("space.media.delete")}
-            disabled={pending}
+            aria-disabled={pending || undefined}
             onClick={() =>
+              !pending &&
               startTransition(async () => {
                 await deleteMedia(media.id);
                 onChanged();

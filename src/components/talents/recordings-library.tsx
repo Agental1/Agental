@@ -39,16 +39,23 @@ export function RecordingsLibrary({ items }: { items: LibraryItem[] }) {
   const t = useTranslations("talents.space");
   const ta = useTranslations("app");
   const router = useRouter();
-  const [busy, setBusy] = useState<string | null>(null);
+  // One entry per recording being deleted, so two deletes in a row never
+  // re-enable each other.
+  const [busy, setBusy] = useState<ReadonlySet<string>>(new Set());
   const [error, setError] = useState<ActionError | undefined>();
   const [, start] = useTransition();
 
   function remove(id: string) {
-    setBusy(id);
+    if (busy.has(id)) return;
+    setBusy((b) => new Set(b).add(id));
     setError(undefined);
     start(async () => {
       const res = await deleteRecording(id).catch(() => ({ ok: false as const, error: err("errors.generic") }));
-      setBusy(null);
+      setBusy((b) => {
+        const next = new Set(b);
+        next.delete(id);
+        return next;
+      });
       if (!res.ok) return setError(res.error);
       router.refresh();
     });
@@ -87,8 +94,8 @@ export function RecordingsLibrary({ items }: { items: LibraryItem[] }) {
               </span>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="sm" loading={busy === item.id}>
-                    {busy !== item.id && <Trash2 className="size-4" />}
+                  <Button variant="ghost" size="sm" loading={busy.has(item.id)}>
+                    {!busy.has(item.id) && <Trash2 className="size-4" />}
                     {t("library.delete")}
                   </Button>
                 </AlertDialogTrigger>
