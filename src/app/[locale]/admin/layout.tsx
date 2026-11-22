@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { isAdminAccount } from "@/domain/admin";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
@@ -11,6 +12,9 @@ const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
   { href: "/admin/comptes", key: "accounts", icon: "console" },
   { href: "/admin/suppression", key: "cleanup", icon: "audit" },
+  { href: "/admin/profils", key: "profiles", icon: "talents" },
+  { href: "/admin/medias", key: "media", icon: "video" },
+  { href: "/admin/emails", key: "emails", icon: "messages" },
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
@@ -33,9 +37,12 @@ export default async function AdminLayout({
   const t = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
-  if (!session?.user?.id) return redirect({ href: "/connexion", locale });
+  // Back to the hub after signing in (on admin.agental.co too, where "/" is the hub).
+  if (!session?.user?.id) return redirect({ href: `/connexion?next=${encodeURIComponent(`/${locale}/admin`)}`, locale });
   const me = await prisma.user.findUnique({ where: { id: session.user.id } });
-  if (!isAdminAccount(me)) return redirect({ href: "/", locale });
+  // Not found rather than a redirect: the admin area is not advertised, and on
+  // the admin host a redirect to "/" would come straight back here.
+  if (!isAdminAccount(me)) notFound();
 
   return (
     <AppShell

@@ -255,7 +255,7 @@ export async function drainOutbox(opts: DrainOptions = {}): Promise<DrainResult>
       failure = "Unreadable payload.";
     } else {
       try {
-        const sent = await send(leadAlertEmail(reference, to), { env });
+        const sent = await send({ ...leadAlertEmail(reference, to), kind: "limelight_alert" }, { env });
         if (!sent.ok) failure = "The email provider refused the message or could not be reached.";
         // Log mode means the sender went missing after the check above.
         // Nothing left the server, so the try is handed back.

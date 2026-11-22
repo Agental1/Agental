@@ -243,7 +243,10 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "Account cleanup"
+      "cleanup": "Account cleanup",
+      "profiles": "Profiles",
+      "media": "Media",
+      "emails": "Emails"
     },
     "stats": {
       "artists": "Artists",
@@ -549,6 +552,36 @@
       "deleted": "{count, plural, one {# account deleted} other {# accounts deleted}}, {failed} not deleted (see the logs).",
       "listChanged": "The list changed since this page loaded. Nothing was deleted: check the list again.",
       "remaining": "{count, plural, one {# account is left: run it again.} other {# accounts are left: run it again.}}"
+    },
+    "views": {
+      "profilesSubtitle": "{count, plural, one {# performer profile} other {# performer profiles}}, newest first. Completeness is computed with the same rule as the app.",
+      "mediaSubtitle": "{count, plural, one {# item} other {# items}}, newest first. Files open through a short-lived private link.",
+      "emailsSubtitle": "Every email the app sent, newest first, with its delivery status from Resend. Recipient and subject only.",
+      "noWebhook": "Delivery events are off until RESEND_WEBHOOK_SECRET is set in Vercel.",
+      "search": "Name, email or city",
+      "auditSearch": "Resource id, type or actor email",
+      "emailSearch": "Recipient, subject or kind",
+      "complete": "Complete",
+      "name": "Name",
+      "email": "Email",
+      "city": "City",
+      "completenessCol": "Completeness",
+      "mediaCol": "Media",
+      "mediaSplit": "{self} self · {productions} prod. · {videos} video · {other} other",
+      "selftapes": "Self-tapes",
+      "created": "Created",
+      "file": "File",
+      "open": "Open",
+      "type": "Type",
+      "category": "Category",
+      "description": "Description",
+      "owner": "Owner",
+      "status": "Status",
+      "to": "To",
+      "subject": "Subject",
+      "kind": "Kind",
+      "lastEvent": "Last event",
+      "capped": "Showing the first {count}. Narrow the search to see the rest."
     }
   },
   "matchReasons": {

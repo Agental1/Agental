@@ -1067,3 +1067,23 @@ model InboxReply {
   @@index([status, createdAt])
   @@schema("public")
 }
+
+// Every email the app sends (admin site > Emails). Created queued, then sent,
+// logged (no sender configured) or failed; Resend's webhook moves it to
+// delivered, bounced, complained or delayed. Recipient and subject only, never
+// the body or a link.
+model EmailLog {
+  id          String    @id @default(cuid())
+  to          String
+  subject     String
+  kind        String    @default("other") // verify | reset | student | deletion_warning | limelight_alert | other
+  resendId    String?   @unique
+  status      String    @default("queued") // queued | sent | logged | failed | delivered | bounced | complained | delayed
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  lastEventAt DateTime?
+
+  @@index([createdAt])
+  @@schema("public")
+}

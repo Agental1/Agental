@@ -243,7 +243,10 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "账户清理"
+      "cleanup": "账户清理",
+      "profiles": "资料",
+      "media": "媒体",
+      "emails": "邮件"
     },
     "stats": {
       "artists": "艺人",
@@ -549,6 +552,36 @@
       "deleted": "{count, plural, other {已删除 # 个账户}}，{failed} 个未删除（见日志）。",
       "listChanged": "页面加载后列表已变化，未删除任何内容：请重新检查列表。",
       "remaining": "{count, plural, other {还剩 # 个账户：请再次运行。}}"
+    },
+    "views": {
+      "profilesSubtitle": "{count, plural, other {# 份艺人资料}}，最新的在前。完整度与应用使用相同规则计算。",
+      "mediaSubtitle": "{count, plural, other {# 个项目}}，最新的在前。文件通过短时有效的私密链接打开。",
+      "emailsSubtitle": "应用发送的每封邮件，最新的在前，附 Resend 投递状态。仅显示收件人和主题。",
+      "noWebhook": "在 Vercel 中设置 RESEND_WEBHOOK_SECRET 之前，投递事件处于关闭状态。",
+      "search": "姓名、邮箱或城市",
+      "auditSearch": "资源 ID、类型或操作者邮箱",
+      "emailSearch": "收件人、主题或类型",
+      "complete": "完整",
+      "name": "姓名",
+      "email": "邮箱",
+      "city": "城市",
+      "completenessCol": "完整度",
+      "mediaCol": "媒体",
+      "mediaSplit": "{self} 本人 · {productions} 作品 · {videos} 视频 · {other} 其他",
+      "selftapes": "自录试镜",
+      "created": "创建时间",
+      "file": "文件",
+      "open": "打开",
+      "type": "类型",
+      "category": "类别",
+      "description": "描述",
+      "owner": "所有者",
+      "status": "状态",
+      "to": "收件人",
+      "subject": "主题",
+      "kind": "类型",
+      "lastEvent": "最近事件",
+      "capped": "仅显示前 {count} 条。请缩小搜索范围查看其余内容。"
     }
   },
   "matchReasons": {
