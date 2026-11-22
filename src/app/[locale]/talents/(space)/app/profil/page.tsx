@@ -86,6 +86,15 @@ export default async function ProfilPage({
         initial={{
           stageName: profile.stageName,
           legalName: profile.legalName ?? "",
+          // The two-part legal name starts from the older single field, split
+          // at the first space, until the performer saves it.
+          legalFirstName:
+            profile.legalFirstName ?? (profile.legalName ?? "").trim().split(/\s+/)[0] ?? "",
+          legalLastName:
+            profile.legalLastName ??
+            (profile.legalName ?? "").trim().split(/\s+/).slice(1).join(" "),
+          gender: profile.gender ?? "",
+          genderOther: profile.genderOther ?? "",
           phone: profile.phone ?? "",
           city: profile.city ?? "",
           bio: profile.bio ?? "",

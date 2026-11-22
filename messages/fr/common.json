@@ -82,7 +82,8 @@
       "uploaded": "Importé",
       "sent": "Envoyé",
       "loading": "Chargement"
-    }
+    },
+    "toggleSidebar": "Afficher ou masquer le menu (Ctrl+B)"
   },
   "account": {
     "create": "Créer un compte",

@@ -58,3 +58,9 @@ Listed here as they come, and copied into the final report.
 
 - bun instead of pnpm (the repo's package manager).
 - Casting Studio set to $295 with Pro $95: both differ from `docs/DECISIONS.md` the same way.
+- Group 1: the red asterisks and the "Fields marked * are required" line ship with the new 100%
+  rule in group 2, so the stars never mark a field the score does not count yet.
+- Group 1: /browse needs the Aside app, which is not installed, so local pages were checked in the
+  desktop app's preview pane on localhost (no production session involved).
+- Group 1: the Website page redirect needed Limelight on the Subscription page now, so its
+  existing section (offers, sites, request form) moved there in group 1; group 4 reshapes it.

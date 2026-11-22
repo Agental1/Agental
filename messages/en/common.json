@@ -82,7 +82,8 @@
       "uploaded": "Uploaded",
       "sent": "Sent",
       "loading": "Loading"
-    }
+    },
+    "toggleSidebar": "Show or hide the menu (Ctrl+B)"
   },
   "account": {
     "create": "Create account",

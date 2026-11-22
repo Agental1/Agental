@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
@@ -112,8 +113,13 @@ export default async function CastingAppLayout({
     ...tourPages[i],
   }));
 
+  // The folded sidebar is remembered in the shadcn cookie.
+  const sidebarOpen = (await cookies()).get("sidebar_state")?.value !== "false";
+
   return (
     <AppShell
+      defaultOpen={sidebarOpen}
+      languageInFooter
       portal="casting"
       home="/casting/app"
       nav={NAV.map((n): AppNavItem => ({

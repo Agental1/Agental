@@ -324,7 +324,7 @@ export default async function TalentsDashboard({
       {/* Stays in the app: the public Limelight page is static and its header
           always offers "Sign in", which read as being signed out. The app's
           Website page has the request form. */}
-      {!hasSite && <WebsiteCard href="/talents/app/site" appHref="/talents/app/site" />}
+      {!hasSite && <WebsiteCard href="/talents/app/abonnement#limelight" appHref="/talents/app/abonnement#limelight" />}
     </div>
   );
 }

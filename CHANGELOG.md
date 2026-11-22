@@ -3,6 +3,20 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.0.0] - 2026-11-22
+
+### Changed (round 8, group 1)
+
+- **Collapsible sidebar** (Talent, Casting and admin, shadcn `sidebar`): the button at the top left, or Cmd/Ctrl+B, folds it to icons with a tooltip each and the page widens; the choice is remembered. On a phone the same button opens the menu as a sheet.
+- **Bottom left of the sidebar**: only the account (picture and email). Sign-out stays in the avatar menu, the language in Settings (Casting and admin keep the language switch, their Settings have none).
+- **No "Website" item**: Limelight (offers, your sites, the request form) is on the Subscription page under `#limelight`; the old Website page redirects there.
+- **Identity**: legal first and last name ("Used for contracts and payments. Never shown to casting."), stage name now optional, gender (seven choices, "Other" with a short text), "Current city", bio up to 5,000 characters with a live counter, languages and accents moved here from Physical.
+- **Physical**: hair color, hair length and eye color are lists. Earlier free text that matches an option for sure is shown as that option; anything else stays as typed and shows as "Other: ...".
+- **Preferences**: Availability is hidden (its data stays) and the read-only copy of languages is gone.
+- **Casting prices** read $95 per seat (Pro) and $295 (Studio), as in `docs/DECISIONS.md`.
+
+Migration `20261204000000_round8_identity` (four nullable columns).
+
 ## [0.5.8.0] - 2026-11-22
 
 ### Added (round 7, admin site)

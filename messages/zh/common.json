@@ -82,7 +82,8 @@
       "uploaded": "已上传",
       "sent": "已发送",
       "loading": "加载中"
-    }
+    },
+    "toggleSidebar": "显示或隐藏菜单（Ctrl+B）"
   },
   "account": {
     "create": "创建账号",

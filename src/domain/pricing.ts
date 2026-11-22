@@ -51,8 +51,8 @@ export interface B2BPlanDef {
 
 export const B2B_PLANS: Record<PlanB2B, B2BPlanDef> = {
   FREE: { plan: "FREE", priceCents: 0, perSeat: false, maxSeats: 1, activeProjects: 1, filteredCandidaturesPerMonth: 50 },
-  PRO: { plan: "PRO", priceCents: 9900, perSeat: true, maxSeats: null, activeProjects: 10, filteredCandidaturesPerMonth: 1000 },
-  STUDIO: { plan: "STUDIO", priceCents: 29900, perSeat: false, maxSeats: 5, activeProjects: null, filteredCandidaturesPerMonth: null },
+  PRO: { plan: "PRO", priceCents: 9500, perSeat: true, maxSeats: null, activeProjects: 10, filteredCandidaturesPerMonth: 1000 },
+  STUDIO: { plan: "STUDIO", priceCents: 29500, perSeat: false, maxSeats: 5, activeProjects: null, filteredCandidaturesPerMonth: null },
   ENTERPRISE: { plan: "ENTERPRISE", priceCents: 0, perSeat: false, maxSeats: null, activeProjects: null, filteredCandidaturesPerMonth: null },
 };
 
