@@ -803,7 +803,8 @@
         "city": "Muchos papeles son locales.",
         "productions": "Carteles y fotogramas muestran tu trabajo.",
         "otherMedia": "Un clip de voz o un documento puede marcar la diferencia."
-      }
+      },
+      "autoFirst": "Lanzamos tu primera búsqueda con IA. Te quedan {left} de {limit} búsquedas este mes."
     },
     "candidatures": {
       "title": "Mis candidaturas",
@@ -852,8 +853,34 @@
         "draft": "Borrador de candidatura",
         "status": {
           "draft": "Esperando tu revisión",
-          "reviewed": "Revisado"
+          "reviewed": "Revisado",
+          "accepted": "Aceptado, respuesta en curso",
+          "submitted": "Enviada para revisión"
         }
+      },
+      "role": {
+        "back": "Volver a candidaturas",
+        "conditions": "Lo que pide este papel",
+        "conditionsSummary": "{videos, plural, =0 {Ningún vídeo} one {# vídeo} other {# vídeos}} y {questions, plural, =0 {ninguna pregunta} one {# pregunta} other {# preguntas}}.",
+        "nothingAsked": "Este papel no pide nada más que tu perfil. Acéptalo y el equipo prepara tu candidatura.",
+        "video": "Vídeo {n}",
+        "question": "Pregunta {n}",
+        "accept": "Aceptar",
+        "acceptHint": "Aceptar abre el formulario de respuesta. No se envía nada al casting.",
+        "yourAnswer": "Tu respuesta",
+        "record": "Grabarlo",
+        "pick": "Elegir de Reel y self-tape",
+        "pickNone": "Aún no hay vídeos en Reel y self-tape.",
+        "chosen": "Elegido: {title}",
+        "untitled": "Toma sin título",
+        "saveDraft": "Guardar mis respuestas",
+        "saved": "Respuestas guardadas.",
+        "submit": "Enviar",
+        "submitHint": "Tu respuesta va al equipo de Agental para revisión. No se envía nada a un sitio de casting.",
+        "submitted": "Enviada el {date}. El equipo de Agental está revisando tu respuesta.",
+        "recordTitle": "Grabar el vídeo {n}",
+        "recordHint": "La toma se guarda en Reel y self-tape, en privado, y se vincula a esta candidatura.",
+        "open": "Abrir este papel"
       }
     },
     "career": {

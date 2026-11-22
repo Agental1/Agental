@@ -803,7 +803,8 @@
         "city": "Beaucoup de rôles sont locaux.",
         "productions": "Affiches et photos de plateau montrent ce que tu as fait.",
         "otherMedia": "Un extrait de voix ou un document peut faire la différence."
-      }
+      },
+      "autoFirst": "Nous avons lancé ta première recherche IA. Il te reste {left} recherches sur {limit} ce mois-ci."
     },
     "candidatures": {
       "title": "Mes candidatures",
@@ -852,8 +853,34 @@
         "draft": "Brouillon de candidature",
         "status": {
           "draft": "En attente de ta relecture",
-          "reviewed": "Relu"
+          "reviewed": "Relu",
+          "accepted": "Accepté, réponse en cours",
+          "submitted": "Envoyée pour relecture"
         }
+      },
+      "role": {
+        "back": "Retour aux candidatures",
+        "conditions": "Ce que demande ce rôle",
+        "conditionsSummary": "{videos, plural, =0 {Aucune vidéo} one {# vidéo} other {# vidéos}} et {questions, plural, =0 {aucune question} one {# question} other {# questions}}.",
+        "nothingAsked": "Ce rôle ne demande rien de plus que ton profil. Accepte-le et l’équipe prépare ta candidature.",
+        "video": "Vidéo {n}",
+        "question": "Question {n}",
+        "accept": "Accepter",
+        "acceptHint": "Accepter ouvre le formulaire de réponse. Rien n’est envoyé au casting.",
+        "yourAnswer": "Ta réponse",
+        "record": "L’enregistrer",
+        "pick": "Choisir dans Bande démo & self-tape",
+        "pickNone": "Aucune vidéo dans Bande démo & self-tape pour l’instant.",
+        "chosen": "Choisie : {title}",
+        "untitled": "Prise sans titre",
+        "saveDraft": "Enregistrer mes réponses",
+        "saved": "Réponses enregistrées.",
+        "submit": "Envoyer",
+        "submitHint": "Ta réponse va à l’équipe Agental pour relecture. Rien n’est envoyé à un site de casting.",
+        "submitted": "Envoyée le {date}. L’équipe Agental relit ta réponse.",
+        "recordTitle": "Enregistrer la vidéo {n}",
+        "recordHint": "La prise est enregistrée dans Bande démo & self-tape, en privé, et liée à cette candidature.",
+        "open": "Ouvrir ce rôle"
       }
     },
     "career": {

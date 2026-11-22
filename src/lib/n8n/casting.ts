@@ -208,6 +208,13 @@ export const RankedRole = z.object({
   draft: z
     .object({ subject: text(300), body: text(4000), route: text(80).nullish() })
     .nullish(),
+  /** What the role asks applicants to send (round 7b): questions and videos. */
+  submission: z
+    .object({
+      questions: z.array(text(500).min(1)).max(10).catch([]),
+      videos: z.array(text(200).min(1)).max(5).catch([]),
+    })
+    .nullish(),
 });
 export type RankedRole = z.infer<typeof RankedRole>;
 
@@ -302,6 +309,7 @@ async function completeOne(
               location: role.city ?? null,
               remote: role.remote ?? null,
               raw: JSON.stringify(listing).slice(0, 20000),
+              submission: JSON.stringify(role.submission ?? {}),
             },
           ],
           skipDuplicates: true,

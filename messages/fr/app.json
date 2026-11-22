@@ -151,7 +151,8 @@
     "mediaMinor": "Les médias sont désactivés pour les profils de moins de 18 ans. Si ta date de naissance est erronée, corrige-la sur ta page Profil.",
     "mediaCastingAccount": "Ce compte est un compte casting. Les médias s'ajoutent depuis un compte artiste.",
     "captchaFailed": "La vérification de sécurité a échoué. Recharge la page et réessaie.",
-    "agentsProfileIncomplete": "Complète d’abord ton profil à 100 % : les recherches IA démarrent une fois le profil complet et ton e-mail vérifié."
+    "agentsProfileIncomplete": "Complète d’abord ton profil à 100 % : les recherches IA démarrent une fois le profil complet et ton e-mail vérifié.",
+    "responseIncomplete": "Réponds à chaque question et ajoute chaque vidéo demandée avant d’envoyer."
   },
   "auth": {
     "name": "Nom",
@@ -401,7 +402,11 @@
         "completed": "Terminée",
         "failed": "Échec",
         "canceled": "Annulée"
-      }
+      },
+      "responses": "Réponses à relire",
+      "responsesHelp": "Rôles acceptés et complétés par les talents. Rien n’a été envoyé à un site de casting.",
+      "noResponses": "Aucune réponse envoyée pour l’instant.",
+      "videoN": "Vidéo {n}"
     },
     "accounts": {
       "title": "Comptes",

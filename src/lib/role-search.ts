@@ -9,8 +9,10 @@ import {
   periodActive,
   periodKeyFor,
   quotaFrom,
+  isAutoKey,
   type RoleSearchQuota,
 } from "@/domain/role-search";
+import { B2C_PLANS } from "@/domain/pricing";
 
 /**
  * AI role searches, server side. The quota is checked and the row written in
@@ -40,6 +42,7 @@ export async function getRoleSearchQuota(userId: string, now = new Date()): Prom
 export type StartRoleSearchResult =
   | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
   | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota }
+  | { ok: false; reason: "auto_exhausted"; quota: RoleSearchQuota }
   | { ok: false; reason: "ineligible"; why: IneligibleReason; quota: RoleSearchQuota };
 
 export async function startRoleSearch(
@@ -71,7 +74,7 @@ export async function startRoleSearch(
     });
     const counted = await tx.roleSearchRequest.findMany({
       where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
-      select: { seq: true },
+      select: { seq: true, clientKey: true },
     });
     // The gate, before anything is queued or a retried click is answered.
     // Checked under the lock, so a status changed by staff a moment earlier
@@ -90,6 +93,14 @@ export async function startRoleSearch(
     }
     if (counted.length >= allowance.count) {
       return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
+    }
+    // Searches the server starts on its own have their own monthly cap,
+    // inside the allowance (B2C_PLANS[plan].autoSearches).
+    if (isAutoKey(clientKey)) {
+      const auto = counted.filter((r) => isAutoKey(r.clientKey)).length;
+      if (auto >= B2C_PLANS[plan].autoSearches) {
+        return { ok: false as const, reason: "auto_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
+      }
     }
     // The count above decides the quota (a failed search gives its place
     // back); seq only has to be unused, so it is the smallest free number.

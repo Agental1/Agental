@@ -77,4 +77,14 @@ export function quotaFrom(plan: PlanB2C, used: number, periodStart: Date | null,
 }
 
 /** A browser-made id: 8 to 64 URL-safe characters. */
-export const RoleSearchClientKey = z.string().regex(/^[A-Za-z0-9_-]{8,64}$/);
+export const RoleSearchClientKey = z
+  .string()
+  .regex(/^[A-Za-z0-9_-]{8,64}$/)
+  // "auto…" keys belong to searches the server starts on its own.
+  .refine((k) => !k.toLowerCase().startsWith("auto"));
+
+/** Client keys of searches the server starts on its own. */
+export const AUTO_KEY_PREFIX = "auto";
+/** The first automatic search: one per account, ever (unique on userId + clientKey). */
+export const FIRST_AUTO_KEY = "auto_first";
+export const isAutoKey = (k: string | null | undefined) => !!k && k.startsWith(AUTO_KEY_PREFIX);

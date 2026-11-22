@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.7.0] - 2026-11-22
+
+### Added (round 7b, group 4)
+
+- **The first AI search starts on its own** once a performer's profile reaches 100% and their email is verified, under the same server rules as a click (eligibility, quota, no duplicate, test mode in production). The dashboard says so: "We launched your first AI search. 4 of 5 searches left this month." Each plan has a monthly number of automatic searches inside its allowance (Basic: 1; Pro, Premium and Ultimate: 1 until the founders decide, `TODO(founders)` in `src/domain/pricing.ts`).
+- **Answering a role from Applications**: each role found opens on its own page with its conditions (videos and questions). "Accept" opens a response form: a text box per question, and per requested video the choice to record it (saved in Reel & Self-tape, private, linked to the application) or pick one from there. "Submit" makes the response ready for the Agental team's review; nothing goes to a casting site. The status updates in Applications, and the admin lists submitted responses with answers and clips.
+
+Migration `20261202000000_application_responses` (additive columns on Brief, ApplicationDraft and DraftMedia).
+
 ## [0.5.6.0] - 2026-11-22
 
 ### Changed (round 7b, group 3)

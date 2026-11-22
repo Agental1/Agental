@@ -19,14 +19,22 @@ export interface B2CPlanDef {
   commissionRate: number; // fraction, e.g. 0.10
   dailyCandidatureLimit: number | null;
   aiSearches: AiSearchAllowance;
+  /**
+   * How many of the monthly AI searches may start on their own (the first
+   * search when the profile is complete, the six-hour searches). Counted
+   * inside `aiSearches`, never on top of it.
+   */
+  autoSearches: number;
 }
 
 export const B2C_PLANS: Record<PlanB2C, B2CPlanDef> = {
   // Internal id stays FREE (no migration); the display name is "Basic" (messages).
-  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 } },
-  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 } },
-  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 } },
-  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 } },
+  // Basic: 1 automatic search out of 5 (owner, round 7b).
+  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 }, autoSearches: 1 },
+  // TODO(founders): automatic searches for Pro, Premium and Ultimate. 1 until decided.
+  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 }, autoSearches: 1 },
+  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 }, autoSearches: 1 },
+  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 }, autoSearches: 1 },
 };
 
 export interface B2BPlanDef {

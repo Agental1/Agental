@@ -22,6 +22,7 @@ import { missingItems, scoreProfile } from "@/domain/completeness";
 import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
 import { getRoleSearchQuota } from "@/lib/role-search";
+import { recentFirstAutoSearch } from "@/lib/auto-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
 import { WelcomeTour, type WelcomeStep } from "@/components/app/welcome-tour";
 
@@ -138,6 +139,8 @@ export default async function TalentsDashboard({
 
   const hasSite = (await listMySites(session.user.id)).length > 0;
   const quota = await getRoleSearchQuota(session.user.id);
+  // The first search started on its own: say so for two weeks.
+  const showAutoFirst = await recentFirstAutoSearch(session.user.id);
 
   // The three-step welcome (shown on ?welcome=1). Each step names the real
   // element it outlines. Google accounts see what was filled for them.
@@ -228,6 +231,13 @@ export default async function TalentsDashboard({
           </span>
           <ArrowRight aria-hidden="true" className="size-5 shrink-0 text-fg-subtle" />
         </Link>
+      )}
+
+      {showAutoFirst && (
+        <p role="status" className="flex items-center gap-3 rounded-sedan border border-[var(--go)]/40 bg-surface p-4 text-sm">
+          <Sparkles aria-hidden="true" className="size-5 shrink-0 text-[var(--go)]" />
+          <span>{t("space.dashboard.autoFirst", { left: quota.remaining, limit: quota.limit })}</span>
+        </p>
       )}
 
       <Suspense fallback={null}>
