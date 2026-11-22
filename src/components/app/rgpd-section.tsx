@@ -8,7 +8,7 @@ import { Download, Trash2, Loader2, ShieldQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { exportMyData, deleteMyAccount } from "@/app/actions/account";
 
-export function RgpdSection() {
+export function RgpdSection({ embedded = false }: { embedded?: boolean }) {
   const t = useTranslations("talents");
   // Shared by the Talent and Casting settings pages, so the labels added here
   // live in the neutral namespace.
@@ -58,10 +58,14 @@ export function RgpdSection() {
   }
 
   return (
-    <section className="space-y-3 rounded-sedan border border-border bg-surface p-5">
-      <h2 className="flex items-center gap-2 font-display text-lg font-medium">
-        <ShieldQuestion className="size-4 text-accent" /> {ta("rgpd.title")}
-      </h2>
+    <section className={embedded ? "space-y-3 border-t border-border pt-4" : "space-y-3 rounded-sedan border border-border bg-surface p-5"}>
+      {embedded ? (
+        <h3 className="text-sm font-medium">{ta("rgpd.title")}</h3>
+      ) : (
+        <h2 className="flex items-center gap-2 font-display text-lg font-medium">
+          <ShieldQuestion className="size-4 text-accent" /> {ta("rgpd.title")}
+        </h2>
+      )}
       <p className="text-sm text-fg-muted">{t("space.rgpd.intro")}</p>
       <div className="flex flex-wrap gap-3">
         <Button variant="outline" size="sm" onClick={onExport} disabled={pending}>

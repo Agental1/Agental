@@ -20,7 +20,16 @@ import { cn } from "@/lib/utils";
  * TODO(backend): a `disconnectProvider(provider)` action that refuses to
  * remove the last way to sign in; the row then gains a Disconnect button.
  */
-export async function ConnectedAccounts({ userId, locale }: { userId: string; locale: Locale }) {
+export async function ConnectedAccounts({
+  userId,
+  locale,
+  embedded = false,
+}: {
+  userId: string;
+  locale: Locale;
+  /** Inside another section (Settings > Account): no card, no title of its own. */
+  embedded?: boolean;
+}) {
   const t = await getTranslations({ locale, namespace: "common.connected" });
   const [user, accounts] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId }, select: { passwordHash: true } }),
@@ -66,11 +75,18 @@ export async function ConnectedAccounts({ userId, locale }: { userId: string; lo
   ];
 
   return (
-    <section id="connected-accounts" className="scroll-mt-24 rounded-sedan-xl border border-border bg-surface p-5">
-      <h2 className="flex items-center gap-2 text-[1.125rem]">
-        <Link2 aria-hidden="true" className="size-5 text-accent" />
-        {t("title")}
-      </h2>
+    <section
+      id="connected-accounts"
+      className={cn("scroll-mt-24", !embedded && "rounded-sedan-xl border border-border bg-surface p-5")}
+    >
+      {embedded ? (
+        <h3 className="text-sm font-medium">{t("title")}</h3>
+      ) : (
+        <h2 className="flex items-center gap-2 text-[1.125rem]">
+          <Link2 aria-hidden="true" className="size-5 text-accent" />
+          {t("title")}
+        </h2>
+      )}
       <p className="mt-1 max-w-[60ch] text-[15px] text-fg-muted">{t("lead")}</p>
 
       <ul className="mt-4 space-y-2">

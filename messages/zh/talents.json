@@ -723,8 +723,12 @@
           "video": "添加自录试镜或作品集视频",
           "physical": "添加外形信息",
           "bio": "写一段简短的个人介绍",
-          "links": "添加 IMDb 或作品集链接"
-        }
+          "links": "添加 IMDb 或作品集链接",
+          "productions": "添加过往作品",
+          "otherMedia": "添加其他有用的文件"
+        },
+        "next": "下一步：",
+        "cta": "继续"
       },
       "setup": {
         "title": "完善我的资料",
@@ -740,13 +744,16 @@
       "missing": {
         "photos": "添加照片",
         "video": "添加自录试镜或作品集视频",
-        "physical": "填写外形信息",
+        "physical": "填写发色、眼睛颜色或体型",
         "bio": "写一段简短简介",
         "links": "添加 IMDb 或作品集链接",
         "city": "填写城市",
         "specialties": "选择一个专长",
         "birthDate": "填写出生日期",
-        "stageName": "填写艺名"
+        "stageName": "填写艺名",
+        "height": "填写身高",
+        "productions": "添加一张过往作品的照片",
+        "otherMedia": "添加其他有用的文件，例如声音片段"
       },
       "launch": {
         "title": "开始你的第一次搜索",
@@ -768,7 +775,35 @@
         "title": "查看你的申请",
         "body": "查看为你找到的角色以及每个的进展。"
       },
-      "noSuggestions": "暂时没有其他建议，下一步在页面顶部。"
+      "noSuggestions": "暂时没有其他建议，下一步在页面顶部。",
+      "action": {
+        "stageName": "填写艺名",
+        "birthDate": "填写出生日期",
+        "specialties": "至少选择一个专长",
+        "photos": "添加一张你的照片",
+        "video": "添加作品集视频或自录试镜",
+        "height": "填写身高",
+        "physical": "填写发色、眼睛颜色或体型",
+        "bio": "写一段简短简介",
+        "links": "添加 IMDb 或作品集链接",
+        "city": "填写城市",
+        "productions": "添加一个过往作品",
+        "otherMedia": "添加其他有用的文件"
+      },
+      "why": {
+        "stageName": "这是选角导演看到的名字。",
+        "birthDate": "角色会按你的年龄范围匹配。",
+        "specialties": "角色会按你的专长匹配。",
+        "photos": "选角导演根据看到的照片做选择。",
+        "video": "作品集视频或自录试镜能展示你的镜头表现。",
+        "height": "许多角色会注明身高。",
+        "physical": "许多角色会描述发色、眼睛颜色或体型。",
+        "bio": "简短简介能让你在搜索中脱颖而出。",
+        "links": "链接方便选角导演核实你的履历。",
+        "city": "许多角色是本地的。",
+        "productions": "海报和剧照能展示你的作品经历。",
+        "otherMedia": "一段声音或一份文件可能带来不同。"
+      }
     },
     "candidatures": {
       "title": "我的申请",
@@ -852,7 +887,7 @@
     },
     "settings": {
       "title": "设置",
-      "subtitle": "你的账号、经纪委托和订阅。",
+      "subtitle": "你的账户、语言、通知、隐私和订阅。",
       "account": "账号",
       "email": "邮箱",
       "stageName": "艺名",
@@ -863,7 +898,38 @@
       "subNote": "可选的技术服务。它绝不能买到机会。",
       "manageSub": "管理订阅（即将推出）",
       "signedOn": "签署于 {date}",
-      "planSummary": "每月 {price}"
+      "planSummary": "每月 {price}",
+      "sections": {
+        "account": "账户",
+        "language": "语言",
+        "notifications": "通知",
+        "privacy": "隐私与 Cookie",
+        "subscription": "订阅"
+      },
+      "name": "姓名",
+      "emailVerified": "已验证",
+      "emailUnverified": "未验证",
+      "password": "密码",
+      "passwordChange": "修改密码",
+      "passwordSet": "设置密码",
+      "passwordHint": "我们会通过邮件发送安全链接，供你设置新密码。",
+      "language": {
+        "label": "语言",
+        "lead": "应用和我们发送给你的邮件所用的语言。该设置保存在你的账户中。",
+        "saved": "语言已保存。"
+      },
+      "notifications": {
+        "lead": "选择我们向你发送哪些邮件。每个开关在更改后立即保存。",
+        "applications": "申请",
+        "applicationsBody": "当为你找到角色或申请状态发生变化时。",
+        "messages": "消息",
+        "messagesBody": "当我们的团队或你的代理联系你时。",
+        "product": "动态与建议",
+        "productBody": "偶尔的产品动态。默认关闭，需要你手动开启。",
+        "saved": "通知设置已保存。"
+      },
+      "privacyPolicy": "阅读隐私政策",
+      "manage": "管理订阅"
     },
     "profile": {
       "title": "我的资料",
@@ -885,7 +951,9 @@
         "tooShort": "这条很短，把整场戏演完吧。",
         "excellent": "这条很棒：取景、灯光、收音都到位了。"
       },
-      "privacy": "你的录像是私密的。在你决定提交之前，只有你自己能看到。"
+      "privacy": "你的录像是私密的。在你决定提交之前，只有你自己能看到。",
+      "whatFor": "自录试镜是为某一次具体试镜或选角录制的视频。",
+      "whereGoes": "在你把它附加到申请之前，它保持私密，只有你能看到。"
     },
     "subscription": {
       "title": "订阅",
@@ -925,7 +993,36 @@
       "setPrimary": "设为主图",
       "delete": "删除",
       "choose": "选择文件",
-      "primary": "主图"
+      "primary": "主图",
+      "lead": "帮助我们为你寻找试镜的通用素材。为某次试镜录制的视频请放在“作品集与自录试镜”。",
+      "add": "添加",
+      "empty": "这里还没有内容。把文件拖到这里，或点击“添加”。",
+      "categories": {
+        "SELF": {
+          "title": "你的照片",
+          "hint": "大头照和全身照。"
+        },
+        "PRODUCTIONS": {
+          "title": "过往作品",
+          "hint": "你参与过的作品的海报、剧照和片段。"
+        },
+        "VIDEOS": {
+          "title": "通用视频",
+          "hint": "你的作品集视频和片段。"
+        },
+        "OTHER": {
+          "title": "其他",
+          "hint": "其他有用的内容，例如一段声音片段。"
+        }
+      },
+      "categoryLabel": "类别",
+      "descriptionLabel": "描述",
+      "descriptionPlaceholder": "用几句话描述",
+      "descriptionSaved": "描述已保存。",
+      "noPreview": "此浏览器无法预览。文件已保存。",
+      "open": "打开文件",
+      "play": "播放",
+      "listen": "收听"
     },
     "profileEditor": {
       "completeness": "资料完成度",
@@ -1078,7 +1175,8 @@
       "save": "保存",
       "again": "重新录制",
       "uploading": "上传中，{percent}%",
-      "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。"
+      "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。",
+      "download": "下载"
     },
     "find": {
       "intro": "你的私人经纪助手即将来到消息中心。现在就来设置。",
@@ -1475,7 +1573,8 @@
       "contactHint": "默认关闭。只有开启时，你的邮箱才会显示在公开网站上。",
       "sendRequest": "发送我的申请",
       "requestMessage": "网站：{name}。模板：{template}。预览版本 {version}。",
-      "requestPreview": "这是我们团队处理你的申请时使用的预览：{name}。"
+      "requestPreview": "这是我们团队处理你的申请时使用的预览：{name}。",
+      "emptyRequest": "告诉我们你的作品，我们会和你一起搭建网站。你会保持登录状态。"
     },
     "sample": {
       "label": "虚构示例",

@@ -8,7 +8,7 @@ import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { scoreProfile } from "@/domain/completeness";
-import { parseProfileTab } from "@/domain/profile-tabs";
+import { parseProfileFocus, parseProfileTab } from "@/domain/profile-tabs";
 import { isoDate } from "@/domain/age";
 import { readContentBoundaries, readPreferences } from "@/domain/preferences";
 
@@ -27,11 +27,13 @@ export default async function ProfilPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tab?: string | string[] }>;
+  searchParams: Promise<{ tab?: string | string[]; focus?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
   // ?tab= comes from the dashboard's deep links, and from anyone's URL bar.
-  const initialTab = parseProfileTab((await searchParams).tab);
+  const query = await searchParams;
+  const initialTab = parseProfileTab(query.tab);
+  const initialFocus = parseProfileFocus(query.focus);
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -101,6 +103,8 @@ export default async function ProfilPage({
             type: m.type,
             isPrimary: m.isPrimary,
             mime: m.mime,
+            category: m.category,
+            description: m.description,
           })),
           preferences,
           contentBoundaries,
@@ -112,6 +116,7 @@ export default async function ProfilPage({
           })),
         }}
         initialTab={initialTab}
+        initialFocus={initialFocus}
       />
     </div>
   );

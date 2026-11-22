@@ -1,3 +1,4 @@
+import { completenessOf } from "@/lib/completeness";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
@@ -38,7 +39,7 @@ export default async function AccountPage({
         <h1 className="font-display text-3xl font-medium">{user.artistProfile?.stageName || user.name || user.email}</h1>
         <p className="text-fg-muted">
           {user.email} · {user.kind}
-          {user.artistProfile ? ` · ${user.artistProfile.completenessScore}%` : ""}
+          {user.artistProfile ? ` · ${completenessOf(user.artistProfile)}%` : ""}
         </p>
       </div>
       <form action={setAccountStatusForm} className="flex flex-wrap items-end gap-2 rounded-sedan border border-border bg-surface p-4">

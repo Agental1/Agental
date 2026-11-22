@@ -10,6 +10,8 @@ import { ConsentSync } from "@/components/consent/consent-sync";
 import { syncAccountPrefs } from "@/lib/account-prefs";
 import { emailSenderConfigured } from "@/lib/mailer";
 
+import { Avatar } from "@/components/app/avatar-editor";
+import { initialsOf } from "@/domain/avatar";
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
 import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
@@ -120,6 +122,11 @@ export default async function CastingAppLayout({
         label: t(`space.nav.${n.key}`),
       }))}
       userLabel={session.user.email ?? t("space.nav.account")}
+      userMenu={{
+        avatar: <Avatar src={null} initials={initialsOf("", session.user.email)} size={36} />,
+        settingsHref: "/casting/app/parametres",
+        labels: { account: t("space.nav.account"), profile: "", settings: t("space.nav.settings") },
+      }}
       planSlot={
         <PlanSwitcher
           portal="casting"
@@ -132,7 +139,7 @@ export default async function CastingAppLayout({
       <Suspense fallback={null}>
         <FirstRunTour portal="casting" steps={tourSteps} />
       </Suspense>
-      <ConsentSync consent={prefs.consent} />
+      <ConsentSync consent={prefs.consent} at={prefs.consentAt} pv={prefs.consentVersion} />
       {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}
     </AppShell>

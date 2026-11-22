@@ -1,13 +1,12 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Building2, ShieldCheck, CreditCard, LogOut, Users } from "lucide-react";
+import { Building2, ShieldCheck, CreditCard, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { logoutAction } from "@/app/actions/auth";
 import { RgpdSection } from "@/components/app/rgpd-section";
 import { ConsentSettings } from "@/components/consent/consent-settings";
 import { getAccountConsent } from "@/lib/account-prefs";
@@ -33,7 +32,6 @@ export default async function CastingParametresPage({
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "casting" });
-  const ta = await getTranslations({ locale, namespace: "app" });
 
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -92,12 +90,6 @@ export default async function CastingParametresPage({
       <ConsentSettings current={await getAccountConsent(session.user.id)} />
 
       <RgpdSection />
-
-      <form action={logoutAction}>
-        <Button type="submit" variant="ghost">
-          <LogOut className="size-4" /> {ta("actions.logout")}
-        </Button>
-      </form>
     </div>
   );
 }

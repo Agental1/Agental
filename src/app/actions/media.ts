@@ -8,6 +8,8 @@ import { prisma } from "@/lib/db";
 import { getStorage } from "@/lib/storage";
 import { recomputeCompleteness } from "@/lib/completeness";
 import { MediaType } from "@/domain/enums";
+import { z } from "zod";
+import { DESCRIPTION_MAX, MEDIA_CATEGORIES } from "@/domain/media-categories";
 
 export type MediaResult = { ok: boolean; error?: ActionError; id?: string };
 
@@ -93,5 +95,37 @@ export async function setPrimaryMedia(mediaId: string): Promise<MediaResult> {
     prisma.media.update({ where: { id: mediaId }, data: { isPrimary: true } }),
   ]);
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  return { ok: true };
+}
+
+const MediaDetails = z.object({
+  id: z.string().min(1).max(64),
+  category: z.enum(MEDIA_CATEGORIES).optional(),
+  description: z.string().max(DESCRIPTION_MAX).optional(),
+});
+
+/**
+ * The category and the short description of one of the performer's own
+ * media. Both count toward profile completeness (the category does), so the
+ * score is recomputed.
+ */
+export async function updateMediaDetails(input: unknown): Promise<MediaResult> {
+  const parsed = MediaDetails.safeParse(input);
+  if (!parsed.success) return { ok: false, error: err("errors.invalidInput") };
+  const profile = await talentProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const media = await prisma.media.findUnique({ where: { id: parsed.data.id }, select: { profileId: true } });
+  if (!media || media.profileId !== profile.id) return { ok: false, error: err("errors.mediaNotFound") };
+  const description = parsed.data.description?.trim();
+  await prisma.media.update({
+    where: { id: parsed.data.id },
+    data: {
+      ...(parsed.data.category ? { category: parsed.data.category } : {}),
+      ...(description !== undefined ? { description: description || null } : {}),
+    },
+  });
+  await recomputeCompleteness(profile.id);
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
 }

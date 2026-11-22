@@ -28,7 +28,7 @@ import {
  * back, should the server have set the cookie already) the choice it had,
  * the form is reset to it and the error is shown.
  */
-export function ConsentSettings({ current }: { current: Consent | null }) {
+export function ConsentSettings({ current, embedded = false }: { current: Consent | null; embedded?: boolean }) {
   const t = useTranslations("common.consent");
   const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [error, setError] = useState<ActionError | undefined>();
@@ -62,12 +62,16 @@ export function ConsentSettings({ current }: { current: Consent | null }) {
   return (
     <section
       aria-busy={status === "saving"}
-      className="rounded-sedan-xl border border-border bg-surface p-5"
+      className={embedded ? "border-t border-border pt-4" : "rounded-sedan-xl border border-border bg-surface p-5"}
     >
-      <h2 className="flex items-center gap-2 text-[1.125rem]">
-        <Cookie aria-hidden="true" className="size-5 text-accent" />
-        {t("settingsTitle")}
-      </h2>
+      {embedded ? (
+        <h3 className="text-sm font-medium">{t("settingsTitle")}</h3>
+      ) : (
+        <h2 className="flex items-center gap-2 text-[1.125rem]">
+          <Cookie aria-hidden="true" className="size-5 text-accent" />
+          {t("settingsTitle")}
+        </h2>
+      )}
       <p className="mt-1 max-w-[60ch] text-[15px] text-fg-muted">{t("lead")}</p>
       <ConsentChoice
         key={formKey}

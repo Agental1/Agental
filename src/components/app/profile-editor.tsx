@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { SpecialtyKind } from "@/domain/enums";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
-import { useId, useState, useTransition } from "react";
+import { useEffect, useId, useState, useTransition } from "react";
 import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -82,10 +82,13 @@ type Draft = ProfileEditorData & { height?: HeightValue };
 export function ProfileEditor({
   initial,
   initialTab = DEFAULT_PROFILE_TAB,
+  initialFocus,
 }: {
   initial: ProfileEditorData;
   /** Already checked against PROFILE_TABS by the page (?tab= deep links). */
   initialTab?: ProfileTab;
+  /** Already checked against PROFILE_FOCUS_FIELDS: the field to focus on arrival. */
+  initialFocus?: string;
 }) {
   const t = useTranslations("talents");
   // Untouched, the stored height goes back as exact centimeters.
@@ -100,6 +103,15 @@ export function ProfileEditor({
   // Controlled, so Preferences can send the performer to the Physical tab,
   // where languages are edited.
   const [tab, setTab] = useState<string>(initialTab);
+
+  // A deep link (?tab=identite&focus=birthDate) lands on the field to fill.
+  useEffect(() => {
+    if (!initialFocus) return;
+    const el = document.querySelector<HTMLElement>(`[data-field="${initialFocus}"]`);
+    if (!el) return;
+    el.scrollIntoView({ block: "center" });
+    el.querySelector<HTMLElement>("input, textarea, select, button")?.focus({ preventScroll: true });
+  }, [initialFocus]);
 
   return (
     <div className="space-y-6">
@@ -217,9 +229,9 @@ function SaveBar({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, field, children }: { label: string; field?: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5" data-field={field}>
       <Label>{label}</Label>
       {children}
     </div>
@@ -231,21 +243,21 @@ function IdentityTab({ data, setData }: TabProps) {
   const { save, pending, error } = useSave(saveProfileIdentity);
   return (
     <div className="max-w-xl space-y-4">
-      <Field label={t("space.profileEditor.stageName")}>
+      <Field label={t("space.profileEditor.stageName")} field="stageName">
         <Input value={data.stageName} onChange={(e) => setData({ ...data, stageName: e.target.value })} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t("space.profileEditor.birthDate")}>
+        <Field label={t("space.profileEditor.birthDate")} field="birthDate">
           <Input type="date" value={data.birthDate} onChange={(e) => setData({ ...data, birthDate: e.target.value })} />
         </Field>
-        <Field label={t("space.profileEditor.city")}>
+        <Field label={t("space.profileEditor.city")} field="city">
           <Input value={data.city} onChange={(e) => setData({ ...data, city: e.target.value })} />
         </Field>
       </div>
       <Field label={t("space.profileEditor.phone")}>
         <Input value={data.phone} onChange={(e) => setData({ ...data, phone: e.target.value })} />
       </Field>
-      <Field label={t("space.profileEditor.bio")}>
+      <Field label={t("space.profileEditor.bio")} field="bio">
         <textarea
           value={data.bio}
           onChange={(e) => setData({ ...data, bio: e.target.value })}
@@ -255,7 +267,7 @@ function IdentityTab({ data, setData }: TabProps) {
           placeholder={t("space.profileEditor.bioPlaceholder")}
         />
       </Field>
-      <Field label={t("space.profileEditor.imdbUrl")}>
+      <Field label={t("space.profileEditor.imdbUrl")} field="imdbUrl">
         <Input
           type="text"
           inputMode="url"
@@ -313,15 +325,17 @@ function PhysicalTab({ data, setData }: TabProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         {/* Tabs unmount when hidden. The field reopens on the draft, the
             value Save sends, an entry the server would refuse included. */}
-        <HeightField
-          label={t("space.profileEditor.height")}
-          defaultValue={data.height}
-          onChange={setHeight}
-        />
+        <div data-field="height">
+          <HeightField
+            label={t("space.profileEditor.height")}
+            defaultValue={data.height}
+            onChange={setHeight}
+          />
+        </div>
         <Field label={t("space.profileEditor.build")}>
           <Input value={p.build ?? ""} onChange={(e) => setP({ build: e.target.value })} />
         </Field>
-        <Field label={t("space.profileEditor.hair")}>
+        <Field label={t("space.profileEditor.hair")} field="hair">
           <Input value={p.hair ?? ""} onChange={(e) => setP({ hair: e.target.value })} />
         </Field>
         <Field label={t("space.profileEditor.eyes")}>
@@ -362,7 +376,7 @@ function SpecialtiesTab({ data, setData }: TabProps) {
   return (
     <div className="max-w-xl space-y-4">
       <p className="text-sm text-fg-muted">{t("space.profileEditor.specialtiesHint")}</p>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div data-field="specialties" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {SPECIALTY_KINDS.map((kind) => {
           const active = data.specialties.includes(kind);
           return (

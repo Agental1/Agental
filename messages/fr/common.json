@@ -185,7 +185,11 @@
     "back": "Retour",
     "settingsTitle": "Préférences de cookies",
     "saved": "Ton choix est enregistré.",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "bannerLead": "Nous utilisons quelques cookies pour faire fonctionner Agental. Les autres restent désactivés si tu ne les acceptes pas.",
+    "policyLink": "Politique de confidentialité",
+    "recordedOn": "Enregistré le {date}, version de l’avis {version}.",
+    "notRecorded": "Aucun choix enregistré. Seuls les cookies strictement nécessaires sont utilisés."
   },
   "tour": {
     "start": "Commence ici",

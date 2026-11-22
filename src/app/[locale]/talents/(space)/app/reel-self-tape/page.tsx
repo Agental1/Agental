@@ -1,7 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Lock } from "lucide-react";
+import { Clapperboard, Lock } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { SelfTapeStudio } from "@/components/talents/self-tape-studio";
@@ -51,10 +51,17 @@ export default async function SelfTapePage({
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.selftape.title")}</h1>
         <p className="text-fg-muted">{t("space.selftape.subtitle")}</p>
-        <p className="mt-3 flex items-center gap-2 text-[15px] font-bold">
-          <Lock aria-hidden="true" className="size-4 shrink-0 text-accent" />
-          {t("space.selftape.privacy")}
-        </p>
+        {/* What a self-tape is for, and where it goes. */}
+        <div className="mt-3 space-y-1.5 text-[15px]">
+          <p className="flex items-start gap-2">
+            <Clapperboard aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
+            {t("space.selftape.whatFor")}
+          </p>
+          <p className="flex items-start gap-2 font-bold">
+            <Lock aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
+            {t("space.selftape.whereGoes")}
+          </p>
+        </div>
       </div>
 
       <SelfTapeStudio />

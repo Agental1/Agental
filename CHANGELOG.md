@@ -3,6 +3,29 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.5.2] - 2026-11-22
+
+### Changed (round 7b, group 2)
+
+- **Profile > Media in four categories**: photos of yourself, past productions, general videos, other. Each item has a short description and can move to another category. Existing media moved to the closest category (photos to "Photos of yourself", videos to "General videos", the rest to "Other"). Each category counts in profile completeness.
+- **Every uploaded item shows a preview**: the photo itself, a frame of the video with a play button (opens a player), an audio player for voice. iPhone photos (HEIC) are turned into JPEG in the browser before upload, since only Safari can display HEIC; a file the browser still cannot draw says so instead of showing an empty tile.
+- **"Create your website" stays in the app**: the dashboard card opens Website in the app, which now has the Limelight request form when there is no site yet. It used to open the public Limelight page, whose header always shows "Sign in", which looked like being signed out.
+
+Migration `20261130000000_media_categories` (two additive columns on Media, backfilled).
+
+## [0.5.5.1] - 2026-11-22
+
+### Changed (round 7b, group 1)
+
+- **One "Complete your profile" block on the dashboard**: the percentage, the next missing item and a Resume button that opens the exact tab and field (for example Profile > Identity with the date of birth focused).
+- **AI suggestions follow the profile's real data**: one list of missing items behind the dashboard, the suggestions, the assistant and the admin, so nothing already filled is asked for. A saved height is no longer asked for again, and one link (IMDb or portfolio) is enough for 100%. The admin shows the computed percentage instead of the stored one.
+- **Avatar menu** at the top right with Profile, Settings and Sign out; the other sign-out buttons are gone.
+- **Settings rebuilt** in five sections: Account (name, email, password, connected Google account), Language (saved on the account), Notifications (three email switches), Privacy and cookies, Subscription.
+- **Cookie banner** for every visitor: it disappears as soon as a choice is made and stays gone; the choice is stored with its date and notice version, in the browser and on the account. Changeable in Settings > Privacy and cookies.
+- **Reel & Self-tape** explains what a self-tape is for and where it goes, and a take can be downloaded before saving.
+
+Migration `20261129000000_settings_consent` (four additive columns on User).
+
 ## [0.5.5.0] - 2026-11-21
 
 ### Added (round 7, branch `round7`)
