@@ -5,6 +5,7 @@ import { bearerMatches } from "@/lib/limelight/request";
 import { agentEligibility } from "@/lib/agents";
 import { loadProfileFacts } from "@/lib/workflow/profiles";
 import { startRoleSearch } from "@/lib/role-search";
+import { FIRST_AUTO_KEY } from "@/domain/role-search";
 import { workflowMode, type WorkflowMode } from "@/domain/workflow/eligibility";
 import type { ProfileFacts } from "@/domain/workflow/profile";
 
@@ -130,14 +131,14 @@ export async function claimCastingJobs(
     });
     const held = await tx.roleSearchRequest.findMany({
       where: { status: "running", claimedBy: input.executionId },
-      select: { id: true, userId: true },
+      select: { id: true, userId: true, clientKey: true },
       orderBy: { createdAt: "asc" },
     });
     const rows =
       held.length > 0
         ? held
-        : await tx.$queryRaw<{ id: string; userId: string }[]>`
-            SELECT id, "userId" FROM "public"."role_search_requests"
+        : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null }[]>`
+            SELECT id, "userId", "clientKey" FROM "public"."role_search_requests"
             WHERE status = 'queued'
             ORDER BY "createdAt" ASC
             LIMIT ${input.limit}
@@ -146,7 +147,9 @@ export async function claimCastingJobs(
     let canceled = 0;
     for (const row of rows) {
       const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
-      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode) : { profiles: [] };
+      // The first automatic search is its own consent record (it stamps no click).
+      const firstAuto = row.clientKey === FIRST_AUTO_KEY;
+      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode, { firstAuto }) : { profiles: [] };
       const facts = loaded.profiles[0];
       if (!facts) {
         // Not eligible any more (status, email, age or opt-in): never run.
@@ -207,6 +210,14 @@ export const RankedRole = z.object({
   review: z.array(text(300)).max(20).catch([]),
   draft: z
     .object({ subject: text(300), body: text(4000), route: text(80).nullish() })
+    .nullish(),
+  /** What the role asks applicants to send (round 7b): questions and videos. */
+  submission: z
+    .object({
+      // One bad item never empties the list: bad items are dropped, the rest kept.
+      questions: z.array(z.unknown()).catch([]).transform((a) => a.flatMap((x) => (typeof x === "string" && x.trim() ? [x.trim().slice(0, 500)] : [])).slice(0, 10)),
+      videos: z.array(z.unknown()).catch([]).transform((a) => a.flatMap((x) => (typeof x === "string" && x.trim() ? [x.trim().slice(0, 200)] : [])).slice(0, 5)),
+    })
     .nullish(),
 });
 export type RankedRole = z.infer<typeof RankedRole>;
@@ -302,11 +313,20 @@ async function completeOne(
               location: role.city ?? null,
               remote: role.remote ?? null,
               raw: JSON.stringify(listing).slice(0, 20000),
+              submission: JSON.stringify(role.submission ?? {}),
             },
           ],
           skipDuplicates: true,
         });
         const brief = await tx.brief.findUniqueOrThrow({ where: { dedupeKey }, select: { id: true } });
+        // A role first seen without its questions and videos gets them, once,
+        // and only while nobody has accepted it (they never change under someone).
+        if (role.submission && (role.submission.questions.length > 0 || role.submission.videos.length > 0)) {
+          await tx.brief.updateMany({
+            where: { id: brief.id, submission: "{}", drafts: { none: { status: { in: ["ACCEPTED", "SUBMITTED"] } } } },
+            data: { submission: JSON.stringify(role.submission) },
+          });
+        }
         const note = role.draft ? `${role.draft.subject}\n\n${role.draft.body}` : null;
         const existing = await tx.applicationDraft.findUnique({
           where: { profileId_briefId: { profileId: profile.id, briefId: brief.id } },

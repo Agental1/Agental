@@ -278,6 +278,9 @@ export async function verifyEmail(token: string): Promise<EmailActionResult> {
   if (!accountExists) {
     return { ok: false, error: err("errors.emailLinkInvalid") };
   }
+  // A verified email with a complete profile starts the first AI search.
+  const { launchFirstAutoSearch } = await import("@/lib/auto-search");
+  await launchFirstAutoSearch(userId);
   return { ok: true };
 }
 

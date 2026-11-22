@@ -82,3 +82,20 @@ export async function jobCounts() {
   for (const g of runs) out[runState(g.status)] += g._count._all;
   return out;
 }
+
+/** Responses performers submitted for review (round 7b, 4.2), newest first. */
+export function listSubmittedResponses(take = 50) {
+  return prisma.applicationDraft.findMany({
+    where: { status: "SUBMITTED" },
+    orderBy: { submittedAt: "desc" },
+    take,
+    select: {
+      id: true,
+      submittedAt: true,
+      answers: true,
+      brief: { select: { title: true, roleName: true, submission: true, sourceRef: true } },
+      profile: { select: { stageName: true, user: { select: { id: true, email: true } } } },
+      media: { select: { slot: true, mediaId: true } },
+    },
+  });
+}

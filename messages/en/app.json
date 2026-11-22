@@ -151,7 +151,9 @@
     "mediaMinor": "Media is turned off for profiles under 18. If your date of birth is wrong, correct it on your Profile page.",
     "mediaCastingAccount": "This is a casting account. Media can be added from a performer account.",
     "captchaFailed": "The security check didn't pass. Reload the page and try again.",
-    "agentsProfileIncomplete": "Complete your profile to 100% first: the AI searches start once it is complete and your email is verified."
+    "agentsProfileIncomplete": "Complete your profile to 100% first: the AI searches start once it is complete and your email is verified.",
+    "responseIncomplete": "Answer every question and add every requested video before submitting.",
+    "mediaInResponse": "This video is part of a response the Agental team is reviewing. It can be deleted once the review is done."
   },
   "auth": {
     "name": "Name",
@@ -401,7 +403,11 @@
         "completed": "Completed",
         "failed": "Failed",
         "canceled": "Canceled"
-      }
+      },
+      "responses": "Responses ready for review",
+      "responsesHelp": "Roles performers accepted and answered. Nothing was sent to a casting site.",
+      "noResponses": "No response submitted yet.",
+      "videoN": "Video {n}"
     },
     "accounts": {
       "title": "Accounts",

@@ -803,7 +803,8 @@
         "city": "Many roles are local.",
         "productions": "Posters and stills show the work you have done.",
         "otherMedia": "A voice clip or a document can make the difference."
-      }
+      },
+      "autoFirst": "We launched your first AI search. {left} of {limit} searches left this month."
     },
     "candidatures": {
       "title": "My applications",
@@ -852,8 +853,34 @@
         "draft": "Draft application",
         "status": {
           "draft": "Waiting for your review",
-          "reviewed": "Reviewed"
+          "reviewed": "Reviewed",
+          "accepted": "Accepted, response in progress",
+          "submitted": "Submitted for review"
         }
+      },
+      "role": {
+        "back": "Back to applications",
+        "conditions": "What this role asks for",
+        "conditionsSummary": "{videos, plural, =0 {No video} one {# video} other {# videos}} and {questions, plural, =0 {no question} one {# question} other {# questions}}.",
+        "nothingAsked": "This role asks for nothing beyond your profile. Accept it, then submit, and the Agental team prepares your application.",
+        "video": "Video {n}",
+        "question": "Question {n}",
+        "accept": "Accept",
+        "acceptHint": "Accepting opens the response form. Nothing is sent to the casting.",
+        "yourAnswer": "Your answer",
+        "record": "Record it",
+        "pick": "Pick from Reel & Self-tape",
+        "pickNone": "No video in Reel & Self-tape yet.",
+        "chosen": "Chosen: {title}",
+        "untitled": "Untitled take",
+        "saveDraft": "Save my answers",
+        "saved": "Answers saved.",
+        "submit": "Submit",
+        "submitHint": "Your response goes to the Agental team for review. Nothing is sent to a casting site.",
+        "submitted": "Submitted on {date}. The Agental team is reviewing your response.",
+        "recordTitle": "Record video {n}",
+        "recordHint": "The take is saved in Reel & Self-tape, private, and put in this slot. If anything interrupts it, pick it from Reel & Self-tape here.",
+        "open": "Open this role"
       }
     },
     "career": {

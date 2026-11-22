@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { dateTime } from "@/lib/format";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { listAllRoleSearches } from "@/lib/role-search";
-import { jobCounts, listApplications, listWorkflowRuns, runState, searchState, type JobState } from "@/lib/admin/jobs";
+import { jobCounts, listApplications, listSubmittedResponses, listWorkflowRuns, runState, searchState, type JobState } from "@/lib/admin/jobs";
+import { readAnswers, readSubmission } from "@/domain/application-response";
 
 export async function generateMetadata({
   params,
@@ -58,11 +59,12 @@ export default async function JobsAdminPage({
   const tt = await getTranslations({ locale, namespace: "talents" });
   const planNames = (tt.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
   const PLAN_INDEX: Record<string, number> = { FREE: 0, PRO: 1, PREMIUM: 2, ULTIMATE: 3 };
-  const [searches, runs, apps, counts] = await Promise.all([
+  const [searches, runs, apps, counts, responses] = await Promise.all([
     listAllRoleSearches(),
     listWorkflowRuns(),
     listApplications(),
     jobCounts(),
+    listSubmittedResponses(),
   ]);
   const when = (d: Date | null) => (d ? dateTime(d, locale) : "-");
   const stateLabel = (s: JobState) => t(`admin.roleSearches.states.${s}`);
@@ -175,6 +177,58 @@ export default async function JobsAdminPage({
               </tbody>
             </table>
           </div>
+        )}
+      </section>
+
+      <section aria-labelledby="responses" className="space-y-3">
+        <h2 id="responses" className="font-display text-xl font-medium">
+          {t("admin.roleSearches.responses")}
+        </h2>
+        <p className="text-sm text-fg-muted">{t("admin.roleSearches.responsesHelp")}</p>
+        {responses.length === 0 ? (
+          <Empty text={t("admin.roleSearches.noResponses")} />
+        ) : (
+          <ul className="space-y-3">
+            {responses.map((r) => {
+              const sub = readSubmission(r.brief.submission);
+              const answers = readAnswers(r.answers, sub.questions.length);
+              return (
+                <li key={r.id} className="space-y-2 rounded-sedan border border-border bg-surface p-4 text-sm">
+                  <p>
+                    <span className="font-bold">
+                      {r.brief.roleName ? `${r.brief.roleName} · ` : ""}
+                      {r.brief.title}
+                    </span>{" "}
+                    <span className="text-fg-muted">· {when(r.submittedAt)} · </span>
+                    <Link href={`/admin/comptes/${r.profile.user.id}`} className="text-accent hover:underline">
+                      {r.profile.stageName || r.profile.user.email}
+                    </Link>
+                  </p>
+                  {sub.questions.map((q, i) => (
+                    <div key={i}>
+                      <p className="font-medium">{q}</p>
+                      <p className="whitespace-pre-wrap text-fg-muted">{answers[i] || "-"}</p>
+                    </div>
+                  ))}
+                  {sub.videos.map((v, i) => {
+                    const m = r.media.find((x) => x.slot === i);
+                    return (
+                      <p key={`v${i}`}>
+                        {t("admin.roleSearches.videoN", { n: i + 1 })} ({v}):{" "}
+                        {m ? (
+                          <a href={`/api/media/${m.mediaId}`} target="_blank" rel="noopener" className="font-bold text-accent hover:underline">
+                            {m.mediaId.slice(0, 8)}
+                          </a>
+                        ) : (
+                          "-"
+                        )}
+                      </p>
+                    );
+                  })}
+                </li>
+              );
+            })}
+          </ul>
         )}
       </section>
 

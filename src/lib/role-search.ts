@@ -9,8 +9,10 @@ import {
   periodActive,
   periodKeyFor,
   quotaFrom,
+  isAutoKey,
   type RoleSearchQuota,
 } from "@/domain/role-search";
+import { B2C_PLANS } from "@/domain/pricing";
 
 /**
  * AI role searches, server side. The quota is checked and the row written in
@@ -40,6 +42,7 @@ export async function getRoleSearchQuota(userId: string, now = new Date()): Prom
 export type StartRoleSearchResult =
   | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
   | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota }
+  | { ok: false; reason: "auto_exhausted"; quota: RoleSearchQuota }
   | { ok: false; reason: "ineligible"; why: IneligibleReason; quota: RoleSearchQuota };
 
 export async function startRoleSearch(
@@ -47,8 +50,13 @@ export async function startRoleSearch(
   clientKey: string,
   now = new Date(),
   mode?: WorkflowMode,
-  /** A six-hour scheduled search: its gate needs the existing opt-in and it stamps no click. */
-  scheduled = false
+  /**
+   * false: a click (the click is the opt-in and is stamped).
+   * true: a six-hour scheduled search (needs the existing opt-in, stamps nothing).
+   * "first": the first automatic search (owner decision, round 7b): allowed as
+   * itself, stamps no opt-in, and sits outside the automatic cap.
+   */
+  scheduled: boolean | "first" = false
 ): Promise<StartRoleSearchResult> {
   const { plan } = await getTalentPlan(userId, now);
   const allowance = allowanceFor(plan);
@@ -71,12 +79,12 @@ export async function startRoleSearch(
     });
     const counted = await tx.roleSearchRequest.findMany({
       where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
-      select: { seq: true },
+      select: { seq: true, clientKey: true },
     });
     // The gate, before anything is queued or a retried click is answered.
     // Checked under the lock, so a status changed by staff a moment earlier
     // is the one that counts.
-    const eligible = await agentEligibility(userId, { clicking: !scheduled, mode, db: tx, now });
+    const eligible = await agentEligibility(userId, { clicking: scheduled !== true, mode, db: tx, now });
     if (!eligible.ok) {
       return {
         ok: false as const,
@@ -91,6 +99,17 @@ export async function startRoleSearch(
     if (counted.length >= allowance.count) {
       return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
     }
+    // Searches the server starts on its own have their own monthly cap,
+    // inside the allowance (B2C_PLANS[plan].autoSearches).
+    if (scheduled === true && isAutoKey(clientKey)) {
+      // Scheduled searches share the plan's automatic cap; the first automatic
+      // search is counted in it too, but never refused by it.
+      const auto = counted.filter((r) => isAutoKey(r.clientKey)).length;
+      const cap = B2C_PLANS[plan].autoSearches;
+      if (cap !== null && auto >= cap) {
+        return { ok: false as const, reason: "auto_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
+      }
+    }
     // The count above decides the quota (a failed search gives its place
     // back); seq only has to be unused, so it is the smallest free number.
     const all = await tx.roleSearchRequest.findMany({
@@ -104,7 +123,7 @@ export async function startRoleSearch(
     if (!active) {
       await tx.user.update({ where: { id: userId }, data: { searchPeriodStartedAt: now } });
     }
-    if (!scheduled) {
+    if (scheduled === false) {
       await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
     }
     const row = await tx.roleSearchRequest.create({

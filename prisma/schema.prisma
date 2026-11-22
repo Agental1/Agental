@@ -788,6 +788,9 @@ model Brief {
   rateCents    Int?
   unionStatus  String?
   requirements String    @default("{}") // JSON, validated by src/domain/workflow/brief.ts
+  // What the role asks applicants to send: {"questions":[...],"videos":[...]}
+  // (src/domain/application-response.ts). "{}" when it asks for nothing.
+  submission   String    @default("{}")
   expiresAt    DateTime?
   status       String    @default("ACTIVE") // ACTIVE | EXPIRED | WITHDRAWN
   raw          String    @default("{}") // as received, for audit
@@ -836,7 +839,13 @@ model ApplicationDraft {
   profileId      String
   briefId        String
   evaluationId   String?
-  status         String    @default("DRAFT") // DRAFT | APPROVED | DECLINED | NEEDS_INFO
+  status         String    @default("DRAFT") // DRAFT | APPROVED | DECLINED | NEEDS_INFO | ACCEPTED | SUBMITTED
+  // The performer's answers to the role's questions, in order (JSON string[]).
+  answers        String    @default("[]")
+  // "Accept" on the role, and "Submit" (ready for the Agental team's review).
+  // Nothing is sent to a casting site.
+  acceptedAt     DateTime?
+  submittedAt    DateTime?
   note           String?
   idempotencyKey String    @unique
   reviewDecision String?
@@ -857,6 +866,8 @@ model ApplicationDraft {
 model DraftMedia {
   draftId   String
   mediaId   String
+  // Which requested video this clip answers (0-based), or null for a free attachment.
+  slot      Int?
   createdAt DateTime @default(now())
 
   draft ApplicationDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)

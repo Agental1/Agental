@@ -41,7 +41,15 @@ interface Take {
   url: string;
 }
 
-export function SelfTapeStudio() {
+export function SelfTapeStudio({
+  onSaved,
+  fixedDestination,
+}: {
+  /** Called with the new media id once a take is saved (e.g. to fill an application's video slot). */
+  onSaved?: (mediaId: string) => void;
+  /** Saves there without asking (an application's clip goes to Reel & Self-tape, private). */
+  fixedDestination?: "library" | "profile";
+} = {}) {
   const t = useTranslations("talents");
   const errorText = useActionErrorText();
   const router = useRouter();
@@ -61,7 +69,7 @@ export function SelfTapeStudio() {
   const [live, setLive] = useState({ framing: 0, light: 0, sound: 0 });
   const [result, setResult] = useState<UploadMediaResult | null>(null);
   const [take, setTake] = useState<Take | null>(null);
-  const [destination, setDestination] = useState<UploadDestination>("library");
+  const [destination, setDestination] = useState<UploadDestination>(fixedDestination ?? "library");
   const [progress, setProgress] = useState(0);
   const [pending, startTransition] = useTransition();
 
@@ -257,6 +265,7 @@ export function SelfTapeStudio() {
       URL.revokeObjectURL(url);
       setTake(null);
       setPhase("done");
+      onSaved?.(res.mediaId);
       router.refresh();
     });
   }
@@ -373,7 +382,7 @@ export function SelfTapeStudio() {
           {phase === "review" && (
             <div className="space-y-3 rounded-sedan border border-border bg-surface p-4">
               <p className="font-bold">{t("space.studio.review")}</p>
-              <fieldset>
+              <fieldset hidden={!!fixedDestination}>
                 <legend className="text-sm text-fg-muted">{t("space.studio.saveTo")}</legend>
                 <div className="mt-2 space-y-2">
                   {(["library", "profile"] as const).map((d) => (

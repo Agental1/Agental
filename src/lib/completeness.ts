@@ -30,6 +30,13 @@ export async function recomputeCompleteness(profileId: string): Promise<number> 
     where: { id: profileId },
     data: { completenessScore: final },
   });
+  // Reaching 100% starts the first AI search on its own (once, under the same
+  // rules as a click). Only on the move to 100, so saves at 100% stay cheap.
+  // Imported here to keep the import graph acyclic.
+  if (final === 100 && p.completenessScore !== 100) {
+    const { launchFirstAutoSearch } = await import("@/lib/auto-search");
+    await launchFirstAutoSearch(p.userId);
+  }
   return final;
 }
 

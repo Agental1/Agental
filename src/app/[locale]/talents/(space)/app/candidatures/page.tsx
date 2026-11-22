@@ -11,6 +11,7 @@ import { listMyRoleSearches } from "@/lib/role-search";
 import { searchState } from "@/lib/admin/jobs";
 import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import {
   CandidaturesList,
   type CandidatureRow,
@@ -121,8 +122,15 @@ export default async function CandidaturesPage({
                 </p>
                 <p className="text-sm text-fg-muted">
                   {d.brief.location ? `${d.brief.location} · ` : ""}
-                  {t(`space.candidatures.found.status.${d.status === "DRAFT" ? "draft" : "reviewed"}`)}
+                  {t(
+                    `space.candidatures.found.status.${
+                      d.status === "DRAFT" ? "draft" : d.status === "ACCEPTED" ? "accepted" : d.status === "SUBMITTED" ? "submitted" : "reviewed"
+                    }`
+                  )}
                 </p>
+                <Link href={`/talents/app/candidatures/${d.id}`} className="mr-4 text-sm font-bold text-accent hover:underline">
+                  {t("space.candidatures.role.open")}
+                </Link>
                 {d.brief.sourceRef && (
                   <a href={d.brief.sourceRef} target="_blank" rel="noopener noreferrer nofollow" className="text-sm font-bold text-accent hover:underline">
                     {t("space.candidatures.found.source")} ({new URL(d.brief.sourceRef).hostname})

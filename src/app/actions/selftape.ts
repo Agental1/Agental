@@ -1,5 +1,6 @@
 "use server";
 
+import { usedInSubmittedResponse } from "@/lib/media-locks";
 import { err, type ActionError } from "@/domain/action-result";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
@@ -110,6 +111,7 @@ export async function deleteSelfTape(mediaId: string): Promise<SelfTapeResult> {
   if (!profile || !media || media.profileId !== profile.id) {
     return { ok: false, error: err("errors.notFound") };
   }
+  if (await usedInSubmittedResponse([media.id])) return { ok: false, error: err("errors.mediaInResponse") };
   // Row first, then the file: a failure leaves an orphan object, never a row
   // that points at a file that is gone.
   await prisma.media.delete({ where: { id: mediaId } });
