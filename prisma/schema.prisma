@@ -178,6 +178,8 @@ model ArtistProfile {
   completenessScore Int       @default(0)
   // Round 8: first time the profile reached 100% (the celebration shows once).
   profileCompletedAt DateTime?
+  // Round 8: the dashboard's "Improve your website" line, closed for good.
+  websiteCardDismissedAt DateTime?
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt

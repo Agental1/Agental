@@ -68,3 +68,40 @@ export function b2bLimit(
 ): number | null {
   return B2B_PLANS[plan][metric];
 }
+
+/**
+ * Promotions (founders' decision, round 8, 2026-11-22). A list, so another
+ * school can be added here without code: an id, a label (a proper noun, the
+ * same in every language), who is eligible, and a price per product in cents.
+ * Stripe is not connected: these prices are shown and recorded with requests;
+ * checkout still answers "billing unavailable".
+ */
+export type PromoProduct = PlanB2C | "LIMELIGHT_ESSENTIAL" | "LIMELIGHT_SIGNATURE";
+
+export interface Promotion {
+  id: string;
+  label: string;
+  /** Eligible with an email address on one of these domains (or a subdomain). */
+  eligibility: { emailDomains: readonly string[] };
+  /** Promotional price per product, in cents. A product left out has no promotion. */
+  prices: Partial<Record<PromoProduct, number>>;
+}
+
+export const PROMOTIONS: readonly Promotion[] = [
+  {
+    id: "usc-student",
+    label: "USC student",
+    eligibility: { emailDomains: ["usc.edu"] },
+    prices: { PRO: 900, PREMIUM: 2900, ULTIMATE: 5900, LIMELIGHT_ESSENTIAL: 2900 },
+  },
+];
+
+export function findPromotion(id: string | null | undefined): Promotion | null {
+  return PROMOTIONS.find((p) => p.id === id) ?? null;
+}
+
+/** Is this email eligible for the promotion (e.g. name@usc.edu, name@cs.usc.edu)? */
+export function promotionEligible(promo: Promotion, email: string | null | undefined): boolean {
+  const domain = (email ?? "").toLowerCase().split("@")[1] ?? "";
+  return promo.eligibility.emailDomains.some((d) => domain === d || domain.endsWith(`.${d}`));
+}

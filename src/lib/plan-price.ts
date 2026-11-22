@@ -3,7 +3,7 @@
  * subscription pages and the plan switcher. Amounts come from
  * `src/domain/pricing.ts` in integer cents; plans are billed in US dollars.
  */
-import { B2C_PLANS } from "@/domain/pricing";
+import { B2C_PLANS, PROMOTIONS, type PromoProduct } from "@/domain/pricing";
 import type { PlanB2C } from "@/domain/enums";
 import { CURRENCY, percent } from "@/lib/format";
 
@@ -51,4 +51,17 @@ export function planFeatureLines(lines: string[], locale: string, plan: TalentPl
 /** FAQ groups with the plan figures filled into every answer. */
 export function fillFaqGroups<G extends { items: { q: string; a: string }[] }>(groups: G[], locale: string): G[] {
   return groups.map((g) => ({ ...g, items: g.items.map((i) => ({ ...i, a: fillPlanTokens(i.a, locale) })) }));
+}
+
+/**
+ * Promotional prices of one product, formatted, keyed by promotion id (round 8).
+ * Read from PROMOTIONS in src/domain/pricing.ts.
+ */
+export function promoPrices(product: PromoProduct, locale: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const p of PROMOTIONS) {
+    const cents = p.prices[product];
+    if (cents != null) out[p.id] = formatPlanPrice(cents, locale);
+  }
+  return out;
 }

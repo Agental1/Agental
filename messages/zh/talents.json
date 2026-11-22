@@ -136,8 +136,7 @@
           "AI 点评你的自录试镜",
           "Agental 团队更快回复",
           "优先支持",
-          "预订佣金 {commission}，由我们的持牌合作经纪公司收取",
-          "大学生？使用学校邮箱即可享受折扣。"
+          "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
         ]
       },
       {
@@ -1492,11 +1491,11 @@
     "nav": "个人网站",
     "meta": {
       "title": "Limelight by Agental：为每位表演者打造个人网站",
-      "description": "发来你的照片、作品集锦和几句关于你的介绍。我们为你打造个人网站，99 美元起，含第一年托管。"
+      "description": "发来你的照片、作品集锦和几句关于你的介绍。我们为你打造个人网站，{price}起，含第一年托管。"
     },
     "band": {
       "title": "需要个人网站？我们和你一起做。",
-      "body": "Limelight 把你的照片、作品集锦和经历变成一个网站，选角导演一键就能打开。99 美元起。",
+      "body": "Limelight 把你的照片、作品集锦和经历变成一个网站，选角导演一键就能打开。{price}起。",
       "cta": "了解 Limelight"
     },
     "hero": {
@@ -1586,7 +1585,7 @@
       "oneTime": "一次性",
       "essential": {
         "name": "基础版",
-        "price": "99 美元",
+        "price": "{price}",
         "summary": "一页说清一切。",
         "features": [
           "头像照、简介、集锦、简历和联系表单",
@@ -1595,12 +1594,12 @@
           "随时自己编辑",
           "与团队进行一轮修改"
         ],
-        "renewal": "第一年后的托管：每年 49 美元。可随时在你的空间中取消。",
+        "renewal": "第一年后的托管：每年 {price}。可随时在你的空间中取消。",
         "cta": "选择基础版"
       },
       "signature": {
         "name": "Signature",
-        "price": "199 美元",
+        "price": "{price}",
         "summary": "一个随你事业成长的完整网站。",
         "features": [
           "作品图集、演职履历、媒体报道等更多板块",
@@ -1609,7 +1608,7 @@
           "配音与音乐的音频小样和曲目",
           "与团队进行三轮修改"
         ],
-        "renewal": "第一年后的托管与域名：每年 79 美元。可随时在你的空间中取消。",
+        "renewal": "第一年后的托管与域名：每年 {price}。可随时在你的空间中取消。",
         "cta": "选择 Signature"
       },
       "custom": {
@@ -1646,7 +1645,7 @@
         },
         {
           "q": "第一年之后怎么办？",
-          "a": "托管续费为基础版每年 49 美元、Signature 每年 79 美元。续费前你可以在你的空间中取消。"
+          "a": "托管续费为基础版每年 {essential}、Signature 每年 {signature}。续费前你可以在你的空间中取消。"
         },
         {
           "q": "我是音乐人、舞者或配音演员，也适用吗？",
@@ -1678,10 +1677,8 @@
       },
       "budget": "选择方案",
       "budgets": {
-        "essential": "基础版，99 美元",
-        "signature": "Signature，199 美元",
-        "custom": "定制",
-        "unsure": "帮我选择"
+        "essential": "基础版，{price}",
+        "signature": "Signature，{price}"
       },
       "contactPref": "我们如何联系你？",
       "prefs": {
@@ -1722,7 +1719,10 @@
       "title": "创建你的网站",
       "body": "选角导演一键即可打开的个人网站。选一个模板，看看配上你名字的效果。",
       "cta": "创建你的网站",
-      "resume": "继续编辑你的网站"
+      "resume": "继续编辑你的网站",
+      "improve": "改进你的网站",
+      "improveBody": "你已有网站。Limelight 可以让它更出色。",
+      "hide": "隐藏"
     },
     "navApp": "个人网站",
     "app": {
@@ -1817,5 +1817,15 @@
     "google": "使用 Google 继续",
     "apple": "使用 Apple 继续",
     "or": "或"
+  },
+  "promotions": {
+    "button": "优惠",
+    "was": "原价 {price}",
+    "eligibility": "USC 学生：使用 @usc.edu 邮箱。",
+    "emailPlan": "发邮件询问学生套餐价格",
+    "emailWebsite": "发邮件询问学生网站价格",
+    "subjectPlan": "学生套餐价格",
+    "subjectWebsite": "学生网站价格",
+    "mailBody": "我的 Agental 账户邮箱：{email}"
   }
 }

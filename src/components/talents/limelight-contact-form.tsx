@@ -16,6 +16,8 @@ import {
   type LimelightFormSource,
 } from "@/domain/limelight";
 import { cn } from "@/lib/utils";
+import { findPromotion } from "@/domain/pricing";
+import { useActivePromotion } from "@/components/talents/promotions";
 
 type Pref = (typeof LIMELIGHT_CONTACT_PREFS)[number];
 
@@ -40,7 +42,7 @@ export function LimelightContactForm({
   source = "limelight-page",
 }: {
   /** Values to start from, for a signed-in performer. */
-  defaults?: { name?: string; email?: string; message?: string };
+  defaults?: { name?: string; email?: string; message?: string; need?: string };
   /** Shown above the fields, e.g. the site preview the request is about. */
   preview?: React.ReactNode;
   submitLabel?: string;
@@ -69,8 +71,10 @@ export function LimelightContactForm({
   const [name, setName] = useState(defaults?.name ?? "");
   const [email, setEmail] = useState(defaults?.email ?? "");
   const [discipline, setDiscipline] = useState<string>("actor");
-  const [need, setNeed] = useState<string>("new");
-  const [budget, setBudget] = useState<string>("unsure");
+  const [need, setNeed] = useState<string>(defaults?.need ?? "new");
+  // Round 8: choosing an offer is required, so nothing is preselected.
+  const [budget, setBudget] = useState<string>("");
+  const promotion = findPromotion(useActivePromotion());
   const [pref, setPref] = useState<Pref>("email");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState(defaults?.message ?? "");
@@ -111,6 +115,7 @@ export function LimelightContactForm({
       {preview}
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="source" value={source} />
+      <input type="hidden" name="promotion" value={promotion?.id ?? ""} />
       {/* Honeypot: hidden from people and screen readers, tempting to bots. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
@@ -165,7 +170,15 @@ export function LimelightContactForm({
           name="budget"
           value={budget}
           onChange={setBudget}
-          options={LIMELIGHT_BUDGETS.map((v) => ({ value: v, label: t(`budgets.${v}`) }))}
+          options={LIMELIGHT_BUDGETS.map((v) => {
+            const plan = LIMELIGHT.plans[v];
+            const promo = promotion?.prices[v === "essential" ? "LIMELIGHT_ESSENTIAL" : "LIMELIGHT_SIGNATURE"];
+            const label = t(`budgets.${v}`, { price: usd(plan.priceUsd) });
+            return {
+              value: v,
+              label: promo != null ? `${label} (${promotion!.label} ${usd(promo / 100)})` : label,
+            };
+          })}
         />
         <p className="max-w-[64ch] text-[13.5px] leading-relaxed text-fg-muted">
           {t("terms", {

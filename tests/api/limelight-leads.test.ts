@@ -667,7 +667,7 @@ describe.skipIf(!hasDb)("Limelight leads, end to end", () => {
           email: mail(name),
           discipline: "musician",
           need: "new",
-          budget: "unsure",
+          budget: "essential",
           contactPref: "email",
           phone: "",
           message: "",

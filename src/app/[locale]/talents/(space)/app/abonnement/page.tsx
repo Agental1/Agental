@@ -1,5 +1,6 @@
 import { percent } from "@/lib/format";
-import { formatPlanPrice, planFeatureLines } from "@/lib/plan-price";
+import { formatPlanPrice, planFeatureLines, promoPrices } from "@/lib/plan-price";
+import { PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -29,9 +30,13 @@ export async function generateMetadata({
 
 export default async function AbonnementPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  /** ?need=redo opens the Limelight form on "Redo my website" (dashboard card). */
+  searchParams: Promise<{ need?: string }>;
 }) {
+  const { need } = await searchParams;
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
@@ -60,9 +65,11 @@ export default async function AbonnementPage({
     // the pricing-copy pass removed from the message files. It was rewritten
     // there and never wired up, so the subscription screen kept selling them.
     features: planFeatureLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
+    promos: promoPrices(p, locale),
   }));
 
   return (
+    <PromotionsProvider>
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
@@ -79,15 +86,24 @@ export default async function AbonnementPage({
         <SearchUsageBar quota={usage} />
       </section>
 
-      <PlanSelector plans={plans} current={current} />
+      <div className="space-y-3">
+        <PromotionsButton accountEmail={session.user.email} />
+        <PlanSelector plans={plans} current={current} />
+      </div>
 
       <StudentEmailCard
         verifiedEmail={student?.studentVerifiedAt ? student.studentEmail : null}
         discountPercent={STUDENT_DISCOUNT.discountPercent}
       />
 
-      <LimelightSection userId={session.user.id} email={session.user.email ?? ""} locale={locale} />
+      <LimelightSection
+        userId={session.user.id}
+        email={session.user.email ?? ""}
+        locale={locale}
+        defaultNeed={need === "redo" ? "redo" : undefined}
+      />
 
     </div>
+    </PromotionsProvider>
   );
 }

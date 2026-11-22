@@ -15,7 +15,7 @@ import { prisma } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { WebsiteCard } from "@/components/talents/website-card";
+import { ImproveWebsiteLine, WebsiteCard } from "@/components/talents/website-card";
 import { listMySites } from "@/lib/sites";
 import { completenessInputOf, missingItems, profileGaps, scoreProfile } from "@/domain/completeness";
 import { itemHref } from "@/domain/profile-tabs";
@@ -319,7 +319,17 @@ export default async function TalentsDashboard({
       {/* Stays in the app: the public Limelight page is static and its header
           always offers "Sign in", which read as being signed out. The app's
           Website page has the request form. */}
-      {!hasSite && <WebsiteCard href="/talents/app/abonnement#limelight" appHref="/talents/app/abonnement#limelight" />}
+      {/* Round 8: no portfolio website (IMDb alone does not count), the card;
+          a portfolio website, a slim "Improve your website" line the
+          performer can close for good. */}
+      {!hasSite &&
+        (profile.portfolioUrl?.trim() ? (
+          !profile.websiteCardDismissedAt && (
+            <ImproveWebsiteLine href="/talents/app/abonnement?need=redo#limelight" />
+          )
+        ) : (
+          <WebsiteCard href="/talents/app/abonnement#limelight" appHref="/talents/app/abonnement#limelight" />
+        ))}
     </div>
   );
 }

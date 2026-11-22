@@ -136,8 +136,7 @@
           "AI feedback on your self-tapes",
           "Faster replies from the Agental team",
           "Priority support",
-          "{commission} commission on bookings, taken by our licensed partner agency",
-          "College student? Get a discount with your school email."
+          "{commission} commission on bookings, taken by our licensed partner agency"
         ]
       },
       {
@@ -1492,11 +1491,11 @@
     "nav": "Websites",
     "meta": {
       "title": "Limelight by Agental: a website for every performer",
-      "description": "Send your photos, your reel and a few lines about your work. We build your performer website from $99, first year of hosting included."
+      "description": "Send your photos, your reel and a few lines about your work. We build your performer website from {price}, first year of hosting included."
     },
     "band": {
       "title": "Need a website? We'll build it with you.",
-      "body": "Limelight turns your photos, your reel and your story into a site casting directors can open in one click. From $99.",
+      "body": "Limelight turns your photos, your reel and your story into a site casting directors can open in one click. From {price}.",
       "cta": "See Limelight"
     },
     "hero": {
@@ -1586,7 +1585,7 @@
       "oneTime": "one-time",
       "essential": {
         "name": "Essential",
-        "price": "$99",
+        "price": "{price}",
         "summary": "One page that says it all.",
         "features": [
           "Headshot, bio, reel, résumé and a contact form",
@@ -1595,12 +1594,12 @@
           "Edit it yourself any time",
           "One review round with our team"
         ],
-        "renewal": "Hosting after year one: $49 a year. Cancel any time from your dashboard.",
+        "renewal": "Hosting after year one: {price} a year. Cancel any time from your dashboard.",
         "cta": "Start with Essential"
       },
       "signature": {
         "name": "Signature",
-        "price": "$199",
+        "price": "{price}",
         "summary": "A full site that grows with your career.",
         "features": [
           "Gallery, credits, press and more sections",
@@ -1609,7 +1608,7 @@
           "Audio demos and tracks for voice and music",
           "Three review rounds with our team"
         ],
-        "renewal": "Hosting and domain after year one: $79 a year. Cancel any time from your dashboard.",
+        "renewal": "Hosting and domain after year one: {price} a year. Cancel any time from your dashboard.",
         "cta": "Start with Signature"
       },
       "custom": {
@@ -1646,7 +1645,7 @@
         },
         {
           "q": "What happens after the first year?",
-          "a": "Hosting renews at $49 a year for Essential and $79 a year for Signature. You can cancel from your dashboard before it renews."
+          "a": "Hosting renews at {essential} a year for Essential and {signature} a year for Signature. You can cancel from your dashboard before it renews."
         },
         {
           "q": "I'm a musician, dancer or voice actor. Is this for me?",
@@ -1678,10 +1677,8 @@
       },
       "budget": "Which offer",
       "budgets": {
-        "essential": "Essential, $99",
-        "signature": "Signature, $199",
-        "custom": "Something custom",
-        "unsure": "Help me choose"
+        "essential": "Essential, {price}",
+        "signature": "Signature, {price}"
       },
       "contactPref": "How should we reach you?",
       "prefs": {
@@ -1722,7 +1719,10 @@
       "title": "Create your website",
       "body": "A site casting directors can open in one click. Pick a template and see it with your name.",
       "cta": "Create your website",
-      "resume": "Continue your site"
+      "resume": "Continue your site",
+      "improve": "Improve your website",
+      "improveBody": "You have a website. Limelight can make it stronger.",
+      "hide": "Hide this"
     },
     "navApp": "Website",
     "app": {
@@ -1817,5 +1817,15 @@
     "google": "Continue with Google",
     "apple": "Continue with Apple",
     "or": "or"
+  },
+  "promotions": {
+    "button": "Promotions",
+    "was": "Was {price}",
+    "eligibility": "USC student: with a @usc.edu email.",
+    "emailPlan": "Email us for the student plan price",
+    "emailWebsite": "Email us for the student website price",
+    "subjectPlan": "Student plan price",
+    "subjectWebsite": "Student website price",
+    "mailBody": "My Agental account email: {email}"
   }
 }

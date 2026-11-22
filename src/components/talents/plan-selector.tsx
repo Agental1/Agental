@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { upgradeTalentPlan } from "@/app/actions/subscription";
+import { PromoPrice } from "@/components/talents/promotions";
 
 export interface PlanCard {
   plan: string;
@@ -17,6 +18,8 @@ export interface PlanCard {
   price: string;
   commission: string;
   features: string[];
+  /** Promotional prices by promotion id (round 8). */
+  promos?: Record<string, string>;
 }
 
 export function PlanSelector({
@@ -68,7 +71,7 @@ export function PlanSelector({
                 {isCurrent && <Badge variant="solid">{t("space.plans.current")}</Badge>}
               </div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="font-display text-2xl">{p.price}</span>
+                <PromoPrice base={p.price} promos={p.promos} className="font-display text-2xl" />
                 <span className="text-xs text-fg-muted">{t("space.plans.perMonth")}</span>
               </div>
               

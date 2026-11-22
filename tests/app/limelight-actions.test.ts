@@ -141,6 +141,8 @@ describe("requestPortfolioSite", () => {
 });
 
 describe("submitLimelightLead (the form on the page today)", () => {
+  // Round 8: the chosen offer and its price lead the "what they need" text.
+  const OFFER = "Offer: signature (USD 149 + USD 79 a year hosting)";
   const fields = {
     name: "Ana Lee",
     email: "ana@example.com",
@@ -165,7 +167,7 @@ describe("submitLimelightLead (the form on the page today)", () => {
         performerType: "musician",
         locale: "fr",
         // The choice and the message, as one "what they need" text.
-        need: "redo: I would like a site before pilot season.",
+        need: `${OFFER}. redo: I would like a site before pilot season.`,
         contactPref: "call",
         phone: "+1 310 555 0142",
         marketingOptIn: false,
@@ -192,7 +194,7 @@ describe("submitLimelightLead (the form on the page today)", () => {
 
     await submitLimelightLead(undefined, form({ ...fields, message: "  \n " }));
 
-    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: "redo" });
+    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: `${OFFER}. redo` });
   });
 
   it("puts a message with line breaks on one line", async () => {
@@ -200,7 +202,7 @@ describe("submitLimelightLead (the form on the page today)", () => {
 
     await submitLimelightLead(undefined, form({ ...fields, message: "A reel.\n\nAnd photos." }));
 
-    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: "redo: A reel. And photos." });
+    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: `${OFFER}. redo: A reel. And photos.` });
   });
 
   it("keeps the choice and says so in the log when the message is too long to store", async () => {
@@ -213,7 +215,7 @@ describe("submitLimelightLead (the form on the page today)", () => {
       email: "ana@example.com",
     });
 
-    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: "redo" });
+    expect(recordInterest.mock.calls[0][0]).toMatchObject({ need: `${OFFER}. redo` });
     const line = warn.mock.calls.map((call) => call.join(" ")).join("\n");
     expect(line).toContain("LL-7K2M9QXA");
     expect(line).not.toContain("I need a site");
@@ -228,7 +230,20 @@ describe("submitLimelightLead (the form on the page today)", () => {
 
     const { need } = recordInterest.mock.calls[0][0] as { need: string };
     expect(need).toHaveLength(500);
-    expect(need.startsWith("redo: ")).toBe(true);
+    expect(need.startsWith(`${OFFER}. redo: `)).toBe(true);
+  });
+
+  it("requires an offer, and records a checked promotion with its price", async () => {
+    recordInterest.mockResolvedValue(stored);
+    const { budget: _b, ...noOffer } = fields;
+    void _b;
+    expect(await submitLimelightLead(undefined, form(noOffer))).toMatchObject({
+      error: { key: "errors.limelightOfferRequired" },
+    });
+    await submitLimelightLead(undefined, form({ ...fields, budget: "essential", promotion: "usc-student", message: "" }));
+    expect((recordInterest.mock.calls[0][0] as { need: string }).need).toBe(
+      "Offer: essential (USD 99 + USD 25 a year hosting). Promotion: USC student (USD 29). redo"
+    );
   });
 
   it("forwards nothing anywhere: no webhook is called, whatever the environment says", async () => {

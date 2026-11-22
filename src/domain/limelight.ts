@@ -32,16 +32,15 @@ export const LIMELIGHT = {
   /** Hosting paid for by a purchase, in months, before the yearly renewal. */
   hostingTermMonths: 12,
   plans: {
+    // Founders' decision, round 8 (2026-11-22): Essential hosting $25 a year,
+    // Signature $149, student Essential $29 (hosting unchanged).
     essential: {
       priceUsd: 99,
-      renewalUsdPerYear: 49,
-      /**
-       * Price for a student an admin approved. The founders have not set the
-       * amount: while it is null, an approved student pays `priceUsd`.
-       */
-      studentPriceUsd: null as number | null,
+      renewalUsdPerYear: 25,
+      /** Student price (USC student promotion, see PROMOTIONS in pricing.ts). */
+      studentPriceUsd: 29 as number | null,
     },
-    signature: { priceUsd: 199, renewalUsdPerYear: 79 },
+    signature: { priceUsd: 149, renewalUsdPerYear: 79 },
   },
 } as const;
 
@@ -61,7 +60,8 @@ export const LIMELIGHT_DISCIPLINES = [
 ] as const;
 
 export const LIMELIGHT_NEEDS = ["new", "redo", "unsure"] as const;
-export const LIMELIGHT_BUDGETS = ["essential", "signature", "custom", "unsure"] as const;
+/** Round 8: choosing an offer is required; "custom" and "unsure" were removed. */
+export const LIMELIGHT_BUDGETS = ["essential", "signature"] as const;
 export const LIMELIGHT_CONTACT_PREFS = ["email", "call"] as const;
 /** Where the "Start your site" form was sent from, so staff can tell them apart. */
 export const LIMELIGHT_FORM_SOURCES = ["limelight-page", "app-site-panel"] as const;
@@ -76,7 +76,9 @@ export const LimelightLeadInput = z.object({
   email: z.email("errors.emailInvalid").max(200),
   discipline: z.enum(LIMELIGHT_DISCIPLINES).catch("other"),
   need: z.enum(LIMELIGHT_NEEDS).catch("unsure"),
-  budget: z.enum(LIMELIGHT_BUDGETS).catch("unsure"),
+  budget: z.enum(LIMELIGHT_BUDGETS, { error: "errors.limelightOfferRequired" }),
+  /** Round 8: a promotion the person checked (an id from PROMOTIONS). */
+  promotion: z.string().trim().max(40).optional().default(""),
   contactPref: z.enum(LIMELIGHT_CONTACT_PREFS).catch("email"),
   phone: z.string().trim().max(40).optional().default(""),
   message: z.string().trim().max(2000).optional().default(""),
