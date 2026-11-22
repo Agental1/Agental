@@ -78,3 +78,6 @@ Listed here as they come, and copied into the final report.
   production database access.
 - Group 2: Physical tiles are 5 per row from 1280 px, 3 from 768 px, 2 below (at 1024 px five
   tiles were too narrow for the height selects).
+- Group 2 result (production build log, 2026-11-22): 18 profiles; 1 was at 100% before round 8
+  and drops below it, missing gender and the playable age range (both new). No other field
+  caused a drop for it. 11 profiles have a free-text city, 6 a phone number.
