@@ -152,7 +152,8 @@
     "mediaCastingAccount": "Esta es una cuenta de casting. Los medios se añaden desde una cuenta de artista.",
     "captchaFailed": "La comprobación de seguridad no se superó. Recarga la página e inténtalo de nuevo.",
     "agentsProfileIncomplete": "Primero completa tu perfil al 100 %: las búsquedas con IA empiezan cuando está completo y tu correo verificado.",
-    "responseIncomplete": "Responde a cada pregunta y añade cada vídeo pedido antes de enviar."
+    "responseIncomplete": "Responde a cada pregunta y añade cada vídeo pedido antes de enviar.",
+    "mediaInResponse": "Este vídeo forma parte de una respuesta que el equipo de Agental está revisando. Podrás eliminarlo cuando termine la revisión."
   },
   "auth": {
     "name": "Nombre",

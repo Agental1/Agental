@@ -28,7 +28,9 @@ export async function loadProfileFacts(
   db: ProfilesDb,
   profileIds: string[],
   now: Date,
-  mode: WorkflowMode = "staging"
+  mode: WorkflowMode = "staging",
+  /** firstAuto: the job is the first automatic search, its own consent record. */
+  opts: { firstAuto?: boolean } = {}
 ): Promise<LoadedProfiles> {
   if (profileIds.length === 0) return { profiles: [], skipped: 0 };
   const rows = await db.artistProfile.findMany({
@@ -66,7 +68,7 @@ export async function loadProfileFacts(
         emailVerified: emailIsVerified(row.user),
         isAdult: facts.isAdult,
         profileComplete: completenessOf(row) === 100,
-        optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn,
+        optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn || !!opts.firstAuto,
       },
       mode
     );

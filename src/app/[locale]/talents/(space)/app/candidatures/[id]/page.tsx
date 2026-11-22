@@ -42,8 +42,13 @@ export default async function RolePage({ params }: { params: Promise<{ locale: s
   });
   if (!draft) notFound();
   const submission = readSubmission(draft.brief.submission);
+  const chosenIds = draft.media.map((m) => m.media.id);
   const clips = await prisma.media.findMany({
-    where: { profileId: draft.profileId, type: { in: ["SELFTAPE", "VIDEO"] }, status: "READY" },
+    // The 50 newest, plus whatever is already chosen, so a slot never looks empty.
+    where: {
+      profileId: draft.profileId,
+      OR: [{ type: { in: ["SELFTAPE", "VIDEO"] }, status: "READY" }, { id: { in: chosenIds } }],
+    },
     orderBy: { createdAt: "desc" },
     take: 50,
     select: { id: true, title: true, createdAt: true },

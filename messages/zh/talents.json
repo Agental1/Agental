@@ -862,7 +862,7 @@
         "back": "返回申请",
         "conditions": "该角色的要求",
         "conditionsSummary": "{videos, plural, other {# 个视频}}和{questions, plural, other {# 个问题}}。",
-        "nothingAsked": "该角色除你的资料外无其他要求。接受后，团队会准备你的申请。",
+        "nothingAsked": "该角色除你的资料外无其他要求。接受并提交后，Agental 团队会准备你的申请。",
         "video": "视频 {n}",
         "question": "问题 {n}",
         "accept": "接受",
@@ -879,7 +879,7 @@
         "submitHint": "你的回复会交给 Agental 团队审核，不会发送到选角网站。",
         "submitted": "已于 {date} 提交。Agental 团队正在审核你的回复。",
         "recordTitle": "录制视频 {n}",
-        "recordHint": "该片段会私密保存在作品集与自录试镜中，并关联到此申请。",
+        "recordHint": "该片段会私密保存在作品集与自录试镜中并放入此处。如有中断，可在此处从作品集与自录试镜中选择。",
         "open": "打开该角色"
       }
     },

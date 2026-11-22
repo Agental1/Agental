@@ -862,7 +862,7 @@
         "back": "Volver a candidaturas",
         "conditions": "Lo que pide este papel",
         "conditionsSummary": "{videos, plural, =0 {Ningún vídeo} one {# vídeo} other {# vídeos}} y {questions, plural, =0 {ninguna pregunta} one {# pregunta} other {# preguntas}}.",
-        "nothingAsked": "Este papel no pide nada más que tu perfil. Acéptalo y el equipo prepara tu candidatura.",
+        "nothingAsked": "Este papel no pide nada más que tu perfil. Acéptalo, luego envía, y el equipo de Agental prepara tu candidatura.",
         "video": "Vídeo {n}",
         "question": "Pregunta {n}",
         "accept": "Aceptar",
@@ -879,7 +879,7 @@
         "submitHint": "Tu respuesta va al equipo de Agental para revisión. No se envía nada a un sitio de casting.",
         "submitted": "Enviada el {date}. El equipo de Agental está revisando tu respuesta.",
         "recordTitle": "Grabar el vídeo {n}",
-        "recordHint": "La toma se guarda en Reel y self-tape, en privado, y se vincula a esta candidatura.",
+        "recordHint": "La toma se guarda en Reel y self-tape, en privado, y se coloca aquí. Si algo lo interrumpe, elígela aquí desde Reel y self-tape.",
         "open": "Abrir este papel"
       }
     },

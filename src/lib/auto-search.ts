@@ -11,8 +11,9 @@ import { FIRST_AUTO_KEY } from "@/domain/role-search";
  * complete, adult, the right status for the mode, so only Test accounts in
  * production's test mode), the quota, the automatic cap of the plan, and no
  * duplicate: the fixed client key FIRST_AUTO_KEY is unique per account, so it
- * can only ever happen once. Being the performer's first search, it counts as
- * their opt-in, like a first click. Never throws.
+ * can only ever happen once. It does not stamp the performer's opt-in (no
+ * click happened): the request itself is the record, and the n8n claim lets it
+ * through as such (src/lib/n8n/casting.ts). Never throws.
  */
 export async function launchFirstAutoSearch(userId: string, now = new Date()): Promise<StartRoleSearchResult | null> {
   try {
@@ -21,7 +22,10 @@ export async function launchFirstAutoSearch(userId: string, now = new Date()): P
       select: { id: true },
     });
     if (done) return null;
-    return await startRoleSearch(userId, FIRST_AUTO_KEY, now);
+    // "First": only for someone who never searched. A performer who already
+    // clicked never gets a surprise search.
+    if ((await prisma.roleSearchRequest.count({ where: { userId } })) > 0) return null;
+    return await startRoleSearch(userId, FIRST_AUTO_KEY, now, undefined, "first");
   } catch (error) {
     console.error("[auto-search] first search not started", error instanceof Error ? error.message.slice(0, 200) : "unknown");
     return null;
@@ -32,7 +36,9 @@ export async function launchFirstAutoSearch(userId: string, now = new Date()): P
 export async function recentFirstAutoSearch(userId: string, now = new Date()): Promise<boolean> {
   const row = await prisma.roleSearchRequest.findUnique({
     where: { userId_clientKey: { userId, clientKey: FIRST_AUTO_KEY } },
-    select: { createdAt: true },
+    select: { createdAt: true, status: true },
   });
-  return !!row && now.getTime() - row.createdAt.getTime() < 14 * 24 * 60 * 60 * 1000;
+  // Not after a failure or a cancel: the search was given back, so "we launched" would mislead.
+  if (!row || row.status === "failed" || row.status === "canceled") return false;
+  return now.getTime() - row.createdAt.getTime() < 14 * 24 * 60 * 60 * 1000;
 }

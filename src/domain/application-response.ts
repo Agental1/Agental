@@ -11,9 +11,16 @@ export const MAX_QUESTIONS = 10;
 export const MAX_VIDEOS = 5;
 export const ANSWER_MAX = 2000;
 
+const items = (max: number, len: number) =>
+  z
+    .array(z.unknown())
+    .catch([])
+    .transform((a) => a.flatMap((x) => (typeof x === "string" && x.trim() ? [x.trim().slice(0, len)] : [])).slice(0, max));
+
+/** One bad item never empties the list: it is dropped and the rest kept. */
 export const Submission = z.object({
-  questions: z.array(z.string().trim().min(1).max(500)).max(MAX_QUESTIONS).catch([]),
-  videos: z.array(z.string().trim().min(1).max(200)).max(MAX_VIDEOS).catch([]),
+  questions: items(MAX_QUESTIONS, 500),
+  videos: items(MAX_VIDEOS, 200),
 });
 export type Submission = z.infer<typeof Submission>;
 

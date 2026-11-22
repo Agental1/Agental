@@ -862,7 +862,7 @@
         "back": "Retour aux candidatures",
         "conditions": "Ce que demande ce rôle",
         "conditionsSummary": "{videos, plural, =0 {Aucune vidéo} one {# vidéo} other {# vidéos}} et {questions, plural, =0 {aucune question} one {# question} other {# questions}}.",
-        "nothingAsked": "Ce rôle ne demande rien de plus que ton profil. Accepte-le et l’équipe prépare ta candidature.",
+        "nothingAsked": "Ce rôle ne demande rien de plus que ton profil. Accepte-le, puis envoie, et l’équipe Agental prépare ta candidature.",
         "video": "Vidéo {n}",
         "question": "Question {n}",
         "accept": "Accepter",
@@ -879,7 +879,7 @@
         "submitHint": "Ta réponse va à l’équipe Agental pour relecture. Rien n’est envoyé à un site de casting.",
         "submitted": "Envoyée le {date}. L’équipe Agental relit ta réponse.",
         "recordTitle": "Enregistrer la vidéo {n}",
-        "recordHint": "La prise est enregistrée dans Bande démo & self-tape, en privé, et liée à cette candidature.",
+        "recordHint": "La prise est enregistrée dans Bande démo & self-tape, en privé, et placée ici. Si quelque chose l’interrompt, choisis-la ici depuis Bande démo & self-tape.",
         "open": "Ouvrir ce rôle"
       }
     },

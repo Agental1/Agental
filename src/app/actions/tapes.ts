@@ -1,5 +1,6 @@
 "use server";
 
+import { tapeUsedInSubmittedResponse } from "@/lib/media-locks";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -101,6 +102,7 @@ export async function deleteTape(tapeId: string): Promise<TapeActionResult> {
   if (!owned.ok) return owned;
   const { userId, tape } = owned;
   const now = new Date();
+  if (await tapeUsedInSubmittedResponse(tape.id)) return { ok: false, error: err("errors.mediaInResponse") };
 
   let storageKeys: string[];
   try {

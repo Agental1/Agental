@@ -862,7 +862,7 @@
         "back": "Back to applications",
         "conditions": "What this role asks for",
         "conditionsSummary": "{videos, plural, =0 {No video} one {# video} other {# videos}} and {questions, plural, =0 {no question} one {# question} other {# questions}}.",
-        "nothingAsked": "This role asks for nothing beyond your profile. Accept it and the team prepares your application.",
+        "nothingAsked": "This role asks for nothing beyond your profile. Accept it, then submit, and the Agental team prepares your application.",
         "video": "Video {n}",
         "question": "Question {n}",
         "accept": "Accept",
@@ -879,7 +879,7 @@
         "submitHint": "Your response goes to the Agental team for review. Nothing is sent to a casting site.",
         "submitted": "Submitted on {date}. The Agental team is reviewing your response.",
         "recordTitle": "Record video {n}",
-        "recordHint": "The take is saved in Reel & Self-tape, private, and linked to this application.",
+        "recordHint": "The take is saved in Reel & Self-tape, private, and put in this slot. If anything interrupts it, pick it from Reel & Self-tape here.",
         "open": "Open this role"
       }
     },

@@ -26,6 +26,8 @@ const storage = { delete: vi.fn<(key: string) => Promise<void>>(async () => unde
 const recomputeCompleteness = vi.fn(async () => 60);
 const revalidatePath = vi.fn();
 
+// A clip in a submitted application response cannot be deleted; these tests cover the rest.
+vi.mock("@/lib/media-locks", () => ({ usedInSubmittedResponse: vi.fn(async () => false), tapeUsedInSubmittedResponse: vi.fn(async () => false) }));
 vi.mock("@/lib/db", () => ({ prisma: db }));
 vi.mock("@/auth", () => ({ auth: async () => session }));
 vi.mock("@/lib/storage", () => ({ getStorage: async () => storage }));

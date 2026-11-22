@@ -1,5 +1,6 @@
 "use server";
 
+import { usedInSubmittedResponse } from "@/lib/media-locks";
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -410,6 +411,9 @@ export async function deleteRecording(mediaId: string): Promise<DeleteRecordingR
   });
   if (!media || media.profile.userId !== userId) {
     return { ok: false, error: err("errors.mediaNotFound") };
+  }
+  if (await usedInSubmittedResponse([media.id])) {
+    return { ok: false, error: err("errors.mediaInResponse") };
   }
 
   await prisma.$transaction(async (tx) => {

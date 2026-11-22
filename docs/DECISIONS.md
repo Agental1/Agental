@@ -115,6 +115,14 @@ US dollars.
   email is verified (verification email or Google) and its profile is 100% complete. Staff do
   not approve accounts; they only mark Spam, Test or Staff, or revoke eligibility. Email
   verification is read-only in the admin.
+- 2026-11-22 (round 7b, owner): the first AI search starts on its own once the profile is 100%
+  and the email verified, for performers who never searched. It does not stamp a click opt-in:
+  the request (`auto_first`) is its own record. Automatic searches per plan, inside the monthly
+  allowance (`autoSearches` in `src/domain/pricing.ts`): Basic 1; Pro, Premium and Ultimate
+  `TODO(founders)` (no separate cap until decided, the six-hour searches work as before).
+- 2026-11-22 (round 7b, owner): a performer answers a role from Applications (Accept, answers,
+  videos recorded or picked from Reel & Self-tape, Submit). A submitted response goes to the
+  Agental team's review only; nothing is sent to a casting site.
 - A separate staff-only admin site at admin.agental.co (same codebase and database).
 
 ## Rules for every session

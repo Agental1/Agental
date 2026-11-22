@@ -152,7 +152,8 @@
     "mediaCastingAccount": "这是选角账户，请使用表演者账户添加媒体。",
     "captchaFailed": "安全验证未通过，请刷新页面后重试。",
     "agentsProfileIncomplete": "请先将资料完善到 100%：资料完整且邮箱验证后，AI 搜索才会开始。",
-    "responseIncomplete": "提交前请回答所有问题并添加所有要求的视频。"
+    "responseIncomplete": "提交前请回答所有问题并添加所有要求的视频。",
+    "mediaInResponse": "该视频属于 Agental 团队正在审核的回复，审核完成后才能删除。"
   },
   "auth": {
     "name": "姓名",

@@ -51,10 +51,12 @@ export async function acceptRole(draftId: unknown): Promise<ResponseResult> {
   const own = await ownDraft(draftId);
   if ("error" in own) return { ok: false, error: own.error! };
   if (!editable(own.draft.status)) return { ok: false, error: err("errors.invalidInput") };
-  await prisma.applicationDraft.updateMany({
-    where: { id: own.draft.id, status: { in: ["DRAFT", "NEEDS_INFO"] } },
+  const { count } = await prisma.applicationDraft.updateMany({
+    // An expired or withdrawn role cannot be taken on.
+    where: { id: own.draft.id, status: { in: ["DRAFT", "NEEDS_INFO"] }, brief: { status: "ACTIVE" } },
     data: { status: "ACCEPTED", acceptedAt: new Date() },
   });
+  if (count !== 1) return { ok: false, error: err("errors.invalidInput") };
   await audit({ actorUserId: own.userId, action: "application.accept", resourceType: "ApplicationDraft", resourceId: own.draft.id });
   revalidate(own.draft.id);
   return { ok: true };
@@ -66,10 +68,13 @@ export async function saveAnswers(draftId: unknown, answers: unknown): Promise<R
   if ("error" in own) return { ok: false, error: own.error! };
   if (own.draft.status !== "ACCEPTED") return { ok: false, error: err("errors.invalidInput") };
   const parsed = Answers.safeParse(answers);
-  const count = readSubmission(own.draft.brief.submission).questions.length;
-  if (!parsed.success || parsed.data.length !== count) return { ok: false, error: err("errors.invalidInput") };
-  await prisma.applicationDraft.update({ where: { id: own.draft.id }, data: { answers: JSON.stringify(parsed.data) } });
-  return { ok: true };
+  const expected = readSubmission(own.draft.brief.submission).questions.length;
+  if (!parsed.success || parsed.data.length !== expected) return { ok: false, error: err("errors.invalidInput") };
+  const { count } = await prisma.applicationDraft.updateMany({
+    where: { id: own.draft.id, status: "ACCEPTED" },
+    data: { answers: JSON.stringify(parsed.data) },
+  });
+  return count === 1 ? { ok: true } : { ok: false, error: err("errors.invalidInput") };
 }
 
 /**
@@ -89,11 +94,16 @@ export async function setSlotVideo(draftId: unknown, slot: unknown, mediaId: unk
     select: { id: true },
   });
   if (!media) return { ok: false, error: err("errors.mediaNotFound") };
-  await prisma.$transaction([
-    prisma.draftMedia.deleteMany({ where: { draftId: own.draft.id, slot: s.data } }),
-    prisma.draftMedia.deleteMany({ where: { draftId: own.draft.id, mediaId: media.id } }),
-    prisma.draftMedia.create({ data: { draftId: own.draft.id, mediaId: media.id, slot: s.data } }),
-  ]);
+  const changed = await prisma.$transaction(async (tx) => {
+    // Still open, checked inside the write: a response submitted a moment ago stays as sent.
+    const open = await tx.applicationDraft.updateMany({ where: { id: own.draft.id, status: "ACCEPTED" }, data: { updatedAt: new Date() } });
+    if (open.count !== 1) return false;
+    await tx.draftMedia.deleteMany({ where: { draftId: own.draft.id, slot: s.data } });
+    await tx.draftMedia.deleteMany({ where: { draftId: own.draft.id, mediaId: media.id } });
+    await tx.draftMedia.create({ data: { draftId: own.draft.id, mediaId: media.id, slot: s.data } });
+    return true;
+  });
+  if (!changed) return { ok: false, error: err("errors.invalidInput") };
   revalidate(own.draft.id);
   return { ok: true };
 }

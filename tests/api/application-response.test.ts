@@ -104,5 +104,8 @@ describe.skipIf(!local)("response flow", () => {
     // Submitted is final for the performer.
     expect(await setSlotVideo(draftId, 0, myClip)).toMatchObject({ ok: false });
     expect(await submitResponse(draftId, ["x", "y"])).toMatchObject({ ok: false });
+    // A clip in the submitted response cannot be deleted until the review.
+    const { deleteMedia } = await import("@/app/actions/media");
+    expect(await deleteMedia(second)).toMatchObject({ ok: false, error: { key: "errors.mediaInResponse" } });
   });
 });
