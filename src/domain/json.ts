@@ -9,6 +9,8 @@ import { z } from "zod";
 export const PhysicalTraits = z.object({
   heightCm: z.number().int().min(40).max(260).optional(),
   hair: z.string().optional(),
+  /** Round 8: one of HAIR_LENGTHS (src/domain/identity.ts). */
+  hairLength: z.string().optional(),
   eyes: z.string().optional(),
   build: z.string().optional(),
   languages: z.array(z.string()).default([]),

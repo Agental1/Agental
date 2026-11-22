@@ -14,6 +14,7 @@ import { prisma } from "@/lib/db";
 import { StudentEmailCard } from "@/components/talents/student-email";
 import { STUDENT_DISCOUNT } from "@/domain/student";
 import type { PlanB2C } from "@/domain/enums";
+import { LimelightSection } from "@/components/talents/limelight-section";
 
 export async function generateMetadata({
   params,
@@ -84,6 +85,8 @@ export default async function AbonnementPage({
         verifiedEmail={student?.studentVerifiedAt ? student.studentEmail : null}
         discountPercent={STUDENT_DISCOUNT.discountPercent}
       />
+
+      <LimelightSection userId={session.user.id} email={session.user.email ?? ""} locale={locale} />
 
     </div>
   );

@@ -49,4 +49,5 @@ need to.
 
 | Migration | What it adds | Safe for pre-r8 code? |
 |---|---|---|
-| (filled in as each group lands) | | |
+| `20261204000000_round8_identity` (group 1) | Four nullable text columns on `ArtistProfile`: `legalFirstName`, `legalLastName`, `gender`, `genderOther`. No backfill; the old `legalName` column is untouched. | Yes: the pre-r8 code never selects these columns, and Prisma ignores columns it does not know. |
+| (later groups) | | |

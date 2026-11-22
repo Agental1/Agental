@@ -148,6 +148,13 @@ model ArtistProfile {
   userId            String    @unique
   stageName         String
   legalName         String?
+  // Round 8: the legal name in two parts, for contracts and payments only.
+  // Never shown to casting. legalName above is the older single field, kept.
+  legalFirstName    String?
+  legalLastName     String?
+  // Round 8: used only for role matching. See GENDERS in src/domain/identity.ts.
+  gender            String?
+  genderOther       String?
   birthDate         DateTime?
   isMinor           Boolean   @default(false)
   phone             String?

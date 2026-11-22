@@ -114,7 +114,7 @@ describe("ProfilePhysical", () => {
         height: { unit: "imperial", feet: 5, inches: 7 },
         hair: "brown",
       })
-    ).toEqual({ heightCm: 170, hair: "brown", languages: [], accents: [] });
+    ).toEqual({ heightCm: 170, clearHeight: false, hair: "brown" });
   });
 
   it("omits heightCm when the height is blank", () => {

@@ -5,8 +5,8 @@ import { SpecialtyKind } from "@/domain/enums";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useEffect, useId, useState, useTransition } from "react";
-import { Check, Loader2, Lock, Sparkles, Trash2 } from "lucide-react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Check, Lock, Sparkles } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 import type { PhysicalTraits } from "@/domain/json";
 import type { HeightValue } from "@/domain/height";
 import { DEFAULT_PROFILE_TAB, type ProfileTab } from "@/domain/profile-tabs";
+import { BIO_MAX } from "@/domain/profile";
+import { EYE_COLORS, GENDERS, HAIR_COLORS, HAIR_LENGTHS, matchOption, optionKey } from "@/domain/identity";
 import {
   COMPENSATION,
   PROJECT_TYPES,
@@ -28,8 +30,6 @@ import {
   type Preferences,
 } from "@/domain/preferences";
 import {
-  addAvailability,
-  deleteAvailability,
   saveContentBoundaries,
   saveProfileIdentity,
   saveProfilePhysical,
@@ -45,6 +45,10 @@ const SPECIALTY_KINDS = SpecialtyKind.options;
 export interface ProfileEditorData {
   stageName: string;
   legalName: string;
+  legalFirstName: string;
+  legalLastName: string;
+  gender: string;
+  genderOther: string;
   phone: string;
   city: string;
   bio: string;
@@ -151,8 +155,6 @@ export function ProfileEditor({
             <PreferencesTab
               data={data}
               setData={setData}
-              availability={initial.availability}
-              onEditLanguages={() => setTab("physique")}
             />
             <ContentBoundariesSection data={data} setData={setData} />
           </div>
@@ -229,65 +231,137 @@ function SaveBar({
   );
 }
 
-function Field({ label, field, children }: { label: string; field?: string; children: React.ReactNode }) {
+function Field({
+  label,
+  field,
+  hint,
+  children,
+}: {
+  label: string;
+  field?: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-1.5" data-field={field}>
       <Label>{label}</Label>
       {children}
+      {hint && <p className="text-xs text-fg-muted">{hint}</p>}
     </div>
   );
 }
 
 function IdentityTab({ data, setData }: TabProps) {
   const t = useTranslations("talents");
+  const locale = useLocale();
   const { save, pending, error } = useSave(saveProfileIdentity);
+  const e = "space.profileEditor" as const;
+  const nf = new Intl.NumberFormat(locale);
+  const p = data.physical;
+  const setP = (patch: Partial<PhysicalTraits>) =>
+    setData({ ...data, physical: { ...p, ...patch } });
   return (
     <div className="max-w-xl space-y-4">
-      <Field label={t("space.profileEditor.stageName")} field="stageName">
-        <Input value={data.stageName} onChange={(e) => setData({ ...data, stageName: e.target.value })} />
+      <fieldset className="space-y-1.5" data-field="legalName">
+        <legend className="text-sm font-medium">{t(`${e}.legalName`)}</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Input
+            aria-label={t(`${e}.legalFirstName`)}
+            placeholder={t(`${e}.legalFirstName`)}
+            autoComplete="given-name"
+            value={data.legalFirstName}
+            onChange={(ev) => setData({ ...data, legalFirstName: ev.target.value })}
+          />
+          <Input
+            aria-label={t(`${e}.legalLastName`)}
+            placeholder={t(`${e}.legalLastName`)}
+            autoComplete="family-name"
+            value={data.legalLastName}
+            onChange={(ev) => setData({ ...data, legalLastName: ev.target.value })}
+          />
+        </div>
+        <p className="text-xs text-fg-muted">{t(`${e}.legalNameHint`)}</p>
+      </fieldset>
+      <Field label={t(`${e}.stageName`)} field="stageName" hint={t(`${e}.stageNameHint`)}>
+        <Input value={data.stageName} onChange={(ev) => setData({ ...data, stageName: ev.target.value })} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t("space.profileEditor.birthDate")} field="birthDate">
-          <Input type="date" value={data.birthDate} onChange={(e) => setData({ ...data, birthDate: e.target.value })} />
+        <Field label={t(`${e}.birthDate`)} field="birthDate">
+          <Input type="date" value={data.birthDate} onChange={(ev) => setData({ ...data, birthDate: ev.target.value })} />
         </Field>
-        <Field label={t("space.profileEditor.city")} field="city">
-          <Input value={data.city} onChange={(e) => setData({ ...data, city: e.target.value })} />
+        <Field label={t(`${e}.city`)} field="city">
+          <Input value={data.city} onChange={(ev) => setData({ ...data, city: ev.target.value })} />
         </Field>
       </div>
-      <Field label={t("space.profileEditor.phone")}>
-        <Input value={data.phone} onChange={(e) => setData({ ...data, phone: e.target.value })} />
+      <Field label={t(`${e}.gender`)} field="gender" hint={t(`${e}.genderHint`)}>
+        <Select
+          value={data.gender || undefined}
+          onValueChange={(gender) => setData({ ...data, gender })}
+        >
+          <SelectTrigger className="w-full" aria-label={t(`${e}.gender`)}>
+            <SelectValue placeholder={t(`${e}.choose`)} />
+          </SelectTrigger>
+          <SelectContent data-portal="talents">
+            {GENDERS.map((g) => (
+              <SelectItem key={g} value={g}>{t(`${e}.genders.${g}`)}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {data.gender === "other" && (
+          <Input
+            className="mt-2"
+            maxLength={60}
+            aria-label={t(`${e}.genderOther`)}
+            placeholder={t(`${e}.genderOther`)}
+            value={data.genderOther}
+            onChange={(ev) => setData({ ...data, genderOther: ev.target.value })}
+          />
+        )}
       </Field>
-      <Field label={t("space.profileEditor.bio")} field="bio">
+      <Field label={t(`${e}.phone`)} field="phone">
+        <Input value={data.phone} onChange={(ev) => setData({ ...data, phone: ev.target.value })} />
+      </Field>
+      <Field label={t(`${e}.languages`)} field="languages">
+        <Input value={p.languages.join(", ")} onChange={(ev) => setP({ languages: splitList(ev.target.value) })} />
+      </Field>
+      <Field label={t(`${e}.accents`)} field="accents">
+        <Input value={p.accents.join(", ")} onChange={(ev) => setP({ accents: splitList(ev.target.value) })} />
+      </Field>
+      <Field label={t(`${e}.bio`)} field="bio">
         <textarea
           value={data.bio}
-          onChange={(e) => setData({ ...data, bio: e.target.value })}
-          rows={4}
-          maxLength={600}
+          onChange={(ev) => setData({ ...data, bio: ev.target.value })}
+          rows={6}
+          maxLength={BIO_MAX}
+          aria-describedby="bio-count"
           className="w-full rounded-sedan border border-border bg-surface px-3 py-2 text-sm text-fg placeholder:text-fg-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
-          placeholder={t("space.profileEditor.bioPlaceholder")}
+          placeholder={t(`${e}.bioPlaceholder`)}
         />
+        <p id="bio-count" className="text-right text-xs tabular-nums text-fg-muted" aria-live="polite">
+          {nf.format(data.bio.length)} / {nf.format(BIO_MAX)}
+        </p>
       </Field>
-      <Field label={t("space.profileEditor.imdbUrl")} field="imdbUrl">
+      <Field label={t(`${e}.imdbUrl`)} field="imdbUrl">
         <Input
           type="text"
           inputMode="url"
           value={data.imdbUrl}
-          placeholder={t("space.profileEditor.imdbUrlPlaceholder")}
-          onChange={(e) => setData({ ...data, imdbUrl: e.target.value })}
+          placeholder={t(`${e}.imdbUrlPlaceholder`)}
+          onChange={(ev) => setData({ ...data, imdbUrl: ev.target.value })}
         />
       </Field>
-      <Field label={t("space.profileEditor.portfolioUrl")}>
+      <Field label={t(`${e}.portfolioUrl`)}>
         <Input
           type="text"
           inputMode="url"
           value={data.portfolioUrl}
-          placeholder={t("space.profileEditor.portfolioUrlPlaceholder")}
-          onChange={(e) => setData({ ...data, portfolioUrl: e.target.value })}
+          placeholder={t(`${e}.portfolioUrlPlaceholder`)}
+          onChange={(ev) => setData({ ...data, portfolioUrl: ev.target.value })}
         />
       </Field>
       <p className="text-sm">
-        <Link href="/talents/app/site" className="font-medium text-accent hover:underline">
-          {t("space.profileEditor.noLinks")}
+        <Link href="/talents/app/abonnement#limelight" className="font-medium text-accent hover:underline">
+          {t(`${e}.noLinks`)}
         </Link>
       </p>
       <SaveBar
@@ -297,9 +371,15 @@ function IdentityTab({ data, setData }: TabProps) {
           save(
             {
               stageName: data.stageName,
+              legalFirstName: data.legalFirstName,
+              legalLastName: data.legalLastName,
+              gender: data.gender || undefined,
+              genderOther: data.genderOther,
               phone: data.phone,
               city: data.city,
               bio: data.bio,
+              languages: p.languages,
+              accents: p.accents,
               imdbUrl: data.imdbUrl,
               portfolioUrl: data.portfolioUrl,
               birthDate: data.birthDate || undefined,
@@ -309,6 +389,43 @@ function IdentityTab({ data, setData }: TabProps) {
         }
       />
     </div>
+  );
+}
+
+/**
+ * A fixed list of options. A stored value that matches no option (free text
+ * from before round 8) stays selected and shows as "Other: <value>".
+ */
+function OptionSelect({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: readonly string[];
+  value: string | undefined;
+  onChange: (v: string) => void;
+}) {
+  const t = useTranslations("talents");
+  const e = "space.profileEditor" as const;
+  const raw = (value ?? "").trim();
+  const known = matchOption(options, raw);
+  const legacy = raw && !known ? raw : null;
+  return (
+    <Select value={known ?? (legacy ? `legacy:${legacy}` : undefined)} onValueChange={(v) => onChange(v.startsWith("legacy:") ? v.slice(7) : v)}>
+      <SelectTrigger className="w-full" aria-label={label}>
+        <SelectValue placeholder={t(`${e}.choose`)} />
+      </SelectTrigger>
+      <SelectContent data-portal="talents">
+        {options.map((o) => (
+          <SelectItem key={o} value={o}>{t(`${e}.options.${optionKey(o)}` as "space.profileEditor.options.other")}</SelectItem>
+        ))}
+        {legacy && (
+          <SelectItem value={`legacy:${legacy}`}>{t(`${e}.otherValue`, { value: legacy })}</SelectItem>
+        )}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -336,30 +453,26 @@ function PhysicalTab({ data, setData }: TabProps) {
           <Input value={p.build ?? ""} onChange={(e) => setP({ build: e.target.value })} />
         </Field>
         <Field label={t("space.profileEditor.hair")} field="hair">
-          <Input value={p.hair ?? ""} onChange={(e) => setP({ hair: e.target.value })} />
+          <OptionSelect label={t("space.profileEditor.hair")} options={HAIR_COLORS} value={p.hair} onChange={(hair) => setP({ hair })} />
         </Field>
-        <Field label={t("space.profileEditor.eyes")}>
-          <Input value={p.eyes ?? ""} onChange={(e) => setP({ eyes: e.target.value })} />
+        <Field label={t("space.profileEditor.hairLength")} field="hairLength">
+          <OptionSelect label={t("space.profileEditor.hairLength")} options={HAIR_LENGTHS} value={p.hairLength} onChange={(hairLength) => setP({ hairLength })} />
+        </Field>
+        <Field label={t("space.profileEditor.eyes")} field="eyes">
+          <OptionSelect label={t("space.profileEditor.eyes")} options={EYE_COLORS} value={p.eyes} onChange={(eyes) => setP({ eyes })} />
         </Field>
       </div>
-      <Field label={t("space.profileEditor.languages")}>
-        <Input value={p.languages.join(", ")} onChange={(e) => setP({ languages: splitList(e.target.value) })} />
-      </Field>
-      <Field label={t("space.profileEditor.accents")}>
-        <Input value={p.accents.join(", ")} onChange={(e) => setP({ accents: splitList(e.target.value) })} />
-      </Field>
       <SaveBar
         pending={pending}
         error={error}
         onSave={() =>
           save(
             {
-              height: data.height,
+              height: data.height ?? null,
               hair: p.hair,
+              hairLength: p.hairLength,
               eyes: p.eyes,
               build: p.build,
-              languages: p.languages,
-              accents: p.accents,
             },
             (c) => c != null && setData((d) => ({ ...d, completeness: c }))
           )
@@ -424,16 +537,13 @@ function SpecialtiesTab({ data, setData }: TabProps) {
 function PreferencesTab({
   data,
   setData,
-  availability,
-  onEditLanguages,
-}: TabProps & { availability: AvailabilityItem[]; onEditLanguages: () => void }) {
+}: TabProps) {
   const t = useTranslations("talents");
   const { save, pending, error } = useSave(savePreferences);
   const pr = data.preferences;
   const setPr = (patch: Partial<Preferences>) =>
     setData((d) => ({ ...d, preferences: { ...d.preferences, ...patch } }));
   const p = "space.profileEditor.prefs" as const;
-  const languages = data.physical.languages;
 
   return (
     <div className="max-w-2xl space-y-6">
@@ -497,128 +607,9 @@ function PreferencesTab({
         }
       />
 
-      {/* Languages are stored with the physical details; shown here, edited there. */}
-      <section className="space-y-2 border-t border-border pt-6">
-        <h3 className="text-sm font-medium">{t(`${p}.languages`)}</h3>
-        <p className="text-sm text-fg-muted">
-          {languages.length > 0 ? languages.join(", ") : t(`${p}.languagesEmpty`)}
-        </p>
-        <Button variant="link" size="sm" className="px-0" onClick={onEditLanguages}>
-          {t(`${p}.languagesEdit`)}
-        </Button>
-      </section>
-
-      <AvailabilitySection items={availability} />
+      {/* Round 8: languages are edited in Identity only, and Availability is
+          hidden (its rows stay in the database). */}
     </div>
-  );
-}
-
-function AvailabilitySection({ items }: { items: AvailabilityItem[] }) {
-  const t = useTranslations("talents");
-  const locale = useLocale();
-  // Stored as calendar days (UTC midnight): formatted in UTC so the day shown
-  // is the day saved, whatever the viewer's time zone.
-  const day = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(iso));
-  const router = useRouter();
-  const p = "space.profileEditor.prefs" as const;
-  const fromId = useId();
-  const toId = useId();
-  const typeId = useId();
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [type, setType] = useState<AvailabilityItem["type"]>("AVAILABLE");
-  const [pending, start] = useTransition();
-  const [error, setError] = useState<ActionError | undefined>();
-  const errorText = useActionErrorText();
-  const valid = from !== "" && to !== "" && from <= to;
-
-  function run(action: () => Promise<{ ok: boolean; error?: ActionError }>, onDone?: () => void) {
-    setError(undefined);
-    start(async () => {
-      const res = await action();
-      if (!res.ok) return setError(res.error ?? err("errors.generic"));
-      onDone?.();
-      router.refresh();
-    });
-  }
-
-  return (
-    <section className="space-y-3 border-t border-border pt-6">
-      <div>
-        <h3 className="text-sm font-medium">{t(`${p}.availability`)}</h3>
-        <p className="text-sm text-fg-muted">{t(`${p}.availabilityHint`)}</p>
-      </div>
-      {items.length === 0 ? (
-        <p className="text-sm text-fg-muted">{t(`${p}.availabilityEmpty`)}</p>
-      ) : (
-        <ul className="divide-y divide-border rounded-sedan border border-border bg-surface">
-          {items.map((a) => (
-            <li key={a.id} className="flex items-center gap-3 px-3 py-2 text-sm">
-              <span
-                className={cn(
-                  "size-2 shrink-0 rounded-full",
-                  a.type === "AVAILABLE" ? "bg-success" : "bg-fg-subtle"
-                )}
-                aria-hidden="true"
-              />
-              <span className="flex-1">
-                {day(a.from)} → {day(a.to)}
-                <span className="ml-2 text-fg-muted">{t(`${p}.availabilityTypes.${a.type}`)}</span>
-              </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={pending}
-                onClick={() => run(() => deleteAvailability(a.id))}
-              >
-                <Trash2 aria-hidden="true" />
-                <span className="sr-only sm:not-sr-only">{t(`${p}.availabilityRemove`)}</span>
-              </Button>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="grid gap-3 sm:grid-cols-[1fr_1fr_1fr_auto] sm:items-end">
-        <div className="space-y-1.5">
-          <Label htmlFor={fromId}>{t(`${p}.availabilityFrom`)}</Label>
-          <Input id={fromId} type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor={toId}>{t(`${p}.availabilityTo`)}</Label>
-          <Input id={toId} type="date" value={to} min={from || undefined} onChange={(e) => setTo(e.target.value)} />
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor={typeId}>{t(`${p}.availabilityType`)}</Label>
-          <Select value={type} onValueChange={(v) => setType(v === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE")}>
-            <SelectTrigger id={typeId} className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent data-portal="talents">
-              <SelectItem value="AVAILABLE">{t(`${p}.availabilityTypes.AVAILABLE`)}</SelectItem>
-              <SelectItem value="UNAVAILABLE">{t(`${p}.availabilityTypes.UNAVAILABLE`)}</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button
-          variant="secondary"
-          disabled={!valid || pending}
-          onClick={() =>
-            run(
-              () => addAvailability({ from, to, type }),
-              () => {
-                setFrom("");
-                setTo("");
-              }
-            )
-          }
-        >
-          {pending && <Loader2 className="size-4 animate-spin" />}
-          {t(`${p}.availabilityAdd`)}
-        </Button>
-      </div>
-      {error && <p role="alert" className="text-sm text-danger">{errorText(error)}</p>}
-    </section>
   );
 }
 

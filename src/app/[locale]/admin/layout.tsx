@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { isAdminAccount } from "@/domain/admin";
 import { toLocale } from "@/i18n/routing";
@@ -44,8 +45,13 @@ export default async function AdminLayout({
   // the admin host a redirect to "/" would come straight back here.
   if (!isAdminAccount(me)) notFound();
 
+  // The folded sidebar is remembered in the shadcn cookie.
+  const sidebarOpen = (await cookies()).get("sidebar_state")?.value !== "false";
+
   return (
     <AppShell
+      defaultOpen={sidebarOpen}
+      languageInFooter
       portal="casting"
       home="/admin"
       nav={NAV.map((n): AppNavItem => ({

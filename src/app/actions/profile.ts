@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { recomputeCompleteness } from "@/lib/completeness";
-import { toJson } from "@/domain/json";
+import { parseJson, PhysicalTraits, toJson } from "@/domain/json";
 import { isMinorOn } from "@/domain/age";
 import { audit } from "@/lib/audit";
 import {
@@ -45,10 +45,27 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
     return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
   const birthDate = new Date(d.birthDate);
+  // Languages and accents are edited in Identity since round 8 but stored with
+  // the physical details: merged in, every other trait kept.
+  const physical =
+    d.languages === undefined && d.accents === undefined
+      ? undefined
+      : toJson({
+          ...parseJson(PhysicalTraits, profile.physical),
+          ...(d.languages === undefined ? {} : { languages: [...new Set(d.languages)] }),
+          ...(d.accents === undefined ? {} : { accents: [...new Set(d.accents)] }),
+        });
   await prisma.artistProfile.update({
     where: { id: profile.id },
     data: {
       stageName: d.stageName,
+      legalFirstName: d.legalFirstName === undefined ? undefined : d.legalFirstName || null,
+      legalLastName: d.legalLastName === undefined ? undefined : d.legalLastName || null,
+      gender: d.gender === undefined ? undefined : d.gender,
+      // The "Other" text only means something with "other".
+      genderOther:
+        d.gender === undefined ? undefined : d.gender === "other" ? d.genderOther || null : null,
+      physical,
       // The editor has no legal name field. Left undefined, Prisma keeps the
       // stored value; this save used to null it on every submit.
       legalName: d.legalName === undefined ? undefined : d.legalName || null,
@@ -82,9 +99,15 @@ export async function saveProfilePhysical(input: unknown): Promise<SaveResult> {
   const parsed = ProfilePhysical.safeParse(input);
   if (!parsed.success)
     return { ok: false, error: zodError(parsed.error) };
+  // A patch over what is stored: fields left out (languages and accents,
+  // edited in Identity) keep their values; `height: null` clears the height.
+  const { clearHeight, ...fields } = parsed.data as typeof parsed.data & { clearHeight?: boolean };
+  const next: Record<string, unknown> = { ...parseJson(PhysicalTraits, profile.physical) };
+  for (const [k, v] of Object.entries(fields)) if (v !== undefined) next[k] = v;
+  if (clearHeight) delete next.heightCm;
   await prisma.artistProfile.update({
     where: { id: profile.id },
-    data: { physical: toJson(parsed.data) },
+    data: { physical: toJson(next) },
   });
   return done(profile.id);
 }

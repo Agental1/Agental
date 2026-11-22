@@ -38,6 +38,9 @@ school email; amount not decided yet. (Restored to this grid on 2026-11-20.)
 - Free: $0, 1 project.
 - Pro: $95 per seat per month, 10 projects.
 - Studio: $295 per month, 5 seats.
+
+2026-11-22 (round 8, founders' brief): the code now matches these figures (`B2B_PLANS` and
+`messages/*/casting.json` had $99 and $299).
 - Enterprise: custom (SSO, API).
 
 ## Limelight
@@ -162,8 +165,8 @@ US dollars.
 Checked against the code on 2026-11-20. Not fixed; each waits for a founders' decision,
 except the Talent pricing, which was restored in the same change as this file.
 
-1. **Casting prices.** `src/domain/pricing.ts` (`B2B_PLANS`) charges Pro $99 per seat and
-   Studio $299, and `messages/*/casting.json` shows $99 and $299. The deck says $95 and $295.
+1. **Casting prices.** Fixed 2026-11-22 (round 8): Pro $95 per seat and Studio $295 in
+   `B2B_PLANS` and `messages/*/casting.json`.
 2. **"Per month" wording.** Plan cards say "AI role searches per month". The server counts a
    rolling 30-day period from the first search (`src/domain/role-search.ts`, `PERIOD_DAYS`).
    The comment above `AiSearchAllowance` in `src/domain/pricing.ts` still describes a

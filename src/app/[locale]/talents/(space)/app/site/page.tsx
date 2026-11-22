@@ -1,98 +1,15 @@
-import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
-import { listMySites } from "@/lib/sites";
-import { date } from "@/lib/format";
-import { LIMELIGHT } from "@/domain/limelight";
-import { formatPlanPrice } from "@/lib/plan-price";
-import { SitePanel, type SiteCard } from "@/components/talents/site-panel";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale: toLocale(locale), namespace: "talents" });
-  return { title: t("limelight.app.title") };
-}
-
-/** "Your website": the performer's Limelight sites, in the app. */
+/**
+ * The old "Website" page. Limelight lives on the Subscription page since
+ * round 8, so every old link (emails, bookmarks) lands on its section there.
+ */
 export default async function SitePage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale: rawLocale } = await params;
-  const locale = toLocale(rawLocale);
-  setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: "talents" });
-
-  const session = await auth();
-  if (!session?.user?.id) return null;
-  const sites = await listMySites(session.user.id);
-  const profile = await prisma.artistProfile.findUnique({
-    where: { userId: session.user.id },
-    select: { stageName: true },
-  });
-  const to = await getTranslations({ locale, namespace: "talents.limelight.offers" });
-  const offers = (["essential", "signature"] as const).map((key) => ({
-    key,
-    name: to(`${key}.name`),
-    summary: to(`${key}.summary`),
-    price: formatPlanPrice(LIMELIGHT.plans[key].priceUsd * 100, locale),
-    renewal: to("renewalShort", {
-      price: formatPlanPrice(LIMELIGHT.plans[key].renewalUsdPerYear * 100, locale),
-    }),
-  }));
-
-  const cards: SiteCard[] = sites.map((site) => ({
-    id: site.id,
-    template: site.template,
-    name: site.content?.name ?? "",
-    headline: site.content?.headline ?? "",
-    live: site.status === "PUBLISHED" && site.publishedAt !== null,
-    // Served today at agental.co/s/<name>; the subdomain form needs wildcard DNS.
-    address: site.customDomain ?? (site.subdomain ? `agental.co/s/${site.subdomain}` : null),
-    hostingUntil: site.paidOrder?.hostingRenewsAt ? date(site.paidOrder.hostingRenewsAt, locale) : null,
-    latestVersion: site.latestVersion,
-    approvedVersion: site.approvedVersion,
-    publishedVersion: site.publishedVersion,
-    showContact: site.showContact,
-  }));
-
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl">{t("limelight.app.title")}</h1>
-        <p className="text-fg-muted">{t("limelight.app.lead")}</p>
-        {/* Payments are off during the beta: the team helps with publishing. */}
-        <p className="mt-2 text-[15px] font-bold text-accent">{t("limelight.app.betaNote")}</p>
-      </div>
-      <section aria-labelledby="site-offers" className="space-y-3">
-        <h2 id="site-offers" className="text-[1.125rem] font-bold">
-          {to("title")}
-        </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {offers.map((o) => (
-            <div key={o.key} className="rounded-sedan-xl border border-border bg-surface p-5">
-              <p className="font-bold">{o.name}</p>
-              <p className="mt-1 text-[1.75rem] font-bold leading-none">
-                {o.price} <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>
-              </p>
-              <p className="mt-2 text-[15px] text-fg-muted">{o.summary}</p>
-              <p className="mt-1 text-[14px] text-fg-muted">{o.renewal}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-      <SitePanel
-        sites={cards}
-        tryHref={`/talents/${LIMELIGHT.slug}#try`}
-        contact={{ name: profile?.stageName ?? "", email: session.user.email ?? "" }}
-      />
-    </div>
-  );
+  const { locale } = await params;
+  return redirect({ href: "/talents/app/abonnement#limelight", locale: toLocale(locale) });
 }

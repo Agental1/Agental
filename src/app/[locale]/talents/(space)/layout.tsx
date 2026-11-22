@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -102,15 +103,16 @@ export default async function TalentsAppLayout({
     label: t(`space.nav.${n.key}`),
   });
 
+  // The folded sidebar is remembered in the shadcn cookie.
+  const sidebarOpen = (await cookies()).get("sidebar_state")?.value !== "false";
+
   return (
     <AppShell
       portal="talents"
       home="/talents/app"
-      nav={[
-        ...NAV.slice(0, 6).map(toItem),
-        { href: "/talents/app/site", icon: "website", label: t("limelight.navApp") },
-        ...NAV.slice(6).map(toItem),
-      ]}
+      // No "Website" item since round 8: Limelight is on the Subscription page.
+      nav={NAV.map(toItem)}
+      defaultOpen={sidebarOpen}
       userLabel={session.user.email ?? t("space.nav.account")}
       avatarSlot={<AvatarEditor src={avatar.src} initials={avatar.initials} size={32} />}
       userMenu={{
