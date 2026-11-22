@@ -23,8 +23,30 @@ async function talent() {
   return { id: session.user.id, locale: await getLocale() };
 }
 
+/**
+ * A failure inside an action answers a plain message instead of taking the
+ * whole Subscription page down (QA, round 8b).
+ */
+async function safely(run: () => Promise<CheckoutResult>): Promise<CheckoutResult> {
+  try {
+    return await run();
+  } catch (e) {
+    console.error("[checkout] action failed:", e instanceof Error ? e.name : "unknown");
+    return { ok: false, error: err("errors.codeUnavailable") };
+  }
+}
+
 /** Round 8b: send the 6-digit code to a @usc.edu address. */
 export async function sendUscCodeAction(email: unknown): Promise<CheckoutResult> {
+  return safely(() => sendUscCodeInner(email));
+}
+
+/** Round 8b: check the code. A match marks the account "USC student verified". */
+export async function verifyUscCodeAction(code: unknown): Promise<CheckoutResult> {
+  return safely(() => verifyUscCodeInner(code));
+}
+
+async function sendUscCodeInner(email: unknown): Promise<CheckoutResult> {
   const me = await talent();
   if (!me) return { ok: false, error: err("errors.unauthorized") };
   const parsed = z.string().max(320).safeParse(email);
@@ -62,8 +84,7 @@ export async function sendUscCodeAction(email: unknown): Promise<CheckoutResult>
   }
 }
 
-/** Round 8b: check the code. A match marks the account "USC student verified". */
-export async function verifyUscCodeAction(code: unknown): Promise<CheckoutResult> {
+async function verifyUscCodeInner(code: unknown): Promise<CheckoutResult> {
   const me = await talent();
   if (!me) return { ok: false, error: err("errors.unauthorized") };
   const parsed = z.string().max(12).safeParse(code);
