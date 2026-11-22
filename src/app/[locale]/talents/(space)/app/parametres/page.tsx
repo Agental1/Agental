@@ -14,6 +14,10 @@ import { RgpdSection } from "@/components/app/rgpd-section";
 import { ConsentSettings } from "@/components/consent/consent-settings";
 import { getAccountConsent, getAccountConsentRecord } from "@/lib/account-prefs";
 import { LanguageForm, NotificationsForm } from "@/components/app/settings-forms";
+import { RoleAlertForm, type RoleAlertChannel } from "@/components/app/role-alert-form";
+
+const roleAlertChannel = (v: string | null | undefined): RoleAlertChannel =>
+  v === "sms" || v === "both" ? v : "email";
 import { ConnectedAccounts } from "@/components/app/connected-accounts";
 import { B2C_PLANS } from "@/domain/pricing";
 
@@ -42,7 +46,10 @@ export default async function ParametresPage({
   if (!session?.user?.id) return null;
   const userId = session.user.id;
   const [profile, account, consentRecord, consent] = await Promise.all([
-    prisma.artistProfile.findUnique({ where: { userId }, select: { stageName: true } }),
+    prisma.artistProfile.findUnique({
+      where: { userId },
+      select: { stageName: true, roleAlertChannel: true, phoneE164: true, smsConsentAt: true },
+    }),
     prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -141,6 +148,11 @@ export default async function ParametresPage({
             messages: account?.notifyMessages ?? true,
             product: account?.notifyProduct ?? false,
           }}
+        />
+        <RoleAlertForm
+          initial={roleAlertChannel(profile?.roleAlertChannel)}
+          hasPhone={!!profile?.phoneE164}
+          consentGiven={!!profile?.smsConsentAt}
         />
       </Section>
 

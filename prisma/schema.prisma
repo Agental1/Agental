@@ -180,6 +180,10 @@ model ArtistProfile {
   profileCompletedAt DateTime?
   // Round 8: the dashboard's "Improve your website" line, closed for good.
   websiteCardDismissedAt DateTime?
+  // Round 8: how we tell them about a role found: email (default) | sms | both.
+  roleAlertChannel  String?
+  smsConsentAt      DateTime?
+  smsConsentVersion String?
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -551,8 +555,12 @@ model AuditLog {
 model Notification {
   id        String    @id @default(cuid())
   userId    String
+  // Round 8: ROLE_FOUND | MESSAGE | STATUS (written by database triggers).
   kind      String
   payload   String    @default("{}") // JSON
+  title     String?
+  body      String?
+  link      String?
   readAt    DateTime?
   createdAt DateTime  @default(now())
 
@@ -1132,5 +1140,33 @@ model GeoCity {
   population  Int    @default(0)
 
   @@index([countryCode, admin1Code])
+  @@schema("public")
+}
+
+/// Round 8: product updates written by staff (Admin > Announcements).
+model Announcement {
+  id          String    @id @default(cuid())
+  title       String
+  body        String
+  link        String?
+  /// TALENT | CASTING | ALL
+  audience    String    @default("ALL")
+  createdById String?
+  createdAt   DateTime  @default(now())
+  archivedAt  DateTime?
+  reads       AnnouncementRead[]
+
+  @@index([audience, createdAt])
+  @@schema("public")
+}
+
+model AnnouncementRead {
+  announcementId String
+  userId         String
+  readAt         DateTime @default(now())
+
+  announcement Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+
+  @@id([announcementId, userId])
   @@schema("public")
 }

@@ -157,7 +157,9 @@
     "mediaWrongCategory": "Cette catégorie n’accepte pas ce type de fichier.",
     "ageRangeOrder": "Le second âge ne peut pas être plus bas que le premier.",
     "cityUnknown": "Choisis ta ville dans la liste.",
-    "limelightOfferRequired": "Choisis Essentiel ou Signature."
+    "limelightOfferRequired": "Choisis Essentiel ou Signature.",
+    "smsNeedsPhone": "Ajoute d’abord un numéro valide.",
+    "smsNeedsConsent": "Coche la case pour accepter les SMS."
   },
   "auth": {
     "name": "Nom",
@@ -250,7 +252,8 @@
       "cleanup": "Nettoyage des comptes",
       "profiles": "Profils",
       "media": "Médias",
-      "emails": "E-mails"
+      "emails": "E-mails",
+      "announcements": "Annonces"
     },
     "stats": {
       "artists": "Artistes",
@@ -586,6 +589,27 @@
       "kind": "Type",
       "lastEvent": "Dernier événement",
       "capped": "Affichage des {count} premiers. Affine la recherche pour voir la suite."
+    },
+    "announcements": {
+      "title": "Annonces",
+      "lead": "Nouvelles du produit affichées dans la cloche de l’app. Dans l’app seulement : rien n’est envoyé par email ni en push.",
+      "fieldTitle": "Titre",
+      "fieldBody": "Texte court",
+      "fieldLink": "Lien (facultatif)",
+      "fieldAudience": "Public",
+      "audiences": {
+        "TALENT": "Tous les artistes",
+        "CASTING": "Tous les castings",
+        "ALL": "Tout le monde"
+      },
+      "publish": "Publier",
+      "published": "Publié.",
+      "archive": "Archiver",
+      "archived": "Archivée",
+      "colTitle": "Annonce",
+      "colAudience": "Public",
+      "colDate": "Date",
+      "colReads": "Lue par"
     }
   },
   "matchReasons": {

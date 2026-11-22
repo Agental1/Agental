@@ -76,6 +76,7 @@ import { ChipMultiSelect, LocationField, PhoneField } from "./smart-inputs";
 import { LANGUAGE_ORDER, languageMatches } from "@/domain/languages";
 import { ACCENT_GROUPS, accentMatches } from "@/domain/accents";
 import { requestEmailVerification } from "@/app/actions/account-email";
+import { RoleAlertForm, type RoleAlertChannel } from "./role-alert-form";
 
 const SKILLS = SpecialtyKind.options.filter(isSkillSpecialty);
 
@@ -209,7 +210,10 @@ export function ProfileEditor({
   emailVerified,
   hasAvatar,
   celebrated,
+  roleAlert,
 }: {
+  /** Round 8: how we tell them about a role found (also in Settings). */
+  roleAlert: { initial: RoleAlertChannel; hasPhone: boolean; consentGiven: boolean };
   initial: ProfileEditorData;
   /** Already checked against PROFILE_TABS by the page (?tab= deep links). */
   initialTab?: ProfileTab;
@@ -345,6 +349,9 @@ export function ProfileEditor({
         <TabsContent value="preferences">
           <div className="space-y-8">
             <PreferencesTab {...tabProps} />
+            <section className="max-w-2xl border-t border-border pt-6">
+              <RoleAlertForm {...roleAlert} />
+            </section>
             <ContentBoundariesSection {...tabProps} />
           </div>
           {nav}

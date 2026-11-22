@@ -18,6 +18,7 @@ const NAV = [
   { href: "/admin/emails", key: "emails", icon: "messages" },
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
+  { href: "/admin/annonces", key: "announcements", icon: "messages" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
   { href: "/admin/revenus", key: "revenue", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },

@@ -1462,6 +1462,19 @@
       "delete": "Delete",
       "confirmDelete": "Delete this recording for good?",
       "video": "Video"
+    },
+    "roleAlert": {
+      "legend": "When we find a role for you, tell me by",
+      "channels": {
+        "email": "Email",
+        "sms": "Text message",
+        "both": "Both"
+      },
+      "consent": "I agree to receive text messages from Agental about roles found for me. Message and data rates may apply. Reply STOP to unsubscribe.",
+      "needsPhone": "Add a valid phone number in Identity first.",
+      "save": "Save",
+      "saved": "Saved",
+      "note": "Texts start once our text provider is set up. Until then we use email."
     }
   },
   "responseRate": {

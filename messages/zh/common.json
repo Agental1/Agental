@@ -83,7 +83,18 @@
       "sent": "已发送",
       "loading": "加载中"
     },
-    "toggleSidebar": "显示或隐藏菜单（Ctrl+B）"
+    "toggleSidebar": "显示或隐藏菜单（Ctrl+B）",
+    "bell": {
+      "label": "通知",
+      "labelUnread": "通知，{count} 条未读",
+      "title": "通知",
+      "markAll": "全部标为已读",
+      "empty": "暂无新消息。",
+      "roleFound": "找到新角色",
+      "assistantReplied": "助手已回复",
+      "teamReplied": "Agental 团队已回复",
+      "statusChanged": "申请状态更新"
+    }
   },
   "account": {
     "create": "创建账号",

@@ -83,7 +83,18 @@
       "sent": "Sent",
       "loading": "Loading"
     },
-    "toggleSidebar": "Show or hide the menu (Ctrl+B)"
+    "toggleSidebar": "Show or hide the menu (Ctrl+B)",
+    "bell": {
+      "label": "Notifications",
+      "labelUnread": "Notifications, {count} unread",
+      "title": "Notifications",
+      "markAll": "Mark all as read",
+      "empty": "Nothing new yet.",
+      "roleFound": "New role found",
+      "assistantReplied": "The assistant replied",
+      "teamReplied": "The Agental team replied",
+      "statusChanged": "Application update"
+    }
   },
   "account": {
     "create": "Create account",

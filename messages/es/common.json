@@ -83,7 +83,18 @@
       "sent": "Enviado",
       "loading": "Cargando"
     },
-    "toggleSidebar": "Mostrar u ocultar el menú (Ctrl+B)"
+    "toggleSidebar": "Mostrar u ocultar el menú (Ctrl+B)",
+    "bell": {
+      "label": "Notificaciones",
+      "labelUnread": "Notificaciones, {count} sin leer",
+      "title": "Notificaciones",
+      "markAll": "Marcar todo como leído",
+      "empty": "Nada nuevo por ahora.",
+      "roleFound": "Nuevo papel encontrado",
+      "assistantReplied": "El asistente respondió",
+      "teamReplied": "El equipo de Agental respondió",
+      "statusChanged": "Actualización de una candidatura"
+    }
   },
   "account": {
     "create": "Crear cuenta",
