@@ -10,7 +10,7 @@ import { getStorage } from "@/lib/storage";
 import { recomputeCompleteness } from "@/lib/completeness";
 import { MediaType } from "@/domain/enums";
 import { z } from "zod";
-import { DESCRIPTION_MAX, MEDIA_CATEGORIES } from "@/domain/media-categories";
+import { DESCRIPTION_MAX, MEDIA_CATEGORIES, categoryAccepts, isMediaCategory } from "@/domain/media-categories";
 
 export type MediaResult = { ok: boolean; error?: ActionError; id?: string };
 
@@ -116,8 +116,11 @@ export async function updateMediaDetails(input: unknown): Promise<MediaResult> {
   if (!parsed.success) return { ok: false, error: err("errors.invalidInput") };
   const profile = await talentProfile();
   if (!profile) return { ok: false, error: err("errors.unauthorized") };
-  const media = await prisma.media.findUnique({ where: { id: parsed.data.id }, select: { profileId: true } });
+  const media = await prisma.media.findUnique({ where: { id: parsed.data.id }, select: { profileId: true, type: true } });
   if (!media || media.profileId !== profile.id) return { ok: false, error: err("errors.mediaNotFound") };
+  // Round 8 type rules: photos of yourself are images, general videos are videos.
+  if (parsed.data.category && isMediaCategory(parsed.data.category) && !categoryAccepts(parsed.data.category, media.type))
+    return { ok: false, error: err("errors.mediaWrongCategory") };
   const description = parsed.data.description?.trim();
   await prisma.media.update({
     where: { id: parsed.data.id },
@@ -130,4 +133,77 @@ export async function updateMediaDetails(input: unknown): Promise<MediaResult> {
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
+}
+
+const MediaLayout = z.object({
+  /** Every category the performer touched, with its items in their new order. */
+  layout: z
+    .array(z.object({ category: z.enum(MEDIA_CATEGORIES), ids: z.array(z.string().min(1)).max(200) }))
+    .max(MEDIA_CATEGORIES.length),
+});
+
+/**
+ * Round 8: drag and drop in Profile > Media. Saves the order of each category
+ * and moves items between categories in one transaction. A layout that breaks
+ * a type rule, or names a file that is not the performer's, changes nothing.
+ */
+export async function saveMediaLayout(input: unknown): Promise<MediaResult> {
+  const parsed = MediaLayout.safeParse(input);
+  if (!parsed.success) return { ok: false, error: err("errors.invalidInput") };
+  const profile = await talentProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const ids = parsed.data.layout.flatMap((l) => l.ids);
+  if (new Set(ids).size !== ids.length) return { ok: false, error: err("errors.invalidInput") };
+  const rows = await prisma.media.findMany({
+    where: { id: { in: ids }, profileId: profile.id },
+    select: { id: true, type: true },
+  });
+  if (rows.length !== ids.length) return { ok: false, error: err("errors.mediaNotFound") };
+  const typeOf = new Map(rows.map((r) => [r.id, r.type]));
+  for (const l of parsed.data.layout)
+    for (const id of l.ids)
+      if (!categoryAccepts(l.category, typeOf.get(id)!)) return { ok: false, error: err("errors.mediaWrongCategory") };
+  await prisma.$transaction(
+    parsed.data.layout.flatMap((l) =>
+      l.ids.map((id, order) => prisma.media.update({ where: { id }, data: { category: l.category, order } }))
+    )
+  );
+  await recomputeCompleteness(profile.id);
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
+  return { ok: true };
+}
+
+/**
+ * Round 8: "Use my profile picture as my first headshot". Copies the profile
+ * picture into Photos of yourself as a new photo (the picture itself stays).
+ */
+export async function avatarAsHeadshot(): Promise<MediaResult> {
+  const profile = await talentProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const me = await prisma.artistProfile.findUnique({ where: { id: profile.id }, select: { avatarKey: true } });
+  if (!me?.avatarKey) return { ok: false, error: err("errors.noFile") };
+  const storage = await getStorage();
+  const file = await storage.get(me.avatarKey);
+  if (!file) return { ok: false, error: err("errors.noFile") };
+  const key = `media/${profile.id}/${randomUUID()}`;
+  await storage.put(key, file.bytes, file.mime || "image/jpeg");
+  const count = await prisma.media.count({ where: { profileId: profile.id } });
+  const hasPrimary = await prisma.media.count({ where: { profileId: profile.id, type: "PHOTO", isPrimary: true } });
+  const media = await prisma.media.create({
+    data: {
+      profileId: profile.id,
+      type: "PHOTO",
+      category: "SELF",
+      storageKey: key,
+      mime: file.mime || "image/jpeg",
+      sizeBytes: file.bytes.length,
+      order: count,
+      isPrimary: hasPrimary === 0,
+    },
+  });
+  await recomputeCompleteness(profile.id);
+  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  revalidatePath("/[locale]/talents/(space)/app", "page");
+  return { ok: true, id: media.id };
 }

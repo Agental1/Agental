@@ -40,3 +40,16 @@ describe("ProfilePhysical patch", () => {
     expect(r.clearHeight).toBe(true);
   });
 });
+
+import { categoryAccepts } from "@/domain/media-categories";
+
+describe("media drag and drop rules (round 8)", () => {
+  it("keeps photos of yourself to images and general videos to videos", () => {
+    expect(categoryAccepts("SELF", "PHOTO")).toBe(true);
+    expect(categoryAccepts("SELF", "VIDEO")).toBe(false);
+    expect(categoryAccepts("VIDEOS", "PHOTO")).toBe(false);
+    expect(categoryAccepts("VIDEOS", "SELFTAPE")).toBe(true);
+    expect(categoryAccepts("PRODUCTIONS", "VIDEO")).toBe(true);
+    expect(categoryAccepts("OTHER", "AUDIO")).toBe(true);
+  });
+});

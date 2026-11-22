@@ -5,7 +5,29 @@ import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { Upload, Trash2, Star, Film, AudioLines, Loader2, ImageOff, Play } from "lucide-react";
+import { Upload, Trash2, Star, Film, AudioLines, Loader2, ImageOff, Play, GripVertical } from "lucide-react";
+import {
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  closestCorners,
+  useDroppable,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+  type DragOverEvent,
+  type DragStartEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
@@ -19,12 +41,14 @@ import {
   deleteMedia,
   setPrimaryMedia,
   updateMediaDetails,
+  saveMediaLayout,
 } from "@/app/actions/media";
 import { uploadMedia } from "@/lib/media-upload";
 import {
   CATEGORY_ACCEPT,
   DESCRIPTION_MAX,
   MEDIA_CATEGORIES,
+  categoryAccepts,
   mediaCategory,
   type MediaCategory,
 } from "@/domain/media-categories";
@@ -65,22 +89,143 @@ async function displayable(file: File): Promise<File> {
   }
 }
 
+type Layout = Record<MediaCategory, MediaItem[]>;
+
+function layoutOf(media: MediaItem[]): Layout {
+  const out = { SELF: [], PRODUCTIONS: [], VIDEOS: [], OTHER: [] } as Layout;
+  for (const m of media) out[mediaCategory(m)].push(m);
+  return out;
+}
+
+function containerOf(layout: Layout, id: string): MediaCategory | null {
+  if ((MEDIA_CATEGORIES as readonly string[]).includes(id)) return id as MediaCategory;
+  return MEDIA_CATEGORIES.find((c) => layout[c].some((m) => m.id === id)) ?? null;
+}
+
 /**
  * Profile > Media, in four categories, in order: photos of yourself, past
  * productions, general videos, other. Each item shows a real preview (the
  * photo, a video frame with a play button, an audio player) and carries a
  * short description. Reel & Self-tape holds the videos made for one audition.
+ *
+ * Round 8: items are dragged (mouse, touch or keyboard, by their handle)
+ * within a category and between categories, whatever their type. Two rules:
+ * "Photos of yourself" takes images only and "General videos" videos only; a
+ * drop that breaks one snaps back with a message. The order is saved at once.
  */
 export function MediaManager({ media }: { media: MediaItem[] }) {
   const t = useTranslations("talents.space.media");
+  const errorText = useActionErrorText();
   const router = useRouter();
-  const byCategory = (c: MediaCategory) => media.filter((m) => mediaCategory(m) === c);
+  // The server's order, re-read whenever it changes (an upload, a refresh).
+  const signature = media.map((m) => `${m.id}:${m.category ?? ""}`).join("|");
+  const [synced, setSynced] = useState(signature);
+  const [layout, setLayout] = useState<Layout>(() => layoutOf(media));
+  if (synced !== signature) {
+    setSynced(signature);
+    setLayout(layoutOf(media));
+  }
+  const before = useRef<Layout | null>(null);
+  const [active, setActive] = useState<MediaItem | null>(null);
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function onDragStart(e: DragStartEvent) {
+    before.current = layout;
+    const from = containerOf(layout, String(e.active.id));
+    setActive(from ? (layout[from].find((m) => m.id === e.active.id) ?? null) : null);
+  }
+
+  // Crossing into another category moves the item there while it is held,
+  // so the drop shows where it lands. Rules are checked on drop.
+  function onDragOver(e: DragOverEvent) {
+    const { active: a, over } = e;
+    if (!over) return;
+    setLayout((cur) => {
+      const from = containerOf(cur, String(a.id));
+      const to = containerOf(cur, String(over.id));
+      if (!from || !to || from === to) return cur;
+      const item = cur[from].find((m) => m.id === a.id);
+      if (!item) return cur;
+      const overIndex = cur[to].findIndex((m) => m.id === over.id);
+      const at = overIndex < 0 ? cur[to].length : overIndex;
+      const next = { ...cur, [from]: cur[from].filter((m) => m.id !== a.id), [to]: [...cur[to]] };
+      next[to].splice(at, 0, { ...item, category: to });
+      return next;
+    });
+  }
+
+  function onDragEnd(e: DragEndEvent) {
+    setActive(null);
+    const start = before.current;
+    before.current = null;
+    if (!start) return;
+    const { active: a, over } = e;
+    let next = layout;
+    const to = over ? containerOf(layout, String(over.id)) : null;
+    if (to && over && a.id !== over.id) {
+      const oldIndex = layout[to].findIndex((m) => m.id === a.id);
+      const newIndex = layout[to].findIndex((m) => m.id === over.id);
+      if (oldIndex >= 0 && newIndex >= 0) next = { ...layout, [to]: arrayMove(layout[to], oldIndex, newIndex) };
+    }
+    const landed = containerOf(next, String(a.id));
+    const item = landed ? next[landed].find((m) => m.id === a.id) : undefined;
+    if (!over || !landed || !item) return setLayout(start);
+    if (!categoryAccepts(landed, item.type)) {
+      setLayout(start);
+      toast.error(t(landed === "SELF" ? "dropPhotosOnly" : "dropVideosOnly"));
+      return;
+    }
+    // Only the categories that changed are sent.
+    const changed = MEDIA_CATEGORIES.filter(
+      (c) => next[c].map((m) => m.id).join() !== start[c].map((m) => m.id).join()
+    );
+    if (changed.length === 0) return setLayout(start);
+    setLayout(next);
+    void (async () => {
+      const res = await saveMediaLayout({
+        layout: changed.map((c) => ({ category: c, ids: next[c].map((m) => m.id) })),
+      });
+      if (!res.ok) {
+        setLayout(start);
+        toast.error(errorText(res.error) ?? "");
+        return;
+      }
+      toast.success(t("orderSaved"));
+      router.refresh();
+    })();
+  }
+
   return (
     <div className="space-y-6">
       <p className="text-sm text-fg-muted">{t("lead")}</p>
-      {MEDIA_CATEGORIES.map((c) => (
-        <CategorySection key={c} category={c} items={byCategory(c)} onChanged={() => router.refresh()} />
-      ))}
+      <p className="text-xs text-fg-muted">{t("dragHint")}</p>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={onDragStart}
+        onDragOver={onDragOver}
+        onDragEnd={onDragEnd}
+        onDragCancel={() => {
+          setActive(null);
+          if (before.current) setLayout(before.current);
+          before.current = null;
+        }}
+      >
+        {MEDIA_CATEGORIES.map((c) => (
+          <CategorySection key={c} category={c} items={layout[c]} onChanged={() => router.refresh()} />
+        ))}
+        <DragOverlay>
+          {active ? (
+            <div className="aspect-square w-40 overflow-hidden rounded-sedan border-2 border-accent bg-surface shadow-lg">
+              <Preview media={active} src={`/api/media/${active.id}`} />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </div>
   );
 }
@@ -100,6 +245,7 @@ function CategorySection({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
   const errorText = useActionErrorText();
+  const { setNodeRef, isOver } = useDroppable({ id: category });
 
   function onFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -141,9 +287,24 @@ function CategorySection({
 
   return (
     <section
+      ref={setNodeRef}
       data-field={`media-${category}`}
       aria-labelledby={`media-${category}-title`}
-      className="space-y-3 rounded-sedan border border-border p-4"
+      // Files dropped anywhere on a category upload there. Without this, a
+      // file dropped on a category that already had items made the browser
+      // open the file and leave the app (round 8 drag bug).
+      onDragOver={(e) => {
+        if (e.dataTransfer.types.includes("Files")) e.preventDefault();
+      }}
+      onDrop={(e) => {
+        if (!e.dataTransfer.files.length) return;
+        e.preventDefault();
+        onFiles(e.dataTransfer.files);
+      }}
+      className={cn(
+        "space-y-3 rounded-sedan border border-border p-4 transition-colors",
+        isOver && "border-accent bg-accent-soft/30"
+      )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
@@ -170,22 +331,17 @@ function CategorySection({
       </div>
       {error && <p className="text-sm text-danger">{errorText(error)}</p>}
       {items.length === 0 ? (
-        <div
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => {
-            e.preventDefault();
-            onFiles(e.dataTransfer.files);
-          }}
-          className="rounded-sedan border-2 border-dashed border-border bg-surface-2/40 p-5 text-center text-sm text-fg-muted"
-        >
+        <div className="rounded-sedan border-2 border-dashed border-border bg-surface-2/40 p-5 text-center text-sm text-fg-muted">
           {t("empty")}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {items.map((m) => (
-            <MediaCard key={m.id} media={m} onChanged={onChanged} />
-          ))}
-        </div>
+        <SortableContext items={items.map((m) => m.id)} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {items.map((m) => (
+              <MediaCard key={m.id} media={m} onChanged={onChanged} />
+            ))}
+          </div>
+        </SortableContext>
       )}
     </section>
   );
@@ -198,6 +354,8 @@ function MediaCard({ media, onChanged }: { media: MediaItem; onChanged: () => vo
   const [description, setDescription] = useState(media.description ?? "");
   const saved = useRef(media.description ?? "");
   const src = `/api/media/${media.id}`;
+  const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({ id: media.id });
+  const style = { transform: CSS.Transform.toString(transform), transition };
 
   function saveDescription() {
     if (description.trim() === saved.current.trim()) return;
@@ -221,9 +379,28 @@ function MediaCard({ media, onChanged }: { media: MediaItem; onChanged: () => vo
   }
 
   return (
-    <div className="overflow-hidden rounded-sedan border border-border bg-surface">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={cn(
+        "overflow-hidden rounded-sedan border border-border bg-surface",
+        isDragging && "opacity-40"
+      )}
+    >
       <div className="group relative">
-        <Preview media={media} src={src} />
+        {/* Native dragging of the picture is off: only the handle moves a tile. */}
+        <div draggable={false} onDragStart={(e) => e.preventDefault()}>
+          <Preview media={media} src={src} />
+        </div>
+        <button
+          type="button"
+          aria-label={t("dragHandle")}
+          {...attributes}
+          {...listeners}
+          className="absolute right-2 top-2 flex size-9 cursor-grab touch-none items-center justify-center rounded-full bg-black/55 text-white active:cursor-grabbing"
+        >
+          <GripVertical aria-hidden="true" className="size-4" />
+        </button>
         {media.isPrimary && (
           <Badge variant="solid" className="absolute left-2 top-2">
             {t("primary")}
@@ -287,7 +464,7 @@ function MediaCard({ media, onChanged }: { media: MediaItem; onChanged: () => vo
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {MEDIA_CATEGORIES.map((c) => (
+            {MEDIA_CATEGORIES.filter((c) => categoryAccepts(c, media.type)).map((c) => (
               <SelectItem key={c} value={c}>
                 {t(`categories.${c}.title`)}
               </SelectItem>

@@ -170,6 +170,8 @@ model ArtistProfile {
   avatarKey         String?
   avatarUpdatedAt   DateTime?
   completenessScore Int       @default(0)
+  // Round 8: first time the profile reached 100% (the celebration shows once).
+  profileCompletedAt DateTime?
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt

@@ -13,6 +13,14 @@ export const PhysicalTraits = z.object({
   hairLength: z.string().optional(),
   eyes: z.string().optional(),
   build: z.string().optional(),
+  /** Round 8 tiles. Weight in whole kilograms (shown in lb by default). */
+  weightKg: z.number().int().min(20).max(300).optional(),
+  tattoos: z.string().optional(),
+  piercings: z.string().optional(),
+  sizeTop: z.string().optional(),
+  sizeBottom: z.string().optional(),
+  sizeDressSuit: z.string().optional(),
+  shoeSize: z.string().optional(),
   languages: z.array(z.string()).default([]),
   accents: z.array(z.string()).default([]),
 });

@@ -153,7 +153,9 @@
     "captchaFailed": "La comprobación de seguridad no se superó. Recarga la página e inténtalo de nuevo.",
     "agentsProfileIncomplete": "Primero completa tu perfil al 100 %: las búsquedas con IA empiezan cuando está completo y tu correo verificado.",
     "responseIncomplete": "Responde a cada pregunta y añade cada vídeo pedido antes de enviar.",
-    "mediaInResponse": "Este vídeo forma parte de una respuesta que el equipo de Agental está revisando. Podrás eliminarlo cuando termine la revisión."
+    "mediaInResponse": "Este vídeo forma parte de una respuesta que el equipo de Agental está revisando. Podrás eliminarlo cuando termine la revisión.",
+    "mediaWrongCategory": "Esta categoría no acepta este tipo de archivo.",
+    "ageRangeOrder": "La segunda edad no puede ser menor que la primera."
   },
   "auth": {
     "name": "Nombre",

@@ -49,10 +49,13 @@ export function HeightField({
   label,
   defaultValue,
   onChange,
+  hideLabel = false,
 }: {
   label: string;
   defaultValue?: HeightValue;
   onChange: (value: HeightValue | undefined) => void;
+  /** Round 8 Physical tiles: the tile already shows the label. */
+  hideLabel?: boolean;
 }) {
   const t = useTranslations("app");
   const locale = useLocale();
@@ -93,10 +96,12 @@ export function HeightField({
       {/* A legend must be the fieldset's first child to name it, so the
           visible label next to the toggle is a plain span. */}
       <legend className="sr-only">{label}</legend>
-      <div className="flex items-center justify-between gap-2">
-        <span aria-hidden className="text-sm font-medium leading-none text-fg">
-          {label}
-        </span>
+      <div className={cn("flex items-center gap-2", hideLabel ? "justify-end" : "justify-between")}>
+        {!hideLabel && (
+          <span aria-hidden className="text-sm font-medium leading-none text-fg">
+            {label}
+          </span>
+        )}
         <div
           role="group"
           aria-label={t("height.unit")}

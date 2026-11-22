@@ -30,3 +30,14 @@ export const CATEGORY_ACCEPT: Record<MediaCategory, string> = {
 };
 
 export const DESCRIPTION_MAX = 160;
+
+/**
+ * Round 8: the two type rules of drag and drop (and of the category picker).
+ * "Photos of yourself" takes images only, "General videos" videos only; the
+ * other categories take anything. A self-tape counts as a video.
+ */
+export function categoryAccepts(category: MediaCategory, type: string): boolean {
+  if (category === "SELF") return type === "PHOTO";
+  if (category === "VIDEOS") return type === "VIDEO" || type === "SELFTAPE";
+  return true;
+}

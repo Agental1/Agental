@@ -128,7 +128,23 @@ US dollars.
   Agental team's review only; nothing is sent to a casting site.
 - A separate staff-only admin site at admin.agental.co (same codebase and database).
 
-## Rules for every session
+## What 100% means (founders' decision, round 8, 2026-11-22)
+
+One function decides it everywhere: the profile, the dashboard, AI suggestions, the admin and
+the server-side eligibility for agents and the automatic first search
+(`src/domain/completeness.ts`). 100% means every required field is filled:
+
+- Identity: legal first and last name, date of birth, gender, current location (city; country
+  and state with the location picker), phone, bio, at least one language.
+- Physical: height, hair color, eye color.
+- Media: at least one photo in "Photos of yourself".
+- Preferences: at least one work type, the playable age range, paid or unpaid work (with the
+  minimum day rate when the choice is "Paid work only").
+
+Optional, never counted, suggested once the profile is complete: stage name, IMDb link,
+portfolio website, every other media category (videos included), accents, school, the other
+physical tiles. A profile is complete without IMDb, a portfolio or videos.
+
 
 1. Keep all data, including the founders' test accounts. Never wipe or reseed. Migrations are
    additive.

@@ -153,7 +153,9 @@
     "captchaFailed": "The security check didn't pass. Reload the page and try again.",
     "agentsProfileIncomplete": "Complete your profile to 100% first: the AI searches start once it is complete and your email is verified.",
     "responseIncomplete": "Answer every question and add every requested video before submitting.",
-    "mediaInResponse": "This video is part of a response the Agental team is reviewing. It can be deleted once the review is done."
+    "mediaInResponse": "This video is part of a response the Agental team is reviewing. It can be deleted once the review is done.",
+    "mediaWrongCategory": "This category does not take this kind of file.",
+    "ageRangeOrder": "The second age cannot be lower than the first."
   },
   "auth": {
     "name": "Name",

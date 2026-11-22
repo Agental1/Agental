@@ -17,8 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WebsiteCard } from "@/components/talents/website-card";
 import { listMySites } from "@/lib/sites";
-import { parseJson, PhysicalTraits } from "@/domain/json";
-import { missingItems, scoreProfile } from "@/domain/completeness";
+import { completenessInputOf, missingItems, profileGaps, scoreProfile } from "@/domain/completeness";
 import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
 import { getRoleSearchQuota } from "@/lib/role-search";
@@ -58,24 +57,14 @@ export default async function TalentsDashboard({
     include: {
       candidatures: { include: { project: true, matchScore: true } },
       media: true,
-      _count: { select: { specialties: true } },
+      specialties: { select: { kind: true } },
     },
   });
   if (!profile) return null;
 
   // Scored here rather than read from completenessScore, so the card and the
   // percentage cannot disagree, even on rows scored by the old rule.
-  const completenessInput = {
-    stageName: profile.stageName,
-    birthDate: profile.birthDate,
-    city: profile.city,
-    bio: profile.bio,
-    physical: parseJson(PhysicalTraits, profile.physical),
-    specialtiesCount: profile._count.specialties,
-    media: profile.media,
-    imdbUrl: profile.imdbUrl,
-    portfolioUrl: profile.portfolioUrl,
-  };
+  const completenessInput = completenessInputOf(profile);
   const completeness = scoreProfile(completenessInput);
 
   const cands = profile.candidatures;
@@ -104,9 +93,11 @@ export default async function TalentsDashboard({
   // the next ones. Every link opens the tab and the field to fill.
   const missing = missingItems(completenessInput);
   const nextItem = missing[0] ?? null;
-  const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] = missing
-    .slice(1, 4)
-    .map((item) => ({
+  // Before 100%: the next required items. At 100%: optional items worth
+  // adding (round 8: a showreel first, casting looks at video first).
+  const suggestionItems = nextItem ? missing.slice(1, 4) : profileGaps(completenessInput).slice(0, 3);
+  const suggestions: { text: string; href: string; cta: string; icon: typeof UserCog }[] =
+    suggestionItems.map((item) => ({
       text: t(`space.dashboard.why.${item}`),
       href: itemHref(item),
       cta: t(`space.dashboard.action.${item}`),
@@ -250,6 +241,10 @@ export default async function TalentsDashboard({
       <FindRolesButton
         initialQuota={quota}
         upgradeHref="/talents/app/abonnement"
+        // Before 100%: a dialog explains the automatic first search and opens
+        // the first missing field. One automatic search, then the rest of the
+        // plan's allowance (Basic: 1 of 5, so 4 more).
+        locked={nextItem ? { href: itemHref(nextItem), more: Math.max(0, quota.limit - 1) } : undefined}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

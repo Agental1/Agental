@@ -6,11 +6,10 @@ import { prisma } from "@/lib/db";
 import { ProfileEditor } from "@/components/app/profile-editor";
 import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
-import { parseJson, PhysicalTraits } from "@/domain/json";
-import { scoreProfile } from "@/domain/completeness";
+import { completenessInputOf, legalNameParts, missingItems, scoreProfile } from "@/domain/completeness";
 import { parseProfileFocus, parseProfileTab } from "@/domain/profile-tabs";
 import { isoDate } from "@/domain/age";
-import { readContentBoundaries, readPreferences } from "@/domain/preferences";
+import { readContentBoundaries } from "@/domain/preferences";
 
 export async function generateMetadata({
   params,
@@ -45,29 +44,19 @@ export default async function ProfilPage({
     include: {
       specialties: true,
       media: { orderBy: { order: "asc" } },
-      availability: { orderBy: { from: "asc" } },
+      user: { select: { emailVerified: true } },
     },
   });
   if (!profile) return null;
 
-  const physical = parseJson(PhysicalTraits, profile.physical);
-  // Computed, not read from completenessScore: rows scored before the
-  // empty-physical fix still hold an inflated number.
-  const completeness = scoreProfile({
-    stageName: profile.stageName,
-    birthDate: profile.birthDate,
-    city: profile.city,
-    bio: profile.bio,
-    physical,
-    specialtiesCount: profile.specialties.length,
-    media: profile.media,
-    imdbUrl: profile.imdbUrl,
-    portfolioUrl: profile.portfolioUrl,
-  });
-  // Job preferences and the private content boundaries share one column but
-  // are read, and saved, apart. Unset answers come back unset.
-  const preferences = readPreferences(profile.preferences);
+  // The single 100% rule (src/domain/completeness.ts): computed, never read
+  // from completenessScore, which older rules may have left stale.
+  const input = completenessInputOf(profile);
+  const completeness = scoreProfile(input);
+  const missing = missingItems(input);
   const contentBoundaries = readContentBoundaries(profile.preferences);
+  // Google accounts are verified by Google; others by the verification email.
+  const emailVerified = !!profile.user.emailVerified;
 
   return (
     <div className="space-y-6">
@@ -85,14 +74,9 @@ export default async function ProfilPage({
       <ProfileEditor
         initial={{
           stageName: profile.stageName,
-          legalName: profile.legalName ?? "",
-          // The two-part legal name starts from the older single field, split
-          // at the first space, until the performer saves it.
-          legalFirstName:
-            profile.legalFirstName ?? (profile.legalName ?? "").trim().split(/\s+/)[0] ?? "",
-          legalLastName:
-            profile.legalLastName ??
-            (profile.legalName ?? "").trim().split(/\s+/).slice(1).join(" "),
+          // The two-part legal name starts from the older single field until saved.
+          legalFirstName: legalNameParts(input).first,
+          legalLastName: legalNameParts(input).last,
           gender: profile.gender ?? "",
           genderOther: profile.genderOther ?? "",
           phone: profile.phone ?? "",
@@ -101,12 +85,11 @@ export default async function ProfilPage({
           imdbUrl: profile.imdbUrl ?? "",
           portfolioUrl: profile.portfolioUrl ?? "",
           birthDate: profile.birthDate ? isoDate(profile.birthDate) : "",
-          physical,
+          physical: input.physical,
           specialties: profile.specialties.map((s) => s.kind),
-          minRateEuros: profile.minRateCents
-            ? profile.minRateCents / 100
-            : undefined,
+          dayRateUsd: profile.minRateCents ? Math.round(profile.minRateCents / 100) : undefined,
           completeness,
+          missing,
           media: profile.media.map((m) => ({
             id: m.id,
             type: m.type,
@@ -115,17 +98,14 @@ export default async function ProfilPage({
             category: m.category,
             description: m.description,
           })),
-          preferences,
+          preferences: input.preferences,
           contentBoundaries,
-          availability: profile.availability.map((a) => ({
-            id: a.id,
-            from: isoDate(a.from),
-            to: isoDate(a.to),
-            type: a.type === "UNAVAILABLE" ? "UNAVAILABLE" : "AVAILABLE",
-          })),
         }}
         initialTab={initialTab}
         initialFocus={initialFocus}
+        emailVerified={emailVerified}
+        hasAvatar={!!profile.avatarKey}
+        celebrated={!!profile.profileCompletedAt}
       />
     </div>
   );
