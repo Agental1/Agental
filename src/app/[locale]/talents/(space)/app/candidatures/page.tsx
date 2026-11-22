@@ -81,9 +81,13 @@ export default async function CandidaturesPage({
         <p className="text-fg-muted">
           {t("space.candidatures.subtitle")}
         </p>
+        {/* Round 8b: the dashboard's Status links land here (group 3 splits the searches into three sections). */}
+        <span id="search-queue" />
+        <span id="search-running" />
+        <span id="search-finished" />
       </div>
       {searches.length > 0 && (
-        <ul className="space-y-2" aria-label={t("space.candidatures.searches.label")}>
+        <ul className="scroll-mt-24 space-y-2" aria-label={t("space.candidatures.searches.label")}>
           {searches.map((s) => {
             const state = searchState(s.status);
             const active = state === "queued" || state === "running";

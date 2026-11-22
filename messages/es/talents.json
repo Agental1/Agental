@@ -838,7 +838,15 @@
         "compensation": "Descartamos las ofertas que no encajan.",
         "dayRate": "Saltamos los trabajos pagados por debajo de tu tarifa."
       },
-      "autoFirst": "Lanzamos tu primera búsqueda con IA. Te quedan {left} de {limit} búsquedas este mes."
+      "autoFirst": "Lanzamos tu primera búsqueda con IA. Te quedan {left} de {limit} búsquedas este mes.",
+      "status": {
+        "title": "Estado",
+        "queued": "{count, plural, one {# búsqueda en cola} other {# búsquedas en cola}}",
+        "running": "{count} en curso",
+        "finished": "{count, plural, one {# terminada} other {# terminadas}}",
+        "rolesFound": "{count, plural, one {# papel encontrado} other {# papeles encontrados}}",
+        "check": "Ver tus candidaturas"
+      }
     },
     "candidatures": {
       "title": "Mis candidaturas",

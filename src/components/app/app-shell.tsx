@@ -205,12 +205,29 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="w-full max-w-[72rem] flex-1 px-4 pb-12 pt-6 sm:px-8 md:pt-2">
-          {children}
-        </main>
+        <AppMain>{children}</AppMain>
       </SidebarInset>
       <Toaster position="bottom-center" />
     </SidebarProvider>
+  );
+}
+
+/**
+ * The page column (round 8b): about 12% wider than before (81rem instead of
+ * 72rem) with the sidebar open, and wider again (90rem) when it is folded
+ * to icons. Phones are unchanged.
+ */
+function AppMain({ children }: { children: React.ReactNode }) {
+  const { state } = useSidebar();
+  return (
+    <main
+      className={cn(
+        "w-full flex-1 px-4 pb-12 pt-6 sm:px-8 md:pt-2 lg:px-10",
+        state === "collapsed" ? "max-w-[90rem]" : "max-w-[81rem]"
+      )}
+    >
+      {children}
+    </main>
   );
 }
 
