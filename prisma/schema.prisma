@@ -1035,6 +1035,9 @@ model RoleSearchRequest {
   clientKey   String?
   /// queued | running | done | failed | canceled
   status      String    @default("queued")
+  /// Round 8b: when this search may start (one every 6 hours per performer).
+  /// NULL on rows from before: they may start at once.
+  scheduledFor DateTime?
   startedAt   DateTime?
   completedAt DateTime?
   /// Short reason when failed, written by the workflow. No personal data.

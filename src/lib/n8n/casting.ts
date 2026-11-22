@@ -106,6 +106,9 @@ export async function queueScheduledSearches(now: Date, mode: WorkflowMode): Pro
   const users = await prisma.user.findMany({ where, select: { id: true }, orderBy: { id: "asc" }, skip, take: SCHEDULED_PER_CLAIM });
   let queued = 0;
   for (const u of users) {
+    // Round 8b: a performer with a search already waiting gets no extra one,
+    // so their own searches are not pushed back 6 hours at a time.
+    if ((await prisma.roleSearchRequest.count({ where: { userId: u.id, status: "queued" } })) > 0) continue;
     if (!(await agentEligibility(u.id, { mode, now })).ok) continue;
     const res = await startRoleSearch(u.id, `auto6h_${window}`, now, mode, true);
     if (res.ok && !res.duplicate) queued += 1;
@@ -140,12 +143,25 @@ export async function claimCastingJobs(
         : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null }[]>`
             SELECT id, "userId", "clientKey" FROM "public"."role_search_requests"
             WHERE status = 'queued'
-            ORDER BY "createdAt" ASC
+              AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
+              -- Round 8b: one every 6 hours per performer, even after a backlog.
+              AND NOT EXISTS (
+                SELECT 1 FROM "public"."role_search_requests" r2
+                WHERE r2."userId" = "role_search_requests"."userId"
+                  AND (r2.status = 'running' OR r2."startedAt" > ${new Date(now.getTime() - SIX_HOURS)})
+              )
+            ORDER BY COALESCE("scheduledFor", "createdAt") ASC
             LIMIT ${input.limit}
             FOR UPDATE SKIP LOCKED`;
     const jobs: CastingJob[] = [];
     let canceled = 0;
+    // Round 8b: at most one new search per performer in one claim.
+    const seen = new Set<string>();
     for (const row of rows) {
+      if (held.length === 0) {
+        if (seen.has(row.userId)) continue;
+        seen.add(row.userId);
+      }
       const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
       // The first automatic search is its own consent record (it stamps no click).
       const firstAuto = row.clientKey === FIRST_AUTO_KEY;

@@ -142,3 +142,68 @@ export async function submitResponse(draftId: unknown, answers: unknown): Promis
   return { ok: true };
 }
 
+
+/** How long "Undo" after Decline is honored on the server. */
+const UNDO_DECLINE_MS = 60_000;
+
+/**
+ * Round 8b: "Decline" on a role found. Recorded at once (status DECLINED,
+ * the decision and its time); the role leaves the list. Undo is possible for
+ * a short while (`undoDeclineRole`).
+ */
+export async function declineRole(draftId: unknown): Promise<ResponseResult> {
+  const own = await ownDraft(draftId);
+  if ("error" in own) return { ok: false, error: own.error! };
+  const { count } = await prisma.applicationDraft.updateMany({
+    where: { id: own.draft.id, status: { in: ["DRAFT", "NEEDS_INFO"] } },
+    data: { status: "DECLINED", reviewDecision: "decline", reviewedAt: new Date() },
+  });
+  if (count !== 1) return { ok: false, error: err("errors.invalidInput") };
+  await audit({
+    actorUserId: own.userId,
+    action: "application.decline",
+    resourceType: "ApplicationDraft",
+    resourceId: own.draft.id,
+    before: { status: own.draft.status },
+  });
+  revalidate(own.draft.id);
+  return { ok: true };
+}
+
+/** Round 8b: "Undo" right after Decline puts the role back as it was. */
+export async function undoDeclineRole(draftId: unknown): Promise<ResponseResult> {
+  const id = Id.safeParse(draftId);
+  if (!id.success) return { ok: false, error: err("errors.invalidInput") };
+  const session = await auth();
+  if (!session?.user?.id || session.user.kind !== "TALENT") return { ok: false, error: err("errors.unauthorized") };
+  // The status before Decline, from its audit entry (DRAFT or NEEDS_INFO).
+  const last = await prisma.auditLog.findFirst({
+    where: { action: "application.decline", resourceType: "ApplicationDraft", resourceId: id.data, actorUserId: session.user.id },
+    orderBy: { createdAt: "desc" },
+    select: { before: true },
+  });
+  let previous: "DRAFT" | "NEEDS_INFO" = "DRAFT";
+  try {
+    if ((JSON.parse(last?.before ?? "{}") as { status?: string }).status === "NEEDS_INFO") previous = "NEEDS_INFO";
+  } catch {
+    previous = "DRAFT";
+  }
+  const { count } = await prisma.applicationDraft.updateMany({
+    where: {
+      id: id.data,
+      profile: { userId: session.user.id },
+      status: "DECLINED",
+      reviewDecision: "decline",
+      reviewedAt: { gte: new Date(Date.now() - UNDO_DECLINE_MS) },
+    },
+    // Back as it was: NEEDS_INFO keeps its decision; the reason was never touched.
+    data:
+      previous === "NEEDS_INFO"
+        ? { status: "NEEDS_INFO", reviewDecision: "needs_info" }
+        : { status: "DRAFT", reviewDecision: null, reviewedAt: null },
+  });
+  if (count !== 1) return { ok: false, error: err("errors.invalidInput") };
+  await audit({ actorUserId: session.user.id, action: "application.decline.undo", resourceType: "ApplicationDraft", resourceId: id.data });
+  revalidate(id.data);
+  return { ok: true };
+}

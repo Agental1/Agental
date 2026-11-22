@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.7.0] - 2026-11-22
+
+### Changed (round 8b, group 3)
+
+- **Applications in three sections**, in order: Search in queue, Search running, Search finished. A line at the top says "You can queue up to {n} searches. We run one every 6 hours." (the number comes from the plan).
+- **One search every 6 hours**: each new search gets a scheduled start 6 hours after the performer's latest one, and each queued search shows "Starts soon" or "Starts in about 6 / 12 / 18 hours" from that time. The app's claim for the role-search workflow skips a search before its time (n8n itself is unchanged). Searches queued before this change keep no time and may start at once.
+- **Deciding on a role found**: each role shows a full description first (role, project, dates, location, pay, what to send, the full notice and its source), then a green **Accept** and a red **Decline**. Accept marks it "Accepted: the Agental team is on it" and leads to the existing response flow. Decline records the decision and removes the role, with **Undo** for a few seconds.
+- The dashboard Status links now open the matching Applications section.
+
+Migration `20261210000000_round8b_search_schedule` (one nullable column on `role_search_requests`).
+
 ## [0.6.6.0] - 2026-11-22
 
 ### Changed (round 8b, group 2)
