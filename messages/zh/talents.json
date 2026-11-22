@@ -1911,5 +1911,38 @@
     "subjectPlan": "学生套餐价格",
     "subjectWebsite": "学生网站价格",
     "mailBody": "我的 Agental 账户邮箱：{email}"
+  },
+  "checkout": {
+    "title": "{plan} 方案",
+    "lead": "方案、价格及包含的内容。",
+    "perMonth": "每月",
+    "commission": "已获角色的佣金：{rate}",
+    "continue": "继续",
+    "uscNext": "下一步：验证你的 USC 邮箱以获得学生价。",
+    "verified": "已于 {date} 验证为 USC 学生（{email}）。",
+    "close": "关闭",
+    "cardNotice": "银行卡支付尚未开放。请勿输入你的卡信息。Agental 正处于测试阶段。",
+    "cardLegend": "银行卡信息",
+    "cardName": "持卡人姓名",
+    "cardNumber": "卡号",
+    "cardExpiry": "有效期",
+    "cardCvc": "安全码",
+    "recorded": "我们已保存你选择的方案。支付开放时我们会联系你。你的方案今天不会改变。",
+    "gotIt": "知道了",
+    "usc": {
+      "title": "USC 学生价",
+      "emailLead": "我们会向你发送验证码。请输入你的 @usc.edu 邮箱。",
+      "emailPlaceholder": "you@usc.edu",
+      "send": "发送验证码",
+      "codeLead": "请输入我们发送到 {email} 的 6 位验证码。",
+      "verify": "验证",
+      "resend": "重新发送验证码",
+      "resendIn": "{seconds} 秒后可重新发送",
+      "otherEmail": "使用其他邮箱",
+      "codeHint": "验证码 10 分钟内有效。如未收到，请查看垃圾邮件文件夹。",
+      "limelightLead": "学生价需要已验证的 USC 邮箱。验证后我们会立即发送申请。",
+      "haveCode": "我已有验证码",
+      "codeLeadNoEmail": "请输入我们发送给你的 6 位验证码。"
+    }
   }
 }

@@ -1911,5 +1911,38 @@
     "subjectPlan": "Precio de estudiante del plan",
     "subjectWebsite": "Precio de estudiante del sitio",
     "mailBody": "Email de mi cuenta de Agental: {email}"
+  },
+  "checkout": {
+    "title": "Plan {plan}",
+    "lead": "El plan, su precio y lo que incluye.",
+    "perMonth": "al mes",
+    "commission": "Comisión sobre los papeles conseguidos: {rate}",
+    "continue": "Continuar",
+    "uscNext": "Siguiente: verifica tu correo de USC para obtener el precio de estudiante.",
+    "verified": "Estudiante de USC verificado el {date} ({email}).",
+    "close": "Cerrar",
+    "cardNotice": "Los pagos con tarjeta aún no están abiertos. No escribas los datos de tu tarjeta. Agental está en beta.",
+    "cardLegend": "Datos de la tarjeta",
+    "cardName": "Nombre en la tarjeta",
+    "cardNumber": "Número de tarjeta",
+    "cardExpiry": "Fecha de caducidad",
+    "cardCvc": "Código de seguridad",
+    "recorded": "Guardamos tu elección de plan. Te escribiremos cuando se abran los pagos. Tu plan no cambia hoy.",
+    "gotIt": "Entendido",
+    "usc": {
+      "title": "Precio de estudiante de USC",
+      "emailLead": "Te enviaremos un código de verificación. Escribe tu correo @usc.edu.",
+      "emailPlaceholder": "tu@usc.edu",
+      "send": "Enviar el código",
+      "codeLead": "Escribe el código de 6 dígitos que enviamos a {email}.",
+      "verify": "Verificar",
+      "resend": "Enviar un código nuevo",
+      "resendIn": "Código nuevo en {seconds} s",
+      "otherEmail": "Usar otro correo",
+      "codeHint": "El código es válido 10 minutos. Revisa la carpeta de spam si no llega.",
+      "limelightLead": "El precio de estudiante necesita un correo de USC verificado. Enviamos la solicitud en cuanto esté verificado.",
+      "haveCode": "Ya tengo un código",
+      "codeLeadNoEmail": "Escribe el código de 6 dígitos que te enviamos."
+    }
   }
 }

@@ -159,7 +159,16 @@
     "cityUnknown": "请从列表中选择城市。",
     "limelightOfferRequired": "请选择基础版或 Signature。",
     "smsNeedsPhone": "请先填写有效的电话号码。",
-    "smsNeedsConsent": "请勾选以同意接收短信。"
+    "smsNeedsConsent": "请勾选以同意接收短信。",
+    "uscEmailOnly": "请输入以 @usc.edu 结尾的邮箱地址。",
+    "uscAlreadyVerified": "你的账户已验证为 USC 学生。",
+    "codeTooSoon": "{seconds} 秒后可以重新获取验证码。",
+    "codeUnavailable": "目前无法发送验证码，请稍后再试。",
+    "codeWrong": "验证码不正确。{left, plural, =0 {请重新获取验证码。} other {还剩 # 次机会。}}",
+    "codeExpired": "验证码已过期，请重新获取。",
+    "codeLocked": "尝试次数过多，请重新获取验证码。",
+    "codeDailyLimit": "今天发送的验证码过多，请明天再试。",
+    "uscEmailTaken": "此 USC 邮箱已验证过另一个账户。"
   },
   "auth": {
     "name": "姓名",
@@ -643,6 +652,9 @@
     "deletionSubject": "请在 {days} 天内确认邮箱以保留你的 Agental 账户",
     "deletionIntro": "你的 Agental 账户使用此地址创建，但尚未确认。我们会删除未确认的测试版账户：请在 {days} 天内确认地址以保留你的账户。",
     "deletionExpiry": "{days} 天后，该账户及其资料和文件将被删除。",
-    "deletionIgnore": "如果你没有创建此账户，请忽略此邮件：该账户将被删除。"
+    "deletionIgnore": "如果你没有创建此账户，请忽略此邮件：该账户将被删除。",
+    "codeSubject": "你的 Agental 验证码",
+    "codeIntro": "在 Agental 中输入此验证码，以验证你的 USC 学生邮箱：",
+    "codeExpiry": "验证码 10 分钟内有效。"
   }
 }

@@ -845,7 +845,7 @@
         "running": "{count} en cours",
         "finished": "{count, plural, one {# terminée} other {# terminées}}",
         "rolesFound": "{count, plural, one {# rôle trouvé} other {# rôles trouvés}}",
-        "check": "Voir vos candidatures"
+        "check": "Voir tes candidatures"
       }
     },
     "candidatures": {
@@ -896,7 +896,7 @@
         "status": {
           "draft": "En attente de ta relecture",
           "reviewed": "Relu",
-          "accepted": "Accepté : l'équipe Agental s'en occupe",
+          "accepted": "Accepté : l’équipe Agental s’en occupe",
           "submitted": "Envoyée pour relecture"
         }
       },
@@ -925,7 +925,7 @@
         "open": "Ouvrir ce rôle"
       },
       "queue": {
-        "rule": "Vous pouvez mettre jusqu'à {count} recherches en file. Nous en lançons une toutes les {hours} heures.",
+        "rule": "Tu peux mettre jusqu’à {count} recherches en file. Nous en lançons une toutes les {hours} heures.",
         "title": "Recherches en file",
         "empty": "Aucune recherche en attente.",
         "item": "Recherche {n}",
@@ -939,10 +939,10 @@
       "finished": {
         "title": "Recherches terminées",
         "last": "Dernière recherche terminée le {date}.",
-        "empty": "Les rôles trouvés par vos recherches apparaîtront ici."
+        "empty": "Les rôles trouvés par tes recherches apparaîtront ici."
       },
       "decide": {
-        "intro": "Lisez la description complète de ce qui est demandé avant d'accepter ou de refuser cette audition, et nous vous aiderons à partir de là.",
+        "intro": "Lis la description complète de ce qui est demandé avant d’accepter ou de refuser cette audition, et nous t’aiderons à partir de là.",
         "role": "Rôle",
         "project": "Projet",
         "dates": "Dates",
@@ -950,15 +950,15 @@
         "pay": "Rémunération",
         "notGiven": "Non précisé",
         "toSend": "À envoyer",
-        "nothingToSend": "Rien de plus que votre profil.",
+        "nothingToSend": "Rien de plus que ton profil.",
         "video": "Vidéo {n} : {text}",
         "question": "Question {n} : {text}",
-        "fullNotice": "Lire l'annonce complète",
-        "source": "Ouvrir l'annonce ({host})",
+        "fullNotice": "Lire l’annonce complète",
+        "source": "Ouvrir l’annonce ({host})",
         "accept": "Accepter",
         "decline": "Refuser",
-        "accepted": "Accepté : l'équipe Agental s'en occupe",
-        "submitted": "Envoyé pour relecture par l'équipe",
+        "accepted": "Accepté : l’équipe Agental s’en occupe",
+        "submitted": "Envoyé pour relecture par l’équipe",
         "open": "Ajouter les détails",
         "declined": "Rôle refusé.",
         "undo": "Annuler",
@@ -1257,7 +1257,7 @@
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
       "portfolioUrl": "Lien de portfolio ou de site",
       "portfolioUrlPlaceholder": "https://ton-site.com",
-      "noLinks": "Je n'ai pas de site ni de portfolio",
+      "noLinks": "Je n’ai pas de site ni de portfolio",
       "stageNameHint": "Si tu travailles sous un autre nom.",
       "legalName": "Nom légal",
       "legalFirstName": "Prénom",
@@ -1365,8 +1365,8 @@
         "noAccents": "Je ne fais aucun accent"
       },
       "optional": "(facultatif)",
-      "addOwn": "Ajouter la vôtre",
-      "addOwnPlaceholder": "Décrivez votre morphologie"
+      "addOwn": "Ajouter la tienne",
+      "addOwnPlaceholder": "Décris ta morphologie"
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",
@@ -1422,7 +1422,7 @@
     },
     "find": {
       "intro": "Ton agent personnel arrive dans Messages. Configure-le dès maintenant.",
-      "explain": "Agental Find n'est pas encore en service. Vos choix sont enregistrés sur votre compte pour son lancement.",
+      "explain": "Agental Find n’est pas encore en service. Tes choix sont enregistrés sur ton compte pour son lancement.",
       "start": "Le configurer",
       "steps": {
         "name": "Choisis ton assistant",
@@ -1430,7 +1430,7 @@
         "review": "Vérifier et enregistrer"
       },
       "stepOf": "Étape {n} sur {total}",
-      "nameLead": "Choisissez un nom pour votre agent, ou tapez le vôtre.",
+      "nameLead": "Choisis un nom pour ton agent, ou tape le tien.",
       "names": {
         "samantha": "Samantha",
         "adrian": "Adrian",
@@ -1463,12 +1463,12 @@
       "back": "Retour",
       "next": "Suivant",
       "save": "Enregistrer les préférences de l’agent",
-      "customLabel": "Le nom de votre agent",
-      "customPlaceholder": "Tapez un nom",
-      "editAgent": "Modifier votre agent IA",
+      "customLabel": "Le nom de ton agent",
+      "customPlaceholder": "Tape un nom",
+      "editAgent": "Modifier ton agent IA",
       "stepsLabel": "Étapes de configuration",
       "cancel": "Annuler",
-      "savedNote": "Votre agent IA est enregistré."
+      "savedNote": "Ton agent IA est enregistré."
     },
     "team": {
       "title": "Équipe Agental",
@@ -1911,5 +1911,38 @@
     "subjectPlan": "Prix étudiant de l’abonnement",
     "subjectWebsite": "Prix étudiant du site",
     "mailBody": "Email de mon compte Agental : {email}"
+  },
+  "checkout": {
+    "title": "Formule {plan}",
+    "lead": "La formule, son prix et ce qu’elle comprend.",
+    "perMonth": "par mois",
+    "commission": "Commission sur les rôles décrochés : {rate}",
+    "continue": "Continuer",
+    "uscNext": "Étape suivante : vérifie ton adresse USC pour obtenir le prix étudiant.",
+    "verified": "Étudiant USC vérifié le {date} ({email}).",
+    "close": "Fermer",
+    "cardNotice": "Les paiements par carte ne sont pas encore ouverts. Ne saisis pas tes coordonnées bancaires. Agental est en bêta.",
+    "cardLegend": "Coordonnées de la carte",
+    "cardName": "Nom sur la carte",
+    "cardNumber": "Numéro de carte",
+    "cardExpiry": "Date d’expiration",
+    "cardCvc": "Code de sécurité",
+    "recorded": "Nous avons enregistré ton choix de formule. Nous t’écrirons à l’ouverture des paiements. Ta formule ne change pas aujourd’hui.",
+    "gotIt": "Compris",
+    "usc": {
+      "title": "Prix étudiant USC",
+      "emailLead": "Nous allons t’envoyer un code de vérification. Saisis ton adresse @usc.edu.",
+      "emailPlaceholder": "toi@usc.edu",
+      "send": "Envoyer le code",
+      "codeLead": "Saisis le code à 6 chiffres envoyé à {email}.",
+      "verify": "Vérifier",
+      "resend": "Envoyer un nouveau code",
+      "resendIn": "Nouveau code dans {seconds} s",
+      "otherEmail": "Utiliser une autre adresse",
+      "codeHint": "Le code est valable 10 minutes. Regarde dans tes courriers indésirables s’il n’arrive pas.",
+      "limelightLead": "Le prix étudiant demande une adresse USC vérifiée. Nous envoyons la demande dès qu’elle est vérifiée.",
+      "haveCode": "J’ai déjà un code",
+      "codeLeadNoEmail": "Saisis le code à 6 chiffres que nous t’avons envoyé."
+    }
   }
 }

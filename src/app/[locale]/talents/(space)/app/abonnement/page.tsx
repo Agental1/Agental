@@ -5,6 +5,7 @@ import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
 import { getTalentPlan } from "@/lib/billing/entitlement";
 import { getRoleSearchQuota } from "@/lib/role-search";
 import { SearchUsageBar } from "@/components/app/search-usage";
@@ -45,6 +46,15 @@ export default async function AbonnementPage({
   const usage = await getRoleSearchQuota(session.user.id);
 
   const current = effective.plan;
+  // Round 8b: "USC student verified" shows in the checkout panel.
+  const uscRow = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { uscVerifiedAt: true, uscVerifiedEmail: true },
+  });
+  const usc =
+    uscRow?.uscVerifiedAt && uscRow.uscVerifiedEmail
+      ? { at: uscRow.uscVerifiedAt.toISOString(), email: uscRow.uscVerifiedEmail }
+      : null;
 
   // Display names come from the messages, in the order of the B2C_PLANS table.
   const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
@@ -81,7 +91,7 @@ export default async function AbonnementPage({
 
       <div className="space-y-3">
         <PromotionsButton accountEmail={session.user.email} />
-        <PlanSelector plans={plans} current={current} />
+        <PlanSelector plans={plans} current={current} usc={usc} />
       </div>
 
 

@@ -18,6 +18,17 @@ cover n8n or the AI agents.
   one-connection local database) and passes on its own. A running dev server on the same database
   makes it, and `role-search`, fail more often: stop it before `vitest`. Give the two drains their
   own connections or skip the concurrency case when the pool has one connection.
+- **USC codes need the Resend key.** The code email goes through the existing Resend path. Until
+  `RESEND_API_KEY` (and `EMAIL_FROM`) are set in Vercel Production, the USC step answers "We can't
+  send the code right now. Try again later." and logs `[promo] USC code not sent`. Where to paste
+  it: resend.com > API Keys > Create API key (Sending access, domain agental.co) > copy >
+  vercel.com > agental > Settings > Environment Variables > Add `RESEND_API_KEY`, Production >
+  Save > redeploy (same as section 1 of the Round 9 carryover).
+- **Plan choices are recorded but not listed for staff.** `PlanChoice` (plan, price in cents,
+  promotion, date, user) has no admin view yet; add one to /admin (CSV) so the team can write when
+  payments open. One row per user, plan, price and promotion a day.
+- **The Limelight USC gate is in the app only.** The public Limelight page has no account, so a
+  request there with the promotion is recorded "not verified" in the lead's note.
 - **Old student email route.** The "College student? Verify your school email" card was removed
   from the app (round 8b, Promotions covers it). `/etudiant` still confirms links already sent, and
   `requestStudentEmail` is no longer reachable from the UI; remove it once round 8b group 4 (USC

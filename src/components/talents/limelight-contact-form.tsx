@@ -18,6 +18,9 @@ import {
 import { cn } from "@/lib/utils";
 import { findPromotion } from "@/domain/pricing";
 import { useActivePromotion } from "@/components/talents/promotions";
+import { USC_PROMOTION_ID } from "@/domain/promo-verification";
+import { UscVerifySteps } from "@/components/talents/usc-verify";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 type Pref = (typeof LIMELIGHT_CONTACT_PREFS)[number];
 
@@ -40,6 +43,7 @@ export function LimelightContactForm({
   preview,
   submitLabel,
   source = "limelight-page",
+  uscGate,
 }: {
   /** Values to start from, for a signed-in performer. */
   defaults?: { name?: string; email?: string; message?: string; need?: string };
@@ -48,9 +52,15 @@ export function LimelightContactForm({
   submitLabel?: string;
   /** Recorded on the lead, so staff see where the request came from. */
   source?: LimelightFormSource;
+  /**
+   * Round 8b, signed in: with the USC student promotion checked and the
+   * account not verified, "Send" first asks for the @usc.edu code.
+   */
+  uscGate?: { verified: boolean };
 } = {}) {
   const t = useTranslations("talents.limelight.contact");
   const to = useTranslations("talents.limelight.offers");
+  const tc = useTranslations("talents.checkout");
   const locale = useLocale();
   const [state, action, pending] = useActionState<LimelightLeadState, FormData>(
     submitLimelightLead,
@@ -75,6 +85,11 @@ export function LimelightContactForm({
   // Round 8: choosing an offer is required, so nothing is preselected.
   const [budget, setBudget] = useState<string>("");
   const promotion = findPromotion(useActivePromotion());
+  const formRef = useRef<HTMLFormElement>(null);
+  // A ref, not state: the submit right after verification must see it at once.
+  const uscOk = useRef(uscGate?.verified ?? false);
+  const [gateOpen, setGateOpen] = useState(false);
+  const needsUsc = () => !!uscGate && !uscOk.current && promotion?.id === USC_PROMOTION_ID;
   const [pref, setPref] = useState<Pref>("email");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState(defaults?.message ?? "");
@@ -107,8 +122,16 @@ export function LimelightContactForm({
   const error = state && !state.ok ? state.error : undefined;
 
   return (
+    <>
     <form
+      ref={formRef}
       action={action}
+      onSubmit={(e) => {
+        if (needsUsc()) {
+          e.preventDefault();
+          setGateOpen(true);
+        }
+      }}
       noValidate
       className="grid gap-6 rounded-sedan-xl border border-border bg-surface p-[clamp(20px,3vw,36px)]"
     >
@@ -235,6 +258,25 @@ export function LimelightContactForm({
         <p className="text-[13px] text-fg-subtle">{t("privacy")}</p>
       </div>
     </form>
+    {uscGate && (
+      <Dialog open={gateOpen} onOpenChange={setGateOpen}>
+        <DialogContent data-portal="talents">
+          <DialogHeader>
+            <DialogTitle>{tc("usc.title")}</DialogTitle>
+            <DialogDescription>{tc("usc.limelightLead")}</DialogDescription>
+          </DialogHeader>
+          <UscVerifySteps
+            onVerified={() => {
+              uscOk.current = true;
+              setGateOpen(false);
+              // Send the request now that the student price applies.
+              setTimeout(() => formRef.current?.requestSubmit(), 0);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+    )}
+    </>
   );
 }
 

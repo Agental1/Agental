@@ -1911,5 +1911,38 @@
     "subjectPlan": "Student plan price",
     "subjectWebsite": "Student website price",
     "mailBody": "My Agental account email: {email}"
+  },
+  "checkout": {
+    "title": "{plan} plan",
+    "lead": "The plan, its price and what is included.",
+    "perMonth": "per month",
+    "commission": "Commission on roles booked: {rate}",
+    "continue": "Continue",
+    "uscNext": "Next: verify your USC email to get the student price.",
+    "verified": "USC student verified on {date} ({email}).",
+    "close": "Close",
+    "cardNotice": "Card payments are not open yet. Do not enter your card details. Agental is in beta.",
+    "cardLegend": "Card details",
+    "cardName": "Name on card",
+    "cardNumber": "Card number",
+    "cardExpiry": "Expiry date",
+    "cardCvc": "Security code",
+    "recorded": "We saved your choice of plan. We will write to you when payments open. Your plan does not change today.",
+    "gotIt": "Got it",
+    "usc": {
+      "title": "USC student price",
+      "emailLead": "We'll send you a verification code. Enter your @usc.edu email.",
+      "emailPlaceholder": "you@usc.edu",
+      "send": "Send the code",
+      "codeLead": "Enter the 6-digit code we sent to {email}.",
+      "verify": "Verify",
+      "resend": "Send a new code",
+      "resendIn": "New code in {seconds} s",
+      "otherEmail": "Use another email",
+      "codeHint": "The code works for 10 minutes. Check your spam folder if it does not arrive.",
+      "limelightLead": "The student price needs a verified USC email. We send the request as soon as it is verified.",
+      "haveCode": "I already have a code",
+      "codeLeadNoEmail": "Enter the 6-digit code we sent you."
+    }
   }
 }

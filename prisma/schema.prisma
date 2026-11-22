@@ -94,6 +94,14 @@ model User {
   studentPriceRequest StudentPriceRequest?
   studentRedemptions  StudentCodeRedemption[]
 
+
+  // Round 8b: "USC student verified" (6-digit code to a @usc.edu address);
+  // one address verifies one account.
+  uscVerifiedAt     DateTime?
+  uscVerifiedEmail  String?   @unique
+  promoCodes        PromoVerificationCode[]
+  planChoices       PlanChoice[]
+
   @@index([accountStatus])
   @@schema("public")
 }
@@ -1177,5 +1185,40 @@ model AnnouncementRead {
   announcement Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
 
   @@id([announcementId, userId])
+  @@schema("public")
+}
+
+
+// Round 8b: one 6-digit code per send (keyed hash only), 10 minutes, 5 attempts.
+model PromoVerificationCode {
+  id          String    @id @default(cuid())
+  userId      String
+  promotionId String
+  email       String
+  codeHash    String
+  attempts    Int       @default(0)
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@schema("public")
+}
+
+// Round 8b: a plan chosen while card payments are closed (no payment taken).
+model PlanChoice {
+  id          String   @id @default(cuid())
+  userId      String
+  plan        String
+  priceCents  Int
+  promotionId String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([userId, createdAt])
   @@schema("public")
 }

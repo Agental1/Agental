@@ -92,6 +92,7 @@ export function SitePanel({
   tryHref,
   contact,
   defaultNeed,
+  uscVerified = false,
 }: {
   sites: SiteCard[];
   tryHref: string;
@@ -99,6 +100,8 @@ export function SitePanel({
   contact: { name: string; email: string };
   /** Round 8: "redo" when "Improve your website" opened the form. */
   defaultNeed?: "redo";
+  /** Round 8b: the account is "USC student verified" (else the promotion asks for it). */
+  uscVerified?: boolean;
 }) {
   const t = useTranslations("talents.limelight.app");
   const router = useRouter();
@@ -170,6 +173,7 @@ export function SitePanel({
           {/* The request form right here, signed in: the public Limelight
               page is for visitors and its header reads as signed out. */}
           <LimelightContactForm
+            uscGate={{ verified: uscVerified }}
             defaults={{ name: contact.name, email: contact.email, need: defaultNeed }}
             submitLabel={t("sendRequest")}
             source="app-site-panel"
@@ -255,6 +259,7 @@ export function SitePanel({
           </article>
           {requestFor === site.id && (
             <LimelightContactForm
+            uscGate={{ verified: uscVerified }}
               defaults={{
                 name: contact.name,
                 email: contact.email,

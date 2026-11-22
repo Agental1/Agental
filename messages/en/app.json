@@ -159,7 +159,16 @@
     "cityUnknown": "Pick your city from the list.",
     "limelightOfferRequired": "Choose Essential or Signature.",
     "smsNeedsPhone": "Add a valid phone number first.",
-    "smsNeedsConsent": "Tick the box to agree to text messages."
+    "smsNeedsConsent": "Tick the box to agree to text messages.",
+    "uscEmailOnly": "Enter an address that ends in @usc.edu.",
+    "uscAlreadyVerified": "Your account is already verified as a USC student.",
+    "codeTooSoon": "You can ask for a new code in {seconds} seconds.",
+    "codeUnavailable": "We can't send the code right now. Try again later.",
+    "codeWrong": "That code is not right. {left, plural, =0 {Ask for a new code.} one {# try left.} other {# tries left.}}",
+    "codeExpired": "This code has expired. Ask for a new one.",
+    "codeLocked": "Too many tries. Ask for a new code.",
+    "codeDailyLimit": "Too many codes sent today. Try again tomorrow.",
+    "uscEmailTaken": "This USC address already verified another account."
   },
   "auth": {
     "name": "Name",
@@ -643,6 +652,9 @@
     "deletionSubject": "Confirm your email within {days} days to keep your Agental account",
     "deletionIntro": "Your Agental account was created with this address, which has not been confirmed yet. We remove unconfirmed beta accounts: confirm your address within {days} days to keep yours.",
     "deletionExpiry": "After {days} days, the account, its profile and its files are deleted.",
-    "deletionIgnore": "If you did not create this account, ignore this email: it will be removed."
+    "deletionIgnore": "If you did not create this account, ignore this email: it will be removed.",
+    "codeSubject": "Your Agental verification code",
+    "codeIntro": "Enter this code in Agental to verify your USC student email:",
+    "codeExpiry": "It works for 10 minutes."
   }
 }
