@@ -1,6 +1,53 @@
 # Handoff for the next model or person
 
-Updated 2026-11-21. Read this first, then `docs/STATUS.md` (every task of the first two briefs) and `docs/FRONTEND_BACKEND_HANDOFF.md` (contracts between the two working sessions).
+Updated 2026-11-22 (round 7 closed). Read the Round 9 carryover first, then "Round 7b" below for
+the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
+
+## Round 9 carryover
+
+State at hand-off: production runs v0.5.8.0 (`agental-leyymorx4`, tag `live-2026-11-22-r7b-admin`;
+rollback `vercel promote agental-oxx0e06y2-agentalco.vercel.app`). `main` = `frontend-redesign` =
+82a5e22 and later docs commits; no pull request open; no uncommitted change. Round 8 (front end)
+runs in its own session before round 9.
+
+### 1. What needs the owner (exact clicks)
+
+- Resend key: resend.com > Domains > agental.co must say "Verified" (else add the DNS records it lists at name.com, then Verify) > API Keys > Create API key (Sending access, domain agental.co) > copy > vercel.com > agental > Settings > Environment Variables > Add `RESEND_API_KEY`, Production only > Save > tell the agent "redeploy".
+- Resend delivery webhook: resend.com > Webhooks > Add endpoint `https://www.agental.co/api/webhooks/resend`, events sent, delivered, delivery_delayed, bounced, complained, failed > copy the signing secret > Vercel > Environment Variables > `RESEND_WEBHOOK_SECRET`, Production > tell the agent "redeploy".
+- Admin CNAME: name.com > agental.co > DNS Records > Add: type CNAME, host `admin`, answer `cname.vercel-dns.com`, TTL 300 > Save; then open https://admin.agental.co and sign in as contact@agental.co.
+- Google sign-in on admin (optional): console.cloud.google.com > project agental-515217 > APIs & Services > Credentials > "Agental website" > Authorized redirect URIs > Add `https://admin.agental.co/api/auth/callback/google` > Save.
+- Deletion go: sign in as contact@agental.co > /en/admin/suppression > read `docs/ACCOUNT_DELETION_PROPOSAL.md` > "Export the list (CSV)" > (recommended) "Send the warning email" once Resend works, wait 7 days > type `DELETE <count>` > "Delete <count> accounts". Nothing has been deleted.
+- Automatic searches for paid plans: decide the monthly number for Pro, Premium, Ultimate (`TODO(founders)`, `autoSearches` in `src/domain/pricing.ts`); Basic is 1 of 5.
+- Before `WORKFLOW_MODE=live`: /en/admin/comptes > select junk accounts > status "Spam" > Apply (eligibility is now automatic, no approval step).
+- Part D, database: confirm Vercel Preview's `DATABASE_URL` is the agental-dev database (or put its URL in `~/.config/agental/dev-db.env` as `DEV_DATABASE_URL=...` and tell the agent to run the migrations there).
+- Part D, shared secret: Terminal `openssl rand -base64 32` > Vercel > Environment Variables > `N8N_SHARED_SECRET`, Preview only > n8n > Credentials > Create > Header Auth: name `Agental app (staging)`, Name `Authorization`, Value `Bearer <same value>` > tell the agent the credential name (it binds the five app nodes).
+- Part D, bypass token: Vercel > agental > Settings > Deployment Protection > Protection Bypass for Automation > Add > copy > save it in `~/.config/agental/vercel-bypass.env` as `VERCEL_BYPASS=...` > tell the agent (it fills the five nodes and redeploys the staging preview).
+- Part D, provider test: Chrome > agental.app.n8n.cloud > "Agental Beta V2 - Direct Replies" > Execute workflow (mode is already `providers`) > the four Probe nodes must be green.
+- Part D, D3 email test: send an email from your own address to the team Gmail > in "Beta Test Settings" set `mode: 'inbox_test'`, `testTo`, `gmailThreadId`, `gmailMessageId`, `confirmSend: 'SEND TEST TO <your address>'` > Execute > check the reply in the same thread and one `inbox_replies` row (details in "Round 7b", Part D) > set `mode` back to `'providers'`.
+- Limelight alerts: Vercel Production `LIMELIGHT_ALERT_EMAIL` (who receives new Limelight requests) and `CRON_SECRET` (retry cron); alerts stay Pending until set, and need the Resend key.
+- Legal: a Terms of Service page does not exist; the deletion clause and the Privacy Policy line in `docs/ACCOUNT_DELETION_PROPOSAL.md` need counsel.
+
+### 2. Built but not verified
+
+- Signed-in pages on production (dashboard block, avatar menu, Settings, Media categories, role response, admin views): checked only locally; the agent's browser has no production session.
+- Camera recording: self-tape Download button and recording into a role's video slot (no camera in the agent's browser).
+- Deep-link cursor: `?focus=` puts the cursor in the field (links and targets verified; focus itself not, the agent's browser had no window focus).
+- Verification email, password reset email, deletion warning, Limelight alert: code tested; no real email sent (no Resend key).
+- Resend webhook and the email log statuses on production (no secret yet).
+- admin.agental.co on production (no DNS record yet); tested on admin.localhost.
+- n8n: provider test and D3 not run; staging preview answers 302 until the bypass token exists; the casting workflow "Beta V2" (id `lKTl1S67ihlNz08C`) was not touched in round 7.
+- The first automatic AI search on production: production is in test mode, so it only starts for accounts marked Test.
+
+### 3. Partial or fragile
+
+- PR #4 (Free plan terms from `B2C_PLANS` in onboarding, still valid) and PR #5 (deals dashboard, unfinished) were closed unmerged; branches `fix/commission-from-pricing` and `feat/deals-dashboard` are kept.
+- Old HEIC photos uploaded before round 7b stay HEIC: Chrome shows "No preview in this browser"; a re-upload fixes them.
+- The staging alias `agental-staging-agentalco.vercel.app` points at one fixed preview (`agental-dq9cit51c`); every env change on Preview needs a new `vercel deploy` and `vercel alias set`.
+- Admin pages still answer on www too (role checked on the server); the admin host only narrows what admin.agental.co serves; API routes are not host-restricted.
+- Admin lists load at most 2000 rows (a note says so); the email log keeps 180 days (purged when staff open Emails, no cron).
+- Six-hour automatic searches now count in the automatic cap on Basic (1 per period, the first automatic search included).
+- A running dev server corrupts `.next` (see CLAUDE.md, Tooling); stop it and delete `.next` before typecheck or build.
+- Local test runs leave `test-*` rows in the local database (local only).
 
 ## Round 7b (2026-11-22): start here
 
