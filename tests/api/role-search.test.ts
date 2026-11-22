@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { completeProfile } from "../helpers/complete-profile";
 
 /**
  * "Start finding roles" against the real database: the quota holds under
@@ -36,7 +37,7 @@ describe.skipIf(!local)("AI role searches", () => {
           kind: "TALENT",
           emailVerified: new Date(),
           accountStatus: "TEST",
-          artistProfile: { create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z") } },
+          artistProfile: { create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z"), ...completeProfile(`${P}${name}`) } },
           ...over,
         },
       });
@@ -134,7 +135,7 @@ describe.skipIf(!local)("AI role searches", () => {
 
   it("queues nothing for an account that may not trigger agents", async () => {
     const cases: [string, string][] = [
-      [unreviewed, "errors.agentsUnderReview"],
+      [unreviewed, "errors.agentsUnavailable"], // a real account (automatic) never runs in staging
       [unverified, "errors.agentsEmailUnverified"],
       [approved, "errors.agentsUnavailable"], // a real account never runs in staging
       [spam, "errors.agentsUnavailable"],

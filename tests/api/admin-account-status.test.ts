@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { completeProfile } from "../helpers/complete-profile";
 
 /**
  * Account review status (round 7, Part A1): only an admin, checked against the
@@ -30,9 +31,9 @@ describe.skipIf(!local)("account review status", () => {
       prisma.user.create({ data: { email: `${P}${name}@test.local`, name, kind: "TALENT", ...over } }).then((u) => u.id);
     admin = await make("admin", { isAdmin: true });
     plain = await make("plain");
-    const adult = { create: { stageName: "x", birthDate: new Date("1990-01-01T00:00:00Z") } };
-    a = await make("a", { emailVerified: new Date(), artistProfile: adult, agentsOptInAt: new Date() });
-    b = await make("b", { emailVerified: new Date(), artistProfile: adult });
+    const adult = (key: string) => ({ create: { stageName: "x", birthDate: new Date("1990-01-01T00:00:00Z"), ...completeProfile(`${P}${key}`) } });
+    a = await make("a", { emailVerified: new Date(), artistProfile: adult("a"), agentsOptInAt: new Date() });
+    b = await make("b", { emailVerified: new Date(), artistProfile: adult("b") });
     c = await make("c", { kind: "CASTING" });
   });
 
@@ -49,9 +50,9 @@ describe.skipIf(!local)("account review status", () => {
 
   it("refuses anyone who is not an admin", async () => {
     session.mockResolvedValue(null);
-    expect(await setAccountStatus([a], "APPROVED")).toEqual({ ok: false, reason: "forbidden" });
+    expect(await setAccountStatus([a], "TEST")).toEqual({ ok: false, reason: "forbidden" });
     session.mockResolvedValue({ user: { id: plain, kind: "TALENT" } });
-    expect(await setAccountStatus([a], "APPROVED")).toEqual({ ok: false, reason: "forbidden" });
+    expect(await setAccountStatus([a], "TEST")).toEqual({ ok: false, reason: "forbidden" });
     expect((await prisma.user.findUniqueOrThrow({ where: { id: a } })).accountStatus).toBe("UNREVIEWED");
   });
 
@@ -113,17 +114,16 @@ describe.skipIf(!local)("account review status", () => {
     const before = await signupTotals();
     session.mockResolvedValue({ user: { id: admin } });
     await setAccountStatus([plain], "SPAM");
-    await setAccountStatus([c], "APPROVED");
+    // Approving by hand no longer exists: eligibility is automatic.
+    expect(await setAccountStatus([c], "APPROVED" as never)).toEqual({ ok: false, reason: "invalid" });
     const after = await signupTotals();
     expect(after.all).toBe(before.all);
     expect(after.spam).toBe(before.spam + 1);
     expect(after.performers.total).toBe(before.performers.total - 1);
-    expect(after.casting.approved).toBe(before.casting.approved + 1);
-    expect(after.casting.unreviewed).toBe(before.casting.unreviewed - 1);
     // An admin counts as staff whatever the status.
-    await setAccountStatus([admin], "APPROVED");
+    await setAccountStatus([admin], "TEST");
     const again = await signupTotals();
     expect(again.staff).toBe(after.staff);
-    expect(again.performers.approved).toBe(after.performers.approved);
+    expect(again.test).toBe(after.test);
   });
 });

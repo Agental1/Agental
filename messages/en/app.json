@@ -150,7 +150,8 @@
     "sessionCheck": "The save didn't go through, but you are still signed in. Your take is kept: try again.",
     "mediaMinor": "Media is turned off for profiles under 18. If your date of birth is wrong, correct it on your Profile page.",
     "mediaCastingAccount": "This is a casting account. Media can be added from a performer account.",
-    "captchaFailed": "The security check didn't pass. Reload the page and try again."
+    "captchaFailed": "The security check didn't pass. Reload the page and try again.",
+    "agentsProfileIncomplete": "Complete your profile to 100% first: the AI searches start once it is complete and your email is verified."
   },
   "auth": {
     "name": "Name",
@@ -239,7 +240,8 @@
       "roleSearches": "Applications and AI jobs",
       "accounts": "Accounts",
       "revenue": "Revenue",
-      "waiting": "Waiting for the team"
+      "waiting": "Waiting for the team",
+      "cleanup": "Account cleanup"
     },
     "stats": {
       "artists": "Artists",
@@ -460,11 +462,12 @@
       "statusLabel": "Status",
       "agentsLabel": "Agents enabled",
       "statuses": {
-        "UNREVIEWED": "Unreviewed",
-        "APPROVED": "Approved",
+        "UNREVIEWED": "Automatic",
+        "APPROVED": "Approved (old review)",
         "TEST": "Test",
         "STAFF": "Staff",
-        "SPAM": "Spam"
+        "SPAM": "Spam",
+        "REVOKED": "Eligibility revoked"
       },
       "selectAll": "Select every account on this page",
       "select": "Select {name}",
@@ -475,9 +478,14 @@
       "page": "Page {page} of {pages}",
       "prev": "Previous",
       "next": "Next",
-      "agentsHelp": "Yes when the email is verified, the status allows it in this mode, the person is an adult and opted in (clicked Start finding roles or turned on the six-hour search).",
+      "agentsHelp": "Yes when the email is verified, the profile is 100% complete, the person is an adult and opted in, and staff did not mark the account Spam, Test (outside staging) or revoked. Nobody approves accounts by hand.",
       "statusOne": "Account status",
-      "admin": "admin"
+      "admin": "admin",
+      "verifiedOn": "Verified {date}",
+      "verifiedGoogle": "Verified by Google",
+      "notVerified": "Not verified",
+      "verifiedReadOnly": "Set by the real verification only. Staff cannot change it.",
+      "exceptionsNote": "Accounts become eligible on their own. Mark only exceptions: Spam, Test, Staff, or revoke eligibility. \"Automatic\" undoes a mark."
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -506,6 +514,33 @@
       "newLeads": "New Limelight requests",
       "toReview": "Accounts to review",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
+    },
+    "cleanup": {
+      "title": "Account cleanup",
+      "subtitle": "Accounts whose email was never verified, created more than {days} days ago, that never paid and are not staff or test. Google accounts are verified by Google and never appear here.",
+      "days": "Created more than (days)",
+      "csv": "Export the list (CSV)",
+      "count": "{count, plural, =0 {No account is eligible for deletion.} one {# account is eligible for deletion.} other {# accounts are eligible for deletion.}}",
+      "cols": {
+        "email": "Email",
+        "audience": "Audience",
+        "created": "Created",
+        "status": "Status",
+        "warned": "Warned",
+        "media": "Media"
+      },
+      "warnTitle": "Warn them first (optional)",
+      "warnBody": "Sends \"verify your email within {days} days or your account will be deleted\" with a confirmation link, once per account.",
+      "warnCta": "Send the warning email",
+      "noSender": "No email sender is configured (RESEND_API_KEY): nothing would be sent.",
+      "warned": "{count, plural, one {# warning email sent.} other {# warning emails sent.}}",
+      "deleteTitle": "Delete all eligible",
+      "deleteBody": "Deletes {count} accounts, their profiles and their files for good, with one audit entry each. This cannot be undone.",
+      "typeToConfirm": "Type {phrase} to confirm",
+      "deleteCta": "Delete {count} accounts",
+      "badConfirmation": "The confirmation did not match the list on screen. Nothing was deleted.",
+      "nothing": "There is nothing to delete.",
+      "deleted": "{count} accounts deleted, {failed} not deleted (see the logs)."
     }
   },
   "matchReasons": {
@@ -535,6 +570,10 @@
     "studentSubject": "Confirm your school email for Agental",
     "studentIntro": "Confirm this school address to get the college student discount on Agental Pro.",
     "studentAction": "Confirm my school email",
-    "studentExpiry": "This link works for 48 hours and can be used once."
+    "studentExpiry": "This link works for 48 hours and can be used once.",
+    "deletionSubject": "Confirm your email within {days} days to keep your Agental account",
+    "deletionIntro": "Your Agental account was created with this address, which has not been confirmed yet. We remove unconfirmed beta accounts: confirm your address within {days} days to keep yours.",
+    "deletionExpiry": "After {days} days, the account, its profile and its files are deleted.",
+    "deletionIgnore": "If you did not create this account, ignore this email: it will be removed."
   }
 }

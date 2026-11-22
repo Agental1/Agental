@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { completeProfile } from "../helpers/complete-profile";
 
 /**
  * The app side of the n8n "Beta V2" casting link (round 7, Part C), against
@@ -63,7 +64,7 @@ describe.skipIf(!local)("n8n casting link", () => {
             accountStatus: "TEST",
             agentsOptInAt: new Date(),
             artistProfile: {
-              create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z"), city: "New York", mobilityCountries: '["US"]' },
+              create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z"), mobilityCountries: '["US"]', ...completeProfile(`${P}${name}`) },
             },
             ...over,
           },

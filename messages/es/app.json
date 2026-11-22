@@ -150,7 +150,8 @@
     "sessionCheck": "No se pudo guardar, pero sigues con la sesión iniciada. Tu toma se conserva: inténtalo de nuevo.",
     "mediaMinor": "Los medios están desactivados para perfiles de menores de 18 años. Si tu fecha de nacimiento es incorrecta, corrígela en tu Perfil.",
     "mediaCastingAccount": "Esta es una cuenta de casting. Los medios se añaden desde una cuenta de artista.",
-    "captchaFailed": "La comprobación de seguridad no se superó. Recarga la página e inténtalo de nuevo."
+    "captchaFailed": "La comprobación de seguridad no se superó. Recarga la página e inténtalo de nuevo.",
+    "agentsProfileIncomplete": "Primero completa tu perfil al 100 %: las búsquedas con IA empiezan cuando está completo y tu correo verificado."
   },
   "auth": {
     "name": "Nombre",
@@ -239,7 +240,8 @@
       "roleSearches": "Candidaturas e IA",
       "accounts": "Accounts",
       "revenue": "Revenue",
-      "waiting": "Waiting for the team"
+      "waiting": "Waiting for the team",
+      "cleanup": "Limpieza de cuentas"
     },
     "stats": {
       "artists": "Artistas",
@@ -460,11 +462,12 @@
       "statusLabel": "Status",
       "agentsLabel": "Agents enabled",
       "statuses": {
-        "UNREVIEWED": "Unreviewed",
-        "APPROVED": "Approved",
+        "UNREVIEWED": "Automático",
+        "APPROVED": "Aprobado (revisión anterior)",
         "TEST": "Test",
         "STAFF": "Staff",
-        "SPAM": "Spam"
+        "SPAM": "Spam",
+        "REVOKED": "Elegibilidad retirada"
       },
       "selectAll": "Select every account on this page",
       "select": "Select {name}",
@@ -475,9 +478,14 @@
       "page": "Page {page} of {pages}",
       "prev": "Previous",
       "next": "Next",
-      "agentsHelp": "Yes when the email is verified, the status allows it in this mode, the person is an adult and opted in (clicked Start finding roles or turned on the six-hour search).",
+      "agentsHelp": "Sí cuando el correo está verificado, el perfil completo al 100 %, la persona es adulta y ha aceptado, y el equipo no marcó la cuenta como Spam, Test (fuera de staging) o retirada. Nadie aprueba cuentas a mano.",
       "statusOne": "Account status",
-      "admin": "admin"
+      "admin": "admin",
+      "verifiedOn": "Verificado el {date}",
+      "verifiedGoogle": "Verificado por Google",
+      "notVerified": "Sin verificar",
+      "verifiedReadOnly": "Lo fija solo la verificación real. El equipo no puede cambiarlo.",
+      "exceptionsNote": "Las cuentas se vuelven elegibles solas. Marca solo excepciones: Spam, Test, Equipo o retirar. «Automático» deshace una marca."
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -506,6 +514,33 @@
       "newLeads": "New Limelight requests",
       "toReview": "Accounts to review",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
+    },
+    "cleanup": {
+      "title": "Limpieza de cuentas",
+      "subtitle": "Cuentas cuyo correo nunca se verificó, creadas hace más de {days} días, que nunca pagaron y no son de equipo ni de prueba. Las cuentas de Google las verifica Google y nunca aparecen aquí.",
+      "days": "Creadas hace más de (días)",
+      "csv": "Exportar la lista (CSV)",
+      "count": "{count, plural, =0 {Ninguna cuenta se puede eliminar.} one {# cuenta se puede eliminar.} other {# cuentas se pueden eliminar.}}",
+      "cols": {
+        "email": "Correo",
+        "audience": "Público",
+        "created": "Creada",
+        "status": "Estado",
+        "warned": "Avisada",
+        "media": "Medios"
+      },
+      "warnTitle": "Avisar primero (opcional)",
+      "warnBody": "Envía «verifica tu correo en {days} días o se eliminará tu cuenta» con un enlace de confirmación, una vez por cuenta.",
+      "warnCta": "Enviar el correo de aviso",
+      "noSender": "No hay remitente configurado (RESEND_API_KEY): no se enviaría nada.",
+      "warned": "{count, plural, one {# correo de aviso enviado.} other {# correos de aviso enviados.}}",
+      "deleteTitle": "Eliminar todas las elegibles",
+      "deleteBody": "Elimina para siempre {count} cuentas, sus perfiles y sus archivos, con una entrada de auditoría cada una. No se puede deshacer.",
+      "typeToConfirm": "Escribe {phrase} para confirmar",
+      "deleteCta": "Eliminar {count} cuentas",
+      "badConfirmation": "La confirmación no coincide con la lista. No se eliminó nada.",
+      "nothing": "No hay nada que eliminar.",
+      "deleted": "{count} cuentas eliminadas, {failed} sin eliminar (ver los registros)."
     }
   },
   "matchReasons": {
@@ -535,6 +570,10 @@
     "studentSubject": "Confirma tu correo universitario para Agental",
     "studentIntro": "Confirma esta dirección universitaria para obtener el descuento de estudiante en Agental Pro.",
     "studentAction": "Confirmar mi correo universitario",
-    "studentExpiry": "Este enlace funciona durante 48 horas y una sola vez."
+    "studentExpiry": "Este enlace funciona durante 48 horas y una sola vez.",
+    "deletionSubject": "Confirma tu correo en {days} días para conservar tu cuenta de Agental",
+    "deletionIntro": "Tu cuenta de Agental se creó con esta dirección, que aún no se ha confirmado. Eliminamos las cuentas beta sin confirmar: confirma tu dirección en {days} días para conservar la tuya.",
+    "deletionExpiry": "Después de {days} días, se eliminan la cuenta, su perfil y sus archivos.",
+    "deletionIgnore": "Si no creaste esta cuenta, ignora este correo: se eliminará."
   }
 }

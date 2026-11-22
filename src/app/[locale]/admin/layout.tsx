@@ -10,6 +10,7 @@ import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
   { href: "/admin/comptes", key: "accounts", icon: "console" },
+  { href: "/admin/suppression", key: "cleanup", icon: "audit" },
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },

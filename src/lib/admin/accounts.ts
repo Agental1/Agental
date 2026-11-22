@@ -27,6 +27,8 @@ export interface AccountRow {
   createdAt: Date;
   method: "email" | "google" | "other";
   emailVerified: boolean;
+  /** When the real verification happened; epoch 0 for a Google account; null when not verified. */
+  verifiedAt: Date | null;
   status: AccountStatus;
   isAdmin: boolean;
   agentsEnabled: boolean;
@@ -107,6 +109,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       createdAt: u.createdAt,
       method: u.accounts.some((a) => a.provider === "google") ? "google" : u.passwordHash ? "email" : "other",
       emailVerified: facts.emailVerified !== null,
+      verifiedAt: facts.emailVerified ?? null,
       status: isAccountStatus(u.accountStatus) ? u.accountStatus : "UNREVIEWED",
       isAdmin: u.isAdmin,
       agentsEnabled: u.kind === "TALENT" && agentsEnabled(facts, mode),

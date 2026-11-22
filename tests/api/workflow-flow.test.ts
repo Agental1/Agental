@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { completeProfile } from "../helpers/complete-profile";
 import type { FitModelOutput } from "@/domain/workflow/fit";
 import type { FitModel } from "@/lib/workflow/model";
 
@@ -134,8 +135,8 @@ describe.skipIf(!hasDb)("dry-run workflow, end to end", () => {
           stageName: `${P}-${label}`,
           birthDate,
           isMinor,
-          city: "New York",
           mobilityCountries: JSON.stringify(["US"]),
+          ...completeProfile(`${P}-${label}`, false),
           specialties: { create: [{ kind: "figuration", level: "CONFIRMED" }] },
           availability: {
             create: [{ from: new Date(Date.now() - DAY), to: new Date(Date.now() + 90 * DAY) }],

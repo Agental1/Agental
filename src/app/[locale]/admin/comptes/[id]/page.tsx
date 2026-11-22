@@ -7,7 +7,7 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { accountTimeline } from "@/lib/admin/accounts";
 import { dateTime } from "@/lib/format";
-import { ACCOUNT_STATUSES, isAccountStatus } from "@/domain/workflow/eligibility";
+import { STAFF_STATUSES, isStaffStatus } from "@/domain/workflow/eligibility";
 import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 
 /** One account's timeline. Media open through the private media route (signed link). */
@@ -50,11 +50,11 @@ export default async function AccountPage({
           <span className="font-bold">{t("admin.accounts.statusOne")}</span>
           <select
             name="status"
-            defaultValue={isAccountStatus(user.accountStatus) ? user.accountStatus : "UNREVIEWED"}
+            defaultValue={isStaffStatus(user.accountStatus) ? user.accountStatus : "UNREVIEWED"}
             aria-label={t("admin.accounts.statusOne")}
             className="h-10 rounded-sedan border border-border bg-surface px-2 text-sm"
           >
-            {ACCOUNT_STATUSES.map((s) => (
+            {STAFF_STATUSES.map((s) => (
               <option key={s} value={s}>
                 {t(`admin.accounts.statuses.${s}`)}
               </option>

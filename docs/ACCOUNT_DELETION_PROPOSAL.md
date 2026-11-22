@@ -1,60 +1,63 @@
-# Account cleanup: archive or delete (proposal, round 7)
+# Deleting fake accounts (round 7b, 3.3)
 
-Nothing is deleted in round 7. This note is for the founders' decision.
+Owner decision, 2026-11-22: delete fake accounts, for example accounts with an unverified
+email created before verification was required. This replaces the round 7 "archive only"
+decision for unverified accounts (see `docs/DECISIONS.md`). The feature is built and deployed;
+**no deletion has been run**. The first run waits for the owner's explicit go.
 
-## The problem
+## What our documents say today
 
-There are many sign-ups that are tries and spam, several created by the founders with
-different emails. Round 7 adds a review status (`unreviewed`, `approved`, `test`, `staff`,
-`spam`) and keeps the agents off for everything except approved accounts (test accounts in
-staging). That already stops agents from running for junk. The question left is whether to
-remove the junk, or remove every account and ask people to sign up again.
+- **Terms of Service:** there is no Terms of Service page on the site. The footer has a
+  "Terms" label (`common.footer.cgu`) but no published terms. Nothing in writing tells a user
+  that an account can be removed by us.
+- **Privacy Policy** (`/talents/confidentialite`, updated November 20, 2026), section "How
+  long we keep it, and your choices": "We keep your data while your account is open. You can
+  ... delete your account from Settings; this removes your profile, media and messages."
+  It covers deletion by the user, not deletion by Agental, and says nothing about inactive or
+  unverified accounts.
 
-## Option 1: archive (recommended first step)
+## What we need for this to be clean
 
-Mark accounts `spam` (or a later `archived` status) and leave the rows in place.
+1. **A clause in the Terms of Service** (to write, the page does not exist): "During the beta
+   we may delete an account whose email address has not been confirmed within N days of
+   sign-up, after an email warning when the address can receive one." Lawyer to confirm.
+2. **A line in the Privacy Policy, "How long we keep it"**: "If you do not confirm your email
+   address, we may delete your account and its data after [7] days; we warn you by email
+   first." Bump the policy date; the cookie banner version does not need to change.
+3. **A warning email before deletion** (built, optional per run): "Confirm your email within N
+   days to keep your Agental account", with a confirmation link valid N days. Send it, wait N
+   days, then delete what is still unconfirmed. Accounts that never received a real address
+   (typos, fakes) simply bounce.
+4. **Keep records for anyone who paid** (built): an account with a paid or refunded Limelight
+   order, a Stripe subscription or a paid plan is never on the list. Payment and tax records
+   must outlive the account; a lawyer or accountant should confirm how long (often several
+   years) before we ever delete a paying account by any other route.
+5. **An audit trail without the personal data** (built): one audit entry per deleted account
+   with its id, a SHA-256 hash of the email, the creation date and the number of files removed.
+   The address itself is not kept, so the deletion is real but provable.
+6. **A backup decision**: Supabase Free has no daily backups. Deletion cannot be undone. A
+   manual `pg_dump` kept outside the repository before the first run, or Supabase Pro, is
+   recommended. Note a backup keeps the deleted data around: say how long it is kept.
 
-- Sign-in: refused for `spam`/`archived` with a neutral message (one check in `src/auth.ts`).
-- Media: files stay in private Supabase buckets, unreachable (signed links need an allowed
-  account). Storage still counts against the 1 GB Free plan.
-- Searches, drafts, messages: kept, hidden from every list except the admin account page.
-- Reversible: set the status back.
-- Telling users: nothing to send for spam. For real people archived by mistake, the sign-in
-  message points to Messages or contact@agental.co.
+## What the feature does (admin > Account cleanup, `/admin/suppression`)
 
-## Option 2: delete selected accounts
+- **List**: accounts whose email was never verified, created more than N days ago (7 by
+  default; `?days=` on the page, or `ACCOUNT_DELETION_AFTER_DAYS` in Vercel), that never paid,
+  and are not staff, admin or test. Google accounts are verified by Google and never listed.
+- **Export**: CSV of the list (`/api/admin/suppression?days=7`), logged.
+- **Warn** (optional): sends the warning email once per account and records when.
+- **Delete all eligible**: requires typing `DELETE <count>` with the exact count on screen.
+  Each account is checked against the rule again just before it goes. Files are removed from
+  storage (media, profile picture, unfinished uploads), then the user row, which cascades to
+  the profile, media rows, self-tapes, messages and searches. Limelight orders keep their row
+  with the user link cleared (there are none on the list, since paid accounts are excluded).
 
-Delete the `User` row of accounts marked `spam`, after a 30-day grace period.
+## For a lawyer to confirm
 
-- The database cascades from `User` to sessions, sign-in accounts, the artist profile, media
-  rows, self-tapes, threads and messages, role searches, notifications, subscriptions linked by
-  relation, and student claims (37 `onDelete: Cascade` relations in `prisma/schema.prisma`).
-  Audit entries keep the user id with the actor set to null, as today.
-- Media files are not removed by the database: a job must delete `{userId}/...` in each bucket
-  (`selftapes`, `avatars`, `media`) first, then the row. That frees storage.
-- Limelight requests are not accounts and stay; they are matched by email only.
-- Not reversible. Needs a backup before the run (Supabase Free has no daily backups; a manual
-  `pg_dump` kept outside the repository, or Supabase Pro first).
-- Telling users: none for spam. For any deleted account that had a verified email, one short
-  email before deletion ("we are removing inactive beta accounts on DATE; sign in to keep
-  yours").
-
-## Option 3: delete everyone and ask people to sign up again
-
-Same mechanics as option 2 for every non-staff account.
-
-- Loses every real performer's profile, media and messages.
-- Needs an email to every verified address at least two weeks before, with the date, what is
-  removed, and how to download their media first (a download page does not exist yet).
-- Only worth it if the data model changes in a way a migration cannot carry, which round 7
-  does not require.
-
-## Recommendation
-
-Option 1 now: review the list, mark junk `spam`, approve real people. Revisit option 2 for
-`spam` accounts once Supabase Pro (backups) is on. Option 3 only for a schema break.
-
-## Decision needed
-
-1. Archive only, or delete `spam` accounts later?
-2. If delete: grace period (30 days proposed) and whether media is downloaded for anyone first.
+- The Terms clause and the Privacy Policy wording above, and that a 7-day window with an
+  email warning is reasonable for a free beta account.
+- Whether accounts created before the clause existed can be deleted on that basis, or need
+  the warning email in every case (recommended: always warn first).
+- Retention periods for payment records, and for the audit log.
+- U.S. state privacy laws (California CCPA/CPRA among others) and GDPR for any EU visitor:
+  deletion itself is favorable, but backups and the audit hash should be described.
