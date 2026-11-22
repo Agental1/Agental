@@ -311,3 +311,47 @@ export async function dismissWebsiteCard(): Promise<SaveResult> {
   revalidatePath("/[locale]/talents/(space)/app", "page");
   return { ok: true };
 }
+
+/** The text of the SMS consent the performer ticks, by version (round 8). */
+const SMS_CONSENT_VERSION = "sms-roles-2026-11-22";
+
+const RoleAlertInput = z.object({
+  channel: z.enum(["email", "sms", "both"]),
+  /** The unticked-by-default consent box, required for sms and both. */
+  smsConsent: z.boolean().default(false),
+});
+
+/**
+ * Round 8: "When we find a role for you, tell me by" email, text or both.
+ * A text needs a valid phone number (E.164) and the explicit consent, stored
+ * with its version and date. Nothing is sent in round 8.
+ */
+export async function saveRoleAlert(input: unknown): Promise<SaveResult> {
+  const profile = await requireProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const parsed = RoleAlertInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: zodError(parsed.error) };
+  const { channel, smsConsent } = parsed.data;
+  const wantsSms = channel !== "email";
+  if (wantsSms && !profile.phoneE164) return { ok: false, error: err("errors.smsNeedsPhone") };
+  if (wantsSms && !smsConsent) return { ok: false, error: err("errors.smsNeedsConsent") };
+  await prisma.artistProfile.update({
+    where: { id: profile.id },
+    data: {
+      roleAlertChannel: channel,
+      // A new consent is dated; email-only keeps the record of an earlier one.
+      ...(wantsSms && !profile.smsConsentAt ? { smsConsentAt: new Date(), smsConsentVersion: SMS_CONSENT_VERSION } : {}),
+    },
+  });
+  if (wantsSms && !profile.smsConsentAt) {
+    await audit({
+      actorUserId: profile.userId,
+      action: "profile.smsConsent.given",
+      resourceType: "ArtistProfile",
+      resourceId: profile.id,
+      after: { version: SMS_CONSENT_VERSION },
+    });
+  }
+  revalidatePath("/[locale]/talents/(space)/app/parametres", "page");
+  return { ok: true };
+}

@@ -1462,6 +1462,19 @@
       "delete": "Eliminar",
       "confirmDelete": "¿Eliminar esta grabación para siempre?",
       "video": "Vídeo"
+    },
+    "roleAlert": {
+      "legend": "Cuando encontremos un papel para ti, avísame por",
+      "channels": {
+        "email": "Email",
+        "sms": "Mensaje de texto",
+        "both": "Ambos"
+      },
+      "consent": "Acepto recibir mensajes de texto de Agental sobre papeles encontrados para mí. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para darte de baja.",
+      "needsPhone": "Primero añade un número válido en Identidad.",
+      "save": "Guardar",
+      "saved": "Guardado",
+      "note": "Los mensajes empezarán cuando nuestro proveedor esté listo. Hasta entonces usamos el email."
     }
   },
   "responseRate": {

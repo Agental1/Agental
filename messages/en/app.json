@@ -157,7 +157,9 @@
     "mediaWrongCategory": "This category does not take this kind of file.",
     "ageRangeOrder": "The second age cannot be lower than the first.",
     "cityUnknown": "Pick your city from the list.",
-    "limelightOfferRequired": "Choose Essential or Signature."
+    "limelightOfferRequired": "Choose Essential or Signature.",
+    "smsNeedsPhone": "Add a valid phone number first.",
+    "smsNeedsConsent": "Tick the box to agree to text messages."
   },
   "auth": {
     "name": "Name",
@@ -250,7 +252,8 @@
       "cleanup": "Account cleanup",
       "profiles": "Profiles",
       "media": "Media",
-      "emails": "Emails"
+      "emails": "Emails",
+      "announcements": "Announcements"
     },
     "stats": {
       "artists": "Artists",
@@ -586,6 +589,27 @@
       "kind": "Kind",
       "lastEvent": "Last event",
       "capped": "Showing the first {count}. Narrow the search to see the rest."
+    },
+    "announcements": {
+      "title": "Announcements",
+      "lead": "Product updates shown in the app's bell. In-app only: nothing is emailed or pushed.",
+      "fieldTitle": "Title",
+      "fieldBody": "Short text",
+      "fieldLink": "Link (optional)",
+      "fieldAudience": "Audience",
+      "audiences": {
+        "TALENT": "All performers",
+        "CASTING": "All casting",
+        "ALL": "Everyone"
+      },
+      "publish": "Publish",
+      "published": "Published.",
+      "archive": "Archive",
+      "archived": "Archived",
+      "colTitle": "Announcement",
+      "colAudience": "Audience",
+      "colDate": "Date",
+      "colReads": "Read by"
     }
   },
   "matchReasons": {

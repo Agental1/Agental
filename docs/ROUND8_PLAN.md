@@ -94,3 +94,10 @@ Listed here as they come, and copied into the final report.
   existing verification flow); only the plan-card line was replaced by the Promotions panel.
 - Group 4: `tests/api/limelight-leads.test.ts` "two drains at the same moment" passes alone and
   before the change, and fails only in the full file run on the shared local database (timing).
+- Group 5: review (independent reviewer agent on the diff) found that the first trigger draft
+  notified performers of their own decisions and of a director's private shortlisting. Fixed
+  before deploy: no trigger on draft statuses, Candidature notifies only on SELFTAPE_REQUESTED,
+  INVITED and CONTRACTED. QA found an exported constant in a server-action file that broke the
+  build; fixed. The temporary build report script was removed.
+- Group 5: announcements reuse no email path; "Settings > Notifications" keeps its earlier
+  switches and adds the role alert choice under them.

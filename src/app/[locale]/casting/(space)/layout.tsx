@@ -14,6 +14,7 @@ import { emailSenderConfigured } from "@/lib/mailer";
 import { Avatar } from "@/components/app/avatar-editor";
 import { initialsOf } from "@/domain/avatar";
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
+import { NotificationBell } from "@/components/app/notification-bell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
 import { FirstRunTour, type TourStep } from "@/components/app/first-run-tour";
 import { B2B_PLANS } from "@/domain/pricing";
@@ -119,6 +120,7 @@ export default async function CastingAppLayout({
   return (
     <AppShell
       defaultOpen={sidebarOpen}
+      headerSlot={<NotificationBell portal="casting" />}
       languageInFooter
       portal="casting"
       home="/casting/app"

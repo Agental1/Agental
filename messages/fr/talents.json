@@ -1462,6 +1462,19 @@
       "delete": "Supprimer",
       "confirmDelete": "Supprimer définitivement cet enregistrement ?",
       "video": "Vidéo"
+    },
+    "roleAlert": {
+      "legend": "Quand on trouve un rôle pour toi, préviens-moi par",
+      "channels": {
+        "email": "Email",
+        "sms": "SMS",
+        "both": "Les deux"
+      },
+      "consent": "J’accepte de recevoir des SMS d’Agental sur les rôles trouvés pour moi. Des frais de messages et de données peuvent s’appliquer. Réponds STOP pour te désabonner.",
+      "needsPhone": "Ajoute d’abord un numéro valide dans Identité.",
+      "save": "Enregistrer",
+      "saved": "Enregistré",
+      "note": "Les SMS commenceront quand notre fournisseur sera en place. D’ici là, on utilise l’email."
     }
   },
   "responseRate": {

@@ -110,6 +110,14 @@ export default async function ProfilPage({
         emailVerified={emailVerified}
         hasAvatar={!!profile.avatarKey}
         celebrated={!!profile.profileCompletedAt}
+        roleAlert={{
+          initial:
+            profile.roleAlertChannel === "sms" || profile.roleAlertChannel === "both"
+              ? profile.roleAlertChannel
+              : "email",
+          hasPhone: !!profile.phoneE164,
+          consentGiven: !!profile.smsConsentAt,
+        }}
       />
     </div>
   );

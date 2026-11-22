@@ -1462,6 +1462,19 @@
       "delete": "删除",
       "confirmDelete": "永久删除此录像？",
       "video": "视频"
+    },
+    "roleAlert": {
+      "legend": "找到适合你的角色时，通过以下方式通知我",
+      "channels": {
+        "email": "邮件",
+        "sms": "短信",
+        "both": "两者"
+      },
+      "consent": "我同意接收 Agental 关于为我找到的角色的短信。可能产生短信和数据费用。回复 STOP 退订。",
+      "needsPhone": "请先在“身份”中填写有效的电话号码。",
+      "save": "保存",
+      "saved": "已保存",
+      "note": "短信服务商接入后才会发送短信。在此之前我们使用邮件。"
     }
   },
   "responseRate": {

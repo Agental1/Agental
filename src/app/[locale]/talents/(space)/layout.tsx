@@ -14,6 +14,7 @@ import { prefillFromProvider } from "@/lib/profile-prefill";
 import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
+import { NotificationBell } from "@/components/app/notification-bell";
 import { PlanSwitcher, type SwitcherPlan } from "@/components/app/plan-switcher";
 import { MessagesShortcut } from "@/components/app/messages-shortcut";
 import { B2C_PLANS } from "@/domain/pricing";
@@ -113,6 +114,7 @@ export default async function TalentsAppLayout({
       // No "Website" item since round 8: Limelight is on the Subscription page.
       nav={NAV.map(toItem)}
       defaultOpen={sidebarOpen}
+      headerSlot={<NotificationBell portal="talents" />}
       userLabel={session.user.email ?? t("space.nav.account")}
       avatarSlot={<AvatarEditor src={avatar.src} initials={avatar.initials} size={32} />}
       userMenu={{

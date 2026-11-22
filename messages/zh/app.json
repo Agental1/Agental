@@ -157,7 +157,9 @@
     "mediaWrongCategory": "此类别不接受这种文件。",
     "ageRangeOrder": "第二个年龄不能小于第一个。",
     "cityUnknown": "请从列表中选择城市。",
-    "limelightOfferRequired": "请选择基础版或 Signature。"
+    "limelightOfferRequired": "请选择基础版或 Signature。",
+    "smsNeedsPhone": "请先填写有效的电话号码。",
+    "smsNeedsConsent": "请勾选以同意接收短信。"
   },
   "auth": {
     "name": "姓名",
@@ -250,7 +252,8 @@
       "cleanup": "账户清理",
       "profiles": "资料",
       "media": "媒体",
-      "emails": "邮件"
+      "emails": "邮件",
+      "announcements": "公告"
     },
     "stats": {
       "artists": "艺人",
@@ -586,6 +589,27 @@
       "kind": "类型",
       "lastEvent": "最近事件",
       "capped": "仅显示前 {count} 条。请缩小搜索范围查看其余内容。"
+    },
+    "announcements": {
+      "title": "公告",
+      "lead": "显示在应用铃铛中的产品动态。仅在应用内显示：不会发送邮件或推送。",
+      "fieldTitle": "标题",
+      "fieldBody": "简短文字",
+      "fieldLink": "链接（可选）",
+      "fieldAudience": "对象",
+      "audiences": {
+        "TALENT": "所有演员",
+        "CASTING": "所有选角方",
+        "ALL": "所有人"
+      },
+      "publish": "发布",
+      "published": "已发布。",
+      "archive": "归档",
+      "archived": "已归档",
+      "colTitle": "公告",
+      "colAudience": "对象",
+      "colDate": "日期",
+      "colReads": "已读人数"
     }
   },
   "matchReasons": {

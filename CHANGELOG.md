@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.4.0] - 2026-11-22
+
+### Added (round 8, group 5)
+
+- **Notification bell** in the Talent and Casting headers: an unread badge and a panel with the latest items (roles found, replies from the Agental team or the assistant, audition updates, product updates), "Mark all as read", and a link on each item. Refreshed every 60 seconds. In-app only: nothing is emailed, texted or pushed.
+- Notifications are written by **database triggers**: a role drafted for the performer, a reply from the team or the assistant, and a casting status meant for the performer (self-tape requested, invited, contracted). Results that arrive later from n8n notify without touching n8n. A director's private shortlist, stars and exclusions never reach the performer, and the performer's own decisions do not echo back.
+- **Admin > Announcements**: staff write product updates (title, short text, optional link, audience: all performers, all casting, everyone) and archive them; each person's read state is kept.
+- **"When we find a role for you, tell me by"** Email (default), Text message or Both, in Preferences and in Settings > Notifications. Text needs a valid phone number and an explicit, unticked-by-default consent; the choice, the consent text version and its date are stored. Nothing is sent in round 8.
+
+Migration `20261208000000_round8_notifications` (columns on the unused Notification table, two new tables with RLS on, three nullable profile columns, triggers whose functions are not callable by API roles).
+
 ## [0.6.3.0] - 2026-11-22
 
 ### Changed (round 8, group 4)
