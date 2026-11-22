@@ -155,7 +155,8 @@
     "responseIncomplete": "提交前请回答所有问题并添加所有要求的视频。",
     "mediaInResponse": "该视频属于 Agental 团队正在审核的回复，审核完成后才能删除。",
     "mediaWrongCategory": "此类别不接受这种文件。",
-    "ageRangeOrder": "第二个年龄不能小于第一个。"
+    "ageRangeOrder": "第二个年龄不能小于第一个。",
+    "cityUnknown": "请从列表中选择城市。"
   },
   "auth": {
     "name": "姓名",

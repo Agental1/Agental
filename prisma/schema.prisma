@@ -158,7 +158,13 @@ model ArtistProfile {
   birthDate         DateTime?
   isMinor           Boolean   @default(false)
   phone             String?
+  // Round 8: the phone in E.164 (+12132227981); `phone` keeps what was typed.
+  phoneE164         String?
   city              String?
+  // Round 8: the place picked from GeoNames (GeoCity). `city` keeps the text.
+  countryCode       String?
+  admin1Code        String?
+  cityGeonameId     Int?
   bio               String?
   physical          String    @default("{}") // JSON: height, hair, eyes, build…
   preferences       String    @default("{}") // JSON: auto-candidature prefs, constraints
@@ -1094,5 +1100,35 @@ model EmailLog {
   lastEventAt DateTime?
 
   @@index([createdAt])
+  @@schema("public")
+}
+
+/// Round 8: GeoNames places for the location picker (CC BY 4.0, see docs/DECISIONS.md).
+model GeoCountry {
+  code        String  @id @db.Char(2)
+  name        String
+  phonePrefix String?
+
+  @@schema("public")
+}
+
+model GeoAdmin1 {
+  countryCode String @db.Char(2)
+  code        String
+  name        String
+
+  @@id([countryCode, code])
+  @@schema("public")
+}
+
+model GeoCity {
+  geonameId   Int    @id
+  name        String
+  asciiName   String
+  countryCode String @db.Char(2)
+  admin1Code  String @default("")
+  population  Int    @default(0)
+
+  @@index([countryCode, admin1Code])
   @@schema("public")
 }

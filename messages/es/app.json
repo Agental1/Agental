@@ -155,7 +155,8 @@
     "responseIncomplete": "Responde a cada pregunta y añade cada vídeo pedido antes de enviar.",
     "mediaInResponse": "Este vídeo forma parte de una respuesta que el equipo de Agental está revisando. Podrás eliminarlo cuando termine la revisión.",
     "mediaWrongCategory": "Esta categoría no acepta este tipo de archivo.",
-    "ageRangeOrder": "La segunda edad no puede ser menor que la primera."
+    "ageRangeOrder": "La segunda edad no puede ser menor que la primera.",
+    "cityUnknown": "Elige tu ciudad de la lista."
   },
   "auth": {
     "name": "Nombre",
