@@ -149,6 +149,17 @@ describe.skipIf(!local)("n8n casting link", () => {
     await prisma.roleSearchRequest.delete({ where: { id: later6h.id } });
   });
 
+  it("never runs two of one performer's searches together after a backlog (round 8b)", async () => {
+    const okRow = await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: ok } });
+    // ok already has a running search (claimed above): a due one waits.
+    const due = await prisma.roleSearchRequest.create({
+      data: { userId: ok, plan: okRow.plan, periodKey: okRow.periodKey, seq: 98, clientKey: "k-due-backlog", status: "queued", scheduledFor: new Date(Date.now() - 60_000) },
+    });
+    const res = await claimCastingJobs({ limit: 10, executionId: "exec4" });
+    expect(res.jobs.map((j) => j.requestId)).not.toContain(due.id);
+    await prisma.roleSearchRequest.delete({ where: { id: due.id } });
+  });
+
   it("refuses a completion from an execution that did not claim the row", async () => {
     const okRow = await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: ok } });
     const res = await call(completeRoute, { executionId: "exec2", results: [{ requestId: okRow.id, status: "completed", roles: [role(1)] }] });

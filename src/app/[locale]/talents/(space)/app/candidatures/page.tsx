@@ -61,7 +61,9 @@ export default async function CandidaturesPage({
     .filter((r) => r.status === "queued")
     .sort((a, b) => (a.scheduledFor ?? a.createdAt).getTime() - (b.scheduledFor ?? b.createdAt).getTime());
   const running = searches.filter((r) => r.status === "running");
-  const finished = searches.filter((r) => r.status === "done").slice(0, 5);
+  const finished = searches
+    .filter((r) => r.status === "done")
+    .sort((a, b) => (b.completedAt ?? b.createdAt).getTime() - (a.completedAt ?? a.createdAt).getTime());
 
   // Roles found by the agents. Declined ones leave the list. Nothing is sent.
   const drafts = await prisma.applicationDraft.findMany({

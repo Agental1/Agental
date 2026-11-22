@@ -133,7 +133,9 @@ export async function startRoleSearch(
       select: { scheduledFor: true, startedAt: true, createdAt: true },
     });
     const latestStart = latest.reduce<Date | null>((acc, r) => {
-      const at = r.scheduledFor ?? r.startedAt ?? r.createdAt;
+      // The later of the planned and the real start (a late claim pushes the next one).
+      const planned = r.scheduledFor ?? r.createdAt;
+      const at = r.startedAt && r.startedAt > planned ? r.startedAt : planned;
       return !acc || at > acc ? at : acc;
     }, null);
     const scheduledFor = nextSearchStart(latestStart, now);

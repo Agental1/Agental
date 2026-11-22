@@ -176,6 +176,18 @@ export async function undoDeclineRole(draftId: unknown): Promise<ResponseResult>
   if (!id.success) return { ok: false, error: err("errors.invalidInput") };
   const session = await auth();
   if (!session?.user?.id || session.user.kind !== "TALENT") return { ok: false, error: err("errors.unauthorized") };
+  // The status before Decline, from its audit entry (DRAFT or NEEDS_INFO).
+  const last = await prisma.auditLog.findFirst({
+    where: { action: "application.decline", resourceType: "ApplicationDraft", resourceId: id.data, actorUserId: session.user.id },
+    orderBy: { createdAt: "desc" },
+    select: { before: true },
+  });
+  let previous: "DRAFT" | "NEEDS_INFO" = "DRAFT";
+  try {
+    if ((JSON.parse(last?.before ?? "{}") as { status?: string }).status === "NEEDS_INFO") previous = "NEEDS_INFO";
+  } catch {
+    previous = "DRAFT";
+  }
   const { count } = await prisma.applicationDraft.updateMany({
     where: {
       id: id.data,
@@ -184,7 +196,11 @@ export async function undoDeclineRole(draftId: unknown): Promise<ResponseResult>
       reviewDecision: "decline",
       reviewedAt: { gte: new Date(Date.now() - UNDO_DECLINE_MS) },
     },
-    data: { status: "DRAFT", reviewDecision: null, reviewedAt: null },
+    // Back as it was: NEEDS_INFO keeps its decision; the reason was never touched.
+    data:
+      previous === "NEEDS_INFO"
+        ? { status: "NEEDS_INFO", reviewDecision: "needs_info" }
+        : { status: "DRAFT", reviewDecision: null, reviewedAt: null },
   });
   if (count !== 1) return { ok: false, error: err("errors.invalidInput") };
   await audit({ actorUserId: session.user.id, action: "application.decline.undo", resourceType: "ApplicationDraft", resourceId: id.data });
