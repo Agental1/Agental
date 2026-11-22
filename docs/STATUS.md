@@ -2,7 +2,7 @@
 
 Updated 2026-11-19, branch `frontend-redesign` (pull request #7, which carries the backend branches `feat/auth-onboarding` #6, `feat/round2-server` #8 and `feat/beta-server` #9).
 
-**Production** (agental.co) runs v0.5.4.0, round 6 part 2 (`live-2026-11-21-r6-p2`). Earlier: release 2 (`live-2026-11-19-release2`, deployment `agental-exmsrxj64-agentalco.vercel.app`); every release is in docs/RELEASES.md. Round 2 went live on 2026-11-19, then release 1 and release 2 the same day, so the rows marked "done, local" below are now live unless their note says otherwise. Later work is tracked in `docs/HANDOFF.md`.
+**Production** (agental.co) runs v0.5.8.0 (2026-11-22, `live-2026-11-22-r7b-admin`): round 7b groups 1 to 4 and the admin site; Part D is set up in n8n and waits for the owner. What waits on the owner is in `docs/HANDOFF.md`, "Round 7b". Before that: v0.5.4.0, round 6 part 2 (`live-2026-11-21-r6-p2`). Earlier: release 2 (`live-2026-11-19-release2`, deployment `agental-exmsrxj64-agentalco.vercel.app`); every release is in docs/RELEASES.md. Round 2 went live on 2026-11-19, then release 1 and release 2 the same day, so the rows marked "done, local" below are now live unless their note says otherwise. Later work is tracked in `docs/HANDOFF.md`.
 
 Status values: **done** (live), **done, local** (committed, checked locally, waiting for deploy), **partial**, **blocked**, **open**.
 
