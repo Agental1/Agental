@@ -11,6 +11,7 @@ Brief: owner's `Agental_Cowork_Round7b_Prompt.md` (Desktop). All four groups are
 | 1 and 2 | v0.5.5.2 (PR #14) | `agental-8i3fiytoc` | `live-2026-11-22-r7b-g2` | `vercel promote agental-h6k87gtud-agentalco.vercel.app` |
 | 3 | v0.5.6.0 (PR #15) | `agental-hlgnsxkcv` | `live-2026-11-22-r7b-g3` | `vercel promote agental-8i3fiytoc-agentalco.vercel.app` |
 | 4 | v0.5.7.0 (PR #16) | `agental-oxx0e06y2` | `live-2026-11-22-r7b-g4` | `vercel promote agental-hlgnsxkcv-agentalco.vercel.app` |
+| Admin site | v0.5.8.0 (PR #17) | `agental-leyymorx4` | `live-2026-11-22-r7b-admin` | `vercel promote agental-oxx0e06y2-agentalco.vercel.app` |
 
 Root cause 2.2: the dashboard "Create your website" card opened the public Limelight page, which is
 pre-rendered and always shows "Sign in", so the person looked signed out (the session was intact).
@@ -92,9 +93,23 @@ Owner steps:
    A second execution with the same ids answers "existing" and sends nothing.
    Then set `mode` back to `'providers'`.
 
-### Then: the admin site at admin.agental.co
+### Admin site at admin.agental.co (live, waiting for DNS)
 
-See "Next 2" below; progress is noted there.
+Live in v0.5.8.0: on admin.agental.co only the admin pages and sign-in answer ("/" opens the hub,
+everything else 404); new pages Profiles (`/admin/profils`), Media (`/admin/medias`), Emails
+(`/admin/emails`), Audit with search, each with CSV; every email the app sends is logged
+(recipient, subject, kind, status; 180 days; removed with a deleted account). The domain is
+assigned to the Vercel project. Owner steps:
+1. **DNS at name.com:** record `CNAME`, host `admin`, value `cname.vercel-dns.com`. Then
+   `https://admin.agental.co` opens the hub (sign in as contact@agental.co; sessions are per host,
+   so sign in once there).
+2. **Google sign-in on the admin host (optional):** Google Cloud, project agental-515217, the
+   "Agental website" client, add the redirect URI
+   `https://admin.agental.co/api/auth/callback/google`. Email sign-in works without it.
+3. **Delivery statuses:** Resend, Webhooks, Add endpoint `https://www.agental.co/api/webhooks/resend`,
+   events email.sent, delivered, delivery_delayed, bounced, complained, failed. Copy its signing
+   secret into Vercel Production as `RESEND_WEBHOOK_SECRET`, then ask the agent to redeploy.
+The admin pages still also answer on www (the role is checked on the server either way).
 
 ### Not checked
 
