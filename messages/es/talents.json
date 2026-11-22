@@ -1940,7 +1940,9 @@
       "resendIn": "Código nuevo en {seconds} s",
       "otherEmail": "Usar otro correo",
       "codeHint": "El código es válido 10 minutos. Revisa la carpeta de spam si no llega.",
-      "limelightLead": "El precio de estudiante necesita un correo de USC verificado. Enviamos la solicitud en cuanto esté verificado."
+      "limelightLead": "El precio de estudiante necesita un correo de USC verificado. Enviamos la solicitud en cuanto esté verificado.",
+      "haveCode": "Ya tengo un código",
+      "codeLeadNoEmail": "Escribe el código de 6 dígitos que te enviamos."
     }
   }
 }

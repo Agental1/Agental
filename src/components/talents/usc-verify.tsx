@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,7 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
   const [pending, start] = useTransition();
   const [sentAt, setSentAt] = useState<number | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  const router = useRouter();
 
   // The resend countdown.
   useEffect(() => {
@@ -44,7 +46,16 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
     if (!isUscEmail(email)) return setError(err("errors.uscEmailOnly"));
     start(async () => {
       const res = await sendUscCodeAction(email);
-      if (!res.ok) return setError(res.error);
+      if (!res.ok) {
+        setError(res.error);
+        // A code went out a moment ago: let them type it.
+        if (res.codePending) setStep("code");
+        return;
+      }
+      if (res.alreadyVerified) {
+        router.refresh();
+        return onVerified({ at: res.verifiedAt ?? new Date().toISOString(), email: res.email ?? email });
+      }
       setSentAt(Date.now());
       setNow(Date.now());
       setCode("");
@@ -61,6 +72,7 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
         setCode("");
         return setError(res.error);
       }
+      router.refresh();
       onVerified({ at: res.verifiedAt ?? new Date().toISOString(), email: res.email ?? email });
     });
   }
@@ -89,9 +101,22 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
           aria-invalid={error ? true : undefined}
         />
         <ActionErrorMessage error={error} />
-        <Button type="submit" loading={pending}>
-          {t("send")}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button type="submit" loading={pending}>
+            {t("send")}
+          </Button>
+          {/* A code from a moment ago, after the panel was closed. */}
+          <Button
+            type="button"
+            variant="link"
+            onClick={() => {
+              setError(undefined);
+              setStep("code");
+            }}
+          >
+            {t("haveCode")}
+          </Button>
+        </div>
       </form>
     );
   }
@@ -99,7 +124,7 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
   return (
     <div className="space-y-3">
       <p id="usc-code-label" className="text-[15px] font-medium">
-        {t("codeLead", { email: email.trim().toLowerCase() })}
+        {email.trim() ? t("codeLead", { email: email.trim().toLowerCase() }) : t("codeLeadNoEmail")}
       </p>
       <InputOTP
         maxLength={6}
@@ -110,6 +135,7 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
         pattern="^[0-9]*$"
         autoFocus
         aria-labelledby="usc-code-label"
+        aria-invalid={error ? true : undefined}
         disabled={pending}
       >
         <InputOTPGroup className="gap-2">
@@ -127,7 +153,7 @@ export function UscVerifySteps({ onVerified }: { onVerified: (v: UscVerified) =>
         <Button onClick={() => verify()} loading={pending} disabled={code.length !== 6}>
           {t("verify")}
         </Button>
-        <Button variant="ghost" onClick={send} disabled={pending || wait > 0}>
+        <Button variant="ghost" onClick={send} disabled={pending || wait > 0 || !isUscEmail(email)}>
           {wait > 0 ? t("resendIn", { seconds: wait }) : t("resend")}
         </Button>
         <Button

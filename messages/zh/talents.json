@@ -1940,7 +1940,9 @@
       "resendIn": "{seconds} 秒后可重新发送",
       "otherEmail": "使用其他邮箱",
       "codeHint": "验证码 10 分钟内有效。如未收到，请查看垃圾邮件文件夹。",
-      "limelightLead": "学生价需要已验证的 USC 邮箱。验证后我们会立即发送申请。"
+      "limelightLead": "学生价需要已验证的 USC 邮箱。验证后我们会立即发送申请。",
+      "haveCode": "我已有验证码",
+      "codeLeadNoEmail": "请输入我们发送给你的 6 位验证码。"
     }
   }
 }

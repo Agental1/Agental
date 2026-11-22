@@ -166,7 +166,9 @@
     "codeUnavailable": "No podemos enviar el código ahora. Inténtalo más tarde.",
     "codeWrong": "Ese código no es correcto. {left, plural, =0 {Pide un código nuevo.} one {Te queda # intento.} other {Te quedan # intentos.}}",
     "codeExpired": "Este código ha caducado. Pide uno nuevo.",
-    "codeLocked": "Demasiados intentos. Pide un código nuevo."
+    "codeLocked": "Demasiados intentos. Pide un código nuevo.",
+    "codeDailyLimit": "Demasiados códigos enviados hoy. Inténtalo mañana.",
+    "uscEmailTaken": "Esta dirección de USC ya verificó otra cuenta."
   },
   "auth": {
     "name": "Nombre",

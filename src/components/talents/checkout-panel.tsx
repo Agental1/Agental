@@ -52,7 +52,8 @@ export function CheckoutPanel({
     setStep("card");
     const promo = uscActive && (usc || justVerified) ? USC_PROMOTION_ID : null;
     start(async () => {
-      await recordPlanChoice(plan.plan, promo);
+      // Best effort: the notice shows either way.
+      await recordPlanChoice(plan.plan, promo).catch(() => undefined);
     });
   }
 

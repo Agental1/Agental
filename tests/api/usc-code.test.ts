@@ -82,6 +82,12 @@ describe.skipIf(!local)("USC student verification by code", () => {
     expect(await sendUscCode({ userId: b, email: "fight.on@usc.edu", locale: "en" })).toEqual({ ok: false, reason: "already" });
   });
 
+  it("lets one USC address verify one account only", async () => {
+    // b verified fight.on@usc.edu above; a may not use it.
+    const res = await sendUscCode({ userId: a, email: "fight.on@usc.edu", locale: "en", now: new Date(Date.now() + 8 * 60_000) });
+    expect(res).toEqual({ ok: false, reason: "taken" });
+  });
+
   it("says it cannot send in production without an email sender, and stores nothing", async () => {
     configured = false;
     vi.stubEnv("NODE_ENV", "production");

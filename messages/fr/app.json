@@ -160,13 +160,15 @@
     "limelightOfferRequired": "Choisis Essentiel ou Signature.",
     "smsNeedsPhone": "Ajoute d’abord un numéro valide.",
     "smsNeedsConsent": "Coche la case pour accepter les SMS.",
-    "uscEmailOnly": "Saisissez une adresse qui se termine par @usc.edu.",
-    "uscAlreadyVerified": "Votre compte est déjà vérifié comme étudiant USC.",
-    "codeTooSoon": "Vous pourrez demander un nouveau code dans {seconds} secondes.",
-    "codeUnavailable": "Nous ne pouvons pas envoyer le code pour l'instant. Réessayez plus tard.",
-    "codeWrong": "Ce code n'est pas le bon. {left, plural, =0 {Demandez un nouveau code.} one {# essai restant.} other {# essais restants.}}",
-    "codeExpired": "Ce code a expiré. Demandez-en un nouveau.",
-    "codeLocked": "Trop d'essais. Demandez un nouveau code."
+    "uscEmailOnly": "Saisis une adresse qui se termine par @usc.edu.",
+    "uscAlreadyVerified": "Ton compte est déjà vérifié comme étudiant USC.",
+    "codeTooSoon": "Tu pourras demander un nouveau code dans {seconds} secondes.",
+    "codeUnavailable": "Nous ne pouvons pas envoyer le code pour l’instant. Réessaie plus tard.",
+    "codeWrong": "Ce code n’est pas le bon. {left, plural, =0 {Demande un nouveau code.} one {# essai restant.} other {# essais restants.}}",
+    "codeExpired": "Ce code a expiré. Demandes-en un nouveau.",
+    "codeLocked": "Trop d’essais. Demande un nouveau code.",
+    "codeDailyLimit": "Trop de codes envoyés aujourd’hui. Réessaie demain.",
+    "uscEmailTaken": "Cette adresse USC a déjà vérifié un autre compte."
   },
   "auth": {
     "name": "Nom",

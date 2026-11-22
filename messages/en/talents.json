@@ -1940,7 +1940,9 @@
       "resendIn": "New code in {seconds} s",
       "otherEmail": "Use another email",
       "codeHint": "The code works for 10 minutes. Check your spam folder if it does not arrive.",
-      "limelightLead": "The student price needs a verified USC email. We send the request as soon as it is verified."
+      "limelightLead": "The student price needs a verified USC email. We send the request as soon as it is verified.",
+      "haveCode": "I already have a code",
+      "codeLeadNoEmail": "Enter the 6-digit code we sent you."
     }
   }
 }

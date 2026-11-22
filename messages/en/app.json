@@ -166,7 +166,9 @@
     "codeUnavailable": "We can't send the code right now. Try again later.",
     "codeWrong": "That code is not right. {left, plural, =0 {Ask for a new code.} one {# try left.} other {# tries left.}}",
     "codeExpired": "This code has expired. Ask for a new one.",
-    "codeLocked": "Too many tries. Ask for a new code."
+    "codeLocked": "Too many tries. Ask for a new code.",
+    "codeDailyLimit": "Too many codes sent today. Try again tomorrow.",
+    "uscEmailTaken": "This USC address already verified another account."
   },
   "auth": {
     "name": "Name",

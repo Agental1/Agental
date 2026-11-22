@@ -94,14 +94,16 @@ model User {
   studentPriceRequest StudentPriceRequest?
   studentRedemptions  StudentCodeRedemption[]
 
-  @@index([accountStatus])
-  @@schema("public")
 
-  // Round 8b: "USC student verified" (6-digit code to a @usc.edu address).
+  // Round 8b: "USC student verified" (6-digit code to a @usc.edu address);
+  // one address verifies one account.
   uscVerifiedAt     DateTime?
-  uscVerifiedEmail  String?
+  uscVerifiedEmail  String?   @unique
   promoCodes        PromoVerificationCode[]
   planChoices       PlanChoice[]
+
+  @@index([accountStatus])
+  @@schema("public")
 }
 
 model Account {
@@ -1217,5 +1219,6 @@ model PlanChoice {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
+  @@index([userId, createdAt])
   @@schema("public")
 }
