@@ -1,7 +1,10 @@
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { COMPLETENESS_SELECT, completenessOf } from "@/lib/completeness";
-import { mediaCategory } from "@/domain/media-categories";
+import { defaultCategory, mediaCategory } from "@/domain/media-categories";
+
+/** Most rows a view shows or exports; the page says when it is reached. */
+export const VIEW_CAP = 2000;
 
 /**
  * The admin site's data views: profiles, media and the audit log, with search
@@ -22,7 +25,7 @@ export function profileFiltersFrom(get: Get): ProfileFilters {
   return { q: q(get), complete: c === "yes" || c === "no" ? c : undefined };
 }
 
-export async function listProfiles(f: ProfileFilters, take = 2000) {
+export async function listProfiles(f: ProfileFilters, take = VIEW_CAP) {
   const rows = await prisma.artistProfile.findMany({
     where: f.q
       ? { OR: [{ stageName: { contains: f.q, mode: "insensitive" } }, { city: { contains: f.q, mode: "insensitive" } }, { user: { email: { contains: f.q, mode: "insensitive" } } }] }
@@ -75,9 +78,12 @@ export function mediaFiltersFrom(get: Get): MediaFilters {
   return { q: q(get), type: t && TYPES.includes(t) ? t : undefined, category: c && CATS.includes(c) ? c : undefined };
 }
 
-export async function listMedia(f: MediaFilters, take = 2000) {
+export async function listMedia(f: MediaFilters, take = VIEW_CAP) {
+  // The category in the query itself (rows from before categories fall back on their type).
+  const fallbackTypes = ["PHOTO", "VIDEO", "AUDIO", "SELFTAPE"].filter((t) => defaultCategory(t) === f.category);
   const where: Prisma.MediaWhereInput = {
     ...(f.type ? { type: f.type } : {}),
+    ...(f.category ? { AND: [{ OR: [{ category: f.category }, { category: null, type: { in: fallbackTypes } }] }] } : {}),
     ...(f.q
       ? { OR: [{ description: { contains: f.q, mode: "insensitive" } }, { title: { contains: f.q, mode: "insensitive" } }, { profile: { stageName: { contains: f.q, mode: "insensitive" } } }, { profile: { user: { email: { contains: f.q, mode: "insensitive" } } } }] }
       : {}),
@@ -100,9 +106,7 @@ export async function listMedia(f: MediaFilters, take = 2000) {
       profile: { select: { stageName: true, user: { select: { id: true, email: true } } } },
     },
   });
-  return rows
-    .map((m) => ({ ...m, category: mediaCategory(m) }))
-    .filter((m) => !f.category || m.category === f.category);
+  return rows.map((m) => ({ ...m, category: mediaCategory(m) }));
 }
 export type MediaRow = Awaited<ReturnType<typeof listMedia>>[number];
 
@@ -120,7 +124,8 @@ export function auditFiltersFrom(get: Get): AuditFilters {
 export function listAudit(f: AuditFilters, take = 500) {
   return prisma.auditLog.findMany({
     where: {
-      ...(f.action ? { action: { startsWith: f.action } } : {}),
+      // Admin page views fill the log; they show only when asked for (action "admin.view").
+      ...(f.action ? { action: { startsWith: f.action } } : { NOT: { action: { startsWith: "admin.view." } } }),
       ...(f.q
         ? { OR: [{ resourceId: { contains: f.q } }, { resourceType: { contains: f.q, mode: "insensitive" } }, { actor: { email: { contains: f.q, mode: "insensitive" } } }] }
         : {}),
@@ -131,3 +136,9 @@ export function listAudit(f: AuditFilters, take = 500) {
   });
 }
 export type AuditRow = Awaited<ReturnType<typeof listAudit>>[number];
+
+/** The email log keeps 180 days (owner may change). Run when staff open Emails. */
+export const EMAIL_LOG_DAYS = 180;
+export async function purgeOldEmailLogs(now = new Date()) {
+  await prisma.emailLog.deleteMany({ where: { createdAt: { lt: new Date(now.getTime() - EMAIL_LOG_DAYS * 24 * 60 * 60 * 1000) } } });
+}

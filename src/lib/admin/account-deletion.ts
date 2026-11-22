@@ -252,6 +252,8 @@ export async function deleteEligibleAccounts(
         });
         if (count !== 1) return null;
         await tx.verificationToken.deleteMany({ where: { identifier: { in: [`verify:${r.id}`, `reset:${r.id}`] } } });
+        // The email log keeps no trace of a deleted address.
+        await tx.emailLog.deleteMany({ where: { to: { equals: r.email, mode: "insensitive" } } });
         return [
           ...(profile?.media.map((m) => m.storageKey) ?? []),
           ...(profile?.avatarKey ? [profile.avatarKey] : []),

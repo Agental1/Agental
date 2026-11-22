@@ -35,6 +35,27 @@ export function verifySvix(
   });
 }
 
+/**
+ * How far along an email is. A webhook update only moves forward, so a late,
+ * retried or replayed event never undoes a later state (a bounce stays a bounce).
+ */
+export const STATUS_RANK: Record<string, number> = {
+  queued: 0,
+  logged: 0,
+  sent: 1,
+  delayed: 2,
+  delivered: 3,
+  bounced: 4,
+  complained: 4,
+  failed: 4,
+};
+
+/** The statuses an event may replace: every one ranked strictly lower. */
+export function replaceableBy(status: string): string[] {
+  const rank = STATUS_RANK[status] ?? 0;
+  return Object.keys(STATUS_RANK).filter((s) => STATUS_RANK[s] < rank);
+}
+
 /** Resend event type to the log status. Anything else is ignored. */
 export const RESEND_EVENT_STATUS: Record<string, string> = {
   "email.sent": "sent",

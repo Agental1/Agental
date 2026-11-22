@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { RESEND_EVENT_STATUS, verifySvix } from "@/domain/svix";
+import { RESEND_EVENT_STATUS, replaceableBy, verifySvix } from "@/domain/svix";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +12,9 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   const secret = (process.env.RESEND_WEBHOOK_SECRET ?? "").trim();
   if (!secret) return new Response("Not found", { status: 404 });
+  // Cheap refusals before reading the body.
+  if (Number(req.headers.get("content-length") ?? 0) > 64_000) return new Response("Too large", { status: 413 });
+  if (!req.headers.get("svix-id") || !req.headers.get("svix-signature")) return new Response("Unauthorized", { status: 401 });
   const body = await req.text();
   if (body.length > 64_000) return new Response("Too large", { status: 413 });
   const ok = verifySvix(
@@ -29,9 +32,9 @@ export async function POST(req: Request) {
   const status = typeof event.type === "string" ? RESEND_EVENT_STATUS[event.type] : undefined;
   const emailId = typeof event.data?.email_id === "string" ? event.data.email_id.slice(0, 100) : null;
   if (status && emailId) {
-    // "sent" never overwrites a later state that arrived first.
+    // Forward only: a late or replayed event never undoes a later state.
     await prisma.emailLog.updateMany({
-      where: { resendId: emailId, ...(status === "sent" ? { status: { in: ["queued", "sent"] } } : {}) },
+      where: { resendId: emailId, status: { in: replaceableBy(status) } },
       data: { status, lastEventAt: new Date() },
     });
   }

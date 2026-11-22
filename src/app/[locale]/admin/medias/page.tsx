@@ -5,7 +5,7 @@ import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { dateTime } from "@/lib/format";
-import { listMedia, mediaFiltersFrom } from "@/lib/admin/views";
+import { VIEW_CAP, listMedia, mediaFiltersFrom } from "@/lib/admin/views";
 import { AccountLink, FilterBar, Table, field, qs } from "@/components/admin/view-parts";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -34,6 +34,7 @@ export default async function MediaPage({ params, searchParams }: { params: Prom
       <div>
         <h1 className="font-display text-3xl font-medium">{t("admin.nav.media")}</h1>
         <p className="text-fg-muted">{t(`${v}mediaSubtitle`, { count: rows.length })}</p>
+        {rows.length >= VIEW_CAP && <p className="text-sm font-bold">{t(`${v}capped`, { count: VIEW_CAP })}</p>}
       </div>
       <FilterBar csvHref={`/api/admin/medias${qs(f)}`} filterLabel={t("admin.accounts.filter")} csvLabel={t("admin.accounts.csv")}>
         <input name="q" defaultValue={f.q} placeholder={t(`${v}search`)} aria-label={t(`${v}search`)} className={`${field} min-w-56`} />

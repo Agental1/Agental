@@ -580,7 +580,8 @@
       "to": "To",
       "subject": "Subject",
       "kind": "Kind",
-      "lastEvent": "Last event"
+      "lastEvent": "Last event",
+      "capped": "Showing the first {count}. Narrow the search to see the rest."
     }
   },
   "matchReasons": {

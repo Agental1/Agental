@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { dateTime } from "@/lib/format";
 import { emailSenderConfigured } from "@/lib/mailer";
 import { FilterBar, Table, field } from "@/components/admin/view-parts";
+import { purgeOldEmailLogs } from "@/lib/admin/views";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const t = await getTranslations({ locale: toLocale((await params).locale), namespace: "app" });
@@ -26,6 +27,7 @@ export default async function EmailsPage({ params, searchParams }: { params: Pro
   const sp = await searchParams;
   const q = typeof sp.q === "string" ? sp.q.trim().slice(0, 100) : "";
   const status = typeof sp.status === "string" && STATUSES.includes(sp.status) ? sp.status : "";
+  await purgeOldEmailLogs();
   const rows = await prisma.emailLog.findMany({
     where: { ...(q ? { OR: [{ to: { contains: q, mode: "insensitive" } }, { subject: { contains: q, mode: "insensitive" } }, { kind: q }] } : {}), ...(status ? { status } : {}) },
     orderBy: { createdAt: "desc" },

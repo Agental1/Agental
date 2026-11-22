@@ -5,7 +5,7 @@ import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { dateTime } from "@/lib/format";
-import { listProfiles, profileFiltersFrom } from "@/lib/admin/views";
+import { VIEW_CAP, listProfiles, profileFiltersFrom } from "@/lib/admin/views";
 import { AccountLink, FilterBar, Table, field, qs } from "@/components/admin/view-parts";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -30,6 +30,7 @@ export default async function ProfilesPage({ params, searchParams }: { params: P
       <div>
         <h1 className="font-display text-3xl font-medium">{t("admin.nav.profiles")}</h1>
         <p className="text-fg-muted">{t(`${v}profilesSubtitle`, { count: rows.length })}</p>
+        {rows.length >= VIEW_CAP && <p className="text-sm font-bold">{t(`${v}capped`, { count: VIEW_CAP })}</p>}
       </div>
       <FilterBar csvHref={`/api/admin/profils${qs(f)}`} filterLabel={t("admin.accounts.filter")} csvLabel={t("admin.accounts.csv")}>
         <input name="q" defaultValue={f.q} placeholder={t(`${v}search`)} aria-label={t(`${v}search`)} className={`${field} min-w-56`} />

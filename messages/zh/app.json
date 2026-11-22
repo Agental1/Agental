@@ -580,7 +580,8 @@
       "to": "收件人",
       "subject": "主题",
       "kind": "类型",
-      "lastEvent": "最近事件"
+      "lastEvent": "最近事件",
+      "capped": "仅显示前 {count} 条。请缩小搜索范围查看其余内容。"
     }
   },
   "matchReasons": {

@@ -580,7 +580,8 @@
       "to": "À",
       "subject": "Objet",
       "kind": "Type",
-      "lastEvent": "Dernier événement"
+      "lastEvent": "Dernier événement",
+      "capped": "Affichage des {count} premiers. Affine la recherche pour voir la suite."
     }
   },
   "matchReasons": {

@@ -56,6 +56,7 @@ const databaseRecorder: EmailRecorder = {
       });
       return row.id;
     } catch {
+      console.error("[mailer] email log write failed");
       return null;
     }
   },
@@ -69,6 +70,7 @@ const databaseRecorder: EmailRecorder = {
       });
     } catch {
       // The email itself went (or not) regardless.
+      console.error("[mailer] email log update failed");
     }
   },
 };
@@ -113,7 +115,10 @@ export async function sendEmail(
 ): Promise<SendEmailResult> {
   const env = deps.env ?? process.env;
   const record = recorderFor(deps);
-  const logId = record ? await record.start(message) : null;
+  // The log never holds an email up: one second at most, then the email goes unlogged.
+  const logId = record
+    ? await Promise.race([record.start(message), new Promise<null>((r) => setTimeout(() => r(null), 1000))])
+    : null;
 
   if (!emailSenderConfigured(env)) {
     const summary = `[mailer] log mode, nothing sent: subject=${JSON.stringify(

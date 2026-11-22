@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { verifySvix } from "@/domain/svix";
+import { replaceableBy, verifySvix } from "@/domain/svix";
 
 const key = Buffer.from("a-test-signing-key-of-some-length");
 const secret = `whsec_${key.toString("base64")}`;
@@ -19,5 +19,15 @@ describe("Svix signature", () => {
     expect(verifySvix(secret, { id: "m1", timestamp: String(now - 600), signature: sign("m1", String(now - 600), body) }, body, now)).toBe(false);
     expect(verifySvix(secret, { id: null, timestamp: String(now), signature: sig }, body, now)).toBe(false);
     expect(verifySvix(`whsec_${Buffer.from("other").toString("base64")}`, { id: "m1", timestamp: String(now), signature: sig }, body, now)).toBe(false);
+  });
+});
+
+describe("email log status", () => {
+  it("only moves forward", () => {
+    expect(replaceableBy("delivered")).toEqual(expect.arrayContaining(["queued", "sent", "delayed"]));
+    expect(replaceableBy("delivered")).not.toContain("bounced");
+    expect(replaceableBy("delayed")).not.toContain("delivered");
+    expect(replaceableBy("sent")).not.toContain("delivered");
+    expect(replaceableBy("bounced")).toContain("delivered");
   });
 });
