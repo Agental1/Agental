@@ -134,7 +134,6 @@ export default async function TalentsAppLayout({
           plans={plans}
           detailsHref="/talents/app/abonnement"
           usage={usage}
-          studentLink={{ href: "/talents/app/abonnement#student", label: t("space.student.link") }}
         />
       }
     >

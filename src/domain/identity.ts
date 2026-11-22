@@ -58,6 +58,20 @@ export const EYE_COLORS = [
   "Other",
 ] as const;
 
+/** Build (round 8b): a list, plus "Add your own" (free text, kept as typed). */
+export const BUILDS = [
+  "Slim",
+  "Lean",
+  "Athletic",
+  "Average",
+  "Muscular",
+  "Curvy",
+  "Stocky",
+  "Heavyset",
+  "Petite",
+  "Plus size",
+] as const;
+
 /** Message key of an option: "Dark brown" -> "dark_brown". */
 export function optionKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z]+/g, "_").replace(/^_|_$/g, "");

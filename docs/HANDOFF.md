@@ -3,6 +3,25 @@
 Updated 2026-11-22 (round 8 closed: v0.6.4.0 live, see docs/ROUND8_PLAN.md and docs/ROLLBACK_R8.md). Read the Round 9 carryover first, then "Round 7b" below for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
 
+## Round 8c carryover
+
+Round 8b (front-end polish, 2026-11-22) noted these back-end items for round 8c. Round 8c does not
+cover n8n or the AI agents.
+
+- **Package manager.** The round 8b brief says pnpm, but this repository has used bun since its
+  first commit (`bun.lock` added in "Phase 0", no pnpm lockfile, no `packageManager` field, pnpm
+  not installed on this Mac); Vercel installs with bun from `bun.lock`. Round 8b kept bun. Moving to
+  pnpm (generate `pnpm-lock.yaml`, remove `bun.lock`, update CLAUDE.md and the deploy recipe) is a
+  separate change to decide.
+- **Flaky test**: `tests/api/limelight-leads.test.ts` "two drains at the same moment send one alert
+  once" fails in the full local run (prepared statement error from the pg adapter under one
+  connection) and passes on its own. Make the two drains share a pool or skip the concurrency case
+  when the pool has one connection.
+- **Old student email route.** The "College student? Verify your school email" card was removed
+  from the app (round 8b, Promotions covers it). `/etudiant` still confirms links already sent, and
+  `requestStudentEmail` is no longer reachable from the UI; remove it once round 8b group 4 (USC
+  code verification) is live.
+
 ## Round 9 carryover
 
 State at hand-off: production runs v0.5.8.0 (`agental-leyymorx4`, tag `live-2026-11-22-r7b-admin`;
@@ -48,6 +67,14 @@ runs in its own session before round 9.
 - Six-hour automatic searches now count in the automatic cap on Basic (1 per period, the first automatic search included).
 - A running dev server corrupts `.next` (see CLAUDE.md, Tooling); stop it and delete `.next` before typecheck or build.
 - Local test runs leave `test-*` rows in the local database (local only).
+
+### 5. From round 8b (2026-11-22)
+
+- **AI agent setup** is saved on `ArtistProfile` (`agentNameChoice` samantha | adrian | custom,
+  `agentCustomName`, `agentHelps` as a JSON array of roles | profile | selftape | draft,
+  `agentSavedAt`). Nothing reads it yet; the agent built in round 9 should use these choices.
+- **"I don't do any accents"** is stored as the single value `none` in `physical.accents`
+  (`NO_ACCENTS` in `src/domain/accents.ts`); matching and briefs must skip it.
 
 ### 4. From round 8 (2026-11-22)
 

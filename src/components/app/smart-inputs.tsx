@@ -334,6 +334,8 @@ export function PhoneField({
 /**
  * Several choices as chips (languages, accents): type to search, pick one, it
  * becomes a chip, keep typing. "Other" adds what was typed as free text.
+ * `none` (accents, round 8b) is a first option that means "none of these":
+ * choosing it clears the others, and choosing anything else clears it.
  */
 export function ChipMultiSelect({
   label,
@@ -342,6 +344,7 @@ export function ChipMultiSelect({
   groups,
   match,
   placeholder,
+  none,
 }: {
   label: string;
   values: string[];
@@ -350,16 +353,33 @@ export function ChipMultiSelect({
   /** Does an option match the query (names, codes, any word)? */
   match: (option: string, query: string) => boolean;
   placeholder: string;
+  /** A first option meaning "none": stored as `value`, shown as `label`. */
+  none?: { value: string; label: string };
 }) {
   const t = useTranslations("talents.space.profileEditor.smart");
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const add = (v: string) => {
     const clean = v.trim().slice(0, 60);
-    if (!clean || values.some((x) => x.toLowerCase() === clean.toLowerCase())) return;
-    onChange([...values, clean]);
+    // Typing the stored "none" value itself means the none option.
+    if (none && (clean.toLowerCase() === none.value.toLowerCase() || clean.toLowerCase() === none.label.toLowerCase())) {
+      onChange([none.value]);
+      setQuery("");
+      return;
+    }
+    const rest = none ? values.filter((x) => x !== none.value) : values;
+    if (!clean || rest.some((x) => x.toLowerCase() === clean.toLowerCase())) return;
+    onChange([...rest, clean]);
     setQuery("");
   };
+  const chooseNone = () => {
+    if (!none) return;
+    onChange([none.value]);
+    setQuery("");
+    setOpen(false);
+  };
+  const showNone =
+    !!none && !values.includes(none.value) && (!query.trim() || none.label.toLowerCase().includes(query.trim().toLowerCase()));
   const filtered = groups
     .map((g) => ({ ...g, options: g.options.filter((o) => !values.includes(o) && match(o, query)) }))
     .filter((g) => g.options.length > 0);
@@ -371,10 +391,10 @@ export function ChipMultiSelect({
         <ul className="flex flex-wrap gap-1.5" aria-label={label}>
           {values.map((v) => (
             <li key={v} className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-accent-soft px-2.5 py-1 text-sm text-accent">
-              {v}
+              {none && v === none.value ? none.label : v}
               <button
                 type="button"
-                aria-label={t("remove", { value: v })}
+                aria-label={t("remove", { value: none && v === none.value ? none.label : v })}
                 onClick={() => onChange(values.filter((x) => x !== v))}
                 className="rounded-full p-0.5 hover:bg-accent/15"
               >
@@ -395,6 +415,13 @@ export function ChipMultiSelect({
           <Command shouldFilter={false}>
             <CommandInput placeholder={t("search")} value={query} onValueChange={setQuery} />
             <CommandList className="max-h-72">
+              {showNone && none && (
+                <CommandGroup>
+                  <CommandItem value={`none:${none.value}`} onSelect={chooseNone}>
+                    {none.label}
+                  </CommandItem>
+                </CommandGroup>
+              )}
               {filtered.map((g, i) => (
                 <CommandGroup key={g.heading ?? i} heading={g.heading}>
                   {g.options.slice(0, query ? 50 : 400).map((o) => (
@@ -411,7 +438,7 @@ export function ChipMultiSelect({
                   </CommandItem>
                 </CommandGroup>
               )}
-              {!query.trim() && filtered.length === 0 && <CommandEmpty>{t("noMatch")}</CommandEmpty>}
+              {!query.trim() && filtered.length === 0 && !showNone && <CommandEmpty>{t("noMatch")}</CommandEmpty>}
             </CommandList>
           </Command>
         </PopoverContent>

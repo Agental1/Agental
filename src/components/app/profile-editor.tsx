@@ -48,7 +48,7 @@ import type { PhysicalTraits } from "@/domain/json";
 import type { HeightValue } from "@/domain/height";
 import { DEFAULT_PROFILE_TAB, ITEM_TARGET, PROFILE_TABS, type ProfileTab } from "@/domain/profile-tabs";
 import { BIO_MAX } from "@/domain/profile";
-import { EYE_COLORS, GENDERS, HAIR_COLORS, HAIR_LENGTHS, matchOption, optionKey } from "@/domain/identity";
+import { BUILDS, EYE_COLORS, GENDERS, HAIR_COLORS, HAIR_LENGTHS, matchOption, optionKey } from "@/domain/identity";
 import type { MissingItem } from "@/domain/completeness";
 import {
   AGE_MAX,
@@ -74,7 +74,7 @@ import {
 import { avatarAsHeadshot } from "@/app/actions/media";
 import { ChipMultiSelect, LocationField, PhoneField } from "./smart-inputs";
 import { LANGUAGE_ORDER, languageMatches } from "@/domain/languages";
-import { ACCENT_GROUPS, accentMatches } from "@/domain/accents";
+import { ACCENT_GROUPS, NO_ACCENTS, accentMatches } from "@/domain/accents";
 import { requestEmailVerification } from "@/app/actions/account-email";
 import { RoleAlertForm, type RoleAlertChannel } from "./role-alert-form";
 
@@ -518,12 +518,15 @@ function Field({
   field,
   hint,
   required,
+  optional,
   children,
 }: {
   label: string;
   field?: string;
   hint?: string;
   required?: boolean;
+  /** "(optional)" after the label, lighter and smaller (round 8b). */
+  optional?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -531,6 +534,7 @@ function Field({
       <Label>
         {label}
         {required && <Req />}
+        {optional && <span className="ml-1 text-xs font-normal text-fg-muted">{optional}</span>}
       </Label>
       {children}
       {hint && <p className="text-xs text-fg-muted">{hint}</p>}
@@ -675,6 +679,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
           groups={ACCENT_OPTIONS}
           match={accentMatches}
           placeholder={t(`${e}.smart.addAccent`)}
+          none={{ value: NO_ACCENTS, label: t(`${e}.smart.noAccents`) }}
         />
       </Field>
       <Field label={t(`${e}.bio`)} field="bio" required>
@@ -693,8 +698,8 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
         </p>
       </Field>
       <section className="space-y-4 rounded-sedan border border-border bg-surface-2/40 p-4">
-        <p className="text-sm font-medium">{t(`${e}.linksTitle`)}</p>
-        <Field label={t(`${e}.imdbUrl`)} field="imdbUrl">
+        <h3 className="text-[15px] font-bold">{t(`${e}.linksTitle`)}</h3>
+        <Field label={t(`${e}.imdbUrl`)} field="imdbUrl" optional={t(`${e}.optional`)}>
           <Input
             type="text"
             inputMode="url"
@@ -704,7 +709,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
             {...blur}
           />
         </Field>
-        <Field label={t(`${e}.portfolioUrl`)}>
+        <Field label={t(`${e}.portfolioUrl`)} optional={t(`${e}.optional`)}>
           <Input
             type="text"
             inputMode="url"
@@ -764,6 +769,75 @@ function OptionSelect({
         )}
       </SelectContent>
     </Select>
+  );
+}
+
+/**
+ * Build (round 8b): the list, then "Add your own", which opens a short field;
+ * what is typed is the value and shows in the tile as typed. A stored value that
+ * matches no option shows as the person's own.
+ */
+function BuildSelect({
+  label,
+  value,
+  onChange,
+  onBlur,
+}: {
+  label: string;
+  value: string | undefined;
+  onChange: (v: string) => void;
+  onBlur: () => void;
+}) {
+  const t = useTranslations("talents");
+  const e = "space.profileEditor" as const;
+  const raw = (value ?? "").trim();
+  const known = matchOption(BUILDS, raw);
+  const own = raw && !known ? raw : null;
+  const [editing, setEditing] = useState(false);
+  return (
+    <div className="space-y-1.5">
+      <Select
+        value={editing ? "add" : (known ?? (own ? "own" : ""))}
+        onValueChange={(v) => {
+          if (v === "add") return setEditing(true);
+          if (v === "own") return;
+          setEditing(false);
+          onChange(v);
+        }}
+      >
+        <SelectTrigger className="w-full" aria-label={label}>
+          <SelectValue placeholder={t(`${e}.choose`)}>
+            {known
+              ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other")
+              : (own ?? (editing ? t(`${e}.addOwn`) : undefined))}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent data-portal="talents">
+          {BUILDS.map((o) => (
+            <SelectItem key={o} value={o}>
+              {t(`${e}.options.${optionKey(o)}` as "space.profileEditor.options.other")}
+            </SelectItem>
+          ))}
+          {own && <SelectItem value="own">{own}</SelectItem>}
+          <SelectItem value="add">{t(`${e}.addOwn`)}</SelectItem>
+        </SelectContent>
+      </Select>
+      {editing && (
+        <Input
+          autoFocus
+          aria-label={t(`${e}.addOwn`)}
+          maxLength={60}
+          placeholder={t(`${e}.addOwnPlaceholder`)}
+          defaultValue={own ?? ""}
+          onChange={(ev) => onChange(ev.target.value)}
+          onBlur={() => {
+            onBlur();
+            setEditing(false);
+          }}
+          className="h-10"
+        />
+      )}
+    </div>
   );
 }
 
@@ -850,7 +924,7 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
       setWeightText(String(unit === "lb" ? Math.round(p.weightKg * LB_PER_KG) : p.weightKg));
   }
 
-  const text = (key: "build" | "tattoos" | "piercings" | "shoeSize", label: string, max = 60) => (
+  const text = (key: "tattoos" | "piercings" | "shoeSize", label: string, max = 60) => (
     <Input
       aria-label={label}
       maxLength={max}
@@ -893,7 +967,7 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
         </div>
       </Tile>
       <Tile icon={PersonStanding} label={t(`${e}.build`)} field="build">
-        {text("build", t(`${e}.build`))}
+        <BuildSelect label={t(`${e}.build`)} value={p.build} onChange={(build) => patch({ build })} onBlur={flush} />
       </Tile>
       <Tile icon={Palette} label={t(`${e}.hair`)} field="hair" required>
         <OptionSelect label={t(`${e}.hair`)} options={HAIR_COLORS} value={p.hair} onChange={(hair) => patch({ hair })} />

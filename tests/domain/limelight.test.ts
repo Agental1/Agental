@@ -305,7 +305,7 @@ describe("LimelightLeadInput (the form on the page today)", () => {
       email: "ana@example.com",
       discipline: "actor",
       need: "new",
-      budget: "unsure",
+      budget: "essential",
       contactPref: "email",
     });
     expect(parsed.success).toBe(true);

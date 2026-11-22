@@ -1204,7 +1204,7 @@
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
       "portfolioUrl": "Lien de portfolio ou de site",
       "portfolioUrlPlaceholder": "https://ton-site.com",
-      "noLinks": "Je n’ai pas de site",
+      "noLinks": "Je n'ai pas de site ni de portfolio",
       "stageNameHint": "Si tu travailles sous un autre nom.",
       "legalName": "Nom légal",
       "legalFirstName": "Prénom",
@@ -1251,7 +1251,17 @@
         "green": "Verts",
         "blue": "Bleus",
         "heterochromia": "Hétérochromie",
-        "other": "Autre"
+        "other": "Autre",
+        "slim": "Mince",
+        "lean": "Sec",
+        "athletic": "Athlétique",
+        "average": "Moyenne",
+        "muscular": "Musclé",
+        "curvy": "Pulpeuse",
+        "stocky": "Trapu",
+        "heavyset": "Corpulent",
+        "petite": "Menue",
+        "plus_size": "Grande taille"
       },
       "requiredNote": "Les champs marqués * sont nécessaires pour atteindre 100 %.",
       "required": "obligatoire",
@@ -1267,7 +1277,7 @@
       "verifyToSearch": "Vérifie ton email pour lancer ta première recherche.",
       "verifyResend": "Renvoyer l’email",
       "verifySent": "Email envoyé. Regarde ta boîte de réception.",
-      "linksTitle": "Crée un lien IMDb ou un portfolio",
+      "linksTitle": "Informations complémentaires qui nous aideront",
       "improveWebsite": "Améliorer ton site",
       "weight": "Poids",
       "units": "Unités",
@@ -1298,8 +1308,12 @@
         "other": "Autre",
         "addOther": "Ajouter « {value} »",
         "addLanguage": "Ajouter une langue",
-        "addAccent": "Ajouter un accent"
-      }
+        "addAccent": "Ajouter un accent",
+        "noAccents": "Je ne fais aucun accent"
+      },
+      "optional": "(facultatif)",
+      "addOwn": "Ajouter la vôtre",
+      "addOwnPlaceholder": "Décrivez votre morphologie"
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",
@@ -1355,8 +1369,7 @@
     },
     "find": {
       "intro": "Ton agent personnel arrive dans Messages. Configure-le dès maintenant.",
-      "previewOnly": "Aperçu uniquement",
-      "explain": "Agental Find n’est pas encore en service. Tu peux essayer la configuration ci-dessous ; rien n’est enregistré, envoyé ni recherché avant son lancement.",
+      "explain": "Agental Find n'est pas encore en service. Vos choix sont enregistrés sur votre compte pour son lancement.",
       "start": "Le configurer",
       "steps": {
         "name": "Choisis ton assistant",
@@ -1364,10 +1377,11 @@
         "review": "Vérifier et enregistrer"
       },
       "stepOf": "Étape {n} sur {total}",
-      "nameLead": "Deux prénoms, le même assistant. Choisis celui que tu préfères.",
+      "nameLead": "Choisissez un nom pour votre agent, ou tapez le vôtre.",
       "names": {
         "samantha": "Samantha",
-        "adrian": "Adrian"
+        "adrian": "Adrian",
+        "custom": "Personnalisé"
       },
       "helpLead": "Choisis-en un ou plusieurs.",
       "helps": {
@@ -1396,8 +1410,12 @@
       "back": "Retour",
       "next": "Suivant",
       "save": "Enregistrer les préférences de l’agent",
-      "saved": "Aperçu terminé. Tu pourras enregistrer tes préférences au lancement d’Agental Find.",
-      "restart": "Recommencer"
+      "customLabel": "Le nom de votre agent",
+      "customPlaceholder": "Tapez un nom",
+      "editAgent": "Modifier votre agent IA",
+      "stepsLabel": "Étapes de configuration",
+      "cancel": "Annuler",
+      "savedNote": "Votre agent IA est enregistré."
     },
     "team": {
       "title": "Équipe Agental",

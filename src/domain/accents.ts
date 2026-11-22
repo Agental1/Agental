@@ -104,3 +104,9 @@ export function accentMatches(name: string, query: string): boolean {
     .split(/[\s()/-]+/)
     .some((w) => w.startsWith(q));
 }
+
+/**
+ * Stored in physical.accents, alone, when the performer chose "I don't do any
+ * accents" (round 8b). Shown translated in the app.
+ */
+export const NO_ACCENTS = "none";

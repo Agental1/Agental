@@ -205,7 +205,14 @@ describe("priceForOffer", () => {
     });
   });
 
-  it("never gives it without approval, nor on Signature", () => {
+  it("charges an approved student the round 8b Signature price ($69)", () => {
+    expect(priceForOffer("signature", { studentApproved: true })).toEqual({
+      amountCents: 6900,
+      studentDiscount: true,
+    });
+  });
+
+  it("never gives it without approval, nor on an offer without a student price", () => {
     expect(priceForOffer("essential", { studentApproved: false }, withStudentPrice)).toEqual({
       amountCents: 9900,
       studentDiscount: false,
