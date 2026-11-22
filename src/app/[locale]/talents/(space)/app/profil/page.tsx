@@ -103,6 +103,8 @@ export default async function ProfilPage({
             type: m.type,
             isPrimary: m.isPrimary,
             mime: m.mime,
+            category: m.category,
+            description: m.description,
           })),
           preferences,
           contentBoundaries,

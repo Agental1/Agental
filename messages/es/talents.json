@@ -723,7 +723,9 @@
           "video": "Añadir un self-tape o un videobook",
           "physical": "Añadir tus rasgos físicos",
           "bio": "Escribir una breve biografía",
-          "links": "Añade un enlace de IMDb o de portfolio"
+          "links": "Añade un enlace de IMDb o de portfolio",
+          "productions": "Añadir una producción anterior",
+          "otherMedia": "Añadir otro archivo útil"
         },
         "next": "Siguiente:",
         "cta": "Continuar"
@@ -749,7 +751,9 @@
         "specialties": "elige una especialidad",
         "birthDate": "añade tu fecha de nacimiento",
         "stageName": "añade tu nombre artístico",
-        "height": "añade tu estatura"
+        "height": "añade tu estatura",
+        "productions": "añade una foto de una producción anterior",
+        "otherMedia": "añade otro archivo útil, como un clip de voz"
       },
       "launch": {
         "title": "Lanza tu primera búsqueda",
@@ -782,7 +786,9 @@
         "physical": "Añade tu pelo, tus ojos o tu complexión",
         "bio": "Escribe una bio corta",
         "links": "Añade un enlace de IMDb o de portfolio",
-        "city": "Añade tu ciudad"
+        "city": "Añade tu ciudad",
+        "productions": "Añade una producción anterior",
+        "otherMedia": "Añade otro archivo útil"
       },
       "why": {
         "stageName": "Es el nombre que ven los directores de casting.",
@@ -794,7 +800,9 @@
         "physical": "Muchos papeles describen pelo, ojos o complexión.",
         "bio": "Una bio corta te distingue en una búsqueda.",
         "links": "Un enlace permite comprobar tus créditos.",
-        "city": "Muchos papeles son locales."
+        "city": "Muchos papeles son locales.",
+        "productions": "Carteles y fotogramas muestran tu trabajo.",
+        "otherMedia": "Un clip de voz o un documento puede marcar la diferencia."
       }
     },
     "candidatures": {
@@ -985,7 +993,36 @@
       "setPrimary": "Definir como principal",
       "delete": "Eliminar",
       "choose": "Elegir archivos",
-      "primary": "Principal"
+      "primary": "Principal",
+      "lead": "El material general que nos ayuda a encontrar audiciones para ti. Los vídeos hechos para una audición van en Reel y self-tape.",
+      "add": "Añadir",
+      "empty": "Nada por ahora. Suelta archivos aquí o usa Añadir.",
+      "categories": {
+        "SELF": {
+          "title": "Fotos tuyas",
+          "hint": "Retratos y fotos de cuerpo entero."
+        },
+        "PRODUCTIONS": {
+          "title": "Producciones anteriores",
+          "hint": "Carteles, fotogramas y escenas de trabajos en los que participaste."
+        },
+        "VIDEOS": {
+          "title": "Vídeos generales",
+          "hint": "Tu showreel y tus clips."
+        },
+        "OTHER": {
+          "title": "Otros",
+          "hint": "Cualquier otra cosa útil, por ejemplo un clip de voz."
+        }
+      },
+      "categoryLabel": "Categoría",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Descríbelo en pocas palabras",
+      "descriptionSaved": "Descripción guardada.",
+      "noPreview": "Sin vista previa en este navegador. El archivo está guardado.",
+      "open": "Abrir el archivo",
+      "play": "Reproducir",
+      "listen": "Escuchar"
     },
     "profileEditor": {
       "completeness": "Completitud del perfil",
@@ -1536,7 +1573,8 @@
       "contactHint": "Desactivado por defecto. Tu correo aparece en el sitio público solo mientras esté activado.",
       "sendRequest": "Enviar mi solicitud",
       "requestMessage": "Sitio: {name}. Plantilla: {template}. Versión de vista previa {version}.",
-      "requestPreview": "Esta es la vista previa que usará nuestro equipo para tu solicitud: {name}."
+      "requestPreview": "Esta es la vista previa que usará nuestro equipo para tu solicitud: {name}.",
+      "emptyRequest": "Cuéntanos sobre tu trabajo y creamos tu sitio contigo. Sigues con tu sesión iniciada."
     },
     "sample": {
       "label": "Ejemplo ficticio",

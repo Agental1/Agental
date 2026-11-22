@@ -30,6 +30,8 @@ export const GAP_TAB: Record<ProfileGap, ProfileTab> = {
   physical: "physique",
   bio: "identite",
   links: "identite",
+  productions: "medias",
+  otherMedia: "medias",
 };
 
 export function profileTabHref(tab: ProfileTab): string {
@@ -48,8 +50,10 @@ export const ITEM_TARGET: Record<MissingItem, { tab: ProfileTab; focus: string }
   bio: { tab: "identite", focus: "bio" },
   links: { tab: "identite", focus: "imdbUrl" },
   specialties: { tab: "specialites", focus: "specialties" },
-  photos: { tab: "medias", focus: "media" },
-  video: { tab: "medias", focus: "media" },
+  photos: { tab: "medias", focus: "media-SELF" },
+  video: { tab: "medias", focus: "media-VIDEOS" },
+  productions: { tab: "medias", focus: "media-PRODUCTIONS" },
+  otherMedia: { tab: "medias", focus: "media-OTHER" },
   height: { tab: "physique", focus: "height" },
   physical: { tab: "physique", focus: "hair" },
 };

@@ -159,9 +159,19 @@ export function SitePanel({
       )}
 
       {sites.length === 0 && !draft && (
-        <div className="rounded-sedan-xl border border-border bg-surface p-6">
-          <p className="text-[1.125rem] font-bold">{t("empty")}</p>
-          <Button asChild className="mt-4">
+        <div className="space-y-4 rounded-sedan-xl border border-border bg-surface p-6">
+          <div>
+            <p className="text-[1.125rem] font-bold">{t("empty")}</p>
+            <p className="mt-1 text-[15px] text-fg-muted">{t("emptyRequest")}</p>
+          </div>
+          {/* The request form right here, signed in: the public Limelight
+              page is for visitors and its header reads as signed out. */}
+          <LimelightContactForm
+            defaults={{ name: contact.name, email: contact.email }}
+            submitLabel={t("sendRequest")}
+            source="app-site-panel"
+          />
+          <Button asChild variant="link" className="px-0">
             <Link href={tryHref}>{t("emptyCta")}</Link>
           </Button>
         </div>

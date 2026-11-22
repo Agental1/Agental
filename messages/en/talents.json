@@ -723,7 +723,9 @@
           "video": "Add a self-tape or reel",
           "physical": "Add your physical details",
           "bio": "Write a short bio",
-          "links": "Add an IMDb or portfolio link"
+          "links": "Add an IMDb or portfolio link",
+          "productions": "Add a past production",
+          "otherMedia": "Add another useful file"
         },
         "next": "Next:",
         "cta": "Resume"
@@ -749,7 +751,9 @@
         "specialties": "pick a specialty",
         "birthDate": "add your date of birth",
         "stageName": "add your stage name",
-        "height": "add your height"
+        "height": "add your height",
+        "productions": "add a photo from a past production",
+        "otherMedia": "add another useful file, such as a voice clip"
       },
       "launch": {
         "title": "Launch your first research",
@@ -782,7 +786,9 @@
         "physical": "Add your hair, eyes or build",
         "bio": "Write a short bio",
         "links": "Add an IMDb or portfolio link",
-        "city": "Add your city"
+        "city": "Add your city",
+        "productions": "Add a past production",
+        "otherMedia": "Add another useful file"
       },
       "why": {
         "stageName": "It is the name casting directors see.",
@@ -794,7 +800,9 @@
         "physical": "Many roles describe hair, eyes or build.",
         "bio": "A short bio sets you apart in a search.",
         "links": "A link lets casting directors check your credits.",
-        "city": "Many roles are local."
+        "city": "Many roles are local.",
+        "productions": "Posters and stills show the work you have done.",
+        "otherMedia": "A voice clip or a document can make the difference."
       }
     },
     "candidatures": {
@@ -985,7 +993,36 @@
       "setPrimary": "Set as primary",
       "delete": "Delete",
       "choose": "Choose files",
-      "primary": "Primary"
+      "primary": "Primary",
+      "lead": "General material that helps us find auditions for you. Videos made for one audition go in Reel & Self-tape.",
+      "add": "Add",
+      "empty": "Nothing here yet. Drop files here or use Add.",
+      "categories": {
+        "SELF": {
+          "title": "Photos of yourself",
+          "hint": "Headshots and full-length photos."
+        },
+        "PRODUCTIONS": {
+          "title": "Past productions",
+          "hint": "Posters, stills and scenes from work you were in."
+        },
+        "VIDEOS": {
+          "title": "General videos",
+          "hint": "Your showreel and clips."
+        },
+        "OTHER": {
+          "title": "Other",
+          "hint": "Anything else useful, a voice clip for example."
+        }
+      },
+      "categoryLabel": "Category",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe it in a few words",
+      "descriptionSaved": "Description saved.",
+      "noPreview": "No preview in this browser. The file is saved.",
+      "open": "Open the file",
+      "play": "Play",
+      "listen": "Listen"
     },
     "profileEditor": {
       "completeness": "Profile completeness",
@@ -1536,7 +1573,8 @@
       "contactHint": "Off by default. Your email address appears on the public site only while this is on.",
       "sendRequest": "Send my request",
       "requestMessage": "Site: {name}. Template: {template}. Preview version {version}.",
-      "requestPreview": "This is the preview our team will use for your request: {name}."
+      "requestPreview": "This is the preview our team will use for your request: {name}.",
+      "emptyRequest": "Tell us about your work and we build your site with you. You stay signed in."
     },
     "sample": {
       "label": "Fictional sample",

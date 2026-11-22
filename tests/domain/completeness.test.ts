@@ -33,7 +33,12 @@ const full: CompletenessInput = {
   city: "Los Angeles",
   bio: "Trained at a conservatory.",
   physical: { ...empty, heightCm: 170, hair: "brown" },
-  media: [{ type: "PHOTO" }, { type: "SELFTAPE" }],
+  media: [
+    { type: "PHOTO" },
+    { type: "SELFTAPE" },
+    { type: "PHOTO", category: "PRODUCTIONS" },
+    { type: "AUDIO" },
+  ],
   imdbUrl: "https://www.imdb.com/name/nm1234567/",
   portfolioUrl: "https://ana.example.com/",
 };
@@ -57,7 +62,7 @@ describe("scoreProfile", () => {
 
 describe("profileGaps", () => {
   it("lists photos, video, physical details and bio after signup", () => {
-    expect(profileGaps(fresh)).toEqual(["photos", "video", "physical", "bio", "links"]);
+    expect(profileGaps(fresh)).toEqual(["photos", "video", "physical", "bio", "links", "productions", "otherMedia"]);
   });
 
   it("asks for more than a height", () => {
@@ -67,10 +72,18 @@ describe("profileGaps", () => {
   });
 
   it("counts a reel or a self-tape as video", () => {
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "VIDEO" }] })).toEqual([]);
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "AUDIO" }] })).toEqual([
-      "video",
-    ]);
+    const rest = [{ type: "PHOTO", category: "PRODUCTIONS" }, { type: "AUDIO" }];
+    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "VIDEO" }, ...rest] })).toEqual([]);
+    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, ...rest] })).toEqual(["video"]);
+  });
+
+  it("counts each media category", () => {
+    // A production still is not a photo of yourself, and a reel moved to
+    // Other is not a general video.
+    expect(profileGaps({ ...full, media: [{ type: "PHOTO", category: "PRODUCTIONS" }, { type: "SELFTAPE" }, { type: "AUDIO" }] })).toEqual(["photos"]);
+    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }, { type: "AUDIO" }] })).toEqual(["productions"]);
+    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }, { type: "PHOTO", category: "PRODUCTIONS" }] })).toEqual(["otherMedia"]);
+    expect(scoreProfile({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }] })).toBe(94);
   });
 
   it("treats a blank bio as missing", () => {
@@ -90,20 +103,21 @@ describe("profile links", () => {
 
   it("names the next missing item", () => {
     expect(nextMissingItem(fresh)).toBe("photos");
+    expect(itemHref("productions")).toBe("/talents/app/profil?tab=medias&focus=media-PRODUCTIONS");
     expect(nextMissingItem(full)).toBeNull();
     expect(nextMissingItem({ ...full, city: null })).toBe("city");
     expect(nextMissingItem({ ...full, imdbUrl: null, portfolioUrl: null })).toBe("links");
   });
 
   it("never asks for something already filled in", () => {
-    const base = { ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }] };
+    const base = full;
     // A saved height is not asked for again: the hair, eyes or build is.
     expect(nextMissingItem({ ...base, physical: { ...empty, heightCm: 170 } })).toBe("physical");
     expect(nextMissingItem({ ...base, physical: empty })).toBe("height");
     expect(nextMissingItem({ ...fresh, birthDate: null })).toBe("birthDate");
     expect(nextMissingItem({ ...fresh, stageName: " " })).toBe("stageName");
     expect(nextMissingItem({ ...fresh, specialtiesCount: 0 })).toBe("specialties");
-    expect(nextMissingItem({ ...full, media: [{ type: "PHOTO" }] })).toBe("video");
+    expect(nextMissingItem({ ...full, media: full.media.filter((m) => m.type !== "SELFTAPE") })).toBe("video");
   });
 
   it("agrees with the score: nothing missing exactly at 100", () => {

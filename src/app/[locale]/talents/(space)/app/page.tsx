@@ -16,7 +16,6 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WebsiteCard } from "@/components/talents/website-card";
-import { LIMELIGHT } from "@/domain/limelight";
 import { listMySites } from "@/lib/sites";
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { missingItems, scoreProfile } from "@/domain/completeness";
@@ -312,7 +311,10 @@ export default async function TalentsDashboard({
 
       {/* Last on the page, so the status, the figures and the AI suggestions
           keep their place. */}
-      {!hasSite && <WebsiteCard href={`/talents/${LIMELIGHT.slug}`} appHref="/talents/app/site" />}
+      {/* Stays in the app: the public Limelight page is static and its header
+          always offers "Sign in", which read as being signed out. The app's
+          Website page has the request form. */}
+      {!hasSite && <WebsiteCard href="/talents/app/site" appHref="/talents/app/site" />}
     </div>
   );
 }

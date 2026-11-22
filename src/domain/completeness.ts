@@ -1,4 +1,5 @@
 import type { PhysicalTraits } from "./json";
+import { mediaCategory } from "./media-categories";
 
 /**
  * Profile completeness (0-100) and the list of what is still missing.
@@ -17,14 +18,15 @@ export interface CompletenessInput {
   bio: string | null;
   physical: PhysicalTraits;
   specialtiesCount: number;
-  media: { type: string }[];
+  /** Profile media and self-tapes; `category` as stored (null falls back on the type). */
+  media: { type: string; category?: string | null }[];
   /** Optional links. Either one counts. */
   imdbUrl?: string | null;
   portfolioUrl?: string | null;
 }
 
 /** What the dashboard asks for, in the order it lists them. */
-export const PROFILE_GAPS = ["photos", "video", "physical", "bio", "links"] as const;
+export const PROFILE_GAPS = ["photos", "video", "physical", "bio", "links", "productions", "otherMedia"] as const;
 export type ProfileGap = (typeof PROFILE_GAPS)[number];
 
 const filled = (v: string | null | undefined) => !!v && v.trim().length > 0;
@@ -38,12 +40,15 @@ export function hasPhysicalDetails(p: PhysicalTraits): boolean {
   return p.heightCm != null && [p.hair, p.eyes, p.build].some(filled);
 }
 
-const hasPhoto = (media: CompletenessInput["media"]) =>
-  media.some((m) => m.type === "PHOTO");
+const inCategory = (media: CompletenessInput["media"], category: string) =>
+  media.some((m) => m.type !== "SELFTAPE" && mediaCategory(m) === category);
 
-/** A reel (VIDEO) or a self-tape both show the talent on camera. */
+/** Photos of yourself (headshots, full-length). */
+const hasPhoto = (media: CompletenessInput["media"]) => inCategory(media, "SELF");
+
+/** A general video (showreel, clips), or a self-tape: both show the talent on camera. */
 const hasVideo = (media: CompletenessInput["media"]) =>
-  media.some((m) => m.type === "VIDEO" || m.type === "SELFTAPE");
+  inCategory(media, "VIDEOS") || media.some((m) => m.type === "SELFTAPE");
 
 export function profileGaps(p: CompletenessInput): ProfileGap[] {
   const gaps: ProfileGap[] = [];
@@ -52,6 +57,8 @@ export function profileGaps(p: CompletenessInput): ProfileGap[] {
   if (!hasPhysicalDetails(p.physical)) gaps.push("physical");
   if (!filled(p.bio)) gaps.push("bio");
   if (!filled(p.imdbUrl) && !filled(p.portfolioUrl)) gaps.push("links");
+  if (!inCategory(p.media, "PRODUCTIONS")) gaps.push("productions");
+  if (!inCategory(p.media, "OTHER")) gaps.push("otherMedia");
   return gaps;
 }
 
@@ -92,8 +99,11 @@ export function scoreProfile(p: CompletenessInput): number {
   if (filled(p.bio)) score += 8;
   if (hasPhysicalDetails(p.physical)) score += 12;
   if (p.specialtiesCount > 0) score += 15;
-  if (hasPhoto(p.media)) score += 10;
-  if (hasVideo(p.media)) score += 10;
+  // Media, 20 points over the four categories.
+  if (hasPhoto(p.media)) score += 8;
+  if (hasVideo(p.media)) score += 6;
+  if (inCategory(p.media, "PRODUCTIONS")) score += 4;
+  if (inCategory(p.media, "OTHER")) score += 2;
   // Either link counts, the same rule as the "links" gap: a profile with one
   // link and nothing else missing is 100%, not 94%.
   if (filled(p.imdbUrl) || filled(p.portfolioUrl)) score += 12;

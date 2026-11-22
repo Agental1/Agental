@@ -225,6 +225,12 @@ model Media {
   // transcoding or metadata step.
   status         String   @default("READY") // PROCESSING | READY | FAILED
   title          String?
+  // Profile > Media category (src/domain/media-categories.ts): SELF | PRODUCTIONS
+  // | VIDEOS | OTHER. Null on rows written before categories: read through
+  // mediaCategory(), which falls back on the type.
+  category       String?
+  // A short description the performer writes for the item.
+  description    String?
   // Version of the upload notice the owner accepted. Consent to store and
   // show a file. It is never permission to reuse it or to train a model.
   consentVersion String?

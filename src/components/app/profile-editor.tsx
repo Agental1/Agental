@@ -141,7 +141,7 @@ export function ProfileEditor({
             fields below genuinely are a draft and stay on `data`; media is
             server-owned and mutated by its own actions.
           */}
-          <div data-field="media"><MediaManager media={initial.media} /></div>
+          <MediaManager media={initial.media} />
         </TabsContent>
         <TabsContent value="specialites">
           <SpecialtiesTab data={data} setData={setData} />

@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.5.2] - 2026-11-22
+
+### Changed (round 7b, group 2)
+
+- **Profile > Media in four categories**: photos of yourself, past productions, general videos, other. Each item has a short description and can move to another category. Existing media moved to the closest category (photos to "Photos of yourself", videos to "General videos", the rest to "Other"). Each category counts in profile completeness.
+- **Every uploaded item shows a preview**: the photo itself, a frame of the video with a play button (opens a player), an audio player for voice. iPhone photos (HEIC) are turned into JPEG in the browser before upload, since only Safari can display HEIC; a file the browser still cannot draw says so instead of showing an empty tile.
+- **"Create your website" stays in the app**: the dashboard card opens Website in the app, which now has the Limelight request form when there is no site yet. It used to open the public Limelight page, whose header always shows "Sign in", which looked like being signed out.
+
+Migration `20261130000000_media_categories` (two additive columns on Media, backfilled).
+
 ## [0.5.5.1] - 2026-11-22
 
 ### Changed (round 7b, group 1)

@@ -11,7 +11,7 @@ export async function recomputeCompleteness(profileId: string): Promise<number> 
   const p = await prisma.artistProfile.findUniqueOrThrow({
     where: { id: profileId },
     include: {
-      media: { select: { type: true } },
+      media: { select: { type: true, category: true } },
       _count: { select: { specialties: true } },
     },
   });
@@ -47,7 +47,7 @@ export const COMPLETENESS_SELECT = {
   physical: true,
   imdbUrl: true,
   portfolioUrl: true,
-  media: { select: { type: true } },
+  media: { select: { type: true, category: true } },
   _count: { select: { specialties: true, media: true } },
 } as const;
 
@@ -59,7 +59,7 @@ export function completenessOf(p: {
   physical: string | null;
   imdbUrl: string | null;
   portfolioUrl: string | null;
-  media: { type: string }[];
+  media: { type: string; category: string | null }[];
   _count: { specialties: number };
 }): number {
   return scoreProfile({
