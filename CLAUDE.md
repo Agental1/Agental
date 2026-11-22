@@ -41,6 +41,13 @@ figure in a message file.
   connection; parallel files drop it).
 - Never run database tests or `bun run build` against the database in `.env`: point
   `DATABASE_URL`/`DIRECT_URL` at the local database (localhost) first.
+- Branches: production deploys (`vercel deploy --prod` from this Mac) come from
+  `frontend-redesign`; keep `main` fast-forwarded to it after each release. Work on a branch,
+  open a pull request into `frontend-redesign`, squash-merge, deploy, tag, add the
+  `docs/RELEASES.md` row.
+- A running dev server writes into `.next`; if typecheck reports errors under `.next/dev/types`
+  or pages answer 500 with a JSON parse error, stop the server and delete `.next`. Restart the dev
+  server after `prisma generate`.
 
 ## Skill routing
 
