@@ -186,16 +186,15 @@ describe("priceForOffer", () => {
       studentDiscount: false,
     });
     expect(priceForOffer("signature", { studentApproved: false })).toEqual({
-      amountCents: 19900,
+      amountCents: 14900,
       studentDiscount: false,
     });
   });
 
-  it("charges an approved student the regular price while no student price is set", () => {
-    // The state of src/domain/limelight.ts today: studentPriceUsd is null.
+  it("charges an approved student the round 8 student price ($29)", () => {
     expect(priceForOffer("essential", { studentApproved: true })).toEqual({
-      amountCents: 9900,
-      studentDiscount: false,
+      amountCents: 2900,
+      studentDiscount: true,
     });
   });
 
@@ -871,7 +870,7 @@ describe("startSiteCheckout", () => {
     it("creates a pending order, audits it, then fulfills it when the mock says paid", async () => {
       ownSiteUnpaid();
       tx.siteOrder.create.mockResolvedValue({ id: "o1" });
-      tx.siteOrder.findUnique.mockResolvedValue(pendingOrder({ offer: "signature", amountCents: 19900 }));
+      tx.siteOrder.findUnique.mockResolvedValue(pendingOrder({ offer: "signature", amountCents: 14900 }));
       tx.siteOrder.updateMany.mockResolvedValue({ count: 1 });
       tx.subscription.upsert.mockResolvedValue({ compUntil: null });
 
@@ -882,7 +881,7 @@ describe("startSiteCheckout", () => {
           userId: "u1",
           siteId: "s1",
           offer: "signature",
-          amountCents: 19900,
+          amountCents: 14900,
           currency: "USD",
           studentDiscount: false,
           status: "PENDING",
@@ -898,7 +897,7 @@ describe("startSiteCheckout", () => {
       expect(JSON.parse(audits()[0].after)).toEqual({
         siteId: "s1",
         offer: "signature",
-        amountCents: 19900,
+        amountCents: 14900,
         studentDiscount: false,
       });
       // Fulfillment: the order becomes PAID and Pro is granted.
@@ -912,7 +911,7 @@ describe("startSiteCheckout", () => {
       expect(revalidatePath).toHaveBeenCalledWith("/[locale]/talents/(space)", "layout");
     });
 
-    it("charges the regular price to an approved student while no student price is set", async () => {
+    it("charges an approved student the round 8 student price", async () => {
       ownSiteUnpaid();
       db.studentPriceRequest.findUnique.mockResolvedValue({ status: "APPROVED" });
       tx.siteOrder.create.mockResolvedValue({ id: "o1" });
@@ -924,7 +923,7 @@ describe("startSiteCheckout", () => {
 
       expect(tx.siteOrder.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: expect.objectContaining({ amountCents: 9900, studentDiscount: false }),
+          data: expect.objectContaining({ amountCents: 2900, studentDiscount: true }),
         })
       );
     });

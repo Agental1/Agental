@@ -136,8 +136,7 @@
           "Comentarios de IA sobre tus self-tapes",
           "Respuestas más rápidas del equipo de Agental",
           "Soporte prioritario",
-          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia",
-          "¿Estudiante universitario? Obtén un descuento con tu correo del centro."
+          "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       },
       {
@@ -1492,11 +1491,11 @@
     "nav": "Sitios web",
     "meta": {
       "title": "Limelight by Agental: un sitio web para cada artista",
-      "description": "Envía tus fotos, tu reel y unas líneas sobre tu trabajo. Creamos tu sitio de artista desde 99 $, con el primer año de alojamiento incluido."
+      "description": "Envía tus fotos, tu reel y unas líneas sobre tu trabajo. Creamos tu sitio de artista desde {price}, con el primer año de alojamiento incluido."
     },
     "band": {
       "title": "¿Necesitas un sitio web? Lo creamos contigo.",
-      "body": "Limelight convierte tus fotos, tu reel y tu historia en un sitio que un director de casting abre con un clic. Desde 99 $.",
+      "body": "Limelight convierte tus fotos, tu reel y tu historia en un sitio que un director de casting abre con un clic. Desde {price}.",
       "cta": "Descubrir Limelight"
     },
     "hero": {
@@ -1586,7 +1585,7 @@
       "oneTime": "pago único",
       "essential": {
         "name": "Esencial",
-        "price": "99 $",
+        "price": "{price}",
         "summary": "Una página que lo dice todo.",
         "features": [
           "Retrato, biografía, reel, currículum y formulario de contacto",
@@ -1595,12 +1594,12 @@
           "Lo editas tú cuando quieras",
           "Una ronda de revisión con el equipo"
         ],
-        "renewal": "Alojamiento tras el primer año: 49 $ al año. Cancelable en cualquier momento desde tu espacio.",
+        "renewal": "Alojamiento tras el primer año: {price} al año. Cancelable en cualquier momento desde tu espacio.",
         "cta": "Empezar con Esencial"
       },
       "signature": {
         "name": "Signature",
-        "price": "199 $",
+        "price": "{price}",
         "summary": "Un sitio completo que crece con tu carrera.",
         "features": [
           "Galería, créditos, prensa y más secciones",
@@ -1609,7 +1608,7 @@
           "Demos de audio y temas para voz y música",
           "Tres rondas de revisión con el equipo"
         ],
-        "renewal": "Alojamiento y dominio tras el primer año: 79 $ al año. Cancelable en cualquier momento desde tu espacio.",
+        "renewal": "Alojamiento y dominio tras el primer año: {price} al año. Cancelable en cualquier momento desde tu espacio.",
         "cta": "Empezar con Signature"
       },
       "custom": {
@@ -1646,7 +1645,7 @@
         },
         {
           "q": "¿Qué pasa después del primer año?",
-          "a": "El alojamiento se renueva a 49 $ al año con Esencial y a 79 $ al año con Signature. Puedes cancelar desde tu espacio antes de la renovación."
+          "a": "El alojamiento se renueva a {essential} al año con Esencial y a {signature} al año con Signature. Puedes cancelar desde tu espacio antes de la renovación."
         },
         {
           "q": "Soy músico, bailarín o actor de voz. ¿Es para mí?",
@@ -1678,10 +1677,8 @@
       },
       "budget": "Qué oferta",
       "budgets": {
-        "essential": "Esencial, 99 $",
-        "signature": "Signature, 199 $",
-        "custom": "A medida",
-        "unsure": "Ayúdame a elegir"
+        "essential": "Esencial, {price}",
+        "signature": "Signature, {price}"
       },
       "contactPref": "¿Cómo te contactamos?",
       "prefs": {
@@ -1722,7 +1719,10 @@
       "title": "Crea tu sitio web",
       "body": "Un sitio que los directores de casting abren con un clic. Elige una plantilla y mírala con tu nombre.",
       "cta": "Crear tu sitio web",
-      "resume": "Continuar tu sitio"
+      "resume": "Continuar tu sitio",
+      "improve": "Mejorar tu sitio",
+      "improveBody": "Ya tienes un sitio. Limelight puede hacerlo más fuerte.",
+      "hide": "Ocultar"
     },
     "navApp": "Sitio web",
     "app": {
@@ -1817,5 +1817,15 @@
     "google": "Continuar con Google",
     "apple": "Continuar con Apple",
     "or": "o"
+  },
+  "promotions": {
+    "button": "Promociones",
+    "was": "Antes {price}",
+    "eligibility": "Estudiante de USC: con un email @usc.edu.",
+    "emailPlan": "Escríbenos por el precio de estudiante del plan",
+    "emailWebsite": "Escríbenos por el precio de estudiante del sitio",
+    "subjectPlan": "Precio de estudiante del plan",
+    "subjectWebsite": "Precio de estudiante del sitio",
+    "mailBody": "Email de mi cuenta de Agental: {email}"
   }
 }

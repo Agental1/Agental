@@ -30,8 +30,15 @@ the `{price}`, `{commission}` and `{searches}` tokens filled by `src/lib/plan-pr
 | Premium | $49/month | 7.5% | 250 |
 | Ultimate | $79/month | 5% | 500 |
 
-The internal id of Basic stays `FREE`. College student discount on Pro through a verified
-school email; amount not decided yet. (Restored to this grid on 2026-11-20.)
+The internal id of Basic stays `FREE`. (Restored to this grid on 2026-11-20.)
+
+**Student prices (founders' decision, round 8, 2026-11-22):** a promotion named "USC student",
+eligible with a @usc.edu email: Pro $9/month (instead of $19), Premium $29 (instead of $49),
+Ultimate $59 (instead of $79), Limelight Essential $29 one-time (hosting unchanged, $25/year).
+Promotions are a list in `src/domain/pricing.ts` (`PROMOTIONS`: id, label, eligibility, price per
+product), so another school is a new entry, not new code. Stripe is not connected: the prices are
+shown (the "Promotions" panel on the plan cards) and recorded with Limelight requests; checkout
+still answers "billing unavailable".
 
 ## Casting pricing (pitch deck V2)
 
@@ -45,9 +52,16 @@ school email; amount not decided yet. (Restored to this grid on 2026-11-20.)
 
 ## Limelight
 
-$99 or $199 one-time, plus yearly hosting. Every purchase includes 4 months of Agental Pro
-for free. Student price on the $99 offer: proof of enrollment emailed to contact@agental.co,
-amount not decided yet. During the beta, no payment: the team helps publish.
+Round 8 (founders' decision, 2026-11-22): **Essential $99 one-time + $25/year hosting**,
+**Signature $149 one-time + $79/year hosting** (were $49/year and $199). Student price on Essential:
+$29 one-time, hosting unchanged (USC student promotion above). Every purchase includes 4 months of
+Agental Pro for free. The figures live in `src/domain/limelight.ts` only; the copy reads them
+through tokens. During the beta, no payment: the team helps publish.
+
+Market check (founders, round 8): Carrd with a custom domain about $19/year; Squarespace's
+cheapest plan about $19/month on an annual plan (around $228/year); actor-specific builders such
+as Web For Actors around $99/year; a domain $10 to $20/year. $25/year for Essential hosting on a
+yourname.agental.site address is in line with the cheapest serious options.
 
 ## Payments
 
@@ -171,7 +185,6 @@ physical tiles. A profile is complete without IMDb, a portfolio or videos.
 
 ## Open questions
 
-- Student discount amounts (Pro and Limelight).
 - Stripe connection date.
 - Vercel plan for commercial use.
 - Supabase Pro when real users upload videos.
@@ -189,9 +202,8 @@ except the Talent pricing, which was restored in the same change as this file.
    lifetime stock and calendar months.
 3. **Email verification.** Email-and-password accounts verify with a link
    (`src/lib/email-tokens.ts`), not a 6-digit code yet. The code is round 6 Part 4.
-4. **Limelight figures in the copy.** Prices and hosting renewals ($99, $199, $49 and $79 a
-   year) are written in `messages/*/talents.json` (Limelight sections), while
-   `src/domain/limelight.ts` holds the same figures. They match today but are two sources.
+4. **Limelight figures in the copy.** Fixed 2026-11-22 (round 8): the copy uses tokens filled
+   from `src/domain/limelight.ts`.
 5. **Apple sign-in.** Code can turn Apple on when its keys are set
    (`src/lib/auth/oauth-providers.ts`). It stays off while no Apple keys exist, which matches
    "set aside", but nothing in code forbids it.

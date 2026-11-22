@@ -91,11 +91,14 @@ export function SitePanel({
   sites,
   tryHref,
   contact,
+  defaultNeed,
 }: {
   sites: SiteCard[];
   tryHref: string;
   /** The signed-in performer, to prefill the request form. */
   contact: { name: string; email: string };
+  /** Round 8: "redo" when "Improve your website" opened the form. */
+  defaultNeed?: "redo";
 }) {
   const t = useTranslations("talents.limelight.app");
   const router = useRouter();
@@ -167,7 +170,7 @@ export function SitePanel({
           {/* The request form right here, signed in: the public Limelight
               page is for visitors and its header reads as signed out. */}
           <LimelightContactForm
-            defaults={{ name: contact.name, email: contact.email }}
+            defaults={{ name: contact.name, email: contact.email, need: defaultNeed }}
             submitLabel={t("sendRequest")}
             source="app-site-panel"
           />

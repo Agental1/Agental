@@ -3,7 +3,8 @@ import { prisma } from "@/lib/db";
 import { listMySites } from "@/lib/sites";
 import { date } from "@/lib/format";
 import { LIMELIGHT } from "@/domain/limelight";
-import { formatPlanPrice } from "@/lib/plan-price";
+import { formatPlanPrice, promoPrices } from "@/lib/plan-price";
+import { PromoPrice } from "@/components/talents/promotions";
 import { SitePanel, type SiteCard } from "@/components/talents/site-panel";
 import type { Locale } from "@/i18n/routing";
 
@@ -16,10 +17,13 @@ export async function LimelightSection({
   userId,
   email,
   locale,
+  defaultNeed,
 }: {
   userId: string;
   email: string;
   locale: Locale;
+  /** "redo" when the dashboard's "Improve your website" opened the page. */
+  defaultNeed?: "redo";
 }) {
   const t = await getTranslations({ locale, namespace: "talents" });
   const sites = await listMySites(userId);
@@ -33,6 +37,7 @@ export async function LimelightSection({
     name: to(`${key}.name`),
     summary: to(`${key}.summary`),
     price: formatPlanPrice(LIMELIGHT.plans[key].priceUsd * 100, locale),
+    promos: promoPrices(key === "essential" ? "LIMELIGHT_ESSENTIAL" : "LIMELIGHT_SIGNATURE", locale),
     renewal: to("renewalShort", {
       price: formatPlanPrice(LIMELIGHT.plans[key].renewalUsdPerYear * 100, locale),
     }),
@@ -70,7 +75,8 @@ export async function LimelightSection({
             <div key={o.key} className="rounded-sedan-xl border border-border bg-surface p-5">
               <p className="font-bold">{o.name}</p>
               <p className="mt-1 text-[1.75rem] font-bold leading-none">
-                {o.price} <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>
+                <PromoPrice base={o.price} promos={o.promos} />{" "}
+                <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>
               </p>
               <p className="mt-2 text-[15px] text-fg-muted">{o.summary}</p>
               <p className="mt-1 text-[14px] text-fg-muted">{o.renewal}</p>
@@ -82,6 +88,7 @@ export async function LimelightSection({
         sites={cards}
         tryHref={`/talents/${LIMELIGHT.slug}#try`}
         contact={{ name: profile?.stageName ?? "", email: email }}
+        defaultNeed={defaultNeed}
       />
     </section>
   );

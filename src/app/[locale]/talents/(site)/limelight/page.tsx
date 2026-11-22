@@ -9,6 +9,7 @@ import { seo, jsonLd, serviceLd } from "@/lib/seo";
 import { LimelightContactForm } from "@/components/talents/limelight-contact-form";
 import { SampleSite } from "@/components/talents/sample-site";
 import { LimelightStudio } from "@/components/talents/limelight-studio";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { LIMELIGHT } from "@/domain/limelight";
 import { BETA } from "@/data/beta";
 import { cn } from "@/lib/utils";
@@ -44,7 +45,7 @@ export async function generateMetadata({
     locale,
     path: PATH,
     title: t("meta.title"),
-    description: t("meta.description"),
+    description: t("meta.description", { price: formatPlanPrice(LIMELIGHT.plans.essential.priceUsd * 100, locale) }),
   });
 }
 
@@ -67,7 +68,7 @@ export default async function LimelightPage({
               locale,
               path: PATH,
               name: t("meta.title"),
-              description: t("meta.description"),
+              description: t("meta.description", { price: formatPlanPrice(LIMELIGHT.plans.essential.priceUsd * 100, locale) }),
             })
           ),
         }}
@@ -242,7 +243,7 @@ function Start() {
                         </li>
                       ))}
                     </ul>
-                    <p className="pb-1 text-[13px] leading-relaxed text-fg-subtle">{t(`offers.${key}.renewal`)}</p>
+                    <p className="pb-1 text-[13px] leading-relaxed text-fg-subtle">{t(`offers.${key}.renewal`, { price: usd(LIMELIGHT.plans[key].renewalUsdPerYear) })}</p>
                   </details>
                 </article>
               );
@@ -267,7 +268,15 @@ function Start() {
 /** Native <details>: opens without JavaScript and keeps heading semantics. */
 function Faq() {
   const t = useTranslations("talents.limelight.faq");
-  const items = t.raw("items") as { q: string; a: string }[];
+  const locale = useLocale();
+  const money = (usd: number) => formatPlanPrice(usd * 100, locale);
+  // Hosting figures in the answers come from LIMELIGHT, never from the copy.
+  const items = (t.raw("items") as { q: string; a: string }[]).map((item) => ({
+    q: item.q,
+    a: item.a
+      .replace("{essential}", money(LIMELIGHT.plans.essential.renewalUsdPerYear))
+      .replace("{signature}", money(LIMELIGHT.plans.signature.renewalUsdPerYear)),
+  }));
   return (
     <section className="border-t border-border">
       <div className="mx-auto grid max-w-site gap-10 px-[clamp(16px,3vw,40px)] py-[clamp(48px,6vw,88px)] lg:grid-cols-[1fr_1.4fr]">

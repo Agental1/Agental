@@ -299,3 +299,15 @@ export async function deleteAvailability(id: string): Promise<SaveResult> {
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");
   return { ok: true };
 }
+
+/** Round 8: hide the dashboard's "Improve your website" line for good. */
+export async function dismissWebsiteCard(): Promise<SaveResult> {
+  const profile = await requireProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  await prisma.artistProfile.update({
+    where: { id: profile.id },
+    data: { websiteCardDismissedAt: new Date() },
+  });
+  revalidatePath("/[locale]/talents/(space)/app", "page");
+  return { ok: true };
+}

@@ -87,3 +87,10 @@ Listed here as they come, and copied into the final report.
   elsewhere; the city search itself is a prefix match.
 - Group 3: no school field exists on the profile, so schools (3.5) were not added.
 - Group 3 result (production build log): 5 of 11 free-text cities linked automatically, 6 left as typed (ambiguous or unknown); 5 of 6 phone numbers converted to E.164, 1 left.
+- Group 4: the offer and its quoted price are written at the start of the lead's "what they need"
+  text (the lead table has no price column; no migration for it). Prices come from the
+  configuration, never from the form.
+- Group 4: the "College student? Verify your school email" card stays on Subscription (the
+  existing verification flow); only the plan-card line was replaced by the Promotions panel.
+- Group 4: `tests/api/limelight-leads.test.ts` "two drains at the same moment" passes alone and
+  before the change, and fails only in the full file run on the shared local database (timing).

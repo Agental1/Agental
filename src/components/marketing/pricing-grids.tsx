@@ -4,7 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2B, PlanB2C } from "@/domain/enums";
-import { formatPlanPrice as formatPrice, planFeatureLines } from "@/lib/plan-price";
+import { formatPlanPrice as formatPrice, planFeatureLines, promoPrices } from "@/lib/plan-price";
+import { PromoPrice, PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
 import { cn } from "@/lib/utils";
 
 /**
@@ -44,7 +45,9 @@ function PlanCard({
   lines,
   highlighted,
   expanded,
+  promos,
 }: {
+  promos?: Record<string, string>;
   name: string;
   price: string;
   unit?: string;
@@ -72,9 +75,11 @@ function PlanCard({
         )}
       </div>
       <p className="mt-4 flex items-baseline gap-1.5">
-        <span className="text-[2rem] font-bold leading-none tracking-[-0.03em] tabular-nums">
-          {price}
-        </span>
+        <PromoPrice
+          base={price}
+          promos={promos}
+          className="text-[2rem] font-bold leading-none tracking-[-0.03em] tabular-nums"
+        />
         {unit && <span className="text-[14px] text-fg-muted">{unit}</span>}
       </p>
       <Button asChild className="mt-5" variant={highlighted ? "primary" : "secondary"}>
@@ -115,6 +120,9 @@ export function TalentsPricingGrid({
   const locale = useLocale();
   const plans = (t.raw("plans") as TalentsPlan[]).slice(0, only);
   return (
+    <PromotionsProvider>
+    <div className="space-y-3">
+    <PromotionsButton />
     <div
       className={cn(
         "grid items-start gap-3 sm:grid-cols-2",
@@ -129,6 +137,7 @@ export function TalentsPricingGrid({
             key={plan.name}
             name={plan.name}
             price={formatPrice(def.priceCents, locale)}
+            promos={promoPrices(id, locale)}
             unit={t("perMonth")}
             badge={i === 1 ? t("popular") : undefined}
             cta={plan.cta}
@@ -141,6 +150,8 @@ export function TalentsPricingGrid({
         );
       })}
     </div>
+    </div>
+    </PromotionsProvider>
   );
 }
 

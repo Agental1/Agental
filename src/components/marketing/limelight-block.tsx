@@ -1,4 +1,5 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { formatPlanPrice } from "@/lib/plan-price";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { SampleSite } from "@/components/talents/sample-site";
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 export function LimelightBlock({ className }: { className?: string }) {
   const t = useTranslations("common.home.limelight");
   const tb = useTranslations("talents.limelight.band");
+  const locale = useLocale();
   const tf = useTranslations("talents.limelight.frame");
   const th = useTranslations("talents.limelight.hero");
   const path = `/talents/${LIMELIGHT.slug}`;
@@ -28,7 +30,7 @@ export function LimelightBlock({ className }: { className?: string }) {
       <div>
         <p className="text-[14px] font-bold text-accent">{LIMELIGHT.name}</p>
         <h2 className="display-md mt-2 max-w-[16ch]">{t("title")}</h2>
-        <p className="mt-3 max-w-[48ch] text-fg-muted">{tb("body")}</p>
+        <p className="mt-3 max-w-[48ch] text-fg-muted">{tb("body", { price: formatPlanPrice(LIMELIGHT.plans.essential.priceUsd * 100, locale) })}</p>
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
           <Button asChild size="lg">
             <Link href={`${path}#try`}>{t("try")}</Link>

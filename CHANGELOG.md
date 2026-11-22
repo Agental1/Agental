@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.3.0] - 2026-11-22
+
+### Changed (round 8, group 4)
+
+- **New prices** (founders, round 8): Limelight Essential hosting $25 a year (was $49), Signature $149 (was $199). Student prices as a "USC student" promotion (@usc.edu): Pro $9, Premium $29, Ultimate $59, Limelight Essential $29. Promotions are a list in `src/domain/pricing.ts`.
+- **Promotions panel** above the plan cards, in the app's Subscription page and on the public pricing pages (one shared component): a "USC student" checkbox strikes the old price and shows the new one, plus two buttons that open an email to contact@agental.co (student plan price, student website price) with the account email. Replaces the "College student?" line.
+- **Limelight on Subscription**: the plan cards, then the Limelight section (`#limelight`) with the two offers and the request form. Choosing Essential or Signature is now required (the student price shows when the promotion is checked); "Something custom" and "Help me choose" are gone. The offer, its price and any promotion are recorded with the request.
+- **Public Limelight page** reads every price and hosting figure from the configuration.
+- **Dashboard website card**: with no portfolio website, "Create your website" as before (IMDb alone never hides it); with one, a slim "Improve your website" line that opens the form on "Redo my website", with a close button that hides it for good.
+
+Migration `20261207000000_round8_website_card` (one nullable column).
+
 ## [0.6.2.0] - 2026-11-22
 
 ### Added (round 8, group 3)

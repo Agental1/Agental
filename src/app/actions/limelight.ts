@@ -1,6 +1,7 @@
 "use server";
 
 import { isAdminAccount } from "@/domain/admin";
+import { findPromotion } from "@/domain/pricing";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -13,6 +14,7 @@ import {
   type ErrorKey,
 } from "@/domain/action-result";
 import {
+  LIMELIGHT,
   LIMELIGHT_DEFAULT_CONSENT_VERSION,
   LIMELIGHT_NEED_MAX_LENGTH,
   LimelightLeadInput,
@@ -172,9 +174,22 @@ export async function submitLimelightLead(
     message: formData.get("message") ?? "",
     locale: formData.get("locale") ?? "en",
     source: formData.get("source") ?? undefined,
+    promotion: formData.get("promotion") ?? "",
   });
   if (!parsed.success) return { error: zodError(parsed.error) };
-  const { need, messageKept } = needFromLegacyForm(parsed.data.need, parsed.data.message);
+  const { need: needText, messageKept } = needFromLegacyForm(parsed.data.need, parsed.data.message);
+  // Round 8: the chosen offer and its price are recorded with the request
+  // (read from the configuration, never from the form). Stripe is not
+  // connected, so this is what the team quotes.
+  const offer = parsed.data.budget;
+  const plan = LIMELIGHT.plans[offer];
+  const promo = findPromotion(parsed.data.promotion);
+  const promoCents = promo?.prices[offer === "essential" ? "LIMELIGHT_ESSENTIAL" : "LIMELIGHT_SIGNATURE"];
+  const usd = (n: number) => "USD " + n;
+  const offerLine =
+    "Offer: " + offer + " (" + usd(plan.priceUsd) + " + " + usd(plan.renewalUsdPerYear) + " a year hosting)" +
+    (promo && promoCents != null ? ". Promotion: " + promo.label + " (" + usd(promoCents / 100) + ")" : "");
+  const need = [offerLine, needText].filter(Boolean).join(". ").slice(0, LIMELIGHT_NEED_MAX_LENGTH);
 
   const result = await recordInterest(
     {
