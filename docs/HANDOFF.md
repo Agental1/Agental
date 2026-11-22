@@ -4,30 +4,103 @@ Updated 2026-11-21. Read this first, then `docs/STATUS.md` (every task of the fi
 
 ## Round 7b (2026-11-22): start here
 
-Brief: owner's `Agental_Cowork_Round7b_Prompt.md` (Desktop). Groups 1 and 2 are done on branch
-`round7b`, PR Agental1/Agental#14 (v0.5.5.2), **not merged and not deployed**: auto mode blocked
-`gh pr merge`, so the owner has to merge it (or allow the merge) before the deploy.
+Brief: owner's `Agental_Cowork_Round7b_Prompt.md` (Desktop). All four groups are live:
 
-Deploy once merged: `npx vercel deploy --prod --yes` from a clean `frontend-redesign` checkout
-(the build applies `20261129000000_settings_consent` and `20261130000000_media_categories`, both
-additive), then check `/en/talents/app` (one profile block, avatar menu), `/parametres`, Profile >
-Media, `/site`; tag `live-<date>-r7b-g2` (and note it covers g1), add the RELEASES row. Rollback:
-`vercel promote agental-h6k87gtud-agentalco.vercel.app`.
+| Group | Version | Deployment | Tag | Rollback |
+|---|---|---|---|---|
+| 1 and 2 | v0.5.5.2 (PR #14) | `agental-8i3fiytoc` | `live-2026-11-22-r7b-g2` | `vercel promote agental-h6k87gtud-agentalco.vercel.app` |
+| 3 | v0.5.6.0 (PR #15) | `agental-hlgnsxkcv` | `live-2026-11-22-r7b-g3` | `vercel promote agental-8i3fiytoc-agentalco.vercel.app` |
+| 4 | v0.5.7.0 (PR #16) | `agental-oxx0e06y2` | `live-2026-11-22-r7b-g4` | `vercel promote agental-hlgnsxkcv-agentalco.vercel.app` |
 
 Root cause 2.2: the dashboard "Create your website" card opened the public Limelight page, which is
 pre-rendered and always shows "Sign in", so the person looked signed out (the session was intact).
 The card now opens Website in the app, which has the request form when no site exists.
 
-2.3: HEIC photos (iPhone) were stored as is and only Safari draws them; videos never had a preview.
-HEIC is converted to JPEG in the browser (heic2any, loaded on demand), videos show a frame and a
-player, audio a player, and an undrawable file says so. Existing HEIC files stay HEIC: in Chrome they
-show "No preview in this browser", and a re-upload fixes them.
+### What waits on the owner (in this order)
 
-Not checked: focus landing on the field after a deep link (the preview pane has no window focus,
-so `focus()` is ignored there; links and `data-field` targets are correct), the self-tape Download
-button (no camera in the pane), anything on production.
+1. **Resend (3.1, verification emails).** Production has `EMAIL_FROM` and
+   `EMAIL_VERIFICATION_REQUIRED_SINCE` but **no `RESEND_API_KEY`**, so every email is only logged.
+   In Resend: Domains, check agental.co is "Verified" (if not, add the DNS records Resend lists at
+   name.com, then "Verify"). API Keys, "Create API key", permission "Sending access", domain
+   agental.co. In Vercel, project agental, Settings, Environment Variables, add `RESEND_API_KEY`
+   for Production only, paste the key, save, then tell the agent "redeploy": it redeploys and
+   checks a sign-up email end to end. `EMAIL_FROM` must be an address on agental.co
+   (e.g. `Agental <hello@agental.co>`). Optional: `NEXT_PUBLIC_SITE_URL=https://www.agental.co`
+   in Production (email links work without it, from the request host).
+2. **Account deletion (3.3): your go.** Nothing has been deleted. Sign in as contact@agental.co,
+   open `/en/admin/suppression`: the list, "Export the list (CSV)", the optional warning email
+   (disabled until Resend works), and "Delete all eligible" (type `DELETE <count>`). Rule: email
+   never verified, created more than 7 days ago, never paid, in no organization, not staff, test or
+   approved, not warned in the last 7 days. Read `docs/ACCOUNT_DELETION_PROPOSAL.md` first (no Terms
+   of Service page exists; privacy wording to add; lawyer points). Recommended: send the warning,
+   wait 7 days, then delete. The agent could not list production candidates (no production DB
+   access from this Mac), so the list is only on that page.
+3. **Automatic searches for paid plans (4.1).** `TODO(founders)` in `src/domain/pricing.ts`
+   (`autoSearches` for Pro, Premium, Ultimate; Basic is 1). Until set, paid plans have no separate
+   automatic cap.
+4. **Before switching `WORKFLOW_MODE=live`:** eligibility is now automatic (verified email + 100%
+   profile, no approval). Mark junk accounts Spam first, and consider a daily cap on searches.
+5. **Part D, see below:** the n8n shared secret, the Vercel bypass token, the provider test click,
+   then D3.
 
-Next: Group 3 on Opus (the owner switches model and says "continue").
+### Part D: "Agental Beta V2 - Direct Replies" (set up, waiting for the owner)
+
+The workflow already existed in n8n: **"Agental Beta V2 - Direct Replies"**, id `p2Woctc1Xl0jL7fp`
+(the link the owner gave). It stays **inactive and unpublished**. No other workflow was touched.
+A copy from before the setup is in `~/Downloads/agental-workflows/n8n/agental-pilot/`
+("Direct Replies - before Part D setup ….json"). The n8n API key is in `~/.config/agental/n8n.env`
+(outside the repo, mode 600).
+
+Done by the agent (n8n API):
+- Saved credentials bound on 14 nodes: "OpenAI account" (Luna nodes, Probe OpenAI), "Perplexity
+  account" (search, context, retries, probes), "Gmail account" (Incoming Gmail trigger, thread
+  reads, send, probe).
+- The five app calls now point at staging: `https://agental-staging-agentalco.vercel.app/api/n8n/`
+  `casting/claim`, `casting/complete`, `inbox/claim`, `inbox/complete`, `inbox/review`. Each sends
+  a header `x-vercel-protection-bypass: PASTE_VERCEL_BYPASS_TOKEN` (placeholder).
+- "Beta Test Settings" is set to `mode: 'providers'` (checks the providers, sends nothing).
+- Staging: preview `agental-dq9cit51c` from `frontend-redesign`, aliased to
+  `agental-staging-agentalco.vercel.app`. It answers 302 today: Vercel deployment protection.
+
+Owner steps:
+1. **Confirm Vercel Preview uses the agental-dev database**, and that it has every migration
+   (previews run none). If unsure, tell the agent and give it the dev database URL in
+   `~/.config/agental/dev-db.env` (`DEV_DATABASE_URL=...`): it runs `prisma migrate deploy` there.
+2. **Shared secret.** Terminal: `openssl rand -base64 32`. Vercel, Settings, Environment Variables:
+   `N8N_SHARED_SECRET` = that value, **Preview only** (never Production during Part D). n8n,
+   Credentials, Create, "Header Auth": name `Agental app (staging)`, Name `Authorization`, Value
+   `Bearer <the same value>`. Then in the workflow open the five HTTP nodes above (Claim Opted-In
+   Profiles, Record Scheduled Results, Claim Reply for This Message, Save Reply Receipt and Review
+   Flag, Queue Inbox Review) and pick that credential (or tell the agent its name: it binds them).
+3. **Bypass token.** Vercel, project agental, Settings, Deployment Protection, "Protection Bypass
+   for Automation", Add, copy it. Either paste it in place of `PASTE_VERCEL_BYPASS_TOKEN` in the five
+   nodes, or save it in `~/.config/agental/vercel-bypass.env` (`VERCEL_BYPASS=...`) and tell the
+   agent. Then the agent redeploys the preview (env changes need a new build) and re-aliases it.
+4. **Provider test (one click).** Open the workflow in Chrome, "Execute workflow" (manual trigger,
+   mode `providers`). Expected: Probe OpenAI Luna, Probe Perplexity Search, Probe Perplexity
+   Context and Probe Gmail Account Access green; nothing is sent.
+5. **D3, the email test (owner only).** From an address you control, email the team Gmail
+   mailbox ("Agental D3 test"). In Gmail, open it and copy the thread id and message id (the n8n
+   "Incoming Gmail" node, "Fetch test event", shows both). In "Beta Test Settings" set:
+   `mode: 'inbox_test'`, `testTo: '<your address, lowercase>'`, `gmailThreadId`, `gmailMessageId`,
+   `confirmSend: 'SEND TEST TO <your address, lowercase>'`. Execute. Expected:
+   - one reply in the same Gmail thread, to your address only;
+   - in the staging database, one `inbox_replies` row for that thread and message, status
+     `sent` (or `review` if it asked for a human), with `claimId` and `sentMessageId` set;
+   - if the workflow flags it, the thread appears in staging Admin, Messages, "Waiting for the
+     Agental team".
+   A second execution with the same ids answers "existing" and sends nothing.
+   Then set `mode` back to `'providers'`.
+
+### Then: the admin site at admin.agental.co
+
+See "Next 2" below; progress is noted there.
+
+### Not checked
+
+Signed-in production pages (no production session in the agent's browser); the self-tape
+Download button and recording into a role's video slot (no camera in the agent's browser); deep
+link focus (the agent's browser has no window focus).
 
 ## Round 7 (2026-11-21): start here
 
