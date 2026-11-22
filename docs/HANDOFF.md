@@ -1,6 +1,6 @@
 # Handoff for the next model or person
 
-Updated 2026-11-22 (round 7 closed). Read the Round 9 carryover first, then "Round 7b" below for
+Updated 2026-11-22 (round 8 closed: v0.6.4.0 live, see docs/ROUND8_PLAN.md and docs/ROLLBACK_R8.md). Read the Round 9 carryover first, then "Round 7b" below for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
 
 ## Round 9 carryover
