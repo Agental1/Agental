@@ -24,6 +24,6 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const body = (await req.json().catch(() => ({}))) as { all?: boolean; key?: string };
   if (body.all) await markAllRead(session.user.id, portalOf(session.user.kind));
-  else if (typeof body.key === "string" && body.key.length < 80) await markOneRead(session.user.id, body.key);
+  else if (typeof body.key === "string" && body.key.length < 80) await markOneRead(session.user.id, body.key, portalOf(session.user.kind));
   return NextResponse.json({ ok: true });
 }

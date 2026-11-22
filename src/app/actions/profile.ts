@@ -313,7 +313,7 @@ export async function dismissWebsiteCard(): Promise<SaveResult> {
 }
 
 /** The text of the SMS consent the performer ticks, by version (round 8). */
-export const SMS_CONSENT_VERSION = "sms-roles-2026-11-22";
+const SMS_CONSENT_VERSION = "sms-roles-2026-11-22";
 
 const RoleAlertInput = z.object({
   channel: z.enum(["email", "sms", "both"]),

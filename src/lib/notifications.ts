@@ -93,12 +93,18 @@ export async function markAllRead(userId: string, portal: "TALENT" | "CASTING"):
 }
 
 /** One item read (on click). Only the owner's own notification can be marked. */
-export async function markOneRead(userId: string, key: string): Promise<void> {
+export async function markOneRead(userId: string, key: string, portal: "TALENT" | "CASTING" = "TALENT"): Promise<void> {
   const [type, id] = key.split(":");
   if (!id) return;
   if (type === "n") {
     await prisma.notification.updateMany({ where: { id, userId, readAt: null }, data: { readAt: new Date() } });
   } else if (type === "a") {
+    // Only a live announcement of the person's own audience (an unknown id
+    // would otherwise trip the foreign key).
+    const live = await prisma.announcement.count({
+      where: { id, archivedAt: null, audience: { in: ["ALL", portal] } },
+    });
+    if (live === 0) return;
     await prisma.announcementRead.createMany({ data: [{ announcementId: id, userId }], skipDuplicates: true });
   }
 }

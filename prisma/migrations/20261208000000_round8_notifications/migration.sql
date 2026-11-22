@@ -70,42 +70,28 @@ DROP TRIGGER IF EXISTS "ApplicationDraft_notify_insert" ON "ApplicationDraft";
 CREATE TRIGGER "ApplicationDraft_notify_insert" AFTER INSERT ON "ApplicationDraft"
   FOR EACH ROW EXECUTE FUNCTION agental_notify_draft_insert();
 
--- Audition updates: the team's decision on a role (not the performer's own steps).
-CREATE OR REPLACE FUNCTION agental_notify_draft_status() RETURNS TRIGGER LANGUAGE plpgsql AS $$
-DECLARE v_user TEXT; v_role TEXT;
-BEGIN
-  IF NEW.status IS NOT DISTINCT FROM OLD.status OR NEW.status NOT IN ('APPROVED', 'DECLINED', 'NEEDS_INFO') THEN
-    RETURN NEW;
-  END IF;
-  SELECT p."userId" INTO v_user FROM "ArtistProfile" p WHERE p.id = NEW."profileId";
-  SELECT coalesce(b."roleName", b.title) INTO v_role FROM "Brief" b WHERE b.id = NEW."briefId";
-  PERFORM agental_notify(v_user, 'STATUS', 'Application update', v_role,
-    '/talents/app/candidatures/' || NEW.id, jsonb_build_object('role', v_role, 'status', NEW.status));
-  RETURN NEW;
-END $$;
-DROP TRIGGER IF EXISTS "ApplicationDraft_notify_status" ON "ApplicationDraft";
-CREATE TRIGGER "ApplicationDraft_notify_status" AFTER UPDATE OF status ON "ApplicationDraft"
-  FOR EACH ROW EXECUTE FUNCTION agental_notify_draft_status();
+-- Audition updates on a drafted role: none from a trigger. APPROVED, DECLINED
+-- and NEEDS_INFO on "ApplicationDraft" are set by the performer themselves
+-- (reviewDraft), so notifying them would echo their own click.
 
--- Roles found and audition updates from the Casting side (Candidature).
+-- Audition updates from the Casting side (Candidature): only the statuses a
+-- casting team means the performer to see. Never on insert (a match is a
+-- private shortlist entry) and never for STARRED, EXCLUDED or SHORTLISTED.
 CREATE OR REPLACE FUNCTION agental_notify_candidature() RETURNS TRIGGER LANGUAGE plpgsql AS $$
 DECLARE v_user TEXT; v_role TEXT;
 BEGIN
-  IF NEW."artistProfileId" IS NULL THEN RETURN NEW; END IF;
-  IF TG_OP = 'UPDATE' AND NEW.status IS NOT DISTINCT FROM OLD.status THEN RETURN NEW; END IF;
+  IF NEW."artistProfileId" IS NULL OR NEW.status IS NOT DISTINCT FROM OLD.status
+     OR NEW.status NOT IN ('SELFTAPE_REQUESTED', 'INVITED', 'CONTRACTED') THEN
+    RETURN NEW;
+  END IF;
   SELECT p."userId" INTO v_user FROM "ArtistProfile" p WHERE p.id = NEW."artistProfileId";
   SELECT pr.title INTO v_role FROM "Project" pr WHERE pr.id = NEW."projectId";
-  IF TG_OP = 'INSERT' THEN
-    PERFORM agental_notify(v_user, 'ROLE_FOUND', 'New role found', v_role, '/talents/app/candidatures',
-      jsonb_build_object('role', v_role));
-  ELSE
-    PERFORM agental_notify(v_user, 'STATUS', 'Application update', v_role, '/talents/app/candidatures',
-      jsonb_build_object('role', v_role, 'status', NEW.status));
-  END IF;
+  PERFORM agental_notify(v_user, 'STATUS', 'Application update', v_role, '/talents/app/candidatures',
+    jsonb_build_object('role', v_role, 'status', NEW.status));
   RETURN NEW;
 END $$;
 DROP TRIGGER IF EXISTS "Candidature_notify" ON "Candidature";
-CREATE TRIGGER "Candidature_notify" AFTER INSERT OR UPDATE OF status ON "Candidature"
+CREATE TRIGGER "Candidature_notify" AFTER UPDATE OF status ON "Candidature"
   FOR EACH ROW EXECUTE FUNCTION agental_notify_candidature();
 
 -- Messages: a reply from the Agental team or the assistant.
@@ -127,6 +113,5 @@ CREATE TRIGGER "Message_notify" AFTER INSERT ON "Message"
 -- No API role may call these directly: they run only as triggers.
 REVOKE EXECUTE ON FUNCTION agental_notify(TEXT, TEXT, TEXT, TEXT, TEXT, JSONB) FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION agental_notify_draft_insert() FROM PUBLIC;
-REVOKE EXECUTE ON FUNCTION agental_notify_draft_status() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION agental_notify_candidature() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION agental_notify_message() FROM PUBLIC;

@@ -49,6 +49,28 @@ runs in its own session before round 9.
 - A running dev server corrupts `.next` (see CLAUDE.md, Tooling); stop it and delete `.next` before typecheck or build.
 - Local test runs leave `test-*` rows in the local database (local only).
 
+### 4. From round 8 (2026-11-22)
+
+- **SMS for roles found** needs a provider (for example Twilio), an API key the owner pastes in
+  Vercel, and US carrier registration (10DLC brand and campaign) before the first text. The
+  choice and the consent (text version `sms-roles-2026-11-22`, date) are already stored on
+  `ArtistProfile` (`roleAlertChannel`, `smsConsentAt`, `smsConsentVersion`). Nothing sends today.
+- **Verification emails** (the 100% message's "Resend the email" link) still wait on
+  `RESEND_API_KEY` (section 1).
+- **Bell refresh**: polling every 60 s. Supabase Realtime would need Supabase Auth sessions or a
+  signed channel; this app uses its own sessions.
+- **Triggers and n8n**: the notification trigger functions are not SECURITY DEFINER. If n8n ever
+  writes `ApplicationDraft` or `Message` rows directly with a restricted database role, that role
+  needs INSERT on `Notification`. Today n8n goes through the app's routes (owner role).
+- **Automatic searches for paid plans** (`autoSearches`, TODO(founders)) are unchanged; the
+  locked-search dialog says "4 more" on Basic from the plan allowance minus one.
+- **Media drag and drop**: mouse and keyboard paths were checked locally in the preview pane;
+  touch was not tested on a real phone.
+- **Signed-in pages on production** were not clicked through (no production session in the
+  agent's browser); all checks ran on localhost with the local database.
+- 6 free-text cities and 1 phone number could not be linked automatically; they show "pick it
+  from the list" until the performer edits them.
+
 ## Round 7b (2026-11-22): start here
 
 Brief: owner's `Agental_Cowork_Round7b_Prompt.md` (Desktop). All four groups are live:
