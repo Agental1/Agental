@@ -1414,7 +1414,8 @@
       "customPlaceholder": "Tapez un nom",
       "editAgent": "Modifier votre agent IA",
       "stepsLabel": "Étapes de configuration",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "savedNote": "Votre agent IA est enregistré."
     },
     "team": {
       "title": "Équipe Agental",

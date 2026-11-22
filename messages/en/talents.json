@@ -1414,7 +1414,8 @@
       "customPlaceholder": "Type a name",
       "editAgent": "Edit your AI agent",
       "stepsLabel": "Setup steps",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "savedNote": "Your AI agent is saved."
     },
     "team": {
       "title": "Agental team",

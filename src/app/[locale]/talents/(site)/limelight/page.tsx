@@ -172,8 +172,6 @@ function Start() {
   const tc = useTranslations("common.pricing");
   const locale = useLocale();
   const plans = ["essential", "signature"] as const;
-  // TODO(founders): the student price for the $99 offer is not set yet (null).
-  const studentPriceUsd = LIMELIGHT.plans.essential.studentPriceUsd;
   const usd = (amount: number) =>
     new Intl.NumberFormat(locale, {
       style: "currency",
@@ -217,13 +215,11 @@ function Start() {
                   <p className="mt-3 text-[14.5px] font-bold text-accent">
                     {t("offers.proIncluded", { months: LIMELIGHT.includedProMonths })}
                   </p>
-                  {key === "essential" && (
+                  {LIMELIGHT.plans[key].studentPriceUsd != null && (
                     <p className="mt-2 text-[14px] leading-snug text-fg-muted">
                       {t("offers.student")}{" "}
                       <span className="font-bold text-fg">
-                        {studentPriceUsd != null
-                          ? t("offers.studentPrice", { price: usd(studentPriceUsd) })
-                          : t("offers.studentPending")}
+                        {t("offers.studentPrice", { price: usd(LIMELIGHT.plans[key].studentPriceUsd ?? 0) })}
                       </span>
                     </p>
                   )}

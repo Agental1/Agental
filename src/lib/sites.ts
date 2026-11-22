@@ -261,15 +261,15 @@ export async function getMyStudentPriceRequest(
 /** The price fields `priceForOffer` reads. `LIMELIGHT.plans` fits. */
 export interface LimelightPrices {
   essential: { priceUsd: number; studentPriceUsd: number | null };
-  signature: { priceUsd: number };
+  signature: { priceUsd: number; studentPriceUsd?: number | null };
 }
 
 /**
  * What an offer costs this buyer, in cents.
  *
- * The student price exists on Essential only, for a buyer whose request an
- * admin approved, and only once the founders have set the amount
- * (`studentPriceUsd`). An amount that is not below the regular price is
+ * The student price applies, for a buyer whose request an admin approved, on
+ * an offer whose amount the founders have set (`studentPriceUsd`: Essential
+ * $29 since round 8, Signature $69 since round 8b). An amount that is not below the regular price is
  * ignored: it would be a configuration mistake, not a discount.
  *
  * `prices` is a parameter so the student case can be tested before the real
@@ -281,8 +281,8 @@ export function priceForOffer(
   prices: LimelightPrices = LIMELIGHT.plans
 ): { amountCents: number; studentDiscount: boolean } {
   const regular = prices[offer].priceUsd;
-  if (offer === "essential" && opts.studentApproved) {
-    const student = prices.essential.studentPriceUsd;
+  if (opts.studentApproved) {
+    const student = prices[offer].studentPriceUsd;
     if (
       typeof student === "number" &&
       Number.isFinite(student) &&

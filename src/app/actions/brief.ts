@@ -1,6 +1,7 @@
 "use server";
 
 import { err, type ActionError } from "@/domain/action-result";
+import { NO_ACCENTS } from "@/domain/accents";
 import { reconcileShortlist } from "@/domain/shortlist";
 import { getLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
@@ -120,7 +121,7 @@ async function runShortlist(projectId: string): Promise<void> {
         age: ageFromBirthDate(p.birthDate),
         city: p.city ?? undefined,
         languages: phys.languages,
-        accents: phys.accents,
+        accents: phys.accents.filter((a) => a !== NO_ACCENTS),
         specialties: p.specialties.map((s) => s.kind),
         minRateEuros: p.minRateCents ? p.minRateCents / 100 : undefined,
       };

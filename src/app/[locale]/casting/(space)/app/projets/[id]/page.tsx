@@ -1,6 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { NO_ACCENTS } from "@/domain/accents";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -81,7 +82,7 @@ export default async function ProjectShortlistPage({
         status: c.status,
         rateEuros: c.estimatedRateCents ? c.estimatedRateCents / 100 : null,
         city: c.artistProfile.city,
-        accents: phys.accents,
+        accents: phys.accents.filter((a) => a !== NO_ACCENTS),
         isMinor: c.artistProfile.isMinor,
         primaryMediaId: c.artistProfile.media[0]?.id ?? null,
         ficheHref: `/casting/app/projets/${project.id}/talent/${c.id}`,

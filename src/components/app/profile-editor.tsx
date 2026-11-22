@@ -797,7 +797,7 @@ function BuildSelect({
   return (
     <div className="space-y-1.5">
       <Select
-        value={editing ? "add" : (known ?? (own ? "own" : undefined))}
+        value={editing ? "add" : (known ?? (own ? "own" : ""))}
         onValueChange={(v) => {
           if (v === "add") return setEditing(true);
           if (v === "own") return;
@@ -807,7 +807,9 @@ function BuildSelect({
       >
         <SelectTrigger className="w-full" aria-label={label}>
           <SelectValue placeholder={t(`${e}.choose`)}>
-            {editing ? (own ?? t(`${e}.addOwn`)) : known ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other") : (own ?? undefined)}
+            {known
+              ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other")
+              : (own ?? (editing ? t(`${e}.addOwn`) : undefined))}
           </SelectValue>
         </SelectTrigger>
         <SelectContent data-portal="talents">
@@ -830,7 +832,7 @@ function BuildSelect({
           onChange={(ev) => onChange(ev.target.value)}
           onBlur={() => {
             onBlur();
-            if (raw) setEditing(false);
+            setEditing(false);
           }}
           className="h-10"
         />

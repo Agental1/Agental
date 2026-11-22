@@ -40,7 +40,8 @@ export const LIMELIGHT = {
       /** Student price (USC student promotion, see PROMOTIONS in pricing.ts). */
       studentPriceUsd: 29 as number | null,
     },
-    signature: { priceUsd: 149, renewalUsdPerYear: 79 },
+    // Round 8b (founders, 2026-11-22): student Signature $69.
+    signature: { priceUsd: 149, renewalUsdPerYear: 79, studentPriceUsd: 69 as number | null },
   },
 } as const;
 

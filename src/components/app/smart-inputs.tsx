@@ -361,6 +361,12 @@ export function ChipMultiSelect({
   const [query, setQuery] = useState("");
   const add = (v: string) => {
     const clean = v.trim().slice(0, 60);
+    // Typing the stored "none" value itself means the none option.
+    if (none && (clean.toLowerCase() === none.value.toLowerCase() || clean.toLowerCase() === none.label.toLowerCase())) {
+      onChange([none.value]);
+      setQuery("");
+      return;
+    }
     const rest = none ? values.filter((x) => x !== none.value) : values;
     if (!clean || rest.some((x) => x.toLowerCase() === clean.toLowerCase())) return;
     onChange([...rest, clean]);

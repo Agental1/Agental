@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { Check, PenLine, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,25 +28,46 @@ import { cn } from "@/lib/utils";
  * email. When it is built, its server logic goes in `src/lib/assistant/` and
  * reads these choices from ArtistProfile.agent*.
  */
-export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null }) {
+export function AgentFindPreview({
+  saved: initial,
+}: {
+  saved: AgentSetup | null;
+}) {
   const t = useTranslations("talents.space.find");
   const [saved, setSaved] = useState<AgentSetup | null>(initial);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
-  const [name, setName] = useState<AgentNameChoice | null>(initial?.name ?? null);
+  const [name, setName] = useState<AgentNameChoice | null>(
+    initial?.name ?? null,
+  );
   const [customName, setCustomName] = useState(initial?.customName ?? "");
   const [helps, setHelps] = useState<AgentHelp[]>(initial?.helps ?? []);
   const [error, setError] = useState<ActionError | undefined>();
   const [pending, startTransition] = useTransition();
+  // After a save, focus moves to the small "Edit your AI agent" line and a
+  // status message announces it (the Save button it replaces unmounts).
+  const [justSaved, setJustSaved] = useState(false);
+  const editRef = useRef<HTMLButtonElement>(null);
+  const [focusCustom, setFocusCustom] = useState(false);
+  useEffect(() => {
+    if (justSaved) editRef.current?.focus();
+  }, [justSaved]);
 
   const steps = [t("steps.name"), t("steps.help"), t("steps.review")];
-  const nameOk = name !== null && (name !== "custom" || customName.trim().length > 0);
+  const nameOk =
+    name !== null && (name !== "custom" || customName.trim().length > 0);
   const canNext = step === 0 ? nameOk : step === 1 ? helps.length > 0 : true;
   const nameLabel = (n: AgentNameChoice | null, custom: string | null) =>
-    n === "custom" ? (custom ?? "").trim() || t("none") : n ? t(`names.${n}`) : t("none");
+    n === "custom"
+      ? (custom ?? "").trim() || t("none")
+      : n
+        ? t(`names.${n}`)
+        : t("none");
 
   function toggle(help: Help) {
-    setHelps((h) => (h.includes(help) ? h.filter((x) => x !== help) : [...h, help]));
+    setHelps((h) =>
+      h.includes(help) ? h.filter((x) => x !== help) : [...h, help],
+    );
   }
 
   function reopen() {
@@ -55,6 +76,7 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
     setHelps(saved?.helps ?? []);
     setStep(0);
     setError(undefined);
+    setJustSaved(false);
     setOpen(true);
   }
 
@@ -62,26 +84,43 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
     if (!name) return;
     setError(undefined);
     startTransition(async () => {
-      const res = await saveAgentSetup({ name, customName: name === "custom" ? customName : undefined, helps });
+      const res = await saveAgentSetup({
+        name,
+        customName: name === "custom" ? customName : undefined,
+        helps,
+      });
       if (!res.ok) return setError(res.error);
-      setSaved({ name, customName: name === "custom" ? customName.trim() : null, helps });
+      setSaved({
+        name,
+        customName: name === "custom" ? customName.trim() : null,
+        helps,
+      });
       setOpen(false);
+      setJustSaved(true);
     });
   }
 
   // Saved and closed: one small line at the top of Messages.
   if (saved && !open) {
     return (
-      <button
-        type="button"
-        onClick={reopen}
-        className="pressable inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-surface px-4 text-[14.5px] font-bold text-accent [--hover-scale:1.02]"
-      >
-        <Sparkles aria-hidden="true" className="size-4" />
-        {t("editAgent")}
-        <span className="font-normal text-fg-muted">· {nameLabel(saved.name, saved.customName)}</span>
-        <PenLine aria-hidden="true" className="size-4" />
-      </button>
+      <div>
+        <button
+          ref={editRef}
+          type="button"
+          onClick={reopen}
+          className="pressable inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-surface px-4 text-[14.5px] font-bold text-accent [--hover-scale:1.02]"
+        >
+          <Sparkles aria-hidden="true" className="size-4" />
+          {t("editAgent")}
+          <span className="font-normal text-fg-muted">
+            · {nameLabel(saved.name, saved.customName)}
+          </span>
+          <PenLine aria-hidden="true" className="size-4" />
+        </button>
+        <p role="status" className="sr-only">
+          {justSaved ? t("savedNote") : ""}
+        </p>
+      </div>
     );
   }
 
@@ -91,12 +130,17 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
       className="accent-wash rounded-sedan-xl border border-accent/50 bg-surface p-[clamp(16px,2.4vw,28px)]"
     >
       <div className="flex items-start gap-3">
-        <Sparkles aria-hidden="true" className="mt-1 size-5 shrink-0 text-accent" />
+        <Sparkles
+          aria-hidden="true"
+          className="mt-1 size-5 shrink-0 text-accent"
+        />
         <div>
           <h2 id="find-title" className="text-[1.25rem] leading-snug">
             {saved ? t("editAgent") : t("intro")}
           </h2>
-          <p className="mt-1 max-w-[62ch] text-[15px] text-fg-muted">{t("explain")}</p>
+          <p className="mt-1 max-w-[62ch] text-[15px] text-fg-muted">
+            {t("explain")}
+          </p>
         </div>
       </div>
 
@@ -113,7 +157,11 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                 aria-current={i === step ? "step" : undefined}
                 className={cn(
                   "flex items-center gap-2 rounded-full px-3 py-1.5 text-[13.5px] font-bold",
-                  i === step ? "bg-accent text-accent-fg" : i < step ? "bg-accent-soft text-accent" : "bg-surface-2 text-fg-muted"
+                  i === step
+                    ? "bg-accent text-accent-fg"
+                    : i < step
+                      ? "bg-accent-soft text-accent"
+                      : "bg-surface-2 text-fg-muted",
                 )}
               >
                 <span className="tabular-nums">{i + 1}</span>
@@ -128,14 +176,16 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
           <div className="enter mt-4" key={step}>
             {step === 0 && (
               <fieldset>
-                <legend className="text-[15px] text-fg-muted">{t("nameLead")}</legend>
+                <legend className="text-[15px] text-fg-muted">
+                  {t("nameLead")}
+                </legend>
                 <div className="mt-3 grid gap-2 sm:grid-cols-3">
                   {AGENT_NAMES.map((n) => (
                     <label
                       key={n}
                       className={cn(
                         "pressable flex cursor-pointer items-center gap-3 rounded-sedan-lg border bg-surface px-4 py-3 [--hover-scale:1.015] [--press-scale:1.03] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--ring)]",
-                        name === n ? "border-accent" : "border-border"
+                        name === n ? "border-accent" : "border-border",
                       )}
                     >
                       <input
@@ -143,27 +193,42 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                         name="find-name"
                         checked={name === n}
                         onChange={() => setName(n)}
+                        onClick={() => setFocusCustom(n === "custom")}
                         className="sr-only"
                       />
                       <span
                         aria-hidden="true"
                         className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--blue),var(--blue-lift))] font-bold text-white"
                       >
-                        {n === "custom" ? <PenLine className="size-4" /> : t(`names.${n}`)[0]}
+                        {n === "custom" ? (
+                          <PenLine className="size-4" />
+                        ) : (
+                          t(`names.${n}`)[0]
+                        )}
                       </span>
-                      <span className="flex-1 text-[1.0625rem] font-bold">{t(`names.${n}`)}</span>
-                      {name === n && <Check aria-hidden="true" className="size-5 text-accent" />}
+                      <span className="flex-1 text-[1.0625rem] font-bold">
+                        {t(`names.${n}`)}
+                      </span>
+                      {name === n && (
+                        <Check
+                          aria-hidden="true"
+                          className="size-5 text-accent"
+                        />
+                      )}
                     </label>
                   ))}
                 </div>
                 {name === "custom" && (
                   <div className="mt-3 max-w-sm space-y-1.5">
-                    <label htmlFor="find-custom-name" className="text-[14px] font-bold">
+                    <label
+                      htmlFor="find-custom-name"
+                      className="text-[14px] font-bold"
+                    >
                       {t("customLabel")}
                     </label>
                     <Input
                       id="find-custom-name"
-                      autoFocus
+                      autoFocus={focusCustom}
                       maxLength={AGENT_CUSTOM_NAME_MAX}
                       value={customName}
                       placeholder={t("customPlaceholder")}
@@ -176,7 +241,9 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
 
             {step === 1 && (
               <fieldset>
-                <legend className="text-[15px] text-fg-muted">{t("helpLead")}</legend>
+                <legend className="text-[15px] text-fg-muted">
+                  {t("helpLead")}
+                </legend>
                 <div className="mt-3 grid gap-2 md:grid-cols-2">
                   {AGENT_HELPS.map((h) => {
                     const on = helps.includes(h);
@@ -185,21 +252,30 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                         key={h}
                         className={cn(
                           "pressable flex cursor-pointer items-start gap-3 rounded-sedan-lg border bg-surface px-4 py-3 [--hover-scale:1.01] [--press-scale:1.02] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--ring)]",
-                          on ? "border-accent" : "border-border"
+                          on ? "border-accent" : "border-border",
                         )}
                       >
-                        <input type="checkbox" checked={on} onChange={() => toggle(h)} className="sr-only" />
+                        <input
+                          type="checkbox"
+                          checked={on}
+                          onChange={() => toggle(h)}
+                          className="sr-only"
+                        />
                         <span
                           aria-hidden="true"
                           className={cn(
                             "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-md border-2",
-                            on ? "border-accent bg-accent text-accent-fg" : "border-border-strong"
+                            on
+                              ? "border-accent bg-accent text-accent-fg"
+                              : "border-border-strong",
                           )}
                         >
                           {on && <Check className="size-3" strokeWidth={3} />}
                         </span>
                         <span className="block">
-                          <span className="block font-bold leading-snug">{t(`helps.${h}.title`)}</span>
+                          <span className="block font-bold leading-snug">
+                            {t(`helps.${h}.title`)}
+                          </span>
                           <span className="mt-0.5 block text-[14px] leading-snug text-fg-muted">
                             {t(`helps.${h}.sample`)}
                           </span>
@@ -217,8 +293,12 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                 <dl className="mt-3 space-y-2">
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-sedan-lg border border-border bg-surface px-4 py-3">
                     <div>
-                      <dt className="text-[13px] text-fg-muted">{t("assistant")}</dt>
-                      <dd className="font-bold">{nameLabel(name, customName)}</dd>
+                      <dt className="text-[13px] text-fg-muted">
+                        {t("assistant")}
+                      </dt>
+                      <dd className="font-bold">
+                        {nameLabel(name, customName)}
+                      </dd>
                     </div>
                     <button
                       type="button"
@@ -230,7 +310,9 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                   </div>
                   <div className="flex flex-wrap items-start justify-between gap-3 rounded-sedan-lg border border-border bg-surface px-4 py-3">
                     <div>
-                      <dt className="text-[13px] text-fg-muted">{t("helpWith")}</dt>
+                      <dt className="text-[13px] text-fg-muted">
+                        {t("helpWith")}
+                      </dt>
                       <dd>
                         {helps.length === 0 ? (
                           <span className="font-bold">{t("none")}</span>
@@ -261,7 +343,11 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {step > 0 && (
-              <Button variant="secondary" className="border-border-strong" onClick={() => setStep(step - 1)}>
+              <Button
+                variant="secondary"
+                className="border-border-strong"
+                onClick={() => setStep(step - 1)}
+              >
                 {t("back")}
               </Button>
             )}
@@ -270,7 +356,11 @@ export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null 
                 {t("next")}
               </Button>
             ) : (
-              <Button loading={pending} disabled={!nameOk || helps.length === 0} onClick={save}>
+              <Button
+                loading={pending}
+                disabled={!nameOk || helps.length === 0}
+                onClick={save}
+              >
                 {t("save")}
               </Button>
             )}

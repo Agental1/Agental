@@ -1414,7 +1414,8 @@
       "customPlaceholder": "输入名称",
       "editAgent": "编辑你的 AI 助手",
       "stepsLabel": "设置步骤",
-      "cancel": "取消"
+      "cancel": "取消",
+      "savedNote": "你的 AI 助手已保存。"
     },
     "team": {
       "title": "Agental 团队",
