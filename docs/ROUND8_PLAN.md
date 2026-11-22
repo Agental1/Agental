@@ -86,3 +86,4 @@ Listed here as they come, and copied into the final report.
   Free plan easily. The trigram index is created where `pg_trgm` exists and skipped quietly
   elsewhere; the city search itself is a prefix match.
 - Group 3: no school field exists on the profile, so schools (3.5) were not added.
+- Group 3 result (production build log): 5 of 11 free-text cities linked automatically, 6 left as typed (ambiguous or unknown); 5 of 6 phone numbers converted to E.164, 1 left.
