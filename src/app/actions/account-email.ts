@@ -179,6 +179,7 @@ async function deliverVerification(
   const locale = toLocale(user.locale);
   const sent = await sendEmail({
     to: user.email,
+    kind: "verify",
     ...verificationEmail(locale, linkFor("verify", token, locale, baseUrl)),
   });
   return delivered(sent);
@@ -310,6 +311,7 @@ async function deliverPasswordReset(
     const locale = toLocale(user.locale);
     const sent = await sendEmail({
       to: user.email,
+      kind: "reset",
       ...passwordResetEmail(locale, linkFor("reset", token, locale, baseUrl)),
     });
     if (!delivered(sent)) {

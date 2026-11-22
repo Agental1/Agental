@@ -243,7 +243,10 @@
       "accounts": "Comptes",
       "revenue": "Revenus",
       "waiting": "En attente de l’équipe",
-      "cleanup": "Nettoyage des comptes"
+      "cleanup": "Nettoyage des comptes",
+      "profiles": "Profils",
+      "media": "Médias",
+      "emails": "E-mails"
     },
     "stats": {
       "artists": "Artistes",
@@ -549,6 +552,35 @@
       "deleted": "{count, plural, one {# compte supprimé} other {# comptes supprimés}}, {failed} non supprimés (voir les journaux).",
       "listChanged": "La liste a changé depuis le chargement de la page. Rien n’a été supprimé : vérifie à nouveau la liste.",
       "remaining": "{count, plural, one {Il reste # compte : relance.} other {Il reste # comptes : relance.}}"
+    },
+    "views": {
+      "profilesSubtitle": "{count, plural, one {# profil} other {# profils}}, du plus récent au plus ancien. La complétude suit la même règle que l’application.",
+      "mediaSubtitle": "{count, plural, one {# élément} other {# éléments}}, du plus récent au plus ancien. Les fichiers s’ouvrent par un lien privé de courte durée.",
+      "emailsSubtitle": "Chaque e-mail envoyé par l’application, du plus récent au plus ancien, avec son statut de livraison Resend. Destinataire et objet seulement.",
+      "noWebhook": "Les événements de livraison sont désactivés tant que RESEND_WEBHOOK_SECRET n’est pas défini dans Vercel.",
+      "search": "Nom, e-mail ou ville",
+      "auditSearch": "Id, type de ressource ou e-mail de l’auteur",
+      "emailSearch": "Destinataire, objet ou type",
+      "complete": "Complet",
+      "name": "Nom",
+      "email": "E-mail",
+      "city": "Ville",
+      "completenessCol": "Complétude",
+      "mediaCol": "Médias",
+      "mediaSplit": "{self} soi · {productions} prod. · {videos} vidéo · {other} autre",
+      "selftapes": "Self-tapes",
+      "created": "Créé",
+      "file": "Fichier",
+      "open": "Ouvrir",
+      "type": "Type",
+      "category": "Catégorie",
+      "description": "Description",
+      "owner": "Propriétaire",
+      "status": "Statut",
+      "to": "À",
+      "subject": "Objet",
+      "kind": "Type",
+      "lastEvent": "Dernier événement"
     }
   },
   "matchReasons": {

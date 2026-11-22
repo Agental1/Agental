@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { getToken } from "next-auth/jwt";
 import { routing } from "./i18n/routing";
+import { adminHostRoute, isAdminHost } from "./domain/admin-host";
 
 /**
  * Locale negotiation. Named `proxy.ts`, not `middleware.ts`: Next 16 deprecated
@@ -35,6 +36,13 @@ const SIGNED_IN_REDIRECT = new RegExp(
 const RENAMED = new RegExp(`^/(${routing.locales.join("|")})/talents/app/self-tape/?$`);
 
 export default async function proxy(req: NextRequest) {
+  // admin.agental.co: the admin pages and sign-in only (src/domain/admin-host.ts).
+  if (isAdminHost(req.headers.get("host"))) {
+    const route = adminHostRoute(req.nextUrl.pathname);
+    if (route.kind === "redirect") return NextResponse.redirect(new URL(route.to, req.url));
+    if (route.kind === "notfound") return new NextResponse("Not found", { status: 404 });
+    return negotiateLocale(req);
+  }
   const renamed = req.nextUrl.pathname.match(RENAMED);
   if (renamed) {
     return NextResponse.redirect(new URL(`/${renamed[1]}/talents/app/reel-self-tape`, req.url), 308);

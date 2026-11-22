@@ -168,7 +168,7 @@ export async function sendDeletionWarnings(
     const user = await prisma.user.findUnique({ where: { id: r.id }, select: { locale: true } });
     const locale = user?.locale ?? "en";
     const token = await createEmailToken(prisma, { purpose: "verify", userId: r.id, ttlMs: warningLinkTtlMs(days), now });
-    const res = await sendEmail({ to: r.email, ...deletionWarningEmail(locale, linkFor("verify", token, locale, baseUrl), days) });
+    const res = await sendEmail({ to: r.email, kind: "deletion_warning", ...deletionWarningEmail(locale, linkFor("verify", token, locale, baseUrl), days) });
     if (!res.ok || res.mode !== "resend") {
       await prisma.user.updateMany({ where: { id: r.id, deletionWarnedAt: now }, data: { deletionWarnedAt: null } });
       continue;

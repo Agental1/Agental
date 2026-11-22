@@ -66,7 +66,7 @@ export async function requestStudentVerification(input: {
   const link = `${input.baseUrl.replace(/\/+$/, "")}/${locale}/etudiant?token=${encodeURIComponent(token)}`;
   let sent: SendEmailResult;
   try {
-    sent = await sendEmail({ to: email, ...studentEmail(locale, link) });
+    sent = await sendEmail({ to: email, kind: "student", ...studentEmail(locale, link) });
   } catch {
     return { ok: false, reason: "send_failed" };
   }

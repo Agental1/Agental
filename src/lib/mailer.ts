@@ -20,6 +20,14 @@ export interface EmailMessage {
   subject: string;
   text: string;
   html: string;
+  /** For the admin email log: verify, reset, student, deletion_warning, limelight_alert... */
+  kind?: string;
+}
+
+/** Writes the admin email log. null turns it off (unit tests). */
+export interface EmailRecorder {
+  start(message: EmailMessage): Promise<string | null>;
+  finish(id: string | null, outcome: { status: "sent" | "logged" | "failed"; resendId?: string | null; error?: string }): Promise<void>;
 }
 
 export type SendEmailResult =
@@ -33,6 +41,41 @@ export interface MailerDeps {
   env?: MailerEnv;
   /** Defaults to the global fetch. */
   fetch?: typeof fetch;
+  /** Defaults to the database log (off under vitest). */
+  record?: EmailRecorder | null;
+}
+
+/** The EmailLog table. Never throws: a log failure never blocks an email. */
+const databaseRecorder: EmailRecorder = {
+  async start(message) {
+    try {
+      const { prisma } = await import("@/lib/db");
+      const row = await prisma.emailLog.create({
+        data: { to: message.to.slice(0, 320), subject: message.subject.slice(0, 300), kind: (message.kind ?? "other").slice(0, 40) },
+        select: { id: true },
+      });
+      return row.id;
+    } catch {
+      return null;
+    }
+  },
+  async finish(id, outcome) {
+    if (!id) return;
+    try {
+      const { prisma } = await import("@/lib/db");
+      await prisma.emailLog.update({
+        where: { id },
+        data: { status: outcome.status, resendId: outcome.resendId ?? null, error: outcome.error?.slice(0, 200) ?? null },
+      });
+    } catch {
+      // The email itself went (or not) regardless.
+    }
+  },
+};
+
+function recorderFor(deps: MailerDeps): EmailRecorder | null {
+  if (deps.record !== undefined) return deps.record;
+  return process.env.VITEST ? null : databaseRecorder;
 }
 
 export const RESEND_ENDPOINT = "https://api.resend.com/emails";
@@ -69,6 +112,8 @@ export async function sendEmail(
   deps: MailerDeps = {}
 ): Promise<SendEmailResult> {
   const env = deps.env ?? process.env;
+  const record = recorderFor(deps);
+  const logId = record ? await record.start(message) : null;
 
   if (!emailSenderConfigured(env)) {
     const summary = `[mailer] log mode, nothing sent: subject=${JSON.stringify(
@@ -77,6 +122,7 @@ export async function sendEmail(
     console.info(
       env.NODE_ENV === "production" ? summary : `${summary}\n${message.text}`
     );
+    await record?.finish(logId, { status: "logged" });
     return { ok: true, mode: "log" };
   }
 
@@ -99,14 +145,25 @@ export async function sendEmail(
     });
     if (!response.ok) {
       console.error("[mailer] Resend refused the email, status", response.status);
+      await record?.finish(logId, { status: "failed", error: `status ${response.status}` });
       return { ok: false };
     }
+    // Only the message id is read from Resend's answer (for the delivery webhook).
+    let resendId: string | null = null;
+    try {
+      const body = (await response.json()) as { id?: unknown };
+      resendId = typeof body?.id === "string" ? body.id.slice(0, 100) : null;
+    } catch {
+      resendId = null;
+    }
+    await record?.finish(logId, { status: "sent", resendId });
     return { ok: true, mode: "resend" };
   } catch (error) {
     console.error(
       "[mailer] Resend could not be reached:",
       error instanceof Error ? error.name : "unknown error"
     );
+    await record?.finish(logId, { status: "failed", error: error instanceof Error ? error.name : "unknown error" });
     return { ok: false };
   }
 }

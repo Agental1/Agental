@@ -76,6 +76,7 @@ async function alertTeam(threadId: string): Promise<void> {
       `Read and answer it in the admin inbox (Admin > Messages).`;
     await sendEmail({
       to,
+      kind: "team_alert",
       subject: "New message for the Agental team",
       text,
       html: `<p>A performer sent a message to the Agental team.</p><p>Thread: ${threadId}</p><p>Read and answer it in the admin inbox (Admin &gt; Messages).</p>`,

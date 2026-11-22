@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.8.0] - 2026-11-22
+
+### Added (round 7, admin site)
+
+- **admin.agental.co**: the same app and database, reached by host. Only the admin pages and sign-in answer there; "/" opens the hub, everything else is 404. Signing in brings staff back to the admin. Non-admins get a 404 on admin pages (they used to be redirected home).
+- **Data views** with search, filters and CSV: Profiles (computed completeness, media per category), Media (files open only through the private, short-lived link), Audit trail (search by action, resource or actor).
+- **Email log**: every email the app sends is recorded (recipient, subject, kind, status), and Resend's signed delivery webhook (`/api/webhooks/resend`, `RESEND_WEBHOOK_SECRET`) moves it to delivered, bounced, complained or delayed. Page Admin > Emails, with CSV.
+
+Migration `20261203000000_email_log` (new table, RLS on).
+
 ## [0.5.7.0] - 2026-11-22
 
 ### Added (round 7b, group 4)

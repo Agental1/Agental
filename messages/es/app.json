@@ -243,7 +243,10 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "Limpieza de cuentas"
+      "cleanup": "Limpieza de cuentas",
+      "profiles": "Perfiles",
+      "media": "Medios",
+      "emails": "Correos"
     },
     "stats": {
       "artists": "Artistas",
@@ -549,6 +552,35 @@
       "deleted": "{count, plural, one {# cuenta eliminada} other {# cuentas eliminadas}}, {failed} sin eliminar (ver los registros).",
       "listChanged": "La lista cambió desde que se cargó la página. No se eliminó nada: revisa la lista de nuevo.",
       "remaining": "{count, plural, one {Queda # cuenta: vuelve a ejecutarlo.} other {Quedan # cuentas: vuelve a ejecutarlo.}}"
+    },
+    "views": {
+      "profilesSubtitle": "{count, plural, one {# perfil} other {# perfiles}}, del más reciente al más antiguo. La completitud usa la misma regla que la aplicación.",
+      "mediaSubtitle": "{count, plural, one {# elemento} other {# elementos}}, del más reciente al más antiguo. Los archivos se abren con un enlace privado de corta duración.",
+      "emailsSubtitle": "Cada correo que envió la aplicación, del más reciente al más antiguo, con su estado de entrega de Resend. Solo destinatario y asunto.",
+      "noWebhook": "Los eventos de entrega están desactivados hasta definir RESEND_WEBHOOK_SECRET en Vercel.",
+      "search": "Nombre, correo o ciudad",
+      "auditSearch": "Id, tipo de recurso o correo del autor",
+      "emailSearch": "Destinatario, asunto o tipo",
+      "complete": "Completo",
+      "name": "Nombre",
+      "email": "Correo",
+      "city": "Ciudad",
+      "completenessCol": "Completitud",
+      "mediaCol": "Medios",
+      "mediaSplit": "{self} propias · {productions} prod. · {videos} vídeo · {other} otros",
+      "selftapes": "Self-tapes",
+      "created": "Creado",
+      "file": "Archivo",
+      "open": "Abrir",
+      "type": "Tipo",
+      "category": "Categoría",
+      "description": "Descripción",
+      "owner": "Propietario",
+      "status": "Estado",
+      "to": "Para",
+      "subject": "Asunto",
+      "kind": "Tipo",
+      "lastEvent": "Último evento"
     }
   },
   "matchReasons": {
