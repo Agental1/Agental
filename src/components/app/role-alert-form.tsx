@@ -7,6 +7,7 @@ import { toast } from "@/components/ui/sonner";
 import { useActionErrorText } from "@/components/app/action-error";
 import { saveRoleAlert } from "@/app/actions/profile";
 import { cn } from "@/lib/utils";
+import { StepNumber } from "./step-number";
 
 export type RoleAlertChannel = "email" | "sms" | "both";
 
@@ -19,10 +20,13 @@ export function RoleAlertForm({
   initial,
   hasPhone,
   consentGiven,
+  number,
 }: {
   initial: RoleAlertChannel;
   hasPhone: boolean;
   consentGiven: boolean;
+  /** Its number in Preferences (round 8c); none in Settings. */
+  number?: number;
 }) {
   const t = useTranslations("talents.space.roleAlert");
   const errorText = useActionErrorText();
@@ -36,7 +40,10 @@ export function RoleAlertForm({
 
   return (
     <fieldset className="space-y-3" data-field="roleAlert">
-      <legend className="text-sm font-medium">{t("legend")}</legend>
+      <legend className="text-sm font-medium">
+        <StepNumber n={number} />
+        {t("legend")}
+      </legend>
       <div className="flex flex-wrap gap-2">
         {(["email", "sms", "both"] as const).map((c) => (
           <label

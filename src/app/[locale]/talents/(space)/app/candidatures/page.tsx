@@ -12,6 +12,8 @@ import { date, dateTime } from "@/lib/format";
 import { hoursUntil, SEARCH_SPACING_HOURS } from "@/domain/role-search";
 import { readSubmission } from "@/domain/application-response";
 import { FoundRoleCard, type FoundRole } from "@/components/talents/found-role-card";
+import { SearchStateTabs } from "@/components/app/search-state-tabs";
+import { pickSearchView } from "@/domain/search-view";
 import {
   CandidaturesList,
   type CandidatureRow,
@@ -29,10 +31,13 @@ export async function generateMetadata({
 
 export default async function CandidaturesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ view?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
+  const { view: askedView } = await searchParams;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -152,6 +157,11 @@ export default async function CandidaturesPage({
     auto: c.source === "AGENTAL",
   }));
 
+  // Round 8c: three buttons with counts; the finished count is the roles found
+  // there (what the performer acts on).
+  const counts = { queue: queued.length, running: running.length, finished: found.length };
+  const view = pickSearchView(askedView, counts);
+
   return (
     <div className="space-y-6">
       <div>
@@ -164,11 +174,13 @@ export default async function CandidaturesPage({
         {t("space.candidatures.queue.rule", { count: quota.limit, hours: SEARCH_SPACING_HOURS })}
       </p>
 
-      <section id="search-queue" aria-labelledby="queue-title" className="scroll-mt-24 space-y-3">
-        <h2 id="queue-title" className="font-display text-xl font-medium">
-          {t("space.candidatures.queue.title")}
-        </h2>
-        {queued.length === 0 ? (
+      <SearchStateTabs
+        initial={view}
+        counts={counts}
+        panels={{
+          queue: (
+            <section id="search-queue" aria-label={t("space.candidatures.queue.title")} className="scroll-mt-24 space-y-3">
+              {queued.length === 0 ? (
           <p className="text-sm text-fg-muted">{t("space.candidatures.queue.empty")}</p>
         ) : (
           <ul className="space-y-2">
@@ -188,13 +200,11 @@ export default async function CandidaturesPage({
             })}
           </ul>
         )}
-      </section>
-
-      <section id="search-running" aria-labelledby="running-title" className="scroll-mt-24 space-y-3">
-        <h2 id="running-title" className="font-display text-xl font-medium">
-          {t("space.candidatures.running.title")}
-        </h2>
-        {running.length === 0 ? (
+            </section>
+          ),
+          running: (
+            <section id="search-running" aria-label={t("space.candidatures.running.title")} className="scroll-mt-24 space-y-3">
+              {running.length === 0 ? (
           <p className="text-sm text-fg-muted">{t("space.candidatures.running.empty")}</p>
         ) : (
           <ul className="space-y-2">
@@ -211,13 +221,11 @@ export default async function CandidaturesPage({
             ))}
           </ul>
         )}
-      </section>
-
-      <section id="search-finished" aria-labelledby="finished-title" className="scroll-mt-24 space-y-3">
-        <h2 id="finished-title" className="font-display text-xl font-medium">
-          {t("space.candidatures.finished.title")}
-        </h2>
-        {finished.length > 0 && (
+            </section>
+          ),
+          finished: (
+            <section id="search-finished" aria-label={t("space.candidatures.finished.title")} className="scroll-mt-24 space-y-3">
+              {finished.length > 0 && (
           <p className="text-sm text-fg-muted">
             {t("space.candidatures.finished.last", { date: dateTime(finished[0].completedAt ?? finished[0].createdAt, locale) })}
           </p>
@@ -231,7 +239,10 @@ export default async function CandidaturesPage({
             ))}
           </ul>
         )}
-      </section>
+            </section>
+          ),
+        }}
+      />
 
       <CandidaturesList rows={rows} />
     </div>

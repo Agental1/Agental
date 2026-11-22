@@ -53,7 +53,7 @@ export const ProfilePhysical = z
     hair: z.string().optional(),
     hairLength: z.string().optional(),
     eyes: z.string().optional(),
-    build: z.string().max(60).optional(),
+    build: z.string().max(200).optional(),
     weightKg: z.number().int().min(20).max(300).nullish(),
     tattoos: z.string().max(200).optional(),
     piercings: z.string().max(200).optional(),

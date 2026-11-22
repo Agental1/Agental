@@ -967,7 +967,12 @@
         "dateFrom": "自 {from} 起",
         "remote": "远程",
         "unpaid": "无报酬",
-        "paid": "有报酬，金额未注明"
+        "paid": "有报酬，金额未注明",
+        "moreDetails": "查看更多详情",
+        "lessDetails": "隐藏详情"
+      },
+      "states": {
+        "label": "你的搜索"
       }
     },
     "career": {
@@ -1366,7 +1371,8 @@
       },
       "optional": "（选填）",
       "addOwn": "自行填写",
-      "addOwnPlaceholder": "描述你的体型"
+      "addOwnPlaceholder": "描述你的体型",
+      "addMore": "再添加一个"
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",

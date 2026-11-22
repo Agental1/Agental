@@ -967,7 +967,12 @@
         "dateFrom": "Desde el {from}",
         "remote": "En remoto",
         "unpaid": "No remunerado",
-        "paid": "Remunerado, importe no indicado"
+        "paid": "Remunerado, importe no indicado",
+        "moreDetails": "Ver más detalles",
+        "lessDetails": "Ocultar los detalles"
+      },
+      "states": {
+        "label": "Tus búsquedas"
       }
     },
     "career": {
@@ -1366,7 +1371,8 @@
       },
       "optional": "(opcional)",
       "addOwn": "Añadir la tuya",
-      "addOwnPlaceholder": "Describe tu complexión"
+      "addOwnPlaceholder": "Describe tu complexión",
+      "addMore": "Añadir otro"
     },
     "rgpd": {
       "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",

@@ -24,6 +24,7 @@ import {
   Shirt,
   Sparkles,
   Weight,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -48,7 +49,18 @@ import type { PhysicalTraits } from "@/domain/json";
 import type { HeightValue } from "@/domain/height";
 import { DEFAULT_PROFILE_TAB, ITEM_TARGET, PROFILE_TABS, type ProfileTab } from "@/domain/profile-tabs";
 import { BIO_MAX } from "@/domain/profile";
-import { BUILDS, EYE_COLORS, GENDERS, HAIR_COLORS, HAIR_LENGTHS, matchOption, optionKey } from "@/domain/identity";
+import {
+  BUILDS,
+  EYE_COLORS,
+  GENDERS,
+  HAIR_COLORS,
+  HAIR_LENGTHS,
+  joinMulti,
+  matchOption,
+  optionKey,
+  splitMulti,
+} from "@/domain/identity";
+import { formatHeight, heightToCm } from "@/domain/height";
 import type { MissingItem } from "@/domain/completeness";
 import {
   AGE_MAX,
@@ -77,6 +89,7 @@ import { LANGUAGE_ORDER, languageMatches } from "@/domain/languages";
 import { ACCENT_GROUPS, NO_ACCENTS, accentMatches } from "@/domain/accents";
 import { requestEmailVerification } from "@/app/actions/account-email";
 import { RoleAlertForm, type RoleAlertChannel } from "./role-alert-form";
+import { StepNumber } from "./step-number";
 
 const SKILLS = SpecialtyKind.options.filter(isSkillSpecialty);
 
@@ -352,9 +365,9 @@ export function ProfileEditor({
             aside={
               <>
                 <section className="border-t border-border pt-6">
-                  <RoleAlertForm {...roleAlert} />
+                  <RoleAlertForm {...roleAlert} number={9} />
                 </section>
-                <ContentBoundariesSection {...tabProps} />
+                <ContentBoundariesSection {...tabProps} number={10} />
               </>
             }
           />
@@ -777,9 +790,10 @@ function OptionSelect({
 }
 
 /**
- * Build (round 8b): the list, then "Add your own", which opens a short field;
- * what is typed is the value and shows in the tile as typed. A stored value that
- * matches no option shows as the person's own.
+ * Build (round 8c): several choices at once. The list toggles a choice (a check
+ * marks the chosen ones), "Add your own" opens a short field for the person's own
+ * words. The choices show as chips in the middle of the tile (BuildChips), each
+ * one removable. Saved in the same text column, joined by commas.
  */
 function BuildSelect({
   label,
@@ -794,35 +808,40 @@ function BuildSelect({
 }) {
   const t = useTranslations("talents");
   const e = "space.profileEditor" as const;
-  const raw = (value ?? "").trim();
-  const known = matchOption(BUILDS, raw);
-  const own = raw && !known ? raw : null;
+  const values = splitMulti(value);
   const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+  const isOn = (o: string) => values.some((v) => matchOption([o], v) === o);
+
+  function commit(next: string[]) {
+    onChange(joinMulti(next));
+    onBlur();
+  }
+  function toggle(o: string) {
+    commit(isOn(o) ? values.filter((v) => matchOption([o], v) !== o) : [...values, o]);
+  }
+  function addOwn() {
+    const clean = draft.replace(/[,;]/g, " ").trim().slice(0, 60);
+    setDraft("");
+    setEditing(false);
+    if (clean && !values.some((v) => v.toLowerCase() === clean.toLowerCase())) commit([...values, clean]);
+  }
+
   return (
     <div className="space-y-1.5">
-      <Select
-        value={editing ? "add" : (known ?? (own ? "own" : ""))}
-        onValueChange={(v) => {
-          if (v === "add") return setEditing(true);
-          if (v === "own") return;
-          setEditing(false);
-          onChange(v);
-        }}
-      >
+      <Select value="" onValueChange={(v) => (v === "add" ? setEditing(true) : toggle(v))}>
         <SelectTrigger className="w-full" aria-label={label}>
-          <SelectValue placeholder={t(`${e}.choose`)}>
-            {known
-              ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other")
-              : (own ?? (editing ? t(`${e}.addOwn`) : undefined))}
-          </SelectValue>
+          <SelectValue placeholder={values.length ? t(`${e}.addMore`) : t(`${e}.choose`)} />
         </SelectTrigger>
         <SelectContent data-portal="talents">
           {BUILDS.map((o) => (
             <SelectItem key={o} value={o}>
-              {t(`${e}.options.${optionKey(o)}` as "space.profileEditor.options.other")}
+              <span className="inline-flex items-center gap-1.5">
+                <Check aria-hidden="true" className={cn("size-3.5 text-accent", !isOn(o) && "invisible")} />
+                {t(`${e}.options.${optionKey(o)}` as "space.profileEditor.options.other")}
+              </span>
             </SelectItem>
           ))}
-          {own && <SelectItem value="own">{own}</SelectItem>}
           <SelectItem value="add">{t(`${e}.addOwn`)}</SelectItem>
         </SelectContent>
       </Select>
@@ -832,17 +851,58 @@ function BuildSelect({
           aria-label={t(`${e}.addOwn`)}
           maxLength={60}
           placeholder={t(`${e}.addOwnPlaceholder`)}
-          defaultValue={own ?? ""}
-          onChange={(ev) => onChange(ev.target.value)}
-          onBlur={() => {
-            onBlur();
-            setEditing(false);
+          value={draft}
+          onChange={(ev) => setDraft(ev.target.value)}
+          onKeyDown={(ev) => {
+            if (ev.key === "Enter") {
+              ev.preventDefault();
+              addOwn();
+            }
+            if (ev.key === "Escape") setEditing(false);
           }}
+          onBlur={addOwn}
           className="h-10"
         />
       )}
     </div>
   );
+}
+
+/** The Build choices as chips, each with a remove button. */
+function BuildChips({ value, onChange }: { value: string | undefined; onChange: (v: string) => void }) {
+  const t = useTranslations("talents");
+  const e = "space.profileEditor" as const;
+  const values = splitMulti(value);
+  if (!values.length) return null;
+  return (
+    <ul className="flex flex-wrap justify-center gap-1">
+      {values.map((v) => {
+        const known = matchOption(BUILDS, v);
+        const shown = known ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other") : v;
+        return (
+          <li
+            key={v}
+            className="inline-flex max-w-full items-center gap-0.5 rounded-full bg-accent-soft py-0.5 pl-2.5 pr-1 text-xs font-medium text-accent-ink"
+          >
+            <span className="truncate">{shown}</span>
+            <button
+              type="button"
+              aria-label={t(`${e}.smart.remove`, { value: shown })}
+              onClick={() => onChange(joinMulti(values.filter((x) => x !== v)))}
+              className="rounded-full p-0.5 hover:bg-accent/15"
+            >
+              <X aria-hidden="true" className="size-3" />
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+/** A tile's current value, big and centered (round 8c). */
+function TileValue({ children }: { children: React.ReactNode }) {
+  return <p className="line-clamp-2 break-words font-display text-lg leading-tight">{children}</p>;
 }
 
 /* ── Physical: ten tiles ──────────────────────────────────────────────── */
@@ -854,12 +914,15 @@ function Tile({
   label,
   field,
   required,
+  value,
   children,
 }: {
   icon: LucideIcon;
   label: string;
   field: string;
   required?: boolean;
+  /** What is saved, shown in the middle of the tile (round 8c). */
+  value?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -876,7 +939,10 @@ function Tile({
           {required && <Req />}
         </span>
       </div>
-      <div className="flex flex-1 flex-col justify-end gap-2">{children}</div>
+      <div className="flex min-h-10 flex-1 flex-col items-center justify-center text-center" aria-live="polite">
+        {value}
+      </div>
+      <div className="flex flex-col gap-2">{children}</div>
     </div>
   );
 }
@@ -884,6 +950,7 @@ function Tile({
 function PhysicalTab({ data, setData, queue, flush }: TabProps) {
   const t = useTranslations("talents");
   const e = "space.profileEditor" as const;
+  const locale = useLocale();
   const p = data.physical;
   const [weightUnit, setWeightUnit] = useState<"lb" | "kg">("lb");
   const [weightText, setWeightText] = useState(() =>
@@ -928,6 +995,37 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
       setWeightText(String(unit === "lb" ? Math.round(p.weightKg * LB_PER_KG) : p.weightKg));
   }
 
+  // What each tile shows in its middle: the saved value, in the person's words
+  // or the option's label.
+  const option = (options: readonly string[], raw: string | undefined) => {
+    const v = (raw ?? "").trim();
+    if (!v) return null;
+    const known = matchOption(options, v);
+    return <TileValue>{known ? t(`${e}.options.${optionKey(known)}` as "space.profileEditor.options.other") : v}</TileValue>;
+  };
+  const plain = (raw: string | undefined) => ((raw ?? "").trim() ? <TileValue>{raw!.trim()}</TileValue> : null);
+  const heightCm = heightToCm(data.height);
+  const heightShown =
+    heightCm != null ? (
+      <TileValue>{formatHeight(heightCm, locale, data.height?.unit === "metric" ? "metric" : "imperial")}</TileValue>
+    ) : null;
+  const weightShown =
+    p.weightKg != null ? (
+      <TileValue>
+        {weightUnit === "lb" ? `${Math.round(p.weightKg * LB_PER_KG)} lb` : `${p.weightKg} kg`}
+      </TileValue>
+    ) : null;
+  const sizes = (["sizeTop", "sizeBottom", "sizeDressSuit"] as const).filter((k) => (p[k] ?? "").trim());
+  const sizesShown = sizes.length ? (
+    <ul className="space-y-0.5 text-sm">
+      {sizes.map((k) => (
+        <li key={k}>
+          <span className="text-fg-muted">{t(`${e}.${k}`)}</span> <span className="font-bold">{p[k]!.trim()}</span>
+        </li>
+      ))}
+    </ul>
+  ) : null;
+
   const text = (key: "tattoos" | "piercings" | "shoeSize", label: string, max = 60) => (
     <Input
       aria-label={label}
@@ -941,11 +1039,11 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
 
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
-      <Tile icon={Ruler} label={t(`${e}.height`)} field="height" required>
+      <Tile icon={Ruler} label={t(`${e}.height`)} field="height" required value={heightShown}>
         {/* The field reopens on the draft, an entry the server would refuse included. */}
         <HeightField hideLabel label={t(`${e}.height`)} defaultValue={data.height} onChange={(h) => patch({}, h ?? null)} />
       </Tile>
-      <Tile icon={Weight} label={t(`${e}.weight`)} field="weight">
+      <Tile icon={Weight} label={t(`${e}.weight`)} field="weight" value={weightShown}>
         <div className="flex gap-1">
           <Input
             inputMode="decimal"
@@ -970,13 +1068,18 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
           </div>
         </div>
       </Tile>
-      <Tile icon={PersonStanding} label={t(`${e}.build`)} field="build">
+      <Tile
+        icon={PersonStanding}
+        label={t(`${e}.build`)}
+        field="build"
+        value={<BuildChips value={p.build} onChange={(build) => { patch({ build }); flush(); }} />}
+      >
         <BuildSelect label={t(`${e}.build`)} value={p.build} onChange={(build) => patch({ build })} onBlur={flush} />
       </Tile>
-      <Tile icon={Palette} label={t(`${e}.hair`)} field="hair" required>
+      <Tile icon={Palette} label={t(`${e}.hair`)} field="hair" required value={option(HAIR_COLORS, p.hair)}>
         <OptionSelect label={t(`${e}.hair`)} options={HAIR_COLORS} value={p.hair} onChange={(hair) => patch({ hair })} />
       </Tile>
-      <Tile icon={Scissors} label={t(`${e}.hairLength`)} field="hairLength">
+      <Tile icon={Scissors} label={t(`${e}.hairLength`)} field="hairLength" value={option(HAIR_LENGTHS, p.hairLength)}>
         <OptionSelect
           label={t(`${e}.hairLength`)}
           options={HAIR_LENGTHS}
@@ -984,16 +1087,16 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
           onChange={(hairLength) => patch({ hairLength })}
         />
       </Tile>
-      <Tile icon={Eye} label={t(`${e}.eyes`)} field="eyes" required>
+      <Tile icon={Eye} label={t(`${e}.eyes`)} field="eyes" required value={option(EYE_COLORS, p.eyes)}>
         <OptionSelect label={t(`${e}.eyes`)} options={EYE_COLORS} value={p.eyes} onChange={(eyes) => patch({ eyes })} />
       </Tile>
-      <Tile icon={PenTool} label={t(`${e}.tattoos`)} field="tattoos">
+      <Tile icon={PenTool} label={t(`${e}.tattoos`)} field="tattoos" value={plain(p.tattoos)}>
         {text("tattoos", t(`${e}.tattoos`), 200)}
       </Tile>
-      <Tile icon={Gem} label={t(`${e}.piercings`)} field="piercings">
+      <Tile icon={Gem} label={t(`${e}.piercings`)} field="piercings" value={plain(p.piercings)}>
         {text("piercings", t(`${e}.piercings`), 200)}
       </Tile>
-      <Tile icon={Shirt} label={t(`${e}.clothing`)} field="clothing">
+      <Tile icon={Shirt} label={t(`${e}.clothing`)} field="clothing" value={sizesShown}>
         <div className="grid grid-cols-3 gap-1">
           {(["sizeTop", "sizeBottom", "sizeDressSuit"] as const).map((key) => (
             <label key={key} className="space-y-0.5 text-[11px] text-fg-muted">
@@ -1009,7 +1112,7 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
           ))}
         </div>
       </Tile>
-      <Tile icon={Footprints} label={t(`${e}.shoeSize`)} field="shoeSize">
+      <Tile icon={Footprints} label={t(`${e}.shoeSize`)} field="shoeSize" value={plain(p.shoeSize)}>
         {text("shoeSize", t(`${e}.shoeSize`), 20)}
       </Tile>
     </div>
@@ -1053,7 +1156,8 @@ function AvatarHeadshot() {
  * Preferences (round 8b): two columns on wide screens. Left: work types,
  * paid or unpaid, travel, work modes, animals. Right: ages you can play,
  * skills, then `aside` (contact preference and content boundaries). One
- * column on a phone.
+ * column on a phone. Each question is numbered in reading order (round 8c):
+ * 1 to 6 on the left, 7 to 10 on the right, so the phone column reads 1 to 10.
  */
 function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { aside?: React.ReactNode }) {
   const t = useTranslations("talents");
@@ -1114,6 +1218,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
       <div className="min-w-0 space-y-7">
         <div data-field="projectTypes" className="space-y-5">
           <ChipGroup
+            number={1}
             legend={t(`${p}.projectTypes`)}
             required
             options={PROJECT_TYPES.map((v) => ({ value: v, label: t(`${p}.projectTypeLabels.${v}`) }))}
@@ -1121,6 +1226,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
             onChange={(projectTypes) => setPr({ projectTypes })}
           />
           <ChipGroup
+            number={2}
             legend={t(`${p}.roleTypes`)}
             options={ROLE_TYPES.map((v) => ({ value: v, label: t(`${p}.roleTypeLabels.${v}`) }))}
             selected={pr.roleTypes}
@@ -1130,6 +1236,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
 
         <fieldset data-field="compensation" className="space-y-2">
           <legend className="text-sm font-medium">
+            <StepNumber n={3} />
             {t(`${p}.compensation`)}
             <Req />
           </legend>
@@ -1174,6 +1281,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
 
         <ChipGroup
           single
+          number={4}
           legend={t(`${p}.travel`)}
           hint={t(`${p}.clearHint`)}
           options={TRAVEL.map((v) => ({ value: v, label: t(`${p}.travelLabels.${v}`) }))}
@@ -1181,16 +1289,18 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
           onChange={(v) => setPr({ travel: v[0] ?? null })}
         />
         <ChipGroup
+          number={5}
           legend={t(`${p}.workModes`)}
           options={WORK_MODES.map((v) => ({ value: v, label: t(`${p}.workModeLabels.${v}`) }))}
           selected={pr.workModes}
           onChange={(workModes) => setPr({ workModes })}
         />
-        <TriState legend={t(`${p}.animals`)} value={pr.animals} onChange={(animals) => setPr({ animals })} />
+        <TriState number={6} legend={t(`${p}.animals`)} value={pr.animals} onChange={(animals) => setPr({ animals })} />
       </div>
       <div className="min-w-0 space-y-7">
         <fieldset data-field="ageRange" className="space-y-3">
           <legend className="text-sm font-medium">
+            <StepNumber n={7} />
             {t(`${p}.ageRange`)}
             <Req />
           </legend>
@@ -1218,7 +1328,10 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
 
         <section className="space-y-3" data-field="skills">
           <div>
-            <h3 className="font-display text-lg font-medium">{t(`${p}.skills`)}</h3>
+            <h3 className="font-display text-lg font-medium">
+              <StepNumber n={8} />
+              {t(`${p}.skills`)}
+            </h3>
             <p className="text-sm text-fg-muted">{t(`${p}.skillsHint`)}</p>
           </div>
           <ChipGroup
@@ -1276,7 +1389,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
  * Optional and private: shown to the performer only, saved by its own
  * action, and never part of the job preferences above.
  */
-function ContentBoundariesSection({ data, setData, queue }: TabProps) {
+function ContentBoundariesSection({ data, setData, queue, number }: TabProps & { number?: number }) {
   const t = useTranslations("talents");
   const b = "space.profileEditor.boundaries" as const;
   return (
@@ -1286,15 +1399,18 @@ function ContentBoundariesSection({ data, setData, queue }: TabProps) {
     >
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <Lock aria-hidden="true" className="size-4 text-fg-muted" />
           <h3 id="content-boundaries" className="font-display text-lg font-medium">
+            <StepNumber n={number} />
             {t(`${b}.title`)}
           </h3>
           <span className="rounded-full border border-border px-2 py-0.5 text-xs text-fg-muted">
             {t(`${b}.optional`)}
           </span>
         </div>
-        <p className="mt-1 text-sm text-fg-muted">{t(`${b}.private`)}</p>
+        <p className="mt-1 flex items-center gap-1.5 text-sm text-fg-muted">
+          <Lock aria-hidden="true" className="size-3.5" />
+          {t(`${b}.private`)}
+        </p>
       </div>
       <TriState
         legend={t(`${b}.nudity`)}
@@ -1321,7 +1437,9 @@ function ChipGroup<T extends string>({
   single = false,
   required = false,
   hideLegend = false,
+  number,
 }: {
+  number?: number;
   legend: string;
   hint?: string;
   options: { value: T; label: string }[];
@@ -1334,6 +1452,7 @@ function ChipGroup<T extends string>({
   return (
     <fieldset className="space-y-2">
       <legend className={cn("text-sm font-medium", hideLegend && "sr-only")}>
+        <StepNumber n={number} />
         {legend}
         {required && <Req />}
       </legend>
@@ -1371,7 +1490,9 @@ function TriState({
   legend,
   value,
   onChange,
+  number,
 }: {
+  number?: number;
   legend: string;
   value: boolean | null;
   onChange: (v: boolean | null) => void;
@@ -1385,7 +1506,10 @@ function TriState({
   ];
   return (
     <fieldset className="space-y-2">
-      <legend className="text-sm font-medium">{legend}</legend>
+      <legend className="text-sm font-medium">
+        <StepNumber n={number} />
+        {legend}
+      </legend>
       <div className="inline-flex flex-wrap gap-1 rounded-sedan bg-surface-2 p-1">
         {choices.map((c) => (
           <label
