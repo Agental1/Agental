@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { accountFiltersFrom, listAccounts, signupTotals } from "@/lib/admin/accounts";
-import { ACCOUNT_STATUSES, workflowMode } from "@/domain/workflow/eligibility";
+import { ACCOUNT_STATUSES, STAFF_STATUSES, workflowMode } from "@/domain/workflow/eligibility";
 import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 import { SelectAll } from "@/components/admin/select-all";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,7 @@ const STATUS_VARIANT = {
   TEST: "accent",
   STAFF: "neutral",
   SPAM: "danger",
+  REVOKED: "danger",
 } as const;
 
 /**
@@ -162,7 +163,7 @@ export default async function AccountsPage({
               <option value="" disabled>
                 {t("admin.accounts.cols.status")}
               </option>
-              {ACCOUNT_STATUSES.map((s) => (
+              {STAFF_STATUSES.map((s) => (
                 <option key={s} value={s}>
                   {t(`admin.accounts.statuses.${s}`)}
                 </option>
@@ -172,6 +173,7 @@ export default async function AccountsPage({
           <button className="h-10 rounded-sedan border border-accent px-4 text-sm font-bold text-accent hover:bg-accent/10">
             {t("admin.accounts.apply")}
           </button>
+          <p className="max-w-xl text-xs text-fg-muted">{t("admin.accounts.exceptionsNote")}</p>
         </div>
 
         <div className="overflow-x-auto rounded-sedan border border-border">
@@ -203,7 +205,13 @@ export default async function AccountsPage({
                   <td className="p-3">{r.audience === "CASTING" ? t("admin.accounts.totals.casting") : t("admin.accounts.totals.performers")}</td>
                   <td className="whitespace-nowrap p-3">{dateTime(r.createdAt, locale)}</td>
                   <td className="p-3">{r.method}</td>
-                  <td className="p-3">{r.emailVerified ? t("admin.accounts.yes") : t("admin.accounts.no")}</td>
+                  <td className="whitespace-nowrap p-3" title={t("admin.accounts.verifiedReadOnly")}>
+                    {r.verifiedAt === null
+                      ? <span className="text-fg-muted">{t("admin.accounts.notVerified")}</span>
+                      : r.verifiedAt.getTime() === 0
+                        ? t("admin.accounts.verifiedGoogle")
+                        : t("admin.accounts.verifiedOn", { date: dateTime(r.verifiedAt, locale) })}
+                  </td>
                   <td className="whitespace-nowrap p-3">
                     <Badge variant={STATUS_VARIANT[r.status]}>{t(`admin.accounts.statuses.${r.status}`)}</Badge>
                     {r.isAdmin && <span className="ml-1 text-xs text-fg-muted">{t("admin.accounts.admin")}</span>}

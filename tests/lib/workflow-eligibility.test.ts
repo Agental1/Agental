@@ -13,6 +13,7 @@ const account = (over: Record<string, unknown> = {}) => ({
   accountStatus: "TEST",
   emailVerified: verified,
   isAdult: true,
+  profileComplete: true,
   optedIn: true as boolean | "clicking",
   ...over,
 });
@@ -36,7 +37,9 @@ describe("workflowEligibility", () => {
     });
   });
 
-  it("live takes approved performers and never a test account", () => {
+  it("live takes real accounts on their own, and never a test account", () => {
+    // No manual approval: a verified, complete account is eligible.
+    expect(workflowEligibility(account({ accountStatus: "UNREVIEWED" }), "live")).toEqual({ ok: true });
     expect(workflowEligibility(account({ accountStatus: "APPROVED" }), "live")).toEqual({ ok: true });
     expect(workflowEligibility(account({ accountStatus: "TEST" }), "live")).toEqual({
       ok: false,
@@ -44,8 +47,24 @@ describe("workflowEligibility", () => {
     });
   });
 
-  it.each(["staging", "live"] as const)("refuses an unreviewed or unknown status in %s", (mode) => {
-    for (const accountStatus of ["UNREVIEWED", "", null, undefined, "approved", "ADMIN", "ELIGIBLE"]) {
+  it("keeps real accounts out of staging", () => {
+    expect(workflowEligibility(account({ accountStatus: "UNREVIEWED" }), "staging")).toEqual({
+      ok: false,
+      reason: "real_account",
+    });
+  });
+
+  it.each(["staging", "live"] as const)("needs a 100%% profile and no revocation in %s", (mode) => {
+    const accountStatus = mode === "live" ? "UNREVIEWED" : "TEST";
+    expect(workflowEligibility(account({ accountStatus, profileComplete: false }), mode)).toEqual({
+      ok: false,
+      reason: "profile_incomplete",
+    });
+    expect(workflowEligibility(account({ accountStatus: "REVOKED" }), mode)).toEqual({ ok: false, reason: "revoked" });
+  });
+
+  it.each(["staging", "live"] as const)("refuses an unknown status in %s", (mode) => {
+    for (const accountStatus of ["", null, undefined, "approved", "ADMIN", "ELIGIBLE"]) {
       expect(workflowEligibility(account({ accountStatus }), mode)).toEqual({
         ok: false,
         reason: "unreviewed",
@@ -79,16 +98,17 @@ describe("workflowEligibility", () => {
   });
 
   it("checks the account before the opt-in, so the reason a performer sees is the real one", () => {
-    expect(workflowEligibility(account({ accountStatus: "UNREVIEWED", optedIn: false }), "live")).toEqual({
+    expect(workflowEligibility(account({ accountStatus: "UNREVIEWED", optedIn: false, profileComplete: false }), "live")).toEqual({
       ok: false,
-      reason: "unreviewed",
+      reason: "profile_incomplete",
     });
   });
 
   it("maps refusals to translation keys", () => {
     expect(refusalKey("email_unverified")).toBe("errors.agentsEmailUnverified");
-    expect(refusalKey("unreviewed")).toBe("errors.agentsUnderReview");
-    for (const r of ["spam", "staff", "test_account", "real_account", "not_adult", "not_opted_in"] as const) {
+    expect(refusalKey("unreviewed")).toBe("errors.agentsUnavailable");
+    expect(refusalKey("profile_incomplete")).toBe("errors.agentsProfileIncomplete");
+    for (const r of ["spam", "staff", "test_account", "real_account", "not_adult", "not_opted_in", "revoked"] as const) {
       expect(refusalKey(r)).toBe("errors.agentsUnavailable");
     }
   });
@@ -100,7 +120,13 @@ describe("loadProfileFacts", () => {
     birthDate: new Date("1990-05-01T00:00:00Z"),
     isMinor: false,
     city: "Los Angeles",
-    physical: "{}",
+    physical: '{"heightCm":170,"hair":"brown","languages":[],"accents":[]}',
+    stageName: "Ana Lee",
+    bio: "Trained actor.",
+    imdbUrl: "https://www.imdb.com/name/nm1/",
+    portfolioUrl: null,
+    media: [{ type: "PHOTO", category: "SELF" }, { type: "VIDEO", category: "VIDEOS" }, { type: "PHOTO", category: "PRODUCTIONS" }, { type: "AUDIO", category: "OTHER" }],
+    _count: { specialties: 1 },
     preferences: "{}",
     mobilityCountries: '["US"]',
     minRateCents: null,
@@ -130,10 +156,10 @@ describe("loadProfileFacts", () => {
     expect(loaded.skipped).toBe(6);
   });
 
-  it("runs only the reviewed, verified performer in live", async () => {
+  it("runs only the verified, complete real accounts in live", async () => {
     const loaded = await loadProfileFacts(db, ids, now, "live");
-    expect(loaded.profiles.map((p) => p.profileId)).toEqual(["real"]);
-    expect(loaded.skipped).toBe(8);
+    expect(loaded.profiles.map((p) => p.profileId)).toEqual(["real", "unreviewed"]);
+    expect(loaded.skipped).toBe(7);
   });
 
   it("reports how many were left out, never who", async () => {

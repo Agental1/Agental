@@ -6,26 +6,38 @@ import type { ErrorKey } from "@/domain/action-result";
  * run reads a profile, so an account that fails never reaches a rule, a model
  * or a draft.
  *
- * Every account starts UNREVIEWED (User.accountStatus) and is refused. Staff
- * set the status on /admin/comptes, and every change is audited:
+ * Eligibility is automatic (owner decision, round 7b): a real account becomes
+ * eligible once its email is verified (by the verification email, or by
+ * Google) and its profile is 100% complete. Nobody approves accounts one by
+ * one. Staff only mark exceptions on /admin/comptes, every change audited:
  *
- *   APPROVED  a real account, reviewed
- *   TEST      the owner's own test accounts and synthetic profiles
- *   STAFF     the Agental team
- *   SPAM      tries and junk sign-ups
+ *   UNREVIEWED  the default: automatic (shown as "Automatic")
+ *   APPROVED    legacy value from the manual review; treated like UNREVIEWED
+ *   TEST        the owner's own test accounts and synthetic profiles
+ *   STAFF       the Agental team
+ *   SPAM        tries and junk sign-ups
+ *   REVOKED     eligibility taken away by staff
  *
  * Two modes, and an account qualifies for exactly one of them:
  *
  *   staging   TEST accounts only. This is the default, and what the dry run
  *             and every demonstration use. A real performer never runs here.
- *   live      APPROVED accounts only. A test account never runs here, so it
- *             can never receive real casting research or a workflow email.
+ *   live      real accounts (UNREVIEWED or APPROVED). A test account never
+ *             runs here, so it can never receive real research or an email.
  *
- * In both modes the email must be verified, the person must be an adult, and
- * the performer must have opted in: a click on "Start finding roles" (which is
- * itself the opt-in, see `optedIn` below) or the six-hour search switch.
+ * In both modes the email must be verified, the profile complete, the person
+ * an adult, and the performer must have opted in: a click on "Start finding
+ * roles" (which is itself the opt-in, see `optedIn` below), the six-hour
+ * search switch, or the automatic first search (see src/lib/auto-search.ts).
  */
-export const ACCOUNT_STATUSES = ["UNREVIEWED", "APPROVED", "TEST", "STAFF", "SPAM"] as const;
+export const ACCOUNT_STATUSES = ["UNREVIEWED", "APPROVED", "TEST", "STAFF", "SPAM", "REVOKED"] as const;
+/** What staff may set: exceptions only. UNREVIEWED means "automatic" again. */
+export const STAFF_STATUSES = ["UNREVIEWED", "TEST", "SPAM", "REVOKED", "STAFF"] as const;
+export type StaffStatus = (typeof STAFF_STATUSES)[number];
+
+export function isStaffStatus(v: unknown): v is StaffStatus {
+  return typeof v === "string" && (STAFF_STATUSES as readonly string[]).includes(v);
+}
 export type AccountStatus = (typeof ACCOUNT_STATUSES)[number];
 
 export function isAccountStatus(v: unknown): v is AccountStatus {
@@ -43,7 +55,9 @@ export type IneligibleReason =
   | "staff"
   | "test_account"
   | "real_account"
-  | "not_opted_in";
+  | "not_opted_in"
+  | "profile_incomplete"
+  | "revoked";
 
 export type Eligibility = { ok: true } | { ok: false; reason: IneligibleReason };
 
@@ -56,6 +70,8 @@ export interface EligibilityFacts {
   accountStatus: string | null | undefined;
   emailVerified: Date | null | undefined;
   isAdult: boolean;
+  /** Profile completeness is 100% (scoreProfile, the same rule as the dashboard). */
+  profileComplete: boolean;
   /**
    * True when the performer clicked "Start finding roles" before or opted in
    * to the six-hour search. Pass `"clicking"` from the click itself: the click
@@ -74,14 +90,17 @@ export function accountEligibility(
   const status = account.accountStatus;
   if (status === "SPAM") return { ok: false, reason: "spam" };
   if (status === "STAFF") return { ok: false, reason: "staff" };
+  if (status === "REVOKED") return { ok: false, reason: "revoked" };
   if (status === "TEST") {
-    return mode === "staging" ? { ok: true } : { ok: false, reason: "test_account" };
+    if (mode !== "staging") return { ok: false, reason: "test_account" };
+  } else if (status === "UNREVIEWED" || status === "APPROVED") {
+    if (mode !== "live") return { ok: false, reason: "real_account" };
+  } else {
+    // Any value nobody defined.
+    return { ok: false, reason: "unreviewed" };
   }
-  if (status === "APPROVED") {
-    return mode === "live" ? { ok: true } : { ok: false, reason: "real_account" };
-  }
-  // UNREVIEWED, and any value nobody defined.
-  return { ok: false, reason: "unreviewed" };
+  if (!account.profileComplete) return { ok: false, reason: "profile_incomplete" };
+  return { ok: true };
 }
 
 export function workflowEligibility(facts: EligibilityFacts, mode: WorkflowMode): Eligibility {
@@ -99,6 +118,6 @@ export function agentsEnabled(facts: EligibilityFacts, mode: WorkflowMode): bool
 /** The translation key a performer sees when a click is refused. */
 export function refusalKey(reason: IneligibleReason): ErrorKey {
   if (reason === "email_unverified") return "errors.agentsEmailUnverified";
-  if (reason === "unreviewed") return "errors.agentsUnderReview";
+  if (reason === "profile_incomplete") return "errors.agentsProfileIncomplete";
   return "errors.agentsUnavailable";
 }

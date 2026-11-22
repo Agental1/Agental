@@ -2,6 +2,7 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import { toProfileFacts, type ProfileFacts } from "@/domain/workflow/profile";
 import { workflowEligibility, type WorkflowMode } from "@/domain/workflow/eligibility";
 import { emailIsVerified } from "@/lib/agents";
+import { completenessOf } from "@/lib/completeness";
 
 /**
  * Loading of the pilot profiles a run evaluates.
@@ -41,6 +42,12 @@ export async function loadProfileFacts(
       preferences: true,
       mobilityCountries: true,
       minRateCents: true,
+      stageName: true,
+      bio: true,
+      imdbUrl: true,
+      portfolioUrl: true,
+      media: { select: { type: true, category: true } },
+      _count: { select: { specialties: true } },
       user: { select: { id: true, emailVerified: true, passwordHash: true, accounts: { select: { provider: true } }, accountStatus: true, agentsOptInAt: true, autoSearchOptIn: true } },
       specialties: { select: { kind: true, level: true, tags: true } },
       availability: { select: { from: true, to: true, type: true, zones: true } },
@@ -58,6 +65,7 @@ export async function loadProfileFacts(
         accountStatus: row.user.accountStatus,
         emailVerified: emailIsVerified(row.user),
         isAdult: facts.isAdult,
+        profileComplete: completenessOf(row) === 100,
         optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn,
       },
       mode

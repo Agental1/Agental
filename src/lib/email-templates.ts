@@ -169,3 +169,26 @@ export function studentEmail(locale: string, link: string): EmailContent {
     link
   );
 }
+
+/**
+ * "Verify your email within N days or your account will be deleted", for an
+ * unverified account on the admin's cleanup list. The link is the usual
+ * confirmation link; confirming keeps the account.
+ */
+export function deletionWarningEmail(locale: string, link: string, days: number): EmailContent {
+  const resolved = toLocale(locale);
+  const s = STRINGS[resolved];
+  const n = String(days);
+  return render(
+    resolved,
+    {
+      subject: s.deletionSubject.replace("{days}", n),
+      intro: s.deletionIntro.replace("{days}", n),
+      action: s.verifyAction,
+      expiry: s.deletionExpiry.replace("{days}", n),
+      ignore: s.deletionIgnore,
+      signature: s.signature,
+    },
+    link
+  );
+}

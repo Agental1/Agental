@@ -6,7 +6,7 @@ import { audit } from "@/lib/audit";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
-import { isAccountStatus, type AccountStatus } from "@/domain/workflow/eligibility";
+import { isStaffStatus, type StaffStatus } from "@/domain/workflow/eligibility";
 
 /** Most accounts one submit may change: a page of the list. */
 const MAX_BULK = 500;
@@ -22,11 +22,12 @@ export type SetStatusResult =
  * the server from the database. Each account that really changes gets its own
  * audit entry (before and after), written in the same transaction.
  */
-export async function setAccountStatus(ids: string[], status: AccountStatus): Promise<SetStatusResult> {
+export async function setAccountStatus(ids: string[], status: StaffStatus): Promise<SetStatusResult> {
   const adminId = await currentAdminId();
   if (!adminId) return { ok: false, reason: "forbidden" };
   const unique = [...new Set(ids)];
-  if (!isAccountStatus(status) || unique.length === 0 || unique.length > MAX_BULK || !unique.every((id) => ID.test(id))) {
+  // Exceptions only: nobody approves an account by hand (eligibility is automatic).
+  if (!isStaffStatus(status) || unique.length === 0 || unique.length > MAX_BULK || !unique.every((id) => ID.test(id))) {
     return { ok: false, reason: "invalid" };
   }
   const changed = await prisma.$transaction(async (tx) => {
@@ -71,7 +72,7 @@ export async function setAccountStatusForm(formData: FormData): Promise<void> {
   const status = String(formData.get("status") ?? "");
   const back = String(formData.get("back") ?? "/admin/comptes");
   const safeBack = /^\/admin\/comptes(\/[A-Za-z0-9_-]+)?(\?[^#]*)?$/.test(back) ? back : "/admin/comptes";
-  const res = isAccountStatus(status) ? await setAccountStatus(ids, status) : ({ ok: false, reason: "invalid" } as const);
+  const res = isStaffStatus(status) ? await setAccountStatus(ids, status) : ({ ok: false, reason: "invalid" } as const);
   const [path, query = ""] = safeBack.split("?");
   const qs = new URLSearchParams(query);
   qs.delete("updated");

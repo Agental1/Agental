@@ -150,7 +150,8 @@
     "sessionCheck": "保存未成功，但你仍处于登录状态。你的录像已保留，请重试。",
     "mediaMinor": "未满 18 岁的资料无法添加媒体。如果出生日期有误，请在资料页更正。",
     "mediaCastingAccount": "这是选角账户，请使用表演者账户添加媒体。",
-    "captchaFailed": "安全验证未通过，请刷新页面后重试。"
+    "captchaFailed": "安全验证未通过，请刷新页面后重试。",
+    "agentsProfileIncomplete": "请先将资料完善到 100%：资料完整且邮箱验证后，AI 搜索才会开始。"
   },
   "auth": {
     "name": "姓名",
@@ -239,7 +240,8 @@
       "roleSearches": "申请与 AI",
       "accounts": "Accounts",
       "revenue": "Revenue",
-      "waiting": "Waiting for the team"
+      "waiting": "Waiting for the team",
+      "cleanup": "账户清理"
     },
     "stats": {
       "artists": "艺人",
@@ -450,7 +452,7 @@
         "staff": "Staff",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approved, {unreviewed} to review",
+        "split": "{unreviewed} 个自动，{approved} 个由旧审核批准",
         "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
       },
       "mode": {
@@ -460,11 +462,12 @@
       "statusLabel": "Status",
       "agentsLabel": "Agents enabled",
       "statuses": {
-        "UNREVIEWED": "Unreviewed",
-        "APPROVED": "Approved",
+        "UNREVIEWED": "自动",
+        "APPROVED": "已批准（旧审核）",
         "TEST": "Test",
         "STAFF": "Staff",
-        "SPAM": "Spam"
+        "SPAM": "Spam",
+        "REVOKED": "已撤销资格"
       },
       "selectAll": "Select every account on this page",
       "select": "Select {name}",
@@ -475,9 +478,14 @@
       "page": "Page {page} of {pages}",
       "prev": "Previous",
       "next": "Next",
-      "agentsHelp": "Yes when the email is verified, the status allows it in this mode, the person is an adult and opted in (clicked Start finding roles or turned on the six-hour search).",
+      "agentsHelp": "当邮箱已验证、资料 100% 完整、用户已成年并已选择加入，且团队未将账户标记为垃圾、测试（staging 之外）或撤销时为“是”。无人手动批准账户。",
       "statusOne": "Account status",
-      "admin": "admin"
+      "admin": "admin",
+      "verifiedOn": "验证于 {date}",
+      "verifiedGoogle": "由 Google 验证",
+      "notVerified": "未验证",
+      "verifiedReadOnly": "仅由真实验证设置，团队无法修改。",
+      "exceptionsNote": "账户会自动获得资格。只标记例外：垃圾、测试、员工或撤销资格。“自动”可撤销标记。"
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -504,8 +512,37 @@
     },
     "hub": {
       "newLeads": "New Limelight requests",
-      "toReview": "Accounts to review",
+      "toReview": "自动资格账户",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
+    },
+    "cleanup": {
+      "title": "账户清理",
+      "subtitle": "邮箱从未验证、创建超过 {days} 天、从未付款、不属于任何组织且不是员工、测试或已批准的账户。收到提醒的账户在提醒后 {days} 天内保留。Google 账户由 Google 验证，不会出现在这里。",
+      "days": "创建超过（天）",
+      "csv": "导出列表（CSV）",
+      "count": "{count, plural, other {# 个账户可删除。}}",
+      "cols": {
+        "email": "邮箱",
+        "audience": "类型",
+        "created": "创建时间",
+        "status": "状态",
+        "warned": "已提醒",
+        "media": "媒体"
+      },
+      "warnTitle": "先提醒（可选）",
+      "warnBody": "发送“请在 {days} 天内验证邮箱，否则账户将被删除”及确认链接，每个账户一次。",
+      "warnCta": "发送提醒邮件",
+      "noSender": "未配置发件服务（RESEND_API_KEY）：不会发送任何邮件。",
+      "warned": "{count, plural, other {已发送 # 封提醒邮件。}}",
+      "deleteTitle": "删除所有符合条件的账户",
+      "deleteBody": "永久删除 {count} 个账户及其资料和文件，每个都会记录审计日志。无法撤销。",
+      "typeToConfirm": "输入 {phrase} 以确认",
+      "deleteCta": "删除 {count} 个账户",
+      "badConfirmation": "确认内容与列表不符，未删除任何内容。",
+      "nothing": "没有可删除的内容。",
+      "deleted": "{count, plural, other {已删除 # 个账户}}，{failed} 个未删除（见日志）。",
+      "listChanged": "页面加载后列表已变化，未删除任何内容：请重新检查列表。",
+      "remaining": "{count, plural, other {还剩 # 个账户：请再次运行。}}"
     }
   },
   "matchReasons": {
@@ -535,6 +572,10 @@
     "studentSubject": "确认你在 Agental 的学校邮箱",
     "studentIntro": "确认此学校邮箱，即可享受 Agental 专业版的大学生优惠。",
     "studentAction": "确认我的学校邮箱",
-    "studentExpiry": "此链接 48 小时内有效，且只能使用一次。"
+    "studentExpiry": "此链接 48 小时内有效，且只能使用一次。",
+    "deletionSubject": "请在 {days} 天内确认邮箱以保留你的 Agental 账户",
+    "deletionIntro": "你的 Agental 账户使用此地址创建，但尚未确认。我们会删除未确认的测试版账户：请在 {days} 天内确认地址以保留你的账户。",
+    "deletionExpiry": "{days} 天后，该账户及其资料和文件将被删除。",
+    "deletionIgnore": "如果你没有创建此账户，请忽略此邮件：该账户将被删除。"
   }
 }

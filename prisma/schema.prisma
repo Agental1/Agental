@@ -52,6 +52,9 @@ model User {
   notifyApplications    Boolean   @default(true)
   notifyMessages        Boolean   @default(true)
   notifyProduct         Boolean   @default(false)
+  // When the "verify within N days or the account is deleted" email went out
+  // (admin > Account cleanup). Null when never warned.
+  deletionWarnedAt      DateTime?
   // Set when a college student code was redeemed.
   studentVerifiedAt     DateTime?
   // The school address that proved it (lowercase). One account per address.

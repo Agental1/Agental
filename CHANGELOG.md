@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.5.6.0] - 2026-11-22
+
+### Changed (round 7b, group 3)
+
+- **Agent eligibility is automatic**: an account is eligible once its email is verified (by the verification email, or by Google) and its profile is 100% complete. Staff no longer approve accounts; they only mark Spam, Test or Staff, or revoke eligibility ("Automatic" undoes a mark).
+- **Email verification is read-only in the admin**: each account shows when it was verified (or "Verified by Google", or "Not verified"), with a filter. Nothing lets staff set it.
+- **Account cleanup** in the admin (`/admin/suppression`): accounts never verified, older than 7 days (configurable), never paid and not staff or test; an optional "confirm within 7 days or your account is deleted" email; CSV export; "Delete all eligible" behind a typed confirmation, with files removed and one audit entry per account (email kept only as a hash). No deletion has been run.
+
+Migration `20261201000000_account_deletion` (one additive column on User).
+
 ## [0.5.5.2] - 2026-11-22
 
 ### Changed (round 7b, group 2)

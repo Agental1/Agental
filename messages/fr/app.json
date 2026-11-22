@@ -150,7 +150,8 @@
     "sessionCheck": "L'enregistrement n'a pas abouti, mais tu es toujours connecté. Ta prise est conservée : réessaie.",
     "mediaMinor": "Les médias sont désactivés pour les profils de moins de 18 ans. Si ta date de naissance est erronée, corrige-la sur ta page Profil.",
     "mediaCastingAccount": "Ce compte est un compte casting. Les médias s'ajoutent depuis un compte artiste.",
-    "captchaFailed": "La vérification de sécurité a échoué. Recharge la page et réessaie."
+    "captchaFailed": "La vérification de sécurité a échoué. Recharge la page et réessaie.",
+    "agentsProfileIncomplete": "Complète d’abord ton profil à 100 % : les recherches IA démarrent une fois le profil complet et ton e-mail vérifié."
   },
   "auth": {
     "name": "Nom",
@@ -239,7 +240,8 @@
       "roleSearches": "Candidatures et IA",
       "accounts": "Comptes",
       "revenue": "Revenus",
-      "waiting": "En attente de l’équipe"
+      "waiting": "En attente de l’équipe",
+      "cleanup": "Nettoyage des comptes"
     },
     "stats": {
       "artists": "Artistes",
@@ -450,7 +452,7 @@
         "staff": "Équipe",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approuvés, {unreviewed} à vérifier",
+        "split": "{unreviewed} automatiques, {approved} approuvés par l’ancienne revue",
         "note": "Comptes inscrits uniques. Les comptes équipe, test et spam sont comptés à part. Les demandes Limelight ne sont pas des comptes et ne sont pas comptées."
       },
       "mode": {
@@ -460,11 +462,12 @@
       "statusLabel": "Statut",
       "agentsLabel": "Agents activés",
       "statuses": {
-        "UNREVIEWED": "À vérifier",
-        "APPROVED": "Approuvé",
+        "UNREVIEWED": "Automatique",
+        "APPROVED": "Approuvé (ancienne revue)",
         "TEST": "Test",
         "STAFF": "Équipe",
-        "SPAM": "Spam"
+        "SPAM": "Spam",
+        "REVOKED": "Éligibilité retirée"
       },
       "selectAll": "Sélectionner tous les comptes de cette page",
       "select": "Sélectionner {name}",
@@ -475,9 +478,14 @@
       "page": "Page {page} sur {pages}",
       "prev": "Précédente",
       "next": "Suivante",
-      "agentsHelp": "Oui quand l’email est vérifié, que le statut le permet dans ce mode, que la personne est majeure et qu’elle a choisi les agents (clic sur Lancer la recherche ou recherche toutes les six heures).",
+      "agentsHelp": "Oui quand l’e-mail est vérifié, le profil complet à 100 %, la personne majeure et inscrite, et que l’équipe n’a pas marqué le compte Spam, Test (hors staging) ou retiré. Personne n’approuve les comptes à la main.",
       "statusOne": "Statut du compte",
-      "admin": "admin"
+      "admin": "admin",
+      "verifiedOn": "Vérifié le {date}",
+      "verifiedGoogle": "Vérifié par Google",
+      "notVerified": "Non vérifié",
+      "verifiedReadOnly": "Fixé uniquement par la vraie vérification. L’équipe ne peut pas le modifier.",
+      "exceptionsNote": "Les comptes deviennent éligibles d’eux-mêmes. Marque seulement les exceptions : Spam, Test, Équipe, ou retrait. « Automatique » annule une marque."
     },
     "studentRequests": {
       "title": "Demandes de prix étudiant",
@@ -504,8 +512,37 @@
     },
     "hub": {
       "newLeads": "Nouvelles demandes Limelight",
-      "toReview": "Comptes à vérifier",
+      "toReview": "Comptes en éligibilité automatique",
       "jobs": "Tâches IA : {queued} en file, {running} en cours, {failed} en échec"
+    },
+    "cleanup": {
+      "title": "Nettoyage des comptes",
+      "subtitle": "Comptes dont l’e-mail n’a jamais été vérifié, créés il y a plus de {days} jours, qui n’ont jamais payé, n’appartiennent à aucune organisation et ne sont ni équipe, ni test, ni approuvés. Un compte prévenu est gardé jusqu’à {days} jours après l’avertissement. Les comptes Google sont vérifiés par Google et n’apparaissent jamais ici.",
+      "days": "Créés il y a plus de (jours)",
+      "csv": "Exporter la liste (CSV)",
+      "count": "{count, plural, =0 {Aucun compte à supprimer.} one {# compte peut être supprimé.} other {# comptes peuvent être supprimés.}}",
+      "cols": {
+        "email": "E-mail",
+        "audience": "Public",
+        "created": "Créé",
+        "status": "Statut",
+        "warned": "Prévenu",
+        "media": "Médias"
+      },
+      "warnTitle": "Prévenir d’abord (facultatif)",
+      "warnBody": "Envoie « vérifie ton e-mail sous {days} jours ou ton compte sera supprimé » avec un lien de confirmation, une fois par compte.",
+      "warnCta": "Envoyer l’e-mail d’avertissement",
+      "noSender": "Aucun expéditeur configuré (RESEND_API_KEY) : rien ne partirait.",
+      "warned": "{count, plural, one {# e-mail d’avertissement envoyé.} other {# e-mails d’avertissement envoyés.}}",
+      "deleteTitle": "Supprimer tous les comptes éligibles",
+      "deleteBody": "Supprime définitivement {count} comptes, leurs profils et leurs fichiers, avec une entrée d’audit chacun. Irréversible.",
+      "typeToConfirm": "Tape {phrase} pour confirmer",
+      "deleteCta": "Supprimer {count} comptes",
+      "badConfirmation": "La confirmation ne correspond pas à la liste affichée. Rien n’a été supprimé.",
+      "nothing": "Il n’y a rien à supprimer.",
+      "deleted": "{count, plural, one {# compte supprimé} other {# comptes supprimés}}, {failed} non supprimés (voir les journaux).",
+      "listChanged": "La liste a changé depuis le chargement de la page. Rien n’a été supprimé : vérifie à nouveau la liste.",
+      "remaining": "{count, plural, one {Il reste # compte : relance.} other {Il reste # comptes : relance.}}"
     }
   },
   "matchReasons": {
@@ -535,6 +572,10 @@
     "studentSubject": "Confirme ton adresse e-mail universitaire pour Agental",
     "studentIntro": "Confirme cette adresse universitaire pour obtenir la réduction étudiante sur Agental Pro.",
     "studentAction": "Confirmer mon adresse universitaire",
-    "studentExpiry": "Ce lien fonctionne 48 heures et une seule fois."
+    "studentExpiry": "Ce lien fonctionne 48 heures et une seule fois.",
+    "deletionSubject": "Confirme ton e-mail sous {days} jours pour garder ton compte Agental",
+    "deletionIntro": "Ton compte Agental a été créé avec cette adresse, qui n’a pas encore été confirmée. Nous supprimons les comptes bêta non confirmés : confirme ton adresse sous {days} jours pour garder le tien.",
+    "deletionExpiry": "Après {days} jours, le compte, son profil et ses fichiers sont supprimés.",
+    "deletionIgnore": "Si tu n’as pas créé ce compte, ignore cet e-mail : il sera supprimé."
   }
 }

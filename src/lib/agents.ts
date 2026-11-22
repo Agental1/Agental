@@ -1,6 +1,7 @@
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { isAdult } from "@/domain/age";
+import { COMPLETENESS_SELECT, completenessOf } from "@/lib/completeness";
 import {
   workflowEligibility,
   workflowMode,
@@ -32,7 +33,7 @@ export const ELIGIBILITY_SELECT = {
   agentsOptInAt: true,
   autoSearchOptIn: true,
   accounts: { select: { provider: true } },
-  artistProfile: { select: { birthDate: true, isMinor: true } },
+  artistProfile: { select: { isMinor: true, ...COMPLETENESS_SELECT } },
 } as const;
 
 export type EligibilityRow = Prisma.UserGetPayload<{ select: typeof ELIGIBILITY_SELECT }>;
@@ -43,6 +44,7 @@ export function factsFrom(u: EligibilityRow, now = new Date()): Omit<Eligibility
     accountStatus: u.accountStatus,
     emailVerified: emailIsVerified(u),
     isAdult: !!p && !p.isMinor && isAdult(p.birthDate, now),
+    profileComplete: !!p && completenessOf(p) === 100,
     optedIn: u.agentsOptInAt !== null || u.autoSearchOptIn,
   };
 }

@@ -106,6 +106,15 @@ US dollars.
   trigger an agent. Live mode waits until the founders have reviewed the admin portal and marked
   real performers Approved themselves.
 - Account cleanup: archive only. Junk accounts get the Spam status; nothing is deleted.
+  **Replaced 2026-11-22 (round 7b, owner) for unverified accounts:** fake accounts may be
+  deleted: email never verified, created more than 7 days ago (configurable), never paid, not
+  staff or test. Admin > Account cleanup lists them, can warn them by email, exports the list,
+  and deletes all eligible behind a typed confirmation, with one audit entry each. Every run
+  needs the owner's explicit go. See `docs/ACCOUNT_DELETION_PROPOSAL.md`.
+- 2026-11-22 (round 7b, owner): agent eligibility is automatic. An account is eligible once its
+  email is verified (verification email or Google) and its profile is 100% complete. Staff do
+  not approve accounts; they only mark Spam, Test or Staff, or revoke eligibility. Email
+  verification is read-only in the admin.
 - A separate staff-only admin site at admin.agental.co (same codebase and database).
 
 ## Rules for every session

@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { completeProfile } from "../helpers/complete-profile";
 
 /**
  * "Start finding roles" against the real database: the quota holds under
@@ -16,7 +17,7 @@ const { getRoleSearchQuota, listMyRoleSearches, startRoleSearch } = await import
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
 const key = (n: number) => `${P.replace(/-/g, "_")}${String(n).padStart(6, "0")}`;
-let basic: string;
+let basic: string, revoked = "", bare = "";
 let other: string;
 let pro: string;
 let unreviewed: string;
@@ -36,7 +37,7 @@ describe.skipIf(!local)("AI role searches", () => {
           kind: "TALENT",
           emailVerified: new Date(),
           accountStatus: "TEST",
-          artistProfile: { create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z") } },
+          artistProfile: { create: { stageName: name, birthDate: new Date("1990-01-01T00:00:00Z"), ...completeProfile(`${P}${name}`) } },
           ...over,
         },
       });
@@ -47,6 +48,8 @@ describe.skipIf(!local)("AI role searches", () => {
     unverified = (await make("unverified", { emailVerified: null, passwordHash: "x" })).id;
     approved = (await make("approved", { accountStatus: "APPROVED" })).id;
     spam = (await make("spam", { accountStatus: "SPAM" })).id;
+    revoked = (await make("revoked", { accountStatus: "REVOKED" })).id;
+    bare = (await make("bare", { artistProfile: { create: { stageName: "bare", birthDate: new Date("1990-01-01T00:00:00Z") } } })).id;
     minor = (await make("minor", {
       artistProfile: { create: { stageName: "minor", birthDate: new Date(Date.now() - 15 * 365 * 24 * 3600 * 1000), isMinor: true } },
     })).id;
@@ -134,11 +137,13 @@ describe.skipIf(!local)("AI role searches", () => {
 
   it("queues nothing for an account that may not trigger agents", async () => {
     const cases: [string, string][] = [
-      [unreviewed, "errors.agentsUnderReview"],
+      [unreviewed, "errors.agentsUnavailable"], // a real account (automatic) never runs in staging
       [unverified, "errors.agentsEmailUnverified"],
       [approved, "errors.agentsUnavailable"], // a real account never runs in staging
       [spam, "errors.agentsUnavailable"],
       [minor, "errors.agentsUnavailable"],
+      [revoked, "errors.agentsUnavailable"],
+      [bare, "errors.agentsProfileIncomplete"], // verified test account, profile not at 100%
     ];
     for (const [id, errorKey] of cases) {
       session.mockResolvedValue({ user: { id, kind: "TALENT" } });
@@ -153,6 +158,8 @@ describe.skipIf(!local)("AI role searches", () => {
   it("lets an approved account through in live, never a test account", async () => {
     const live = await startRoleSearch(approved, key(600), new Date(), "live");
     expect(live.ok).toBe(true);
+    // Automatic eligibility: a verified, complete real account needs no approval.
+    expect((await startRoleSearch(unreviewed, key(602), new Date(), "live")).ok).toBe(true);
     const test = await startRoleSearch(pro, key(601), new Date(), "live");
     expect(test).toMatchObject({ ok: false, reason: "ineligible", why: "test_account" });
   });
