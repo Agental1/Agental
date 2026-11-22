@@ -3,6 +3,19 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.5.0] - 2026-11-22
+
+### Changed (round 8b, group 1)
+
+- **Sidebar menu button** now sits in the sidebar header, next to the logo, with the three-line menu icon; folded to icons it stays at the top of the icon column. Fold, widen, tooltip and Ctrl/Cmd+B are unchanged. On a phone the button stays in the top bar.
+- **Profile, links block**: heading "Additional information that will help us", "(optional)" after the IMDb and portfolio labels in a lighter style, and the button "I don't have a website or portfolio link" (to Subscription, website section).
+- **Accents**: the first option is "I don't do any accents"; choosing it clears the other accents and choosing an accent clears it. It is stored as `none` and kept out of casting views and matching.
+- **Build** is a list (Slim to Plus size) with "Add your own", a short text field whose value shows in the tile. Earlier free-text values show as the person's own.
+- **USC student promotion**: Limelight Signature $69 instead of $149, shown struck through like the other prices, in the app, on the public Limelight page and in the order price. The "College student? Verify your school email" card and link were removed from the app (the Promotions panel covers it).
+- **AI agent setup in Messages** is saved on the account: Samantha, Adrian or a custom name, and what it helps with. Once saved, the card becomes one "Edit your AI agent" line that reopens the saved setup. The agent itself is not live.
+
+Migration `20261209000000_round8b_agent_setup` (four nullable profile columns). `package.json` version brought back in line with `VERSION`.
+
 ## [0.6.4.0] - 2026-11-22
 
 ### Added (round 8, group 5)
