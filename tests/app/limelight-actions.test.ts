@@ -242,7 +242,7 @@ describe("submitLimelightLead (the form on the page today)", () => {
     });
     await submitLimelightLead(undefined, form({ ...fields, budget: "essential", promotion: "usc-student", message: "" }));
     expect((recordInterest.mock.calls[0][0] as { need: string }).need).toBe(
-      "Offer: essential (USD 99 + USD 25 a year hosting). Promotion: USC student (USD 29). redo"
+      "Offer: essential (USD 99 + USD 25 a year hosting). Promotion: USC student (USD 29, not verified). redo"
     );
   });
 

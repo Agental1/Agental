@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.8.0] - 2026-11-22
+
+### Added (round 8b, group 4)
+
+- **"Choose" on a paid plan opens a checkout panel** over Subscription: the plan, its price and what is included. Basic still switches directly.
+- **USC student verification by code**: with the "USC student" promotion checked, the panel asks for a @usc.edu address (only that ending), sends a 6-digit code by email (stored only as a keyed hash; 10 minutes; 5 tries; a new code after 60 seconds; at most 5 a day per account and per address), then six boxes for the code. One address verifies one account. The account is marked "USC student verified" with the date, the panel shows it and the student price applies; a verified account skips both steps. The same verification comes before an in-app Limelight request sent with the promotion. Without an email sender in production the step says "We can't send the code right now. Try again later." and logs it.
+- **Beta card step** for every paid plan: the usual card fields, disabled, under "Card payments are not open yet. Do not enter your card details. Agental is in beta." Nothing is typed, sent or stored, no payment provider is called and the plan does not change. "Got it" closes the panel. The choice (plan, price, promotion, date) is recorded so the team can write when payments open.
+- French copy from round 8b now uses "tu", like the rest of the app.
+
+Migration `20261211000000_round8b_checkout` (two nullable User columns with a unique index on the USC address, two new tables with RLS on).
+
 ## [0.6.7.0] - 2026-11-22
 
 ### Changed (round 8b, group 3)
