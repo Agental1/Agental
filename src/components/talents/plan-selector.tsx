@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { upgradeTalentPlan } from "@/app/actions/subscription";
-import { PromoPrice } from "@/components/talents/promotions";
+import { PromoPrice, useActivePromotion } from "@/components/talents/promotions";
+import { CheckoutPanel } from "@/components/talents/checkout-panel";
+import type { UscVerified } from "@/components/talents/usc-verify";
 
 export interface PlanCard {
   plan: string;
@@ -25,9 +27,12 @@ export interface PlanCard {
 export function PlanSelector({
   plans,
   current,
+  usc: initialUsc = null,
 }: {
   plans: PlanCard[];
   current: string;
+  /** Round 8b: "USC student verified" on the account, with the date and address. */
+  usc?: UscVerified | null;
 }) {
   const t = useTranslations("talents");
   const router = useRouter();
@@ -36,7 +41,16 @@ export function PlanSelector({
   const [error, setError] = useState<ActionError | undefined>();
   const errorText = useActionErrorText();
 
+  // Round 8b: a paid plan opens the checkout panel; Basic switches directly.
+  const promotion = useActivePromotion();
+  const [checkout, setCheckout] = useState<PlanCard | null>(null);
+  const [usc, setUsc] = useState<UscVerified | null>(initialUsc);
+
   function choose(plan: string) {
+    if (plan !== "FREE") {
+      setCheckout(plans.find((p) => p.plan === plan) ?? null);
+      return;
+    }
     setBusy(plan);
     setError(undefined);
     start(async () => {
@@ -97,6 +111,13 @@ export function PlanSelector({
         })}
       </div>
       {error && <p className="text-sm text-danger">{errorText(error)}</p>}
+      <CheckoutPanel
+        plan={checkout}
+        promotion={promotion}
+        usc={usc}
+        onUscVerified={setUsc}
+        onClose={() => setCheckout(null)}
+      />
       <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
     </div>
   );

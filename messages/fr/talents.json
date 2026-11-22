@@ -1911,5 +1911,36 @@
     "subjectPlan": "Prix étudiant de l’abonnement",
     "subjectWebsite": "Prix étudiant du site",
     "mailBody": "Email de mon compte Agental : {email}"
+  },
+  "checkout": {
+    "title": "Formule {plan}",
+    "lead": "La formule, son prix et ce qu'elle comprend.",
+    "perMonth": "par mois",
+    "commission": "Commission sur les rôles décrochés : {rate}",
+    "continue": "Continuer",
+    "uscNext": "Étape suivante : vérifiez votre adresse USC pour obtenir le prix étudiant.",
+    "verified": "Étudiant USC vérifié le {date} ({email}).",
+    "close": "Fermer",
+    "cardNotice": "Les paiements par carte ne sont pas encore ouverts. Ne saisissez pas vos coordonnées bancaires. Agental est en bêta.",
+    "cardLegend": "Coordonnées de la carte",
+    "cardName": "Nom sur la carte",
+    "cardNumber": "Numéro de carte",
+    "cardExpiry": "Date d'expiration",
+    "cardCvc": "Code de sécurité",
+    "recorded": "Nous avons enregistré votre choix de formule. Nous vous écrirons à l'ouverture des paiements. Votre formule ne change pas aujourd'hui.",
+    "gotIt": "Compris",
+    "usc": {
+      "title": "Prix étudiant USC",
+      "emailLead": "Nous allons vous envoyer un code de vérification. Saisissez votre adresse @usc.edu.",
+      "emailPlaceholder": "vous@usc.edu",
+      "send": "Envoyer le code",
+      "codeLead": "Saisissez le code à 6 chiffres envoyé à {email}.",
+      "verify": "Vérifier",
+      "resend": "Envoyer un nouveau code",
+      "resendIn": "Nouveau code dans {seconds} s",
+      "otherEmail": "Utiliser une autre adresse",
+      "codeHint": "Le code est valable 10 minutes. Regardez dans vos courriers indésirables s'il n'arrive pas.",
+      "limelightLead": "Le prix étudiant demande une adresse USC vérifiée. Nous envoyons la demande dès qu'elle est vérifiée."
+    }
   }
 }

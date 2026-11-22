@@ -27,6 +27,8 @@ export async function LimelightSection({
 }) {
   const t = await getTranslations({ locale, namespace: "talents" });
   const sites = await listMySites(userId);
+  // Round 8b: a request with the USC promotion asks for the same verification.
+  const uscVerified = !!(await prisma.user.findUnique({ where: { id: userId }, select: { uscVerifiedAt: true } }))?.uscVerifiedAt;
   const profile = await prisma.artistProfile.findUnique({
     where: { userId: userId },
     select: { stageName: true },
@@ -89,6 +91,7 @@ export async function LimelightSection({
         tryHref={`/talents/${LIMELIGHT.slug}#try`}
         contact={{ name: profile?.stageName ?? "", email: email }}
         defaultNeed={defaultNeed}
+        uscVerified={uscVerified}
       />
     </section>
   );

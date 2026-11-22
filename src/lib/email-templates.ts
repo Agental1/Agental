@@ -192,3 +192,37 @@ export function deletionWarningEmail(locale: string, link: string, days: number)
     link
   );
 }
+
+/**
+ * Round 8b: the 6-digit code that verifies a @usc.edu address. No link: the
+ * code is typed into the six boxes in the app.
+ */
+export function promoCodeEmail(locale: string, code: string): EmailContent {
+  const resolved = toLocale(locale);
+  const s = STRINGS[resolved];
+  const clean = code.replace(/\D/g, "").slice(0, 6);
+  const text = [s.codeIntro, "", clean, "", s.codeExpiry, s.ignore, "", s.signature, ""].join("\n");
+  const e = escapeHtml;
+  const html = [
+    "<!doctype html>",
+    `<html lang="${e(LANG_TAG[resolved])}" dir="ltr">`,
+    "<head>",
+    '<meta charset="utf-8">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    `<title>${e(s.codeSubject)}</title>`,
+    "</head>",
+    `<body style="margin:0;padding:24px;background:#ffffff;color:#111111;${FONT};font-size:16px;line-height:1.5">`,
+    '<div style="max-width:480px;margin:0 auto">',
+    `<h1 style="margin:0 0 16px;font-size:22px;line-height:1.3">${e(s.codeSubject)}</h1>`,
+    `<p style="margin:0 0 16px">${e(s.codeIntro)}</p>`,
+    `<p style="margin:0 0 24px;font-size:32px;font-weight:700;letter-spacing:8px">${e(clean)}</p>`,
+    `<p style="margin:0 0 8px;color:#444444">${e(s.codeExpiry)}</p>`,
+    `<p style="margin:0 0 24px;color:#444444">${e(s.ignore)}</p>`,
+    `<p style="margin:0">${e(s.signature)}</p>`,
+    "</div>",
+    "</body>",
+    "</html>",
+    "",
+  ].join("\n");
+  return { subject: s.codeSubject, text, html };
+}

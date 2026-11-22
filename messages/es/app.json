@@ -159,7 +159,14 @@
     "cityUnknown": "Elige tu ciudad de la lista.",
     "limelightOfferRequired": "Elige Esencial o Signature.",
     "smsNeedsPhone": "Primero añade un número válido.",
-    "smsNeedsConsent": "Marca la casilla para aceptar los mensajes de texto."
+    "smsNeedsConsent": "Marca la casilla para aceptar los mensajes de texto.",
+    "uscEmailOnly": "Escribe una dirección que termine en @usc.edu.",
+    "uscAlreadyVerified": "Tu cuenta ya está verificada como estudiante de USC.",
+    "codeTooSoon": "Podrás pedir un código nuevo en {seconds} segundos.",
+    "codeUnavailable": "No podemos enviar el código ahora. Inténtalo más tarde.",
+    "codeWrong": "Ese código no es correcto. {left, plural, =0 {Pide un código nuevo.} one {Te queda # intento.} other {Te quedan # intentos.}}",
+    "codeExpired": "Este código ha caducado. Pide uno nuevo.",
+    "codeLocked": "Demasiados intentos. Pide un código nuevo."
   },
   "auth": {
     "name": "Nombre",
@@ -643,6 +650,9 @@
     "deletionSubject": "Confirma tu correo en {days} días para conservar tu cuenta de Agental",
     "deletionIntro": "Tu cuenta de Agental se creó con esta dirección, que aún no se ha confirmado. Eliminamos las cuentas beta sin confirmar: confirma tu dirección en {days} días para conservar la tuya.",
     "deletionExpiry": "Después de {days} días, se eliminan la cuenta, su perfil y sus archivos.",
-    "deletionIgnore": "Si no creaste esta cuenta, ignora este correo: se eliminará."
+    "deletionIgnore": "Si no creaste esta cuenta, ignora este correo: se eliminará.",
+    "codeSubject": "Tu código de verificación de Agental",
+    "codeIntro": "Escribe este código en Agental para verificar tu correo de estudiante de USC:",
+    "codeExpiry": "Es válido durante 10 minutos."
   }
 }
