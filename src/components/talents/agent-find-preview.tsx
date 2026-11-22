@@ -1,51 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Check, Sparkles } from "lucide-react";
+import { Check, PenLine, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ActionErrorMessage } from "@/components/app/action-error";
+import { saveAgentSetup } from "@/app/actions/agent-setup";
+import {
+  AGENT_CUSTOM_NAME_MAX,
+  AGENT_HELPS,
+  AGENT_NAMES,
+  type AgentHelp,
+  type AgentNameChoice,
+  type AgentSetup,
+} from "@/domain/agent-setup";
+import type { ActionError } from "@/domain/action-result";
 import { cn } from "@/lib/utils";
 
-const NAMES = ["samantha", "adrian"] as const;
-const HELPS = ["roles", "profile", "selftape", "draft"] as const;
-type Name = (typeof NAMES)[number];
-type Help = (typeof HELPS)[number];
-
 /**
- * Agental Find, as a clickable preview at the top of Messages.
+ * The AI agent setup at the top of Messages (round 8b): name (Samantha,
+ * Adrian or a custom name), what it should help with, then Save, which stores
+ * the choices on the account. Once saved, the big card gives way to one small
+ * "Edit your AI agent" line that reopens the setup with the saved values.
  *
- * PREVIEW ONLY. Every choice lives in this component's state and disappears
- * on reload. There are no preference writes, no model or API calls, no tools,
- * webhooks, workflow runs, background jobs, casting research, application
- * actions or emails, and zero model tokens: the sample text is fixed copy in
- * the message files. "Save agent preferences" shows a local confirmation.
- *
- * When the real assistant is built, its server logic goes in
- * `src/lib/assistant/` and its route in `src/app/api/assistant/` (both empty
- * today); this component would then call that route instead of setting local
- * state. See docs/HANDOFF.md.
+ * The agent itself is not live (round 9): saving calls no model, workflow or
+ * email. When it is built, its server logic goes in `src/lib/assistant/` and
+ * reads these choices from ArtistProfile.agent*.
  */
-export function AgentFindPreview() {
+export function AgentFindPreview({ saved: initial }: { saved: AgentSetup | null }) {
   const t = useTranslations("talents.space.find");
+  const [saved, setSaved] = useState<AgentSetup | null>(initial);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
-  const [name, setName] = useState<Name | null>(null);
-  const [helps, setHelps] = useState<Help[]>([]);
-  const [saved, setSaved] = useState(false);
+  const [name, setName] = useState<AgentNameChoice | null>(initial?.name ?? null);
+  const [customName, setCustomName] = useState(initial?.customName ?? "");
+  const [helps, setHelps] = useState<AgentHelp[]>(initial?.helps ?? []);
+  const [error, setError] = useState<ActionError | undefined>();
+  const [pending, startTransition] = useTransition();
 
   const steps = [t("steps.name"), t("steps.help"), t("steps.review")];
-  const canNext = step === 0 ? name !== null : step === 1 ? helps.length > 0 : true;
+  const nameOk = name !== null && (name !== "custom" || customName.trim().length > 0);
+  const canNext = step === 0 ? nameOk : step === 1 ? helps.length > 0 : true;
+  const nameLabel = (n: AgentNameChoice | null, custom: string | null) =>
+    n === "custom" ? (custom ?? "").trim() || t("none") : n ? t(`names.${n}`) : t("none");
 
   function toggle(help: Help) {
-    setSaved(false);
     setHelps((h) => (h.includes(help) ? h.filter((x) => x !== help) : [...h, help]));
   }
 
-  function restart() {
+  function reopen() {
+    setName(saved?.name ?? null);
+    setCustomName(saved?.customName ?? "");
+    setHelps(saved?.helps ?? []);
     setStep(0);
-    setName(null);
-    setHelps([]);
-    setSaved(false);
+    setError(undefined);
+    setOpen(true);
+  }
+
+  function save() {
+    if (!name) return;
+    setError(undefined);
+    startTransition(async () => {
+      const res = await saveAgentSetup({ name, customName: name === "custom" ? customName : undefined, helps });
+      if (!res.ok) return setError(res.error);
+      setSaved({ name, customName: name === "custom" ? customName.trim() : null, helps });
+      setOpen(false);
+    });
+  }
+
+  // Saved and closed: one small line at the top of Messages.
+  if (saved && !open) {
+    return (
+      <button
+        type="button"
+        onClick={reopen}
+        className="pressable inline-flex min-h-11 items-center gap-2 rounded-full border border-accent/50 bg-surface px-4 text-[14.5px] font-bold text-accent [--hover-scale:1.02]"
+      >
+        <Sparkles aria-hidden="true" className="size-4" />
+        {t("editAgent")}
+        <span className="font-normal text-fg-muted">· {nameLabel(saved.name, saved.customName)}</span>
+        <PenLine aria-hidden="true" className="size-4" />
+      </button>
+    );
   }
 
   return (
@@ -53,28 +90,23 @@ export function AgentFindPreview() {
       aria-labelledby="find-title"
       className="accent-wash rounded-sedan-xl border border-accent/50 bg-surface p-[clamp(16px,2.4vw,28px)]"
     >
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          <Sparkles aria-hidden="true" className="mt-1 size-5 shrink-0 text-accent" />
-          <div>
-            <h2 id="find-title" className="text-[1.25rem] leading-snug">
-              {t("intro")}
-            </h2>
-            <p className="mt-1 max-w-[62ch] text-[15px] text-fg-muted">{t("explain")}</p>
-          </div>
+      <div className="flex items-start gap-3">
+        <Sparkles aria-hidden="true" className="mt-1 size-5 shrink-0 text-accent" />
+        <div>
+          <h2 id="find-title" className="text-[1.25rem] leading-snug">
+            {saved ? t("editAgent") : t("intro")}
+          </h2>
+          <p className="mt-1 max-w-[62ch] text-[15px] text-fg-muted">{t("explain")}</p>
         </div>
-        <span className="rounded-full border border-accent px-3 py-1 text-[13px] font-bold text-accent">
-          {t("previewOnly")}
-        </span>
       </div>
 
       {!open ? (
-        <Button className="mt-4" onClick={() => setOpen(true)}>
+        <Button className="mt-4" onClick={reopen}>
           {t("start")}
         </Button>
       ) : (
         <div className="mt-5">
-          <ol aria-label={t("previewOnly")} className="flex flex-wrap gap-2">
+          <ol aria-label={t("stepsLabel")} className="flex flex-wrap gap-2">
             {steps.map((label, i) => (
               <li
                 key={label}
@@ -97,8 +129,8 @@ export function AgentFindPreview() {
             {step === 0 && (
               <fieldset>
                 <legend className="text-[15px] text-fg-muted">{t("nameLead")}</legend>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {NAMES.map((n) => (
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {AGENT_NAMES.map((n) => (
                     <label
                       key={n}
                       className={cn(
@@ -110,23 +142,35 @@ export function AgentFindPreview() {
                         type="radio"
                         name="find-name"
                         checked={name === n}
-                        onChange={() => {
-                          setName(n);
-                          setSaved(false);
-                        }}
+                        onChange={() => setName(n)}
                         className="sr-only"
                       />
                       <span
                         aria-hidden="true"
                         className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--blue),var(--blue-lift))] font-bold text-white"
                       >
-                        {t(`names.${n}`)[0]}
+                        {n === "custom" ? <PenLine className="size-4" /> : t(`names.${n}`)[0]}
                       </span>
                       <span className="flex-1 text-[1.0625rem] font-bold">{t(`names.${n}`)}</span>
                       {name === n && <Check aria-hidden="true" className="size-5 text-accent" />}
                     </label>
                   ))}
                 </div>
+                {name === "custom" && (
+                  <div className="mt-3 max-w-sm space-y-1.5">
+                    <label htmlFor="find-custom-name" className="text-[14px] font-bold">
+                      {t("customLabel")}
+                    </label>
+                    <Input
+                      id="find-custom-name"
+                      autoFocus
+                      maxLength={AGENT_CUSTOM_NAME_MAX}
+                      value={customName}
+                      placeholder={t("customPlaceholder")}
+                      onChange={(ev) => setCustomName(ev.target.value)}
+                    />
+                  </div>
+                )}
               </fieldset>
             )}
 
@@ -134,7 +178,7 @@ export function AgentFindPreview() {
               <fieldset>
                 <legend className="text-[15px] text-fg-muted">{t("helpLead")}</legend>
                 <div className="mt-3 grid gap-2 md:grid-cols-2">
-                  {HELPS.map((h) => {
+                  {AGENT_HELPS.map((h) => {
                     const on = helps.includes(h);
                     return (
                       <label
@@ -174,7 +218,7 @@ export function AgentFindPreview() {
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-sedan-lg border border-border bg-surface px-4 py-3">
                     <div>
                       <dt className="text-[13px] text-fg-muted">{t("assistant")}</dt>
-                      <dd className="font-bold">{name ? t(`names.${name}`) : t("none")}</dd>
+                      <dd className="font-bold">{nameLabel(name, customName)}</dd>
                     </div>
                     <button
                       type="button"
@@ -210,9 +254,7 @@ export function AgentFindPreview() {
                     </button>
                   </div>
                 </dl>
-                <p role="status" className="mt-3 min-h-5 text-[15px] font-bold text-success">
-                  {saved ? t("saved") : ""}
-                </p>
+                <ActionErrorMessage error={error} className="mt-3" />
               </div>
             )}
           </div>
@@ -228,13 +270,14 @@ export function AgentFindPreview() {
                 {t("next")}
               </Button>
             ) : (
-              <>
-                {/* Local only: no request leaves the browser. */}
-                <Button onClick={() => setSaved(true)}>{t("save")}</Button>
-                <Button variant="ghost" onClick={restart}>
-                  {t("restart")}
-                </Button>
-              </>
+              <Button loading={pending} disabled={!nameOk || helps.length === 0} onClick={save}>
+                {t("save")}
+              </Button>
+            )}
+            {saved && (
+              <Button variant="ghost" onClick={() => setOpen(false)}>
+                {t("cancel")}
+              </Button>
             )}
           </div>
         </div>
@@ -242,3 +285,5 @@ export function AgentFindPreview() {
     </section>
   );
 }
+
+type Help = AgentHelp;

@@ -15,6 +15,7 @@ import {
 import { parseJson, PhysicalTraits } from "@/domain/json";
 import { MatchReasons } from "@/domain/match-reason";
 import { formatHeight } from "@/domain/height";
+import { NO_ACCENTS } from "@/domain/accents";
 import { SpecialtyKind } from "@/domain/enums";
 import { z } from "zod";
 
@@ -163,7 +164,7 @@ export default async function FicheTalentPage({
       {p && (
         <section className="grid gap-4 rounded-sedan border border-border bg-surface p-5 sm:grid-cols-2">
           <Data label={t("space.talentSheet.languages")} value={phys?.languages.join(", ") || "—"} />
-          <Data label={t("space.talentSheet.accents")} value={phys?.accents.join(", ") || "—"} />
+          <Data label={t("space.talentSheet.accents")} value={phys?.accents.filter((a) => a !== NO_ACCENTS).join(", ") || "—"} />
           {/* Feet and inches for English, centimeters elsewhere. */}
           <Data
             label={t("space.talentSheet.height")}

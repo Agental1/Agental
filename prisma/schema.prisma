@@ -180,6 +180,12 @@ model ArtistProfile {
   profileCompletedAt DateTime?
   // Round 8: the dashboard's "Improve your website" line, closed for good.
   websiteCardDismissedAt DateTime?
+  // Round 8b: the AI agent setup in Messages (not live). Name: samantha |
+  // adrian | custom (then agentCustomName); helps: JSON array of help ids.
+  agentNameChoice   String?
+  agentCustomName   String?
+  agentHelps        String?
+  agentSavedAt      DateTime?
   // Round 8: how we tell them about a role found: email (default) | sms | both.
   roleAlertChannel  String?
   smsConsentAt      DateTime?

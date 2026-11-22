@@ -1204,7 +1204,7 @@
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
       "portfolioUrl": "Portfolio or website link",
       "portfolioUrlPlaceholder": "https://your-site.com",
-      "noLinks": "I don't have a website",
+      "noLinks": "I don't have a website or portfolio link",
       "stageNameHint": "If you work under another name.",
       "legalName": "Legal name",
       "legalFirstName": "First name",
@@ -1251,7 +1251,17 @@
         "green": "Green",
         "blue": "Blue",
         "heterochromia": "Heterochromia",
-        "other": "Other"
+        "other": "Other",
+        "slim": "Slim",
+        "lean": "Lean",
+        "athletic": "Athletic",
+        "average": "Average",
+        "muscular": "Muscular",
+        "curvy": "Curvy",
+        "stocky": "Stocky",
+        "heavyset": "Heavyset",
+        "petite": "Petite",
+        "plus_size": "Plus size"
       },
       "requiredNote": "Fields marked * are required to reach 100%.",
       "required": "required",
@@ -1267,7 +1277,7 @@
       "verifyToSearch": "Verify your email to start your first search.",
       "verifyResend": "Resend the email",
       "verifySent": "Email sent. Check your inbox.",
-      "linksTitle": "Create an IMDb link or a portfolio",
+      "linksTitle": "Additional information that will help us",
       "improveWebsite": "Improve your website",
       "weight": "Weight",
       "units": "Units",
@@ -1298,8 +1308,12 @@
         "other": "Other",
         "addOther": "Add \"{value}\"",
         "addLanguage": "Add a language",
-        "addAccent": "Add an accent"
-      }
+        "addAccent": "Add an accent",
+        "noAccents": "I don't do any accents"
+      },
+      "optional": "(optional)",
+      "addOwn": "Add your own",
+      "addOwnPlaceholder": "Describe your build"
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",
@@ -1355,8 +1369,7 @@
     },
     "find": {
       "intro": "Your personal agent is coming to Messages. Set it up now.",
-      "previewOnly": "Preview only",
-      "explain": "Agental Find is not live yet. You can try the setup below; nothing is saved, sent or searched until it launches.",
+      "explain": "Agental Find is not live yet. Your choices are saved on your account for when it launches.",
       "start": "Set it up",
       "steps": {
         "name": "Choose your assistant",
@@ -1364,10 +1377,11 @@
         "review": "Review and save"
       },
       "stepOf": "Step {n} of {total}",
-      "nameLead": "Two names, the same assistant. Pick the one you prefer.",
+      "nameLead": "Pick a name for your agent, or type your own.",
       "names": {
         "samantha": "Samantha",
-        "adrian": "Adrian"
+        "adrian": "Adrian",
+        "custom": "Custom"
       },
       "helpLead": "Pick one or more.",
       "helps": {
@@ -1396,8 +1410,11 @@
       "back": "Back",
       "next": "Next",
       "save": "Save agent preferences",
-      "saved": "Preview complete. You’ll be able to save preferences when Agental Find launches.",
-      "restart": "Start over"
+      "customLabel": "Your agent's name",
+      "customPlaceholder": "Type a name",
+      "editAgent": "Edit your AI agent",
+      "stepsLabel": "Setup steps",
+      "cancel": "Cancel"
     },
     "team": {
       "title": "Agental team",

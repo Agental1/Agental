@@ -129,11 +129,26 @@ export function AppShell({
         className="border-sidebar-border"
       >
         <SidebarHeader className="px-3 pt-4">
-          <Link href={home} aria-label="Agental" className="flex h-10 items-center gap-2 overflow-hidden px-1">
-            <AgentalLogo className="group-data-[collapsible=icon]:hidden" />
-            <AgentalMark className="hidden h-7 w-auto shrink-0 group-data-[collapsible=icon]:block" />
-            <span className="group-data-[collapsible=icon]:hidden">{tag}</span>
-          </Link>
+          {/* Desktop: the menu button sits in the sidebar, left of its edge, next to
+              the logo; folded to icons it stays at the top of the icon column. */}
+          <div className="flex items-center justify-between gap-1 group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-3">
+            <Link
+              href={home}
+              aria-label="Agental"
+              className="flex h-10 min-w-0 items-center gap-2 overflow-hidden px-1 group-data-[collapsible=icon]:order-2 group-data-[collapsible=icon]:px-0"
+            >
+              <AgentalLogo className="group-data-[collapsible=icon]:hidden" />
+              <AgentalMark className="hidden h-7 w-auto shrink-0 group-data-[collapsible=icon]:block" />
+              <span className="group-data-[collapsible=icon]:hidden">{tag}</span>
+            </Link>
+            <SidebarTrigger
+              label={tc("toggleSidebar")}
+              title={tc("toggleSidebar")}
+              className="pressable hidden size-9 shrink-0 rounded-full text-fg-muted hover:text-fg md:inline-flex group-data-[collapsible=icon]:order-1"
+            >
+              <Menu aria-hidden="true" className="size-5" />
+            </SidebarTrigger>
+          </div>
         </SidebarHeader>
         <SidebarContent className="px-2 pt-2">
           <nav aria-label={tc("navLabel")}>
@@ -164,14 +179,13 @@ export function AppShell({
       <SidebarInset className="min-w-0 bg-transparent">
         <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-bg/90 px-4 backdrop-blur md:h-16 md:border-0 md:bg-transparent md:px-6 md:backdrop-blur-none">
           <div className="flex items-center gap-2">
-            {/* Desktop: folds the sidebar to icons. Phone: opens it as a sheet. */}
+            {/* Phone only: opens the sidebar as a sheet (desktop has it in the sidebar). */}
             <SidebarTrigger
               label={tc("toggleSidebar")}
               title={tc("toggleSidebar")}
-              className="pressable size-11 rounded-full border border-border bg-surface text-fg md:size-9 md:border-transparent md:bg-transparent"
+              className="pressable size-11 rounded-full border border-border bg-surface text-fg md:hidden"
             >
-              <Menu aria-hidden="true" className="size-5 md:hidden" />
-              <PanelIcon />
+              <Menu aria-hidden="true" className="size-5" />
             </SidebarTrigger>
             <Link href={home} aria-label="Agental" className="flex items-center gap-2 md:hidden">
               <AgentalMark className="h-7 w-auto" />
@@ -197,27 +211,6 @@ export function AppShell({
       </SidebarInset>
       <Toaster position="bottom-center" />
     </SidebarProvider>
-  );
-}
-
-/** The panel icon on desktop only; the phone shows the menu icon. */
-function PanelIcon() {
-  const { state } = useSidebar();
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="hidden size-5 md:block"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <path d="M9 3v18" />
-      <path d={state === "expanded" ? "m16 15-3-3 3-3" : "m14 9 3 3-3 3"} />
-    </svg>
   );
 }
 

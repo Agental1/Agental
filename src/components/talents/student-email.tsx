@@ -100,7 +100,7 @@ export function ConfirmStudentEmail({ token }: { token: string }) {
       <div role="status" className="space-y-4 text-center">
         <p className={state.ok ? "font-medium" : "text-danger"}>{text}</p>
         <Button asChild>
-          <Link href="/talents/app/abonnement#student">{t("back")}</Link>
+          <Link href="/talents/app/abonnement">{t("back")}</Link>
         </Button>
       </div>
     );

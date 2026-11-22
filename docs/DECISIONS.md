@@ -40,6 +40,10 @@ product), so another school is a new entry, not new code. Stripe is not connecte
 shown (the "Promotions" panel on the plan cards) and recorded with Limelight requests; checkout
 still answers "billing unavailable".
 
+Round 8b (founders' decision, 2026-11-22): with the "USC student" promotion, **Limelight Signature
+is $69 one-time** (instead of $149, hosting unchanged). The "College student? Verify your school
+email" lines were removed from the app: the Promotions panel covers it.
+
 ## Casting pricing (pitch deck V2)
 
 - Free: $0, 1 project.
@@ -54,7 +58,8 @@ still answers "billing unavailable".
 
 Round 8 (founders' decision, 2026-11-22): **Essential $99 one-time + $25/year hosting**,
 **Signature $149 one-time + $79/year hosting** (were $49/year and $199). Student price on Essential:
-$29 one-time, hosting unchanged (USC student promotion above). Every purchase includes 4 months of
+$29 one-time, hosting unchanged (USC student promotion above); student price on Signature: $69
+one-time (round 8b, 2026-11-22). Every purchase includes 4 months of
 Agental Pro for free. The figures live in `src/domain/limelight.ts` only; the copy reads them
 through tokens. During the beta, no payment: the team helps publish.
 

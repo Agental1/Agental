@@ -5,6 +5,8 @@ import { Clock, MessageSquare, Users } from "lucide-react";
 import { auth } from "@/auth";
 import { getMyThread } from "@/lib/messages";
 import { AgentFindPreview } from "@/components/talents/agent-find-preview";
+import { agentSetupOf } from "@/domain/agent-setup";
+import { prisma } from "@/lib/db";
 import { MessageList } from "@/components/app/message-list";
 import { MarkThreadRead, MessageComposer } from "@/components/app/message-composer";
 
@@ -20,7 +22,7 @@ export async function generateMetadata({
 
 /**
  * Messages: the performer's one conversation with the Agental team, under
- * the Agental Find preview. People answer here; nothing in this page talks
+ * the AI agent setup (saved on the account since round 8b; not live). People answer here; nothing in this page talks
  * to a model.
  */
 export default async function MessagesPage({
@@ -36,7 +38,13 @@ export default async function MessagesPage({
   const session = await auth();
   if (!session?.user?.id) return null;
 
-  const { threadId, messages, waitingForTeam } = await getMyThread(session.user.id);
+  const [{ threadId, messages, waitingForTeam }, agent] = await Promise.all([
+    getMyThread(session.user.id),
+    prisma.artistProfile.findUnique({
+      where: { userId: session.user.id },
+      select: { agentNameChoice: true, agentCustomName: true, agentHelps: true, agentSavedAt: true },
+    }),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -44,7 +52,7 @@ export default async function MessagesPage({
         <h1 className="font-display text-3xl font-medium">{t("space.messages.title")}</h1>
         <p className="text-fg-muted">{t("space.messages.subtitle")}</p>
       </div>
-      <AgentFindPreview />
+      <AgentFindPreview saved={agent ? agentSetupOf(agent) : null} />
 
       <section
         aria-labelledby="team-conversation"

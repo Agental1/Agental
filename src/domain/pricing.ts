@@ -92,7 +92,8 @@ export const PROMOTIONS: readonly Promotion[] = [
     id: "usc-student",
     label: "USC student",
     eligibility: { emailDomains: ["usc.edu"] },
-    prices: { PRO: 900, PREMIUM: 2900, ULTIMATE: 5900, LIMELIGHT_ESSENTIAL: 2900 },
+    // Round 8b (founders, 2026-11-22): Limelight Signature $69 for USC students.
+    prices: { PRO: 900, PREMIUM: 2900, ULTIMATE: 5900, LIMELIGHT_ESSENTIAL: 2900, LIMELIGHT_SIGNATURE: 6900 },
   },
 ];
 
