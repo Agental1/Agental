@@ -43,6 +43,7 @@ const role = (n: number, over: Record<string, unknown> = {}) => ({
 });
 
 let ok: string;
+let thin = "";
 let later: string;
 let auto: string;
 let parked: { id: string; status: string; startedAt: Date | null; claimedBy: string | null }[] = [];
@@ -75,6 +76,8 @@ describe.skipIf(!local)("n8n casting link", () => {
     auto = await make("auto", { agentsOptInAt: null, autoSearchOptIn: true });
     await prisma.roleSearchRequest.create({ data: { userId: ok, plan: "FREE", periodKey: "p1", seq: 1, status: "queued" } });
     await prisma.roleSearchRequest.create({ data: { userId: later, plan: "FREE", periodKey: "p1", seq: 1, status: "queued" } });
+    thin = await make("thin");
+    await prisma.roleSearchRequest.create({ data: { userId: thin, plan: "FREE", periodKey: "p1", seq: 1, status: "queued" } });
   });
 
   afterAll(async () => {
@@ -100,6 +103,9 @@ describe.skipIf(!local)("n8n casting link", () => {
 
   it("cancels a queued search whose account lost eligibility, and claims the other with minimum data", async () => {
     await prisma.user.update({ where: { id: later }, data: { accountStatus: "SPAM" } });
+    // A profile that dropped below 100% since the click is canceled too.
+    const thinProfile = await prisma.artistProfile.findUniqueOrThrow({ where: { userId: thin } });
+    await prisma.media.deleteMany({ where: { profileId: thinProfile.id, category: "SELF" } });
     const res = await call(claimRoute, { limit: 10, executionId: "exec1" });
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -112,6 +118,8 @@ describe.skipIf(!local)("n8n casting link", () => {
     expect(okRow).toMatchObject({ status: "running", claimedBy: "exec1" });
     const lateRow = await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: later } });
     expect(lateRow).toMatchObject({ status: "canceled", error: "ineligible at claim" });
+    const thinRow = await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: thin } });
+    expect(thinRow).toMatchObject({ status: "canceled", error: "ineligible at claim" });
   });
 
   it("gives a retried claim the same rows, and another execution nothing already held", async () => {

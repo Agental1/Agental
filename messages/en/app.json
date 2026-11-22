@@ -452,7 +452,7 @@
         "staff": "Staff",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approved, {unreviewed} to review",
+        "split": "{unreviewed} automatic, {approved} approved by the old review",
         "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
       },
       "mode": {
@@ -512,12 +512,12 @@
     },
     "hub": {
       "newLeads": "New Limelight requests",
-      "toReview": "Accounts to review",
+      "toReview": "Accounts, automatic eligibility",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
     },
     "cleanup": {
       "title": "Account cleanup",
-      "subtitle": "Accounts whose email was never verified, created more than {days} days ago, that never paid and are not staff or test. Google accounts are verified by Google and never appear here.",
+      "subtitle": "Accounts whose email was never verified, created more than {days} days ago, that never paid, belong to no organization and are not staff, test or approved. Anyone warned is kept until {days} days after the warning. Google accounts are verified by Google and never appear here.",
       "days": "Created more than (days)",
       "csv": "Export the list (CSV)",
       "count": "{count, plural, =0 {No account is eligible for deletion.} one {# account is eligible for deletion.} other {# accounts are eligible for deletion.}}",
@@ -540,7 +540,9 @@
       "deleteCta": "Delete {count} accounts",
       "badConfirmation": "The confirmation did not match the list on screen. Nothing was deleted.",
       "nothing": "There is nothing to delete.",
-      "deleted": "{count} accounts deleted, {failed} not deleted (see the logs)."
+      "deleted": "{count, plural, one {# account deleted} other {# accounts deleted}}, {failed} not deleted (see the logs).",
+      "listChanged": "The list changed since this page loaded. Nothing was deleted: check the list again.",
+      "remaining": "{count, plural, one {# account is left: run it again.} other {# accounts are left: run it again.}}"
     }
   },
   "matchReasons": {

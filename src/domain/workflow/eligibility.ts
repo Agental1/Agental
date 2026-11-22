@@ -118,7 +118,6 @@ export function agentsEnabled(facts: EligibilityFacts, mode: WorkflowMode): bool
 /** The translation key a performer sees when a click is refused. */
 export function refusalKey(reason: IneligibleReason): ErrorKey {
   if (reason === "email_unverified") return "errors.agentsEmailUnverified";
-  if (reason === "unreviewed") return "errors.agentsUnderReview";
   if (reason === "profile_incomplete") return "errors.agentsProfileIncomplete";
   return "errors.agentsUnavailable";
 }

@@ -6,7 +6,8 @@ import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { confirmationPhrase, deletionDays } from "@/domain/account-deletion";
-import { listDeletionCandidates } from "@/lib/admin/account-deletion";
+import { candidatesFingerprint, listDeletionCandidates } from "@/lib/admin/account-deletion";
+import { isAccountStatus } from "@/domain/workflow/eligibility";
 import { deleteEligibleAccountsForm, sendDeletionWarningsForm } from "@/app/actions/admin-deletion";
 import { emailSenderConfigured } from "@/lib/mailer";
 import { dateTime } from "@/lib/format";
@@ -69,12 +70,23 @@ export default async function CleanupPage({
       )}
       {one("deleted") !== undefined && (
         <p role="status" className="rounded-sedan border border-success/40 bg-success/5 px-4 py-3 text-sm">
-          {t("admin.cleanup.deleted", { count: Number(one("deleted")) || 0, failed: Number(one("failed")) || 0 })}
+          {t("admin.cleanup.deleted", { count: Number(one("deleted")) || 0, failed: Number(one("failed")) || 0 })}{" "}
+          {Number(one("remaining")) > 0 && t("admin.cleanup.remaining", { count: Number(one("remaining")) })}
         </p>
       )}
       {error && (
         <p role="alert" className="rounded-sedan border border-danger/40 bg-danger/5 px-4 py-3 text-sm">
-          {t(error === "confirmation" ? "admin.cleanup.badConfirmation" : error === "empty" ? "admin.cleanup.nothing" : "admin.accounts.statusError")}
+          {t(
+            error === "confirmation"
+              ? "admin.cleanup.badConfirmation"
+              : error === "changed"
+                ? "admin.cleanup.listChanged"
+                : error === "empty"
+                  ? "admin.cleanup.nothing"
+                  : error === "no_sender"
+                    ? "admin.cleanup.noSender"
+                    : "admin.accounts.statusError"
+          )}
         </p>
       )}
 
@@ -98,7 +110,7 @@ export default async function CleanupPage({
                   </td>
                   <td className="p-3">{r.kind}</td>
                   <td className="whitespace-nowrap p-3">{dateTime(r.createdAt, locale)}</td>
-                  <td className="p-3">{t(`admin.accounts.statuses.${r.accountStatus as "UNREVIEWED"}`)}</td>
+                  <td className="p-3">{isAccountStatus(r.accountStatus) ? t(`admin.accounts.statuses.${r.accountStatus}`) : r.accountStatus}</td>
                   <td className="whitespace-nowrap p-3">{r.warnedAt ? dateTime(r.warnedAt, locale) : "-"}</td>
                   <td className="p-3">{r.mediaCount}</td>
                 </tr>
@@ -116,7 +128,7 @@ export default async function CleanupPage({
             <h2 className="font-display text-lg font-medium">{t("admin.cleanup.warnTitle")}</h2>
             <p className="text-sm text-fg-muted">{t("admin.cleanup.warnBody", { days })}</p>
             {!emailSenderConfigured() && <p className="text-sm font-bold text-danger">{t("admin.cleanup.noSender")}</p>}
-            <button className="h-10 rounded-sedan border border-accent px-4 text-sm font-bold text-accent hover:bg-accent/10">
+            <button disabled={!emailSenderConfigured()} className="h-10 rounded-sedan border border-accent px-4 text-sm font-bold text-accent hover:bg-accent/10 disabled:opacity-50">
               {t("admin.cleanup.warnCta")}
             </button>
           </form>
@@ -124,6 +136,7 @@ export default async function CleanupPage({
           <form action={deleteEligibleAccountsForm} className="space-y-2 rounded-sedan border border-danger/50 bg-danger/5 p-4">
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="days" value={days} />
+            <input type="hidden" name="fingerprint" value={candidatesFingerprint(rows, days)} />
             <h2 className="font-display text-lg font-medium text-danger">{t("admin.cleanup.deleteTitle")}</h2>
             <p className="text-sm">{t("admin.cleanup.deleteBody", { count: rows.length })}</p>
             <label className="flex flex-col gap-1 text-sm">

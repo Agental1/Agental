@@ -106,7 +106,7 @@ describe("workflowEligibility", () => {
 
   it("maps refusals to translation keys", () => {
     expect(refusalKey("email_unverified")).toBe("errors.agentsEmailUnverified");
-    expect(refusalKey("unreviewed")).toBe("errors.agentsUnderReview");
+    expect(refusalKey("unreviewed")).toBe("errors.agentsUnavailable");
     expect(refusalKey("profile_incomplete")).toBe("errors.agentsProfileIncomplete");
     for (const r of ["spam", "staff", "test_account", "real_account", "not_adult", "not_opted_in", "revoked"] as const) {
       expect(refusalKey(r)).toBe("errors.agentsUnavailable");

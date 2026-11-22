@@ -452,7 +452,7 @@
         "staff": "Staff",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approved, {unreviewed} to review",
+        "split": "{unreviewed} 个自动，{approved} 个由旧审核批准",
         "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
       },
       "mode": {
@@ -512,12 +512,12 @@
     },
     "hub": {
       "newLeads": "New Limelight requests",
-      "toReview": "Accounts to review",
+      "toReview": "自动资格账户",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
     },
     "cleanup": {
       "title": "账户清理",
-      "subtitle": "邮箱从未验证、创建超过 {days} 天、从未付款且不是员工或测试的账户。Google 账户由 Google 验证，不会出现在这里。",
+      "subtitle": "邮箱从未验证、创建超过 {days} 天、从未付款、不属于任何组织且不是员工、测试或已批准的账户。收到提醒的账户在提醒后 {days} 天内保留。Google 账户由 Google 验证，不会出现在这里。",
       "days": "创建超过（天）",
       "csv": "导出列表（CSV）",
       "count": "{count, plural, other {# 个账户可删除。}}",
@@ -540,7 +540,9 @@
       "deleteCta": "删除 {count} 个账户",
       "badConfirmation": "确认内容与列表不符，未删除任何内容。",
       "nothing": "没有可删除的内容。",
-      "deleted": "已删除 {count} 个账户，{failed} 个未删除（见日志）。"
+      "deleted": "{count, plural, other {已删除 # 个账户}}，{failed} 个未删除（见日志）。",
+      "listChanged": "页面加载后列表已变化，未删除任何内容：请重新检查列表。",
+      "remaining": "{count, plural, other {还剩 # 个账户：请再次运行。}}"
     }
   },
   "matchReasons": {

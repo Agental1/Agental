@@ -452,7 +452,7 @@
         "staff": "Staff",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approved, {unreviewed} to review",
+        "split": "{unreviewed} automáticas, {approved} aprobadas por la revisión anterior",
         "note": "Unique registered accounts. Staff, test and spam accounts are counted apart. Limelight requests are not accounts and are not counted."
       },
       "mode": {
@@ -512,12 +512,12 @@
     },
     "hub": {
       "newLeads": "New Limelight requests",
-      "toReview": "Accounts to review",
+      "toReview": "Cuentas con elegibilidad automática",
       "jobs": "AI jobs: {queued} queued, {running} running, {failed} failed"
     },
     "cleanup": {
       "title": "Limpieza de cuentas",
-      "subtitle": "Cuentas cuyo correo nunca se verificó, creadas hace más de {days} días, que nunca pagaron y no son de equipo ni de prueba. Las cuentas de Google las verifica Google y nunca aparecen aquí.",
+      "subtitle": "Cuentas cuyo correo nunca se verificó, creadas hace más de {days} días, que nunca pagaron, no pertenecen a ninguna organización y no son de equipo, prueba ni aprobadas. Una cuenta avisada se conserva hasta {days} días después del aviso. Las cuentas de Google las verifica Google y nunca aparecen aquí.",
       "days": "Creadas hace más de (días)",
       "csv": "Exportar la lista (CSV)",
       "count": "{count, plural, =0 {Ninguna cuenta se puede eliminar.} one {# cuenta se puede eliminar.} other {# cuentas se pueden eliminar.}}",
@@ -540,7 +540,9 @@
       "deleteCta": "Eliminar {count} cuentas",
       "badConfirmation": "La confirmación no coincide con la lista. No se eliminó nada.",
       "nothing": "No hay nada que eliminar.",
-      "deleted": "{count} cuentas eliminadas, {failed} sin eliminar (ver los registros)."
+      "deleted": "{count, plural, one {# cuenta eliminada} other {# cuentas eliminadas}}, {failed} sin eliminar (ver los registros).",
+      "listChanged": "La lista cambió desde que se cargó la página. No se eliminó nada: revisa la lista de nuevo.",
+      "remaining": "{count, plural, one {Queda # cuenta: vuelve a ejecutarlo.} other {Quedan # cuentas: vuelve a ejecutarlo.}}"
     }
   },
   "matchReasons": {

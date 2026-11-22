@@ -161,7 +161,8 @@ export async function signupTotals(): Promise<SignupTotals> {
     t.all += n;
     if (g.isAdmin || g.accountStatus === "STAFF") t.staff += n;
     else if (g.accountStatus === "TEST") t.test += n;
-    else if (g.accountStatus === "SPAM") t.spam += n;
+    // Spam and revoked eligibility: both excluded from the agents by staff.
+    else if (g.accountStatus === "SPAM" || g.accountStatus === "REVOKED") t.spam += n;
     else {
       const side = g.kind === "CASTING" ? t.casting : t.performers;
       side.total += n;

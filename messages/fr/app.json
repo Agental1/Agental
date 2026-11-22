@@ -452,7 +452,7 @@
         "staff": "Équipe",
         "test": "Test",
         "spam": "Spam",
-        "split": "{approved} approuvés, {unreviewed} à vérifier",
+        "split": "{unreviewed} automatiques, {approved} approuvés par l’ancienne revue",
         "note": "Comptes inscrits uniques. Les comptes équipe, test et spam sont comptés à part. Les demandes Limelight ne sont pas des comptes et ne sont pas comptées."
       },
       "mode": {
@@ -512,12 +512,12 @@
     },
     "hub": {
       "newLeads": "Nouvelles demandes Limelight",
-      "toReview": "Comptes à vérifier",
+      "toReview": "Comptes en éligibilité automatique",
       "jobs": "Tâches IA : {queued} en file, {running} en cours, {failed} en échec"
     },
     "cleanup": {
       "title": "Nettoyage des comptes",
-      "subtitle": "Comptes dont l’e-mail n’a jamais été vérifié, créés il y a plus de {days} jours, qui n’ont jamais payé et ne sont ni équipe ni test. Les comptes Google sont vérifiés par Google et n’apparaissent jamais ici.",
+      "subtitle": "Comptes dont l’e-mail n’a jamais été vérifié, créés il y a plus de {days} jours, qui n’ont jamais payé, n’appartiennent à aucune organisation et ne sont ni équipe, ni test, ni approuvés. Un compte prévenu est gardé jusqu’à {days} jours après l’avertissement. Les comptes Google sont vérifiés par Google et n’apparaissent jamais ici.",
       "days": "Créés il y a plus de (jours)",
       "csv": "Exporter la liste (CSV)",
       "count": "{count, plural, =0 {Aucun compte à supprimer.} one {# compte peut être supprimé.} other {# comptes peuvent être supprimés.}}",
@@ -540,7 +540,9 @@
       "deleteCta": "Supprimer {count} comptes",
       "badConfirmation": "La confirmation ne correspond pas à la liste affichée. Rien n’a été supprimé.",
       "nothing": "Il n’y a rien à supprimer.",
-      "deleted": "{count} comptes supprimés, {failed} non supprimés (voir les journaux)."
+      "deleted": "{count, plural, one {# compte supprimé} other {# comptes supprimés}}, {failed} non supprimés (voir les journaux).",
+      "listChanged": "La liste a changé depuis le chargement de la page. Rien n’a été supprimé : vérifie à nouveau la liste.",
+      "remaining": "{count, plural, one {Il reste # compte : relance.} other {Il reste # comptes : relance.}}"
     }
   },
   "matchReasons": {
