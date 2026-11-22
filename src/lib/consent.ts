@@ -32,6 +32,8 @@ export async function writeConsentCookie(choice: ConsentChoice): Promise<void> {
 export interface StoredConsent extends ConsentChoice {
   /** When the current choice was made. */
   decidedAt: Date;
+  /** The notice version it was made under; null for choices saved before versions. */
+  version: string | null;
 }
 
 /**
@@ -43,12 +45,13 @@ export async function getConsent(): Promise<StoredConsent | null> {
   if (!session?.user?.id) return null;
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { consentAnalytics: true, consentMarketing: true, consentAt: true },
+    select: { consentAnalytics: true, consentMarketing: true, consentAt: true, consentVersion: true },
   });
   if (!user?.consentAt) return null;
   return {
     analytics: user.consentAnalytics ?? false,
     marketing: user.consentMarketing ?? false,
     decidedAt: user.consentAt,
+    version: user.consentVersion,
   };
 }

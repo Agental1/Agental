@@ -45,6 +45,13 @@ model User {
   consentAnalytics      Boolean?
   consentMarketing      Boolean?
   consentAt             DateTime?
+  // The policy version the choice was made under (CONSENT_POLICY_VERSION). A newer
+  // version asks again.
+  consentVersion        String?
+  // Email notifications, set in Settings. Product news is opt-in.
+  notifyApplications    Boolean   @default(true)
+  notifyMessages        Boolean   @default(true)
+  notifyProduct         Boolean   @default(false)
   // Set when a college student code was redeemed.
   studentVerifiedAt     DateTime?
   // The school address that proved it (lowercase). One account per address.

@@ -22,6 +22,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { UserMenu, type UserMenuProps } from "@/components/app/user-menu";
 import { Link, usePathname } from "@/i18n/navigation";
 import { logoutAction } from "@/app/actions/auth";
 import { AgentalLogo, AgentalMark } from "@/components/brand/logo";
@@ -77,6 +78,7 @@ export function AppShell({
   tag,
   planSlot,
   avatarSlot,
+  userMenu,
   children,
 }: {
   portal: Portal;
@@ -88,6 +90,11 @@ export function AppShell({
   planSlot?: React.ReactNode;
   /** The person's picture (or initials), in the sidebar and the top bar. */
   avatarSlot?: React.ReactNode;
+  /**
+   * The avatar menu (Profile, Settings, Sign out). When given, the avatar at
+   * the top right opens it and the sign-out button leaves the sidebar.
+   */
+  userMenu?: Omit<UserMenuProps, "labels" | "email"> & { labels: Omit<UserMenuProps["labels"], "signOut"> };
   children: React.ReactNode;
 }) {
   const t = useTranslations("app");
@@ -132,15 +139,17 @@ export function AppShell({
         <p className="min-w-0 truncate text-[13px] text-fg-subtle">{userLabel}</p>
       </div>
       <LocaleSwitcher className="mt-2 px-3" />
-      <form action={logoutAction}>
-        <button
-          type="submit"
-          className="pressable mt-1 flex min-h-11 w-full items-center gap-3 rounded-sedan px-3 text-[15px] text-fg-muted [--hover-scale:1.02] [--press-scale:1.04] hover:bg-surface-2 hover:text-fg"
-        >
-          <LogOut aria-hidden="true" className="size-[1.125rem]" />
-          {t("actions.logout")}
-        </button>
-      </form>
+      {!userMenu && (
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            className="pressable mt-1 flex min-h-11 w-full items-center gap-3 rounded-sedan px-3 text-[15px] text-fg-muted [--hover-scale:1.02] [--press-scale:1.04] hover:bg-surface-2 hover:text-fg"
+          >
+            <LogOut aria-hidden="true" className="size-[1.125rem]" />
+            {t("actions.logout")}
+          </button>
+        </form>
+      )}
     </div>
   );
 
@@ -168,7 +177,15 @@ export function AppShell({
           </Link>
           <div className="flex items-center gap-2">
             {planSlot}
-            {avatarSlot && <span className="flex">{avatarSlot}</span>}
+            {userMenu ? (
+              <UserMenu
+                {...userMenu}
+                email={userLabel}
+                labels={{ ...userMenu.labels, signOut: t("actions.logout") }}
+              />
+            ) : (
+              avatarSlot && <span className="flex">{avatarSlot}</span>
+            )}
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger
                 aria-label={tc("menu")}

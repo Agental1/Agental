@@ -185,7 +185,11 @@
     "back": "返回",
     "settingsTitle": "Cookie 偏好",
     "saved": "你的选择已保存。",
-    "continue": "继续"
+    "continue": "继续",
+    "bannerLead": "我们使用少量 Cookie 来保证 Agental 正常运行。其他 Cookie 在你接受之前保持关闭。",
+    "policyLink": "隐私政策",
+    "recordedOn": "记录于 {date}，通知版本 {version}。",
+    "notRecorded": "尚未记录选择。仅使用严格必要的 Cookie。"
   },
   "tour": {
     "start": "从这里开始",

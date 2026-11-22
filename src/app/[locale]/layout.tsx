@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, toLocale, LANG_TAG } from "@/i18n/routing";
 import { SITE, jsonLd, localeAlternates, organizationLd } from "@/lib/seo";
 import { Analytics } from "@/components/analytics";
+import { CookieBanner } from "@/components/consent/cookie-banner";
 import { DemoMode } from "@/components/demo/demo-mode";
 import "../globals.css";
 
@@ -77,6 +78,7 @@ export default async function LocaleLayout({
           {children}
           {/* `?demo`: scripted tour for screen recording. Inert otherwise. */}
           <DemoMode />
+          <CookieBanner />
         </NextIntlClientProvider>
         <Analytics />
       </body>

@@ -1,14 +1,18 @@
 import { describe, expect, it } from "vitest";
 import {
+  CONSENT_POLICY_VERSION,
   consentColumns,
   parseConsentCookie,
   serializeConsent,
 } from "@/domain/consent";
+import { POLICY_VERSION, consentNeedsAnswer } from "@/components/consent/consent-cookie";
 
 describe("consent cookie", () => {
   it("round-trips a choice", () => {
-    const value = serializeConsent({ analytics: true, marketing: false });
-    expect(value).toBe('{"v":1,"analytics":true,"marketing":false}');
+    const value = serializeConsent({ analytics: true, marketing: false }, new Date("2026-11-21T10:00:00Z"));
+    expect(value).toBe(
+      `{"v":1,"analytics":true,"marketing":false,"at":"2026-11-21T10:00:00.000Z","pv":"${CONSENT_POLICY_VERSION}"}`
+    );
     expect(parseConsentCookie(value)).toEqual({ analytics: true, marketing: false });
   });
 
@@ -50,6 +54,21 @@ describe("consentColumns", () => {
       consentAnalytics: false,
       consentMarketing: false,
       consentAt: now,
+      consentVersion: CONSENT_POLICY_VERSION,
     });
+  });
+});
+
+describe("cookie banner", () => {
+  it("uses the same notice version in the browser and on the server", () => {
+    expect(POLICY_VERSION).toBe(CONSENT_POLICY_VERSION);
+  });
+
+  it("asks only when there is no choice or one under an older notice", () => {
+    const answered = { analytics: false, marketing: false, at: "2026-11-21T10:00:00.000Z" };
+    expect(consentNeedsAnswer(null)).toBe(true);
+    expect(consentNeedsAnswer({ ...answered, pv: null })).toBe(true);
+    expect(consentNeedsAnswer({ ...answered, pv: "2020-01" })).toBe(true);
+    expect(consentNeedsAnswer({ ...answered, pv: POLICY_VERSION })).toBe(false);
   });
 });

@@ -17,6 +17,7 @@ import {
   Crop,
   Sparkles,
   AlertTriangle,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -402,11 +403,19 @@ export function SelfTapeStudio() {
                   ))}
                 </div>
               </fieldset>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 <Button variant="secondary" className="border-border-strong" onClick={discardTake}>
                   {t("space.studio.again")}
                 </Button>
-                <Button onClick={save}>{t("space.studio.save")}</Button>
+                {/* The take as recorded, straight from the browser: nothing is uploaded. */}
+                {take && (
+                <Button asChild variant="secondary" className="border-border-strong">
+                  <a href={take.url} download={takeFileName(take.blob.type)}>
+                    <Download aria-hidden="true" className="size-4" /> {t("space.studio.download")}
+                  </a>
+                </Button>
+                )}
+                <Button onClick={save} className="col-span-2 sm:col-span-1">{t("space.studio.save")}</Button>
               </div>
             </div>
           )}
@@ -513,4 +522,11 @@ function Meter({
       </div>
     </div>
   );
+}
+
+/** "self-tape-2026-11-21-1405.webm", with the extension of what the browser recorded. */
+function takeFileName(type: string): string {
+  const ext = type.includes("mp4") ? "mp4" : type.includes("quicktime") ? "mov" : "webm";
+  const stamp = new Date().toISOString().slice(0, 16).replace("T", "-").replace(":", "");
+  return `self-tape-${stamp}.${ext}`;
 }

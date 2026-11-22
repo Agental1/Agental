@@ -3,7 +3,7 @@ import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { AvatarEditor } from "@/components/app/avatar-editor";
+import { Avatar, AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
 import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
@@ -113,6 +113,16 @@ export default async function TalentsAppLayout({
       ]}
       userLabel={session.user.email ?? t("space.nav.account")}
       avatarSlot={<AvatarEditor src={avatar.src} initials={avatar.initials} size={32} />}
+      userMenu={{
+        avatar: <Avatar src={avatar.src} initials={avatar.initials} size={36} />,
+        profileHref: "/talents/app/profil",
+        settingsHref: "/talents/app/parametres",
+        labels: {
+          account: t("space.nav.account"),
+          profile: t("space.nav.profile"),
+          settings: t("space.nav.settings"),
+        },
+      }}
       planSlot={
         <PlanSwitcher
           portal="talents"
@@ -124,7 +134,7 @@ export default async function TalentsAppLayout({
         />
       }
     >
-      <ConsentSync consent={prefs.consent} />
+      <ConsentSync consent={prefs.consent} at={prefs.consentAt} pv={prefs.consentVersion} />
       <MessagesShortcut />
       {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
       {children}

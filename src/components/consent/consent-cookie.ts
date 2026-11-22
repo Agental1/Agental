@@ -14,10 +14,25 @@ export interface Consent {
   marketing: boolean;
 }
 
+/** A recorded choice: the answers, when they were given, and the notice version. */
+export interface ConsentRecord extends Consent {
+  at: string | null;
+  pv: string | null;
+}
+
+/** The notice version the choice is made under. Mirrors CONSENT_POLICY_VERSION in src/domain/consent.ts. */
+export const POLICY_VERSION = "2026-11";
+
 export const NECESSARY_ONLY: Consent = { analytics: false, marketing: false };
 
 /** The stored choice, or null when the visitor has not chosen yet. */
 export function readConsent(): Consent | null {
+  const record = readConsentRecord();
+  return record ? { analytics: record.analytics, marketing: record.marketing } : null;
+}
+
+/** The stored choice with its date and notice version. */
+export function readConsentRecord(): ConsentRecord | null {
   if (typeof document === "undefined") return null;
   const entry = document.cookie
     .split("; ")
@@ -26,15 +41,43 @@ export function readConsent(): Consent | null {
   try {
     const value = JSON.parse(decodeURIComponent(entry.slice(CONSENT_COOKIE.length + 1)));
     if (value?.v !== 1) return null;
-    return { analytics: value.analytics === true, marketing: value.marketing === true };
+    return {
+      analytics: value.analytics === true,
+      marketing: value.marketing === true,
+      at: typeof value.at === "string" ? value.at : null,
+      pv: typeof value.pv === "string" ? value.pv : null,
+    };
   } catch {
     return null;
   }
 }
 
-/** Six months, then the question comes back. */
-export function writeConsent(consent: Consent): void {
-  const value = encodeURIComponent(JSON.stringify({ v: 1, ...consent }));
+/**
+ * Whether to ask: no choice yet, or one made under an older notice. The
+ * banner shows exactly then. A choice is kept for six months, then asked again.
+ */
+export function consentNeedsAnswer(record: ConsentRecord | null): boolean {
+  return !record || record.pv !== POLICY_VERSION;
+}
+
+/**
+ * Six months, then the question comes back. The cookie carries the date and
+ * the notice version with the two answers. `meta` is for a choice that was
+ * already made elsewhere (the account's), which keeps its own date.
+ */
+export function writeConsent(
+  consent: Consent,
+  meta?: { at?: string | null; pv?: string | null }
+): void {
+  const value = encodeURIComponent(
+    JSON.stringify({
+      v: 1,
+      analytics: consent.analytics,
+      marketing: consent.marketing,
+      at: meta?.at ?? new Date().toISOString(),
+      pv: meta?.pv ?? POLICY_VERSION,
+    })
+  );
   const secure = window.location.protocol === "https:" ? "; Secure" : "";
   document.cookie = `${CONSENT_COOKIE}=${value}; Path=/; Max-Age=15552000; SameSite=Lax${secure}`;
   window.dispatchEvent(new Event(CONSENT_EVENT));

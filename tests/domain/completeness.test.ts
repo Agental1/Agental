@@ -7,7 +7,14 @@ import {
   type CompletenessInput,
 } from "@/domain/completeness";
 import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
-import { GAP_TAB, PROFILE_TABS, parseProfileTab } from "@/domain/profile-tabs";
+import {
+  GAP_TAB,
+  ITEM_TARGET,
+  PROFILE_TABS,
+  itemHref,
+  parseProfileFocus,
+  parseProfileTab,
+} from "@/domain/profile-tabs";
 
 const empty = parseJson(PhysicalTraits, null);
 
@@ -72,8 +79,10 @@ describe("profileGaps", () => {
 });
 
 describe("profile links", () => {
-  it("count six points each, and either one clears the gap", () => {
-    expect(scoreProfile({ ...full, portfolioUrl: null })).toBe(94);
+  it("count twelve points together, and either one clears the gap", () => {
+    // One link is enough for 100%: the score and the gap use the same rule.
+    expect(scoreProfile({ ...full, portfolioUrl: null })).toBe(100);
+    expect(scoreProfile({ ...full, imdbUrl: null })).toBe(100);
     expect(scoreProfile({ ...full, imdbUrl: null, portfolioUrl: null })).toBe(88);
     expect(profileGaps({ ...full, imdbUrl: null })).toEqual([]);
     expect(profileGaps({ ...full, imdbUrl: null, portfolioUrl: null })).toEqual(["links"]);
@@ -84,6 +93,22 @@ describe("profile links", () => {
     expect(nextMissingItem(full)).toBeNull();
     expect(nextMissingItem({ ...full, city: null })).toBe("city");
     expect(nextMissingItem({ ...full, imdbUrl: null, portfolioUrl: null })).toBe("links");
+  });
+
+  it("never asks for something already filled in", () => {
+    const base = { ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }] };
+    // A saved height is not asked for again: the hair, eyes or build is.
+    expect(nextMissingItem({ ...base, physical: { ...empty, heightCm: 170 } })).toBe("physical");
+    expect(nextMissingItem({ ...base, physical: empty })).toBe("height");
+    expect(nextMissingItem({ ...fresh, birthDate: null })).toBe("birthDate");
+    expect(nextMissingItem({ ...fresh, stageName: " " })).toBe("stageName");
+    expect(nextMissingItem({ ...fresh, specialtiesCount: 0 })).toBe("specialties");
+    expect(nextMissingItem({ ...full, media: [{ type: "PHOTO" }] })).toBe("video");
+  });
+
+  it("agrees with the score: nothing missing exactly at 100", () => {
+    const cases = [fresh, full, { ...full, city: null }, { ...full, portfolioUrl: null }, { ...full, bio: "" }];
+    for (const c of cases) expect(nextMissingItem(c) === null).toBe(scoreProfile(c) === 100);
   });
 });
 
@@ -113,5 +138,12 @@ describe("parseProfileTab", () => {
 
   it("deep links every gap to a real tab", () => {
     for (const tab of Object.values(GAP_TAB)) expect(PROFILE_TABS).toContain(tab);
+  });
+
+  it("opens the exact field for every missing item", () => {
+    for (const { tab } of Object.values(ITEM_TARGET)) expect(PROFILE_TABS).toContain(tab);
+    expect(itemHref("birthDate")).toBe("/talents/app/profil?tab=identite&focus=birthDate");
+    expect(parseProfileFocus("birthDate")).toBe("birthDate");
+    expect(parseProfileFocus("<script>")).toBeUndefined();
   });
 });

@@ -56,17 +56,31 @@ export function profileGaps(p: CompletenessInput): ProfileGap[] {
 }
 
 /** Items that count toward the score but are not on the dashboard card. */
-export type MissingItem = ProfileGap | "city" | "specialties" | "birthDate" | "stageName";
+export type MissingItem = ProfileGap | "height" | "city" | "specialties" | "birthDate" | "stageName";
 
-/** The first thing still missing, in the order a performer should do it. */
+/**
+ * Everything still missing, in the order a performer should do it. The one
+ * list behind the dashboard block, the suggestions, the assistant and the
+ * profile's deep links, so none of them can ask for what is already filled.
+ * Empty exactly when the score is 100.
+ */
+export function missingItems(p: CompletenessInput): MissingItem[] {
+  const items: MissingItem[] = [];
+  if (!filled(p.stageName)) items.push("stageName");
+  if (!p.birthDate) items.push("birthDate");
+  if (p.specialtiesCount === 0) items.push("specialties");
+  for (const gap of profileGaps(p)) {
+    // "physical" is split so the suggestion names what is really missing:
+    // never ask for the height when it is saved and only the hair is not.
+    items.push(gap === "physical" && p.physical.heightCm == null ? "height" : gap);
+  }
+  if (!filled(p.city)) items.push("city");
+  return items;
+}
+
+/** The first thing still missing. */
 export function nextMissingItem(p: CompletenessInput): MissingItem | null {
-  if (!filled(p.stageName)) return "stageName";
-  if (!p.birthDate) return "birthDate";
-  if (p.specialtiesCount === 0) return "specialties";
-  const gaps = profileGaps(p);
-  if (gaps.length > 0) return gaps[0];
-  if (!filled(p.city)) return "city";
-  return null;
+  return missingItems(p)[0] ?? null;
 }
 
 /** Weights sum to 100. */
@@ -80,7 +94,8 @@ export function scoreProfile(p: CompletenessInput): number {
   if (p.specialtiesCount > 0) score += 15;
   if (hasPhoto(p.media)) score += 10;
   if (hasVideo(p.media)) score += 10;
-  if (filled(p.imdbUrl)) score += 6;
-  if (filled(p.portfolioUrl)) score += 6;
+  // Either link counts, the same rule as the "links" gap: a profile with one
+  // link and nothing else missing is 100%, not 94%.
+  if (filled(p.imdbUrl) || filled(p.portfolioUrl)) score += 12;
   return Math.min(100, score);
 }

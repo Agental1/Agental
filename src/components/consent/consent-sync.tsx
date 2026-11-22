@@ -11,10 +11,23 @@ import { browserConsentAfterSignIn, readConsent, writeConsent, type Consent } fr
  * refusal made in this browser (for example by another account signed in
  * here earlier) is never undone silently.
  */
-export function ConsentSync({ consent }: { consent: Consent | null }) {
+export function ConsentSync({
+  consent,
+  at = null,
+  pv = null,
+}: {
+  consent: Consent | null;
+  /** When the account's choice was made, and under which notice version. */
+  at?: string | null;
+  pv?: string | null;
+}) {
   useEffect(() => {
     const next = browserConsentAfterSignIn(readConsent(), consent);
-    if (next) writeConsent(next);
-  }, [consent]);
+    if (!next) return;
+    // The account's own date and version travel with its answers; a stricter
+    // mix of the two is a new choice, dated now.
+    const brought = consent && next.analytics === consent.analytics && next.marketing === consent.marketing;
+    writeConsent(next, brought ? { at, pv } : undefined);
+  }, [consent, at, pv]);
   return null;
 }

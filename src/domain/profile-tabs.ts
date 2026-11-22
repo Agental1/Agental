@@ -1,4 +1,4 @@
-import type { ProfileGap } from "./completeness";
+import type { MissingItem, ProfileGap } from "./completeness";
 
 /**
  * Tab ids of the profile editor (/talents/app/profil). The dashboard deep
@@ -34,4 +34,37 @@ export const GAP_TAB: Record<ProfileGap, ProfileTab> = {
 
 export function profileTabHref(tab: ProfileTab): string {
   return `/talents/app/profil?tab=${tab}`;
+}
+
+/**
+ * The field a deep link opens, per missing item. `focus` is the value of the
+ * `data-field` attribute the profile editor puts on the field's wrapper, and
+ * it comes from the URL, so it is checked against this list too.
+ */
+export const ITEM_TARGET: Record<MissingItem, { tab: ProfileTab; focus: string }> = {
+  stageName: { tab: "identite", focus: "stageName" },
+  birthDate: { tab: "identite", focus: "birthDate" },
+  city: { tab: "identite", focus: "city" },
+  bio: { tab: "identite", focus: "bio" },
+  links: { tab: "identite", focus: "imdbUrl" },
+  specialties: { tab: "specialites", focus: "specialties" },
+  photos: { tab: "medias", focus: "media" },
+  video: { tab: "medias", focus: "media" },
+  height: { tab: "physique", focus: "height" },
+  physical: { tab: "physique", focus: "hair" },
+};
+
+export const PROFILE_FOCUS_FIELDS: readonly string[] = [
+  ...new Set(Object.values(ITEM_TARGET).map((t) => t.focus)),
+];
+
+export function parseProfileFocus(raw: string | string[] | undefined): string | undefined {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  return value && PROFILE_FOCUS_FIELDS.includes(value) ? value : undefined;
+}
+
+/** Where a missing item is fixed: the tab, with the field focused. */
+export function itemHref(item: MissingItem): string {
+  const { tab, focus } = ITEM_TARGET[item];
+  return `/talents/app/profil?tab=${tab}&focus=${focus}`;
 }

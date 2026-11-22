@@ -185,7 +185,11 @@
     "back": "Back",
     "settingsTitle": "Cookie preferences",
     "saved": "Your choice is saved.",
-    "continue": "Continue"
+    "continue": "Continue",
+    "bannerLead": "We use a few cookies to make Agental work. The others stay off unless you accept them.",
+    "policyLink": "Privacy Policy",
+    "recordedOn": "Recorded on {date}, notice version {version}.",
+    "notRecorded": "No choice recorded yet. Only strictly necessary cookies are used."
   },
   "tour": {
     "start": "Start here",

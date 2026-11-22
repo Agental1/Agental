@@ -724,7 +724,9 @@
           "physical": "Add your physical details",
           "bio": "Write a short bio",
           "links": "Add an IMDb or portfolio link"
-        }
+        },
+        "next": "Next:",
+        "cta": "Resume"
       },
       "setup": {
         "title": "Complete my profile",
@@ -740,13 +742,14 @@
       "missing": {
         "photos": "add photos",
         "video": "add a self-tape or reel",
-        "physical": "add your physical details",
+        "physical": "add your hair, eyes or build",
         "bio": "write a short bio",
         "links": "add an IMDb or portfolio link",
         "city": "add your city",
         "specialties": "pick a specialty",
         "birthDate": "add your date of birth",
-        "stageName": "add your stage name"
+        "stageName": "add your stage name",
+        "height": "add your height"
       },
       "launch": {
         "title": "Launch your first research",
@@ -768,7 +771,31 @@
         "title": "Check your applications",
         "body": "See the roles found for you and where each one stands."
       },
-      "noSuggestions": "Nothing else for now. Your next action is at the top."
+      "noSuggestions": "Nothing else for now. Your next action is at the top.",
+      "action": {
+        "stageName": "Add your stage name",
+        "birthDate": "Add your date of birth",
+        "specialties": "Pick at least one specialty",
+        "photos": "Add a photo of yourself",
+        "video": "Add a reel or a self-tape",
+        "height": "Add your height",
+        "physical": "Add your hair, eyes or build",
+        "bio": "Write a short bio",
+        "links": "Add an IMDb or portfolio link",
+        "city": "Add your city"
+      },
+      "why": {
+        "stageName": "It is the name casting directors see.",
+        "birthDate": "Roles are matched to your age range.",
+        "specialties": "Roles are matched to what you do.",
+        "photos": "Casting directors choose from the photos they can see.",
+        "video": "A reel or a self-tape shows you on camera.",
+        "height": "Many roles state a height.",
+        "physical": "Many roles describe hair, eyes or build.",
+        "bio": "A short bio sets you apart in a search.",
+        "links": "A link lets casting directors check your credits.",
+        "city": "Many roles are local."
+      }
     },
     "candidatures": {
       "title": "My applications",
@@ -852,7 +879,7 @@
     },
     "settings": {
       "title": "Settings",
-      "subtitle": "Your account, your mandate, your subscription.",
+      "subtitle": "Your account, language, notifications, privacy and subscription.",
       "account": "Account",
       "email": "Email",
       "stageName": "Stage name",
@@ -863,7 +890,38 @@
       "subNote": "Optional technology service. It never buys access to opportunities.",
       "manageSub": "Manage subscription (soon)",
       "signedOn": "Signed on {date}",
-      "planSummary": "{price} per month"
+      "planSummary": "{price} per month",
+      "sections": {
+        "account": "Account",
+        "language": "Language",
+        "notifications": "Notifications",
+        "privacy": "Privacy and cookies",
+        "subscription": "Subscription"
+      },
+      "name": "Name",
+      "emailVerified": "Verified",
+      "emailUnverified": "Not verified",
+      "password": "Password",
+      "passwordChange": "Change password",
+      "passwordSet": "Set a password",
+      "passwordHint": "We email you a secure link to choose a new one.",
+      "language": {
+        "label": "Language",
+        "lead": "The language of the app and of the emails we send you. It is saved on your account.",
+        "saved": "Language saved."
+      },
+      "notifications": {
+        "lead": "Choose which emails we send you. Each switch saves as soon as you change it.",
+        "applications": "Applications",
+        "applicationsBody": "When a role is found for you or an application changes status.",
+        "messages": "Messages",
+        "messagesBody": "When our team or your agent writes to you.",
+        "product": "News and tips",
+        "productBody": "Occasional product news. Off unless you turn it on.",
+        "saved": "Notification settings saved."
+      },
+      "privacyPolicy": "Read the Privacy Policy",
+      "manage": "Manage subscription"
     },
     "profile": {
       "title": "My profile",
@@ -885,7 +943,9 @@
         "tooShort": "Your take is very short, play the whole scene.",
         "excellent": "Great take, framing, light and sound all there."
       },
-      "privacy": "Your recordings are private. Only you can see them until you choose to submit one."
+      "privacy": "Your recordings are private. Only you can see them until you choose to submit one.",
+      "whatFor": "A self-tape is a video recorded for one specific audition or casting.",
+      "whereGoes": "It stays private, visible only to you, until you attach it to an application."
     },
     "subscription": {
       "title": "Subscription",
@@ -1078,7 +1138,8 @@
       "save": "Save",
       "again": "Record again",
       "uploading": "Uploading, {percent}%",
-      "limit": "Up to {minutes} minutes per take ({mb} MB). Recording stops by itself at the limit."
+      "limit": "Up to {minutes} minutes per take ({mb} MB). Recording stops by itself at the limit.",
+      "download": "Download"
     },
     "find": {
       "intro": "Your personal agent is coming to Messages. Set it up now.",

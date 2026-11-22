@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { COMPLETENESS_SELECT, completenessOf } from "@/lib/completeness";
 import { ELIGIBILITY_SELECT, factsFrom } from "@/lib/agents";
 import { agentsEnabled, isAccountStatus, workflowMode, type AccountStatus } from "@/domain/workflow/eligibility";
 
@@ -80,7 +81,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       createdAt: true,
       ...ELIGIBILITY_SELECT,
       artistProfile: {
-        select: { id: true, stageName: true, completenessScore: true, birthDate: true, isMinor: true, _count: { select: { media: true } } },
+        select: { id: true, isMinor: true, ...COMPLETENESS_SELECT },
       },
       sites: { select: { status: true } },
     },
@@ -109,7 +110,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       status: isAccountStatus(u.accountStatus) ? u.accountStatus : "UNREVIEWED",
       isAdmin: u.isAdmin,
       agentsEnabled: u.kind === "TALENT" && agentsEnabled(facts, mode),
-      completeness: u.artistProfile?.completenessScore ?? null,
+      completeness: u.artistProfile ? completenessOf(u.artistProfile) : null,
       mediaCount: u.artistProfile?._count.media ?? 0,
       website: u.sites.some((s) => s.status === "PUBLISHED") ? "published" : u.sites.length > 0 ? "draft" : "none",
     };
@@ -191,7 +192,7 @@ export async function accountTimeline(userId: string) {
       isAdmin: true,
       agentsOptInAt: true,
       autoSearchOptIn: true,
-      artistProfile: { select: { id: true, stageName: true, completenessScore: true } },
+      artistProfile: { select: { id: true, ...COMPLETENESS_SELECT } },
     },
   });
   if (!user) return null;

@@ -724,7 +724,9 @@
           "physical": "Añadir tus rasgos físicos",
           "bio": "Escribir una breve biografía",
           "links": "Añade un enlace de IMDb o de portfolio"
-        }
+        },
+        "next": "Siguiente:",
+        "cta": "Continuar"
       },
       "setup": {
         "title": "Completar mi perfil",
@@ -740,13 +742,14 @@
       "missing": {
         "photos": "añade fotos",
         "video": "añade un self-tape o reel",
-        "physical": "añade tus rasgos físicos",
+        "physical": "añade tu pelo, tus ojos o tu complexión",
         "bio": "escribe una bio corta",
         "links": "añade un enlace de IMDb o de portfolio",
         "city": "añade tu ciudad",
         "specialties": "elige una especialidad",
         "birthDate": "añade tu fecha de nacimiento",
-        "stageName": "añade tu nombre artístico"
+        "stageName": "añade tu nombre artístico",
+        "height": "añade tu estatura"
       },
       "launch": {
         "title": "Lanza tu primera búsqueda",
@@ -768,7 +771,31 @@
         "title": "Revisa tus candidaturas",
         "body": "Mira los papeles encontrados para ti y en qué punto está cada uno."
       },
-      "noSuggestions": "Nada más por ahora. Tu siguiente paso está arriba."
+      "noSuggestions": "Nada más por ahora. Tu siguiente paso está arriba.",
+      "action": {
+        "stageName": "Añade tu nombre artístico",
+        "birthDate": "Añade tu fecha de nacimiento",
+        "specialties": "Elige al menos una especialidad",
+        "photos": "Añade una foto tuya",
+        "video": "Añade un reel o un self-tape",
+        "height": "Añade tu estatura",
+        "physical": "Añade tu pelo, tus ojos o tu complexión",
+        "bio": "Escribe una bio corta",
+        "links": "Añade un enlace de IMDb o de portfolio",
+        "city": "Añade tu ciudad"
+      },
+      "why": {
+        "stageName": "Es el nombre que ven los directores de casting.",
+        "birthDate": "Los papeles se eligen según tu rango de edad.",
+        "specialties": "Los papeles se eligen según lo que haces.",
+        "photos": "Los directores de casting eligen según las fotos que ven.",
+        "video": "Un reel o un self-tape te muestra en cámara.",
+        "height": "Muchos papeles indican una estatura.",
+        "physical": "Muchos papeles describen pelo, ojos o complexión.",
+        "bio": "Una bio corta te distingue en una búsqueda.",
+        "links": "Un enlace permite comprobar tus créditos.",
+        "city": "Muchos papeles son locales."
+      }
     },
     "candidatures": {
       "title": "Mis candidaturas",
@@ -852,7 +879,7 @@
     },
     "settings": {
       "title": "Ajustes",
-      "subtitle": "Tu cuenta, tu mandato, tu suscripción.",
+      "subtitle": "Tu cuenta, idioma, notificaciones, privacidad y suscripción.",
       "account": "Cuenta",
       "email": "Correo electrónico",
       "stageName": "Nombre artístico",
@@ -863,7 +890,38 @@
       "subNote": "Servicio tecnológico opcional. Nunca compra acceso a las oportunidades.",
       "manageSub": "Gestionar la suscripción (próximamente)",
       "signedOn": "Firmado el {date}",
-      "planSummary": "{price} al mes"
+      "planSummary": "{price} al mes",
+      "sections": {
+        "account": "Cuenta",
+        "language": "Idioma",
+        "notifications": "Notificaciones",
+        "privacy": "Privacidad y cookies",
+        "subscription": "Suscripción"
+      },
+      "name": "Nombre",
+      "emailVerified": "Verificado",
+      "emailUnverified": "Sin verificar",
+      "password": "Contraseña",
+      "passwordChange": "Cambiar la contraseña",
+      "passwordSet": "Definir una contraseña",
+      "passwordHint": "Te enviamos por correo un enlace seguro para elegir una nueva.",
+      "language": {
+        "label": "Idioma",
+        "lead": "El idioma de la aplicación y de los correos que te enviamos. Se guarda en tu cuenta.",
+        "saved": "Idioma guardado."
+      },
+      "notifications": {
+        "lead": "Elige qué correos te enviamos. Cada interruptor se guarda al cambiarlo.",
+        "applications": "Candidaturas",
+        "applicationsBody": "Cuando se encuentra un papel para ti o una candidatura cambia de estado.",
+        "messages": "Mensajes",
+        "messagesBody": "Cuando nuestro equipo o tu agente te escribe.",
+        "product": "Novedades y consejos",
+        "productBody": "Novedades ocasionales del producto. Desactivado salvo que lo actives.",
+        "saved": "Ajustes de notificación guardados."
+      },
+      "privacyPolicy": "Leer la política de privacidad",
+      "manage": "Gestionar la suscripción"
     },
     "profile": {
       "title": "Mi perfil",
@@ -885,7 +943,9 @@
         "tooShort": "Tu toma es muy corta: interpreta la escena entera.",
         "excellent": "Excelente toma: encuadre, luz y sonido a la altura."
       },
-      "privacy": "Tus grabaciones son privadas. Solo tú puedes verlas hasta que decidas enviar una."
+      "privacy": "Tus grabaciones son privadas. Solo tú puedes verlas hasta que decidas enviar una.",
+      "whatFor": "Un self-tape es un vídeo grabado para una audición o un casting concreto.",
+      "whereGoes": "Se queda privado, visible solo para ti, hasta que lo adjuntes a una candidatura."
     },
     "subscription": {
       "title": "Suscripción",
@@ -1078,7 +1138,8 @@
       "save": "Guardar",
       "again": "Grabar de nuevo",
       "uploading": "Subiendo, {percent} %",
-      "limit": "Hasta {minutes} minutos por toma ({mb} MB). La grabación se detiene sola al llegar al límite."
+      "limit": "Hasta {minutes} minutos por toma ({mb} MB). La grabación se detiene sola al llegar al límite.",
+      "download": "Descargar"
     },
     "find": {
       "intro": "Tu agente personal llega a Mensajes. Configúralo ahora.",

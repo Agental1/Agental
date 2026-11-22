@@ -12,19 +12,36 @@ import type { Locale } from "@/i18n/routing";
  */
 export async function syncAccountPrefs(userId: string, locale: Locale) {
   await prisma.user.updateMany({ where: { id: userId, NOT: { locale } }, data: { locale } });
-  return { consent: await getAccountConsent(userId) };
+  const record = await getAccountConsentRecord(userId);
+  return {
+    consent: record ? { analytics: record.analytics, marketing: record.marketing } : null,
+    consentAt: record?.at ?? null,
+    consentVersion: record?.version ?? null,
+  };
 }
 
 /**
  * The cookie choice saved on the account, or null when none was made yet.
  * Cached per request: the layout and the Settings page both read it.
  */
-export const getAccountConsent = cache(async (userId: string): Promise<Consent | null> => {
-  const u = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { consentAnalytics: true, consentMarketing: true, consentAt: true },
-  });
-  return u?.consentAt && u.consentAnalytics !== null && u.consentMarketing !== null
-    ? { analytics: u.consentAnalytics, marketing: u.consentMarketing }
-    : null;
-});
+export const getAccountConsentRecord = cache(
+  async (userId: string): Promise<(Consent & { at: string; version: string | null }) | null> => {
+    const u = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { consentAnalytics: true, consentMarketing: true, consentAt: true, consentVersion: true },
+    });
+    return u?.consentAt && u.consentAnalytics !== null && u.consentMarketing !== null
+      ? {
+          analytics: u.consentAnalytics,
+          marketing: u.consentMarketing,
+          at: u.consentAt.toISOString(),
+          version: u.consentVersion,
+        }
+      : null;
+  }
+);
+
+export async function getAccountConsent(userId: string): Promise<Consent | null> {
+  const r = await getAccountConsentRecord(userId);
+  return r ? { analytics: r.analytics, marketing: r.marketing } : null;
+}
