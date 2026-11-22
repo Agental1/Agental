@@ -140,7 +140,8 @@ export async function claimCastingJobs(
         : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null }[]>`
             SELECT id, "userId", "clientKey" FROM "public"."role_search_requests"
             WHERE status = 'queued'
-            ORDER BY "createdAt" ASC
+              AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
+            ORDER BY COALESCE("scheduledFor", "createdAt") ASC
             LIMIT ${input.limit}
             FOR UPDATE SKIP LOCKED`;
     const jobs: CastingJob[] = [];

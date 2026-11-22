@@ -896,7 +896,7 @@
         "status": {
           "draft": "等待你的审阅",
           "reviewed": "已审阅",
-          "accepted": "已接受，回复中",
+          "accepted": "已接受：Agental 团队正在处理",
           "submitted": "已提交审核"
         }
       },
@@ -923,6 +923,51 @@
         "recordTitle": "录制视频 {n}",
         "recordHint": "该片段会私密保存在作品集与自录试镜中并放入此处。如有中断，可在此处从作品集与自录试镜中选择。",
         "open": "打开该角色"
+      },
+      "queue": {
+        "rule": "你最多可以排队 {count} 次搜索。我们每 {hours} 小时运行一次。",
+        "title": "排队中的搜索",
+        "empty": "没有等待中的搜索。",
+        "item": "搜索 {n}",
+        "soon": "即将开始",
+        "startsIn": "大约 {hours} 小时后开始"
+      },
+      "running": {
+        "title": "进行中的搜索",
+        "empty": "目前没有进行中的搜索。"
+      },
+      "finished": {
+        "title": "已完成的搜索",
+        "last": "最近一次搜索于 {date} 完成。",
+        "empty": "搜索找到的角色会显示在这里。"
+      },
+      "decide": {
+        "intro": "在接受或拒绝这次试镜之前，请先查看完整的要求说明，我们会从那里开始帮助你。",
+        "role": "角色",
+        "project": "项目",
+        "dates": "日期",
+        "location": "地点",
+        "pay": "报酬",
+        "notGiven": "未注明",
+        "toSend": "需要提交",
+        "nothingToSend": "只需你的个人资料。",
+        "video": "视频 {n}：{text}",
+        "question": "问题 {n}：{text}",
+        "fullNotice": "阅读完整公告",
+        "source": "打开选角公告（{host}）",
+        "accept": "接受",
+        "decline": "拒绝",
+        "accepted": "已接受：Agental 团队正在处理",
+        "submitted": "已提交给团队审核",
+        "open": "补充细节",
+        "declined": "已拒绝该角色。",
+        "undo": "撤销",
+        "undoFailed": "已无法撤销，该角色保持拒绝。",
+        "dateRange": "{from} 至 {to}",
+        "dateFrom": "自 {from} 起",
+        "remote": "远程",
+        "unpaid": "无报酬",
+        "paid": "有报酬，金额未注明"
       }
     },
     "career": {

@@ -84,6 +84,15 @@ describe.skipIf(!local)("AI role searches", () => {
     expect((await getRoleSearchQuota(basic)).remaining).toBe(0);
   });
 
+  it("spaces a performer's searches 6 hours apart (round 8b)", async () => {
+    const rows = await prisma.roleSearchRequest.findMany({ where: { userId: basic }, orderBy: { scheduledFor: "asc" } });
+    expect(rows).toHaveLength(5);
+    const gaps = rows.slice(1).map((r, i) => r.scheduledFor!.getTime() - rows[i].scheduledFor!.getTime());
+    expect(gaps.every((g) => g === 6 * 60 * 60 * 1000)).toBe(true);
+    // The first one may start at once.
+    expect(rows[0].scheduledFor!.getTime()).toBeLessThanOrEqual(Date.now());
+  });
+
   it("stores one row for a retried click", async () => {
     session.mockResolvedValue({ user: { id: other, kind: "TALENT" } });
     const a = await startFindingRoles(key(200));

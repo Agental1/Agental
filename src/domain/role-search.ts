@@ -17,6 +17,26 @@ export const COUNTED_STATUSES: readonly RoleSearchStatus[] = ["queued", "running
 /** Statuses shown as "Search in progress". */
 export const IN_PROGRESS_STATUSES: readonly RoleSearchStatus[] = ["queued", "running"];
 
+/** Round 8b: a performer's searches start at most one every 6 hours. */
+export const SEARCH_SPACING_HOURS = 6;
+export const SEARCH_SPACING_MS = SEARCH_SPACING_HOURS * 60 * 60 * 1000;
+
+/**
+ * When a new search may start: now, or 6 hours after the performer's latest
+ * search (queued, running or finished), whichever is later. `latest` is that
+ * search's scheduled start, else its real start, else when it was queued.
+ */
+export function nextSearchStart(latest: Date | null, now: Date): Date {
+  if (!latest) return now;
+  const next = latest.getTime() + SEARCH_SPACING_MS;
+  return next > now.getTime() ? new Date(next) : now;
+}
+
+/** "Starts in about N hours", rounded up to whole hours (0 means "soon"). */
+export function hoursUntil(start: Date, now: Date): number {
+  return Math.max(0, Math.ceil((start.getTime() - now.getTime()) / (60 * 60 * 1000)));
+}
+
 /**
  * Safety net if a plan has no allowance configured.
  */

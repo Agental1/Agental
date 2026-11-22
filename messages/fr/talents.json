@@ -896,7 +896,7 @@
         "status": {
           "draft": "En attente de ta relecture",
           "reviewed": "Relu",
-          "accepted": "Accepté, réponse en cours",
+          "accepted": "Accepté : l'équipe Agental s'en occupe",
           "submitted": "Envoyée pour relecture"
         }
       },
@@ -923,6 +923,51 @@
         "recordTitle": "Enregistrer la vidéo {n}",
         "recordHint": "La prise est enregistrée dans Bande démo & self-tape, en privé, et placée ici. Si quelque chose l’interrompt, choisis-la ici depuis Bande démo & self-tape.",
         "open": "Ouvrir ce rôle"
+      },
+      "queue": {
+        "rule": "Vous pouvez mettre jusqu'à {count} recherches en file. Nous en lançons une toutes les {hours} heures.",
+        "title": "Recherches en file",
+        "empty": "Aucune recherche en attente.",
+        "item": "Recherche {n}",
+        "soon": "Commence bientôt",
+        "startsIn": "Commence dans environ {hours, plural, one {# heure} other {# heures}}"
+      },
+      "running": {
+        "title": "Recherche en cours",
+        "empty": "Aucune recherche en cours."
+      },
+      "finished": {
+        "title": "Recherches terminées",
+        "last": "Dernière recherche terminée le {date}.",
+        "empty": "Les rôles trouvés par vos recherches apparaîtront ici."
+      },
+      "decide": {
+        "intro": "Lisez la description complète de ce qui est demandé avant d'accepter ou de refuser cette audition, et nous vous aiderons à partir de là.",
+        "role": "Rôle",
+        "project": "Projet",
+        "dates": "Dates",
+        "location": "Lieu",
+        "pay": "Rémunération",
+        "notGiven": "Non précisé",
+        "toSend": "À envoyer",
+        "nothingToSend": "Rien de plus que votre profil.",
+        "video": "Vidéo {n} : {text}",
+        "question": "Question {n} : {text}",
+        "fullNotice": "Lire l'annonce complète",
+        "source": "Ouvrir l'annonce ({host})",
+        "accept": "Accepter",
+        "decline": "Refuser",
+        "accepted": "Accepté : l'équipe Agental s'en occupe",
+        "submitted": "Envoyé pour relecture par l'équipe",
+        "open": "Ajouter les détails",
+        "declined": "Rôle refusé.",
+        "undo": "Annuler",
+        "undoFailed": "Trop tard pour annuler. Le rôle reste refusé.",
+        "dateRange": "Du {from} au {to}",
+        "dateFrom": "À partir du {from}",
+        "remote": "À distance",
+        "unpaid": "Non rémunéré",
+        "paid": "Rémunéré, montant non précisé"
       }
     },
     "career": {

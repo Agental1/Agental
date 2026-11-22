@@ -896,7 +896,7 @@
         "status": {
           "draft": "Waiting for your review",
           "reviewed": "Reviewed",
-          "accepted": "Accepted, response in progress",
+          "accepted": "Accepted: the Agental team is on it",
           "submitted": "Submitted for review"
         }
       },
@@ -923,6 +923,51 @@
         "recordTitle": "Record video {n}",
         "recordHint": "The take is saved in Reel & Self-tape, private, and put in this slot. If anything interrupts it, pick it from Reel & Self-tape here.",
         "open": "Open this role"
+      },
+      "queue": {
+        "rule": "You can queue up to {count} searches. We run one every {hours} hours.",
+        "title": "Search in queue",
+        "empty": "No search waiting.",
+        "item": "Search {n}",
+        "soon": "Starts soon",
+        "startsIn": "Starts in about {hours, plural, one {# hour} other {# hours}}"
+      },
+      "running": {
+        "title": "Search running",
+        "empty": "No search running right now."
+      },
+      "finished": {
+        "title": "Search finished",
+        "last": "Last search finished {date}.",
+        "empty": "Roles found by your searches will appear here."
+      },
+      "decide": {
+        "intro": "See a full description of what is asked before you accept or decline this audition, and we will help you starting from there.",
+        "role": "Role",
+        "project": "Project",
+        "dates": "Dates",
+        "location": "Location",
+        "pay": "Pay",
+        "notGiven": "Not given",
+        "toSend": "What to send",
+        "nothingToSend": "Nothing beyond your profile.",
+        "video": "Video {n}: {text}",
+        "question": "Question {n}: {text}",
+        "fullNotice": "Read the full notice",
+        "source": "Open the casting notice ({host})",
+        "accept": "Accept",
+        "decline": "Decline",
+        "accepted": "Accepted: the Agental team is on it",
+        "submitted": "Submitted for the team's review",
+        "open": "Add the details",
+        "declined": "Role declined.",
+        "undo": "Undo",
+        "undoFailed": "Too late to undo. The role stays declined.",
+        "dateRange": "{from} to {to}",
+        "dateFrom": "From {from}",
+        "remote": "Remote",
+        "unpaid": "Unpaid",
+        "paid": "Paid, amount not given"
       }
     },
     "career": {

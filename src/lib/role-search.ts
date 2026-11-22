@@ -10,6 +10,7 @@ import {
   periodKeyFor,
   quotaFrom,
   isAutoKey,
+  nextSearchStart,
   type RoleSearchQuota,
 } from "@/domain/role-search";
 import { B2C_PLANS } from "@/domain/pricing";
@@ -126,8 +127,18 @@ export async function startRoleSearch(
     if (scheduled === false) {
       await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
     }
+    // One search every 6 hours (round 8b): after the latest one, whatever its state.
+    const latest = await tx.roleSearchRequest.findMany({
+      where: { userId, status: { in: [...COUNTED_STATUSES] } },
+      select: { scheduledFor: true, startedAt: true, createdAt: true },
+    });
+    const latestStart = latest.reduce<Date | null>((acc, r) => {
+      const at = r.scheduledFor ?? r.startedAt ?? r.createdAt;
+      return !acc || at > acc ? at : acc;
+    }, null);
+    const scheduledFor = nextSearchStart(latestStart, now);
     const row = await tx.roleSearchRequest.create({
-      data: { userId, plan, periodKey, seq, clientKey, status: "queued" },
+      data: { userId, plan, periodKey, seq, clientKey, status: "queued", scheduledFor },
       select: { id: true },
     });
     return { ok: true as const, id: row.id, duplicate: false, quota: quotaFrom(plan, counted.length + 1, start, now) };
@@ -140,7 +151,7 @@ export function listMyRoleSearches(userId: string, take = 20) {
     where: { userId },
     orderBy: { createdAt: "desc" },
     take,
-    select: { id: true, status: true, createdAt: true },
+    select: { id: true, status: true, createdAt: true, scheduledFor: true, startedAt: true, completedAt: true },
   });
 }
 

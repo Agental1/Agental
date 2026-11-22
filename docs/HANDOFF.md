@@ -13,10 +13,11 @@ cover n8n or the AI agents.
   not installed on this Mac); Vercel installs with bun from `bun.lock`. Round 8b kept bun. Moving to
   pnpm (generate `pnpm-lock.yaml`, remove `bun.lock`, update CLAUDE.md and the deploy recipe) is a
   separate change to decide.
-- **"Flaky" tests are not flaky**: `limelight-leads` "two drains at the same moment" (and, once,
-  `role-search`) failed only while the local dev server (port 3200) used the same one-connection
-  local database. With the dev server stopped, all 2344 tests pass. Stop the dev server before
-  `vitest`, or give tests their own database.
+- **Flaky test**: `limelight-leads` "two drains at the same moment send one alert once" sometimes
+  fails in the full local run (pg adapter "bind message supplies N parameters" error with the
+  one-connection local database) and passes on its own. A running dev server on the same database
+  makes it, and `role-search`, fail more often: stop it before `vitest`. Give the two drains their
+  own connections or skip the concurrency case when the pool has one connection.
 - **Old student email route.** The "College student? Verify your school email" card was removed
   from the app (round 8b, Promotions covers it). `/etudiant` still confirms links already sent, and
   `requestStudentEmail` is no longer reachable from the UI; remove it once round 8b group 4 (USC

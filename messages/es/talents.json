@@ -896,7 +896,7 @@
         "status": {
           "draft": "Esperando tu revisión",
           "reviewed": "Revisado",
-          "accepted": "Aceptado, respuesta en curso",
+          "accepted": "Aceptado: el equipo de Agental se encarga",
           "submitted": "Enviada para revisión"
         }
       },
@@ -923,6 +923,51 @@
         "recordTitle": "Grabar el vídeo {n}",
         "recordHint": "La toma se guarda en Reel y self-tape, en privado, y se coloca aquí. Si algo lo interrumpe, elígela aquí desde Reel y self-tape.",
         "open": "Abrir este papel"
+      },
+      "queue": {
+        "rule": "Puedes poner hasta {count} búsquedas en cola. Hacemos una cada {hours} horas.",
+        "title": "Búsquedas en cola",
+        "empty": "Ninguna búsqueda en espera.",
+        "item": "Búsqueda {n}",
+        "soon": "Empieza pronto",
+        "startsIn": "Empieza en unas {hours, plural, one {# hora} other {# horas}}"
+      },
+      "running": {
+        "title": "Búsqueda en curso",
+        "empty": "Ninguna búsqueda en curso."
+      },
+      "finished": {
+        "title": "Búsquedas terminadas",
+        "last": "Última búsqueda terminada el {date}.",
+        "empty": "Los papeles que encuentren tus búsquedas aparecerán aquí."
+      },
+      "decide": {
+        "intro": "Lee la descripción completa de lo que se pide antes de aceptar o rechazar esta audición, y te ayudaremos a partir de ahí.",
+        "role": "Papel",
+        "project": "Proyecto",
+        "dates": "Fechas",
+        "location": "Lugar",
+        "pay": "Pago",
+        "notGiven": "No indicado",
+        "toSend": "Qué enviar",
+        "nothingToSend": "Nada más que tu perfil.",
+        "video": "Video {n}: {text}",
+        "question": "Pregunta {n}: {text}",
+        "fullNotice": "Leer el anuncio completo",
+        "source": "Abrir el anuncio ({host})",
+        "accept": "Aceptar",
+        "decline": "Rechazar",
+        "accepted": "Aceptado: el equipo de Agental se encarga",
+        "submitted": "Enviado para revisión del equipo",
+        "open": "Añadir los detalles",
+        "declined": "Papel rechazado.",
+        "undo": "Deshacer",
+        "undoFailed": "Demasiado tarde para deshacer. El papel sigue rechazado.",
+        "dateRange": "Del {from} al {to}",
+        "dateFrom": "Desde el {from}",
+        "remote": "En remoto",
+        "unpaid": "No remunerado",
+        "paid": "Remunerado, importe no indicado"
       }
     },
     "career": {
