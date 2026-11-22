@@ -171,3 +171,30 @@ export function listAllRoleSearches(take = 200) {
     },
   });
 }
+
+/** The counts in the dashboard's Status block (round 8b). */
+export interface MySearchStatus {
+  queued: number;
+  running: number;
+  finished: number;
+  rolesFound: number;
+}
+
+/**
+ * A performer's searches by state, and the roles the searches found (drafts
+ * from the role-search workflow). Failed and canceled searches are not shown.
+ */
+export async function getMySearchStatus(userId: string): Promise<MySearchStatus> {
+  const [byStatus, rolesFound] = await Promise.all([
+    prisma.roleSearchRequest.groupBy({
+      by: ["status"],
+      where: { userId, status: { in: ["queued", "running", "done"] } },
+      _count: { _all: true },
+    }),
+    prisma.applicationDraft.count({
+      where: { profile: { userId }, brief: { source: "n8n-beta-v2" } },
+    }),
+  ]);
+  const n = (s: string) => byStatus.find((r) => r.status === s)?._count._all ?? 0;
+  return { queued: n("queued"), running: n("running"), finished: n("done"), rolesFound };
+}

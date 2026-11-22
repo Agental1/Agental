@@ -20,9 +20,10 @@ import { listMySites } from "@/lib/sites";
 import { completenessInputOf, missingItems, profileGaps, scoreProfile } from "@/domain/completeness";
 import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
-import { getRoleSearchQuota } from "@/lib/role-search";
+import { getMySearchStatus, getRoleSearchQuota } from "@/lib/role-search";
 import { recentFirstAutoSearch } from "@/lib/auto-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
+import { SearchStatus } from "@/components/app/search-status";
 import { WelcomeTour, type WelcomeStep } from "@/components/app/welcome-tour";
 
 const CANDIDATURE_STATUSES = [
@@ -103,11 +104,6 @@ export default async function TalentsDashboard({
       cta: t(`space.dashboard.action.${item}`),
       icon: UserCog,
     }));
-  const searchedOnce = (await prisma.roleSearchRequest.count({ where: { userId: session.user.id } })) > 0;
-  // Once the profile is at 100%: launch the first search, then check the applications.
-  const nextAction = !searchedOnce
-    ? { title: t("space.dashboard.launch.title"), text: t("space.dashboard.launch.body"), href: "/talents/app#find-roles", icon: Sparkles }
-    : { title: t("space.dashboard.checkApplications.title"), text: t("space.dashboard.checkApplications.body"), href: "/talents/app/candidatures", icon: Send };
   // A reel clears the profile's video item; a self-tape is still worth asking
   // for, but only once nothing is missing, and only when none exists.
   if (
@@ -130,6 +126,7 @@ export default async function TalentsDashboard({
 
   const hasSite = (await listMySites(session.user.id)).length > 0;
   const quota = await getRoleSearchQuota(session.user.id);
+  const searchStatus = await getMySearchStatus(session.user.id);
   // The first search started on its own: say so for two weeks.
   const showAutoFirst = await recentFirstAutoSearch(session.user.id);
 
@@ -178,7 +175,7 @@ export default async function TalentsDashboard({
         </div>
       </div>
 
-      {nextItem ? (
+      {nextItem && (
         // The one profile block: the percentage, the next missing item and a
         // button that opens the exact field.
         <section
@@ -208,20 +205,6 @@ export default async function TalentsDashboard({
             </Link>
           </Button>
         </section>
-      ) : (
-        <Link
-          href={nextAction.href}
-          data-tour="profile"
-          className="pressable flex items-center gap-4 rounded-sedan border border-accent/40 bg-surface p-5 [--hover-scale:1.01] [--press-scale:0.99]"
-        >
-          <nextAction.icon aria-hidden="true" className="size-6 shrink-0 text-accent" />
-          <span className="min-w-0 flex-1">
-            <span className="block text-[13px] font-bold uppercase tracking-wide text-accent">{t("space.dashboard.nextAction")}</span>
-            <span className="block font-display text-xl font-medium">{nextAction.title}</span>
-            <span className="block text-sm text-fg-muted">{nextAction.text}</span>
-          </span>
-          <ArrowRight aria-hidden="true" className="size-5 shrink-0 text-fg-subtle" />
-        </Link>
       )}
 
       {showAutoFirst && (
@@ -245,6 +228,7 @@ export default async function TalentsDashboard({
         // the first missing field. One automatic search, then the rest of the
         // plan's allowance (Basic: 1 of 5, so 4 more).
         locked={nextItem ? { href: itemHref(nextItem), more: Math.max(0, quota.limit - 1) } : undefined}
+        footer={<SearchStatus initial={searchStatus} />}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -8,7 +8,7 @@ export function Input({ className, ...props }: React.ComponentProps<"input">) {
         "flex h-11 w-full rounded-sedan border border-field bg-surface px-3 py-2 text-fg",
         // 16px on mobile: below that, iOS Safari zooms the page on focus, which
         // is a worse mobile defect than the target size ever was.
-        "text-base sm:h-10 sm:text-sm",
+        "text-base sm:h-10 sm:text-sm lg:h-11 lg:text-[15px]",
         "placeholder:text-fg-subtle shadow-sm transition-colors",
         "focus-visible:outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-ring/40",
         "disabled:cursor-not-allowed disabled:opacity-50",

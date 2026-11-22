@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.6.0] - 2026-11-22
+
+### Changed (round 8b, group 2)
+
+- **Wider pages**: the page column is about 12% wider with the sidebar open (81rem instead of 72rem) and wider again (90rem) when the sidebar is folded. Inputs, lists and tabs are slightly larger on wide screens.
+- **Preferences in two columns** on wide screens: work types, paid or unpaid work, travel, work mode and animals on the left; ages you can play, skills, how we tell you about a role and content boundaries on the right. One column on a phone.
+- **Settings menu on the left**: Account, Language, Notifications, Privacy and cookies, Subscription as a vertical menu with the chosen section beside it; a dropdown on a phone. Each section has its own address (`?section=notifications`), and older `#notifications` links still land there.
+- **Dashboard**: the "Next action" link at the top is gone, so the rest moves up. The "Start finding roles" card now ends with a **Status** line (searches in queue, running, finished, roles found, each a link to Applications), refreshed every 30 seconds and right after a new search, and a "Check your applications" button at the bottom right.
+
+No migration.
+
 ## [0.6.5.0] - 2026-11-22
 
 ### Changed (round 8b, group 1)

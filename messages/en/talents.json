@@ -838,7 +838,15 @@
         "compensation": "We filter out jobs that do not fit.",
         "dayRate": "We skip paid jobs below your rate."
       },
-      "autoFirst": "We launched your first AI search. {left} of {limit} searches left this month."
+      "autoFirst": "We launched your first AI search. {left} of {limit} searches left this month.",
+      "status": {
+        "title": "Status",
+        "queued": "{count, plural, one {# search in queue} other {# searches in queue}}",
+        "running": "{count} running",
+        "finished": "{count} finished",
+        "rolesFound": "{count, plural, one {# role found} other {# roles found}}",
+        "check": "Check your applications"
+      }
     },
     "candidatures": {
       "title": "My applications",

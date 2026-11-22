@@ -39,8 +39,11 @@ export function FindRolesButton({
   initialQuota,
   upgradeHref,
   locked,
+  footer,
 }: {
   initialQuota: RoleSearchQuota;
+  /** Round 8b: the Status block and "Check your applications", at the bottom of the card. */
+  footer?: React.ReactNode;
   upgradeHref: string;
   /**
    * Round 8: before 100%, the button opens a dialog instead of searching. The
@@ -93,6 +96,7 @@ export function FindRolesButton({
       const wait = Math.max(0, SCAN_MS - (Date.now() - startedAt));
       timer.current = setTimeout(() => {
         setPhase("sent");
+        window.dispatchEvent(new Event("agental:search-started"));
         router.refresh();
       }, wait);
     });
@@ -166,6 +170,7 @@ export function FindRolesButton({
           </DialogContent>
         </Dialog>
       )}
+      {footer}
     </section>
   );
 }

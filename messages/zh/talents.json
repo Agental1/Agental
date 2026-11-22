@@ -838,7 +838,15 @@
         "compensation": "我们会排除不合适的工作。",
         "dayRate": "低于你日薪的付费工作会被跳过。"
       },
-      "autoFirst": "我们已为你启动第一次 AI 搜索。本月还剩 {left}/{limit} 次搜索。"
+      "autoFirst": "我们已为你启动第一次 AI 搜索。本月还剩 {left}/{limit} 次搜索。",
+      "status": {
+        "title": "状态",
+        "queued": "{count} 次搜索排队中",
+        "running": "{count} 次进行中",
+        "finished": "{count} 次已完成",
+        "rolesFound": "找到 {count} 个角色",
+        "check": "查看你的申请"
+      }
     },
     "candidatures": {
       "title": "我的申请",

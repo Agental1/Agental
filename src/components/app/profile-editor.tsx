@@ -347,13 +347,17 @@ export function ProfileEditor({
           {nav}
         </TabsContent>
         <TabsContent value="preferences">
-          <div className="space-y-8">
-            <PreferencesTab {...tabProps} />
-            <section className="max-w-2xl border-t border-border pt-6">
-              <RoleAlertForm {...roleAlert} />
-            </section>
-            <ContentBoundariesSection {...tabProps} />
-          </div>
+          <PreferencesTab
+            {...tabProps}
+            aside={
+              <>
+                <section className="border-t border-border pt-6">
+                  <RoleAlertForm {...roleAlert} />
+                </section>
+                <ContentBoundariesSection {...tabProps} />
+              </>
+            }
+          />
           {nav}
         </TabsContent>
       </Tabs>
@@ -580,7 +584,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
   const blur = { onBlur: flush };
 
   return (
-    <div className="max-w-xl space-y-4">
+    <div className="max-w-2xl space-y-4">
       <fieldset className="space-y-1.5" data-field="legalName">
         <legend className="text-sm font-medium">
           {t(`${e}.legalName`)}
@@ -1045,7 +1049,13 @@ function AvatarHeadshot() {
 
 /* ── Preferences ──────────────────────────────────────────────────────── */
 
-function PreferencesTab({ data, setData, queue, flush }: TabProps) {
+/**
+ * Preferences (round 8b): two columns on wide screens. Left: work types,
+ * paid or unpaid, travel, work modes, animals. Right: ages you can play,
+ * skills, then `aside` (contact preference and content boundaries). One
+ * column on a phone.
+ */
+function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { aside?: React.ReactNode }) {
   const t = useTranslations("talents");
   const ta = useTranslations("app");
   const locale = useLocale();
@@ -1100,93 +1110,130 @@ function PreferencesTab({ data, setData, queue, flush }: TabProps) {
   const agesSet = pr.playableAgeMin != null && pr.playableAgeMax != null;
 
   return (
-    <div className="max-w-2xl space-y-7">
-      <div data-field="projectTypes" className="space-y-5">
-        <ChipGroup
-          legend={t(`${p}.projectTypes`)}
-          required
-          options={PROJECT_TYPES.map((v) => ({ value: v, label: t(`${p}.projectTypeLabels.${v}`) }))}
-          selected={pr.projectTypes}
-          onChange={(projectTypes) => setPr({ projectTypes })}
-        />
-        <ChipGroup
-          legend={t(`${p}.roleTypes`)}
-          options={ROLE_TYPES.map((v) => ({ value: v, label: t(`${p}.roleTypeLabels.${v}`) }))}
-          selected={pr.roleTypes}
-          onChange={(roleTypes) => setPr({ roleTypes })}
-        />
-      </div>
-
-      <fieldset data-field="ageRange" className="space-y-3">
-        <legend className="text-sm font-medium">
-          {t(`${p}.ageRange`)}
-          <Req />
-        </legend>
-        <p className="font-display text-xl tabular-nums" aria-live="polite">
-          {agesSet ? t(`${p}.ageRangeValue`, { from: ages[0], to: ages[1] }) : t(`${p}.ageRangeUnset`)}
-        </p>
-        <Slider
-          min={AGE_MIN}
-          max={AGE_MAX}
-          step={1}
-          value={ages}
-          thumbLabels={[t(`${p}.ageFrom`), t(`${p}.ageTo`)]}
-          onValueChange={(v) => {
-            // Radix keeps the thumbs in order: "to" can never be below "from".
-            const [from, to] = v as [number, number];
-            setData((d) => ({ ...d, preferences: { ...d.preferences, playableAgeMin: from, playableAgeMax: to } }));
-          }}
-          onValueCommit={(v) => {
-            const [from, to] = v as [number, number];
-            setPr({ playableAgeMin: from, playableAgeMax: to });
-          }}
-          className="max-w-md"
-        />
-      </fieldset>
-
-      <fieldset data-field="compensation" className="space-y-2">
-        <legend className="text-sm font-medium">
-          {t(`${p}.compensation`)}
-          <Req />
-        </legend>
-        <div className="flex flex-wrap items-center gap-2">
-          {COMPENSATION.map((v) => {
-            const active = pr.compensation === v;
-            return (
-              <span key={v} className="inline-flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => chooseCompensation(active ? null : v)}
-                  className={cn(
-                    "min-h-9 rounded-full border px-3 py-1.5 text-sm transition-colors",
-                    active ? "border-accent bg-accent-soft text-accent" : "border-border hover:border-accent"
-                  )}
-                >
-                  {active && <Check aria-hidden="true" className="-ml-0.5 mr-1 inline size-3.5" />}
-                  {t(`${p}.compensationLabels.${v}`)}
-                </button>
-                {v === "paid_only" && active && (
-                  <span className="text-sm">
-                    {data.dayRateUsd ? (
-                      <>
-                        {t(`${p}.dayRateShown`, { rate: money(data.dayRateUsd) })}{" "}
-                        <button type="button" onClick={openRate} className="font-bold text-accent hover:underline">
-                          {t(`${p}.edit`)}
-                        </button>
-                      </>
-                    ) : (
-                      <button type="button" onClick={openRate} className="font-bold text-accent hover:underline">
-                        {t(`${p}.dayRateAdd`)}
-                      </button>
-                    )}
-                  </span>
-                )}
-              </span>
-            );
-          })}
+    <div className="grid gap-x-12 gap-y-8 lg:grid-cols-2">
+      <div className="min-w-0 space-y-7">
+        <div data-field="projectTypes" className="space-y-5">
+          <ChipGroup
+            legend={t(`${p}.projectTypes`)}
+            required
+            options={PROJECT_TYPES.map((v) => ({ value: v, label: t(`${p}.projectTypeLabels.${v}`) }))}
+            selected={pr.projectTypes}
+            onChange={(projectTypes) => setPr({ projectTypes })}
+          />
+          <ChipGroup
+            legend={t(`${p}.roleTypes`)}
+            options={ROLE_TYPES.map((v) => ({ value: v, label: t(`${p}.roleTypeLabels.${v}`) }))}
+            selected={pr.roleTypes}
+            onChange={(roleTypes) => setPr({ roleTypes })}
+          />
         </div>
-      </fieldset>
+
+        <fieldset data-field="compensation" className="space-y-2">
+          <legend className="text-sm font-medium">
+            {t(`${p}.compensation`)}
+            <Req />
+          </legend>
+          <div className="flex flex-wrap items-center gap-2">
+            {COMPENSATION.map((v) => {
+              const active = pr.compensation === v;
+              return (
+                <span key={v} className="inline-flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => chooseCompensation(active ? null : v)}
+                    className={cn(
+                      "min-h-9 rounded-full border px-3 py-1.5 text-sm transition-colors",
+                      active ? "border-accent bg-accent-soft text-accent" : "border-border hover:border-accent"
+                    )}
+                  >
+                    {active && <Check aria-hidden="true" className="-ml-0.5 mr-1 inline size-3.5" />}
+                    {t(`${p}.compensationLabels.${v}`)}
+                  </button>
+                  {v === "paid_only" && active && (
+                    <span className="text-sm">
+                      {data.dayRateUsd ? (
+                        <>
+                          {t(`${p}.dayRateShown`, { rate: money(data.dayRateUsd) })}{" "}
+                          <button type="button" onClick={openRate} className="font-bold text-accent hover:underline">
+                            {t(`${p}.edit`)}
+                          </button>
+                        </>
+                      ) : (
+                        <button type="button" onClick={openRate} className="font-bold text-accent hover:underline">
+                          {t(`${p}.dayRateAdd`)}
+                        </button>
+                      )}
+                    </span>
+                  )}
+                </span>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        <ChipGroup
+          single
+          legend={t(`${p}.travel`)}
+          hint={t(`${p}.clearHint`)}
+          options={TRAVEL.map((v) => ({ value: v, label: t(`${p}.travelLabels.${v}`) }))}
+          selected={pr.travel ? [pr.travel] : []}
+          onChange={(v) => setPr({ travel: v[0] ?? null })}
+        />
+        <ChipGroup
+          legend={t(`${p}.workModes`)}
+          options={WORK_MODES.map((v) => ({ value: v, label: t(`${p}.workModeLabels.${v}`) }))}
+          selected={pr.workModes}
+          onChange={(workModes) => setPr({ workModes })}
+        />
+        <TriState legend={t(`${p}.animals`)} value={pr.animals} onChange={(animals) => setPr({ animals })} />
+      </div>
+      <div className="min-w-0 space-y-7">
+        <fieldset data-field="ageRange" className="space-y-3">
+          <legend className="text-sm font-medium">
+            {t(`${p}.ageRange`)}
+            <Req />
+          </legend>
+          <p className="font-display text-xl tabular-nums" aria-live="polite">
+            {agesSet ? t(`${p}.ageRangeValue`, { from: ages[0], to: ages[1] }) : t(`${p}.ageRangeUnset`)}
+          </p>
+          <Slider
+            min={AGE_MIN}
+            max={AGE_MAX}
+            step={1}
+            value={ages}
+            thumbLabels={[t(`${p}.ageFrom`), t(`${p}.ageTo`)]}
+            onValueChange={(v) => {
+              // Radix keeps the thumbs in order: "to" can never be below "from".
+              const [from, to] = v as [number, number];
+              setData((d) => ({ ...d, preferences: { ...d.preferences, playableAgeMin: from, playableAgeMax: to } }));
+            }}
+            onValueCommit={(v) => {
+              const [from, to] = v as [number, number];
+              setPr({ playableAgeMin: from, playableAgeMax: to });
+            }}
+            className="max-w-md"
+          />
+        </fieldset>
+
+        <section className="space-y-3" data-field="skills">
+          <div>
+            <h3 className="font-display text-lg font-medium">{t(`${p}.skills`)}</h3>
+            <p className="text-sm text-fg-muted">{t(`${p}.skillsHint`)}</p>
+          </div>
+          <ChipGroup
+            legend={t(`${p}.skills`)}
+            hideLegend
+            options={SKILLS.map((k) => ({ value: k, label: ta(`specialties.${k}`) }))}
+            selected={skills}
+            onChange={(next) => {
+              setSkills(next);
+              flush();
+            }}
+          />
+        </section>
+        {aside}
+      </div>
 
       <Dialog open={rateOpen} onOpenChange={setRateOpen}>
         <DialogContent data-portal="talents">
@@ -1221,39 +1268,6 @@ function PreferencesTab({ data, setData, queue, flush }: TabProps) {
           </div>
         </DialogContent>
       </Dialog>
-
-      <ChipGroup
-        single
-        legend={t(`${p}.travel`)}
-        hint={t(`${p}.clearHint`)}
-        options={TRAVEL.map((v) => ({ value: v, label: t(`${p}.travelLabels.${v}`) }))}
-        selected={pr.travel ? [pr.travel] : []}
-        onChange={(v) => setPr({ travel: v[0] ?? null })}
-      />
-      <ChipGroup
-        legend={t(`${p}.workModes`)}
-        options={WORK_MODES.map((v) => ({ value: v, label: t(`${p}.workModeLabels.${v}`) }))}
-        selected={pr.workModes}
-        onChange={(workModes) => setPr({ workModes })}
-      />
-      <TriState legend={t(`${p}.animals`)} value={pr.animals} onChange={(animals) => setPr({ animals })} />
-
-      <section className="space-y-3 border-t border-border pt-6" data-field="skills">
-        <div>
-          <h3 className="font-display text-lg font-medium">{t(`${p}.skills`)}</h3>
-          <p className="text-sm text-fg-muted">{t(`${p}.skillsHint`)}</p>
-        </div>
-        <ChipGroup
-          legend={t(`${p}.skills`)}
-          hideLegend
-          options={SKILLS.map((k) => ({ value: k, label: ta(`specialties.${k}`) }))}
-          selected={skills}
-          onChange={(next) => {
-            setSkills(next);
-            flush();
-          }}
-        />
-      </section>
     </div>
   );
 }
@@ -1268,7 +1282,7 @@ function ContentBoundariesSection({ data, setData, queue }: TabProps) {
   return (
     <section
       aria-labelledby="content-boundaries"
-      className="max-w-2xl space-y-4 rounded-sedan border border-border bg-surface-2/50 p-5"
+      className="space-y-4 rounded-sedan border border-border bg-surface-2/50 p-5"
     >
       <div>
         <div className="flex flex-wrap items-center gap-2">

@@ -838,7 +838,15 @@
         "compensation": "On écarte les offres qui ne te vont pas.",
         "dayRate": "On ignore les offres payées sous ton tarif."
       },
-      "autoFirst": "Nous avons lancé ta première recherche IA. Il te reste {left} recherches sur {limit} ce mois-ci."
+      "autoFirst": "Nous avons lancé ta première recherche IA. Il te reste {left} recherches sur {limit} ce mois-ci.",
+      "status": {
+        "title": "Statut",
+        "queued": "{count, plural, one {# recherche en file} other {# recherches en file}}",
+        "running": "{count} en cours",
+        "finished": "{count, plural, one {# terminée} other {# terminées}}",
+        "rolesFound": "{count, plural, one {# rôle trouvé} other {# rôles trouvés}}",
+        "check": "Voir vos candidatures"
+      }
     },
     "candidatures": {
       "title": "Mes candidatures",

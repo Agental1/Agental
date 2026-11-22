@@ -20,6 +20,8 @@ const roleAlertChannel = (v: string | null | undefined): RoleAlertChannel =>
   v === "sms" || v === "both" ? v : "email";
 import { ConnectedAccounts } from "@/components/app/connected-accounts";
 import { B2C_PLANS } from "@/domain/pricing";
+import { SettingsNav } from "@/components/app/settings-nav";
+import { SETTINGS_SECTIONS, type SettingsSection } from "@/domain/settings";
 
 export async function generateMetadata({
   params,
@@ -33,10 +35,16 @@ export async function generateMetadata({
 
 export default async function ParametresPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ section?: string }>;
 }) {
   const { locale: rawLocale } = await params;
+  const { section: rawSection } = await searchParams;
+  const active: SettingsSection = (SETTINGS_SECTIONS as readonly string[]).includes(rawSection ?? "")
+    ? (rawSection as SettingsSection)
+    : "account";
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "talents" });
@@ -82,25 +90,20 @@ export default async function ParametresPage({
   ];
   const meta = Object.fromEntries(sections.map((s) => [s.id, s]));
 
+  const labels = Object.fromEntries(sections.map((x) => [x.id, x.title])) as Record<SettingsSection, string>;
+
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.settings.title")}</h1>
         <p className="text-fg-muted">{t("space.settings.subtitle")}</p>
       </div>
 
-      <nav aria-label={t("space.settings.title")} className="flex flex-wrap gap-2">
-        {sections.map((s) => (
-          <a
-            key={s.id}
-            href={`#${s.id}`}
-            className="inline-flex min-h-9 items-center rounded-full border border-border bg-surface px-3.5 text-sm font-medium text-fg-muted transition-colors hover:border-accent hover:text-fg"
-          >
-            {s.title}
-          </a>
-        ))}
-      </nav>
-
+      {/* Round 8b: menu on the left (a dropdown on a phone), one section at a time. */}
+      <div className="grid gap-6 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-10">
+        <SettingsNav active={active} labels={labels} label={t("space.settings.title")} />
+        <div className="max-w-2xl">
+      {active === "account" && (
       <Section {...meta.account}>
         <Row label={t("space.settings.name")} value={profile?.stageName || "-"} />
         <Row
@@ -134,12 +137,16 @@ export default async function ParametresPage({
           {tc("tour.replay")}
         </Link>
       </Section>
+      )}
 
+      {active === "language" && (
       <Section {...meta.language}>
         <p className="text-sm text-fg-muted">{t("space.settings.language.lead")}</p>
         <LanguageForm current={toLocale(account?.locale ?? locale)} />
       </Section>
+      )}
 
+      {active === "notifications" && (
       <Section {...meta.notifications}>
         <p className="text-sm text-fg-muted">{t("space.settings.notifications.lead")}</p>
         <NotificationsForm
@@ -155,7 +162,9 @@ export default async function ParametresPage({
           consentGiven={!!profile?.smsConsentAt}
         />
       </Section>
+      )}
 
+      {active === "privacy" && (
       <Section {...meta.privacy}>
         <p className="text-sm text-fg-muted">
           {consentRecord
@@ -174,7 +183,9 @@ export default async function ParametresPage({
           {t("space.settings.privacyPolicy")}
         </Link>
       </Section>
+      )}
 
+      {active === "subscription" && (
       <Section {...meta.subscription}>
         <div className="flex items-center gap-2">
           <Badge variant="accent">{t("space.dashboard.plan", { plan: planName })}</Badge>
@@ -190,6 +201,9 @@ export default async function ParametresPage({
           <Link href="/talents/app/abonnement">{t("space.settings.manage")}</Link>
         </Button>
       </Section>
+      )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -206,7 +220,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 space-y-4 rounded-sedan-xl border border-border bg-surface p-5">
+    <section id={id} className="space-y-4 rounded-sedan-xl border border-border bg-surface p-5 lg:p-6">
       <h2 className="flex items-center gap-2 font-display text-lg font-medium">
         <Icon className="size-4 text-accent" /> {title}
       </h2>
