@@ -64,3 +64,17 @@ Listed here as they come, and copied into the final report.
   desktop app's preview pane on localhost (no production session involved).
 - Group 1: the Website page redirect needed Limelight on the Subscription page now, so its
   existing section (offers, sites, request form) moved there in group 1; group 4 reshapes it.
+- Group 2: "paid or unpaid" keeps its two existing answers ("Paid work only", "Paid or unpaid");
+  the day rate is asked, and required, only with "Paid work only".
+- Group 2: a work type is either a project type or a role type (both lists stay; project types
+  carry the asterisk).
+- Group 2: the drag bug (2.8). Root cause: Profile > Media had no drag code for tiles at all.
+  The only drop handler sat on the empty placeholder of an empty category; once a category had
+  one item, a file dropped on it hit the browser default and opened the file in the tab, leaving
+  the app, and dragging an existing tile did nothing. Fixed with dnd-kit handles plus a drop
+  handler on every category.
+- Group 2: the count of accounts that drop below 100% comes from a read-only aggregate query
+  printed in the production build log (`tools/db/round8-report.mjs`), since this Mac has no
+  production database access.
+- Group 2: Physical tiles are 5 per row from 1280 px, 3 from 768 px, 2 below (at 1024 px five
+  tiles were too narrow for the height selects).

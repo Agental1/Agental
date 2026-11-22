@@ -37,7 +37,6 @@ export async function listProfiles(f: ProfileFilters, take = VIEW_CAP) {
       createdAt: true,
       isMinor: true,
       user: { select: { id: true, email: true, accountStatus: true } },
-      specialties: { select: { kind: true } },
       ...COMPLETENESS_SELECT,
     },
   });

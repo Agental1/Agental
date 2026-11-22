@@ -4,7 +4,7 @@ import { err, zodError, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
-import { recomputeCompleteness } from "@/lib/completeness";
+import { recomputeCompletenessDetailed } from "@/lib/completeness";
 import { parseJson, PhysicalTraits, toJson } from "@/domain/json";
 import { isMinorOn } from "@/domain/age";
 import { audit } from "@/lib/audit";
@@ -14,7 +14,10 @@ import {
   ProfileSpecialties,
   AvailabilityInput,
 } from "@/domain/profile";
+import { z } from "zod";
+import { SpecialtyKind } from "@/domain/enums";
 import {
+  isSkillSpecialty,
   ContentBoundariesInput,
   PreferencesInput,
   mergeContentBoundaries,
@@ -22,7 +25,13 @@ import {
   readContentBoundaries,
 } from "@/domain/preferences";
 
-export type SaveResult = { ok: boolean; error?: ActionError; completeness?: number };
+export type SaveResult = {
+  ok: boolean;
+  error?: ActionError;
+  completeness?: number;
+  /** The first time the profile reaches 100% (round 8 celebration). */
+  justCompleted?: boolean;
+};
 
 async function requireProfile() {
   const session = await auth();
@@ -31,10 +40,9 @@ async function requireProfile() {
 }
 
 async function done(profileId: string): Promise<SaveResult> {
-  const completeness = await recomputeCompleteness(profileId);
-  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
+  const { completeness, justCompleted } = await recomputeCompletenessDetailed(profileId);
   revalidatePath("/[locale]/talents/(space)/app", "page");
-  return { ok: true, completeness };
+  return { ok: true, completeness, justCompleted };
 }
 
 export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
@@ -44,7 +52,8 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
   if (!parsed.success)
     return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
-  const birthDate = new Date(d.birthDate);
+  const opt = (v: string | undefined) => (v === undefined ? undefined : v || null);
+  const birthDate = d.birthDate === undefined ? undefined : new Date(d.birthDate);
   // Languages and accents are edited in Identity since round 8 but stored with
   // the physical details: merged in, every other trait kept.
   const physical =
@@ -59,28 +68,29 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
     where: { id: profile.id },
     data: {
       stageName: d.stageName,
-      legalFirstName: d.legalFirstName === undefined ? undefined : d.legalFirstName || null,
-      legalLastName: d.legalLastName === undefined ? undefined : d.legalLastName || null,
-      gender: d.gender === undefined ? undefined : d.gender,
+      legalFirstName: opt(d.legalFirstName),
+      legalLastName: opt(d.legalLastName),
+      gender: d.gender,
       // The "Other" text only means something with "other".
       genderOther:
-        d.gender === undefined ? undefined : d.gender === "other" ? d.genderOther || null : null,
+        d.gender === undefined
+          ? opt(d.genderOther)
+          : d.gender === "other"
+            ? (d.genderOther ?? profile.genderOther) || null
+            : null,
       physical,
-      // The editor has no legal name field. Left undefined, Prisma keeps the
-      // stored value; this save used to null it on every submit.
-      legalName: d.legalName === undefined ? undefined : d.legalName || null,
-      phone: d.phone === undefined ? undefined : d.phone || null,
-      city: d.city || null,
-      bio: d.bio || null,
+      phone: opt(d.phone),
+      city: opt(d.city),
+      bio: opt(d.bio),
       imdbUrl: d.imdbUrl,
       portfolioUrl: d.portfolioUrl,
       birthDate,
-      isMinor: isMinorOn(d.birthDate),
+      isMinor: d.birthDate === undefined ? undefined : isMinorOn(d.birthDate),
     },
   });
   // The mandate was signed against the stored birth date, so any change to it
   // is traced.
-  if (profile.birthDate?.getTime() !== birthDate.getTime()) {
+  if (birthDate && profile.birthDate?.getTime() !== birthDate.getTime()) {
     await audit({
       actorUserId: profile.userId,
       action: "profile.birthDate.change",
@@ -105,6 +115,7 @@ export async function saveProfilePhysical(input: unknown): Promise<SaveResult> {
   const next: Record<string, unknown> = { ...parseJson(PhysicalTraits, profile.physical) };
   for (const [k, v] of Object.entries(fields)) if (v !== undefined) next[k] = v;
   if (clearHeight) delete next.heightCm;
+  if (next.weightKg === null) delete next.weightKg;
   await prisma.artistProfile.update({
     where: { id: profile.id },
     data: { physical: toJson(next) },
@@ -162,8 +173,52 @@ export async function savePreferences(input: unknown): Promise<SaveResult> {
     where: { id: profile.id },
     data: { preferences: toJson(mergePreferences(profile.preferences, parsed.data)) },
   });
-  revalidatePath("/[locale]/talents/(space)/app/profil", "page");
-  return { ok: true };
+  // Work types, the age range and paid or unpaid count toward 100% (round 8).
+  return done(profile.id);
+}
+
+const SkillsInput = z.object({
+  skills: z.array(SpecialtyKind).max(SpecialtyKind.options.length),
+});
+
+/**
+ * Round 8: "Skills" under Preferences, the specialties that are not work
+ * types. Only skill rows change: rows of the work-type kinds (merged into the
+ * work types above) and their levels stay as stored.
+ */
+export async function saveSkills(input: unknown): Promise<SaveResult> {
+  const profile = await requireProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const parsed = SkillsInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: zodError(parsed.error) };
+  const wanted = new Set<string>(parsed.data.skills.filter(isSkillSpecialty));
+  const rows = await prisma.specialty.findMany({ where: { profileId: profile.id }, select: { id: true, kind: true } });
+  const have = new Set(rows.map((r) => r.kind));
+  const drop = rows.filter((r) => isSkillSpecialty(r.kind) && !wanted.has(r.kind)).map((r) => r.id);
+  const add = [...wanted].filter((k) => !have.has(k));
+  await prisma.$transaction([
+    prisma.specialty.deleteMany({ where: { profileId: profile.id, id: { in: drop } } }),
+    prisma.specialty.createMany({ data: add.map((kind) => ({ profileId: profile.id, kind, level: "BEGINNER" })) }),
+  ]);
+  return done(profile.id);
+}
+
+const DayRateInput = z.object({
+  /** Whole US dollars a day; null clears it. */
+  usd: z.number().int().min(1).max(100000).nullable(),
+});
+
+/** Round 8: the minimum day rate, asked when the performer picks paid work only. */
+export async function saveDayRate(input: unknown): Promise<SaveResult> {
+  const profile = await requireProfile();
+  if (!profile) return { ok: false, error: err("errors.unauthorized") };
+  const parsed = DayRateInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: zodError(parsed.error) };
+  await prisma.artistProfile.update({
+    where: { id: profile.id },
+    data: { minRateCents: parsed.data.usd === null ? null : parsed.data.usd * 100 },
+  });
+  return done(profile.id);
 }
 
 /**

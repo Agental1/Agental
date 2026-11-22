@@ -1,8 +1,14 @@
 import { prisma } from "@/lib/db";
 import { getTalentPlan } from "@/lib/billing/entitlement";
-import { nextMissingItem, profileGaps, scoreProfile, type MissingItem } from "@/domain/completeness";
-import { parseJson, PhysicalTraits } from "@/domain/json";
-import { readPreferences } from "@/domain/preferences";
+import { COMPLETENESS_SELECT } from "@/lib/completeness";
+import {
+  completenessInputOf,
+  missingItems,
+  profileGaps,
+  scoreProfile,
+  type MissingItem,
+  type ProfileGap,
+} from "@/domain/completeness";
 import { IN_PROGRESS_STATUSES } from "@/domain/role-search";
 import type { AssistantContext, MessageTopic } from "@/domain/assistant";
 
@@ -18,19 +24,7 @@ export async function buildAssistantContext(
 ): Promise<AssistantContext> {
   const profile = await prisma.artistProfile.findUnique({
     where: { userId },
-    select: {
-      id: true,
-      stageName: true,
-      birthDate: true,
-      city: true,
-      bio: true,
-      physical: true,
-      preferences: true,
-      imdbUrl: true,
-      portfolioUrl: true,
-      media: { select: { type: true } },
-      specialties: { select: { kind: true } },
-    },
+    select: { id: true, ...COMPLETENESS_SELECT },
   });
   const { plan } = await getTalentPlan(userId);
   const ctx: AssistantContext = {
@@ -42,26 +36,15 @@ export async function buildAssistantContext(
   if (!profile) return ctx;
 
   if (topic === "profile") {
-    const input = {
-      stageName: profile.stageName,
-      birthDate: profile.birthDate,
-      city: profile.city,
-      bio: profile.bio,
-      physical: parseJson(PhysicalTraits, profile.physical),
-      specialtiesCount: profile.specialties.length,
-      media: profile.media,
-      imdbUrl: profile.imdbUrl,
-      portfolioUrl: profile.portfolioUrl,
-    };
-    const missing: MissingItem[] = [];
-    const next = nextMissingItem(input);
-    if (next) missing.push(next);
+    const input = completenessInputOf(profile);
+    // The next required item first, then optional ones the assistant may suggest.
+    const missing: (MissingItem | ProfileGap)[] = [...missingItems(input)];
     for (const gap of profileGaps(input)) if (!missing.includes(gap)) missing.push(gap);
     ctx.profile = {
       completeness: scoreProfile(input),
       missing,
       specialties: profile.specialties.map((s) => s.kind),
-      preferences: readPreferences(profile.preferences),
+      preferences: input.preferences,
       hasImdbLink: !!profile.imdbUrl,
       hasPortfolioLink: !!profile.portfolioUrl,
     };

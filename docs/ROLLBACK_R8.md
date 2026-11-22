@@ -50,4 +50,5 @@ need to.
 | Migration | What it adds | Safe for pre-r8 code? |
 |---|---|---|
 | `20261204000000_round8_identity` (group 1) | Four nullable text columns on `ArtistProfile`: `legalFirstName`, `legalLastName`, `gender`, `genderOther`. No backfill; the old `legalName` column is untouched. | Yes: the pre-r8 code never selects these columns, and Prisma ignores columns it does not know. |
+| `20261205000000_round8_profile_complete` (group 2) | One nullable timestamp, `ArtistProfile.profileCompletedAt`. No backfill. | Yes: never read by the pre-r8 code. Preference keys added in group 2 (`playableAgeMin`, `playableAgeMax`, `merged`) live inside the existing JSON text column; the pre-r8 reader ignores unknown keys and keeps them on save. |
 | (later groups) | | |

@@ -56,6 +56,10 @@ export type Travel = (typeof TRAVEL)[number];
 export const WORK_MODES = ["on_set", "remote"] as const;
 export type WorkMode = (typeof WORK_MODES)[number];
 
+/** Bounds of the playable age range slider (round 8). */
+export const AGE_MIN = 16;
+export const AGE_MAX = 90;
+
 /** Marks a value written by this schema. See readPreferences on why it matters. */
 export const PREFERENCES_VERSION = 2;
 
@@ -79,7 +83,13 @@ export const PreferencesInput = z.object({
   workModes: list(WORK_MODES),
   /** Comfortable working with animals. */
   animals: z.boolean().nullish().transform((v) => v ?? null),
-});
+  /** Round 8: the ages the performer can play, from and to (required for 100%). */
+  playableAgeMin: z.number().int().min(AGE_MIN).max(AGE_MAX).nullish().transform((v) => v ?? null),
+  playableAgeMax: z.number().int().min(AGE_MIN).max(AGE_MAX).nullish().transform((v) => v ?? null),
+}).refine(
+  (p) => p.playableAgeMin == null || p.playableAgeMax == null || p.playableAgeMin <= p.playableAgeMax,
+  { message: "errors.ageRangeOrder", path: ["playableAgeMax"] }
+);
 export type PreferencesInput = z.input<typeof PreferencesInput>;
 
 /** Preferences as read back: lists are empty and single choices null when unset. */
@@ -90,6 +100,27 @@ export interface Preferences {
   travel: Travel | null;
   workModes: WorkMode[];
   animals: boolean | null;
+  playableAgeMin: number | null;
+  playableAgeMax: number | null;
+}
+
+/**
+ * Round 8: the Specialties tab merged into Preferences. Specialties that are
+ * work types already offered here map onto them; the rest stay Specialty rows,
+ * shown under "Skills". The mapping is applied when preferences are read,
+ * until the performer saves Preferences once (the `merged` flag).
+ */
+export const SPECIALTY_WORK_TYPES: Record<string, { projectTypes?: ProjectType[]; roleTypes?: RoleType[] }> = {
+  publicite: { projectTypes: ["commercial"] },
+  voix: { projectTypes: ["voice"] },
+  figuration: { roleTypes: ["background"] },
+  silhouette: { roleTypes: ["background"] },
+  "seconds-roles": { roleTypes: ["supporting"] },
+};
+
+/** Specialty kinds that are not work types: shown under "Skills". */
+export function isSkillSpecialty(kind: string): boolean {
+  return !(kind in SPECIALTY_WORK_TYPES);
 }
 
 /**
@@ -138,9 +169,28 @@ function isLegacy(stored: Stored): boolean {
   return stored.v !== PREFERENCES_VERSION;
 }
 
-/** Job preferences from the stored column. Tolerates anything that is in there. */
-export function readPreferences(raw: unknown): Preferences {
+const age = (v: unknown) =>
+  typeof v === "number" && Number.isInteger(v) && v >= AGE_MIN && v <= AGE_MAX ? v : null;
+
+/**
+ * Job preferences from the stored column. Tolerates anything that is in there.
+ * With `specialtyKinds`, work types from the old Specialties tab are merged in
+ * until the performer saves Preferences once (round 8).
+ */
+export function readPreferences(raw: unknown, specialtyKinds: readonly string[] = []): Preferences {
   const stored = parseStored(raw);
+  const prefs = readStoredPreferences(stored);
+  if (stored.merged === true) return prefs;
+  for (const kind of specialtyKinds) {
+    const map = SPECIALTY_WORK_TYPES[kind];
+    if (!map) continue;
+    for (const v of map.projectTypes ?? []) if (!prefs.projectTypes.includes(v)) prefs.projectTypes.push(v);
+    for (const v of map.roleTypes ?? []) if (!prefs.roleTypes.includes(v)) prefs.roleTypes.push(v);
+  }
+  return prefs;
+}
+
+function readStoredPreferences(stored: Stored): Preferences {
   const animals =
     typeof stored.animals === "boolean" && (stored.animals || !isLegacy(stored))
       ? stored.animals
@@ -152,6 +202,8 @@ export function readPreferences(raw: unknown): Preferences {
     travel: one(stored.travel, TRAVEL),
     workModes: known(stored.workModes, WORK_MODES),
     animals,
+    playableAgeMin: age(stored.playableAgeMin),
+    playableAgeMax: age(stored.playableAgeMax),
   };
 }
 
@@ -171,7 +223,16 @@ export function readContentBoundaries(raw: unknown): ContentBoundaries {
 }
 
 /** Keys the Preferences form owns. Everything else in the column is kept. */
-const OWNED = ["projectTypes", "roleTypes", "compensation", "travel", "workModes", "animals"] as const;
+const OWNED = [
+  "projectTypes",
+  "roleTypes",
+  "compensation",
+  "travel",
+  "workModes",
+  "animals",
+  "playableAgeMin",
+  "playableAgeMax",
+] as const;
 
 /**
  * The column's next value after the Preferences form is saved. Content
@@ -192,6 +253,11 @@ export function mergePreferences(raw: unknown, input: z.output<typeof Preference
   if (input.travel !== null) next.travel = input.travel;
   if (input.workModes.length > 0) next.workModes = input.workModes;
   if (input.animals !== null) next.animals = input.animals;
+  if (input.playableAgeMin !== null) next.playableAgeMin = input.playableAgeMin;
+  if (input.playableAgeMax !== null) next.playableAgeMax = input.playableAgeMax;
+  // The editor shows work types merged from the old Specialties tab, so a save
+  // of this form settles them (see readPreferences).
+  next.merged = true;
 
   if (boundaries.nudity !== null) next.contentBoundaries = { nudity: boundaries.nudity };
   else delete next.contentBoundaries;
@@ -209,6 +275,8 @@ export function mergeContentBoundaries(raw: unknown, input: ContentBoundariesInp
   const stored = parseStored(raw);
   const current = readPreferences(stored);
   const next = mergePreferences(stored, current);
+  // Only a Preferences save settles the specialty merge; this one keeps it open.
+  if (stored.merged !== true) delete next.merged;
   if (input.nudity === null) delete next.contentBoundaries;
   else next.contentBoundaries = { nudity: input.nudity };
   return next;

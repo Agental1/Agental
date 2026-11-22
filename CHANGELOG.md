@@ -3,6 +3,22 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.1.0] - 2026-11-22
+
+### Changed (round 8, group 2)
+
+- **Profile in four tabs** (Identity, Physical, Media, Preferences). Specialties merged into Preferences: commercial and voice work map to project types, background and supporting to role types (applied on read until the performer saves Preferences once; no row is rewritten), the rest show under "Skills".
+- **Autosave**: no Save button. Each field saves about 800 ms after typing stops, at once on blur and on a tab change; "Saving…", "Saved" or "Not saved." with Retry. Back, Next and Finish at the bottom of each tab; Finish below 100% opens the first missing field.
+- **One definition of 100%** (`src/domain/completeness.ts`, list in `docs/DECISIONS.md`), used by the profile, dashboard, suggestions, assistant, admin and agent eligibility. Red asterisks on every required field.
+- **Physical tiles**: ten square tiles (five per row on wide screens, two on a phone): height, weight (lb or kg), build, hair color, hair length, eye color, tattoos, piercings, clothing sizes, shoe size.
+- **Preferences**: "Ages you can play" two-handle slider; "Paid work only" asks for the minimum day rate in a dialog and shows it with an Edit link (kept when unselected).
+- **100% moment**: a short confetti burst (skipped with reduced motion), the completeness card folds away, "Your profile is complete. You're ready to launch AI searches." and, for unverified emails, a resend link. Stamped once (`profileCompletedAt`).
+- **"Start finding roles" before 100%** opens a dialog that explains the automatic first search and opens the first missing field.
+- **Media drag and drop**: drag a tile by its handle (mouse, touch, keyboard) inside or between categories; photos of yourself take images only, general videos take videos only, a wrong drop snaps back; the order is saved. Files dropped on a category that already has items upload there instead of making the browser leave the app. "Use my profile picture as my first headshot".
+- Dashboard suggestions at 100%: a showreel first ("Casting looks at video first").
+
+Migration `20261205000000_round8_profile_complete` (one nullable column).
+
 ## [0.6.0.0] - 2026-11-22
 
 ### Changed (round 8, group 1)

@@ -3,7 +3,7 @@ import { answerByRules, FORBIDDEN_CONTEXT_KEYS, type AssistantContext } from "@/
 import { assistantStrings } from "@/lib/assistant";
 
 const { s } = assistantStrings("en");
-const prefs = { projectTypes: [], roleTypes: [], compensation: null, travel: null, workModes: [], animals: null };
+const prefs = { projectTypes: [], roleTypes: [], compensation: null, travel: null, workModes: [], animals: null, playableAgeMin: null, playableAgeMax: null };
 const base = { locale: "en", name: "Maya", plan: "FREE" as const };
 
 describe("assistant rules", () => {

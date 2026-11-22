@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
-  hasPhysicalDetails,
+  REQUIRED_ITEMS,
+  completenessInputOf,
+  legalNameParts,
+  missingItems,
+  nextMissingItem,
   profileGaps,
   scoreProfile,
-  nextMissingItem,
   type CompletenessInput,
 } from "@/domain/completeness";
-import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
+import { parseJson, PhysicalTraits, withHeight } from "@/domain/json";
+import { readPreferences } from "@/domain/preferences";
 import {
   GAP_TAB,
   ITEM_TARGET,
@@ -17,112 +21,103 @@ import {
 } from "@/domain/profile-tabs";
 
 const empty = parseJson(PhysicalTraits, null);
+const noPrefs = readPreferences(null);
 
 const fresh: CompletenessInput = {
+  legalFirstName: null,
+  legalLastName: null,
   stageName: "Ana Lee",
   birthDate: new Date("1995-04-02T00:00:00Z"),
+  gender: null,
   city: null,
+  phone: null,
   bio: null,
   physical: empty,
-  specialtiesCount: 1,
   media: [],
+  preferences: noPrefs,
+  minRateCents: null,
 };
 
+/** Every required field filled, nothing optional (round 8 rule). */
 const full: CompletenessInput = {
   ...fresh,
+  stageName: "",
+  legalFirstName: "Ana",
+  legalLastName: "Lee",
+  gender: "female",
   city: "Los Angeles",
+  phone: "+12132227981",
   bio: "Trained at a conservatory.",
-  physical: { ...empty, heightCm: 170, hair: "brown" },
-  media: [
-    { type: "PHOTO" },
-    { type: "SELFTAPE" },
-    { type: "PHOTO", category: "PRODUCTIONS" },
-    { type: "AUDIO" },
-  ],
-  imdbUrl: "https://www.imdb.com/name/nm1234567/",
-  portfolioUrl: "https://ana.example.com/",
+  physical: { ...empty, heightCm: 170, hair: "Brown", eyes: "Green", languages: ["English"] },
+  media: [{ type: "PHOTO", category: "SELF" }],
+  preferences: { ...noPrefs, projectTypes: ["film"], playableAgeMin: 18, playableAgeMax: 25, compensation: "paid_or_unpaid" },
 };
 
-describe("scoreProfile", () => {
-  it("scores a complete profile 100", () => {
+describe("scoreProfile (round 8: required fields only)", () => {
+  it("is 100 with every required field and no optional one", () => {
+    expect(scoreProfile(full)).toBe(100);
+    expect(missingItems(full)).toEqual([]);
+  });
+
+  it("does not need IMDb, a portfolio or videos (founders' decision)", () => {
+    expect(profileGaps(full)).toEqual(expect.arrayContaining(["video", "links", "productions", "otherMedia", "stageName"]));
     expect(scoreProfile(full)).toBe(100);
   });
 
-  it("gives no physical points for a saved empty form", () => {
-    // What the old rule saw as complete: anything other than "{}".
-    const saved = parseJson(PhysicalTraits, toJson({ languages: [], accents: [] }));
-    expect(hasPhysicalDetails(saved)).toBe(false);
-    expect(scoreProfile({ ...full, physical: saved })).toBe(88);
+  it("drops below 100 for each required field, one at a time", () => {
+    const without: Partial<Record<(typeof REQUIRED_ITEMS)[number], Partial<CompletenessInput>>> = {
+      legalName: { legalLastName: null },
+      birthDate: { birthDate: null },
+      gender: { gender: "" },
+      city: { city: " " },
+      phone: { phone: null },
+      bio: { bio: "" },
+      languages: { physical: { ...full.physical, languages: [] } },
+      height: { physical: { ...full.physical, heightCm: undefined } },
+      hair: { physical: { ...full.physical, hair: undefined } },
+      eyes: { physical: { ...full.physical, eyes: "" } },
+      photos: { media: [{ type: "VIDEO", category: "SELF" }] },
+      workTypes: { preferences: { ...full.preferences, projectTypes: [], roleTypes: [] } },
+      ageRange: { preferences: { ...full.preferences, playableAgeMax: null } },
+      compensation: { preferences: { ...full.preferences, compensation: null } },
+    };
+    for (const [item, patch] of Object.entries(without)) {
+      const p = { ...full, ...patch };
+      expect(scoreProfile(p), item).toBeLessThan(100);
+      expect(nextMissingItem(p), item).toBe(item);
+    }
+  });
+
+  it("asks for the day rate only with paid work only", () => {
+    const paid = { ...full, preferences: { ...full.preferences, compensation: "paid_only" as const } };
+    expect(missingItems(paid)).toEqual(["dayRate"]);
+    expect(scoreProfile({ ...paid, minRateCents: 25000 })).toBe(100);
   });
 
   it("scores a profile fresh from signup well below 100", () => {
-    expect(scoreProfile(fresh)).toBe(40);
-  });
-});
-
-describe("profileGaps", () => {
-  it("lists photos, video, physical details and bio after signup", () => {
-    expect(profileGaps(fresh)).toEqual(["photos", "video", "physical", "bio", "links", "productions", "otherMedia"]);
+    expect(scoreProfile(fresh)).toBeLessThan(20);
+    expect(missingItems(fresh)[0]).toBe("legalName");
   });
 
-  it("asks for more than a height", () => {
-    expect(profileGaps({ ...fresh, physical: { ...empty, heightCm: 170 } })).toContain(
-      "physical"
-    );
+  it("reads the older single legal name", () => {
+    expect(legalNameParts({ legalFirstName: null, legalLastName: null, legalName: "Ana Maria Lee" })).toEqual({ first: "Ana", last: "Maria Lee" });
+    expect(missingItems({ ...full, legalFirstName: null, legalLastName: null, legalName: "Ana Lee" })).toEqual([]);
+    expect(missingItems({ ...full, legalFirstName: null, legalLastName: null, legalName: "Ana" })).toEqual(["legalName"]);
   });
 
-  it("counts a reel or a self-tape as video", () => {
-    const rest = [{ type: "PHOTO", category: "PRODUCTIONS" }, { type: "AUDIO" }];
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "VIDEO" }, ...rest] })).toEqual([]);
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, ...rest] })).toEqual(["video"]);
-  });
-
-  it("counts each media category", () => {
-    // A production still is not a photo of yourself, and a reel moved to
-    // Other is not a general video.
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO", category: "PRODUCTIONS" }, { type: "SELFTAPE" }, { type: "AUDIO" }] })).toEqual(["photos"]);
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }, { type: "AUDIO" }] })).toEqual(["productions"]);
-    expect(profileGaps({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }, { type: "PHOTO", category: "PRODUCTIONS" }] })).toEqual(["otherMedia"]);
-    expect(scoreProfile({ ...full, media: [{ type: "PHOTO" }, { type: "SELFTAPE" }] })).toBe(94);
-  });
-
-  it("treats a blank bio as missing", () => {
-    expect(profileGaps({ ...full, bio: "   " })).toEqual(["bio"]);
-  });
-});
-
-describe("profile links", () => {
-  it("count twelve points together, and either one clears the gap", () => {
-    // One link is enough for 100%: the score and the gap use the same rule.
-    expect(scoreProfile({ ...full, portfolioUrl: null })).toBe(100);
-    expect(scoreProfile({ ...full, imdbUrl: null })).toBe(100);
-    expect(scoreProfile({ ...full, imdbUrl: null, portfolioUrl: null })).toBe(88);
-    expect(profileGaps({ ...full, imdbUrl: null })).toEqual([]);
-    expect(profileGaps({ ...full, imdbUrl: null, portfolioUrl: null })).toEqual(["links"]);
-  });
-
-  it("names the next missing item", () => {
-    expect(nextMissingItem(fresh)).toBe("photos");
-    expect(itemHref("productions")).toBe("/talents/app/profil?tab=medias&focus=media-PRODUCTIONS");
-    expect(nextMissingItem(full)).toBeNull();
-    expect(nextMissingItem({ ...full, city: null })).toBe("city");
-    expect(nextMissingItem({ ...full, imdbUrl: null, portfolioUrl: null })).toBe("links");
-  });
-
-  it("never asks for something already filled in", () => {
-    const base = full;
-    // A saved height is not asked for again: the hair, eyes or build is.
-    expect(nextMissingItem({ ...base, physical: { ...empty, heightCm: 170 } })).toBe("physical");
-    expect(nextMissingItem({ ...base, physical: empty })).toBe("height");
-    expect(nextMissingItem({ ...fresh, birthDate: null })).toBe("birthDate");
-    expect(nextMissingItem({ ...fresh, stageName: " " })).toBe("stageName");
-    expect(nextMissingItem({ ...fresh, specialtiesCount: 0 })).toBe("specialties");
-    expect(nextMissingItem({ ...full, media: full.media.filter((m) => m.type !== "SELFTAPE") })).toBe("video");
-  });
-
-  it("agrees with the score: nothing missing exactly at 100", () => {
-    const cases = [fresh, full, { ...full, city: null }, { ...full, portfolioUrl: null }, { ...full, bio: "" }];
-    for (const c of cases) expect(nextMissingItem(c) === null).toBe(scoreProfile(c) === 100);
+  it("counts work types from the old specialties until Preferences is saved", () => {
+    const row = {
+      legalFirstName: "Ana", legalLastName: "Lee", legalName: null, stageName: "", birthDate: full.birthDate,
+      gender: "female", city: "LA", phone: "1", bio: "b", minRateCents: null, imdbUrl: null, portfolioUrl: null,
+      physical: JSON.stringify(full.physical),
+      preferences: JSON.stringify({ playableAgeMin: 20, playableAgeMax: 30, compensation: "paid_or_unpaid" }),
+      media: [{ type: "PHOTO", category: "SELF" }],
+      specialties: [{ kind: "publicite" }],
+    };
+    expect(completenessInputOf(row).preferences.projectTypes).toEqual(["commercial"]);
+    expect(scoreProfile(completenessInputOf(row))).toBe(100);
+    const saved = { ...row, preferences: JSON.stringify({ merged: true, playableAgeMin: 20, playableAgeMax: 30, compensation: "paid_or_unpaid" }) };
+    expect(missingItems(completenessInputOf(saved))).toEqual(["workTypes"]);
   });
 });
 
@@ -148,6 +143,10 @@ describe("parseProfileTab", () => {
     expect(parseProfileTab("../admin")).toBe("identite");
     expect(parseProfileTab("toString")).toBe("identite");
     expect(parseProfileTab(["medias", "physique"])).toBe("medias");
+  });
+
+  it("sends the old Specialties tab to Preferences", () => {
+    expect(parseProfileTab("specialites")).toBe("preferences");
   });
 
   it("deep links every gap to a real tab", () => {

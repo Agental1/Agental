@@ -50,6 +50,12 @@ export async function loadProfileFacts(
       portfolioUrl: true,
       media: { select: { type: true, category: true } },
       _count: { select: { specialties: true } },
+      // The rest of the columns the 100% rule reads (COMPLETENESS_SELECT).
+      legalFirstName: true,
+      legalLastName: true,
+      legalName: true,
+      gender: true,
+      phone: true,
       user: { select: { id: true, emailVerified: true, passwordHash: true, accounts: { select: { provider: true } }, accountStatus: true, agentsOptInAt: true, autoSearchOptIn: true } },
       specialties: { select: { kind: true, level: true, tags: true } },
       availability: { select: { from: true, to: true, type: true, zones: true } },

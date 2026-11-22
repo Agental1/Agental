@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { MissingItem } from "./completeness";
+import type { MissingItem, ProfileGap } from "./completeness";
 import type { Preferences } from "./preferences";
 
 /**
@@ -35,7 +35,7 @@ export interface AssistantContext {
   /** Present for "profile". */
   profile?: {
     completeness: number;
-    missing: MissingItem[];
+    missing: (MissingItem | ProfileGap)[];
     specialties: string[];
     preferences: Preferences;
     hasImdbLink: boolean;
@@ -61,7 +61,7 @@ export interface AssistantStrings {
   greeting: (name: string) => string;
   profileStatus: (percent: number, next: string | null) => string;
   profileComplete: string;
-  missing: (key: MissingItem) => string;
+  missing: (key: MissingItem | ProfileGap) => string;
   noApplications: string;
   applicationsIntro: (count: number) => string;
   applicationLine: (title: string, status: string) => string;

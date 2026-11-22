@@ -10,6 +10,14 @@ import type { RoleSearchQuota } from "@/domain/role-search";
 import { startFindingRoles } from "@/app/actions/role-search";
 import { SearchUsageLine } from "@/components/app/search-usage";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /** How long the scanning animation plays before the confirmation shows. */
 const SCAN_MS = 2400;
@@ -30,9 +38,16 @@ function newClientKey(): string {
 export function FindRolesButton({
   initialQuota,
   upgradeHref,
+  locked,
 }: {
   initialQuota: RoleSearchQuota;
   upgradeHref: string;
+  /**
+   * Round 8: before 100%, the button opens a dialog instead of searching. The
+   * first search starts on its own at 100% (verified email); `more` is how many
+   * the performer can then launch this period (the plan's allowance minus it).
+   */
+  locked?: { href: string; more: number };
 }) {
   const t = useTranslations("talents.space.dashboard.findRoles");
   const router = useRouter();
@@ -48,10 +63,12 @@ export function FindRolesButton({
     if (timer.current) clearTimeout(timer.current);
   }, []);
 
-  const exhausted = quota.remaining <= 0;
+  const [lockOpen, setLockOpen] = useState(false);
+  const exhausted = !locked && quota.remaining <= 0;
   const busy = pending || phase === "scanning";
 
   function click() {
+    if (locked) return setLockOpen(true);
     if (busy || exhausted) return;
     setError(undefined);
     keyRef.current ??= newClientKey();
@@ -134,6 +151,21 @@ export function FindRolesButton({
         </Link>
       )}
       <ActionErrorMessage error={error} />
+      {locked && (
+        <Dialog open={lockOpen} onOpenChange={setLockOpen}>
+          <DialogContent data-portal="talents">
+            <DialogHeader>
+              <DialogTitle>{t("locked.title")}</DialogTitle>
+              <DialogDescription>{t("locked.body", { more: locked.more })}</DialogDescription>
+            </DialogHeader>
+            <Button asChild className="self-start">
+              <Link href={locked.href} onClick={() => setLockOpen(false)}>
+                {t("locked.cta")}
+              </Link>
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </section>
   );
 }
