@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.2.0] - 2026-11-22
+
+### Added (round 8, group 3)
+
+- **Location picker**: country first (United States by default, with search), then state or province where the country has them, then a city picked from suggestions as you type (free text refused; "Can't find your city? Pick the nearest one."). Data from GeoNames (CC BY 4.0) in our own database (`GeoCountry`, `GeoAdmin1`, `GeoCity`, 70,101 cities), searched by `/api/geo`; no API key, nothing sent to a third party.
+- **Phone**: country code with flag on the left (+1 by default), the number formatted as typed ((213) 222-7981), validated with `libphonenumber-js` and stored in E.164 in a new column; the typed text stays.
+- **Languages**: chips with search by name or code (FR, EN, ES, ZH); English, Mandarin, Spanish and French pinned, then every ISO 639 language A to Z, Mandarin and Cantonese separate, "Other" as free text.
+- **Accents you can do**: a separate chip list grouped by region (about 200 accents), searchable by any word, "Other" as free text.
+- Existing cities like "Los Angeles, USA" are linked when exactly one place matches; US phone numbers that parse cleanly get their E.164 form. Nothing typed is overwritten.
+
+Migrations `20261206000000_round8_geo` (three new tables, RLS on) and `20261206010000_round8_location_phone` (four nullable columns and backfills into them).
+
 ## [0.6.1.0] - 2026-11-22
 
 ### Changed (round 8, group 2)

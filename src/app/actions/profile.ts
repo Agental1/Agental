@@ -15,6 +15,7 @@ import {
   AvailabilityInput,
 } from "@/domain/profile";
 import { z } from "zod";
+import { isValidPhoneNumber } from "libphonenumber-js";
 import { SpecialtyKind } from "@/domain/enums";
 import {
   isSkillSpecialty,
@@ -53,6 +54,15 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
     return { ok: false, error: zodError(parsed.error) };
   const d = parsed.data;
   const opt = (v: string | undefined) => (v === undefined ? undefined : v || null);
+  // Round 8: only a valid number is stored in E.164.
+  if (d.phoneE164 !== undefined && !isValidPhoneNumber(d.phoneE164))
+    return { ok: false, error: err("errors.phoneInvalid") };
+  // Round 8: a picked city. Its name and codes come from our GeoNames table.
+  const place =
+    d.cityGeonameId === undefined
+      ? null
+      : await prisma.geoCity.findUnique({ where: { geonameId: d.cityGeonameId } });
+  if (d.cityGeonameId !== undefined && !place) return { ok: false, error: err("errors.cityUnknown") };
   const birthDate = d.birthDate === undefined ? undefined : new Date(d.birthDate);
   // Languages and accents are edited in Identity since round 8 but stored with
   // the physical details: merged in, every other trait kept.
@@ -80,7 +90,11 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
             : null,
       physical,
       phone: opt(d.phone),
-      city: opt(d.city),
+      phoneE164: d.phoneE164,
+      city: place ? place.name : opt(d.city),
+      cityGeonameId: place ? place.geonameId : undefined,
+      countryCode: place ? place.countryCode : undefined,
+      admin1Code: place ? place.admin1Code || null : undefined,
       bio: opt(d.bio),
       imdbUrl: d.imdbUrl,
       portfolioUrl: d.portfolioUrl,

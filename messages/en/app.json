@@ -155,7 +155,8 @@
     "responseIncomplete": "Answer every question and add every requested video before submitting.",
     "mediaInResponse": "This video is part of a response the Agental team is reviewing. It can be deleted once the review is done.",
     "mediaWrongCategory": "This category does not take this kind of file.",
-    "ageRangeOrder": "The second age cannot be lower than the first."
+    "ageRangeOrder": "The second age cannot be lower than the first.",
+    "cityUnknown": "Pick your city from the list."
   },
   "auth": {
     "name": "Name",

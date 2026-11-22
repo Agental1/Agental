@@ -25,7 +25,11 @@ export const ProfileIdentity = z.object({
   gender: z.enum(GENDERS).nullish(),
   genderOther: z.string().trim().max(60).optional(),
   phone: z.string().trim().max(40).optional(),
+  /** Round 8: E.164, checked again on the server with libphonenumber. */
+  phoneE164: z.string().regex(/^\+[1-9][0-9]{6,14}$/, "errors.phoneInvalid").optional(),
   city: z.string().trim().max(120).optional(),
+  /** Round 8: a city picked from GeoNames; the server reads its name and codes. */
+  cityGeonameId: z.number().int().positive().optional(),
   /** Adults only, checked as at signup. */
   birthDate: BirthDateInput.optional(),
   /** Stored with the physical details, edited in Identity since round 8. */

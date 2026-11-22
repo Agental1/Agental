@@ -19,6 +19,7 @@ export const COMPLETENESS_SELECT = {
   birthDate: true,
   gender: true,
   city: true,
+  cityGeonameId: true,
   phone: true,
   bio: true,
   physical: true,

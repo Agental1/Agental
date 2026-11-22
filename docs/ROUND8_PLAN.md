@@ -81,3 +81,8 @@ Listed here as they come, and copied into the final report.
 - Group 2 result (production build log, 2026-11-22): 18 profiles; 1 was at 100% before round 8
   and drops below it, missing gender and the playable age range (both new). No other field
   caused a drop for it. 11 profiles have a free-text city, 6 a phone number.
+- Group 3: the geodata is loaded by a migration (multi-row INSERTs, 3.8 MB SQL) so production,
+  previews and local databases get the same rows; GeoNames `cities5000` (70,101 cities) fits the
+  Free plan easily. The trigram index is created where `pg_trgm` exists and skipped quietly
+  elsewhere; the city search itself is a prefix match.
+- Group 3: no school field exists on the profile, so schools (3.5) were not added.

@@ -72,6 +72,9 @@ import {
   type SaveResult,
 } from "@/app/actions/profile";
 import { avatarAsHeadshot } from "@/app/actions/media";
+import { ChipMultiSelect, LocationField, PhoneField } from "./smart-inputs";
+import { LANGUAGE_ORDER, languageMatches } from "@/domain/languages";
+import { ACCENT_GROUPS, accentMatches } from "@/domain/accents";
 import { requestEmailVerification } from "@/app/actions/account-email";
 
 const SKILLS = SpecialtyKind.options.filter(isSkillSpecialty);
@@ -83,7 +86,12 @@ export interface ProfileEditorData {
   gender: string;
   genderOther: string;
   phone: string;
+  /** Round 8: E.164, set once the number is valid. */
+  phoneE164: string;
   city: string;
+  countryCode: string | null;
+  admin1Code: string | null;
+  cityGeonameId: number | null;
   bio: string;
   imdbUrl: string;
   portfolioUrl: string;
@@ -108,9 +116,13 @@ type Draft = ProfileEditorData & { height?: HeightValue };
 
 type Status = "idle" | "saving" | "saved" | "error";
 
-function splitList(v: string) {
-  return v.split(",").map((s) => s.trim()).filter(Boolean);
-}
+const LANGUAGE_NAMES = LANGUAGE_ORDER.map((l) => l.name);
+const LANGUAGE_BY_NAME = new Map(LANGUAGE_ORDER.map((l) => [l.name, l]));
+const matchLanguage = (name: string, q: string) => {
+  const l = LANGUAGE_BY_NAME.get(name);
+  return l ? languageMatches(l, q) : name.toLowerCase().startsWith(q.trim().toLowerCase());
+};
+const ACCENT_OPTIONS = ACCENT_GROUPS.map((g) => ({ heading: g.region, options: g.accents }));
 
 /**
  * Autosave (round 8). Each group of fields (identity, physical, preferences,
@@ -527,6 +539,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
   const e = "space.profileEditor" as const;
   const nf = new Intl.NumberFormat(locale);
   const p = data.physical;
+  const phoneOk = useRef(true);
 
   // One identity payload: every field the tab owns. Absent values keep the
   // stored ones; the birth date is sent once it is complete.
@@ -540,8 +553,9 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
         legalLastName: d.legalLastName,
         gender: d.gender || undefined,
         genderOther: d.genderOther,
-        phone: d.phone,
-        city: d.city,
+        // The phone is sent only once valid (see PhoneField).
+        ...(phoneOk.current ? { phone: d.phone, phoneE164: d.phoneE164 || undefined } : {}),
+        ...(d.cityGeonameId ? { cityGeonameId: d.cityGeonameId } : {}),
         bio: d.bio,
         languages: d.physical.languages,
         accents: d.physical.accents,
@@ -588,10 +602,18 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
         <Field label={t(`${e}.birthDate`)} field="birthDate" required>
           <Input type="date" value={data.birthDate} onChange={(ev) => patch({ birthDate: ev.target.value })} {...blur} />
         </Field>
-        <Field label={t(`${e}.city`)} field="city" required>
-          <Input value={data.city} onChange={(ev) => patch({ city: ev.target.value })} {...blur} />
-        </Field>
       </div>
+      <Field label={t(`${e}.city`)} field="city" required>
+        <LocationField
+          value={{
+            countryCode: data.countryCode,
+            admin1Code: data.admin1Code,
+            cityGeonameId: data.cityGeonameId,
+            city: data.city,
+          }}
+          onChange={(loc) => patch(loc)}
+        />
+      </Field>
       <Field label={t(`${e}.gender`)} field="gender" hint={t(`${e}.genderHint`)} required>
         <Select value={data.gender || undefined} onValueChange={(gender) => patch({ gender })}>
           <SelectTrigger className="w-full" aria-label={t(`${e}.gender`)}>
@@ -616,13 +638,37 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
         )}
       </Field>
       <Field label={t(`${e}.phone`)} field="phone" required>
-        <Input type="tel" autoComplete="tel" value={data.phone} onChange={(ev) => patch({ phone: ev.target.value })} {...blur} />
+        <PhoneField
+          initialE164={data.phoneE164 || null}
+          initialText={data.phone}
+          onValid={({ e164, display }) => {
+            phoneOk.current = true;
+            patch({ phone: display, phoneE164: e164 });
+          }}
+          onInvalid={() => {
+            phoneOk.current = false;
+          }}
+        />
       </Field>
       <Field label={t(`${e}.languages`)} field="languages" required>
-        <Input value={p.languages.join(", ")} onChange={(ev) => setP({ languages: splitList(ev.target.value) })} {...blur} />
+        <ChipMultiSelect
+          label={t(`${e}.languages`)}
+          values={p.languages}
+          onChange={(languages) => setP({ languages })}
+          groups={[{ options: LANGUAGE_NAMES }]}
+          match={matchLanguage}
+          placeholder={t(`${e}.smart.addLanguage`)}
+        />
       </Field>
       <Field label={t(`${e}.accents`)} field="accents">
-        <Input value={p.accents.join(", ")} onChange={(ev) => setP({ accents: splitList(ev.target.value) })} {...blur} />
+        <ChipMultiSelect
+          label={t(`${e}.accents`)}
+          values={p.accents}
+          onChange={(accents) => setP({ accents })}
+          groups={ACCENT_OPTIONS}
+          match={accentMatches}
+          placeholder={t(`${e}.smart.addAccent`)}
+        />
       </Field>
       <Field label={t(`${e}.bio`)} field="bio" required>
         <textarea

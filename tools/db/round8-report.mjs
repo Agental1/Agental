@@ -47,7 +47,12 @@ SELECT
   count(*) FILTER (WHERE was_complete AND no_photo) AS dropped_photo,
   count(*) FILTER (WHERE no_city) AS no_city,
   count(*) FILTER (WHERE NOT no_city) AS with_city_text,
-  count(*) FILTER (WHERE NOT no_phone) AS with_phone
+  count(*) FILTER (WHERE NOT no_phone) AS with_phone,
+  (SELECT count(*) FROM "ArtistProfile" WHERE "cityGeonameId" IS NOT NULL) AS city_linked,
+  (SELECT count(*) FROM "ArtistProfile" WHERE "cityGeonameId" IS NULL AND coalesce(trim(city), '') <> '') AS city_left,
+  (SELECT count(*) FROM "ArtistProfile" WHERE "phoneE164" IS NOT NULL) AS phone_linked,
+  (SELECT count(*) FROM "ArtistProfile" WHERE "phoneE164" IS NULL AND coalesce(trim(phone), '') <> '') AS phone_left,
+  (SELECT count(*) FROM "GeoCity") AS geo_cities
 FROM p`;
 
 const client = new pg.Client({ connectionString: target.url, ssl: { rejectUnauthorized: false } });
