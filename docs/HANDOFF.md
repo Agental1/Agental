@@ -2,6 +2,33 @@
 
 Updated 2026-11-21. Read this first, then `docs/STATUS.md` (every task of the first two briefs) and `docs/FRONTEND_BACKEND_HANDOFF.md` (contracts between the two working sessions).
 
+## Round 7b (2026-11-22): start here
+
+Brief: owner's `Agental_Cowork_Round7b_Prompt.md` (Desktop). Groups 1 and 2 are done on branch
+`round7b`, PR Agental1/Agental#14 (v0.5.5.2), **not merged and not deployed**: auto mode blocked
+`gh pr merge`, so the owner has to merge it (or allow the merge) before the deploy.
+
+Deploy once merged: `npx vercel deploy --prod --yes` from a clean `frontend-redesign` checkout
+(the build applies `20261129000000_settings_consent` and `20261130000000_media_categories`, both
+additive), then check `/en/talents/app` (one profile block, avatar menu), `/parametres`, Profile >
+Media, `/site`; tag `live-<date>-r7b-g2` (and note it covers g1), add the RELEASES row. Rollback:
+`vercel promote agental-h6k87gtud-agentalco.vercel.app`.
+
+Root cause 2.2: the dashboard "Create your website" card opened the public Limelight page, which is
+pre-rendered and always shows "Sign in", so the person looked signed out (the session was intact).
+The card now opens Website in the app, which has the request form when no site exists.
+
+2.3: HEIC photos (iPhone) were stored as is and only Safari draws them; videos never had a preview.
+HEIC is converted to JPEG in the browser (heic2any, loaded on demand), videos show a frame and a
+player, audio a player, and an undrawable file says so. Existing HEIC files stay HEIC: in Chrome they
+show "No preview in this browser", and a re-upload fixes them.
+
+Not checked: focus landing on the field after a deep link (the preview pane has no window focus,
+so `focus()` is ignored there; links and `data-field` targets are correct), the self-tape Download
+button (no camera in the pane), anything on production.
+
+Next: Group 3 on Opus (the owner switches model and says "continue").
+
 ## Round 7 (2026-11-21): start here
 
 Brief: owner's `Agental_Cowork_Round7_Prompt.md` (Desktop). Plan: `docs/ROUND7_PLAN.md`. n8n
