@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Check, X } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
@@ -27,7 +27,7 @@ export interface FoundRole {
 }
 
 /**
- * One role found (round 8b): the full description of what is asked first,
+ * One role found (round 8b, 8c): "Get more details" opens the full description of what is asked,
  * then a green Accept and a red Decline. Accept takes the role on ("Accepted:
  * the Agental team is on it") and opens the existing response flow. Decline
  * records the decision and takes the role off the list, with Undo for a few
@@ -39,6 +39,7 @@ export function FoundRoleCard({ role }: { role: FoundRole }) {
   const [hidden, setHidden] = useState(false);
   const [error, setError] = useState<ActionError | undefined>();
   const [pending, start] = useTransition();
+  const [details, setDetails] = useState(false);
   const open = status === "DRAFT" || status === "NEEDS_INFO";
 
   function accept() {
@@ -88,7 +89,6 @@ export function FoundRoleCard({ role }: { role: FoundRole }) {
         {role.role ? `${role.role} · ` : ""}
         {role.project}
       </h3>
-      {open && <p className="mt-1 text-sm text-fg-muted">{t("intro")}</p>}
 
       <dl className="mt-4 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
         {rows.map(([label, value]) => (
@@ -99,41 +99,59 @@ export function FoundRoleCard({ role }: { role: FoundRole }) {
         ))}
       </dl>
 
-      <div className="mt-4 text-sm">
-        <p className="text-fg-muted">{t("toSend")}</p>
-        {role.questions.length === 0 && role.videos.length === 0 ? (
-          <p className="font-medium">{t("nothingToSend")}</p>
-        ) : (
-          <ul className="mt-1 list-disc space-y-0.5 pl-5">
-            {role.videos.map((v, i) => (
-              <li key={`v${i}`}>{t("video", { n: i + 1, text: v })}</li>
-            ))}
-            {role.questions.map((q, i) => (
-              <li key={`q${i}`}>{t("question", { n: i + 1, text: q })}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {/* Round 8c: the full description opens first; Accept and Decline come after it. */}
+      <Button
+        variant="outline"
+        size="sm"
+        className="mt-4"
+        aria-expanded={details}
+        aria-controls={`role-details-${role.id}`}
+        onClick={() => setDetails((d) => !d)}
+      >
+        {details ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
+        {details ? t("lessDetails") : t("moreDetails")}
+      </Button>
+      {details && (
+        <div id={`role-details-${role.id}`}>
+          <div className="mt-4 text-sm">
+            <p className="text-fg-muted">{t("toSend")}</p>
+            {role.questions.length === 0 && role.videos.length === 0 ? (
+              <p className="font-medium">{t("nothingToSend")}</p>
+            ) : (
+              <ul className="mt-1 list-disc space-y-0.5 pl-5">
+                {role.videos.map((v, i) => (
+                  <li key={`v${i}`}>{t("video", { n: i + 1, text: v })}</li>
+                ))}
+                {role.questions.map((q, i) => (
+                  <li key={`q${i}`}>{t("question", { n: i + 1, text: q })}</li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-      {role.description && (
-        <details className="mt-3 text-sm">
-          <summary className="cursor-pointer font-bold">{t("fullNotice")}</summary>
-          <p className="mt-2 whitespace-pre-wrap text-fg-muted">{role.description}</p>
-        </details>
-      )}
-      {role.sourceUrl && (
-        <a
-          href={role.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-          className="mt-2 inline-block text-sm font-bold text-accent hover:underline"
-        >
-          {t("source", { host: role.sourceHost ?? "" })}
-        </a>
+          {role.description && (
+            <div className="mt-3 text-sm">
+              <p className="font-bold">{t("fullNotice")}</p>
+              <p className="mt-1 whitespace-pre-wrap text-fg-muted">{role.description}</p>
+            </div>
+          )}
+          {role.sourceUrl && (
+            <a
+              href={role.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="mt-2 inline-block text-sm font-bold text-accent hover:underline"
+            >
+              {t("source", { host: role.sourceHost ?? "" })}
+            </a>
+          )}
+        </div>
       )}
 
       <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-border pt-4">
-        {open ? (
+        {open && !details ? (
+          <p className="text-sm text-fg-muted">{t("intro")}</p>
+        ) : open ? (
           <>
             <Button
               onClick={accept}

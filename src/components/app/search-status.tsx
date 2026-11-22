@@ -12,10 +12,10 @@ const REFRESH_MS = 30_000;
 
 /** Where each count opens Applications. */
 const STATUS_HREF = {
-  queued: "/talents/app/candidatures#search-queue",
-  running: "/talents/app/candidatures#search-running",
-  finished: "/talents/app/candidatures#search-finished",
-  rolesFound: "/talents/app/candidatures#search-finished",
+  queued: "/talents/app/candidatures?view=queue",
+  running: "/talents/app/candidatures?view=running",
+  finished: "/talents/app/candidatures?view=finished",
+  rolesFound: "/talents/app/candidatures?view=finished",
 } as const;
 
 /**

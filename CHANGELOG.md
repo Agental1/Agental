@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.9.0] - 2026-11-22
+
+### Changed (round 8c, group A)
+
+- **Preferences reads as a numbered list**: each question has its number, 1 to 6 in the left column, 7 to 10 in the right one (ages, skills, how we tell you about a role, content boundaries). On a phone the single column reads 1 to 10.
+- **Build takes several choices** (for example Athletic and Muscular), still with "Add your own". The choices show as small chips in the middle of the Build tile, each with a remove button. Saved in the same column, joined by commas; an earlier single value reads as one choice.
+- **Every Physical tile shows its value in the middle**: height, weight (in the unit shown), hair color and length, eyes, tattoos, piercings, clothing sizes and shoe size.
+- **Applications opens on three buttons**: "Search in queue", "Search in progress" and "Search finished", each with its count. The button pressed shows its list below (start times for the queue, start time for running searches, roles found for finished ones). Each role found has "Get more details", which opens the full description of what is asked, then the green Accept and red Decline. The dashboard Status line opens Applications on the matching button (`?view=queue|running|finished`).
+
+No migration.
+
 ## [0.6.8.0] - 2026-11-22
 
 ### Added (round 8b, group 4)

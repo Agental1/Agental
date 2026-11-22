@@ -933,7 +933,7 @@
         "startsIn": "Starts in about {hours, plural, one {# hour} other {# hours}}"
       },
       "running": {
-        "title": "Search running",
+        "title": "Search in progress",
         "empty": "No search running right now."
       },
       "finished": {
@@ -967,7 +967,12 @@
         "dateFrom": "From {from}",
         "remote": "Remote",
         "unpaid": "Unpaid",
-        "paid": "Paid, amount not given"
+        "paid": "Paid, amount not given",
+        "moreDetails": "Get more details",
+        "lessDetails": "Hide the details"
+      },
+      "states": {
+        "label": "Your searches"
       }
     },
     "career": {
@@ -1366,7 +1371,8 @@
       },
       "optional": "(optional)",
       "addOwn": "Add your own",
-      "addOwnPlaceholder": "Describe your build"
+      "addOwnPlaceholder": "Describe your build",
+      "addMore": "Add another"
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",

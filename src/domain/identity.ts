@@ -125,3 +125,21 @@ export function matchOption(options: readonly string[], raw: string | null | und
   const syn = SYNONYMS[v];
   return syn && options.includes(syn) ? syn : null;
 }
+
+/**
+ * Build holds several choices since round 8c ("Athletic, Muscular"), in the same
+ * text column. A value saved before (one choice, or the person's own words)
+ * reads as a list of one.
+ */
+export const MULTI_SEPARATOR = ", ";
+
+export function splitMulti(raw: string | null | undefined): string[] {
+  return (raw ?? "")
+    .split(/\s*[,;]\s*/)
+    .map((v) => v.trim())
+    .filter(Boolean);
+}
+
+export function joinMulti(values: readonly string[]): string {
+  return values.map((v) => v.replace(/[,;]/g, " ").replace(/\s+/g, " ").trim()).filter(Boolean).join(MULTI_SEPARATOR);
+}
