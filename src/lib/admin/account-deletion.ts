@@ -212,12 +212,22 @@ export async function deleteEligibleAccounts(
   typed: string,
   fingerprint: string,
   now = new Date(),
-  scope: DeletionScope = {}
+  scope: DeletionScope = {},
+  /**
+   * Round 8c: the accounts ticked on the page. Only accounts still on the
+   * eligible list can be deleted; an id that is not (any more) refuses the
+   * whole run. Undefined means every eligible account, as before.
+   */
+  selectedIds?: string[]
 ): Promise<DeleteResult> {
-  const rows = await listDeletionCandidates(days, now, scope);
+  const all = await listDeletionCandidates(days, now, scope);
+  if (all.length === 0) return { ok: false, reason: "empty" };
+  if (fingerprint !== candidatesFingerprint(all, days)) return { ok: false, reason: "changed" };
+  const picked = selectedIds ? new Set(selectedIds) : null;
+  if (picked && [...picked].some((id) => !all.some((r) => r.id === id))) return { ok: false, reason: "changed" };
+  const rows = picked ? all.filter((r) => picked.has(r.id)) : all;
   if (rows.length === 0) return { ok: false, reason: "empty" };
   if (typed.trim() !== confirmationPhrase(rows.length)) return { ok: false, reason: "confirmation" };
-  if (fingerprint !== candidatesFingerprint(rows, days)) return { ok: false, reason: "changed" };
 
   const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
   const storage = await getStorage();

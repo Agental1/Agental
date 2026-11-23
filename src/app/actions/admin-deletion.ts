@@ -26,7 +26,10 @@ export async function sendDeletionWarningsForm(formData: FormData): Promise<void
   back(locale, days, { warned: String(res.sent), remaining: String(res.remaining) });
 }
 
-/** "Delete all eligible", with the typed confirmation. Admins only. */
+/**
+ * "Delete the ticked accounts", with the typed confirmation ("DELETE <number
+ * ticked>"). Every eligible account is ticked by default (round 8c). Admins only.
+ */
 export async function deleteEligibleAccountsForm(formData: FormData): Promise<void> {
   const locale = String(formData.get("locale") ?? "en");
   const days = deletionDays(String(formData.get("days") ?? ""), deletionDays(process.env.ACCOUNT_DELETION_AFTER_DAYS));
@@ -36,7 +39,10 @@ export async function deleteEligibleAccountsForm(formData: FormData): Promise<vo
     adminId,
     days,
     String(formData.get("confirm") ?? ""),
-    String(formData.get("fingerprint") ?? "")
+    String(formData.get("fingerprint") ?? ""),
+    undefined,
+    undefined,
+    formData.getAll("ids").map(String).filter((id) => id.length > 0 && id.length < 64)
   );
   revalidatePath("/[locale]/admin/suppression", "page");
   revalidatePath("/[locale]/admin/comptes", "page");

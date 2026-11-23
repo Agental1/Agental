@@ -552,22 +552,24 @@
         "created": "Creada",
         "status": "Estado",
         "warned": "Avisada",
-        "media": "Medios"
+        "media": "Medios",
+        "pick": "Eliminar"
       },
       "warnTitle": "Avisar primero (opcional)",
       "warnBody": "Envía «verifica tu correo en {days} días o se eliminará tu cuenta» con un enlace de confirmación, una vez por cuenta.",
       "warnCta": "Enviar el correo de aviso",
       "noSender": "No hay remitente configurado (RESEND_API_KEY): no se enviaría nada.",
       "warned": "{count, plural, one {# correo de aviso enviado.} other {# correos de aviso enviados.}}",
-      "deleteTitle": "Eliminar todas las elegibles",
-      "deleteBody": "Elimina para siempre {count} cuentas, sus perfiles y sus archivos, con una entrada de auditoría cada una. No se puede deshacer.",
-      "typeToConfirm": "Escribe {phrase} para confirmar",
-      "deleteCta": "Eliminar {count} cuentas",
+      "deleteTitle": "Eliminar cuentas",
+      "deleteBody": "Desmarca las cuentas que quieras conservar. Las cuentas marcadas, sus perfiles y sus archivos se eliminan para siempre, con una entrada de auditoría cada una. No se puede deshacer.",
+      "typeToConfirm": "Escribe DELETE y el número de cuentas marcadas para confirmar (todas marcadas: {example})",
+      "deleteCta": "Eliminar las cuentas marcadas",
       "badConfirmation": "La confirmación no coincide con la lista. No se eliminó nada.",
       "nothing": "No hay nada que eliminar.",
       "deleted": "{count, plural, one {# cuenta eliminada} other {# cuentas eliminadas}}, {failed} sin eliminar (ver los registros).",
       "listChanged": "La lista cambió desde que se cargó la página. No se eliminó nada: revisa la lista de nuevo.",
-      "remaining": "{count, plural, one {Queda # cuenta: vuelve a ejecutarlo.} other {Quedan # cuentas: vuelve a ejecutarlo.}}"
+      "remaining": "{count, plural, one {Queda # cuenta: vuelve a ejecutarlo.} other {Quedan # cuentas: vuelve a ejecutarlo.}}",
+      "pickOne": "Eliminar {email}"
     },
     "views": {
       "profilesSubtitle": "{count, plural, one {# perfil} other {# perfiles}}, del más reciente al más antiguo. La completitud usa la misma regla que la aplicación.",

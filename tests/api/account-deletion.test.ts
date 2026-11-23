@@ -106,3 +106,38 @@ describe.skipIf(!local)("account cleanup on the database", () => {
     expect(csv).toContain("'=HYPERLINK(1)@x.com");
   });
 });
+
+describe.skipIf(!local)("account cleanup: deleting only the ticked accounts (round 8c)", () => {
+  const Q = "test-deletion-pick-";
+  const ids: Record<string, string> = {};
+  let admin = "";
+  const scope = { emailPrefix: Q };
+  beforeAll(async () => {
+    admin = (await prisma.user.create({ data: { email: `${Q}admin@test.local`, isAdmin: true, emailVerified: now } })).id;
+    for (const name of ["a", "b", "c"])
+      ids[name] = (await prisma.user.create({ data: { email: `${Q}${name}@test.local`, kind: "TALENT", passwordHash: "x", createdAt: old } })).id;
+  });
+  afterAll(async () => {
+    await prisma.auditLog.deleteMany({ where: { resourceId: { in: Object.values(ids) } } });
+    await prisma.user.deleteMany({ where: { email: { startsWith: Q } } });
+  });
+
+  it("deletes the ticked accounts only, counts them in the phrase, and refuses an id off the list", async () => {
+    const rows = await listDeletionCandidates(7, now, scope);
+    expect(rows).toHaveLength(3);
+    const print = listFingerprint(rows.map((r) => r.id), 7);
+    // The phrase counts the ticked accounts, not the whole list.
+    expect(await deleteEligibleAccounts(admin, 7, "DELETE 3", print, now, scope, [ids.a, ids.b])).toEqual({ ok: false, reason: "confirmation" });
+    // An id that is not on the eligible list refuses the whole run.
+    expect(await deleteEligibleAccounts(admin, 7, "DELETE 2", print, now, scope, [ids.a, admin])).toEqual({ ok: false, reason: "changed" });
+    expect(await prisma.user.count({ where: { id: { in: [ids.a, ids.b, ids.c] } } })).toBe(3);
+    expect(await deleteEligibleAccounts(admin, 7, "DELETE 2", print, now, scope, [ids.a, ids.b])).toEqual({
+      ok: true,
+      deleted: 2,
+      failed: 0,
+      remaining: 0,
+    });
+    expect(await prisma.user.count({ where: { id: ids.c } })).toBe(1);
+    expect(await prisma.user.count({ where: { id: { in: [ids.a, ids.b] } } })).toBe(0);
+  });
+});
