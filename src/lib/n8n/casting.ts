@@ -101,6 +101,7 @@ const SCHEDULED_PER_CLAIM = 50;
  * recorded, flagged and alerted. TODO(founders) in docs/DECISIONS.md.
  */
 export const DEFAULT_SEARCH_COST_CEILING_USD = 0.5;
+export const CEILING_ERROR = "stopped at the cost ceiling";
 export function searchCostCeilingUsd(env: Record<string, string | undefined> = process.env): number {
   const n = Number.parseFloat((env.SEARCH_COST_CEILING_USD ?? "").trim());
   return Number.isFinite(n) && n > 0 && n <= 20 ? n : DEFAULT_SEARCH_COST_CEILING_USD;
@@ -130,6 +131,12 @@ export async function queueScheduledSearches(now: Date, mode: WorkflowMode): Pro
     // Round 8b: a performer with a search already waiting gets no extra one,
     // so their own searches are not pushed back 6 hours at a time.
     if ((await prisma.roleSearchRequest.count({ where: { userId: u.id, status: "queued" } })) > 0) continue;
+    // Round 9: a failed search gives its place back, so a performer whose searches
+    // keep hitting the cost ceiling gets no new automatic one for a day.
+    const stopped = await prisma.roleSearchRequest.count({
+      where: { userId: u.id, status: "failed", error: CEILING_ERROR, completedAt: { gt: new Date(now.getTime() - 24 * 60 * 60 * 1000) } },
+    });
+    if (stopped >= 2) continue;
     if (!(await agentEligibility(u.id, { mode, now })).ok) continue;
     const res = await startRoleSearch(u.id, `auto6h_${window}`, now, mode, true);
     if (res.ok && !res.duplicate) queued += 1;
@@ -314,10 +321,11 @@ export type RankedRole = z.infer<typeof RankedRole>;
 export const UsageInput = z.object({
   provider: z.enum(["openai", "perplexity", "anthropic"]),
   model: text(80).nullish(),
-  inputTokens: z.number().int().min(0).max(50_000_000).catch(0),
-  outputTokens: z.number().int().min(0).max(50_000_000).catch(0),
-  requests: z.number().int().min(0).max(10_000).catch(0),
-  costUsd: z.number().min(0).max(1000).catch(0),
+  // Out-of-range values are capped, never zeroed: a runaway must still show and alert.
+  inputTokens: z.number().int().min(0).catch(0).transform((v) => Math.min(v, 50_000_000)),
+  outputTokens: z.number().int().min(0).catch(0).transform((v) => Math.min(v, 50_000_000)),
+  requests: z.number().int().min(0).catch(0).transform((v) => Math.min(v, 10_000)),
+  costUsd: z.number().min(0).catch(0).transform((v) => Math.min(v, 100)),
 });
 
 const ResultInput = z.object({
@@ -373,18 +381,18 @@ async function completeOne(
       SELECT id, "userId", status, "claimedBy" FROM "public"."role_search_requests"
       WHERE id = ${requestId} FOR UPDATE`;
     if (!row) return { requestId, outcome: "unknown_request" as const };
-    if (["done", "failed", "canceled"].includes(row.status)) return { requestId, outcome: "already_recorded" as const };
-    if (row.status !== "running" || row.claimedBy !== executionId) return { requestId, outcome: "not_claimed" as const };
-
-    // Round 9: what this search cost, whatever its outcome (a failed search
-    // still spent). One row per provider; a retry never counts twice.
-    const spent = await recordUsage(tx, requestId, r.usage);
+    // Round 9: what this search cost, whatever its outcome (a failed or timed-out
+    // search still spent), from the execution that claimed it. One row per
+    // provider: a retry never counts twice.
+    const spent = row.claimedBy === executionId ? await recordUsage(tx, requestId, r.usage) : { costMicroUsd: 0, requests: 0 };
     const ceilingMicro = Math.round(searchCostCeilingUsd() * 1_000_000);
     if (spent.costMicroUsd > ceilingMicro) await flagOverCeiling(tx, requestId, spent.costMicroUsd, ceilingMicro, now);
+    if (["done", "failed", "canceled"].includes(row.status)) return { requestId, outcome: "already_recorded" as const };
+    if (row.status !== "running" || row.claimedBy !== executionId) return { requestId, outcome: "not_claimed" as const };
     if (r.status === "cost_ceiling") {
       await tx.roleSearchRequest.update({
         where: { id: requestId },
-        data: { status: "failed", completedAt: now, error: "stopped at the cost ceiling" },
+        data: { status: "failed", completedAt: now, error: CEILING_ERROR },
       });
       return { requestId, outcome: "failed" as const };
     }
@@ -504,7 +512,8 @@ function dayOrNull(v: string | null | undefined): Date | null {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec((v ?? "").trim());
   if (!m) return null;
   const d = new Date(`${m[1]}-${m[2]}-${m[3]}T00:00:00Z`);
-  return Number.isNaN(d.getTime()) ? null : d;
+  // "2026-02-31" would roll over to March: refused.
+  return Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== `${m[1]}-${m[2]}-${m[3]}` ? null : d;
 }
 
 type Tx = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
@@ -527,9 +536,11 @@ async function recordUsage(tx: Tx, requestId: string, usage: z.infer<typeof Usag
     });
   }
   const rows = await tx.aiUsage.findMany({ where: { kind: "casting.search", ref: requestId }, select: { costMicroUsd: true, requests: true } });
+  // Clamped to a 32-bit integer (WorkflowRun columns): a total can never abort the write.
+  const INT_MAX = 2_147_483_647;
   return {
-    costMicroUsd: rows.reduce((a, r) => a + r.costMicroUsd, 0),
-    requests: rows.reduce((a, r) => a + r.requests, 0),
+    costMicroUsd: Math.min(INT_MAX, rows.reduce((a, r) => a + r.costMicroUsd, 0)),
+    requests: Math.min(INT_MAX, rows.reduce((a, r) => a + r.requests, 0)),
   };
 }
 

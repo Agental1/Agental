@@ -152,6 +152,17 @@ describe.skipIf(!local)("round 9: searches through n8n, three fictional performe
     expect(await prisma.applicationDraft.count({ where: { profile: { userId: ids.basic } } })).toBe(2);
   });
 
+  it("records the cost of a late completion from the claiming execution, once", async () => {
+    const req = (await prisma.roleSearchRequest.findFirstOrThrow({ where: { userId: ids.basic }, select: { id: true } })).id;
+    const late = { executionId: "r9exec1", results: [{ requestId: req, status: "completed", roles: [], usage: [{ provider: "anthropic", inputTokens: 10, outputTokens: 5, requests: 1, costUsd: 0.001 }] }] };
+    expect((await call(completeRoute, late)).json.results[0].outcome).toBe("already_recorded");
+    await call(completeRoute, late);
+    expect(await prisma.aiUsage.count({ where: { ref: req } })).toBe(3);
+    const other = { ...late, executionId: "someone-else" };
+    await call(completeRoute, { ...other, results: [{ ...late.results[0], usage: [{ provider: "openai", costUsd: 5 }] }] });
+    expect(await prisma.aiUsage.count({ where: { ref: req } })).toBe(3);
+  });
+
   it("alerts the admins once when a search went over its ceiling", async () => {
     const n = await prisma.notification.count({ where: { userId: adminId, kind: "ALERT", title: { contains: "cost ceiling" } } });
     expect(n).toBe(1);
