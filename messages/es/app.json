@@ -266,7 +266,8 @@
       "announcements": "Anuncios",
       "projects": "Proyectos",
       "controls": "Controles",
-      "replies": "Respuestas por aprobar"
+      "replies": "Respuestas por aprobar",
+      "ai": "Cuentas de IA"
     },
     "stats": {
       "artists": "Artistas",
@@ -848,6 +849,15 @@
         "on": "Activados",
         "off": "Desactivados",
         "lead": "El texto de \"papeles encontrados\" para artistas que eligieron texto o ambos y dieron su consentimiento, como máximo uno al día, con STOP y HELP. Solo se activa con SMS_ENABLED=true y los ajustes de Twilio, tras el registro ante los operadores de EE. UU. (docs/HANDOFF.md)."
+      },
+      "pause": {
+        "title": "Pausar todo",
+        "lead": "Detiene al momento: las búsquedas con IA (esperan en la cola), las respuestas con IA del asistente (respuestas por reglas en su lugar), los correos y textos automáticos y los borradores de respuesta a correos recibidos. Los correos de cuenta y tus respuestas manuales siguen funcionando. Queda en el registro de auditoría.",
+        "isRunning": "En marcha.",
+        "isPaused": "En pausa desde {since}.",
+        "pause": "Pausar todo",
+        "resume": "Reanudar",
+        "banner": "Todo lo automático está en pausa. Abre Controles para reanudar."
       }
     },
     "replies": {
@@ -882,6 +892,32 @@
         "not_found": "Este borrador ya no existe.",
         "forbidden": "No permitido."
       }
+    },
+    "ai": {
+      "title": "Cuentas de IA",
+      "subtitle": "Los últimos 30 días: búsquedas, respuestas del asistente, correos, textos y el coste de IA por proveedor frente a cada presupuesto mensual. Solo lectura: nada aquí puede añadir dinero en un proveedor. Las alertas van a la campana y a contact@agental.co cuando un presupuesto pasa del 80 % o el workflow de casting falla una y otra vez.",
+      "tiles": {
+        "searches": "Búsquedas con IA",
+        "searchesSub": "{done} hechas, {failed} fallidas, {queued} en espera",
+        "replies": "Respuestas con IA del asistente",
+        "emails": "Correos",
+        "texts": "Textos enviados"
+      },
+      "cost": "Coste de IA por proveedor",
+      "cols": {
+        "provider": "Proveedor",
+        "jobs": "Tareas",
+        "tokens": "Tokens",
+        "spent": "Gastado (30 días)",
+        "budget": "Presupuesto mensual",
+        "used": "Usado"
+      },
+      "noBudget": "Sin definir",
+      "costNote": "Según lo registra la app (las búsquedas informan su coste desde n8n, el asistente en cada respuesta). La cifra del proveedor está en la tarjeta del panel cuando su clave de admin está puesta. Escribe cada presupuesto en esa tarjeta.",
+      "emails": "Correos por tipo",
+      "texts": "Textos",
+      "none": "Ninguno en los últimos 30 días.",
+      "balances": "Saldos, presupuestos y umbrales de alerta: en el panel"
     }
   },
   "matchReasons": {

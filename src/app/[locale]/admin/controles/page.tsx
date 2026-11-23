@@ -4,11 +4,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { approvedEmailCategories } from "@/lib/app-settings";
+import { approvedEmailCategories, pauseState } from "@/lib/app-settings";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
-import { setEmailApprovalForm } from "@/app/actions/admin-controls";
+import { setEmailApprovalForm, setPauseForm } from "@/app/actions/admin-controls";
+import { dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -28,7 +29,7 @@ export default async function ControlsPage({ params, searchParams }: { params: P
   if (!adminId) notFound();
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
-  const approved = await approvedEmailCategories();
+  const [approved, pause] = await Promise.all([approvedEmailCategories(), pauseState()]);
   await audit({ actorUserId: adminId, action: "admin.view.controls", resourceType: "AppSetting", resourceId: "*" });
   const c = "admin.controls" as const;
   const mode = workflowMode();
@@ -44,6 +45,23 @@ export default async function ControlsPage({ params, searchParams }: { params: P
           {t(`${c}.saved`)}
         </p>
       )}
+      <section aria-labelledby="pause" className={`space-y-3 rounded-sedan border p-5 ${pause.paused ? "border-danger bg-danger/5" : "border-border bg-surface"}`}>
+        <h2 id="pause" className="font-display text-xl font-medium">
+          {t(`${c}.pause.title`)}
+        </h2>
+        <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.pause.lead`)}</p>
+        <p className="text-sm font-bold">
+          {pause.paused ? t(`${c}.pause.isPaused`, { since: pause.since ? dateTime(new Date(pause.since), locale) : "" }) : t(`${c}.pause.isRunning`)}
+        </p>
+        <form action={setPauseForm}>
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="paused" value={pause.paused ? "0" : "1"} />
+          <button className={`h-11 rounded-full px-6 text-sm font-bold ${pause.paused ? "bg-accent text-[var(--accent-fg)]" : "bg-danger text-white"}`}>
+            {pause.paused ? t(`${c}.pause.resume`) : t(`${c}.pause.pause`)}
+          </button>
+        </form>
+      </section>
+
       <section aria-labelledby="emails" className="space-y-3">
         <h2 id="emails" className="font-display text-xl font-medium">
           {t(`${c}.emails.title`)}

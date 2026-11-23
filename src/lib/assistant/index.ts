@@ -15,6 +15,7 @@ import { buildAssistantContext } from "./context";
 import { prisma } from "@/lib/db";
 import { askModel, clip, assistantDailyLimit, assistantModelEnabled, assistantMonthlyBudgetUsd, HAIKU_PRICE, assistantModel } from "./model";
 import { workflowMode } from "@/domain/workflow/eligibility";
+import { isPaused } from "@/lib/app-settings";
 
 /**
  * Answer a performer's message as the Agental assistant: the model when it is
@@ -97,6 +98,8 @@ async function recordReplyUsage(ref: string | undefined, usage: { inputTokens: n
  * deleted accounts. Everyone else gets the rule-based answers.
  */
 async function modelAllowedFor(userId: string): Promise<boolean> {
+  // Round 9: the pause switch sends everyone to the rule-based answers.
+  if (await isPaused()) return false;
   const u = await prisma.user.findUnique({ where: { id: userId }, select: { accountStatus: true, deletedAt: true } });
   if (!u || u.deletedAt) return false;
   if (workflowMode() !== "live") return u.accountStatus === "TEST";

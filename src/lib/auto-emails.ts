@@ -9,7 +9,7 @@ import { unsubscribeUrls, type EmailCategory } from "@/lib/email-unsubscribe";
 import { siteBaseUrl } from "@/lib/email-tokens";
 import { toLocale, type Locale } from "@/i18n/routing";
 import { workflowMode } from "@/domain/workflow/eligibility";
-import { approvedEmailCategories } from "@/lib/app-settings";
+import { approvedEmailCategories, isPaused } from "@/lib/app-settings";
 import { SMS_TEXT, sendSms, smsConfig } from "@/lib/sms";
 
 /**
@@ -94,7 +94,9 @@ export async function runAutoEmails(
   const outOfTime = () => Date.now() - started > TIME_BUDGET_MS;
   const counts: AutoEmailCounts = { roles_found: 0, application_update: 0, message_reply: 0, welcome: 0, skipped: false };
   // Without a sender nothing is claimed: the items wait (for at most a week).
-  if (opts.paused || !emailSenderConfigured(env)) return { ...counts, skipped: true };
+  // The pause switch (Admin > Controls) stops every automatic email and text.
+  const paused = opts.paused ?? (await isPaused());
+  if (paused || !emailSenderConfigured(env)) return { ...counts, skipped: true };
   // Founder rule: a category goes out only once staff approved it (Admin > Controls).
   const approved = opts.approved ?? (await approvedEmailCategories());
   if (approved.size === 0) return { ...counts, skipped: true };
