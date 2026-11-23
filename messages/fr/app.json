@@ -171,7 +171,8 @@
     "uscEmailTaken": "Cette adresse USC a déjà vérifié un autre compte.",
     "adminCodeWrong": "Ce code n’est pas bon. Tape le code le plus récent de ton application d’authentification.",
     "legalNameRequired": "Saisis ton prénom et ton nom légaux.",
-    "genderRequired": "Choisis ton genre."
+    "genderRequired": "Choisis ton genre.",
+    "onboardingIncomplete": "Une étape manque encore. Termine-la, puis continue."
   },
   "auth": {
     "name": "Nom",

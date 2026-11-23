@@ -319,7 +319,8 @@
     "codeResend": "发送新验证码",
     "codeExpiry": "验证码 10 分钟内有效。如果没看到，请检查垃圾邮件文件夹。",
     "bannerCodeTitle": "验证你的电子邮件以开始寻找角色。",
-    "bannerSendCode": "给我发送验证码"
+    "bannerSendCode": "给我发送验证码",
+    "codeWrongAddress": "地址错误？退出并重新开始"
   },
   "privacy": {
     "meta": {

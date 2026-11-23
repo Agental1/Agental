@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { MailWarning } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { confirmMyEmailCode, sendMyEmailCode } from "@/app/actions/account-email";
+import { logoutAction } from "@/app/actions/auth";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -132,7 +133,7 @@ export function EmailCodeForm({
 }
 
 /** The screen right after a password sign-up (/verifier without a token). */
-export function EmailCodeScreen({ email, next }: { email: string; next: string }) {
+export function EmailCodeScreen({ email, next, liveCode }: { email: string; next: string; liveCode: boolean }) {
   const t = useTranslations("common.emailFlow");
   const router = useRouter();
   return (
@@ -140,7 +141,16 @@ export function EmailCodeScreen({ email, next }: { email: string; next: string }
       <div className="space-y-1.5 text-center">
         <h1 className="text-2xl">{t("codeTitle")}</h1>
       </div>
-      <EmailCodeForm email={email} onVerified={() => router.replace(next)} />
+      {/* Coming back later with no live code: a new one goes out at once. */}
+      <EmailCodeForm email={email} sendOnMount={!liveCode} onVerified={() => router.replace(next)} />
+      <form action={logoutAction} className="text-center">
+        <button
+          type="submit"
+          className="inline-flex min-h-11 items-center text-[14.5px] font-bold text-accent underline-offset-4 hover:underline"
+        >
+          {t("codeWrongAddress")}
+        </button>
+      </form>
     </div>
   );
 }

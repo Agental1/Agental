@@ -319,7 +319,8 @@
     "codeResend": "Send a new code",
     "codeExpiry": "The code works for 10 minutes. Check your spam folder if you don't see it.",
     "bannerCodeTitle": "Verify your email to start finding roles.",
-    "bannerSendCode": "Send me a code"
+    "bannerSendCode": "Send me a code",
+    "codeWrongAddress": "Wrong address? Sign out and start again"
   },
   "privacy": {
     "meta": {

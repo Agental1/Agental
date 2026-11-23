@@ -48,5 +48,8 @@ export default async function VerifyEmailPage({
   const next = user && !user.onboardingCompletedAt ? onboardingHome(user.kind, locale) : `/${locale}/continuer`;
   // Google accounts and verified ones have nothing to do here.
   if (!user || user.emailVerified || !user.passwordHash) return redirect({ href: next.replace(/^\/[a-z]{2}/, ""), locale });
-  return <EmailCodeScreen email={session.user.email} next={next.replace(/^\/[a-z]{2}/, "")} />;
+  const liveCode = await prisma.emailVerificationCode.count({
+    where: { userId: session.user.id, consumedAt: null, expiresAt: { gt: new Date() }, attempts: { lt: 5 } },
+  });
+  return <EmailCodeScreen email={session.user.email} next={next.replace(/^\/[a-z]{2}/, "")} liveCode={liveCode > 0} />;
 }

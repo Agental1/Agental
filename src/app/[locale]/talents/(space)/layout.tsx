@@ -8,6 +8,7 @@ import { Avatar, AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
 import { VerifyEmailCodeBanner } from "@/components/auth/email-code";
+import { emailCodeAvailable } from "@/lib/email-code";
 import { ConsentSync } from "@/components/consent/consent-sync";
 import { syncAccountPrefs } from "@/lib/account-prefs";
 import { prefillFromProvider } from "@/lib/profile-prefill";
@@ -86,7 +87,8 @@ export default async function TalentsAppLayout({
   const prefs = await syncAccountPrefs(session.user.id, locale);
   // Round 10: every password account without a verified email sees "Verify your
   // email to start finding roles" with "Send me a code" (6-digit code).
-  const verifyBanner = !!emailState && !!emailState.passwordHash && !emailState.emailVerified;
+  // Shown only while a code can actually be sent (production needs Resend).
+  const verifyBanner = !!emailState && !!emailState.passwordHash && !emailState.emailVerified && emailCodeAvailable();
 
   // The plan the talent really has, the Limelight Pro months included.
   const { plan: current } = await getTalentPlan(session.user.id);

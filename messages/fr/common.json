@@ -319,7 +319,8 @@
     "codeResend": "Envoyer un nouveau code",
     "codeExpiry": "Le code est valable 10 minutes. Regarde dans tes spams si tu ne le vois pas.",
     "bannerCodeTitle": "Vérifie ton e-mail pour lancer la recherche de rôles.",
-    "bannerSendCode": "Envoie-moi un code"
+    "bannerSendCode": "Envoie-moi un code",
+    "codeWrongAddress": "Mauvaise adresse ? Déconnecte-toi et recommence"
   },
   "privacy": {
     "meta": {

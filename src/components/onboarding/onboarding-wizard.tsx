@@ -215,7 +215,7 @@ export function OnboardingWizard({
           </Step>
         )}
 
-        {step === 2 && <MandatStep onBack={() => back(1)} />}
+        {step === 2 && <MandatStep onBack={(to = 1) => back(to)} />}
       </div>
     </div>
   );
@@ -227,7 +227,7 @@ export function OnboardingWizard({
  * version (src/domain/mandat.ts). The button records that the basics are
  * done (completeBetaOnboarding) and goes where the server says.
  */
-function MandatStep({ onBack }: { onBack: () => void }) {
+function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
   const t = useTranslations("talents");
   const router = useRouter();
   const errorText = useActionErrorText();
@@ -282,6 +282,12 @@ function MandatStep({ onBack }: { onBack: () => void }) {
                 setError(res.error);
                 return;
               }
+              // A step still missing (another tab cleared it): back to that step.
+              if (res.nextStep) {
+                setError(err("errors.onboardingIncomplete"));
+                onBack(res.nextStep === "identity" ? 0 : 1);
+                return;
+              }
               router.push(res.path);
             } catch {
               setError(err("errors.generic"));
@@ -295,7 +301,7 @@ function MandatStep({ onBack }: { onBack: () => void }) {
       <Button
         variant="ghost"
         className="mt-2"
-        onClick={onBack}
+        onClick={() => onBack()}
         disabled={pending}
       >
         <ArrowLeft /> {t("onboarding.back")}

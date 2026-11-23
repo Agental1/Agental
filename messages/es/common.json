@@ -319,7 +319,8 @@
     "codeResend": "Enviar un nuevo código",
     "codeExpiry": "El código vale 10 minutos. Revisa la carpeta de spam si no lo ves.",
     "bannerCodeTitle": "Verifica tu correo para empezar a buscar papeles.",
-    "bannerSendCode": "Envíame un código"
+    "bannerSendCode": "Envíame un código",
+    "codeWrongAddress": "¿Dirección equivocada? Cierra sesión y vuelve a empezar"
   },
   "privacy": {
     "meta": {

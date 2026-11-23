@@ -171,7 +171,8 @@
     "uscEmailTaken": "此 USC 邮箱已验证过另一个账户。",
     "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
     "legalNameRequired": "请输入你的法定名字和姓氏。",
-    "genderRequired": "请选择你的性别。"
+    "genderRequired": "请选择你的性别。",
+    "onboardingIncomplete": "还缺少一个步骤。完成后再继续。"
   },
   "auth": {
     "name": "姓名",

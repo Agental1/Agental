@@ -22,14 +22,19 @@ function hashCode(userId: string, code: string): string {
 
 export type SendEmailCodeResult =
   | { ok: true; email: string }
-  | { ok: false; reason: "already" | "no_account" | "too_soon" | "unavailable" | "send_failed"; retryInMs?: number };
+  | { ok: false; reason: "already" | "no_account" | "too_soon" | "unavailable" | "send_failed" | "daily_limit"; retryInMs?: number };
 
 /** Can a code reach anyone from this deployment? (Production needs Resend.) */
 export function emailCodeAvailable(): boolean {
   return process.env.NODE_ENV !== "production" || emailSenderConfigured();
 }
 
-export async function sendEmailCode(input: { userId: string; now?: Date }): Promise<SendEmailCodeResult> {
+export async function sendEmailCode(input: {
+  userId: string;
+  now?: Date;
+  /** Checked only when a code is about to go out (the daily cap): false refuses. */
+  allowSend?: () => Promise<boolean>;
+}): Promise<SendEmailCodeResult> {
   const now = input.now ?? new Date();
   const user = await prisma.user.findUnique({
     where: { id: input.userId },
@@ -52,6 +57,8 @@ export async function sendEmailCode(input: { userId: string; now?: Date }): Prom
     console.warn("[email-code] not sent: RESEND_API_KEY or EMAIL_FROM is not set");
     return { ok: false, reason: "unavailable" };
   }
+
+  if (input.allowSend && !(await input.allowSend())) return { ok: false, reason: "daily_limit" };
 
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
   try {
@@ -120,8 +127,12 @@ export async function verifyEmailCode(input: { userId: string; code: string; now
         { actorUserId: input.userId, action: "auth.email.verified", resourceType: "User", resourceId: input.userId, after: { via: "code" } },
         tx
       );
+      return true;
     }
-    return true;
+    // Already verified (another tab): fine. Otherwise the address changed since
+    // the code left, and the code proves nothing about the new one.
+    const now2 = await tx.user.findUnique({ where: { id: input.userId }, select: { emailVerified: true } });
+    return !!now2?.emailVerified;
   });
   if (!verified) return { ok: false, reason: "expired" };
   const { launchFirstAutoSearch } = await import("@/lib/auto-search");

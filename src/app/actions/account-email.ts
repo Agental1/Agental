@@ -534,11 +534,17 @@ export async function sendMyEmailCode(): Promise<EmailCodeActionResult> {
   try {
     const session = await auth();
     if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
-    const day = await hitRateLimit(prisma, `email-code-send:${session.user.id}`, { limit: 5, windowMs: 24 * HOUR_MS });
-    if (!day.allowed) return { ok: false, error: err("errors.codeDailyLimit") };
+    const userId = session.user.id;
     const { sendEmailCode } = await import("@/lib/email-code");
-    const res = await sendEmailCode({ userId: session.user.id });
+    // The daily cap counts real sends only: a "too soon" or "already verified"
+    // answer never uses one up.
+    const res = await sendEmailCode({
+      userId,
+      allowSend: async () =>
+        (await hitRateLimit(prisma, `email-code-send:${userId}`, { limit: 5, windowMs: 24 * HOUR_MS })).allowed,
+    });
     if (res.ok) return { ok: true };
+    if (res.reason === "daily_limit") return { ok: false, error: err("errors.codeDailyLimit") };
     if (res.reason === "already") return { ok: true, alreadyVerified: true };
     if (res.reason === "too_soon") {
       return {

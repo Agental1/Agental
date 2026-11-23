@@ -10,6 +10,7 @@ import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { signupAction } from "@/app/actions/auth";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { legalNameParts } from "@/domain/completeness";
+import { prefillFromProvider } from "@/lib/profile-prefill";
 import { isoDate } from "@/domain/age";
 import { getSetupState } from "@/lib/setup";
 import { SETUP_STEPS } from "@/domain/setup";
@@ -80,11 +81,14 @@ export default async function TalentsSignupPage({
   // Otherwise load or create the profile and resume at the first unfinished step.
   // Round 10: the questions are the profile's own fields (Google may have
   // prefilled the names).
-  const profile = await prisma.artistProfile.upsert({
+  await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
   });
+  // Google sign-ups: the names Google gave, only where still empty.
+  await prefillFromProvider(session.user.id).catch(() => null);
+  const profile = await prisma.artistProfile.findUniqueOrThrow({ where: { userId: session.user.id } });
   const names = legalNameParts(profile);
 
   return (
