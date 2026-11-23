@@ -62,8 +62,23 @@ function listenForNotifications(onSignal: () => void): () => void {
       params: { apikey: first.anonKey },
     });
     await client.setAuth(first.token);
+    // One reload for a burst of signals (a search can add several rows at once).
+    let debounce: ReturnType<typeof setTimeout> | undefined;
+    const signal = () => {
+      if (debounce) clearTimeout(debounce);
+      debounce = setTimeout(onSignal, 1500);
+    };
+    const refreshAuth = async () => {
+      const next = await fetchToken();
+      if (next && !stopped) await client.setAuth(next.token);
+      return next;
+    };
     const channel = client.channel(first.topic, { config: { private: true } });
-    channel.on("broadcast", { event: "notification" }, () => onSignal()).subscribe();
+    channel.on("broadcast", { event: "notification" }, signal).subscribe((status) => {
+      // After a sleep past the token's hour, the rejoin fails: a fresh token
+      // lets the client's own retry succeed. The 60-second refresh covers the gap.
+      if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") void refreshAuth();
+    });
     // A new token five minutes before this one ends.
     const schedule = (expiresAt: string) => {
       const wait = Math.max(60_000, new Date(expiresAt).getTime() - Date.now() - 5 * 60_000);
@@ -78,6 +93,7 @@ function listenForNotifications(onSignal: () => void): () => void {
     };
     schedule(first.expiresAt);
     stop = () => {
+      if (debounce) clearTimeout(debounce);
       void client.removeAllChannels();
       client.disconnect();
     };

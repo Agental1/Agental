@@ -32,10 +32,9 @@ export async function startFindingRoles(clientKey: string): Promise<StartRoleSea
   const key = RoleSearchClientKey.safeParse(clientKey);
   if (!key.success) return { ok: false, error: err("errors.invalidInput") };
 
-  const gate = await hitRateLimit(prisma, `role-search:start:${session.user.id}`, SEARCH_START_LIMIT);
-  if (!gate.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
-
   try {
+    const gate = await hitRateLimit(prisma, `role-search:start:${session.user.id}`, SEARCH_START_LIMIT);
+    if (!gate.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
     const res = await startRoleSearch(session.user.id, key.data);
     if (!res.ok && res.reason === "ineligible") {
       return { ok: false, error: err(refusalKey(res.why)), quota: res.quota };

@@ -82,9 +82,20 @@ try {
     for (const k of order) await c.query(`alter table ${qualified(k)} disable trigger user`);
     for (const k of order) {
       const rows = backup.tables[k];
+      if (rows.length === 0) continue;
+      // Only the columns the backup has: a column added by a later migration
+      // keeps its default instead of receiving NULL.
+      const [schema, table] = k.split(".");
+      const target = await c.query(
+        `select column_name from information_schema.columns where table_schema = $1 and table_name = $2`,
+        [schema, table]
+      );
+      const inBackup = new Set(rows.flatMap((r) => Object.keys(r)));
+      const cols = target.rows.map((r) => r.column_name).filter((n) => inBackup.has(n));
+      const list = cols.map(ident).join(", ");
       for (let i = 0; i < rows.length; i += 500) {
         await c.query(
-          `insert into ${qualified(k)} select * from json_populate_recordset(null::${qualified(k)}, $1::json)`,
+          `insert into ${qualified(k)} (${list}) select ${list} from json_populate_recordset(null::${qualified(k)}, $1::json)`,
           [JSON.stringify(rows.slice(i, i + 500))]
         );
       }

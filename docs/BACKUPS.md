@@ -13,8 +13,9 @@ Pro. Until the founders move to Pro, the app keeps its own daily copy, at no cos
   in Vercel the route answers 404 and no backup runs (founder action: see HANDOFF).
 - **What it copies:** every table of the `public` and `limelight` schemas, as JSON, in one
   read-only, repeatable-read transaction (one consistent snapshot). Left out: the GeoNames tables
-  (`GeoCountry`, `GeoAdmin1`, `GeoCity`, reloaded by their migration) and `RateLimitEvent`
-  (short-lived counters). Supabase's own `auth` and `storage` schemas are not app data.
+  (`GeoCountry`, `GeoAdmin1`, `GeoCity`, reloaded by their migration), `RateLimitEvent`
+  (short-lived counters), and the live credentials `Session` and `VerificationToken` (after a
+  restore, people sign in again and ask for a new email link). Supabase's own `auth` and `storage` schemas are not app data.
 - **Where:** Supabase Storage, private bucket `backups`, file `daily/YYYY-MM-DD.json.gz`. The
   bucket has no policy: only the service key reads it. Files older than 14 days are removed.
 - **Size:** about 1 MB a day compressed today (30 MB database, 16 MB of it GeoNames), so 14 days
@@ -23,6 +24,21 @@ Pro. Until the founders move to Pro, the app keeps its own daily copy, at no cos
   buckets; deleting an account deletes its files.
 
 Check it ran: Vercel > agental > Logs, filter `[backup]`, or Supabase > Storage > `backups`.
+A failed run answers 500 and shows as a failed invocation under Vercel > agental > Settings >
+Cron Jobs; nothing else alerts yet (round 9 carryover: an alert or the last backup date on the
+admin hub).
+
+## Limits to know
+
+- **A downloaded file is a secret.** It holds every account, including password hashes and
+  Google sign-in tokens. Keep it off shared drives and delete it after use.
+- **Same project.** The files live in the same Supabase project as the database. If the project
+  were deleted or its service key leaked, the backups would go with it. An off-project copy
+  (for example a weekly download to the founders' own encrypted storage) is the next step and a
+  founder decision.
+- **Size.** The whole export is built in memory in one function call (60 s maximum). That is fine
+  for years at today's size (well under 1 MB a day); revisit past about 100 MB of data or when
+  moving to Supabase Pro, whose own daily backups would replace this.
 
 ## How to restore
 
@@ -38,7 +54,8 @@ The restore never overwrites: it refuses to run if a table it would fill already
 4. Restore:
    `DIRECT_URL=<same URL> node tools/db/restore-backup.mjs ~/Downloads/2026-11-22.json.gz --apply`
    It fills the tables parents first (foreign keys), in one transaction, with the app's own
-   triggers paused so no notification is added twice. Any error rolls everything back.
+   triggers paused so no notification is added twice, and only the columns the backup has (a
+   column added later keeps its default). Any error rolls everything back.
 5. Point Vercel's `DATABASE_URL` and `DIRECT_URL` at the new database and redeploy.
 
 Only a founder holds the database password, so steps 2 to 5 are theirs (or done with them).

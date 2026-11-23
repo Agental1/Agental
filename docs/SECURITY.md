@@ -44,7 +44,11 @@ Nothing was public. No change was needed to the tables.
   hour, role `authenticated`, `sub` = user id) with `SUPABASE_JWT_SECRET`. The bell then reloads
   through `/api/notifications`, which checks the session: no notification content travels over
   Realtime. Off until the founders add `SUPABASE_JWT_SECRET` and the publishable key; the
-  60-second refresh stays as the fallback.
+  60-second refresh stays as the fallback. To know: that token is a real `authenticated` token
+  for every Supabase API, not only Realtime. It reaches nothing today because no app table or
+  Storage bucket grants anything to `authenticated`; the migration guard keeps it that way for
+  app tables, and any future Storage policy for `authenticated` must take it into account. It
+  lasts an hour, also after sign-out.
 - **Rate limits.** Every route that sends an email or a code already had a database-backed limit:
   sign-up verification resend, password reset (per IP and per address), USC code (one a minute,
   5 a day per account and per address), student email, messages to the team. Round 8c adds one on

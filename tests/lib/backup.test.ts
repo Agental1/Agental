@@ -20,6 +20,7 @@ describe("daily backup (round 8c)", () => {
       calls.push({ url, method: init.method ?? "GET", body: init.body });
       if (url.endsWith("/object/list/backups")) return Response.json([{ name: "2026-11-01.json.gz" }, { name: "2026-11-21.json.gz" }]);
       if (url.endsWith("/bucket")) return new Response("exists", { status: 409 });
+      if (url.endsWith("/bucket/backups")) return Response.json({ id: "backups", public: false });
       return Response.json({});
     });
     const res = await storeBackup(
@@ -33,6 +34,26 @@ describe("daily backup (round 8c)", () => {
     expect(JSON.parse(gunzipSync(put.body as Uint8Array).toString()).tables["public.User"]).toEqual([{ id: "u" }]);
     const del = calls.find((c) => c.method === "DELETE")!;
     expect(JSON.parse(del.body as string)).toEqual({ prefixes: ["daily/2026-11-01.json.gz"] });
+  });
+
+  it("turns a bucket made public by hand back to private, and stops on a failed upload", async () => {
+    const methods: string[] = [];
+    const send = vi.fn(async (url: string, init: RequestInit = {}) => {
+      methods.push(`${init.method ?? "GET"} ${url.replace("https://x.supabase.co/storage/v1", "")}`);
+      if (url.endsWith("/bucket")) return new Response("exists", { status: 409 });
+      if (url.endsWith("/bucket/backups") && (init.method ?? "GET") === "GET") return Response.json({ public: true });
+      if (url.includes("/object/backups/daily/")) return new Response("no", { status: 403 });
+      return Response.json({});
+    });
+    await expect(
+      storeBackup({ version: 1, createdAt: "", lastMigration: null, tables: {} }, now, { SUPABASE_URL: "https://x.supabase.co", SUPABASE_SERVICE_ROLE_KEY: "k" }, send as never)
+    ).rejects.toThrow("upload_403");
+    expect(methods).toContain("PUT /bucket/backups");
+  });
+
+  it("leaves sign-in sessions and email tokens out", () => {
+    expect(SKIPPED_TABLES.has("public.Session")).toBe(true);
+    expect(SKIPPED_TABLES.has("public.VerificationToken")).toBe(true);
   });
 
   it("refuses to run without the storage keys", async () => {

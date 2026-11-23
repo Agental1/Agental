@@ -19,6 +19,9 @@
 CREATE OR REPLACE FUNCTION public.agental_notify_realtime() RETURNS trigger
 LANGUAGE plpgsql AS $$
 BEGIN
+  IF NEW."userId" IS NULL THEN
+    RETURN NEW;
+  END IF;
   IF to_regprocedure('realtime.send(jsonb, text, text, boolean)') IS NOT NULL THEN
     PERFORM realtime.send('{}'::jsonb, 'notification', 'notifications:' || NEW."userId", true);
   END IF;

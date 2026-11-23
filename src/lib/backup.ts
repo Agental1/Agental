@@ -17,8 +17,19 @@ import { gzipSync } from "node:zlib";
 
 export const BACKUP_BUCKET = "backups";
 export const KEEP_DAYS = 14;
-/** Rebuilt by their migration (round8_geo) or short-lived: left out. */
-export const SKIPPED_TABLES = new Set(["public.GeoCountry", "public.GeoAdmin1", "public.GeoCity", "public.RateLimitEvent"]);
+/**
+ * Left out: rebuilt by their migration (GeoNames), short-lived (RateLimitEvent),
+ * or live credentials that a backup must not carry (sign-in sessions and
+ * one-time email tokens; people simply sign in again after a restore).
+ */
+export const SKIPPED_TABLES = new Set([
+  "public.GeoCountry",
+  "public.GeoAdmin1",
+  "public.GeoCity",
+  "public.RateLimitEvent",
+  "public.Session",
+  "public.VerificationToken",
+]);
 
 export interface BackupDb {
   $transaction<T>(fn: (tx: BackupTx) => Promise<T>, opts?: { isolationLevel?: "RepeatableRead"; timeout?: number }): Promise<T>;
@@ -105,6 +116,20 @@ export async function storeBackup(
     body: JSON.stringify({ id: BACKUP_BUCKET, name: BACKUP_BUCKET, public: false }),
   });
   if (!made.ok && made.status !== 400 && made.status !== 409) throw new Error(`bucket_${made.status}`);
+  if (!made.ok) {
+    // The bucket existed: make sure nobody turned it public by hand.
+    const info = await send(api(`/bucket/${BACKUP_BUCKET}`), { headers: headers() });
+    const bucket = info.ok ? ((await info.json()) as { public?: boolean }) : null;
+    if (!bucket) throw new Error(`bucket_check_${info.status}`);
+    if (bucket.public !== false) {
+      const fix = await send(api(`/bucket/${BACKUP_BUCKET}`), {
+        method: "PUT",
+        headers: headers({ "Content-Type": "application/json" }),
+        body: JSON.stringify({ public: false }),
+      });
+      if (!fix.ok) throw new Error("bucket_public");
+    }
+  }
 
   const body = gzipSync(Buffer.from(JSON.stringify(file)));
   const path = backupPath(now);
