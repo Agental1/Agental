@@ -1554,7 +1554,10 @@
         "application": "A role or application",
         "other": "Something else"
       },
-      "topicRequired": "Pick what your message is about."
+      "topicRequired": "Pick what your message is about.",
+      "limitToday": "I've used today's AI answers for your account, so this answer is a simple one. The team can help too.",
+      "limitMonth": "AI answers are paused for the rest of the month, so this answer is a simple one. The team can help too.",
+      "aiTag": "AI agent"
     },
     "library": {
       "empty": "No recordings yet. Your saved takes show up here.",

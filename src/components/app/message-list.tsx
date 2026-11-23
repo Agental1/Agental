@@ -16,6 +16,7 @@ export function MessageList({
   teamLabel,
   performerLabel,
   assistantLabel,
+  aiTag,
   topicLabels,
   locale,
   avatars = false,
@@ -26,6 +27,8 @@ export function MessageList({
   performerLabel: string;
   /** The Agental assistant's messages sit on the team's side. */
   assistantLabel: string;
+  /** Round 9: the tag next to the agent's name ("AI agent"), so nobody takes it for a person. */
+  aiTag?: string;
   /** Shown next to a performer message that has a topic. */
   topicLabels?: Record<string, string>;
   locale: string;
@@ -62,6 +65,9 @@ export function MessageList({
                 <span className={cn("font-bold", teamSide ? "text-accent" : "text-fg")}>
                   {author}
                 </span>
+                {m.fromAgent && aiTag && (
+                  <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-bold text-accent">{aiTag}</span>
+                )}
                 {m.topic && topicLabels?.[m.topic] && (
                   <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-fg-muted">
                     {topicLabels[m.topic]}

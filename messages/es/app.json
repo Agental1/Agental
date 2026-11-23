@@ -351,7 +351,8 @@
         "done": "Mark handled"
       },
       "deletedByPerformer": "Eliminada por el artista",
-      "deletedByPerformerNote": "El artista eliminó esta conversación. Ya no la ve; se conserva por motivos de moderación y legales."
+      "deletedByPerformerNote": "El artista eliminó esta conversación. Ya no la ve; se conserva por motivos de moderación y legales.",
+      "aiTag": "Agente IA"
     },
     "limelight": {
       "title": "Solicitudes de Limelight",

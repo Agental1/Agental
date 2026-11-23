@@ -1554,7 +1554,10 @@
         "application": "Un rôle ou une candidature",
         "other": "Autre chose"
       },
-      "topicRequired": "Choisis le sujet de ton message."
+      "topicRequired": "Choisis le sujet de ton message.",
+      "limitToday": "J’ai utilisé les réponses IA du jour pour ton compte, alors cette réponse est plus simple. L’équipe peut aussi t’aider.",
+      "limitMonth": "Les réponses IA sont en pause jusqu’à la fin du mois, alors cette réponse est plus simple. L’équipe peut aussi t’aider.",
+      "aiTag": "Agent IA"
     },
     "library": {
       "empty": "Aucun enregistrement pour l'instant. Tes prises enregistrées apparaissent ici.",

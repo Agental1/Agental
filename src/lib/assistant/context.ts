@@ -11,6 +11,8 @@ import {
 } from "@/domain/completeness";
 import { IN_PROGRESS_STATUSES } from "@/domain/role-search";
 import type { AssistantContext, MessageTopic } from "@/domain/assistant";
+import { agentDisplayName, agentSetupOf } from "@/domain/agent-setup";
+import { getRoleSearchQuota } from "@/lib/role-search";
 
 /**
  * The minimum the assistant needs for one topic, read on the server.
@@ -24,7 +26,7 @@ export async function buildAssistantContext(
 ): Promise<AssistantContext> {
   const profile = await prisma.artistProfile.findUnique({
     where: { userId },
-    select: { id: true, ...COMPLETENESS_SELECT },
+    select: { id: true, agentNameChoice: true, agentCustomName: true, agentHelps: true, agentSavedAt: true, ...COMPLETENESS_SELECT },
   });
   const { plan } = await getTalentPlan(userId);
   const ctx: AssistantContext = {
@@ -34,6 +36,22 @@ export async function buildAssistantContext(
     plan,
   };
   if (!profile) return ctx;
+
+  // Round 9: the agent's name and the help the performer chose, searches and roles found (every topic).
+  const setup = agentSetupOf(profile);
+  ctx.agent = { name: agentDisplayName(setup), helps: setup?.helps ?? [] };
+  const [quota, inProgress, found] = await Promise.all([
+    getRoleSearchQuota(userId),
+    prisma.roleSearchRequest.count({ where: { userId, status: { in: [...IN_PROGRESS_STATUSES] } } }),
+    prisma.applicationDraft.findMany({
+      where: { profileId: profile.id, status: { not: "DECLINED" } },
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      select: { status: true, brief: { select: { title: true, roleName: true } } },
+    }),
+  ]);
+  ctx.searches = { limit: quota.limit, used: quota.used, remaining: quota.remaining, inProgress, resetInDays: quota.resetInDays };
+  ctx.rolesFound = found.map((d) => ({ project: d.brief.title.slice(0, 120), role: d.brief.roleName?.slice(0, 120) ?? null, status: d.status }));
 
   if (topic === "profile") {
     const input = completenessInputOf(profile);
