@@ -1067,6 +1067,9 @@ model RoleSearchRequest {
   @@unique([userId, periodKey, seq])
   @@unique([userId, clientKey])
   @@index([status, createdAt])
+  // Round 8d: the n8n claim (queued, due) and the per-performer slot count.
+  @@index([status, scheduledFor])
+  @@index([userId, status])
   @@map("role_search_requests")
   @@schema("public")
 }

@@ -5,6 +5,7 @@ import { bearerMatches } from "@/lib/limelight/request";
 import { agentEligibility } from "@/lib/agents";
 import { loadProfileFacts } from "@/lib/workflow/profiles";
 import { startRoleSearch } from "@/lib/role-search";
+import { getTalentPlan } from "@/lib/billing/entitlement";
 import { FIRST_AUTO_KEY, busySlots, searchPaceFor, type SearchPace } from "@/domain/role-search";
 import { PlanB2C } from "@/domain/enums";
 import { workflowMode, type WorkflowMode } from "@/domain/workflow/eligibility";
@@ -85,6 +86,13 @@ export interface CastingJob {
 }
 
 const SIX_HOURS = 6 * 60 * 60 * 1000;
+/** The most slots any plan has: no performer needs more due rows than this in one claim. */
+const MAX_SLOTS = Math.max(...PlanB2C.options.map((p) => searchPaceFor(p).slots));
+/**
+ * Due rows read per job asked for: headroom for rows skipped because their
+ * performer has no free slot right now.
+ */
+const CLAIM_OVERFETCH = 10;
 const SCHEDULED_PER_CLAIM = 50;
 /** A claim older than this never got its completion (crash, missing result). */
 export const CLAIM_TTL_MS = 30 * 60 * 1000;
@@ -138,22 +146,36 @@ export async function claimCastingJobs(
       select: { id: true, userId: true, clientKey: true },
       orderBy: { createdAt: "asc" },
     });
+    // Round 8d: at most MAX_SLOTS due rows per performer enter the window, so
+    // one performer's backlog cannot crowd out everyone else's searches.
     const due =
       held.length > 0
-        ? held.map((h) => ({ ...h, plan: null as string | null }))
-        : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null; plan: string | null }[]>`
-            SELECT id, "userId", "clientKey", plan FROM "public"."role_search_requests"
-            WHERE status = 'queued'
-              AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
-            ORDER BY COALESCE("scheduledFor", "createdAt") ASC
-            LIMIT ${input.limit * 10}
+        ? held
+        : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null }[]>`
+            SELECT id, "userId", "clientKey" FROM "public"."role_search_requests"
+            WHERE id IN (
+              SELECT id FROM (
+                SELECT id, row_number() OVER (
+                  PARTITION BY "userId" ORDER BY COALESCE("scheduledFor", "createdAt") ASC, id ASC
+                ) AS rn
+                FROM "public"."role_search_requests"
+                WHERE status = 'queued' AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
+              ) ranked
+              WHERE rn <= ${MAX_SLOTS}
+            )
+            AND status = 'queued'
+            ORDER BY COALESCE("scheduledFor", "createdAt") ASC, id ASC
+            LIMIT ${input.limit * CLAIM_OVERFETCH}
             FOR UPDATE SKIP LOCKED`;
-    // Round 8d: each performer runs at most their plan's slots at once, and a
-    // slot starts one search per gap (B2C_PLANS searchSlots, searchSpacingHours).
-    // Round 8b's "one every 6 hours" is the one-slot case.
+    // Round 8d: each performer runs at most their CURRENT plan's slots at once,
+    // and a slot starts one search per gap (B2C_PLANS searchSlots,
+    // searchSpacingHours). Round 8b's "one every 6 hours" is the one-slot case.
     const free = new Map<string, number>();
     if (held.length === 0 && due.length > 0) {
-      const users = [...new Set(due.map((r) => r.userId))];
+      const users = [...new Set(due.map((r) => r.userId))].sort();
+      // The same per-performer lock as a click (startRoleSearch): two claims
+      // running at once count each other's starts. Sorted, so no deadlock.
+      for (const u of users) await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"role-search:" + u}))`;
       const maxGap = Math.max(...PlanB2C.options.map((p) => searchPaceFor(p).spacingMs));
       const active = await tx.roleSearchRequest.findMany({
         where: {
@@ -162,12 +184,10 @@ export async function claimCastingJobs(
         },
         select: { userId: true, status: true, startedAt: true },
       });
-      for (const r of due) {
-        if (free.has(r.userId)) continue;
-        const parsed = PlanB2C.safeParse(r.plan);
-        const pace: SearchPace = searchPaceFor(parsed.success ? parsed.data : "FREE");
-        const mine = active.filter((a) => a.userId === r.userId);
-        free.set(r.userId, Math.max(0, pace.slots - busySlots(mine, now, pace)));
+      for (const u of users) {
+        const { plan } = await getTalentPlan(u, now, tx);
+        const pace: SearchPace = searchPaceFor(plan);
+        free.set(u, Math.max(0, pace.slots - busySlots(active.filter((a) => a.userId === u), now, pace)));
       }
     }
     const rows: typeof due = [];

@@ -83,7 +83,10 @@ describe.skipIf(!local)("round 8d search slots", () => {
     for (let i = 1; i <= 3; i++) expect((await startRoleSearch(id, `click_pro_${i}_0000`, now)).ok).toBe(true);
     const rows = await prisma.roleSearchRequest.findMany({ where: { userId: id }, orderBy: { scheduledFor: "asc" } });
     expect(rows.map((r) => Math.round((r.scheduledFor!.getTime() - now.getTime()) / H))).toEqual([0, 0, 6]);
-    expect(await getMySearchStatus(id, now)).toMatchObject({ queued: 3, slots: 2 });
+    const status = await getMySearchStatus(id, now);
+    expect(status).toMatchObject({ queued: 3, slots: 2 });
+    // The first two start now; the next start still ahead is the third's, in 6 hours.
+    expect(status.nextStart).toBe(rows[2].scheduledFor!.toISOString());
 
     // Make all three due, as if 6 hours passed with nothing claimed.
     await prisma.roleSearchRequest.updateMany({ where: { userId: id }, data: { scheduledFor: new Date(now.getTime() - H) } });
@@ -97,13 +100,27 @@ describe.skipIf(!local)("round 8d search slots", () => {
     expect(await prisma.roleSearchRequest.count({ where: { userId: id, status: "running" } })).toBe(2);
   });
 
+  it("Basic runs one at a time, and a downgrade uses the current plan's slots", async () => {
+    const id = await performer("downgrade");
+    await prisma.subscription.create({ data: { subjectType: "ARTIST", subjectId: id, plan: "ULTIMATE", status: "ACTIVE" } });
+    const now = new Date();
+    for (let i = 1; i <= 4; i++) expect((await startRoleSearch(id, `click_dg_${i}_0000`, now)).ok).toBe(true);
+    // Queued under Ultimate (10 slots), then back to Basic before any claim.
+    await prisma.subscription.update({ where: { subjectId: id }, data: { plan: "FREE" } });
+    await prisma.roleSearchRequest.updateMany({ where: { userId: id }, data: { scheduledFor: new Date(now.getTime() - H) } });
+    await claimCastingJobs({ limit: 10, executionId: `${P}exec-dg` }, { now, mode: "staging" });
+    expect(await prisma.roleSearchRequest.count({ where: { userId: id, status: "running" } })).toBe(1);
+  });
+
   it("a quota reset date gives the full allowance back and keeps the rows", async () => {
     const id = await performer("reset");
     const now = new Date();
     for (let i = 1; i <= 5; i++) await startRoleSearch(id, `click_rst_${i}_0000`, now);
     expect((await getRoleSearchQuota(id, now)).remaining).toBe(0);
-    await prisma.user.update({ where: { id }, data: { searchQuotaResetAt: new Date(now.getTime() + 1000), searchPeriodStartedAt: null } });
-    const later = new Date(now.getTime() + 2000);
+    // The reset date is taken after the rows exist, whatever the clock did meanwhile.
+    const resetAt = new Date(Date.now() + 1000);
+    await prisma.user.update({ where: { id }, data: { searchQuotaResetAt: resetAt, searchPeriodStartedAt: null } });
+    const later = new Date(resetAt.getTime() + 1000);
     expect((await getRoleSearchQuota(id, later)).remaining).toBe(5);
     expect(await prisma.roleSearchRequest.count({ where: { userId: id } })).toBe(5);
     expect((await startRoleSearch(id, "click_rst_6_0000", later)).ok).toBe(true);

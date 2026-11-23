@@ -50,6 +50,9 @@ export async function getRoleSearchQuota(userId: string, now = new Date()): Prom
   return quotaFrom(plan, used, start, now);
 }
 
+/** How many recent searches the schedule reads at least (it needs `slots` of them). */
+const RECENT_STARTS_FLOOR = 50;
+
 /** Round 8d: rows from before the account's quota reset do not count. */
 const sinceReset = (resetAt: Date | null | undefined) => (resetAt ? { createdAt: { gte: resetAt } } : {});
 
@@ -151,7 +154,8 @@ export async function startRoleSearch(
     const recent = await tx.roleSearchRequest.findMany({
       where: { userId, status: { in: [...COUNTED_STATUSES] } },
       orderBy: [{ createdAt: "desc" }],
-      take: Math.max(50, pace.slots * 5),
+      // nextSearchStart needs the `slots` most recent starts; read well past that.
+      take: Math.max(RECENT_STARTS_FLOOR, pace.slots * 5),
       select: { scheduledFor: true, startedAt: true, createdAt: true },
     });
     // The later of the planned and the real start (a late claim pushes the next one).
@@ -234,9 +238,10 @@ export async function getMySearchStatus(userId: string, now = new Date()): Promi
     }),
     getTalentPlan(userId, now),
     prisma.roleSearchRequest.findFirst({
-      where: { userId, status: "queued" },
-      orderBy: [{ scheduledFor: { sort: "asc", nulls: "first" } }, { createdAt: "asc" }],
-      select: { scheduledFor: true, createdAt: true },
+      // The next start still ahead; due searches are simply "in queue".
+      where: { userId, status: "queued", scheduledFor: { gt: now } },
+      orderBy: [{ scheduledFor: "asc" }],
+      select: { scheduledFor: true },
     }),
   ]);
   const n = (s: string) => byStatus.find((r) => r.status === s)?._count._all ?? 0;
@@ -246,7 +251,6 @@ export async function getMySearchStatus(userId: string, now = new Date()): Promi
     finished: n("done"),
     rolesFound,
     slots: searchPaceFor(plan).slots,
-    // Only a start still ahead: a due search waiting for the engine is "in queue".
-    nextStart: next?.scheduledFor && next.scheduledFor > now ? next.scheduledFor.toISOString() : null,
+    nextStart: next?.scheduledFor ? next.scheduledFor.toISOString() : null,
   };
 }

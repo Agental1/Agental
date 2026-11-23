@@ -41,3 +41,7 @@ WHERE encode(sha256(convert_to(lower(u.email), 'UTF8')), 'hex') = '89a1417d1deb4
 
 UPDATE "User" SET "accountStatus" = 'TEST'
 WHERE encode(sha256(convert_to(lower(email), 'UTF8')), 'hex') = '89a1417d1deb410eaa9538bddbeea5c4e71628fca2f01783d54abfb9d0cb255c';
+
+-- Indexes for the n8n claim (queued and due) and the per-performer slot count.
+CREATE INDEX IF NOT EXISTS "role_search_requests_status_scheduledFor_idx" ON "role_search_requests"("status", "scheduledFor");
+CREATE INDEX IF NOT EXISTS "role_search_requests_userId_status_idx" ON "role_search_requests"("userId", "status");

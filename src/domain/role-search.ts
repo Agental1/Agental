@@ -51,8 +51,10 @@ export function nextSearchStart(starts: readonly Date[], now: Date, pace: Search
 }
 
 /**
- * How many slots are busy at `now`: searches running, or started less than a
- * gap ago (a slot waits the gap before its next start).
+ * How many slots are busy at `now`: searches running, or finished less than a
+ * gap after they started (a slot waits the gap before its next start). A
+ * failed or canceled search gives its slot back, as it gives back its place
+ * in the allowance; the queue-time schedule counts the same rows.
  */
 export function busySlots(
   searches: readonly { status: string; startedAt: Date | null }[],
@@ -60,7 +62,9 @@ export function busySlots(
   pace: SearchPace
 ): number {
   const since = now.getTime() - pace.spacingMs;
-  return searches.filter((r) => r.status === "running" || (r.startedAt && r.startedAt.getTime() > since)).length;
+  return searches.filter(
+    (r) => r.status === "running" || (r.status === "done" && r.startedAt && r.startedAt.getTime() > since)
+  ).length;
 }
 
 /** "Starts in about N hours", rounded up to whole hours (0 means "soon"). */
