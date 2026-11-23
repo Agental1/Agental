@@ -187,7 +187,7 @@ export async function sendDeletionWarnings(
 
 export type DeleteResult =
   | { ok: true; deleted: number; failed: number; remaining: number }
-  | { ok: false; reason: "confirmation" | "empty" | "changed" };
+  | { ok: false; reason: "confirmation" | "empty" | "changed" | "none_selected" };
 
 const hashEmail = (email: string) => createHash("sha256").update(email.trim().toLowerCase()).digest("hex");
 
@@ -214,7 +214,8 @@ export async function deleteEligibleAccounts(
   now = new Date(),
   scope: DeletionScope = {},
   /**
-   * Round 8c: the accounts ticked on the page. Only accounts still on the
+   * Round 8c: the accounts ticked on the page (none is ticked by default, so a
+   * reload never selects anything on its own). Only accounts still on the
    * eligible list can be deleted; an id that is not (any more) refuses the
    * whole run. Undefined means every eligible account, as before.
    */
@@ -226,7 +227,7 @@ export async function deleteEligibleAccounts(
   const picked = selectedIds ? new Set(selectedIds) : null;
   if (picked && [...picked].some((id) => !all.some((r) => r.id === id))) return { ok: false, reason: "changed" };
   const rows = picked ? all.filter((r) => picked.has(r.id)) : all;
-  if (rows.length === 0) return { ok: false, reason: "empty" };
+  if (rows.length === 0) return { ok: false, reason: "none_selected" };
   if (typed.trim() !== confirmationPhrase(rows.length)) return { ok: false, reason: "confirmation" };
 
   const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
@@ -301,7 +302,7 @@ export async function deleteEligibleAccounts(
     action: "admin.accounts.deletionRun",
     resourceType: "User",
     resourceId: "*",
-    after: { days, listed: rows.length, deleted, failed, remaining: rows.length - batch.length },
+    after: { days, eligible: all.length, ticked: rows.length, kept: all.length - rows.length, deleted, failed, remaining: rows.length - batch.length },
   });
   return { ok: true, deleted, failed, remaining: rows.length - batch.length };
 }

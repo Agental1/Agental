@@ -126,6 +126,8 @@ describe.skipIf(!local)("account cleanup: deleting only the ticked accounts (rou
     const rows = await listDeletionCandidates(7, now, scope);
     expect(rows).toHaveLength(3);
     const print = listFingerprint(rows.map((r) => r.id), 7);
+    // Nothing ticked deletes nothing (never "everything").
+    expect(await deleteEligibleAccounts(admin, 7, "DELETE 3", print, now, scope, [])).toEqual({ ok: false, reason: "none_selected" });
     // The phrase counts the ticked accounts, not the whole list.
     expect(await deleteEligibleAccounts(admin, 7, "DELETE 3", print, now, scope, [ids.a, ids.b])).toEqual({ ok: false, reason: "confirmation" });
     // An id that is not on the eligible list refuses the whole run.

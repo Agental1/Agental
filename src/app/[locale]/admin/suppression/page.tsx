@@ -5,7 +5,7 @@ import { toLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { confirmationPhrase, deletionDays } from "@/domain/account-deletion";
+import { deletionDays } from "@/domain/account-deletion";
 import { candidatesFingerprint, listDeletionCandidates } from "@/lib/admin/account-deletion";
 import { isAccountStatus } from "@/domain/workflow/eligibility";
 import { deleteEligibleAccountsForm, sendDeletionWarningsForm } from "@/app/actions/admin-deletion";
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
  * Account cleanup: the accounts eligible for deletion (email never verified,
  * older than N days, never paid, not staff or test), an optional warning
  * email, a CSV export, and "Delete the ticked accounts" behind a typed
- * confirmation (round 8c: every row has a checkbox, all ticked by default).
+ * confirmation (round 8c: every row has a checkbox, none ticked by default).
  * Admins only; each view is logged. Nothing is deleted without the typed
  * phrase, and the rule is checked again per account when it runs.
  */
@@ -42,7 +42,6 @@ export default async function CleanupPage({
   const days = deletionDays(one("days"), deletionDays(process.env.ACCOUNT_DELETION_AFTER_DAYS));
   const rows = await listDeletionCandidates(days);
   await audit({ actorUserId: adminId, action: "admin.view.deletion", resourceType: "User", resourceId: "*", after: { days, count: rows.length } });
-  const phrase = confirmationPhrase(rows.length);
   const field = "h-10 rounded-sedan border border-border bg-surface px-2 text-sm";
   const error = one("error");
 
@@ -84,6 +83,8 @@ export default async function CleanupPage({
                 ? "admin.cleanup.listChanged"
                 : error === "empty"
                   ? "admin.cleanup.nothing"
+                  : error === "none_selected"
+                    ? "admin.cleanup.noneSelected"
                   : error === "no_sender"
                     ? "admin.cleanup.noSender"
                     : "admin.accounts.statusError"
@@ -110,13 +111,13 @@ export default async function CleanupPage({
               {rows.map((r) => (
                 <tr key={r.id} className="border-t border-border">
                   <td className="p-3">
-                    {/* Belongs to the delete form below; ticked by default. */}
+                    {/* Belongs to the delete form below. Never ticked by default:
+                        a reload or an error never selects an account on its own. */}
                     <input
                       type="checkbox"
                       name="ids"
                       value={r.id}
                       form="delete-accounts"
-                      defaultChecked
                       aria-label={t("admin.cleanup.pickOne", { email: r.email })}
                       className="size-4 accent-[var(--danger,#c00)]"
                     />
@@ -156,7 +157,7 @@ export default async function CleanupPage({
             <h2 className="font-display text-lg font-medium text-danger">{t("admin.cleanup.deleteTitle")}</h2>
             <p className="text-sm">{t("admin.cleanup.deleteBody")}</p>
             <label className="flex flex-col gap-1 text-sm">
-              <span>{t("admin.cleanup.typeToConfirm", { example: phrase })}</span>
+              <span>{t("admin.cleanup.typeToConfirm")}</span>
               <input name="confirm" required autoComplete="off" className={`${field} max-w-xs`} />
             </label>
             <button className="h-10 rounded-sedan bg-danger px-4 text-sm font-bold text-white">

@@ -29,6 +29,9 @@ Production is in test mode (`WORKFLOW_MODE` unset). Package manager is now **pnp
    (status Unreviewed, so the rule includes them): mark them Test in /admin/comptes if they
    should stay. Nothing is deleted without the founder's "go" in the conversation. The warning
    email needs Resend first and the founder's OK on its wording.
+   Founder's decision (2026-11-22, in the conversation): keep the 4 demo accounts, delete the 4
+   others. Since round 8c the cleanup page has a checkbox per account (all ticked by default):
+   untick to keep, type `DELETE <number ticked>`. Admins can use it any time.
 6. **Test account for group 2:** no production account is marked Test (all 22 Unreviewed), so
    the first automatic search (test mode) cannot be checked until one is: /admin/comptes > the
    founder's test account > status Test.

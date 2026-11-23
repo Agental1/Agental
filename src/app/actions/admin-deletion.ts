@@ -28,7 +28,7 @@ export async function sendDeletionWarningsForm(formData: FormData): Promise<void
 
 /**
  * "Delete the ticked accounts", with the typed confirmation ("DELETE <number
- * ticked>"). Every eligible account is ticked by default (round 8c). Admins only.
+ * ticked>"). Nothing is ticked by default (round 8c). Admins only.
  */
 export async function deleteEligibleAccountsForm(formData: FormData): Promise<void> {
   const locale = String(formData.get("locale") ?? "en");
@@ -42,7 +42,7 @@ export async function deleteEligibleAccountsForm(formData: FormData): Promise<vo
     String(formData.get("fingerprint") ?? ""),
     undefined,
     undefined,
-    formData.getAll("ids").map(String).filter((id) => id.length > 0 && id.length < 64)
+    formData.getAll("ids").map(String)
   );
   revalidatePath("/[locale]/admin/suppression", "page");
   revalidatePath("/[locale]/admin/comptes", "page");

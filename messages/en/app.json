@@ -561,15 +561,16 @@
       "noSender": "No email sender is configured (RESEND_API_KEY): nothing would be sent.",
       "warned": "{count, plural, one {# warning email sent.} other {# warning emails sent.}}",
       "deleteTitle": "Delete accounts",
-      "deleteBody": "Untick the accounts to keep. The ticked accounts, their profiles and their files are deleted for good, with one audit entry each. This cannot be undone.",
-      "typeToConfirm": "Type DELETE and the number of ticked accounts to confirm (all ticked: {example})",
+      "deleteBody": "Tick the accounts to delete. The ticked accounts, their profiles and their files are deleted for good, with one audit entry each. This cannot be undone.",
+      "typeToConfirm": "Type DELETE and the number of ticked accounts to confirm (for example DELETE 4)",
       "deleteCta": "Delete the ticked accounts",
       "badConfirmation": "The confirmation did not match the list on screen. Nothing was deleted.",
       "nothing": "There is nothing to delete.",
       "deleted": "{count, plural, one {# account deleted} other {# accounts deleted}}, {failed} not deleted (see the logs).",
       "listChanged": "The list changed since this page loaded. Nothing was deleted: check the list again.",
       "remaining": "{count, plural, one {# account is left: run it again.} other {# accounts are left: run it again.}}",
-      "pickOne": "Delete {email}"
+      "pickOne": "Delete {email}",
+      "noneSelected": "No account was ticked. Nothing was deleted."
     },
     "views": {
       "profilesSubtitle": "{count, plural, one {# performer profile} other {# performer profiles}}, newest first. Completeness is computed with the same rule as the app.",
