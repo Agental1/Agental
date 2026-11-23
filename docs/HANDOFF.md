@@ -54,6 +54,16 @@ Production is in test mode (`WORKFLOW_MODE` unset). Package manager is now **pnp
   off, backup cron live but off (restore drill passed locally), search launch limit live.
 - Group 6: docs/legal/TERMS_DRAFT.md; /talents/conditions 404 until `TERMS_PAGE_ENABLED=true`.
 
+### Not done at the end of round 8c (2026-11-22)
+- Group 2 (emails): blocked on Resend DNS + `RESEND_API_KEY` + `EMAIL_FROM` + `RESEND_WEBHOOK_SECRET`. No email sent, no inbox/spam result, first automatic search not checked (also needs an account marked Test).
+- Group 3 (admin.agental.co): blocked on the CNAME `admin`. HTTPS, server-side admin check and the non-admin check not done.
+- Realtime bell: code live, off until `SUPABASE_JWT_SECRET` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`; not tested on production.
+- Daily backup: code live, off until `CRON_SECRET`; never run on production.
+- Group 5: the founder deleted some of the eligible accounts himself on 2026-11-22 (Admin > Audit holds the entries); the warning email was never sent (needs Resend and his OK on the wording). He finds the cleanup interface still complicated: simplify in round 9.
+- Signed-in production checks of every changed page, camera recording (Chrome, Safari): not done (no production session in the agent's browser; Google sign-in opens the regular browser and the cookie import did not carry the session).
+- Permission rules and `dialogExpiry: never`: refused by the classifier; the founder edits `.claude/settings.local.json` himself.
+- Cleanup: remove `tools/db/round8c-report.mjs` and its build step; `main` not fast-forwarded to `frontend-redesign` (needs the founder's explicit OK).
+
 ### Next exact step
 When the founder says a founder action is done: re-run `vercel env ls` / `dig`, redeploy, and
 finish its group (2, 3), then Realtime and backup checks on production (trigger a notification on
