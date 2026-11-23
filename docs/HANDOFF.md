@@ -21,7 +21,7 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | built and tested with the model faked; live injection tests wait for W10 | 52 |
 | 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | 54 |
-| 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | (deploying) |
+| 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | 55 |
 | 8. Texts (flag off) | after 7 | |
 | 9. Controls, GO_LIVE | after 8 | |
 
