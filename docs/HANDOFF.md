@@ -17,13 +17,32 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 |---|---|---|
 | 1. Admin, simpler | live | 49 |
 | 2. Emails (Resend) | part 1 live (list, Limelight confirmation, demo accounts Test); sending waits for W1 to W3 | 50 |
-| 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
+| 3. Staging and n8n | waiting for W8 (secrets), W9 (bypass), W11 (n8n sign-in), W15 (archived Beta V2) | |
 | 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | built and tested with the model faked; live injection tests wait for W10 | 52 |
 | 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | 54 |
 | 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | 55 |
 | 8. Texts (flag off) | built behind SMS_ENABLED (off); what is missing: "Group 8: texts" below | 56 |
-| 9. Controls, GO_LIVE | pause switch, AI accounts page, docs/GO_LIVE.md | (deploying) |
+| 9. Controls, GO_LIVE | pause switch, AI accounts page, docs/GO_LIVE.md | 57 |
+
+### Next exact step (when the founder is back)
+
+He writes "Here I am, I can allow everything now": go through "Waiting for Jérôme" in order. As each
+item lands, check it (`vercel env ls`, `dig`, the file in `~/.config/agental/`), redeploy, and run
+what it unblocks:
+- W1 to W3: send and check every email of `docs/EMAILS.md` on production with a Test account
+  (results in the last column), check Admin > Emails statuses. Admin > Controls: approve the
+  categories he wants.
+- W4: `curl -sI https://admin.agental.co`, admin-only and two-factor checks.
+- W5, W6: Realtime bell on a Test account; first backup and daily cron in the Vercel logs.
+- W8, W9, W11, W15: bind the `Agental app (staging)` credential and the bypass header on the five app
+  nodes of Direct Replies (n8n API, workflow inactive), redeploy the staging preview and re-alias
+  `agental-staging-agentalco.vercel.app`, check signed / unsigned requests on the three routes, run
+  the provider test (`mode` = `providers`), then the casting search on staging with three fictional
+  performers, then on production with Test accounts.
+- W10: the seven live injection tests in `docs/ASSISTANT.md` on a Test account.
+- W13: D3 with the founder.
+- Main: `main` is not fast-forwarded to `frontend-redesign` (the founder's explicit OK is needed).
 
 ### Waiting for Jérôme
 
