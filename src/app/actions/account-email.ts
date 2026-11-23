@@ -302,6 +302,8 @@ async function deliverPasswordReset(
     const users = await findUsersByEmail(prisma, address);
     if (users.length !== 1) return;
     const [user] = users;
+    // Round 9: an account an admin deleted gets no email.
+    if (user.deletedAt) return;
     const token = await createEmailToken(prisma, {
       purpose: "reset",
       userId: user.id,

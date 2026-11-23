@@ -457,7 +457,7 @@
         "website": "Site",
         "status": "Statut",
         "agents": "Agents activés",
-        "lastSignIn": "Dernière connexion"
+        "lastSignIn": "Dernière connexion ou visite"
       },
       "site": {
         "none": "Aucun",
@@ -522,7 +522,7 @@
         "paid": "Paiements",
         "neverPaid": "N’a jamais payé",
         "paidOrTeam": "A payé ou dans une équipe",
-        "signInNever": "Aucune enregistrée",
+        "signInNever": "Aucune enregistrée pour l’instant",
         "signInBefore": "Avant une date",
         "signedInBefore": "Dernière connexion avant le"
       },
@@ -544,7 +544,7 @@
       "empty": "Aucun compte ne correspond à ces filtres.",
       "emptyHint": "Retire un filtre ou cherche un autre nom ou e-mail.",
       "notRecorded": "Non enregistrée",
-      "lastSignInHelp": "Enregistrée depuis le 22 novembre 2026. Les connexions plus anciennes apparaissent comme non enregistrées.",
+      "lastSignInHelp": "Enregistrée depuis le 22 novembre 2026 : chaque connexion, et chaque jour où une session ouverte est utilisée. L’activité plus ancienne apparaît comme non enregistrée.",
       "bulk": {
         "selected": "{count, plural, =0 {Aucun compte sélectionné} one {# compte sélectionné} other {# comptes sélectionnés}}",
         "warnCta": "Envoyer l’e-mail d’avertissement",
@@ -735,7 +735,8 @@
         "purgeOn": "Effacé définitivement le"
       },
       "daysLeft": "{count, plural, =0 {Aujourd’hui} one {# jour restant} other {# jours restants}}",
-      "restore": "Rétablir"
+      "restore": "Rétablir",
+      "detailBanner": "Ce compte a été supprimé. Il ne peut plus se connecter et ses agents sont arrêtés. Rétablis-le depuis"
     },
     "projects": {
       "title": "Projets",

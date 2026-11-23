@@ -457,7 +457,7 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "最近登录"
+        "lastSignIn": "最近登录或访问"
       },
       "site": {
         "none": "None",
@@ -522,7 +522,7 @@
         "paid": "付款",
         "neverPaid": "从未付款",
         "paidOrTeam": "已付款或在团队中",
-        "signInNever": "无记录",
+        "signInNever": "尚无记录",
         "signInBefore": "早于某日",
         "signedInBefore": "最近登录早于"
       },
@@ -544,7 +544,7 @@
       "empty": "没有符合这些筛选条件的账户。",
       "emptyHint": "清除一个筛选条件，或搜索其他姓名或邮箱。",
       "notRecorded": "无记录",
-      "lastSignInHelp": "自 2026 年 11 月 22 日起记录。更早的登录显示为无记录。",
+      "lastSignInHelp": "自 2026 年 11 月 22 日起记录：每次登录，以及每天使用已打开会话的情况。更早的活动显示为无记录。",
       "bulk": {
         "selected": "{count, plural, =0 {未选择账户} other {已选择 # 个账户}}",
         "warnCta": "发送提醒邮件",
@@ -735,7 +735,8 @@
         "purgeOn": "永久删除日期"
       },
       "daysLeft": "{count, plural, =0 {今天} other {剩余 # 天}}",
-      "restore": "恢复"
+      "restore": "恢复",
+      "detailBanner": "该账户已被删除，无法登录，其代理已停止。可在此恢复："
     },
     "projects": {
       "title": "项目",

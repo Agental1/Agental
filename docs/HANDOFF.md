@@ -1,7 +1,87 @@
 # Handoff for the next model or person
 
-Updated 2026-11-22 (round 8 closed: v0.6.4.0 live, see docs/ROUND8_PLAN.md and docs/ROLLBACK_R8.md). Read the Round 9 carryover first, then "Round 7b" below for
+Updated 2026-11-22 (round 9 in progress: read "Round 9 (2026-11-22): start here" first). Older notes: the Round 9 carryover, then "Round 7b" below for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
+
+## Round 9 (2026-11-22): start here
+
+Brief: `Agental_Cowork_Round9_Prompt.md` (Desktop). The founder is away: the agent never waits.
+Anything that needs him goes in "Waiting for Jérôme" below; when he writes "Here I am, I can
+allow everything now", go through that list in order and finish each item.
+
+Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` unset).
+
+### Progress
+
+| Group | State | Version |
+|---|---|---|
+| 1. Admin, simpler | built, reviewed, deploying | (next) |
+| 2. Emails (Resend) | waiting for Resend DNS + key (W1, W2) | |
+| 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
+| 4. Searches through n8n | app side next | |
+| 5. Samantha and Adrian | app side next; live calls wait for W8 | |
+| 6. Automatic emails | after 4 and 5 | |
+| 7. Direct Replies | after 6; D3 waits for the founder | |
+| 8. Texts (flag off) | after 7 | |
+| 9. Controls, GO_LIVE | after 8 | |
+
+### Waiting for Jérôme
+
+Each item: group, exact step, what is needed, and how to resume. Secrets are never typed by
+the agent: the founder pastes them. Commands below generate a value straight to the clipboard.
+
+1. **W1, Group 2: Resend domain.** resend.com > Domains > agental.co: copy each record it shows
+   (TXT `resend._domainkey`, MX and TXT on `send`) into name.com > agental.co > DNS Records; keep
+   the existing DMARC; click Verify in Resend. Resume: `dig +short TXT resend._domainkey.agental.co`
+   returns a value, then the agent runs Group 2.
+2. **W2, Group 2: Resend key and sender.** resend.com > API Keys > Create (Sending access, domain
+   agental.co). vercel.com > agental > Settings > Environment Variables: `RESEND_API_KEY`
+   (Production and Preview); edit `EMAIL_FROM` (Production) to `Agental <contact@agental.co>`.
+   Resume: `vercel env ls | grep RESEND_API_KEY`, then redeploy and test every email in
+   `docs/EMAILS.md` with a Test account.
+3. **W3, Group 2: Resend webhook.** resend.com > Webhooks > Add endpoint
+   `https://www.agental.co/api/webhooks/resend`, all email events; signing secret into Vercel as
+   `RESEND_WEBHOOK_SECRET` (Production). Resume: redeploy, check statuses in Admin > Emails.
+4. **W4, Group 2: admin subdomain.** name.com DNS: CNAME, host `admin`, answer
+   `cname.vercel-dns.com`, TTL 300. Resume: `dig +short CNAME admin.agental.co`, then
+   `curl -sI https://admin.agental.co` and the non-admin check.
+5. **W5, Group 2: live bell.** Supabase > Project Settings > JWT Keys > Legacy JWT secret into
+   Vercel `SUPABASE_JWT_SECRET`; API Keys > publishable key into `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   (both Production). Resume: redeploy, trigger a notification on a Test account.
+6. **W6, Groups 1, 2, 9: crons.** Terminal: `openssl rand -base64 32 | pbcopy`, paste into Vercel
+   `CRON_SECRET` (Production). Turns on the daily backup (09:30 UTC), the AI spend check and the
+   30-day purge of deleted accounts (14:00 UTC). Resume: redeploy; check the next cron run in
+   Vercel > Deployments > Functions logs.
+7. **W7, Group 2 (optional): AI accounts card.** `OPENAI_ADMIN_KEY` (platform.openai.com >
+   Settings > Admin keys) and `ANTHROPIC_ADMIN_KEY` (console.anthropic.com > Settings > Admin
+   keys) in Vercel Production. Resume: redeploy, open /admin.
+8. **W8, Group 3: n8n shared secrets.** Three values, each with `openssl rand -base64 32 | pbcopy`:
+   - staging: Vercel `N8N_SHARED_SECRET`, Preview only; n8n > Credentials > Header Auth named
+     `Agental app (staging)`, Name `Authorization`, Value `Bearer ` + the value;
+   - production (Test accounts only): Vercel `N8N_SHARED_SECRET`, Production only; n8n Header Auth
+     `Agental app (production)`, same form;
+   - support: Vercel `N8N_SUPPORT_SECRET` (Preview and Production); n8n Header Auth
+     `Agental support`.
+   Resume: the agent binds the credentials on the HTTP nodes of both workflows (n8n API), checks
+   the routes answer 401 unsigned and 200 signed.
+9. **W9, Group 3: Preview bypass token.** Vercel > agental > Settings > Deployment Protection >
+   Protection Bypass for Automation > Add, copy, then in Terminal:
+   `printf 'VERCEL_BYPASS=%s\n' "$(pbpaste)" > ~/.config/agental/vercel-bypass.env && chmod 600 ~/.config/agental/vercel-bypass.env`.
+   Resume: the agent fills the `x-vercel-protection-bypass` header on the app nodes and redeploys
+   the staging preview.
+10. **W10, Group 5: Anthropic key for the assistant.** First console.anthropic.com > Settings >
+    Limits: monthly spend limit **$50** (proposed). Then API Keys > Create key `agental-assistant`
+    into Vercel `ANTHROPIC_API_KEY` (Production and Preview). Resume: redeploy, run the injection
+    tests on a Test account (`docs/ASSISTANT.md`).
+11. **W11, Groups 3 and 4: n8n in the browser.** Sign in once to agental.app.n8n.cloud in the
+    Claude app's browser pane so the agent can run "Execute workflow" (provider test: `mode` =
+    `providers`). If the Gmail credential shows "Reconnect", click it and sign in as
+    contact@agental.co. Proposed limits: OpenAI monthly budget $50 (platform.openai.com > Settings
+    > Limits); Perplexity auto top-up off, balance about $20.
+12. **W12: signed-in checks.** Sign in once to www.agental.co and admin.agental.co in the same
+    browser pane (two-factor code). Resume: the agent clicks through the changed admin pages.
+13. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
+    below in the Group 7 notes); run by the founder.
 
 ## Round 8d (2026-11-22): start here
 

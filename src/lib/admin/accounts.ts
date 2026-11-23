@@ -301,6 +301,7 @@ export async function accountTimeline(userId: string) {
       emailVerified: true,
       accountStatus: true,
       isAdmin: true,
+      deletedAt: true,
       agentsOptInAt: true,
       autoSearchOptIn: true,
       artistProfile: { select: { id: true, ...COMPLETENESS_SELECT } },

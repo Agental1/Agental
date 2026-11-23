@@ -457,7 +457,7 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "Último inicio de sesión"
+        "lastSignIn": "Último inicio o visita"
       },
       "site": {
         "none": "None",
@@ -522,7 +522,7 @@
         "paid": "Pagos",
         "neverPaid": "Nunca pagó",
         "paidOrTeam": "Pagó o está en un equipo",
-        "signInNever": "Ninguno registrado",
+        "signInNever": "Ninguno registrado aún",
         "signInBefore": "Antes de una fecha",
         "signedInBefore": "Último inicio antes del"
       },
@@ -544,7 +544,7 @@
       "empty": "Ninguna cuenta coincide con estos filtros.",
       "emptyHint": "Quita un filtro o busca otro nombre o correo.",
       "notRecorded": "Sin registro",
-      "lastSignInHelp": "Se registra desde el 22 de noviembre de 2026. Los inicios anteriores aparecen sin registro.",
+      "lastSignInHelp": "Se registra desde el 22 de noviembre de 2026: cada inicio de sesión y cada día en que se usa una sesión abierta. La actividad anterior aparece sin registro.",
       "bulk": {
         "selected": "{count, plural, =0 {Ninguna cuenta seleccionada} one {# cuenta seleccionada} other {# cuentas seleccionadas}}",
         "warnCta": "Enviar correo de aviso",
@@ -735,7 +735,8 @@
         "purgeOn": "Se borra para siempre el"
       },
       "daysLeft": "{count, plural, =0 {Hoy} one {Queda # día} other {Quedan # días}}",
-      "restore": "Restaurar"
+      "restore": "Restaurar",
+      "detailBanner": "Esta cuenta se eliminó. No puede iniciar sesión y sus agentes están detenidos. Restáurala desde"
     },
     "projects": {
       "title": "Proyectos",

@@ -457,7 +457,7 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "Last sign-in"
+        "lastSignIn": "Last sign-in or visit"
       },
       "site": {
         "none": "None",
@@ -522,7 +522,7 @@
         "paid": "Payments",
         "neverPaid": "Never paid",
         "paidOrTeam": "Paid or in a team",
-        "signInNever": "None recorded",
+        "signInNever": "None recorded yet",
         "signInBefore": "Before a date",
         "signedInBefore": "Last sign-in before"
       },
@@ -544,7 +544,7 @@
       "empty": "No account matches these filters.",
       "emptyHint": "Clear a filter or search for another name or email.",
       "notRecorded": "Not recorded",
-      "lastSignInHelp": "Recorded since November 22, 2026. Earlier sign-ins show as not recorded.",
+      "lastSignInHelp": "Recorded since November 22, 2026: each sign-in, and each day an open session is used. Earlier activity shows as not recorded.",
       "bulk": {
         "selected": "{count, plural, =0 {No account selected} one {# account selected} other {# accounts selected}}",
         "warnCta": "Send warning email",
@@ -735,7 +735,8 @@
         "purgeOn": "Removed for good on"
       },
       "daysLeft": "{count, plural, =0 {Today} one {# day left} other {# days left}}",
-      "restore": "Restore"
+      "restore": "Restore",
+      "detailBanner": "This account was deleted. It can't sign in and its agents are off. Restore it from"
     },
     "projects": {
       "title": "Projects",

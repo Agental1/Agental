@@ -66,6 +66,13 @@ describe.skipIf(!local)("account removal", () => {
     expect(totals.all).toBe(await prisma.user.count({ where: { deletedAt: null } }));
   });
 
+  it("keeps a deleted account away from the agents, even if its status is changed", async () => {
+    const { agentEligibility } = await import("@/lib/agents");
+    await prisma.user.update({ where: { id: ids.junk }, data: { accountStatus: "TEST" } });
+    expect(await agentEligibility(ids.junk, { mode: "staging" })).toEqual({ ok: false, reason: "revoked" });
+    await prisma.user.update({ where: { id: ids.junk }, data: { accountStatus: "REVOKED" } });
+  });
+
   it("restores with the previous status", async () => {
     expect(await restoreAccount(adminId, ids.spam)).toBe(true);
     const spam = await prisma.user.findUnique({ where: { id: ids.spam } });

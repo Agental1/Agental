@@ -106,6 +106,8 @@ export async function resolveOAuthUser(
   if (!identity?.email) return { type: "refused", error: "oauthEmailUnverified" };
 
   const linked = await findAccountUser(db, identity);
+  // Round 9: an account an admin deleted (restorable for 30 days) is left untouched.
+  if (linked?.deletedAt) return { type: "refused", error: "oauthGeneric" };
   if (linked) {
     await touchAccount(db, identity, now);
     return {
@@ -117,6 +119,7 @@ export async function resolveOAuthUser(
   }
 
   const sameEmail = await findUsersByEmail(db, identity.email);
+  if (sameEmail.some((u) => u.deletedAt)) return { type: "refused", error: "oauthGeneric" };
   if (sameEmail.length > 1 || (sameEmail.length === 1 && !identity.emailAuthoritative)) {
     return { type: "refused", error: "oauthLinkRequiresPassword" };
   }

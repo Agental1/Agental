@@ -34,7 +34,8 @@ export async function loadProfileFacts(
 ): Promise<LoadedProfiles> {
   if (profileIds.length === 0) return { profiles: [], skipped: 0 };
   const rows = await db.artistProfile.findMany({
-    where: { id: { in: profileIds } },
+    // Round 9: an account an admin deleted never reaches an agent, whatever its status.
+    where: { id: { in: profileIds }, user: { deletedAt: null } },
     select: {
       id: true,
       birthDate: true,

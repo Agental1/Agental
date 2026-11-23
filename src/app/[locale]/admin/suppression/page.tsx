@@ -36,7 +36,8 @@ export default async function DeletedPage({
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : undefined);
-  await purgeDeletedAccounts(new Date(), adminId).catch((e) => console.error("[account-removal] purge failed", e instanceof Error ? e.name : "error"));
+  // A small batch here (the page must stay fast); the daily cron does the rest.
+  await purgeDeletedAccounts(new Date(), adminId, 20).catch((e) => console.error("[account-removal] purge failed", e instanceof Error ? e.name : "error"));
   const all = await listDeleted();
   const q = one("q")?.trim().toLowerCase().slice(0, 100) ?? "";
   const rows = q ? all.filter((r) => r.email.toLowerCase().includes(q) || r.name.toLowerCase().includes(q)) : all;

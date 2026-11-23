@@ -97,7 +97,7 @@ describe("jwt callback on an ordinary request", () => {
     expect(await call({ sub: "u1", kind: "TALENT", authAt: 1 })).toEqual({ sub: "u1", kind: "TALENT", authAt: 1 });
     expect(userFindUnique).toHaveBeenLastCalledWith({
       where: { id: "u1" },
-      select: { sessionsValidAfter: true, deletedAt: true },
+      select: { sessionsValidAfter: true, deletedAt: true, lastSignInAt: true },
     });
   });
 

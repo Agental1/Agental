@@ -84,7 +84,9 @@ export async function softDeleteAccounts(adminId: string, rawIds: string[], now 
   for (const u of users) {
     if (blocked.has(u.id) || u.id === adminId) continue;
     const { count } = await prisma.user.updateMany({
-      where: { id: u.id, deletedAt: null, isAdmin: false, accountStatus: { notIn: ["STAFF", "TEST"] } },
+      // The status just read: a change in between makes this match nothing, so
+      // deletedPrevStatus is always the status the account really had.
+      where: { id: u.id, deletedAt: null, isAdmin: false, accountStatus: u.accountStatus },
       data: { deletedAt: now, deletedById: adminId, deletedPrevStatus: u.accountStatus, accountStatus: "REVOKED", sessionsValidAfter: now },
     });
     if (count !== 1) continue;
@@ -142,7 +144,9 @@ export async function sendWarningEmails(adminId: string, rawIds: string[], baseU
   for (const u of users) {
     if (blocked.has(u.id) || u.accounts.length > 0) continue; // Google/Apple accounts are verified by the provider.
     const previous = u.deletionWarnedAt;
-    await prisma.user.update({ where: { id: u.id }, data: { deletionWarnedAt: now } });
+    // Claim the row first: two admins (or two tabs) never send the same warning twice.
+    const claimed = await prisma.user.updateMany({ where: { id: u.id, deletionWarnedAt: previous, deletedAt: null }, data: { deletionWarnedAt: now } });
+    if (claimed.count !== 1) continue;
     const token = await createEmailToken(prisma, { purpose: "verify", userId: u.id, ttlMs: warningLinkTtlMs(WARNING_DAYS), now });
     const res = await sendEmail({
       to: u.email,
@@ -150,7 +154,7 @@ export async function sendWarningEmails(adminId: string, rawIds: string[], baseU
       ...deletionWarningEmail(u.locale, linkFor("verify", token, u.locale, baseUrl), WARNING_DAYS),
     });
     if (!res.ok || res.mode !== "resend") {
-      await prisma.user.update({ where: { id: u.id }, data: { deletionWarnedAt: previous } });
+      await prisma.user.updateMany({ where: { id: u.id, deletionWarnedAt: now }, data: { deletionWarnedAt: previous } });
       continue;
     }
     await audit({ actorUserId: adminId, action: "admin.account.warn", resourceType: "User", resourceId: u.id, after: { days: WARNING_DAYS } });
@@ -196,11 +200,11 @@ export async function listDeleted(): Promise<DeletedRow[]> {
  * files. Runs from the daily cron and whenever an admin opens Deleted, so it
  * happens even without the cron. Idempotent: a second run finds nothing.
  */
-export async function purgeDeletedAccounts(now = new Date(), actorUserId: string | null = null): Promise<{ purged: number; failed: number }> {
+export async function purgeDeletedAccounts(now = new Date(), actorUserId: string | null = null, limit = REMOVAL_BATCH): Promise<{ purged: number; failed: number }> {
   const cutoff = new Date(now.getTime() - RESTORE_DAYS * 24 * 60 * 60 * 1000);
   const due = await prisma.user.findMany({
     where: { deletedAt: { not: null, lte: cutoff } },
-    take: REMOVAL_BATCH,
+    take: limit,
     select: { id: true, email: true, kind: true, createdAt: true, deletedAt: true },
   });
   if (due.length === 0) return { purged: 0, failed: 0 };
@@ -215,7 +219,8 @@ export async function purgeDeletedAccounts(now = new Date(), actorUserId: string
           select: { id: true, avatarKey: true, media: { select: { storageKey: true } } },
         });
         const uploads = profile ? await tx.upload.findMany({ where: { profileId: profile.id }, select: { storageKey: true } }) : [];
-        const { count } = await tx.user.deleteMany({ where: { id: r.id, deletedAt: { not: null, lte: cutoff } } });
+        // Only what the delete left: still REVOKED, never an admin (protection re-checked).
+        const { count } = await tx.user.deleteMany({ where: { id: r.id, deletedAt: { not: null, lte: cutoff }, isAdmin: false, accountStatus: "REVOKED" } });
         if (count !== 1) return null;
         await tx.verificationToken.deleteMany({ where: { identifier: { in: [`verify:${r.id}`, `reset:${r.id}`] } } });
         await tx.emailLog.deleteMany({ where: { to: { equals: r.email, mode: "insensitive" } } });

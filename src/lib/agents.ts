@@ -30,6 +30,7 @@ export const ELIGIBILITY_SELECT = {
   emailVerified: true,
   passwordHash: true,
   accountStatus: true,
+  deletedAt: true,
   agentsOptInAt: true,
   autoSearchOptIn: true,
   accounts: { select: { provider: true } },
@@ -60,6 +61,8 @@ export async function agentEligibility(
   const db = opts.db ?? prisma;
   const u = await db.user.findUnique({ where: { id: userId }, select: ELIGIBILITY_SELECT });
   if (!u) return { ok: false, reason: "unreviewed" };
+  // Round 9: deleted by an admin (restorable for 30 days): no agent, whatever the status.
+  if (u.deletedAt) return { ok: false, reason: "revoked" };
   const facts = factsFrom(u, opts.now);
   return workflowEligibility(
     { ...facts, optedIn: opts.clicking ? "clicking" : facts.optedIn },

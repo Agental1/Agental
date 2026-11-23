@@ -132,7 +132,9 @@ function sessionStartedAt(token: { authAt?: unknown; iat?: unknown }): number {
   return typeof token.iat === "number" ? token.iat * 1000 : 0;
 }
 
-/** Round 9: the "last sign-in" admin filter. Never blocks a sign-in. */
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Round 9: the "last sign-in" admin filter (sign-in, or the day's first use of a session). Never blocks a sign-in. */
 async function stampSignIn(userId: string): Promise<void> {
   try {
     await prisma.user.update({ where: { id: userId }, data: { lastSignInAt: new Date() } });
@@ -280,11 +282,11 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
         // not predate a cut-off (set when a provider sign-in took over an
         // account whose password was never proven, see linkOAuthUser).
         if (token.sub) {
-          let account: { sessionsValidAfter: Date | null; deletedAt: Date | null } | null;
+          let account: { sessionsValidAfter: Date | null; deletedAt: Date | null; lastSignInAt?: Date | null } | null;
           try {
             account = await prisma.user.findUnique({
               where: { id: token.sub },
-              select: { sessionsValidAfter: true, deletedAt: true },
+              select: { sessionsValidAfter: true, deletedAt: true, lastSignInAt: true },
             });
           } catch (error) {
             // The database is unreachable. Keep the session as it is: every
@@ -301,6 +303,12 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
             sessionStartedAt(token) < account.sessionsValidAfter.getTime()
           ) {
             return null;
+          }
+          // Round 9: a session that started before sign-ins were recorded (or
+          // a long one) still counts as activity, at most once a day, so the
+          // admin's "last sign-in" filter never shows an active person as idle.
+          if (account.lastSignInAt !== undefined && (!account.lastSignInAt || Date.now() - account.lastSignInAt.getTime() > DAY_MS)) {
+            await stampSignIn(token.sub);
           }
         }
         return token;
