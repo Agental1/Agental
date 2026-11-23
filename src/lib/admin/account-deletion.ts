@@ -187,7 +187,7 @@ export async function sendDeletionWarnings(
 
 export type DeleteResult =
   | { ok: true; deleted: number; failed: number; remaining: number }
-  | { ok: false; reason: "confirmation" | "empty" | "changed" };
+  | { ok: false; reason: "confirmation" | "empty" | "changed" | "none_selected" };
 
 const hashEmail = (email: string) => createHash("sha256").update(email.trim().toLowerCase()).digest("hex");
 
@@ -212,12 +212,23 @@ export async function deleteEligibleAccounts(
   typed: string,
   fingerprint: string,
   now = new Date(),
-  scope: DeletionScope = {}
+  scope: DeletionScope = {},
+  /**
+   * Round 8c: the accounts ticked on the page (none is ticked by default, so a
+   * reload never selects anything on its own). Only accounts still on the
+   * eligible list can be deleted; an id that is not (any more) refuses the
+   * whole run. Undefined means every eligible account, as before.
+   */
+  selectedIds?: string[]
 ): Promise<DeleteResult> {
-  const rows = await listDeletionCandidates(days, now, scope);
-  if (rows.length === 0) return { ok: false, reason: "empty" };
+  const all = await listDeletionCandidates(days, now, scope);
+  if (all.length === 0) return { ok: false, reason: "empty" };
+  if (fingerprint !== candidatesFingerprint(all, days)) return { ok: false, reason: "changed" };
+  const picked = selectedIds ? new Set(selectedIds) : null;
+  if (picked && [...picked].some((id) => !all.some((r) => r.id === id))) return { ok: false, reason: "changed" };
+  const rows = picked ? all.filter((r) => picked.has(r.id)) : all;
+  if (rows.length === 0) return { ok: false, reason: "none_selected" };
   if (typed.trim() !== confirmationPhrase(rows.length)) return { ok: false, reason: "confirmation" };
-  if (fingerprint !== candidatesFingerprint(rows, days)) return { ok: false, reason: "changed" };
 
   const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
   const storage = await getStorage();
@@ -291,7 +302,7 @@ export async function deleteEligibleAccounts(
     action: "admin.accounts.deletionRun",
     resourceType: "User",
     resourceId: "*",
-    after: { days, listed: rows.length, deleted, failed, remaining: rows.length - batch.length },
+    after: { days, eligible: all.length, ticked: rows.length, kept: all.length - rows.length, deleted, failed, remaining: rows.length - batch.length },
   });
   return { ok: true, deleted, failed, remaining: rows.length - batch.length };
 }

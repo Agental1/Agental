@@ -5,7 +5,7 @@ import { toLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { confirmationPhrase, deletionDays } from "@/domain/account-deletion";
+import { deletionDays } from "@/domain/account-deletion";
 import { candidatesFingerprint, listDeletionCandidates } from "@/lib/admin/account-deletion";
 import { isAccountStatus } from "@/domain/workflow/eligibility";
 import { deleteEligibleAccountsForm, sendDeletionWarningsForm } from "@/app/actions/admin-deletion";
@@ -20,7 +20,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 /**
  * Account cleanup: the accounts eligible for deletion (email never verified,
  * older than N days, never paid, not staff or test), an optional warning
- * email, a CSV export, and "Delete all eligible" behind a typed confirmation.
+ * email, a CSV export, and "Delete the ticked accounts" behind a typed
+ * confirmation (round 8c: every row has a checkbox, none ticked by default).
  * Admins only; each view is logged. Nothing is deleted without the typed
  * phrase, and the rule is checked again per account when it runs.
  */
@@ -41,7 +42,6 @@ export default async function CleanupPage({
   const days = deletionDays(one("days"), deletionDays(process.env.ACCOUNT_DELETION_AFTER_DAYS));
   const rows = await listDeletionCandidates(days);
   await audit({ actorUserId: adminId, action: "admin.view.deletion", resourceType: "User", resourceId: "*", after: { days, count: rows.length } });
-  const phrase = confirmationPhrase(rows.length);
   const field = "h-10 rounded-sedan border border-border bg-surface px-2 text-sm";
   const error = one("error");
 
@@ -83,6 +83,8 @@ export default async function CleanupPage({
                 ? "admin.cleanup.listChanged"
                 : error === "empty"
                   ? "admin.cleanup.nothing"
+                  : error === "none_selected"
+                    ? "admin.cleanup.noneSelected"
                   : error === "no_sender"
                     ? "admin.cleanup.noSender"
                     : "admin.accounts.statusError"
@@ -97,6 +99,9 @@ export default async function CleanupPage({
           <table className="w-full min-w-[760px] text-sm">
             <thead className="bg-surface-2 text-left text-fg-muted">
               <tr>
+                <th className="p-3 text-left font-bold">
+                  <span className="sr-only">{t("admin.cleanup.cols.pick")}</span>
+                </th>
                 {(["email", "audience", "created", "status", "warned", "media"] as const).map((c) => (
                   <th key={c} className="p-3 font-medium">{t(`admin.cleanup.cols.${c}`)}</th>
                 ))}
@@ -105,6 +110,18 @@ export default async function CleanupPage({
             <tbody>
               {rows.map((r) => (
                 <tr key={r.id} className="border-t border-border">
+                  <td className="p-3">
+                    {/* Belongs to the delete form below. Never ticked by default:
+                        a reload or an error never selects an account on its own. */}
+                    <input
+                      type="checkbox"
+                      name="ids"
+                      value={r.id}
+                      form="delete-accounts"
+                      aria-label={t("admin.cleanup.pickOne", { email: r.email })}
+                      className="size-4 accent-[var(--danger,#c00)]"
+                    />
+                  </td>
                   <td className="p-3">
                     <Link href={`/admin/comptes/${r.id}`} className="font-bold text-accent hover:underline">{r.email}</Link>
                   </td>
@@ -133,18 +150,18 @@ export default async function CleanupPage({
             </button>
           </form>
 
-          <form action={deleteEligibleAccountsForm} className="space-y-2 rounded-sedan border border-danger/50 bg-danger/5 p-4">
+          <form id="delete-accounts" action={deleteEligibleAccountsForm} className="space-y-2 rounded-sedan border border-danger/50 bg-danger/5 p-4">
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="days" value={days} />
             <input type="hidden" name="fingerprint" value={candidatesFingerprint(rows, days)} />
             <h2 className="font-display text-lg font-medium text-danger">{t("admin.cleanup.deleteTitle")}</h2>
-            <p className="text-sm">{t("admin.cleanup.deleteBody", { count: rows.length })}</p>
+            <p className="text-sm">{t("admin.cleanup.deleteBody")}</p>
             <label className="flex flex-col gap-1 text-sm">
-              <span>{t("admin.cleanup.typeToConfirm", { phrase })}</span>
+              <span>{t("admin.cleanup.typeToConfirm")}</span>
               <input name="confirm" required autoComplete="off" className={`${field} max-w-xs`} />
             </label>
             <button className="h-10 rounded-sedan bg-danger px-4 text-sm font-bold text-white">
-              {t("admin.cleanup.deleteCta", { count: rows.length })}
+              {t("admin.cleanup.deleteCta")}
             </button>
           </form>
         </div>

@@ -552,22 +552,25 @@
         "created": "Créé",
         "status": "Statut",
         "warned": "Prévenu",
-        "media": "Médias"
+        "media": "Médias",
+        "pick": "Supprimer"
       },
       "warnTitle": "Prévenir d’abord (facultatif)",
       "warnBody": "Envoie « vérifie ton e-mail sous {days} jours ou ton compte sera supprimé » avec un lien de confirmation, une fois par compte.",
       "warnCta": "Envoyer l’e-mail d’avertissement",
       "noSender": "Aucun expéditeur configuré (RESEND_API_KEY) : rien ne partirait.",
       "warned": "{count, plural, one {# e-mail d’avertissement envoyé.} other {# e-mails d’avertissement envoyés.}}",
-      "deleteTitle": "Supprimer tous les comptes éligibles",
-      "deleteBody": "Supprime définitivement {count} comptes, leurs profils et leurs fichiers, avec une entrée d’audit chacun. Irréversible.",
-      "typeToConfirm": "Tape {phrase} pour confirmer",
-      "deleteCta": "Supprimer {count} comptes",
+      "deleteTitle": "Supprimer des comptes",
+      "deleteBody": "Coche les comptes à supprimer. Les comptes cochés, leurs profils et leurs fichiers sont supprimés définitivement, avec une entrée d’audit chacun. C’est irréversible.",
+      "typeToConfirm": "Tape DELETE et le nombre de comptes cochés pour confirmer (par exemple DELETE 4)",
+      "deleteCta": "Supprimer les comptes cochés",
       "badConfirmation": "La confirmation ne correspond pas à la liste affichée. Rien n’a été supprimé.",
       "nothing": "Il n’y a rien à supprimer.",
       "deleted": "{count, plural, one {# compte supprimé} other {# comptes supprimés}}, {failed} non supprimés (voir les journaux).",
       "listChanged": "La liste a changé depuis le chargement de la page. Rien n’a été supprimé : vérifie à nouveau la liste.",
-      "remaining": "{count, plural, one {Il reste # compte : relance.} other {Il reste # comptes : relance.}}"
+      "remaining": "{count, plural, one {Il reste # compte : relance.} other {Il reste # comptes : relance.}}",
+      "pickOne": "Supprimer {email}",
+      "noneSelected": "Aucun compte n’était coché. Rien n’a été supprimé."
     },
     "views": {
       "profilesSubtitle": "{count, plural, one {# profil} other {# profils}}, du plus récent au plus ancien. La complétude suit la même règle que l’application.",

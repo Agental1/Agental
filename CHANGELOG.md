@@ -3,6 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.13.0] - 2026-11-22
+
+### Changed (round 8c, group 5)
+
+- **Account cleanup deletes only the accounts you tick.** Each eligible account has a checkbox, none ticked by default (a reload or an error never selects anything). Type `DELETE` and the number ticked. Only accounts still eligible can be deleted; anything else refuses the whole run. The run's audit entry records how many were eligible, ticked and kept.
+
+No migration.
+
 ## [0.6.12.0] - 2026-11-22
 
 ### Added (round 8c, group 6)

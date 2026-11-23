@@ -552,22 +552,25 @@
         "created": "创建时间",
         "status": "状态",
         "warned": "已提醒",
-        "media": "媒体"
+        "media": "媒体",
+        "pick": "删除"
       },
       "warnTitle": "先提醒（可选）",
       "warnBody": "发送“请在 {days} 天内验证邮箱，否则账户将被删除”及确认链接，每个账户一次。",
       "warnCta": "发送提醒邮件",
       "noSender": "未配置发件服务（RESEND_API_KEY）：不会发送任何邮件。",
       "warned": "{count, plural, other {已发送 # 封提醒邮件。}}",
-      "deleteTitle": "删除所有符合条件的账户",
-      "deleteBody": "永久删除 {count} 个账户及其资料和文件，每个都会记录审计日志。无法撤销。",
-      "typeToConfirm": "输入 {phrase} 以确认",
-      "deleteCta": "删除 {count} 个账户",
+      "deleteTitle": "删除账户",
+      "deleteBody": "勾选要删除的账户。勾选的账户及其资料和文件将被永久删除，每个账户记录一条审计日志。此操作无法撤销。",
+      "typeToConfirm": "输入 DELETE 和勾选的账户数量以确认（例如 DELETE 4）",
+      "deleteCta": "删除勾选的账户",
       "badConfirmation": "确认内容与列表不符，未删除任何内容。",
       "nothing": "没有可删除的内容。",
       "deleted": "{count, plural, other {已删除 # 个账户}}，{failed} 个未删除（见日志）。",
       "listChanged": "页面加载后列表已变化，未删除任何内容：请重新检查列表。",
-      "remaining": "{count, plural, other {还剩 # 个账户：请再次运行。}}"
+      "remaining": "{count, plural, other {还剩 # 个账户：请再次运行。}}",
+      "pickOne": "删除 {email}",
+      "noneSelected": "没有勾选任何账户。未删除任何内容。"
     },
     "views": {
       "profilesSubtitle": "{count, plural, other {# 份艺人资料}}，最新的在前。完整度与应用使用相同规则计算。",
