@@ -49,6 +49,9 @@ async function buildProviders(): Promise<NextAuthConfig["providers"]> {
       authorize: async (raw) => {
         const parsed = LoginInput.safeParse(raw);
         if (!parsed.success) return null;
+        // Round 8d: limited here too, whatever route reached this check.
+        const { authAllowed } = await import("@/lib/abuse");
+        if (!(await authAllowed("signinCallback", parsed.data.email))) return null;
         // Until every stored email is lowercase, two rows can answer to the
         // same address (see findUsersByEmail). The password tells whose
         // account this is.

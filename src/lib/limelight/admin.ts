@@ -1,8 +1,10 @@
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
 /**
+ * Round 8d: and the admin typed their two-factor code (src/lib/admin-mfa.ts).
+ *
  * The signed-in admin's user id, or null for everyone else: a visitor, a
  * signed-in account that is not an admin, a session whose user row is gone.
  *
@@ -18,5 +20,5 @@ export async function currentAdminId(): Promise<string | null> {
     where: { id },
     select: { isAdmin: true, email: true },
   });
-  return isAdminAccount(me) ? id : null;
+  return (await isVerifiedAdmin(me && { id, ...me })) ? id : null;
 }

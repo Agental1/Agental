@@ -1,4 +1,4 @@
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -28,7 +28,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ userId:
   let allowed = session?.user?.id === userId;
   if (!allowed && session?.user?.id) {
     const me = await prisma.user.findUnique({ where: { id: session.user.id }, select: { isAdmin: true, email: true } });
-    allowed = isAdminAccount(me);
+    allowed = await isVerifiedAdmin(me && { id: session.user.id, ...me });
   }
   if (!allowed) {
     const live = await prisma.site.count({ where: { userId, status: "PUBLISHED", publishedAt: { not: null } } });

@@ -168,7 +168,8 @@
     "codeExpired": "验证码已过期，请重新获取。",
     "codeLocked": "尝试次数过多，请重新获取验证码。",
     "codeDailyLimit": "今天发送的验证码过多，请明天再试。",
-    "uscEmailTaken": "此 USC 邮箱已验证过另一个账户。"
+    "uscEmailTaken": "此 USC 邮箱已验证过另一个账户。",
+    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app."
   },
   "auth": {
     "name": "姓名",
@@ -624,6 +625,18 @@
       "colAudience": "对象",
       "colDate": "日期",
       "colReads": "已读人数"
+    },
+    "mfa": {
+      "title": "Admin two-factor authentication",
+      "enrollLead": "The admin requires a code from an authenticator app on your phone (Google Authenticator, 1Password, Authy, Microsoft Authenticator).",
+      "step1": "1. In the app, add an account and scan this QR code.",
+      "step2": "2. Or type this key by hand (time-based):",
+      "step3": "3. Type the 6-digit code the app shows.",
+      "verifyLead": "Type the 6-digit code from your authenticator app. It keeps the admin open for {hours} hours on this browser.",
+      "code": "6-digit code",
+      "submit": "Confirm",
+      "submitting": "Checking…",
+      "lost": "Lost your phone? Ask the other founder, or set ADMIN_MFA_REQUIRED=false in Vercel until you enroll again."
     }
   },
   "matchReasons": {

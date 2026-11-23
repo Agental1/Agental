@@ -107,6 +107,7 @@ model User {
 
   @@index([accountStatus])
   @@schema("public")
+  adminTotp             AdminTotp?
 }
 
 model Account {
@@ -553,6 +554,22 @@ model Message {
 
   @@unique([threadId, clientKey])
   @@index([threadId, createdAt])
+  @@schema("public")
+}
+
+/// Round 8d: the admin's authenticator app (TOTP). One per admin; the secret
+/// is encrypted with a key derived from AUTH_SECRET.
+model AdminTotp {
+  id         String    @id @default(cuid())
+  userId     String    @unique
+  secretEnc  String
+  verifiedAt DateTime?
+  lastStep   Int?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@schema("public")
 }
 

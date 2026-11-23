@@ -22,6 +22,9 @@ import { canReadMedia } from "@/lib/media-access";
  * Anything else gets 404 rather than 403: telling an unauthenticated caller
  * that an id exists is itself a disclosure.
  */
+/** How long a media link works once access is checked. */
+const MEDIA_SIGNED_URL_SECONDS = 10 * 60;
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -64,7 +67,8 @@ export async function GET(
     return new Response(null, {
       status: 302,
       headers: {
-        Location: await storage.signedUrl(media.storageKey, { mime: media.mime }),
+        // Round 8d: 10 minutes (the backend's default is an hour).
+        Location: await storage.signedUrl(media.storageKey, { mime: media.mime, expiresInSeconds: MEDIA_SIGNED_URL_SECONDS }),
         // Never cache the redirect itself: it outlives the URL it points at,
         // and a cached 302 would send the browser to an expired signature.
         "Cache-Control": "private, no-store",

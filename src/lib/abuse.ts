@@ -12,6 +12,10 @@ import { hitRateLimit } from "@/lib/rate-limit";
 export const AUTH_LIMITS = {
   signup: { ip: { limit: 5, windowMs: 60 * 60 * 1000 }, email: { limit: 3, windowMs: 60 * 60 * 1000 } },
   signin: { ip: { limit: 30, windowMs: 15 * 60 * 1000 }, email: { limit: 10, windowMs: 15 * 60 * 1000 } },
+  // Round 8d: the same limits inside the credentials check itself, so a POST
+  // straight to /api/auth/callback/credentials (skipping the sign-in form's
+  // action) is limited too.
+  signinCallback: { ip: { limit: 30, windowMs: 15 * 60 * 1000 }, email: { limit: 10, windowMs: 15 * 60 * 1000 } },
 } as const;
 
 function keyHash(value: string): string {

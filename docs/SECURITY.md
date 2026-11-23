@@ -1,3 +1,51 @@
+# Security, rounds 8c and 8d
+
+## Round 8d check (2026-11-22)
+
+Read on production from the Version 46 build log (`tools/db/round8d-report.mjs`, read-only).
+
+**User data.** 57 tables in `public` and `limelight`, all with RLS on, no policy, and no privilege
+for `anon` or `authenticated`. Rounds 8d groups 1 and 2 added no table (one column on `Thread`,
+one on `User`); group 3 adds `AdminTotp`, created with RLS on in the same migration (the
+migration guard test enforces it). Storage: the three buckets (`avatars`, `media`, `selftapes`)
+are private and `storage.objects` has no policy, so no Supabase key reaches a file. Files are
+only served through the app after an access check (`/api/media/[id]`: owner, a casting team
+with a candidature on that profile, or a verified admin; `/api/avatar/[userId]`; share links):
+the app then answers with a signed URL. Since round 8d a media link lasts 10 minutes (the
+backend default was an hour), an avatar link 5 minutes, a share-link file 15 minutes.
+
+**Prices, promotions and quotas.** Read on the server only, from `src/domain/pricing.ts`.
+`recordPlanChoice` takes a plan id and a promotion id, nothing else: the price comes from
+`B2C_PLANS`, the promotional price only for a USC-verified account, and choosing a plan changes
+neither the plan nor the allowance (Stripe is not connected). `startFindingRoles` takes a
+client key only; the plan, quota and slots are read from the database inside the transaction.
+`tests/api/price-tamper-r8d.test.ts` sends modified requests (a price, a fake promotion, a plan
+object, extra fields) and proves nothing changes.
+
+**Admin.** Every admin page, server action and API checks the admin role on the server
+(`currentAdminId`, `isTeamMember` or `isVerifiedAdmin`, reading `isAdmin` and the allowlist from
+the database on each call). Round 8d added the check to the two pages that relied on the
+layout's check alone (Minors, Style guide). Admin actions are in the audit log (account status,
+deletion, messages, announcements, Limelight leads, student codes, exports, two-factor).
+
+**Two-factor for the admin role.** The app signs people in with Auth.js, not Supabase Auth, so
+Supabase's own TOTP does not apply to these accounts. The same standard (TOTP, RFC 6238,
+6-digit codes from an authenticator app) is built into the app: `src/domain/totp.ts`,
+`src/lib/admin-mfa.ts`, page `/securite-admin`. The secret is stored encrypted (AES-256-GCM,
+key derived from `AUTH_SECRET`) in `AdminTotp`; a code works once; 5 codes per 15 minutes; every
+success and failure is in the audit log. A good code sets an HttpOnly signed cookie valid 12
+hours; without it, an admin is treated as a non-admin everywhere (pages, actions, APIs, media,
+inbox). Required in production. `ADMIN_MFA_REQUIRED=false` in Vercel turns it off (a lost phone);
+the founder then signs in, the page offers a new enrollment only after the old `AdminTotp` row
+is removed (Supabase SQL editor: `delete from "AdminTotp" where "userId" = '<id>';`).
+
+**Rate limits.** Sign-up (5 an hour per address, 3 per email), sign-in (30 per 15 minutes per
+address, 10 per email) in the form action and, since round 8d, inside the credentials check
+too, so a POST straight to `/api/auth/callback/credentials` is limited; password reset (per
+address and per email); email verification resend (1 a minute, per hour); USC code (1 a minute,
+5 a day, 5 attempts per code); student code; messages to the team; search launches (20 an hour,
+on top of the plan quota); admin codes (5 per 15 minutes).
+
 # Security pass, round 8c (2026-11-22)
 
 How the database is protected is described in `docs/DATA_SECURITY.md`. This file records the

@@ -168,7 +168,8 @@
     "codeExpired": "Ce code a expiré. Demandes-en un nouveau.",
     "codeLocked": "Trop d’essais. Demande un nouveau code.",
     "codeDailyLimit": "Trop de codes envoyés aujourd’hui. Réessaie demain.",
-    "uscEmailTaken": "Cette adresse USC a déjà vérifié un autre compte."
+    "uscEmailTaken": "Cette adresse USC a déjà vérifié un autre compte.",
+    "adminCodeWrong": "Ce code n’est pas bon. Tape le code le plus récent de ton application d’authentification."
   },
   "auth": {
     "name": "Nom",
@@ -624,6 +625,18 @@
       "colAudience": "Public",
       "colDate": "Date",
       "colReads": "Lue par"
+    },
+    "mfa": {
+      "title": "Double authentification de l’admin",
+      "enrollLead": "L’admin demande un code d’une application d’authentification sur ton téléphone (Google Authenticator, 1Password, Authy, Microsoft Authenticator).",
+      "step1": "1. Dans l’application, ajoute un compte et scanne ce QR code.",
+      "step2": "2. Ou tape cette clé à la main (basée sur le temps) :",
+      "step3": "3. Tape le code à 6 chiffres affiché par l’application.",
+      "verifyLead": "Tape le code à 6 chiffres de ton application d’authentification. L’admin reste ouvert {hours} heures sur ce navigateur.",
+      "code": "Code à 6 chiffres",
+      "submit": "Valider",
+      "submitting": "Vérification…",
+      "lost": "Téléphone perdu ? Demande à l’autre fondateur, ou mets ADMIN_MFA_REQUIRED=false dans Vercel le temps de te réinscrire."
     }
   },
   "matchReasons": {
