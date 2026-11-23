@@ -11,6 +11,7 @@ import {
   quotaFrom,
   isAutoKey,
   nextSearchStart,
+  searchPaceFor,
   type RoleSearchQuota,
 } from "@/domain/role-search";
 import { B2C_PLANS } from "@/domain/pricing";
@@ -22,6 +23,7 @@ import { B2C_PLANS } from "@/domain/pricing";
  * (userId, periodKey, seq) is the last guard if the lock were ever skipped.
  *
  * Nothing here calls a workflow: rows wait in status "queued" for n8n.
+ * Round 8d: a plan runs several searches at once (B2C_PLANS searchSlots).
  *
  * Round 7: no row is written for an account that may not trigger an agent
  * (src/domain/workflow/eligibility.ts): verified email, adult, status
@@ -30,15 +32,29 @@ import { B2C_PLANS } from "@/domain/pricing";
 
 export async function getRoleSearchQuota(userId: string, now = new Date()): Promise<RoleSearchQuota> {
   const { plan } = await getTalentPlan(userId, now);
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { searchPeriodStartedAt: true } });
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { searchPeriodStartedAt: true, searchQuotaResetAt: true },
+  });
   const start = user?.searchPeriodStartedAt ?? null;
   const used = periodActive(start, now)
     ? await prisma.roleSearchRequest.count({
-        where: { userId, periodKey: periodKeyFor(start), status: { in: [...COUNTED_STATUSES] } },
+        where: {
+          userId,
+          periodKey: periodKeyFor(start),
+          status: { in: [...COUNTED_STATUSES] },
+          ...sinceReset(user?.searchQuotaResetAt),
+        },
       })
     : 0;
   return quotaFrom(plan, used, start, now);
 }
+
+/** How many recent searches the schedule reads at least (it needs `slots` of them). */
+const RECENT_STARTS_FLOOR = 50;
+
+/** Round 8d: rows from before the account's quota reset do not count. */
+const sinceReset = (resetAt: Date | null | undefined) => (resetAt ? { createdAt: { gte: resetAt } } : {});
 
 export type StartRoleSearchResult =
   | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
@@ -67,7 +83,11 @@ export async function startRoleSearch(
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"role-search:" + userId}))`;
 
     // The period: the stored start while it runs, else a new one begins now.
-    const u = await tx.user.findUnique({ where: { id: userId }, select: { searchPeriodStartedAt: true } });
+    const u = await tx.user.findUnique({
+      where: { id: userId },
+      select: { searchPeriodStartedAt: true, searchQuotaResetAt: true },
+    });
+    const reset = sinceReset(u?.searchQuotaResetAt);
     const stored = u?.searchPeriodStartedAt ?? null;
     const active = periodActive(stored, now);
     const start = active ? stored : now;
@@ -79,7 +99,7 @@ export async function startRoleSearch(
       select: { id: true },
     });
     const counted = await tx.roleSearchRequest.findMany({
-      where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] } },
+      where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] }, ...reset },
       select: { seq: true, clientKey: true },
     });
     // The gate, before anything is queued or a retried click is answered.
@@ -127,18 +147,23 @@ export async function startRoleSearch(
     if (scheduled === false) {
       await tx.user.updateMany({ where: { id: userId, agentsOptInAt: null }, data: { agentsOptInAt: now } });
     }
-    // One search every 6 hours (round 8b): after the latest one, whatever its state.
-    const latest = await tx.roleSearchRequest.findMany({
+    // Round 8d: the plan's parallel slots, each starting one search every
+    // 6 hours (round 8b's rule with one slot). Searches from before a quota
+    // reset still hold their slot while they wait or run.
+    const pace = searchPaceFor(plan);
+    const recent = await tx.roleSearchRequest.findMany({
       where: { userId, status: { in: [...COUNTED_STATUSES] } },
+      orderBy: [{ createdAt: "desc" }],
+      // nextSearchStart needs the `slots` most recent starts; read well past that.
+      take: Math.max(RECENT_STARTS_FLOOR, pace.slots * 5),
       select: { scheduledFor: true, startedAt: true, createdAt: true },
     });
-    const latestStart = latest.reduce<Date | null>((acc, r) => {
-      // The later of the planned and the real start (a late claim pushes the next one).
+    // The later of the planned and the real start (a late claim pushes the next one).
+    const starts = recent.map((r) => {
       const planned = r.scheduledFor ?? r.createdAt;
-      const at = r.startedAt && r.startedAt > planned ? r.startedAt : planned;
-      return !acc || at > acc ? at : acc;
-    }, null);
-    const scheduledFor = nextSearchStart(latestStart, now);
+      return r.startedAt && r.startedAt > planned ? r.startedAt : planned;
+    });
+    const scheduledFor = nextSearchStart(starts, now, pace);
     const row = await tx.roleSearchRequest.create({
       data: { userId, plan, periodKey, seq, clientKey, status: "queued", scheduledFor },
       select: { id: true },
@@ -185,20 +210,24 @@ export function listAllRoleSearches(take = 200) {
   });
 }
 
-/** The counts in the dashboard's Status block (round 8b). */
+/** The counts in the dashboard's Status block (round 8b, slots in round 8d). */
 export interface MySearchStatus {
   queued: number;
   running: number;
   finished: number;
   rolesFound: number;
+  /** The plan's parallel slots ("1 of 2 running"). */
+  slots: number;
+  /** When the next queued search is expected to start (ISO), when still ahead; else null. */
+  nextStart: string | null;
 }
 
 /**
  * A performer's searches by state, and the roles the searches found (drafts
  * from the role-search workflow). Failed and canceled searches are not shown.
  */
-export async function getMySearchStatus(userId: string): Promise<MySearchStatus> {
-  const [byStatus, rolesFound] = await Promise.all([
+export async function getMySearchStatus(userId: string, now = new Date()): Promise<MySearchStatus> {
+  const [byStatus, rolesFound, { plan }, next] = await Promise.all([
     prisma.roleSearchRequest.groupBy({
       by: ["status"],
       where: { userId, status: { in: ["queued", "running", "done"] } },
@@ -207,7 +236,21 @@ export async function getMySearchStatus(userId: string): Promise<MySearchStatus>
     prisma.applicationDraft.count({
       where: { profile: { userId }, brief: { source: "n8n-beta-v2" } },
     }),
+    getTalentPlan(userId, now),
+    prisma.roleSearchRequest.findFirst({
+      // The next start still ahead; due searches are simply "in queue".
+      where: { userId, status: "queued", scheduledFor: { gt: now } },
+      orderBy: [{ scheduledFor: "asc" }],
+      select: { scheduledFor: true },
+    }),
   ]);
   const n = (s: string) => byStatus.find((r) => r.status === s)?._count._all ?? 0;
-  return { queued: n("queued"), running: n("running"), finished: n("done"), rolesFound };
+  return {
+    queued: n("queued"),
+    running: n("running"),
+    finished: n("done"),
+    rolesFound,
+    slots: searchPaceFor(plan).slots,
+    nextStart: next?.scheduledFor ? next.scheduledFor.toISOString() : null,
+  };
 }

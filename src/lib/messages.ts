@@ -1,5 +1,5 @@
 import { isAdminAccount } from "@/domain/admin";
-import type { Prisma, PrismaClient } from "@/generated/prisma/client";
+import type { PrismaClient } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import {
   THREAD_PAGE_SIZE,

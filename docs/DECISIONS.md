@@ -115,6 +115,24 @@ US dollars.
 
 - AI role searches: a rolling 30-day period starting at the first search, counted and
   enforced on the server.
+- **Parallel search slots (founders' decision, round 8d, 2026-11-22).** One search every 6 hours
+  allows at most 120 searches in 30 days, below Premium's 250 and Ultimate's 500. Each plan now
+  runs several searches at the same time; each slot runs one search at a time and starts at most
+  one every 6 hours. A performer can queue as many searches as their remaining allowance.
+
+  | Plan | Searches per 30 days | Running at the same time | Most a month can hold (slots x 4 a day x 30) |
+  |---|---|---|---|
+  | Basic | 5 | 1 | 120 |
+  | Pro | 50 | 2 | 240 |
+  | Premium | 250 | 5 | 600 |
+  | Ultimate | 500 | 10 | 1,200 |
+
+  Slots and the 6-hour gap live in the plan configuration (`searchSlots`, `searchSpacingHours` in
+  `B2C_PLANS`, `src/domain/pricing.ts`), not in code.
+- **Search quota reset (founders' request, round 8d, 2026-11-22).** Every account started again with
+  its full allowance on 2026-11-22. `User.searchQuotaResetAt` records the date; searches from
+  before it no longer count, and every row is kept (searches still waiting in the queue were
+  marked canceled, none had run).
 - First sign-in lands on Profile completeness with the welcome tour; later sign-ins on the
   dashboard.
 - Email verification with a 6-digit code for email-and-password accounts; Google accounts

@@ -772,7 +772,7 @@
       "findRoles": {
         "label": "Buscar papeles",
         "scanning": "Buscando…",
-        "sent": "Nuestro agente está buscando papeles para ti. Te responderemos pronto.",
+        "sent": "Tu búsqueda está en cola. Los resultados aparecerán en Candidaturas.",
         "available": "{count, plural, one {# búsqueda disponible} other {# búsquedas disponibles}}",
         "leftOf": "{left} de {limit} {left, plural, one {búsqueda restante} other {búsquedas restantes}} · se renueva en {days, plural, one {# día} other {# días}}",
         "noneLeft": "No quedan búsquedas · se renueva en {days, plural, one {# día} other {# días}}",
@@ -842,10 +842,11 @@
       "status": {
         "title": "Estado",
         "queued": "{count, plural, one {# búsqueda en cola} other {# búsquedas en cola}}",
-        "running": "{count} en curso",
+        "running": "{count} de {slots} en curso",
         "finished": "{count, plural, one {# terminada} other {# terminadas}}",
         "rolesFound": "{count, plural, one {# papel encontrado} other {# papeles encontrados}}",
-        "check": "Ver tus candidaturas"
+        "check": "Ver tus candidaturas",
+        "nextStart": "Próxima búsqueda prevista {date}"
       }
     },
     "candidatures": {
@@ -925,12 +926,15 @@
         "open": "Abrir este papel"
       },
       "queue": {
-        "rule": "Puedes poner hasta {count} búsquedas en cola. Hacemos una cada {hours} horas.",
+        "rule": "Puedes poner en cola hasta {count} búsquedas. Tu plan ejecuta {slots, plural, one {una búsqueda a la vez} other {# búsquedas a la vez}}, y cada una empieza como mucho cada {hours} horas.",
         "title": "Búsquedas en cola",
         "empty": "Ninguna búsqueda en espera.",
         "item": "Búsqueda {n}",
         "soon": "Empieza pronto",
-        "startsIn": "Empieza en unas {hours, plural, one {# hora} other {# horas}}"
+        "startsIn": "Empieza en unas {hours, plural, one {# hora} other {# horas}}",
+        "startsAt": "Inicio previsto: {date}",
+        "queuedHonest": "Tu búsqueda está en cola. Los resultados aparecerán aquí.",
+        "slotsInUse": "{running} de {slots} en curso"
       },
       "running": {
         "title": "Búsqueda en curso",

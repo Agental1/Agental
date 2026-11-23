@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.15.0] - 2026-11-22
+
+### Changed (round 8d, group 2)
+
+- **Parallel search slots per plan.** Basic 1, Pro 2, Premium 5, Ultimate 10 searches at the same time; each slot starts at most one search every 6 hours, so every plan can use its whole allowance in 30 days. Slots and the gap are plan configuration (`searchSlots`, `searchSpacingHours` in `B2C_PLANS`). The n8n claim runs at most the plan's slots per performer. Applications shows each queued search's expected start and "N of M running"; the dashboard Status shows "N of M running" and the next expected start.
+- **Honest queue.** After the green button: "Your search is queued. Results will appear in Applications." Applications says "Your search is queued. Results will appear here." No result is shown until the search engine is connected (round 9).
+- **Fresh start for every account.** `User.searchQuotaResetAt` (new) is set for every account; searches from before it do not count, the period start is cleared, and searches still waiting in the queue are marked canceled. No row is deleted. The reset is in the audit log with the counts.
+- **The founder's account is a Test account**, so it can run searches while production is in test mode (matched by a hash of its email in the migration; audited with the previous status).
+- Build report `tools/db/round8d-report.mjs` replaces the round 8c one (read-only, masked).
+
+Migration `20261214000000_round8d_search_reset` (one new column, data updates, nothing deleted).
+
 ## [0.6.14.0] - 2026-11-22
 
 ### Changed (round 8d, group 1)

@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import type { MySearchStatus } from "@/lib/role-search";
+
+const noSubscribe = () => () => {};
 
 /** How often the block asks for fresh counts while the tab is visible. */
 const REFRESH_MS = 30_000;
@@ -27,7 +29,15 @@ const STATUS_HREF = {
  */
 export function SearchStatus({ initial }: { initial: MySearchStatus }) {
   const t = useTranslations("talents.space.dashboard.status");
+  const locale = useLocale();
   const [s, setS] = useState(initial);
+  // The next start is shown in the browser's own time zone, so only after
+  // mount: the server renders in UTC and the two would not match.
+  const mounted = useSyncExternalStore(
+    noSubscribe,
+    () => true,
+    () => false
+  );
 
   const load = useCallback(async () => {
     try {
@@ -54,7 +64,8 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
 
   const items = [
     { key: "queued", label: t("queued", { count: s.queued }) },
-    { key: "running", label: t("running", { count: s.running }) },
+    // Round 8d: "1 of 2 running", the plan's parallel slots.
+    { key: "running", label: t("running", { count: s.running, slots: s.slots }) },
     { key: "finished", label: t("finished", { count: s.finished }) },
     { key: "rolesFound", label: t("rolesFound", { count: s.rolesFound }) },
   ] as const;
@@ -77,6 +88,13 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
             </span>
           ))}
         </p>
+        {mounted && s.queued > 0 && s.nextStart && (
+          <p className="mt-1 text-sm text-fg-muted">
+            {t("nextStart", {
+              date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(s.nextStart)),
+            })}
+          </p>
+        )}
       </div>
       <Button asChild variant="outline" className="self-start sm:self-end">
         <Link href="/talents/app/candidatures">

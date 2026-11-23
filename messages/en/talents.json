@@ -772,7 +772,7 @@
       "findRoles": {
         "label": "Start finding roles",
         "scanning": "Scanning…",
-        "sent": "Our agent is looking for roles for you. We'll get back to you soon.",
+        "sent": "Your search is queued. Results will appear in Applications.",
         "available": "{count, plural, one {# search available} other {# searches available}}",
         "leftOf": "{left} of {limit} {left, plural, one {search} other {searches}} left · resets in {days, plural, one {# day} other {# days}}",
         "noneLeft": "No searches left · resets in {days, plural, one {# day} other {# days}}",
@@ -842,10 +842,11 @@
       "status": {
         "title": "Status",
         "queued": "{count, plural, one {# search in queue} other {# searches in queue}}",
-        "running": "{count} running",
+        "running": "{count} of {slots} running",
         "finished": "{count} finished",
         "rolesFound": "{count, plural, one {# role found} other {# roles found}}",
-        "check": "Check your applications"
+        "check": "Check your applications",
+        "nextStart": "Next search expected {date}"
       }
     },
     "candidatures": {
@@ -925,12 +926,15 @@
         "open": "Open this role"
       },
       "queue": {
-        "rule": "You can queue up to {count} searches. We run one every {hours} hours.",
+        "rule": "You can queue up to {count} searches. Your plan runs {slots, plural, one {one search at a time} other {# searches at the same time}}, and each one starts at most every {hours} hours.",
         "title": "Search in queue",
         "empty": "No search waiting.",
         "item": "Search {n}",
         "soon": "Starts soon",
-        "startsIn": "Starts in about {hours, plural, one {# hour} other {# hours}}"
+        "startsIn": "Starts in about {hours, plural, one {# hour} other {# hours}}",
+        "startsAt": "Expected start: {date}",
+        "queuedHonest": "Your search is queued. Results will appear here.",
+        "slotsInUse": "{running} of {slots} running"
       },
       "running": {
         "title": "Search in progress",

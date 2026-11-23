@@ -17,19 +17,54 @@ export const COUNTED_STATUSES: readonly RoleSearchStatus[] = ["queued", "running
 /** Statuses shown as "Search in progress". */
 export const IN_PROGRESS_STATUSES: readonly RoleSearchStatus[] = ["queued", "running"];
 
-/** Round 8b: a performer's searches start at most one every 6 hours. */
-export const SEARCH_SPACING_HOURS = 6;
-export const SEARCH_SPACING_MS = SEARCH_SPACING_HOURS * 60 * 60 * 1000;
+/**
+ * Round 8d: parallel slots. A plan runs `searchSlots` searches at the same
+ * time; each slot starts at most one every `searchSpacingHours` (both in
+ * B2C_PLANS, src/domain/pricing.ts). Basic has 1 slot, so it keeps the
+ * round 8b rule of one search every 6 hours.
+ */
+export interface SearchPace {
+  slots: number;
+  spacingMs: number;
+}
+
+export function searchPaceFor(plan: PlanB2C): SearchPace {
+  const def = B2C_PLANS[plan];
+  return { slots: Math.max(1, def.searchSlots), spacingMs: def.searchSpacingHours * 60 * 60 * 1000 };
+}
+
+/** The gap in hours, for copy ("one every {hours} hours"). */
+export const searchSpacingHoursFor = (plan: PlanB2C) => B2C_PLANS[plan].searchSpacingHours;
 
 /**
- * When a new search may start: now, or 6 hours after the performer's latest
- * search (queued, running or finished), whichever is later. `latest` is that
- * search's scheduled start, else its real start, else when it was queued.
+ * When a new search may start. `starts` are the planned (or real, when later)
+ * starts of the performer's searches (queued, running or finished). With S
+ * slots, the slot that frees first is the one whose latest start is the S-th
+ * most recent: the new search starts a gap after it, or now if that is later.
+ * Fewer than S searches so far: a slot is free now.
  */
-export function nextSearchStart(latest: Date | null, now: Date): Date {
-  if (!latest) return now;
-  const next = latest.getTime() + SEARCH_SPACING_MS;
+export function nextSearchStart(starts: readonly Date[], now: Date, pace: SearchPace): Date {
+  if (starts.length < pace.slots) return now;
+  const sorted = [...starts].sort((a, b) => b.getTime() - a.getTime());
+  const next = sorted[pace.slots - 1].getTime() + pace.spacingMs;
   return next > now.getTime() ? new Date(next) : now;
+}
+
+/**
+ * How many slots are busy at `now`: searches running, or finished less than a
+ * gap after they started (a slot waits the gap before its next start). A
+ * failed or canceled search gives its slot back, as it gives back its place
+ * in the allowance; the queue-time schedule counts the same rows.
+ */
+export function busySlots(
+  searches: readonly { status: string; startedAt: Date | null }[],
+  now: Date,
+  pace: SearchPace
+): number {
+  const since = now.getTime() - pace.spacingMs;
+  return searches.filter(
+    (r) => r.status === "running" || (r.status === "done" && r.startedAt && r.startedAt.getTime() > since)
+  ).length;
 }
 
 /** "Starts in about N hours", rounded up to whole hours (0 means "soon"). */
