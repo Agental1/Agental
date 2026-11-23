@@ -143,7 +143,9 @@ export class MockScorer implements Scorer {
  * error, and it says so here rather than being discovered from the results.
  */
 export async function getScorer(): Promise<Scorer> {
-  if (process.env.SCORER === "llm") {
+  // Round 9: the pause switch (Admin > Controls) keeps the deterministic scorer.
+  const { isPaused } = await import("@/lib/app-settings");
+  if (process.env.SCORER === "llm" && !(await isPaused())) {
     if (!process.env.ANTHROPIC_API_KEY) {
       throw new Error(
         "SCORER=llm requires ANTHROPIC_API_KEY. Set it, or unset SCORER to " +

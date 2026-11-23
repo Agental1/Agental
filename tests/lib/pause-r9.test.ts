@@ -64,7 +64,7 @@ describe.skipIf(!local)("pause switch and AI accounts", () => {
       await prisma.roleSearchRequest.create({ data: { userId: u.id, plan: "FREE", periodKey: "r9", seq: i, status: "failed", completedAt: new Date(), error: `${P}failure` } });
     }
     // Today's alert from an earlier local run would (rightly) stop a second one.
-    await prisma.notification.deleteMany({ where: { kind: "ALERT", payload: { contains: '"workflow_failures"' } } });
+    await prisma.appSetting.deleteMany({ where: { key: { startsWith: "alert.workflow_failures." } } });
     const { alertRepeatedFailures } = await import("@/lib/admin/ai-report");
     expect(await alertRepeatedFailures()).toBe(true);
     expect(await alertRepeatedFailures()).toBe(false);

@@ -67,7 +67,8 @@ export async function pauseState(): Promise<PauseState> {
     const v = JSON.parse(row?.value ?? "{}") as { paused?: unknown; since?: unknown };
     return { paused: v.paused === true, since: typeof v.since === "string" ? v.since : null, by: row?.updatedById ?? null };
   } catch {
-    return { paused: false, since: null, by: null };
+    // A corrupt value counts as paused (fail safe), like an unreadable one.
+    return { paused: true, since: null, by: row?.updatedById ?? null };
   }
 }
 
@@ -82,11 +83,16 @@ export async function isPaused(): Promise<boolean> {
 
 export async function setPaused(adminId: string, paused: boolean, now = new Date()): Promise<void> {
   const before = await pauseState();
+  // A second click (or a stale page) with the same state changes nothing and logs nothing.
+  if (before.paused === paused) return;
   const value = JSON.stringify({ paused, since: paused ? now.toISOString() : null });
-  await prisma.appSetting.upsert({
-    where: { key: PAUSE_KEY },
-    create: { key: PAUSE_KEY, value, updatedById: adminId },
-    update: { value, updatedById: adminId },
+  // The switch and its audit entry together: neither exists without the other.
+  await prisma.$transaction(async (tx) => {
+    await tx.appSetting.upsert({
+      where: { key: PAUSE_KEY },
+      create: { key: PAUSE_KEY, value, updatedById: adminId },
+      update: { value, updatedById: adminId },
+    });
+    await audit({ actorUserId: adminId, action: paused ? "admin.pause.on" : "admin.pause.off", resourceType: "AppSetting", resourceId: PAUSE_KEY, before: { paused: before.paused }, after: { paused } }, tx);
   });
-  await audit({ actorUserId: adminId, action: paused ? "admin.pause.on" : "admin.pause.off", resourceType: "AppSetting", resourceId: PAUSE_KEY, before: { paused: before.paused }, after: { paused } });
 }

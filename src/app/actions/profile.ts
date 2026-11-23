@@ -351,7 +351,8 @@ export async function saveRoleAlert(input: unknown): Promise<SaveResult> {
   if (wantsSms && !profile.smsConsentAt && profile.phoneE164) {
     // Round 9: the opt-in confirmation text (CTIA), only when texts are on (SMS_ENABLED).
     const { SMS_TEXT, sendSms, smsConfig } = await import("@/lib/sms");
-    if (smsConfig()) await sendSms(profile.phoneE164, SMS_TEXT.start, { userId: profile.userId, kind: "opt_in" }).catch(() => {});
+    const { isPaused } = await import("@/lib/app-settings");
+    if (smsConfig() && !(await isPaused())) await sendSms(profile.phoneE164, SMS_TEXT.start, { userId: profile.userId, kind: "opt_in" }).catch(() => {});
   }
   if (wantsSms && !profile.smsConsentAt) {
     await audit({

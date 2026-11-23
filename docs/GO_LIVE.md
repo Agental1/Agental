@@ -53,7 +53,9 @@ Tick every line. If one cannot be ticked, do not switch.
 
 - [ ] Admin > Controls > Pause everything: a Test account's search stays queued, the assistant
       answers in rules mode, no automatic email or text goes out, the Direct Replies workflow
-      drafts nothing. Admin > Audit shows the pause. Then Resume, and each starts again.
+      drafts nothing. Admin > Audit shows the pause. Then Resume, and each starts again. Note:
+      emails that reach contact@agental.co during a pause are not drafted after Resume; answer
+      them in Gmail.
 
 ## 6. Accounts
 
@@ -69,10 +71,11 @@ Tick every line. If one cannot be ticked, do not switch.
    redeploy. The variable is read when the site starts: nothing changes before the redeploy.
 3. In n8n, open "Agental Beta V2 - Direct Replies" (and "Beta V2" if it was unarchived): check the
    app nodes point at **https://www.agental.co/api/n8n/...** with the production credential and no
-   bypass header, set "Beta Test Settings" `mode` to the live value, then click **Active** (top
-   right) on each workflow.
-4. Within the next hour: Admin > Applications and AI jobs shows searches claimed; Admin > Emails
-   shows emails sent; Admin > Replies to approve fills as emails arrive.
+   bypass header, then click **Active** (top right) on each workflow. ("Beta Test Settings" only
+   drives the manual test runs; leave it on `providers`.)
+4. Within six hours (the workflow claims searches every six hours): Admin > Applications and AI
+   jobs shows searches claimed. Within the hour: Admin > Emails shows automatic emails (once their
+   categories are approved); Admin > Replies to approve fills as emails arrive.
 5. If anything looks wrong: Admin > Controls > **Pause everything** (immediate), then tell the agent.
 
 ## Going back to test mode

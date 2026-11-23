@@ -3,6 +3,7 @@ import { sendEmail } from "@/lib/mailer";
 import { isAdminAccount } from "@/domain/admin";
 import { AI_PROVIDERS } from "@/domain/ai-spend";
 import { ALERT_EMAIL } from "@/lib/ai-spend";
+import { monthStart } from "@/domain/ai-spend";
 
 /**
  * Round 9, group 9: Admin > AI accounts, the last 30 days. Read-only: nothing
@@ -20,17 +21,20 @@ export async function last30Days(now = new Date()) {
     prisma.aiUsage.groupBy({ by: ["provider"], where: { createdAt: { gte: since } }, _sum: { costMicroUsd: true, inputTokens: true, outputTokens: true }, _count: { _all: true } }),
     prisma.aiProviderAccount.findMany({ select: { provider: true, monthlyBudgetCents: true } }),
   ]);
+  // "Used" is this calendar month against the monthly budget, like the 80% alert.
+  const month = await prisma.aiUsage.groupBy({ by: ["provider"], where: { createdAt: { gte: monthStart(now) } }, _sum: { costMicroUsd: true } });
   const providers = AI_PROVIDERS.map((p) => {
     const c = cost.find((x) => x.provider === p);
     const budget = accounts.find((a) => a.provider === p)?.monthlyBudgetCents ?? null;
     const cents = Math.ceil((c?._sum.costMicroUsd ?? 0) / 10_000);
+    const monthCents = Math.ceil((month.find((m) => m.provider === p)?._sum.costMicroUsd ?? 0) / 10_000);
     return {
       provider: p,
       jobs: c?._count._all ?? 0,
       tokens: (c?._sum.inputTokens ?? 0) + (c?._sum.outputTokens ?? 0),
       cents,
       budgetCents: budget,
-      share: budget ? cents / budget : null,
+      share: budget ? monthCents / budget : null,
     };
   });
   return {
@@ -50,8 +54,12 @@ export async function alertRepeatedFailures(now = new Date()): Promise<boolean> 
   const failed = await prisma.roleSearchRequest.count({ where: { status: "failed", completedAt: { gte: new Date(now.getTime() - DAY) } } });
   if (failed < 3) return false;
   const day = now.toISOString().slice(0, 10);
-  const key = `"workflow_failures":"${day}"`;
-  if ((await prisma.notification.count({ where: { kind: "ALERT", payload: { contains: key } } })) > 0) return false;
+  // Claimed once a day through a unique setting key: two loads or the cron at once alert once.
+  try {
+    await prisma.appSetting.create({ data: { key: `alert.workflow_failures.${day}`, value: String(failed) } });
+  } catch {
+    return false;
+  }
   const admins = (await prisma.user.findMany({ where: { isAdmin: true, deletedAt: null }, select: { id: true, isAdmin: true, email: true } })).filter((u) => isAdminAccount(u));
   const title = `The casting workflow failed ${failed} times in 24 hours`;
   const body = "Open Admin > Applications and AI jobs to read the errors. Admin > Controls can pause everything.";

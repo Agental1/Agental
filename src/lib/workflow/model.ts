@@ -49,6 +49,9 @@ export interface FitModel {
  */
 export async function getFitModel(env: WorkflowEnv = process.env): Promise<FitModel | null> {
   if (!modelEnabled(env)) return null;
+  // Round 9: the pause switch (Admin > Controls) stops every model call; the rules decide alone.
+  const { isPaused } = await import("@/lib/app-settings");
+  if (await isPaused()) return null;
   if (!(env.ANTHROPIC_API_KEY ?? "").trim()) {
     throw new Error(
       "WORKFLOW_MODEL_ENABLED requires ANTHROPIC_API_KEY. Set it, or unset " +
