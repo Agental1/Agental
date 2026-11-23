@@ -1,5 +1,6 @@
 import { ClaimInput, claimCastingJobs, n8nAuth, queueScheduledSearches, searchCostCeilingUsd } from "@/lib/n8n/casting";
 import { workflowMode } from "@/domain/workflow/eligibility";
+import { isPaused } from "@/lib/app-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,8 @@ export async function POST(req: Request) {
   try {
     const now = new Date();
     const mode = workflowMode();
+    // Round 9: the pause switch (Admin > Controls). Searches wait in the queue.
+    if (await isPaused()) return Response.json({ jobs: [], scheduled: 0, canceled: 0, mode, paused: true, limits: { costCeilingUsd: searchCostCeilingUsd() } }, { headers });
     const scheduled = await queueScheduledSearches(now, mode);
     const { jobs, canceled } = await claimCastingJobs(body.data, { now, mode });
     // Round 9: the per-search cost ceiling the workflow must stop at.

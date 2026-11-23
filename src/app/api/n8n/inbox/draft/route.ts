@@ -1,6 +1,8 @@
 import { n8nAuth } from "@/lib/n8n/casting";
 import { InboxDraftInput, recordDraft } from "@/lib/reply-drafts";
 
+import { isPaused } from "@/lib/app-settings";
+
 export const dynamic = "force-dynamic";
 
 /**
@@ -14,6 +16,8 @@ export async function POST(req: Request) {
   const headers = { "Cache-Control": "no-store" };
   if (auth === "off") return new Response("Not found", { status: 404 });
   if (auth === "denied") return Response.json({ error: "unauthorized" }, { status: 401, headers });
+  // Round 9: the pause switch. The email stays in Gmail for the team.
+  if (await isPaused()) return Response.json({ error: "paused" }, { status: 503, headers });
   const body = InboxDraftInput.safeParse(await req.json().catch(() => null));
   if (!body.success) return Response.json({ error: "invalid_request" }, { status: 400, headers });
   try {

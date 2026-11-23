@@ -266,7 +266,8 @@
       "announcements": "Annonces",
       "projects": "Projets",
       "controls": "Contrôles",
-      "replies": "Réponses à approuver"
+      "replies": "Réponses à approuver",
+      "ai": "Comptes IA"
     },
     "stats": {
       "artists": "Artistes",
@@ -848,6 +849,15 @@
         "on": "Activés",
         "off": "Désactivés",
         "lead": "Le SMS « rôles trouvés » pour les talents qui ont choisi SMS ou les deux et donné leur accord, au plus un par jour, avec STOP et HELP. Activé seulement avec SMS_ENABLED=true et les réglages Twilio, après l’enregistrement auprès des opérateurs américains (docs/HANDOFF.md)."
+      },
+      "pause": {
+        "title": "Tout mettre en pause",
+        "lead": "Arrête tout de suite : les recherches IA (elles attendent dans la file), les réponses IA de l’assistant (réponses par règles à la place), les e-mails et SMS automatiques, et les brouillons de réponses aux e-mails reçus. Les e-mails de compte et tes réponses manuelles continuent. Noté dans le journal d’audit.",
+        "isRunning": "En marche.",
+        "isPaused": "En pause depuis {since}.",
+        "pause": "Tout mettre en pause",
+        "resume": "Reprendre",
+        "banner": "Tout ce qui est automatique est en pause. Ouvre Contrôles pour reprendre."
       }
     },
     "replies": {
@@ -882,6 +892,32 @@
         "not_found": "Ce brouillon n’existe plus.",
         "forbidden": "Non autorisé."
       }
+    },
+    "ai": {
+      "title": "Comptes IA",
+      "subtitle": "Les 30 derniers jours : recherches, réponses de l’assistant, e-mails, SMS, et le coût IA par fournisseur face à chaque budget mensuel. Lecture seule : rien ici ne peut ajouter d’argent chez un fournisseur. Des alertes partent vers la cloche et contact@agental.co quand un budget dépasse 80 % ou que le workflow de casting échoue à répétition.",
+      "tiles": {
+        "searches": "Recherches IA",
+        "searchesSub": "{done} terminées, {failed} en échec, {queued} en attente",
+        "replies": "Réponses IA de l’assistant",
+        "emails": "E-mails",
+        "texts": "SMS envoyés"
+      },
+      "cost": "Coût IA par fournisseur",
+      "cols": {
+        "provider": "Fournisseur",
+        "jobs": "Tâches",
+        "tokens": "Tokens",
+        "spent": "Dépensé (30 jours)",
+        "budget": "Budget mensuel",
+        "used": "Utilisé"
+      },
+      "noBudget": "Non défini",
+      "costNote": "Tel qu’enregistré par l’app (les recherches déclarent leur coût depuis n8n, l’assistant à chaque réponse). Le chiffre du fournisseur est sur la carte du tableau de bord quand sa clé admin est en place. Saisis chaque budget sur cette carte.",
+      "emails": "E-mails par type",
+      "texts": "SMS",
+      "none": "Aucun sur les 30 derniers jours.",
+      "balances": "Soldes, budgets et seuils d’alerte : sur le tableau de bord"
     }
   },
   "matchReasons": {

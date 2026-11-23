@@ -5,6 +5,7 @@ import { drainOutbox } from "@/lib/limelight/outbox";
 import { drainConfirmations } from "@/lib/limelight/confirmation";
 import { runAutoEmails } from "@/lib/auto-emails";
 import { purgeOldReplyTexts } from "@/lib/reply-drafts";
+import { alertRepeatedFailures } from "@/lib/admin/ai-report";
 
 /**
  * GET /api/cron/ai-spend (round 8d): reads each AI provider's spend and sends
@@ -37,6 +38,7 @@ export async function GET(req: Request) {
   });
   // Round 9, group 6: the automatic emails also run once a day from here (the hourly
   // run is the GitHub Actions schedule, Vercel Hobby allowing daily crons only).
+  await alertRepeatedFailures().catch((e) => console.error("[cron] failure alert failed", e instanceof Error ? e.name : "error"));
   // Round 9, group 7: the 90-day clearing of received emails and stuck sends.
   await purgeOldReplyTexts().catch((e) => console.error("[cron] reply purge failed", e instanceof Error ? e.name : "error"));
   const auto = await runAutoEmails().catch((e) => {

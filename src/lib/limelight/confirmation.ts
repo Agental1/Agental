@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { emailSenderConfigured, sendEmail, type MailerEnv } from "@/lib/mailer";
 import { limelightConfirmationEmail } from "@/lib/email-templates";
 import { siteBaseUrl } from "@/lib/email-tokens";
+import { isPaused } from "@/lib/app-settings";
 
 /**
  * Round 9, group 2: "We received your Limelight request", to the person who
@@ -29,6 +30,8 @@ export async function drainConfirmations(
   const now = opts.now ?? new Date();
   const send = opts.send ?? sendEmail;
   if (!emailSenderConfigured(env)) return { sent: 0, failed: 0, configured: false };
+  // Round 9: the pause switch holds the confirmations; they go out after Resume.
+  if (await isPaused()) return { sent: 0, failed: 0, configured: true };
   // A row left "sending" by a crash: the email may have gone out, so a row
   // that used its tries is closed, and the rest go back in the queue.
   const stale = { confirmation: "sending", confirmationSentAt: { lt: new Date(now.getTime() - STALE_MS) } };

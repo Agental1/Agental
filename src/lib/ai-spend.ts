@@ -117,6 +117,12 @@ export async function spendSince(
   }
 }
 
+/** Round 9: the AI cost recorded by the app since a date, in cents (rounded up). */
+export async function recordedSpendCents(provider: AiProvider, since: Date): Promise<number> {
+  const r = await prisma.aiUsage.aggregate({ where: { provider, createdAt: { gte: since } }, _sum: { costMicroUsd: true } });
+  return Math.ceil((r._sum.costMicroUsd ?? 0) / 10_000);
+}
+
 /** The three providers, for the card and the alerts. */
 export async function aiAccountStates(now = new Date()): Promise<ProviderState[]> {
   const rows = await prisma.aiProviderAccount.findMany();
@@ -124,12 +130,15 @@ export async function aiAccountStates(now = new Date()): Promise<ProviderState[]
     AI_PROVIDERS.map(async (provider): Promise<ProviderState> => {
       const row = rows.find((r) => r.provider === provider);
       const month = await spendSince(provider, monthStart(now));
+      // Round 9: without a provider admin key, the cost the app recorded itself
+      // (AiUsage, searches and the assistant) keeps the 80% budget alert working.
+      const recorded = month.cents === null ? await recordedSpendCents(provider, monthStart(now)) : null;
       const sinceBalance =
         row?.balanceSetAt && month.source === "live" ? await spendSince(provider, row.balanceSetAt) : null;
       return {
         provider,
         source: month.source,
-        monthSpendCents: month.cents,
+        monthSpendCents: month.cents ?? recorded,
         spendSinceBalanceCents: sinceBalance?.cents ?? null,
         balanceCents: row?.balanceCents ?? null,
         balanceSetAt: row?.balanceSetAt ?? null,

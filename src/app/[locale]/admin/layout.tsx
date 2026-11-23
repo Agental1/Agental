@@ -9,6 +9,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Badge } from "@/components/ui/badge";
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
+import { Link } from "@/i18n/navigation";
+import { isPaused } from "@/lib/app-settings";
 
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
@@ -23,6 +25,7 @@ const NAV = [
   { href: "/admin/annonces", key: "announcements", icon: "messages" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
   { href: "/admin/revenus", key: "revenue", icon: "console" },
+  { href: "/admin/ia", key: "ai", icon: "console" },
   { href: "/admin/controles", key: "controls", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/suppression", key: "cleanup", icon: "audit" },
@@ -69,6 +72,11 @@ export default async function AdminLayout({
       userLabel={session.user.email ?? "Admin"}
       tag={<Badge variant="solid">Bang</Badge>}
     >
+      {(await isPaused()) && (
+        <Link href="/admin/controles" role="status" className="mb-6 block rounded-sedan border border-danger bg-danger/10 px-4 py-3 text-sm font-bold text-danger">
+          {t("admin.controls.pause.banner")}
+        </Link>
+      )}
       {children}
     </AppShell>
   );

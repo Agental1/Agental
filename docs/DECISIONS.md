@@ -219,7 +219,15 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
   out through Resend from contact@agental.co with the threading headers, so it lands in the original
   thread for the sender, and a hidden copy keeps it in the team's mailbox. n8n only reads Gmail and
   drafts. Email texts kept 90 days.
-- SMS: see group 8.
+- **SMS** (group 8): behind `SMS_ENABLED` (off), Twilio, the roles found text only, US numbers
+  only, 9am to 5pm Pacific / noon to 8pm Eastern, a new number needs a new consent. No carrier
+  registration started (founder decision).
+- **The pause switch** (group 9, Admin > Controls) stops AI searches, the assistant's model,
+  automatic emails and texts, and drafted replies at once; account emails, the Limelight
+  confirmation and staff's own replies keep working. An unreadable setting counts as paused.
+- **AI accounts page** (group 9): costs from what the app records (`AiUsage`) when a provider's admin
+  key is missing; alerts at 80% of a typed budget and when the casting workflow fails 3 times in 24
+  hours (once a day).
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 

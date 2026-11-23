@@ -266,7 +266,8 @@
       "announcements": "公告",
       "projects": "项目",
       "controls": "控制",
-      "replies": "待批准的回复"
+      "replies": "待批准的回复",
+      "ai": "AI 账户"
     },
     "stats": {
       "artists": "艺人",
@@ -848,6 +849,15 @@
         "on": "已开启",
         "off": "已关闭",
         "lead": "为选择短信或两者并已同意的演员发送“找到的角色”短信，每天最多一条，支持 STOP 和 HELP。仅在设置 SMS_ENABLED=true 和 Twilio 设置并完成美国运营商注册后开启（docs/HANDOFF.md）。"
+      },
+      "pause": {
+        "title": "全部暂停",
+        "lead": "立即停止：AI 搜索（在队列中等待）、助手的 AI 回答（改为规则回答）、自动邮件和短信，以及对收到邮件的回复草稿。账户邮件和你的手动回复照常工作。记录在审计日志中。",
+        "isRunning": "运行中。",
+        "isPaused": "自 {since} 起已暂停。",
+        "pause": "全部暂停",
+        "resume": "恢复",
+        "banner": "所有自动功能已暂停。打开“控制”以恢复。"
       }
     },
     "replies": {
@@ -882,6 +892,32 @@
         "not_found": "此草稿已不存在。",
         "forbidden": "不允许。"
       }
+    },
+    "ai": {
+      "title": "AI 账户",
+      "subtitle": "最近 30 天：搜索、助手回复、邮件、短信，以及各提供商的 AI 费用与月度预算对比。只读：这里无法在任何提供商处充值。预算超过 80% 或选角工作流反复失败时，会提醒到铃铛和 contact@agental.co。",
+      "tiles": {
+        "searches": "AI 搜索",
+        "searchesSub": "完成 {done}，失败 {failed}，等待 {queued}",
+        "replies": "助手 AI 回复",
+        "emails": "邮件",
+        "texts": "已发短信"
+      },
+      "cost": "各提供商 AI 费用",
+      "cols": {
+        "provider": "提供商",
+        "jobs": "任务",
+        "tokens": "Token",
+        "spent": "已花费（30 天）",
+        "budget": "月度预算",
+        "used": "已用"
+      },
+      "noBudget": "未设置",
+      "costNote": "以应用记录为准（搜索从 n8n 上报费用，助手每次回复上报）。设置管理员密钥后，提供商自身的数字显示在控制台卡片上。在该卡片上输入各预算。",
+      "emails": "按类型的邮件",
+      "texts": "短信",
+      "none": "最近 30 天没有。",
+      "balances": "余额、预算和提醒阈值：在控制台"
     }
   },
   "matchReasons": {

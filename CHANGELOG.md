@@ -3,6 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.25.0] - 2026-11-22
+
+### Added (round 9, group 9)
+
+- **Pause everything** in Admin > Controls: stops at once the AI searches (they wait in the queue), the assistant's and the scorers' model calls (rules instead), automatic emails and texts (including the SMS opt-in text and the Limelight confirmation, which wait), and drafted replies. Audited with the switch in one transaction; a banner on every admin page while paused; an unreadable or corrupt setting counts as paused.
+- **Admin > AI accounts**: the last 30 days of searches, assistant replies, emails and texts, and the AI cost per provider against each monthly budget (this month's share). Read-only. When a provider's admin key is missing, the cost the app recorded keeps the 80% budget alert working; a casting workflow failing 3 times in 24 hours alerts once a day.
+- **`docs/GO_LIVE.md`**: the checklist before switching production to live, and the founder's exact steps.
+
 ## [0.6.24.0] - 2026-11-22
 
 ### Added (round 9, group 8), off behind a flag
