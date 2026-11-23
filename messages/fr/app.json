@@ -347,7 +347,9 @@
         "title": "Emails en attente d’une personne ({count})",
         "help": "Personnes qui ont écrit directement à l’équipe. Ouvre le fil Gmail avec cet identifiant dans la boîte de l’équipe ; rien n’a été envoyé pour ceux-ci.",
         "done": "Traité"
-      }
+      },
+      "deletedByPerformer": "Supprimée par l’artiste",
+      "deletedByPerformerNote": "L’artiste a supprimé cette conversation. Il ne la voit plus ; elle est conservée pour la modération et pour des raisons légales."
     },
     "limelight": {
       "title": "Demandes Limelight",

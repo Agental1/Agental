@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { dateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { countWaitingThreads, getTeamThread, isTeamMember, listTeamThreads } from "@/lib/messages";
+import { agentNameFor } from "@/lib/agent-name";
 import { listInboxForReview } from "@/lib/n8n/inbox";
 import { markInboxReviewedForm } from "@/app/actions/admin-inbox";
 import { MessageList } from "@/components/app/message-list";
@@ -56,6 +57,7 @@ export default async function AdminMessagesPage({
     waiting ? listInboxForReview() : Promise.resolve([]),
   ]);
   const open = threadParam ? await getTeamThread(viewerId, threadParam) : null;
+  const openAgentName = open ? await agentNameFor(open.user.id) : null;
   const performerName = open ? (open.user.name?.trim() || open.user.email) : "";
 
   return (
@@ -160,8 +162,9 @@ export default async function AdminMessagesPage({
                         )}
                       </span>
                       <span className="mt-0.5 block truncate text-sm text-fg-muted">{row.preview}</span>
-                      {(row.unread > 0 || row.awaitingReply) && (
+                      {(row.unread > 0 || row.awaitingReply || row.hiddenForUser) && (
                         <span className="mt-2 flex flex-wrap gap-1.5">
+                          {row.hiddenForUser && <Badge variant="neutral">{t("admin.messages.deletedByPerformer")}</Badge>}
                           {row.unread > 0 && (
                             <Badge variant="accent">
                               {t("admin.messages.unread", { count: row.unread })}
@@ -213,6 +216,9 @@ export default async function AdminMessagesPage({
                     {t("admin.messages.waitingForTeam")}
                   </Badge>
                 )}
+                {open.hiddenForUser && (
+                  <p className="mt-2 text-sm text-fg-muted">{t("admin.messages.deletedByPerformerNote")}</p>
+                )}
               </header>
               <div className="space-y-5 p-5">
                 <MessageList
@@ -220,7 +226,7 @@ export default async function AdminMessagesPage({
                   ownSide="team"
                   teamLabel={t("admin.messages.team")}
                   performerLabel={performerName}
-                  assistantLabel={t("admin.messages.assistant")}
+                  assistantLabel={openAgentName ?? t("admin.messages.assistant")}
                   topicLabels={{ profile: t("admin.messages.topics.profile"), application: t("admin.messages.topics.application"), other: t("admin.messages.topics.other") }}
                   locale={locale}
                 />

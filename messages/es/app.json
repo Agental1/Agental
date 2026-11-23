@@ -347,7 +347,9 @@
         "title": "Emails waiting for a person ({count})",
         "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these.",
         "done": "Mark handled"
-      }
+      },
+      "deletedByPerformer": "Eliminada por el artista",
+      "deletedByPerformerNote": "El artista eliminó esta conversación. Ya no la ve; se conserva por motivos de moderación y legales."
     },
     "limelight": {
       "title": "Solicitudes de Limelight",

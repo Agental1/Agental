@@ -93,7 +93,8 @@
       "roleFound": "Nuevo papel encontrado",
       "assistantReplied": "El asistente respondió",
       "teamReplied": "El equipo de Agental respondió",
-      "statusChanged": "Actualización de una candidatura"
+      "statusChanged": "Actualización de una candidatura",
+      "agentReplied": "{name} respondió"
     }
   },
   "account": {
@@ -318,7 +319,7 @@
     },
     "eyebrow": "Legal",
     "title": "Política de privacidad",
-    "updated": "Última actualización: 20 de noviembre de 2026. El texto completo está en inglés.",
+    "updated": "Última actualización: 22 de noviembre de 2026. El texto completo está en inglés.",
     "footerLink": "Privacidad",
     "sections": [
       {
@@ -363,7 +364,8 @@
       {
         "title": "How long we keep it, and your choices",
         "body": [
-          "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co."
+          "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co.",
+          "When you delete a conversation in Messages, it disappears from your account right away. We keep a copy, hidden from you, for moderation and legal reasons."
         ]
       },
       {

@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.14.0] - 2026-11-22
+
+### Changed (round 8d, group 1)
+
+- **Height and weight show both units.** The Height tile reads "5 ft 10 in · 178 cm" and Weight "161 lb · 73 kg", the other unit in grey, also under the inputs while typing. The toggle converts the value; the database keeps centimeters and kilograms (every stored value from 91 to 241 cm and 20 to 300 kg round-trips, tested).
+- **The agent's name everywhere.** When the performer named their agent ("Sam"), Messages shows it as the author of its replies, in the conversation header and as the avatar initial, and the bell says "Sam replied". "Agental assistant" only when no name is saved; the admin inbox uses the same name.
+- **Several conversations in Messages.** "New conversation", a list of past conversations (title from the first message, date), and a menu on each to delete it, with a confirmation. A deleted conversation leaves the performer's Messages at once; the rows stay for the team (the admin inbox marks it "Deleted by the performer") and the Privacy Policy says so. The thread scrolls in its own box with a visible scrollbar on the right, opens on the newest message, and shows "Jump to latest" once scrolled up.
+
+Migration `20261213000000_round8d_conversations` (additive): `Thread.hiddenForUserAt`; the one-thread-per-person unique index becomes a plain index. Code from before still reads one of the person's threads.
+
 ## [0.6.13.0] - 2026-11-22
 
 ### Changed (round 8c, group 5)

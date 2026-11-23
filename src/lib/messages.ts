@@ -11,10 +11,10 @@ import {
  * Reading and writing the conversation between a performer and the Agental
  * team. Server-only.
  *
- * A performer has exactly one such thread (Thread.kind TEAM, Thread.userId),
- * found from the session and never from an id the browser sends. That is the
- * whole isolation rule on the performer's side: there is no way to name
- * someone else's thread.
+ * A performer has one thread per conversation (Thread.kind TEAM,
+ * Thread.userId; several since round 8d). An id the browser sends is only
+ * ever looked up together with the session's user id and "not deleted", so a
+ * performer cannot name someone else's thread, nor one they deleted.
  *
  * The team side takes the viewer's user id and checks, here, that the viewer
  * is an admin. A page that forgets its own check still gets nothing.
@@ -23,7 +23,6 @@ import {
 export const TEAM_THREAD = "TEAM";
 
 type Db = Pick<PrismaClient, "thread" | "message" | "user">;
-type Tx = Pick<Prisma.TransactionClient, "thread" | "message">;
 
 const MESSAGE_FIELDS = {
   id: true,
@@ -36,7 +35,7 @@ const MESSAGE_FIELDS = {
 } as const;
 
 export interface MyThread {
-  /** Null until the performer sends a first message. */
+  /** Null for a new conversation (nothing sent yet). */
   threadId: string | null;
   /** The assistant handed over and the team has not answered yet. */
   waitingForTeam: boolean;
@@ -54,18 +53,81 @@ async function recentMessages(db: Pick<Db, "message">, threadId: string) {
   return rows.reverse();
 }
 
-/** The signed-in performer's conversation with the team. */
-export async function getMyThread(userId: string, db: Db = prisma): Promise<MyThread> {
-  const thread = await db.thread.findUnique({
-    where: { userId_kind: { userId, kind: TEAM_THREAD } },
-    select: { id: true, waitingForTeamSince: true },
+/** The performer's own conversations, still visible to them (round 8d). */
+const myThreads = (userId: string) => ({ userId, kind: TEAM_THREAD, hiddenForUserAt: null });
+
+export const CONVERSATION_TITLE_MAX = 60;
+
+export interface MyConversation {
+  threadId: string;
+  /** From the first message; null when it has none yet. */
+  title: string | null;
+  /** The latest message, or when it was opened. */
+  at: Date;
+}
+
+/** The performer's conversations, the most recent first. Deleted ones are left out. */
+export async function listMyConversations(userId: string, db: Db = prisma): Promise<MyConversation[]> {
+  const threads = await db.thread.findMany({
+    where: myThreads(userId),
+    orderBy: [{ lastMessageAt: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
+    take: 100,
+    select: {
+      id: true,
+      subject: true,
+      createdAt: true,
+      lastMessageAt: true,
+      messages: {
+        where: { fromTeam: false, fromAgent: false },
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+        take: 1,
+        select: { body: true },
+      },
+    },
   });
-  if (!thread) return { threadId: null, waitingForTeam: false, messages: [] };
+  return threads.map((t) => ({
+    threadId: t.id,
+    title: t.subject ?? (t.messages[0] ? messagePreview(t.messages[0].body, CONVERSATION_TITLE_MAX) : null),
+    at: t.lastMessageAt ?? t.createdAt,
+  }));
+}
+
+/**
+ * One of the signed-in performer's conversations: the one asked for when it
+ * is theirs and not deleted, otherwise the most recent. `"new"` asks for an
+ * empty conversation (the first message creates it).
+ */
+export async function getMyThread(
+  userId: string,
+  db: Db = prisma,
+  wanted?: string | null
+): Promise<MyThread> {
+  const empty: MyThread = { threadId: null, waitingForTeam: false, messages: [] };
+  if (wanted === "new") return empty;
+  const select = { id: true, waitingForTeamSince: true } as const;
+  const thread =
+    (wanted ? await db.thread.findFirst({ where: { ...myThreads(userId), id: wanted }, select }) : null) ??
+    (await db.thread.findFirst({
+      where: myThreads(userId),
+      orderBy: [{ lastMessageAt: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
+      select,
+    }));
+  if (!thread) return empty;
   return {
     threadId: thread.id,
     waitingForTeam: thread.waitingForTeamSince !== null,
     messages: await recentMessages(db, thread.id),
   };
+}
+
+/** The thread id when it is the performer's own, visible conversation, otherwise null. */
+export async function ownVisibleThread(
+  db: Pick<Db, "thread">,
+  userId: string,
+  threadId: string
+): Promise<string | null> {
+  const row = await db.thread.findFirst({ where: { ...myThreads(userId), id: threadId }, select: { id: true } });
+  return row?.id ?? null;
 }
 
 export interface PostedMessage {
@@ -149,24 +211,30 @@ export async function postMessage(
   }
 }
 
-/** Find the performer's team thread, creating it on the first message. */
-export async function ensureTeamThread(db: Tx, userId: string): Promise<string> {
-  const where = { userId_kind: { userId, kind: TEAM_THREAD } };
-  const existing = await db.thread.findUnique({ where, select: { id: true } });
-  if (existing) return existing.id;
-  try {
-    const created = await db.thread.create({
-      data: { userId, kind: TEAM_THREAD },
-      select: { id: true },
-    });
-    return created.id;
-  } catch (error) {
-    // Two first messages sent together: the other request created the thread.
-    if (!isUniqueViolation(error)) throw error;
-    const winner = await db.thread.findUnique({ where, select: { id: true } });
-    if (!winner) throw error;
-    return winner.id;
-  }
+/**
+ * A new conversation for the performer's first message in it, titled from
+ * that message. A retry of the same draft (same clientKey) finds the thread
+ * the first try created instead of opening a second one.
+ */
+export async function startTeamThread(
+  db: Pick<Db, "thread" | "message">,
+  userId: string,
+  firstMessage: { body: string; clientKey: string }
+): Promise<string> {
+  const retried = await db.message.findFirst({
+    where: { clientKey: firstMessage.clientKey, senderId: userId, thread: { userId, kind: TEAM_THREAD } },
+    select: { threadId: true },
+  });
+  if (retried) return retried.threadId;
+  const created = await db.thread.create({
+    data: {
+      userId,
+      kind: TEAM_THREAD,
+      subject: messagePreview(firstMessage.body, CONVERSATION_TITLE_MAX),
+    },
+    select: { id: true },
+  });
+  return created.id;
 }
 
 /* ── Team side ───────────────────────────────────────────────────────────── */
@@ -190,6 +258,8 @@ export interface TeamThreadRow {
   waitingSince: Date | null;
   /** Messages from the performer the team has not opened. */
   unread: number;
+  /** Round 8d: the performer deleted it from their Messages (kept for the team). */
+  hiddenForUser: boolean;
 }
 
 /**
@@ -214,6 +284,7 @@ export async function listTeamThreads(
       id: true,
       lastMessageAt: true,
       waitingForTeamSince: true,
+      hiddenForUserAt: true,
       user: { select: { id: true, name: true, email: true } },
       messages: {
         orderBy: [{ createdAt: "desc" }, { id: "desc" }],
@@ -237,6 +308,7 @@ export async function listTeamThreads(
       waitingForTeam: thread.waitingForTeamSince !== null,
       waitingSince: thread.waitingForTeamSince,
       unread: thread._count.messages,
+      hiddenForUser: thread.hiddenForUserAt !== null,
     });
   }
   return rows;
@@ -245,6 +317,8 @@ export async function listTeamThreads(
 export interface TeamThread {
   threadId: string;
   waitingForTeam: boolean;
+  /** Round 8d: the performer deleted it; they no longer see it. */
+  hiddenForUser: boolean;
   user: { id: string; name: string | null; email: string };
   messages: ThreadMessage[];
 }
@@ -261,6 +335,7 @@ export async function getTeamThread(
     select: {
       id: true,
       waitingForTeamSince: true,
+      hiddenForUserAt: true,
       user: { select: { id: true, name: true, email: true } },
     },
   });
@@ -268,6 +343,7 @@ export async function getTeamThread(
   return {
     threadId: thread.id,
     waitingForTeam: thread.waitingForTeamSince !== null,
+    hiddenForUser: thread.hiddenForUserAt !== null,
     user: thread.user,
     messages: await recentMessages(db, thread.id),
   };

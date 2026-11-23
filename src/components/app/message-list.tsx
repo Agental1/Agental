@@ -18,6 +18,7 @@ export function MessageList({
   assistantLabel,
   topicLabels,
   locale,
+  avatars = false,
 }: {
   messages: ThreadMessage[];
   ownSide: "team" | "performer";
@@ -28,14 +29,25 @@ export function MessageList({
   /** Shown next to a performer message that has a topic. */
   topicLabels?: Record<string, string>;
   locale: string;
+  /** Round 8d: an initial next to the other side's messages ("S" for Sam). */
+  avatars?: boolean;
 }) {
   return (
     <ol className="space-y-3">
       {messages.map((m) => {
         const teamSide = m.fromTeam || m.fromAgent;
         const own = (ownSide === "team") === teamSide;
+        const author = m.fromTeam ? teamLabel : m.fromAgent ? assistantLabel : performerLabel;
         return (
-          <li key={m.id} className={cn("flex", own ? "justify-end" : "justify-start")}>
+          <li key={m.id} className={cn("flex items-end gap-2", own ? "justify-end" : "justify-start")}>
+            {avatars && !own && (
+              <span
+                aria-hidden="true"
+                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xs font-bold text-accent"
+              >
+                {Array.from(author.trim())[0]?.toLocaleUpperCase() ?? "?"}
+              </span>
+            )}
             <div
               className={cn(
                 "max-w-[85%] rounded-sedan px-4 py-3 text-sm sm:max-w-[75%]",
@@ -48,7 +60,7 @@ export function MessageList({
             >
               <p className="flex flex-wrap items-baseline gap-x-2 text-xs">
                 <span className={cn("font-bold", teamSide ? "text-accent" : "text-fg")}>
-                  {m.fromTeam ? teamLabel : m.fromAgent ? assistantLabel : performerLabel}
+                  {author}
                 </span>
                 {m.topic && topicLabels?.[m.topic] && (
                   <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-fg-muted">

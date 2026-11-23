@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { agentNameFor } from "@/lib/agent-name";
 
 /**
  * The bell (round 8): the latest notifications of one person (written by the
@@ -33,7 +34,7 @@ function parse(raw: string): Record<string, unknown> {
 }
 
 export async function bellFor(userId: string, portal: "TALENT" | "CASTING"): Promise<{ items: BellItem[]; unread: number }> {
-  const [notes, unreadNotes, announcements] = await Promise.all([
+  const [notes, unreadNotes, announcements, agentName] = await Promise.all([
     prisma.notification.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
@@ -46,6 +47,7 @@ export async function bellFor(userId: string, portal: "TALENT" | "CASTING"): Pro
       take: LIMIT,
       include: { reads: { where: { userId }, select: { userId: true } } },
     }),
+    portal === "TALENT" ? agentNameFor(userId) : Promise.resolve(null),
   ]);
   const items: BellItem[] = [
     ...notes.map((n) => ({
@@ -55,7 +57,8 @@ export async function bellFor(userId: string, portal: "TALENT" | "CASTING"): Pro
       title: n.title ?? n.kind,
       body: n.body,
       link: n.link,
-      payload: parse(n.payload),
+      // Round 8d: "Sam replied" when the performer named their agent.
+      payload: { ...parse(n.payload), ...(agentName ? { agentName } : {}) },
       read: !!n.readAt,
       createdAt: n.createdAt.toISOString(),
     })),

@@ -1002,7 +1002,18 @@
       "placeholder": "写下你的消息",
       "send": "发送",
       "sending": "正在发送…",
-      "repliesHere": "回复会出现在这里的“消息”页面。"
+      "repliesHere": "回复会出现在这里的“消息”页面。",
+      "conversations": "对话",
+      "newConversation": "新对话",
+      "untitled": "对话",
+      "conversationMenu": "对话选项",
+      "deleteConversation": "删除对话",
+      "deleteConfirmTitle": "删除此对话？",
+      "deleteConfirmBody": "它会立即从你的消息中消失。Agental 团队会出于审核和法律原因保留一份副本。",
+      "cancel": "取消",
+      "deleted": "对话已删除",
+      "deleteFailed": "无法删除对话，请重试。",
+      "jumpToLatest": "跳到最新"
     },
     "settings": {
       "title": "设置",

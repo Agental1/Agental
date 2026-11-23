@@ -44,3 +44,25 @@ export function agentSetupOf(row: {
   }
   return { name, customName: name === "custom" ? row.agentCustomName : null, helps };
 }
+
+const AGENT_DISPLAY: Record<Exclude<AgentNameChoice, "custom">, string> = {
+  samantha: "Samantha",
+  adrian: "Adrian",
+};
+
+/**
+ * Round 8d: the name the performer gave their agent ("Sam"), shown as the
+ * author of its replies, in the conversation header, its avatar initial and
+ * the bell. Null when no name is saved: callers then say "Agental assistant".
+ */
+export function agentDisplayName(setup: AgentSetup | null): string | null {
+  if (!setup) return null;
+  if (setup.name === "custom") return setup.customName?.trim() || null;
+  return AGENT_DISPLAY[setup.name];
+}
+
+/** The first letter of a name, for an avatar ("Sam" -> "S"). */
+export function nameInitial(name: string): string {
+  const first = Array.from(name.trim())[0] ?? "?";
+  return first.toLocaleUpperCase();
+}
