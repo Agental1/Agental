@@ -259,11 +259,12 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "账户清理",
+      "cleanup": "已删除",
       "profiles": "资料",
       "media": "媒体",
       "emails": "邮件",
-      "announcements": "公告"
+      "announcements": "公告",
+      "projects": "项目"
     },
     "stats": {
       "artists": "艺人",
@@ -455,7 +456,8 @@
         "media": "Media",
         "website": "Website",
         "status": "Status",
-        "agents": "Agents enabled"
+        "agents": "Agents enabled",
+        "lastSignIn": "最近登录或访问"
       },
       "site": {
         "none": "None",
@@ -513,7 +515,67 @@
       "verifiedGoogle": "由 Google 验证",
       "notVerified": "未验证",
       "verifiedReadOnly": "仅由真实验证设置，团队无法修改。",
-      "exceptionsNote": "账户会自动获得资格。只标记例外：垃圾、测试、员工或撤销资格。“自动”可撤销标记。"
+      "exceptionsNote": "账户会自动获得资格。只标记例外：垃圾、测试、员工或撤销资格。“自动”可撤销标记。",
+      "filters": {
+        "group": "分组",
+        "createdBefore": "创建早于",
+        "paid": "付款",
+        "neverPaid": "从未付款",
+        "paidOrTeam": "已付款或在团队中",
+        "signInNever": "尚无记录",
+        "signInBefore": "早于某日",
+        "signedInBefore": "最近登录早于"
+      },
+      "groups": {
+        "performers": "演员",
+        "casting": "选角",
+        "staff": "团队",
+        "test": "测试",
+        "spam": "垃圾或已撤销",
+        "unreviewed": "待审核"
+      },
+      "verifiedYes": "已验证",
+      "methods": {
+        "email": "邮箱",
+        "google": "Google",
+        "other": "其他"
+      },
+      "clear": "清除筛选",
+      "empty": "没有符合这些筛选条件的账户。",
+      "emptyHint": "清除一个筛选条件，或搜索其他姓名或邮箱。",
+      "notRecorded": "无记录",
+      "lastSignInHelp": "自 2026 年 11 月 22 日起记录：每次登录，以及每天使用已打开会话的情况。更早的活动显示为无记录。",
+      "bulk": {
+        "selected": "{count, plural, =0 {未选择账户} other {已选择 # 个账户}}",
+        "warnCta": "发送提醒邮件",
+        "deleteCta": "删除",
+        "warnTitle": "向 {count} 个账户发送提醒邮件？",
+        "warnBody": "每个账户都会收到“请在 7 天内确认邮箱以保留你的 Agental 账户”及确认链接，并记录在账户上。",
+        "deleteTitle": "删除 {count} 个账户？",
+        "deleteBody": "30 天后无法撤销。在此之前，这些账户保留在“已删除”中，可以恢复。之后它们会连同文件被永久删除。",
+        "warnKept": "已跳过 {count} 个勾选的账户：已验证、使用 Google 注册，或属于团队、测试、管理员或付费账户。",
+        "deleteKept": "{count} 个勾选的账户属于团队、测试、管理员或付费账户，将被保留。",
+        "nothingTitle": "无可操作",
+        "nothingWarn": "勾选的账户都不能接收提醒：它们已验证、使用 Google 注册，或属于团队、测试、管理员或付费账户。",
+        "nothingDelete": "勾选的账户都不能删除：团队、测试、管理员和付费账户始终保留。",
+        "cancel": "取消",
+        "confirmDelete": "删除 {count} 个账户",
+        "confirmWarn": "发送 {count} 封邮件",
+        "removed": "{count, plural, =0 {未删除账户。} other {已删除 # 个账户。}}",
+        "skipped": "已跳过 {count} 个。",
+        "openDeleted": "打开“已删除”以恢复",
+        "warned": "{count, plural, =0 {未发送提醒邮件。} other {已发送 # 封提醒邮件。}}",
+        "noSender": "尚未配置邮件发送服务（Resend 密钥）：未发送任何邮件。",
+        "tooMany": "一次最多选择 200 个账户。",
+        "protectedHelp": "无法在此删除该账户。",
+        "protected": {
+          "admin": "受保护：管理员",
+          "staff": "受保护：团队",
+          "test": "受保护：测试",
+          "paid": "受保护：已付款或在团队中",
+          "deleted": "已删除"
+        }
+      }
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -657,6 +719,82 @@
       "edit": "Edit balance and alerts",
       "none": "Not available",
       "balanceNote": "Balance of {amount} typed {date}."
+    },
+    "deleted": {
+      "title": "已删除的账户",
+      "subtitle": "在“账户”中删除的账户。每个账户已停用，可在 {days} 天内恢复，之后连同文件被永久删除。每次删除、恢复和永久删除都记录在审计日志中。",
+      "restored": "账户已恢复。可以重新登录，并恢复原来的状态。",
+      "restoreError": "无法恢复该账户。它可能已被恢复，或已被永久删除。",
+      "empty": "没有已删除的账户。",
+      "emptyHint": "你删除的账户会在这里保留 30 天。",
+      "cols": {
+        "account": "账户",
+        "audience": "类型",
+        "deletedAt": "删除时间",
+        "deletedBy": "操作人",
+        "purgeOn": "永久删除日期"
+      },
+      "daysLeft": "{count, plural, =0 {今天} other {剩余 # 天}}",
+      "restore": "恢复",
+      "detailBanner": "该账户已被删除，无法登录，其代理已停止。可在此恢复："
+    },
+    "projects": {
+      "title": "项目",
+      "subtitle": "{count, plural, =0 {暂无项目。} other {共 # 个项目。打开一个查看角色和申请。}}",
+      "search": "标题或机构",
+      "empty": "没有匹配的项目。",
+      "emptyHint": "选角团队在自己的空间中创建项目。清除搜索即可查看全部。",
+      "cols": {
+        "title": "项目",
+        "organization": "机构",
+        "owner": "负责人",
+        "status": "状态",
+        "shooting": "拍摄",
+        "applications": "申请",
+        "created": "创建时间"
+      },
+      "range": "{from} 至 {to}",
+      "statuses": {
+        "DRAFT": "草稿",
+        "OPEN": "开放",
+        "SHORTLISTING": "筛选中",
+        "CLOSED": "已关闭"
+      },
+      "back": "全部项目",
+      "details": "详情",
+      "updated": "最近修改",
+      "budget": "预算",
+      "role": {
+        "title": "角色",
+        "empty": "暂无角色详情。",
+        "role": "角色",
+        "gender": "性别",
+        "age": "年龄",
+        "type": "外形类型",
+        "language": "语言",
+        "accent": "口音",
+        "constraints": "要求"
+      },
+      "applications": "{count, plural, =0 {申请} other {# 份申请}}",
+      "appCols": {
+        "performer": "演员",
+        "source": "来源",
+        "status": "状态",
+        "score": "匹配度",
+        "applied": "申请时间"
+      },
+      "external": "外部人才",
+      "noApplications": "暂无申请。",
+      "appStatuses": {
+        "NEW": "新申请",
+        "SHORTLISTED": "已入围",
+        "STARRED": "已加星",
+        "EXCLUDED": "已排除",
+        "SELFTAPE_REQUESTED": "已请求自录视频",
+        "INVITED": "已邀请",
+        "CONTRACTED": "已签约",
+        "REJECTED": "已拒绝"
+      }
     }
   },
   "matchReasons": {

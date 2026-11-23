@@ -27,9 +27,13 @@ export function profileFiltersFrom(get: Get): ProfileFilters {
 
 export async function listProfiles(f: ProfileFilters, take = VIEW_CAP) {
   const rows = await prisma.artistProfile.findMany({
-    where: f.q
-      ? { OR: [{ stageName: { contains: f.q, mode: "insensitive" } }, { city: { contains: f.q, mode: "insensitive" } }, { user: { email: { contains: f.q, mode: "insensitive" } } }] }
-      : {},
+    where: {
+      // Round 9: deleted accounts are listed in Admin > Deleted only.
+      user: { deletedAt: null },
+      ...(f.q
+        ? { OR: [{ stageName: { contains: f.q, mode: "insensitive" } }, { city: { contains: f.q, mode: "insensitive" } }, { user: { email: { contains: f.q, mode: "insensitive" } } }] }
+        : {}),
+    },
     orderBy: { createdAt: "desc" },
     take,
     select: {
@@ -81,6 +85,7 @@ export async function listMedia(f: MediaFilters, take = VIEW_CAP) {
   // The category in the query itself (rows from before categories fall back on their type).
   const fallbackTypes = ["PHOTO", "VIDEO", "AUDIO", "SELFTAPE"].filter((t) => defaultCategory(t) === f.category);
   const where: Prisma.MediaWhereInput = {
+    profile: { user: { deletedAt: null } },
     ...(f.type ? { type: f.type } : {}),
     ...(f.category ? { AND: [{ OR: [{ category: f.category }, { category: null, type: { in: fallbackTypes } }] }] } : {}),
     ...(f.q

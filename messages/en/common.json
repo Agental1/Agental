@@ -202,7 +202,8 @@
     "bannerLead": "We use a few cookies to make Agental work. The others stay off unless you accept them.",
     "policyLink": "Privacy Policy",
     "recordedOn": "Recorded on {date}, notice version {version}.",
-    "notRecorded": "No choice recorded yet. Only strictly necessary cookies are used."
+    "notRecorded": "No choice recorded yet. Only strictly necessary cookies are used.",
+    "readMore": "Read more"
   },
   "tour": {
     "start": "Start here",
@@ -362,10 +363,27 @@
         ]
       },
       {
+        "id": "security",
+        "title": "Account security and abuse",
+        "body": [
+          "To keep Agental safe for performers and casting teams, we watch how accounts are used to detect spam, fake and abusive accounts. We look at when an account was created and last signed in, whether its email was verified, repeated failed sign-in or sign-up attempts, and how the profile, media, AI searches and messages are used. We use this only for security and to prevent fraud and abuse, and we never sell it.",
+          "A member of our team, never an automated system, decides on any action. We may limit, suspend or delete an account that breaks our Terms. We may first email you to confirm your address within 7 days. A deleted account is disabled at once and kept for 30 days so we can restore it if we made a mistake, then it is deleted for good with its files. Write to contact@agental.co if you think we got it wrong.",
+          "This monitoring does not use cookies. The only cookies we set are the ones listed in the cookie banner."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies",
+        "body": [
+          "We set only the cookies listed in the cookie banner: the strictly necessary ones (sign-in, security, your language and your cookie choice), always on, and analytics and marketing cookies, which stay off unless you accept them. None of the optional ones is set today. You can change your choice any time in Settings."
+        ]
+      },
+      {
         "title": "How long we keep it, and your choices",
         "body": [
           "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co.",
-          "When you delete a conversation in Messages, it disappears from your account right away. We keep a copy, hidden from you, for moderation and legal reasons."
+          "When you delete a conversation in Messages, it disappears from your account right away. We keep a copy, hidden from you, for moderation and legal reasons.",
+          "We keep the log of emails we send for 180 days. Backups of the database are kept for a limited time after a deletion."
         ]
       },
       {

@@ -259,11 +259,12 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "Limpieza de cuentas",
+      "cleanup": "Eliminadas",
       "profiles": "Perfiles",
       "media": "Medios",
       "emails": "Correos",
-      "announcements": "Anuncios"
+      "announcements": "Anuncios",
+      "projects": "Proyectos"
     },
     "stats": {
       "artists": "Artistas",
@@ -455,7 +456,8 @@
         "media": "Media",
         "website": "Website",
         "status": "Status",
-        "agents": "Agents enabled"
+        "agents": "Agents enabled",
+        "lastSignIn": "Último inicio o visita"
       },
       "site": {
         "none": "None",
@@ -513,7 +515,67 @@
       "verifiedGoogle": "Verificado por Google",
       "notVerified": "Sin verificar",
       "verifiedReadOnly": "Lo fija solo la verificación real. El equipo no puede cambiarlo.",
-      "exceptionsNote": "Las cuentas se vuelven elegibles solas. Marca solo excepciones: Spam, Test, Equipo o retirar. «Automático» deshace una marca."
+      "exceptionsNote": "Las cuentas se vuelven elegibles solas. Marca solo excepciones: Spam, Test, Equipo o retirar. «Automático» deshace una marca.",
+      "filters": {
+        "group": "Grupo",
+        "createdBefore": "Creada antes del",
+        "paid": "Pagos",
+        "neverPaid": "Nunca pagó",
+        "paidOrTeam": "Pagó o está en un equipo",
+        "signInNever": "Ninguno registrado aún",
+        "signInBefore": "Antes de una fecha",
+        "signedInBefore": "Último inicio antes del"
+      },
+      "groups": {
+        "performers": "Artistas",
+        "casting": "Casting",
+        "staff": "Equipo",
+        "test": "Prueba",
+        "spam": "Spam o revocadas",
+        "unreviewed": "Por revisar"
+      },
+      "verifiedYes": "Verificado",
+      "methods": {
+        "email": "Correo",
+        "google": "Google",
+        "other": "Otro"
+      },
+      "clear": "Quitar filtros",
+      "empty": "Ninguna cuenta coincide con estos filtros.",
+      "emptyHint": "Quita un filtro o busca otro nombre o correo.",
+      "notRecorded": "Sin registro",
+      "lastSignInHelp": "Se registra desde el 22 de noviembre de 2026: cada inicio de sesión y cada día en que se usa una sesión abierta. La actividad anterior aparece sin registro.",
+      "bulk": {
+        "selected": "{count, plural, =0 {Ninguna cuenta seleccionada} one {# cuenta seleccionada} other {# cuentas seleccionadas}}",
+        "warnCta": "Enviar correo de aviso",
+        "deleteCta": "Eliminar",
+        "warnTitle": "¿Enviar el aviso a {count, plural, one {# cuenta} other {# cuentas}}?",
+        "warnBody": "Cada una recibe \"Confirma tu correo en 7 días para conservar tu cuenta de Agental\" con un enlace de confirmación. Queda registrado en la cuenta.",
+        "deleteTitle": "¿Eliminar {count, plural, one {# cuenta} other {# cuentas}}?",
+        "deleteBody": "No se puede deshacer después de 30 días. Hasta entonces las cuentas quedan en Eliminadas, donde puedes restaurarlas. Después se borran para siempre con sus archivos.",
+        "warnKept": "{count, plural, one {Se omite # cuenta marcada} other {Se omiten # cuentas marcadas}}: ya verificadas, registradas con Google, o de equipo, prueba, admin o de pago.",
+        "deleteKept": "{count, plural, one {# cuenta marcada es} other {# cuentas marcadas son}} de equipo, prueba, admin o de pago y se conservan.",
+        "nothingTitle": "Nada que hacer",
+        "nothingWarn": "Ninguna cuenta marcada puede recibir el aviso: están verificadas, registradas con Google, o son de equipo, prueba, admin o de pago.",
+        "nothingDelete": "Ninguna cuenta marcada se puede eliminar: las cuentas de equipo, prueba, admin y de pago siempre se conservan.",
+        "cancel": "Cancelar",
+        "confirmDelete": "Eliminar {count, plural, one {# cuenta} other {# cuentas}}",
+        "confirmWarn": "Enviar {count, plural, one {# correo} other {# correos}}",
+        "removed": "{count, plural, =0 {No se eliminó ninguna cuenta.} one {# cuenta eliminada.} other {# cuentas eliminadas.}}",
+        "skipped": "{count, plural, one {# omitida.} other {# omitidas.}}",
+        "openDeleted": "Abrir Eliminadas para restaurar",
+        "warned": "{count, plural, =0 {No se envió ningún aviso.} one {# aviso enviado.} other {# avisos enviados.}}",
+        "noSender": "Aún no hay servicio de envío configurado (clave de Resend): no se envió nada.",
+        "tooMany": "Selecciona como máximo 200 cuentas a la vez.",
+        "protectedHelp": "Esta cuenta no se puede eliminar desde aquí.",
+        "protected": {
+          "admin": "Protegida: admin",
+          "staff": "Protegida: equipo",
+          "test": "Protegida: prueba",
+          "paid": "Protegida: de pago o en un equipo",
+          "deleted": "Eliminada"
+        }
+      }
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -657,6 +719,82 @@
       "edit": "Edit balance and alerts",
       "none": "Not available",
       "balanceNote": "Balance of {amount} typed {date}."
+    },
+    "deleted": {
+      "title": "Cuentas eliminadas",
+      "subtitle": "Las cuentas eliminadas en Cuentas. Cada una queda desactivada y se puede restaurar durante {days} días; después se borra para siempre con sus archivos. Cada eliminación, restauración y borrado queda en el registro de auditoría.",
+      "restored": "Cuenta restaurada. Puede volver a iniciar sesión y recupera su estado anterior.",
+      "restoreError": "No se pudo restaurar esta cuenta. Quizá ya se restauró o se borró para siempre.",
+      "empty": "No hay cuentas eliminadas.",
+      "emptyHint": "Las cuentas que elimines aparecen aquí durante 30 días.",
+      "cols": {
+        "account": "Cuenta",
+        "audience": "Tipo",
+        "deletedAt": "Eliminada",
+        "deletedBy": "Por",
+        "purgeOn": "Se borra para siempre el"
+      },
+      "daysLeft": "{count, plural, =0 {Hoy} one {Queda # día} other {Quedan # días}}",
+      "restore": "Restaurar",
+      "detailBanner": "Esta cuenta se eliminó. No puede iniciar sesión y sus agentes están detenidos. Restáurala desde"
+    },
+    "projects": {
+      "title": "Proyectos",
+      "subtitle": "{count, plural, =0 {Aún no hay proyectos.} one {# proyecto. Ábrelo para ver su papel y sus candidaturas.} other {# proyectos. Abre uno para ver su papel y sus candidaturas.}}",
+      "search": "Título u organización",
+      "empty": "Ningún proyecto coincide.",
+      "emptyHint": "Los equipos de casting crean proyectos en su espacio. Borra la búsqueda para verlos todos.",
+      "cols": {
+        "title": "Proyecto",
+        "organization": "Organización",
+        "owner": "Responsable",
+        "status": "Estado",
+        "shooting": "Rodaje",
+        "applications": "Candidaturas",
+        "created": "Creado"
+      },
+      "range": "del {from} al {to}",
+      "statuses": {
+        "DRAFT": "Borrador",
+        "OPEN": "Abierto",
+        "SHORTLISTING": "Preselección",
+        "CLOSED": "Cerrado"
+      },
+      "back": "Todos los proyectos",
+      "details": "Detalles",
+      "updated": "Último cambio",
+      "budget": "Presupuesto",
+      "role": {
+        "title": "Papel",
+        "empty": "Aún no hay detalles del papel.",
+        "role": "Papel",
+        "gender": "Género",
+        "age": "Edad",
+        "type": "Tipo físico",
+        "language": "Idioma",
+        "accent": "Acento",
+        "constraints": "Requisitos"
+      },
+      "applications": "{count, plural, =0 {Candidaturas} one {# candidatura} other {# candidaturas}}",
+      "appCols": {
+        "performer": "Artista",
+        "source": "Origen",
+        "status": "Estado",
+        "score": "Coincidencia",
+        "applied": "Recibida"
+      },
+      "external": "Talento externo",
+      "noApplications": "Aún no hay candidaturas.",
+      "appStatuses": {
+        "NEW": "Nueva",
+        "SHORTLISTED": "Preseleccionada",
+        "STARRED": "Destacada",
+        "EXCLUDED": "Excluida",
+        "SELFTAPE_REQUESTED": "Self-tape pedido",
+        "INVITED": "Invitada",
+        "CONTRACTED": "Contratada",
+        "REJECTED": "Rechazada"
+      }
     }
   },
   "matchReasons": {

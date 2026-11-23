@@ -259,11 +259,12 @@
       "accounts": "Accounts",
       "revenue": "Revenue",
       "waiting": "Waiting for the team",
-      "cleanup": "Account cleanup",
+      "cleanup": "Deleted",
       "profiles": "Profiles",
       "media": "Media",
       "emails": "Emails",
-      "announcements": "Announcements"
+      "announcements": "Announcements",
+      "projects": "Projects"
     },
     "stats": {
       "artists": "Artists",
@@ -455,7 +456,8 @@
         "media": "Media",
         "website": "Website",
         "status": "Status",
-        "agents": "Agents enabled"
+        "agents": "Agents enabled",
+        "lastSignIn": "Last sign-in or visit"
       },
       "site": {
         "none": "None",
@@ -513,7 +515,67 @@
       "verifiedGoogle": "Verified by Google",
       "notVerified": "Not verified",
       "verifiedReadOnly": "Set by the real verification only. Staff cannot change it.",
-      "exceptionsNote": "Accounts become eligible on their own. Mark only exceptions: Spam, Test, Staff, or revoke eligibility. \"Automatic\" undoes a mark."
+      "exceptionsNote": "Accounts become eligible on their own. Mark only exceptions: Spam, Test, Staff, or revoke eligibility. \"Automatic\" undoes a mark.",
+      "filters": {
+        "group": "Group",
+        "createdBefore": "Created before",
+        "paid": "Payments",
+        "neverPaid": "Never paid",
+        "paidOrTeam": "Paid or in a team",
+        "signInNever": "None recorded yet",
+        "signInBefore": "Before a date",
+        "signedInBefore": "Last sign-in before"
+      },
+      "groups": {
+        "performers": "Performers",
+        "casting": "Casting",
+        "staff": "Staff",
+        "test": "Test",
+        "spam": "Spam or revoked",
+        "unreviewed": "To review"
+      },
+      "verifiedYes": "Verified",
+      "methods": {
+        "email": "Email",
+        "google": "Google",
+        "other": "Other"
+      },
+      "clear": "Clear filters",
+      "empty": "No account matches these filters.",
+      "emptyHint": "Clear a filter or search for another name or email.",
+      "notRecorded": "Not recorded",
+      "lastSignInHelp": "Recorded since November 22, 2026: each sign-in, and each day an open session is used. Earlier activity shows as not recorded.",
+      "bulk": {
+        "selected": "{count, plural, =0 {No account selected} one {# account selected} other {# accounts selected}}",
+        "warnCta": "Send warning email",
+        "deleteCta": "Delete",
+        "warnTitle": "Send the warning email to {count, plural, one {# account} other {# accounts}}?",
+        "warnBody": "Each one gets \"Confirm your email within 7 days to keep your Agental account\" with a confirmation link. It is recorded on the account.",
+        "deleteTitle": "Delete {count, plural, one {# account} other {# accounts}}?",
+        "deleteBody": "This can't be undone after 30 days. Until then the accounts stay in Deleted, where you can restore them. Then they are removed for good with their files.",
+        "warnKept": "{count, plural, one {# ticked account is} other {# ticked accounts are}} skipped: already verified, signed up with Google, or staff, test, admin or paying.",
+        "deleteKept": "{count, plural, one {# ticked account is} other {# ticked accounts are}} staff, test, admin or paying and will be kept.",
+        "nothingTitle": "Nothing to do",
+        "nothingWarn": "None of the ticked accounts can get the warning: they are verified, signed up with Google, or staff, test, admin or paying.",
+        "nothingDelete": "None of the ticked accounts can be deleted: staff, test, admin and paying accounts are always kept.",
+        "cancel": "Cancel",
+        "confirmDelete": "Delete {count, plural, one {# account} other {# accounts}}",
+        "confirmWarn": "Send {count, plural, one {# email} other {# emails}}",
+        "removed": "{count, plural, =0 {No account deleted.} one {# account deleted.} other {# accounts deleted.}}",
+        "skipped": "{count, plural, one {# skipped.} other {# skipped.}}",
+        "openDeleted": "Open Deleted to restore",
+        "warned": "{count, plural, =0 {No warning email sent.} one {# warning email sent.} other {# warning emails sent.}}",
+        "noSender": "No email sender is configured yet (Resend key): nothing was sent.",
+        "tooMany": "Select at most 200 accounts at a time.",
+        "protectedHelp": "This account cannot be deleted from here.",
+        "protected": {
+          "admin": "Protected: admin",
+          "staff": "Protected: staff",
+          "test": "Protected: test",
+          "paid": "Protected: paid or in a team",
+          "deleted": "Deleted"
+        }
+      }
     },
     "studentRequests": {
       "title": "Student price requests",
@@ -657,6 +719,82 @@
       "edit": "Edit balance and alerts",
       "none": "Not available",
       "balanceNote": "Balance of {amount} typed {date}."
+    },
+    "deleted": {
+      "title": "Deleted accounts",
+      "subtitle": "Accounts deleted in Accounts. Each one is disabled and can be restored for {days} days, then it is removed for good with its files. Every deletion, restore and removal is in the audit log.",
+      "restored": "Account restored. It can sign in again and has its previous status.",
+      "restoreError": "This account could not be restored. It may have been restored already or removed for good.",
+      "empty": "No deleted account.",
+      "emptyHint": "Accounts you delete appear here for 30 days.",
+      "cols": {
+        "account": "Account",
+        "audience": "Type",
+        "deletedAt": "Deleted",
+        "deletedBy": "By",
+        "purgeOn": "Removed for good on"
+      },
+      "daysLeft": "{count, plural, =0 {Today} one {# day left} other {# days left}}",
+      "restore": "Restore",
+      "detailBanner": "This account was deleted. It can't sign in and its agents are off. Restore it from"
+    },
+    "projects": {
+      "title": "Projects",
+      "subtitle": "{count, plural, =0 {No project yet.} one {# project. Open it to see its role and applications.} other {# projects. Open one to see its role and applications.}}",
+      "search": "Title or organization",
+      "empty": "No project matches.",
+      "emptyHint": "Casting teams create projects in their space. Clear the search to see them all.",
+      "cols": {
+        "title": "Project",
+        "organization": "Organization",
+        "owner": "Owner",
+        "status": "Status",
+        "shooting": "Shooting",
+        "applications": "Applications",
+        "created": "Created"
+      },
+      "range": "{from} to {to}",
+      "statuses": {
+        "DRAFT": "Draft",
+        "OPEN": "Open",
+        "SHORTLISTING": "Shortlisting",
+        "CLOSED": "Closed"
+      },
+      "back": "All projects",
+      "details": "Details",
+      "updated": "Last change",
+      "budget": "Budget",
+      "role": {
+        "title": "Role",
+        "empty": "No role details yet.",
+        "role": "Role",
+        "gender": "Gender",
+        "age": "Age",
+        "type": "Physical type",
+        "language": "Language",
+        "accent": "Accent",
+        "constraints": "Constraints"
+      },
+      "applications": "{count, plural, =0 {Applications} one {# application} other {# applications}}",
+      "appCols": {
+        "performer": "Performer",
+        "source": "Source",
+        "status": "Status",
+        "score": "Match",
+        "applied": "Applied"
+      },
+      "external": "External talent",
+      "noApplications": "No application yet.",
+      "appStatuses": {
+        "NEW": "New",
+        "SHORTLISTED": "Shortlisted",
+        "STARRED": "Starred",
+        "EXCLUDED": "Excluded",
+        "SELFTAPE_REQUESTED": "Self-tape requested",
+        "INVITED": "Invited",
+        "CONTRACTED": "Contracted",
+        "REJECTED": "Declined"
+      }
     }
   },
   "matchReasons": {

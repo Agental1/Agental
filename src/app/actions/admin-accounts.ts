@@ -32,7 +32,7 @@ export async function setAccountStatus(ids: string[], status: StaffStatus): Prom
   }
   const changed = await prisma.$transaction(async (tx) => {
     const before = await tx.user.findMany({
-      where: { id: { in: unique }, accountStatus: { not: status } },
+      where: { id: { in: unique }, accountStatus: { not: status }, deletedAt: null },
       select: { id: true, accountStatus: true },
     });
     let n = 0;
@@ -40,7 +40,7 @@ export async function setAccountStatus(ids: string[], status: StaffStatus): Prom
       // Conditional on the status just read: a concurrent change makes this
       // match nothing, so the audit entry never records a wrong "before".
       const { count } = await tx.user.updateMany({
-        where: { id: u.id, accountStatus: u.accountStatus },
+        where: { id: u.id, accountStatus: u.accountStatus, deletedAt: null },
         data: { accountStatus: status },
       });
       if (count !== 1) continue;

@@ -12,7 +12,7 @@ export async function publicSiteByName(name: string) {
   const label = name.trim().toLowerCase();
   if (!/^[a-z0-9-]{3,40}$/.test(label)) return null;
   const site = await prisma.site.findFirst({
-    where: { subdomain: label, status: "PUBLISHED", publishedRevisionId: { not: null } },
+    where: { subdomain: label, status: "PUBLISHED", publishedRevisionId: { not: null }, user: { deletedAt: null } },
     select: {
       id: true,
       userId: true,

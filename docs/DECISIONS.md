@@ -151,6 +151,7 @@ US dollars.
   staff or test. Admin > Account cleanup lists them, can warn them by email, exports the list,
   and deletes all eligible behind a typed confirmation, with one audit entry each. Every run
   needs the owner's explicit go. See `docs/ACCOUNT_DELETION_PROPOSAL.md`.
+  **Replaced again 2026-11-22 (round 9, founder):** see "Round 9" below.
 - 2026-11-22 (round 7b, owner): agent eligibility is automatic. An account is eligible once its
   email is verified (verification email or Google) and its profile is 100% complete. Staff do
   not approve accounts; they only mark Spam, Test or Staff, or revoke eligibility. Email
@@ -164,6 +165,33 @@ US dollars.
   videos recorded or picked from Reel & Self-tape, Submit). A submitted response goes to the
   Agental team's review only; nothing is sent to a casting site.
 - A separate staff-only admin site at admin.agental.co (same codebase and database).
+
+## Round 9 (2026-11-22): founder rules and the agent's own decisions
+
+Founder rules (round 9 brief): nothing is submitted to a casting site; replies to emails we
+receive go out only after a staff member approves them; automatic emails and texts go only to Test
+accounts until the founder switches production to live; spend caps on every AI provider before
+the first real call; the agent never sets `WORKFLOW_MODE` and never activates a workflow for real
+users.
+
+Account cleanup (founder, round 9): Admin > Accounts has filters, a checkbox per row, "Send warning
+email" and "Delete" for the ticked rows, one confirmation dialog (no typing). A deleted account
+is disabled at once, listed in Admin > Deleted and restorable for 30 days, then purged with its
+files. Every step is in the audit log. Staff, test and admin accounts can never be deleted.
+This replaces the round 7b "Account cleanup" rule and page.
+
+Decided by the agent, `TODO(founders)` (change any of them in a sentence):
+- **Paid accounts and team members cannot be deleted** from Accounts either (shown "Protected:
+  paid or in a team"): deleting them would leave a payment or a team without its owner.
+- **The warning email goes only to accounts with an unverified email and a password sign-up**
+  (Google accounts are verified by Google; a verified account has nothing to confirm).
+- **The delete dialog says the truth about the safety net**: "Delete 4 accounts?" then "This can't
+  be undone after 30 days. Until then the accounts stay in Deleted, where you can restore them."
+- **The purge runs** from the daily 14:00 UTC cron (needs `CRON_SECRET`) and each time an admin
+  opens Admin > Deleted.
+- **Last sign-in** is recorded from round 9 on; older sign-ins show "Not recorded".
+- Automatic searches per 30 days for paid plans, email categories, SMS: see the group sections
+  below as they land.
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 

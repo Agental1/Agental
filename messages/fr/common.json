@@ -202,7 +202,8 @@
     "bannerLead": "Nous utilisons quelques cookies pour faire fonctionner Agental. Les autres restent désactivés si tu ne les acceptes pas.",
     "policyLink": "Politique de confidentialité",
     "recordedOn": "Enregistré le {date}, version de l’avis {version}.",
-    "notRecorded": "Aucun choix enregistré. Seuls les cookies strictement nécessaires sont utilisés."
+    "notRecorded": "Aucun choix enregistré. Seuls les cookies strictement nécessaires sont utilisés.",
+    "readMore": "En savoir plus"
   },
   "tour": {
     "start": "Commence ici",
@@ -362,10 +363,27 @@
         ]
       },
       {
+        "id": "security",
+        "title": "Sécurité des comptes et abus",
+        "body": [
+          "Pour qu’Agental reste sûr pour les talents et les équipes de casting, nous observons l’usage des comptes afin de repérer le spam, les faux comptes et les abus. Nous regardons la date de création et de dernière connexion, si l’e-mail a été vérifié, les tentatives de connexion ou d’inscription répétées qui échouent, et l’usage du profil, des médias, des recherches IA et des messages. Ces données servent uniquement à la sécurité et à prévenir la fraude et les abus. Nous ne les vendons jamais.",
+          "Toute mesure est décidée par un membre de notre équipe, jamais par un système automatique. Nous pouvons limiter, suspendre ou supprimer un compte qui enfreint nos Conditions. Nous pouvons d’abord vous écrire pour vous demander de confirmer votre adresse sous 7 jours. Un compte supprimé est désactivé tout de suite et conservé 30 jours, pour le rétablir en cas d’erreur, puis il est supprimé définitivement avec ses fichiers. Écrivez à contact@agental.co si vous pensez que nous nous sommes trompés.",
+          "Cette surveillance n’utilise aucun cookie. Les seuls cookies que nous déposons sont ceux listés dans le bandeau cookies."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies",
+        "body": [
+          "Nous ne déposons que les cookies listés dans le bandeau : les cookies strictement nécessaires (connexion, sécurité, votre langue et votre choix de cookies), toujours actifs, et des cookies de mesure d’audience et de marketing, désactivés tant que vous ne les acceptez pas. Aucun cookie facultatif n’est déposé aujourd’hui. Vous pouvez changer votre choix à tout moment dans les Réglages."
+        ]
+      },
+      {
         "title": "Durée de conservation et tes choix",
         "body": [
           "Nous conservons tes données tant que ton compte est ouvert. Tu peux modifier ton profil à tout moment et supprimer ton compte depuis les Paramètres : cela supprime ton profil, tes médias et tes messages. Tu peux nous demander une copie de tes données ou une correction en écrivant à contact@agental.co.",
-          "Quand tu supprimes une conversation dans Messages, elle disparaît aussitôt de ton compte. Nous en gardons une copie, que tu ne vois plus, pour la modération et pour des raisons légales."
+          "Quand tu supprimes une conversation dans Messages, elle disparaît aussitôt de ton compte. Nous en gardons une copie, que tu ne vois plus, pour la modération et pour des raisons légales.",
+          "Nous gardons le journal des e-mails envoyés 180 jours. Les sauvegardes de la base sont conservées un temps limité après une suppression."
         ]
       },
       {

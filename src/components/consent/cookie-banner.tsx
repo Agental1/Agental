@@ -65,8 +65,8 @@ export function CookieBanner() {
       </h2>
       <p className="mt-1 text-[14px] leading-snug text-fg-muted">
         {t("bannerLead")}{" "}
-        <Link href="/talents/confidentialite" className="font-bold text-accent underline-offset-4 hover:underline">
-          {t("policyLink")}
+        <Link href="/talents/confidentialite#cookies" className="font-bold text-accent underline-offset-4 hover:underline">
+          {t("readMore")}
         </Link>
       </p>
       {managing ? (

@@ -123,6 +123,18 @@ casting teams in ways that break their rules.
 
 We may suspend or close an account that breaks these Terms.
 
+**Account security and abuse.** To keep Agental safe, we watch how accounts are used to detect
+spam, fake and abusive accounts: when an account was created and last signed in, whether its email
+was verified, repeated failed attempts, and how the profile, media, AI searches and messages are
+used. A member of our team, never an automated system, decides on any action. We may limit,
+suspend or delete an account that breaks these Terms, with or without notice. When we delete an
+account, it is disabled at once and kept for 30 days, during which we can restore it if we made a
+mistake; then it is deleted for good with its files. Write to contact@agental.co if you think we
+got it wrong. See our Privacy Policy, "Account security and abuse".
+
+LAWYER: enforceability of "with or without notice"; whether a notice period is required before
+deleting an account that did not break the Terms (docs/legal/ACCOUNT_MONITORING.md, point 4).
+
 ## 10. Account deletion
 
 You can delete your account at any time from Settings. This removes your profile, media and
