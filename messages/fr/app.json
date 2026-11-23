@@ -832,10 +832,10 @@
     "codeSubject": "Votre code de vérification Agental",
     "codeIntro": "Saisissez ce code dans Agental pour vérifier votre adresse étudiante USC :",
     "codeExpiry": "Il est valable 10 minutes.",
-    "limelightSubject": "Nous avons bien reçu votre demande Limelight",
-    "limelightIntro": "Merci pour votre demande de site portfolio. L’équipe Agental lit chaque demande et vous répondra à cette adresse.",
+    "limelightSubject": "On a bien reçu ta demande Limelight",
+    "limelightIntro": "Merci pour ta demande de site portfolio. L’équipe Agental lit chaque demande et revient vers toi.",
     "limelightAction": "Voir Limelight",
-    "limelightReference": "Référence de votre demande : {reference}",
-    "limelightIgnore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Rien ne se passe."
+    "limelightReference": "Référence de ta demande : {reference}",
+    "limelightIgnore": "Si tu n’es pas à l’origine de cette demande, ignore cet e-mail. Rien ne se passe."
   }
 }

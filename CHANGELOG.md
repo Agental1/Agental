@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.19.0] - 2026-11-22
+
+### Added (round 9, group 2, part 1)
+
+- **`docs/EMAILS.md`**: every email the site and the admin send, with trigger, sender, template, status and the inbox or spam result once tested.
+- **Limelight confirmation email** to the person who asks for a portfolio site ("We received your Limelight request", with the reference). Claimed before sending, retried at most 6 times 6 hours apart, at most 100 a day, never for requests made before this release. The team alert and the confirmation are also retried by the daily cron.
+- The four round-1 demo accounts (@demo.agental.co) are Test accounts (audit entries).
+- Build report `tools/db/round9-report.mjs` (read-only counts) replaces the round 8d one.
+
+Migrations `20261218000000_round9_demo_accounts_test` (data, audited) and `20261218000100_round9_limelight_confirmation` (three columns).
+
 ## [0.6.18.0] - 2026-11-22
 
 ### Changed (round 9, group 1)

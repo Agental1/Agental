@@ -190,6 +190,9 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
 - **The purge runs** from the daily 14:00 UTC cron (needs `CRON_SECRET`) and each time an admin
   opens Admin > Deleted.
 - **Last sign-in** is recorded from round 9 on; older sign-ins show "Not recorded".
+- **The Limelight confirmation is a transactional email** (a reply to the person's own request,
+  like the sign-up email): it is sent in test mode too. At most 100 a day. Open: Turnstile on the
+  public Limelight form before launch (today 5 requests per 10 minutes per IP).
 - Automatic searches per 30 days for paid plans, email categories, SMS: see the group sections
   below as they land.
 

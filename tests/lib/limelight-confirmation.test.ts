@@ -37,7 +37,7 @@ describe.skipIf(!local)("Limelight confirmation", () => {
 
   it("retries a failure, then gives up", async () => {
     const l = await lead("b");
-    for (let i = 0; i < MAX_ATTEMPTS; i++) await drainConfirmations({ env, send: fail as never });
+    for (let i = 0; i < MAX_ATTEMPTS; i++) await drainConfirmations({ env, send: fail as never, now: new Date(Date.now() + i * 7 * 60 * 60 * 1000) });
     expect((await prisma.limelightLead.findUnique({ where: { id: l.id } }))?.confirmation).toBe("failed");
   });
 

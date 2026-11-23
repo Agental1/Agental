@@ -16,7 +16,9 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
  *
  * A drain handles every alert that is due, whoever wrote it. So this file
  * refuses to start when the database holds a pending alert that is not a
- * test's: draining it here would mark a real alert as sent.
+ * test's: draining it here would mark a real alert as sent. Round 9: the
+ * after-response task also sends the confirmations of pending leads (through
+ * the fake mailer): run this file only against a local test database.
  */
 const hasDb = Boolean(process.env.DATABASE_URL);
 const TAG = "test-ll-leads-";
