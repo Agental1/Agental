@@ -842,6 +842,12 @@
             "body": "邮箱验证后发送一次。"
           }
         }
+      },
+      "texts": {
+        "title": "短信",
+        "on": "已开启",
+        "off": "已关闭",
+        "lead": "为选择短信或两者并已同意的演员发送“找到的角色”短信，每天最多一条，支持 STOP 和 HELP。仅在设置 SMS_ENABLED=true 和 Twilio 设置并完成美国运营商注册后开启（docs/HANDOFF.md）。"
       }
     },
     "replies": {

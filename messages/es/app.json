@@ -842,6 +842,12 @@
             "body": "Una vez, después de verificar el correo."
           }
         }
+      },
+      "texts": {
+        "title": "Mensajes de texto",
+        "on": "Activados",
+        "off": "Desactivados",
+        "lead": "El texto de \"papeles encontrados\" para artistas que eligieron texto o ambos y dieron su consentimiento, como máximo uno al día, con STOP y HELP. Solo se activa con SMS_ENABLED=true y los ajustes de Twilio, tras el registro ante los operadores de EE. UU. (docs/HANDOFF.md)."
       }
     },
     "replies": {

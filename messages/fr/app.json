@@ -842,6 +842,12 @@
             "body": "Une fois, après la vérification de l’e-mail."
           }
         }
+      },
+      "texts": {
+        "title": "SMS",
+        "on": "Activés",
+        "off": "Désactivés",
+        "lead": "Le SMS « rôles trouvés » pour les talents qui ont choisi SMS ou les deux et donné leur accord, au plus un par jour, avec STOP et HELP. Activé seulement avec SMS_ENABLED=true et les réglages Twilio, après l’enregistrement auprès des opérateurs américains (docs/HANDOFF.md)."
       }
     },
     "replies": {
