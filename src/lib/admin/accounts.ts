@@ -12,6 +12,7 @@ import { consentChoiceOf, type ConsentChoice } from "@/domain/consent-choice";
 import { isAdult } from "@/domain/age";
 import type { PlanB2C } from "@/domain/enums";
 import { paidUserIds } from "@/lib/admin/account-removal";
+import { effectivePlan } from "@/lib/billing/entitlement";
 
 /**
  * The admin data hub: every account with the facts the team asks about, and
@@ -184,12 +185,8 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
     where: { subjectType: "ARTIST", subjectId: { in: users.map((u) => u.id) } },
     select: { subjectId: true, plan: true, compPlan: true, compUntil: true, status: true },
   });
-  const planOf = new Map(
-    subs.map((s) => [
-      s.subjectId,
-      s.status !== "ACTIVE" ? "FREE" : s.plan === "FREE" && s.compPlan && s.compUntil && s.compUntil > now ? s.compPlan : s.plan,
-    ])
-  );
+  // Round 10: the same plan the performer's quota uses (a comp plan included).
+  const planOf = new Map(subs.map((s) => [s.subjectId, effectivePlan(s, now).plan]));
   const paid = await paidUserIds(users.map((u) => u.id));
   // Searches counted this period, in one query (same rule as getRoleSearchQuota).
   const counted = await prisma.roleSearchRequest.findMany({

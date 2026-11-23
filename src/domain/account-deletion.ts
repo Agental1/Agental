@@ -30,6 +30,8 @@ export interface DeletionFacts {
   paid: boolean;
   accountStatus: string | null;
   isAdmin: boolean;
+  /** Round 10: Staff accounts are never deleted. */
+  isStaff?: boolean;
   warnedAt: Date | null;
 }
 
@@ -38,7 +40,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 export function deletionEligible(f: DeletionFacts, now: Date, days: number): boolean {
   if (f.verifiedAt) return false;
-  if (f.paid || f.isAdmin) return false;
+  if (f.paid || f.isAdmin || f.isStaff) return false;
   if (PROTECTED_STATUSES.has(f.accountStatus ?? "")) return false;
   const cutoff = now.getTime() - days * DAY_MS;
   // The warning promised N days: keep that promise.

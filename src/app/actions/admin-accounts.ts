@@ -32,7 +32,9 @@ export async function setAccountStatus(ids: string[], status: StaffStatus): Prom
   }
   const changed = await prisma.$transaction(async (tx) => {
     const before = await tx.user.findMany({
-      where: { id: { in: unique }, accountStatus: { not: status }, deletedAt: null },
+      // Round 10: "Test: off" (UNREVIEWED) only clears the Test flag; it never
+      // unblocks a Spam or blocked account or changes any other status.
+      where: { id: { in: unique }, accountStatus: status === "UNREVIEWED" ? "TEST" : { not: status }, deletedAt: null },
       select: { id: true, accountStatus: true },
     });
     let n = 0;
@@ -102,12 +104,15 @@ export async function setAccountStaff(ids: string[], on: boolean): Promise<SetSt
   }
   const changed = await prisma.$transaction(async (tx) => {
     const rows = await tx.user.findMany({
-      where: { id: { in: unique }, isStaff: !on, deletedAt: null },
+      // Admins stay Staff (the admin role decides it): refused for them.
+      where: { id: { in: unique }, isStaff: !on, deletedAt: null, ...(on ? {} : { isAdmin: false }) },
       select: { id: true },
     });
     let n = 0;
     for (const u of rows) {
+      // Back to the signed-up type: an older STAFF status goes too (else the type stays Staff).
       const { count } = await tx.user.updateMany({ where: { id: u.id, isStaff: !on, deletedAt: null }, data: { isStaff: on } });
+      if (!on) await tx.user.updateMany({ where: { id: u.id, accountStatus: "STAFF" }, data: { accountStatus: "UNREVIEWED" } });
       if (count !== 1) continue;
       n += 1;
       await audit(
@@ -118,6 +123,7 @@ export async function setAccountStaff(ids: string[], on: boolean): Promise<SetSt
     return n;
   });
   revalidatePath("/[locale]/admin/comptes", "page");
+  revalidatePath("/[locale]/admin/comptes/[id]", "page");
   revalidatePath("/[locale]/admin", "page");
   return { ok: true, changed };
 }
