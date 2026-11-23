@@ -130,6 +130,13 @@ try {
     for (const x of r.rows) log(`consent analytics=${x.an} marketing=${x.mk} version=${x.ver ?? "none"} n=${x.n}`);
   });
 
+  await section("reset", async () => {
+    const r = await c.query(`select count(*) n from "User" where "searchQuotaResetAt" > now() - interval '2 hours' and "deletedAt" is null`);
+    log(`quota reset in the last 2 hours: accounts=${r.rows[0].n}`);
+    const q = await c.query(`select count(*) n from "role_search_requests" where error = 'quota reset (round 10)'`);
+    log(`queued searches canceled by the round 10 reset=${q.rows[0].n}`);
+  });
+
   await section("searches", async () => {
     const r = await c.query(`select status, count(*) n from "role_search_requests" group by 1 order by 1`);
     for (const x of r.rows) log(`search status=${x.status} n=${x.n}`);

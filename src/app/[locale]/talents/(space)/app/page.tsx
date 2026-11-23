@@ -21,6 +21,7 @@ import { completenessInputOf, missingItems, profileGaps, scoreProfile } from "@/
 import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
 import { getMySearchStatus, getRoleSearchQuota } from "@/lib/role-search";
+import { searchBlockFor } from "@/lib/search-block";
 import { recentFirstAutoSearch } from "@/lib/auto-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
 import { SearchStatus } from "@/components/app/search-status";
@@ -126,6 +127,7 @@ export default async function TalentsDashboard({
 
   const hasSite = (await listMySites(session.user.id)).length > 0;
   const quota = await getRoleSearchQuota(session.user.id);
+  const searchBlock = await searchBlockFor(session.user.id);
   const searchStatus = await getMySearchStatus(session.user.id);
   // The first search started on its own: say so for two weeks.
   const showAutoFirst = await recentFirstAutoSearch(session.user.id);
@@ -224,10 +226,9 @@ export default async function TalentsDashboard({
       <FindRolesButton
         initialQuota={quota}
         upgradeHref="/talents/app/abonnement"
-        // Before 100%: a dialog explains the automatic first search and opens
-        // the first missing field. One automatic search, then the rest of the
-        // plan's allowance (Basic: 1 of 5, so 4 more).
-        locked={nextItem ? { href: itemHref(nextItem), more: Math.max(0, quota.limit - 1) } : undefined}
+        // Round 10: one reason when the account cannot search, with its fix.
+        initialBlock={searchBlock}
+        email={session.user.email ?? ""}
         footer={<SearchStatus initial={searchStatus} />}
       />
 

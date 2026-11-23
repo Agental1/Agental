@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Radar } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { ActionErrorMessage } from "@/components/app/action-error";
@@ -9,6 +9,9 @@ import { err, type ActionError } from "@/domain/action-result";
 import type { RoleSearchQuota } from "@/domain/role-search";
 import { startFindingRoles } from "@/app/actions/role-search";
 import { SearchUsageLine } from "@/components/app/search-usage";
+import { EmailCodeForm } from "@/components/auth/email-code";
+import type { SearchBlock, SearchNotice } from "@/domain/search-block";
+import { itemHref } from "@/domain/profile-tabs";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,19 +41,21 @@ function newClientKey(): string {
 export function FindRolesButton({
   initialQuota,
   upgradeHref,
-  locked,
+  initialBlock,
+  email,
   footer,
 }: {
   initialQuota: RoleSearchQuota;
+  /**
+   * Round 10: why this account cannot search right now (one reason, from the
+   * server), shown under the button and in the dialog the button opens.
+   */
+  initialBlock: SearchBlock | null;
+  /** For "Send me a code" when the email is not verified. */
+  email: string;
   /** Round 8b: the Status block and "Check your applications", at the bottom of the card. */
   footer?: React.ReactNode;
   upgradeHref: string;
-  /**
-   * Round 8: before 100%, the button opens a dialog instead of searching. The
-   * first search starts on its own at 100% (verified email); `more` is how many
-   * the performer can then launch this period (the plan's allowance minus it).
-   */
-  locked?: { href: string; more: number };
 }) {
   const t = useTranslations("talents.space.dashboard.findRoles");
   const router = useRouter();
@@ -66,13 +71,15 @@ export function FindRolesButton({
     if (timer.current) clearTimeout(timer.current);
   }, []);
 
+  const [block, setBlock] = useState<SearchBlock | null>(initialBlock);
+  const [notice, setNotice] = useState<SearchNotice | undefined>();
   const [lockOpen, setLockOpen] = useState(false);
-  const exhausted = !locked && quota.remaining <= 0;
+  const exhausted = block?.reason === "quota";
   const busy = pending || phase === "scanning";
 
   function click() {
-    if (locked) return setLockOpen(true);
-    if (busy || exhausted) return;
+    if (block) return setLockOpen(true);
+    if (busy) return;
     setError(undefined);
     keyRef.current ??= newClientKey();
     setPhase("scanning");
@@ -86,13 +93,17 @@ export function FindRolesButton({
       }
       if (!res.ok) {
         setPhase("idle");
-        setError(res.error);
         if (res.quota) setQuota(res.quota);
         if (res.error.key !== "errors.generic") keyRef.current = null;
+        if (res.block) {
+          setBlock(res.block);
+          setLockOpen(true);
+        } else setError(res.error);
         return;
       }
       keyRef.current = null;
       setQuota(res.quota);
+      setNotice(res.notice);
       const wait = Math.max(0, SCAN_MS - (Date.now() - startedAt));
       timer.current = setTimeout(() => {
         setPhase("sent");
@@ -122,7 +133,7 @@ export function FindRolesButton({
         <button
           type="button"
           onClick={click}
-          disabled={exhausted || busy}
+          disabled={busy}
           aria-busy={busy}
           aria-describedby="find-roles-left"
           className={cn(
@@ -145,32 +156,141 @@ export function FindRolesButton({
         <SearchUsageLine quota={quota} />
       </p>
 
-      <div aria-live="polite" className="min-h-6 max-w-md">
-        {phase === "sent" && <p className="text-[15px] font-medium">{t("sent")}</p>}
+      <div aria-live="polite" className="min-h-6 max-w-md space-y-1">
+        {phase === "sent" && !notice && <p className="text-[15px] font-medium">{t("sent")}</p>}
+        {phase === "sent" && notice && <NoticeText notice={notice} />}
+        {block && <BlockText block={block} />}
       </div>
 
-      {exhausted && (
-        <Link href={upgradeHref} className="text-sm font-bold text-accent hover:underline">
-          {t("upgradeMore")}
-        </Link>
+      {block && block.reason !== "not_open" && block.reason !== "not_adult" && (
+        <Button variant="outline" size="sm" onClick={() => setLockOpen(true)}>
+          {t(`block.${block.reason}.cta`)}
+        </Button>
       )}
       <ActionErrorMessage error={error} />
-      {locked && (
+      {block && (
         <Dialog open={lockOpen} onOpenChange={setLockOpen}>
           <DialogContent data-portal="talents">
             <DialogHeader>
-              <DialogTitle>{t("locked.title")}</DialogTitle>
-              <DialogDescription>{t("locked.body", { more: locked.more })}</DialogDescription>
+              <DialogTitle>{t("block.title")}</DialogTitle>
+              <DialogDescription asChild>
+                <div>
+                  <BlockText block={block} />
+                </div>
+              </DialogDescription>
             </DialogHeader>
-            <Button asChild className="self-start">
-              <Link href={locked.href} onClick={() => setLockOpen(false)}>
-                {t("locked.cta")}
-              </Link>
-            </Button>
+            <BlockAction
+              block={block}
+              email={email}
+              upgradeHref={upgradeHref}
+              onDone={() => {
+                setLockOpen(false);
+                setBlock(null);
+                router.refresh();
+              }}
+              onNavigate={() => setLockOpen(false)}
+            />
           </DialogContent>
         </Dialog>
       )}
       {footer}
     </section>
   );
+}
+
+/** The one reason, in the words the founder chose (round 10). */
+function BlockText({ block }: { block: SearchBlock }) {
+  const t = useTranslations("talents.space");
+  const locale = useLocale();
+  const b = "dashboard.findRoles.block" as const;
+  switch (block.reason) {
+    case "profile_incomplete":
+      return (
+        <p className="text-[15px] font-medium text-danger">
+          {t(`${b}.profile_incomplete.text`, {
+            missing: block.missing.map((m) => t(`profileEditor.missingField.${m}`)).join(", "),
+          })}
+        </p>
+      );
+    case "quota":
+      return (
+        <p className="text-[15px] font-medium">
+          {block.nextDate
+            ? t(`${b}.quota.text`, {
+                limit: block.limit,
+                date: new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(block.nextDate)),
+              })
+            : t(`${b}.quota.textNoDate`, { limit: block.limit })}
+        </p>
+      );
+    default:
+      return <p className="text-[15px] font-medium">{t(`${b}.${block.reason}.text`)}</p>;
+  }
+}
+
+function NoticeText({ notice }: { notice: SearchNotice }) {
+  const t = useTranslations("talents.space.dashboard.findRoles");
+  const locale = useLocale();
+  if (notice.kind === "paused") return <p className="text-[15px] font-medium">{t("notice.paused")}</p>;
+  return (
+    <p className="text-[15px] font-medium">
+      {t("notice.queued", {
+        time: new Intl.DateTimeFormat(locale, { weekday: "short", hour: "numeric", minute: "2-digit" }).format(new Date(notice.startsAt)),
+      })}
+    </p>
+  );
+}
+
+/** The action that fixes the reason, in the dialog. */
+function BlockAction({
+  block,
+  email,
+  upgradeHref,
+  onDone,
+  onNavigate,
+}: {
+  block: SearchBlock;
+  email: string;
+  upgradeHref: string;
+  onDone: () => void;
+  onNavigate: () => void;
+}) {
+  const t = useTranslations("talents.space.dashboard.findRoles.block");
+  const [coding, setCoding] = useState(false);
+  switch (block.reason) {
+    case "email_unverified":
+      return coding ? (
+        <EmailCodeForm email={email} sendOnMount onVerified={onDone} />
+      ) : (
+        <Button className="self-start" onClick={() => setCoding(true)}>
+          {t("email_unverified.cta")}
+        </Button>
+      );
+    case "profile_incomplete":
+      return (
+        <Button asChild className="self-start">
+          <Link href={itemHref(block.missing[0])} onClick={onNavigate}>
+            {t("profile_incomplete.cta")}
+          </Link>
+        </Button>
+      );
+    case "quota":
+      return (
+        <Button asChild className="self-start">
+          <Link href={upgradeHref} onClick={onNavigate}>
+            {t("quota.cta")}
+          </Link>
+        </Button>
+      );
+    case "blocked":
+      return (
+        <Button asChild className="self-start">
+          <Link href="/talents/app/messages" onClick={onNavigate}>
+            {t("blocked.cta")}
+          </Link>
+        </Button>
+      );
+    default:
+      return null;
+  }
 }

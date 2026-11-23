@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.28.0] - 2026-11-23
+
+### Changed (round 10, group 3: the green button)
+
+- **One clear reason when a search cannot start**, under the button and in its dialog, with the action that fixes it: blocked by staff (Open Messages), email not verified (Send me a code, the 6-digit form in the dialog), profile below 100% (the missing fields named, a link to the first one), searches not open for this account yet, no searches left (the date of the next one, See plans). A saved search that waits says when it starts (slots busy) or that searches are paused (pause switch on, or the search service not connected).
+- **Admin > Controls: "AI searches are open to"** Test accounts only (default) or All verified performers at 100%, with the plan allowances, the per-search cost ceiling and the provider budgets shown, and a confirmation box to open it. Audited. The server gate, the n8n claim and the admin list all read it.
+- **Everyone's allowance reset again** (history kept, waiting searches canceled). Migration `20261225000000_round10_search_reset` (data only).
+- `tools/db/local-search-states.mts` puts a local account in each situation for QA.
+
 ## [0.6.27.0] - 2026-11-23
 
 ### Added (round 10, group 2: sign-up code and questions)

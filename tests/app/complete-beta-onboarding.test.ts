@@ -34,9 +34,11 @@ const { completeBetaOnboarding } = await import("@/app/actions/onboarding");
 
 const profile = (over: Record<string, unknown> = {}) => ({
   id: "p1",
-  stageName: "Maya Okafor",
+  legalFirstName: "Maya",
+  legalLastName: "Okafor",
+  legalName: null,
   birthDate: new Date("1995-04-02T00:00:00Z"),
-  _count: { specialties: 1 },
+  gender: "female",
   ...over,
 });
 
@@ -94,9 +96,9 @@ describe("completeBetaOnboarding", () => {
 
   it.each([
     ["no profile row yet", null, "identity"],
-    ["no stage name", profile({ stageName: "" }), "identity"],
-    ["no date of birth", profile({ birthDate: null }), "identity"],
-    ["no specialty", profile({ _count: { specialties: 0 } }), "profile"],
+    ["no legal last name", profile({ legalLastName: "" }), "identity"],
+    ["no date of birth", profile({ birthDate: null }), "profile"],
+    ["no gender (round 10)", profile({ gender: null }), "profile"],
   ] as const)("names the missing step and changes nothing: %s", async (_label, row, step) => {
     db.artistProfile.findUnique.mockResolvedValue(row);
 

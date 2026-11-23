@@ -777,6 +777,36 @@
           "title": "Complete your profile to unlock your searches",
           "body": "When it reaches 100%, we launch your first search automatically, then you can launch {more} more yourself this month.",
           "cta": "Complete my profile"
+        },
+        "block": {
+          "title": "Before your search can start",
+          "blocked": {
+            "text": "AI searches aren't available on this account. Write to us in Messages.",
+            "cta": "Open Messages"
+          },
+          "not_adult": {
+            "text": "AI searches are for performers 18 and over."
+          },
+          "email_unverified": {
+            "text": "Verify your email to start finding roles.",
+            "cta": "Send me a code"
+          },
+          "profile_incomplete": {
+            "text": "Complete your profile to start finding roles. Missing: {missing}.",
+            "cta": "Go to the first missing field"
+          },
+          "not_open": {
+            "text": "AI searches open soon. We'll email you as soon as yours is ready."
+          },
+          "quota": {
+            "text": "You've used your {limit} searches. Your next one is available on {date}.",
+            "textNoDate": "You've used your {limit} searches.",
+            "cta": "See plans"
+          }
+        },
+        "notice": {
+          "paused": "Searches are paused for a moment. Your request is saved and will start automatically.",
+          "queued": "Your search is queued. It starts at {time}."
         }
       },
       "nextAction": "Next action",

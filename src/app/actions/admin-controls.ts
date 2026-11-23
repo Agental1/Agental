@@ -5,7 +5,8 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
 import { isEmailCategory } from "@/lib/email-unsubscribe";
-import { setEmailCategoryApproved, setPaused } from "@/lib/app-settings";
+import { setEmailCategoryApproved, setPaused, setSearchAccess } from "@/lib/app-settings";
+import { isSearchAccess } from "@/domain/workflow/eligibility";
 
 /** Round 9: approve (or stop) one automatic email category. Admins only, audited. */
 export async function setEmailApprovalForm(formData: FormData): Promise<void> {
@@ -26,4 +27,22 @@ export async function setPauseForm(formData: FormData): Promise<void> {
   if (adminId) await setPaused(adminId, formData.get("paused") === "1");
   revalidatePath("/[locale]/admin", "layout");
   redirect({ href: "/admin/controles?saved=1", locale });
+}
+
+/**
+ * Round 10, group 3: "AI searches are open to" (Test accounts only, or all
+ * verified performers at 100%). Opening to everyone needs the confirmation box
+ * ticked; going back to Test accounts only never does. Admins only, audited.
+ */
+export async function setSearchAccessForm(formData: FormData): Promise<void> {
+  const locale = toLocale(String(formData.get("locale") ?? "en"));
+  const adminId = await currentAdminId();
+  const access = String(formData.get("access") ?? "");
+  const confirmed = formData.get("confirm") === "yes";
+  if (adminId && isSearchAccess(access) && (access === "test_only" || confirmed)) {
+    await setSearchAccess(adminId, access);
+    revalidatePath("/[locale]/admin", "layout");
+    redirect({ href: "/admin/controles?saved=1", locale });
+  }
+  redirect({ href: "/admin/controles?confirm=1", locale });
 }

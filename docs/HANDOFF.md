@@ -15,8 +15,17 @@ Live before round 10: Version 57.
 |---|---|---|
 | 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
 | 2. Sign-up code and onboarding | live; sending the code waits for W0 (Resend) | 59 |
-| 3. The green button | | |
+| 3. The green button | live; the production test (3.5) waits for W0 and W17 | 60 |
 | 4. A clearer admin | | |
+
+### Why the green button failed for the founder's new account (3.1, read from production 2026-11-23)
+
+The account (email and password, created 2026-11-23, profile 100%, build included) never verified its
+email: production has no Resend key, so no verification email was ever sent (the email log has no
+row for it). It is also a regular account, and production is in test mode, where only Test accounts
+may start a search, so even a verified address would have been refused. Quota, slots and n8n played
+no part (no search was ever queued for it); the button now names the first blocker ("Verify your
+email...") and, once verified, "AI searches open soon..." until the founder flips Admin > Controls.
 
 ### Waiting for Jérôme (round 10 additions)
 
@@ -29,6 +38,17 @@ Live before round 10: Version 57.
    address on production, receive the code from contact@agental.co, enter it, check inbox or spam,
    then the banner path with an older unverified account. Tested so far: locally (code printed in
    the dev log), every step and error message.
+17. **W17, Group 3: the full path on production (3.5).** The agent may not type a password on
+   production or sign in with Google, and no code can reach anyone before W0, so the production run
+   waits for you. Done instead: the whole path on localhost with fresh accounts (sign-up, code,
+   questions, 100%, every message of 3.2 by putting the account in each state with
+   `tools/db/local-search-states.mts`, the switch), screenshots in `docs/screenshots/r10/`; the first
+   automatic search then 4 by hand is covered by `tests/api/search-slots-r8d.test.ts`. To run it
+   together after W0: sign up on www.agental.co with a new address you control, enter the code,
+   answer the questions, mark the account Test in Admin > Accounts, complete the profile, watch the
+   first search queue, launch the 4 others; then the same with "Continue with Google" (needs the
+   Google app published or your address added as a test user in Google Cloud > OAuth consent
+   screen). Searches only run once n8n is connected (W8, W9, W11, W15).
 
 ## Round 9 (2026-11-22): start here
 
