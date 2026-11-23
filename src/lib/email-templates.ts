@@ -194,6 +194,28 @@ export function deletionWarningEmail(locale: string, link: string, days: number)
 }
 
 /**
+ * Round 9: the confirmation to the person who asked for a Limelight portfolio
+ * site. It repeats their reference and links to the public Limelight page;
+ * nothing else about the request is in it.
+ */
+export function limelightConfirmationEmail(locale: string, reference: string, link: string): EmailContent {
+  const resolved = toLocale(locale);
+  const s = STRINGS[resolved];
+  return render(
+    resolved,
+    {
+      subject: s.limelightSubject,
+      intro: s.limelightIntro,
+      action: s.limelightAction,
+      expiry: s.limelightReference.replace("{reference}", reference),
+      ignore: s.limelightIgnore,
+      signature: s.signature,
+    },
+    link
+  );
+}
+
+/**
  * Round 8b: the 6-digit code that verifies a @usc.edu address. No link: the
  * code is typed into the six boxes in the app.
  */

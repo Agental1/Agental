@@ -831,6 +831,11 @@
     "deletionIgnore": "Si tu n’as pas créé ce compte, ignore cet e-mail : il sera supprimé.",
     "codeSubject": "Votre code de vérification Agental",
     "codeIntro": "Saisissez ce code dans Agental pour vérifier votre adresse étudiante USC :",
-    "codeExpiry": "Il est valable 10 minutes."
+    "codeExpiry": "Il est valable 10 minutes.",
+    "limelightSubject": "Nous avons bien reçu votre demande Limelight",
+    "limelightIntro": "Merci pour votre demande de site portfolio. L’équipe Agental lit chaque demande et vous répondra à cette adresse.",
+    "limelightAction": "Voir Limelight",
+    "limelightReference": "Référence de votre demande : {reference}",
+    "limelightIgnore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Rien ne se passe."
   }
 }
