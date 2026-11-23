@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.24.0] - 2026-11-22
+
+### Added (round 9, group 8), off behind a flag
+
+- **The "roles found" text**, prepared and off: only with `SMS_ENABLED=true` and the Twilio settings (after US carrier registration). For performers who chose Text or Both, consented, have a US number and did not text STOP; at most one a day, in the US daytime, with the same staff approval and test-mode gates as the emails. An opt-in confirmation text on first consent.
+- **STOP, START and HELP** on `/api/sms/inbound`, with Twilio's signature checked; the opt-out is recorded. A new phone number needs a new consent. Texts are logged without the number or the message. Admin > Controls shows the state; docs/HANDOFF.md lists what is missing.
+
+Migration `20261222000000_round9_sms` (columns and a log table, RLS on).
+
 ## [0.6.23.0] - 2026-11-22
 
 ### Added (round 9, group 7)

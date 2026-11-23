@@ -39,7 +39,7 @@ describe.skipIf(!local)("text messages: webhook and the roles found text", () =>
     for (const [k, v] of Object.entries(ON)) vi.stubEnv(k, v);
     vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://www.agental.co");
     vi.stubEnv("WORKFLOW_MODE", "");
-    for (const [n, channel, consent, phone] of [["ok", "both", true, "+15005550001"], ["noconsent", "sms", false, "+15005550002"], ["email", "email", true, "+15005550003"]] as const) {
+    for (const [n, channel, consent, phone] of [["ok", "both", true, "+12025550101"], ["noconsent", "sms", false, "+12025550102"], ["email", "email", true, "+12025550103"]] as const) {
       const u = await prisma.user.create({ data: { email: `${P}${n}@test.local`, accountStatus: "TEST", kind: "TALENT", welcomeEmailAt: new Date() } });
       ids[n] = u.id;
       await prisma.artistProfile.create({ data: { userId: u.id, stageName: `Sms ${n}`, roleAlertChannel: channel, smsConsentAt: consent ? new Date() : null, phoneE164: phone } });
@@ -57,21 +57,26 @@ describe.skipIf(!local)("text messages: webhook and the roles found text", () =>
       return new Response(JSON.stringify({ sid: "SM" + "c".repeat(32) }), { status: 201 });
     }) as unknown as typeof fetch;
     vi.stubGlobal("fetch", fakeFetch);
+    try {
     const { runAutoEmails } = await import("@/lib/auto-emails");
     const env = { ...ON, NEXT_PUBLIC_SITE_URL: "https://www.agental.co", RESEND_API_KEY: "x", EMAIL_FROM: "x" };
-    const r = await runAutoEmails({ env, approved: new Set(["roles_found"] as const) });
+    const noon = new Date(Date.UTC(2026, 10, 23, 18, 0, 0));
+    expect((await runAutoEmails({ env, approved: new Set(["roles_found"] as const), now: new Date(Date.UTC(2026, 10, 23, 8, 0, 0)) })).roles_text).toBeUndefined();
+    const r = await runAutoEmails({ env, approved: new Set(["roles_found"] as const), now: noon });
     expect(r.roles_text).toBe(1);
     const texts = sent.filter((s) => s.url.includes("api.twilio.com"));
     expect(texts).toHaveLength(1);
-    expect(decodeURIComponent(texts[0].body)).toContain("To=+15005550001");
+    expect(decodeURIComponent(texts[0].body)).toContain("To=+12025550101");
     expect(decodeURIComponent(texts[0].body.replace(/\+/g, " "))).toContain("Reply STOP to opt out");
-    expect((await runAutoEmails({ env, approved: new Set(["roles_found"] as const) })).roles_text).toBe(0);
-    vi.unstubAllGlobals();
+    expect((await runAutoEmails({ env, approved: new Set(["roles_found"] as const), now: noon })).roles_text).toBe(0);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("records STOP from a signed webhook, and refuses an unsigned one", async () => {
     const route = await import("@/app/api/sms/inbound/route");
-    const params = { From: "+15005550001", Body: "STOP" };
+    const params = { From: "+12025550101", Body: "STOP" };
     const { createHmac } = await import("node:crypto");
     const data = "https://www.agental.co/api/sms/inbound" + Object.keys(params).sort().map((k) => k + params[k as keyof typeof params]).join("");
     const sig = createHmac("sha1", ON.TWILIO_AUTH_TOKEN).update(data).digest("base64");

@@ -91,6 +91,11 @@ export async function saveProfileIdentity(input: unknown): Promise<SaveResult> {
       physical,
       phone: opt(d.phone),
       phoneE164: d.phoneE164,
+      // Round 9: text consent belongs to a number. A new number needs a new consent:
+      // alerts go back to email and the consent and any STOP are cleared.
+      ...(d.phoneE164 !== undefined && d.phoneE164 !== profile.phoneE164
+        ? { smsConsentAt: null, smsConsentVersion: null, smsOptOutAt: null, roleAlertChannel: profile.roleAlertChannel && profile.roleAlertChannel !== "email" ? "email" : profile.roleAlertChannel }
+        : {}),
       city: place ? place.name : opt(d.city),
       cityGeonameId: place ? place.geonameId : undefined,
       countryCode: place ? place.countryCode : undefined,
@@ -343,6 +348,11 @@ export async function saveRoleAlert(input: unknown): Promise<SaveResult> {
       ...(wantsSms && !profile.smsConsentAt ? { smsConsentAt: new Date(), smsConsentVersion: SMS_CONSENT_VERSION } : {}),
     },
   });
+  if (wantsSms && !profile.smsConsentAt && profile.phoneE164) {
+    // Round 9: the opt-in confirmation text (CTIA), only when texts are on (SMS_ENABLED).
+    const { SMS_TEXT, sendSms, smsConfig } = await import("@/lib/sms");
+    if (smsConfig()) await sendSms(profile.phoneE164, SMS_TEXT.start, { userId: profile.userId, kind: "opt_in" }).catch(() => {});
+  }
   if (wantsSms && !profile.smsConsentAt) {
     await audit({
       actorUserId: profile.userId,

@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { prisma } from "@/lib/db";
 
 /**
@@ -65,13 +66,14 @@ export async function sendSms(
   body: string,
   meta: { userId?: string | null; kind: string },
   opts: { env?: Env; fetch?: typeof fetch } = {}
-): Promise<{ ok: boolean; mode: "twilio" | "off" }> {
+): Promise<{ ok: boolean; mode: "twilio" | "off"; permanent?: boolean }> {
   const cfg = smsConfig(opts.env);
   if (!cfg) {
     await prisma.smsLog.create({ data: { userId: meta.userId ?? null, kind: meta.kind, status: "logged" } }).catch(() => {});
     return { ok: true, mode: "off" };
   }
-  if (!/^\+1\d{10}$/.test(to)) return { ok: false, mode: "twilio" };
+  // US numbers only: the US carrier registration (10DLC) does not cover Canada or the Caribbean (+1 too).
+  if (!/^\+1\d{10}$/.test(to) || parsePhoneNumberFromString(to)?.country !== "US") return { ok: false, mode: "twilio", permanent: true };
   const f = opts.fetch ?? fetch;
   try {
     const res = await f(`https://api.twilio.com/2010-04-01/Accounts/${cfg.accountSid}/Messages.json`, {
@@ -91,7 +93,8 @@ export async function sendSms(
       sid = null;
     }
     await prisma.smsLog.create({ data: { userId: meta.userId ?? null, kind: meta.kind, status: res.ok ? "sent" : "failed", providerId: sid } }).catch(() => {});
-    return { ok: res.ok, mode: "twilio" };
+    // A 4xx (invalid or blocked number, opted out at the carrier) will not get better with a retry.
+    return { ok: res.ok, mode: "twilio", permanent: !res.ok && res.status >= 400 && res.status < 500 };
   } catch {
     await prisma.smsLog.create({ data: { userId: meta.userId ?? null, kind: meta.kind, status: "failed" } }).catch(() => {});
     return { ok: false, mode: "twilio" };
