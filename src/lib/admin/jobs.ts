@@ -99,3 +99,32 @@ export function listSubmittedResponses(take = 50) {
     },
   });
 }
+
+/** Round 9, group 4: tokens and cost per provider for each search shown. */
+export async function usageBySearch(ids: string[]) {
+  const rows = ids.length
+    ? await prisma.aiUsage.findMany({
+        where: { kind: "casting.search", ref: { in: ids } },
+        select: { ref: true, provider: true, inputTokens: true, outputTokens: true, costMicroUsd: true },
+      })
+    : [];
+  const out = new Map<string, { provider: string; tokens: number; costMicroUsd: number }[]>();
+  for (const r of rows) {
+    const list = out.get(r.ref) ?? [];
+    list.push({ provider: r.provider, tokens: r.inputTokens + r.outputTokens, costMicroUsd: r.costMicroUsd });
+    out.set(r.ref, list);
+  }
+  return out;
+}
+
+/** Round 9: the last 30 days of AI cost, per provider and kind of job. */
+export async function usageLast30Days(now = new Date()) {
+  const since = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  return prisma.aiUsage.groupBy({
+    by: ["provider", "kind"],
+    where: { createdAt: { gte: since } },
+    _sum: { inputTokens: true, outputTokens: true, costMicroUsd: true, requests: true },
+    _count: { _all: true },
+    orderBy: { provider: "asc" },
+  });
+}

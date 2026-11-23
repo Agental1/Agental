@@ -430,7 +430,18 @@
       "responses": "Réponses à relire",
       "responsesHelp": "Rôles acceptés et complétés par les talents. Rien n’a été envoyé à un site de casting.",
       "noResponses": "Aucune réponse envoyée pour l’instant.",
-      "videoN": "Vidéo {n}"
+      "videoN": "Vidéo {n}",
+      "cost": {
+        "title": "Coût IA, 30 derniers jours",
+        "lead": "Tokens et coût par fournisseur, tels que les workflows et l’assistant les déclarent. Chaque recherche s’arrête à {ceiling} (SEARCH_COST_CEILING_USD) ; une recherche qui déclare plus alerte les admins.",
+        "empty": "Aucun coût IA enregistré. Les recherches déclarent leur coût une fois n8n connecté.",
+        "provider": "Fournisseur",
+        "kind": "Tâche",
+        "jobs": "Tâches",
+        "tokens": "Tokens",
+        "cost": "Coût",
+        "column": "Coût"
+      }
     },
     "accounts": {
       "title": "Comptes",

@@ -94,6 +94,18 @@ const MAX_SLOTS = Math.max(...PlanB2C.options.map((p) => searchPaceFor(p).slots)
  */
 const CLAIM_OVERFETCH = 10;
 const SCHEDULED_PER_CLAIM = 50;
+/**
+ * Round 9: the most one search may cost across providers, in US dollars
+ * (`SEARCH_COST_CEILING_USD`, default 0.50). Handed to n8n with each claim so
+ * the workflow stops a runaway search; a completion that reports more is
+ * recorded, flagged and alerted. TODO(founders) in docs/DECISIONS.md.
+ */
+export const DEFAULT_SEARCH_COST_CEILING_USD = 0.5;
+export function searchCostCeilingUsd(env: Record<string, string | undefined> = process.env): number {
+  const n = Number.parseFloat((env.SEARCH_COST_CEILING_USD ?? "").trim());
+  return Number.isFinite(n) && n > 0 && n <= 20 ? n : DEFAULT_SEARCH_COST_CEILING_USD;
+}
+
 /** A claim older than this never got its completion (crash, missing result). */
 export const CLAIM_TTL_MS = 30 * 60 * 1000;
 const TX = { timeout: 20_000, maxWait: 10_000 };
@@ -270,6 +282,23 @@ export const RankedRole = z.object({
   draft: z
     .object({ subject: text(300), body: text(4000), route: text(80).nullish() })
     .nullish(),
+  /**
+   * Round 9: the full description for "Get more details". All optional: a
+   * listing that does not say is shown without it.
+   */
+  production: text(200).nullish(),
+  description: text(6000).nullish(),
+  startsOn: text(40).nullish(),
+  endsOn: text(40).nullish(),
+  pay: z
+    .object({
+      paid: z.boolean().nullish(),
+      rateUsd: z.number().min(0).max(1_000_000).nullish(),
+      text: text(200).nullish(),
+    })
+    .nullish()
+    .catch(null),
+  union: text(80).nullish(),
   /** What the role asks applicants to send (round 7b): questions and videos. */
   submission: z
     .object({
@@ -281,10 +310,28 @@ export const RankedRole = z.object({
 });
 export type RankedRole = z.infer<typeof RankedRole>;
 
+/** Round 9: what the search cost, per provider, as the workflow measured it. */
+export const UsageInput = z.object({
+  provider: z.enum(["openai", "perplexity", "anthropic"]),
+  model: text(80).nullish(),
+  inputTokens: z.number().int().min(0).max(50_000_000).catch(0),
+  outputTokens: z.number().int().min(0).max(50_000_000).catch(0),
+  requests: z.number().int().min(0).max(10_000).catch(0),
+  costUsd: z.number().min(0).max(1000).catch(0),
+});
+
 const ResultInput = z.object({
   requestId: z.string().trim().min(1).max(64),
   status: text(60).min(1),
   roles: z.array(z.unknown()).catch([]).transform((a) => a.slice(0, 8)),
+  // One bad entry never drops the others; at most one row per provider is kept.
+  usage: z
+    .array(z.unknown())
+    .catch([])
+    .transform((a) => a.flatMap((u) => {
+      const p = UsageInput.safeParse(u);
+      return p.success ? [p.data] : [];
+    }).slice(0, 6)),
 });
 
 export const CompleteInput = z.object({
@@ -329,6 +376,19 @@ async function completeOne(
     if (["done", "failed", "canceled"].includes(row.status)) return { requestId, outcome: "already_recorded" as const };
     if (row.status !== "running" || row.claimedBy !== executionId) return { requestId, outcome: "not_claimed" as const };
 
+    // Round 9: what this search cost, whatever its outcome (a failed search
+    // still spent). One row per provider; a retry never counts twice.
+    const spent = await recordUsage(tx, requestId, r.usage);
+    const ceilingMicro = Math.round(searchCostCeilingUsd() * 1_000_000);
+    if (spent.costMicroUsd > ceilingMicro) await flagOverCeiling(tx, requestId, spent.costMicroUsd, ceilingMicro, now);
+    if (r.status === "cost_ceiling") {
+      await tx.roleSearchRequest.update({
+        where: { id: requestId },
+        data: { status: "failed", completedAt: now, error: "stopped at the cost ceiling" },
+      });
+      return { requestId, outcome: "failed" as const };
+    }
+
     if (r.status === "ineligible_pilot") {
       await tx.roleSearchRequest.update({
         where: { id: requestId },
@@ -371,6 +431,13 @@ async function completeOne(
               roleName: role.role,
               location: role.city ?? null,
               remote: role.remote ?? null,
+              production: role.production ?? null,
+              description: role.description ?? "",
+              startsOn: dayOrNull(role.startsOn),
+              endsOn: dayOrNull(role.endsOn),
+              paid: role.pay?.paid ?? (role.pay?.rateUsd ? true : null),
+              rateCents: role.pay?.rateUsd != null ? Math.round(role.pay.rateUsd * 100) : null,
+              unionStatus: role.union ?? null,
               raw: JSON.stringify(listing).slice(0, 20000),
               submission: JSON.stringify(role.submission ?? {}),
             },
@@ -378,6 +445,10 @@ async function completeOne(
           skipDuplicates: true,
         });
         const brief = await tx.brief.findUniqueOrThrow({ where: { dedupeKey }, select: { id: true } });
+        // Round 9: a role first seen without its description gets it once.
+        if (role.description) {
+          await tx.brief.updateMany({ where: { id: brief.id, description: "" }, data: { description: role.description } });
+        }
         // A role first seen without its questions and videos gets them, once,
         // and only while nobody has accepted it (they never change under someone).
         if (role.submission && (role.submission.questions.length > 0 || role.submission.videos.length > 0)) {
@@ -412,6 +483,8 @@ async function completeOne(
         idempotencyKey: `casting:${requestId}`,
         status: "SUCCEEDED",
         attempts: 1,
+        modelCalls: spent.requests,
+        costMicroUsd: spent.costMicroUsd,
         subjectRef: requestId,
         result: JSON.stringify({
           status: r.status,
@@ -424,4 +497,57 @@ async function completeOne(
     await tx.roleSearchRequest.update({ where: { id: requestId }, data: { status: "done", completedAt: now } });
     return { requestId, outcome: roles.length ? ("done" as const) : ("no_matches" as const), drafts };
   }, TX);
+}
+
+/** "2026-12-01" (or a full ISO date) as a date at midnight UTC; anything else null. */
+function dayOrNull(v: string | null | undefined): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec((v ?? "").trim());
+  if (!m) return null;
+  const d = new Date(`${m[1]}-${m[2]}-${m[3]}T00:00:00Z`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+type Tx = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+
+/** Store the usage once per provider (a retried completion changes nothing) and return the total. */
+async function recordUsage(tx: Tx, requestId: string, usage: z.infer<typeof UsageInput>[]): Promise<{ costMicroUsd: number; requests: number }> {
+  if (usage.length > 0) {
+    await tx.aiUsage.createMany({
+      data: usage.map((u) => ({
+        provider: u.provider,
+        kind: "casting.search",
+        ref: requestId,
+        model: u.model ?? null,
+        inputTokens: u.inputTokens,
+        outputTokens: u.outputTokens,
+        requests: u.requests,
+        costMicroUsd: Math.round(u.costUsd * 1_000_000),
+      })),
+      skipDuplicates: true,
+    });
+  }
+  const rows = await tx.aiUsage.findMany({ where: { kind: "casting.search", ref: requestId }, select: { costMicroUsd: true, requests: true } });
+  return {
+    costMicroUsd: rows.reduce((a, r) => a + r.costMicroUsd, 0),
+    requests: rows.reduce((a, r) => a + r.requests, 0),
+  };
+}
+
+/** A search that cost more than the ceiling: one alert to the admins' bell, once per search. */
+async function flagOverCeiling(tx: Tx, requestId: string, costMicro: number, ceilingMicro: number, now: Date): Promise<void> {
+  const admins = await tx.user.findMany({ where: { isAdmin: true, deletedAt: null }, select: { id: true } });
+  const dollars = (m: number) => `$${(m / 1_000_000).toFixed(2)}`;
+  const title = `AI search over its cost ceiling (${dollars(costMicro)} > ${dollars(ceilingMicro)})`;
+  const already = await tx.notification.count({ where: { kind: "ALERT", payload: { contains: `"search":"${requestId}"` } } });
+  if (already > 0) return;
+  await tx.notification.createMany({
+    data: admins.map((a) => ({
+      userId: a.id,
+      kind: "ALERT",
+      title,
+      body: `Search ${requestId} reported ${dollars(costMicro)}. Check the workflow's limits in Admin > Applications and AI jobs.`,
+      link: "/admin/recherches",
+      payload: JSON.stringify({ search: requestId, costMicroUsd: costMicro, at: now.toISOString() }),
+    })),
+  });
 }

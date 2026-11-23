@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { dateTime } from "@/lib/format";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { listAllRoleSearches } from "@/lib/role-search";
-import { jobCounts, listApplications, listSubmittedResponses, listWorkflowRuns, runState, searchState, type JobState } from "@/lib/admin/jobs";
+import { jobCounts, listApplications, listSubmittedResponses, listWorkflowRuns, runState, searchState, usageBySearch, usageLast30Days, type JobState } from "@/lib/admin/jobs";
+import { searchCostCeilingUsd } from "@/lib/n8n/casting";
 import { readAnswers, readSubmission } from "@/domain/application-response";
 
 export async function generateMetadata({
@@ -66,6 +67,9 @@ export default async function JobsAdminPage({
     jobCounts(),
     listSubmittedResponses(),
   ]);
+  const [usage, usage30] = await Promise.all([usageBySearch(searches.map((r) => r.id)), usageLast30Days()]);
+  const usd = (micro: number) => `$${(micro / 1_000_000).toFixed(micro > 0 && micro < 10_000 ? 4 : 2)}`;
+  const ceiling = searchCostCeilingUsd();
   const when = (d: Date | null) => (d ? dateTime(d, locale) : "-");
   const stateLabel = (s: JobState) => t(`admin.roleSearches.states.${s}`);
   const th = "p-3 font-medium";
@@ -86,6 +90,41 @@ export default async function JobsAdminPage({
         ))}
       </div>
 
+      <section aria-labelledby="ai-cost" className="space-y-3">
+        <h2 id="ai-cost" className="font-display text-xl font-medium">
+          {t("admin.roleSearches.cost.title")}
+        </h2>
+        <p className="text-sm text-fg-muted">{t("admin.roleSearches.cost.lead", { ceiling: `$${ceiling.toFixed(2)}` })}</p>
+        {usage30.length === 0 ? (
+          <Empty text={t("admin.roleSearches.cost.empty")} />
+        ) : (
+          <div className="overflow-x-auto rounded-sedan border border-border bg-surface">
+            <table className="w-full min-w-[640px] text-sm">
+              <thead className="text-left text-fg-muted">
+                <tr>
+                  <th className={th}>{t("admin.roleSearches.cost.provider")}</th>
+                  <th className={th}>{t("admin.roleSearches.cost.kind")}</th>
+                  <th className={th}>{t("admin.roleSearches.cost.jobs")}</th>
+                  <th className={th}>{t("admin.roleSearches.cost.tokens")}</th>
+                  <th className={th}>{t("admin.roleSearches.cost.cost")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usage30.map((u) => (
+                  <tr key={`${u.provider}-${u.kind}`} className="border-t border-border">
+                    <td className="p-3 font-bold">{u.provider}</td>
+                    <td className="p-3">{u.kind}</td>
+                    <td className="p-3 tabular-nums">{u._count._all}</td>
+                    <td className="p-3 tabular-nums">{((u._sum.inputTokens ?? 0) + (u._sum.outputTokens ?? 0)).toLocaleString("en-US")}</td>
+                    <td className="p-3 tabular-nums">{usd(u._sum.costMicroUsd ?? 0)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
       <section aria-labelledby="searches" className="space-y-3">
         <h2 id="searches" className="font-display text-xl font-medium">
           {t("admin.roleSearches.searches")}
@@ -103,6 +142,7 @@ export default async function JobsAdminPage({
                   <th className={th}>{t("admin.roleSearches.columns.status")}</th>
                   <th className={th}>{t("admin.roleSearches.columns.started")}</th>
                   <th className={th}>{t("admin.roleSearches.columns.completed")}</th>
+                  <th className={th}>{t("admin.roleSearches.cost.column")}</th>
                   <th className={th}>{t("admin.roleSearches.columns.error")}</th>
                 </tr>
               </thead>
@@ -126,6 +166,15 @@ export default async function JobsAdminPage({
                     </td>
                     <td className="whitespace-nowrap p-3">{when(r.startedAt)}</td>
                     <td className="whitespace-nowrap p-3">{when(r.completedAt)}</td>
+                    <td className="whitespace-nowrap p-3 tabular-nums">
+                      {(usage.get(r.id) ?? []).length === 0
+                        ? "-"
+                        : (usage.get(r.id) ?? []).map((u) => (
+                            <span key={u.provider} className="block">
+                              {u.provider}: {usd(u.costMicroUsd)} · {u.tokens.toLocaleString("en-US")} tok
+                            </span>
+                          ))}
+                    </td>
                     <td className="max-w-[20rem] break-words p-3 text-fg-muted">{r.error ?? "-"}</td>
                   </tr>
                 ))}
