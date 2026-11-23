@@ -16,7 +16,7 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | Group | State | Version |
 |---|---|---|
 | 1. Admin, simpler | live | 49 |
-| 2. Emails (Resend) | waiting for Resend DNS + key (W1, W2) | |
+| 2. Emails (Resend) | part 1 live (list, Limelight confirmation, demo accounts Test); sending waits for W1 to W3 | 50 |
 | 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
 | 4. Searches through n8n | app side next | |
 | 5. Samantha and Adrian | app side next; live calls wait for W8 | |
@@ -80,7 +80,12 @@ the agent: the founder pastes them. Commands below generate a value straight to 
     > Limits); Perplexity auto top-up off, balance about $20.
 12. **W12: signed-in checks.** Sign in once to www.agental.co and admin.agental.co in the same
     browser pane (two-factor code). Resume: the agent clicks through the changed admin pages.
-13. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
+13. **W14, security (recommended): a demo account has the admin role.** The production build report
+    lists two admins: contact@agental.co (two-factor on) and a `@demo.agental.co` account (two-factor
+    off; it cannot open the admin without enrolling, since two-factor is required). DECISIONS says
+    "Admin role: contact@agental.co only". Say "remove admin from the demo account" and the agent
+    adds an audited migration that clears `isAdmin` on it.
+14. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
     below in the Group 7 notes); run by the founder.
 
 ## Round 8d (2026-11-22): start here
