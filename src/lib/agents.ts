@@ -8,9 +8,11 @@ import {
   type EligibilityFacts,
   type Eligibility,
   type WorkflowMode,
+  type SearchAccess,
 } from "@/domain/workflow/eligibility";
+import { searchAccess } from "@/lib/app-settings";
 
-type Db = Pick<Prisma.TransactionClient, "user">;
+type Db = Pick<Prisma.TransactionClient, "user" | "appSetting">;
 
 /**
  * A sign-in provider (Google) proves the address; a password account proves it
@@ -56,7 +58,7 @@ export function factsFrom(u: EligibilityRow, now = new Date()): Omit<Eligibility
  */
 export async function agentEligibility(
   userId: string,
-  opts: { clicking?: boolean; mode?: WorkflowMode; db?: Db; now?: Date } = {}
+  opts: { clicking?: boolean; mode?: WorkflowMode; access?: SearchAccess; db?: Db; now?: Date } = {}
 ): Promise<Eligibility> {
   const db = opts.db ?? prisma;
   const u = await db.user.findUnique({ where: { id: userId }, select: ELIGIBILITY_SELECT });
@@ -66,6 +68,7 @@ export async function agentEligibility(
   const facts = factsFrom(u, opts.now);
   return workflowEligibility(
     { ...facts, optedIn: opts.clicking ? "clicking" : facts.optedIn },
-    opts.mode ?? workflowMode()
+    opts.mode ?? workflowMode(),
+    opts.access ?? (await searchAccess(db))
   );
 }

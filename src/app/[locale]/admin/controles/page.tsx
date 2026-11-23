@@ -4,11 +4,16 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { approvedEmailCategories, pauseState } from "@/lib/app-settings";
+import { approvedEmailCategories, pauseState, searchAccess } from "@/lib/app-settings";
+import { aiAccountStates } from "@/lib/ai-spend";
+import { PROVIDER_LABEL } from "@/domain/ai-spend";
+import { searchCostCeilingUsd } from "@/lib/n8n/casting";
+import { allowanceFor, searchPaceFor } from "@/domain/role-search";
+import { PlanB2C } from "@/domain/enums";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
-import { setEmailApprovalForm, setPauseForm } from "@/app/actions/admin-controls";
+import { setEmailApprovalForm, setPauseForm, setSearchAccessForm } from "@/app/actions/admin-controls";
 import { dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
@@ -29,7 +34,9 @@ export default async function ControlsPage({ params, searchParams }: { params: P
   if (!adminId) notFound();
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
-  const [approved, pause] = await Promise.all([approvedEmailCategories(), pauseState()]);
+  const [approved, pause, access, ai] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates()]);
+  const usd = (cents: number | null) =>
+    cents === null ? null : new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
   await audit({ actorUserId: adminId, action: "admin.view.controls", resourceType: "AppSetting", resourceId: "*" });
   const c = "admin.controls" as const;
   const mode = workflowMode();
@@ -60,6 +67,65 @@ export default async function ControlsPage({ params, searchParams }: { params: P
             {pause.paused ? t(`${c}.pause.resume`) : t(`${c}.pause.pause`)}
           </button>
         </form>
+      </section>
+
+      <section aria-labelledby="access" className={`space-y-4 rounded-sedan border p-5 ${access === "all_verified" ? "border-accent bg-accent-soft/30" : "border-border bg-surface"}`}>
+        <div className="space-y-1">
+          <h2 id="access" className="font-display text-xl font-medium">
+            {t(`${c}.access.title`)}
+          </h2>
+          <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.access.lead`)}</p>
+        </div>
+        <p className="text-sm font-bold">{t(`${c}.access.now`, { choice: t(`${c}.access.${access}`) })}</p>
+        {sp.confirm && (
+          <p role="alert" className="text-sm font-bold text-danger">
+            {t(`${c}.access.needConfirm`)}
+          </p>
+        )}
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-1 text-sm">
+            <p className="font-bold">{t(`${c}.access.capsTitle`)}</p>
+            <ul className="list-disc space-y-0.5 pl-5 text-fg-muted">
+              {PlanB2C.options.map((p) => (
+                <li key={p}>
+                  {t(`${c}.access.planCap`, { plan: t(`${c}.access.plans.${p}`), searches: allowanceFor(p).count, slots: searchPaceFor(p).slots })}
+                </li>
+              ))}
+              <li>{t(`${c}.access.costCeiling`, { usd: searchCostCeilingUsd() })}</li>
+              {ai.map((s) => (
+                <li key={s.provider}>
+                  {s.monthlyBudgetCents === null
+                    ? t(`${c}.access.noBudget`, { provider: PROVIDER_LABEL[s.provider] })
+                    : t(`${c}.access.budget`, {
+                        provider: PROVIDER_LABEL[s.provider],
+                        budget: usd(s.monthlyBudgetCents) ?? "",
+                        spent: usd(s.monthSpendCents ?? 0) ?? "",
+                      })}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <form action={setSearchAccessForm} className="space-y-3">
+            <input type="hidden" name="locale" value={locale} />
+            <fieldset className="space-y-2">
+              <legend className="sr-only">{t(`${c}.access.title`)}</legend>
+              {(["test_only", "all_verified"] as const).map((v) => (
+                <label key={v} className="flex cursor-pointer items-start gap-2 rounded-sedan border border-border bg-surface p-3 text-sm">
+                  <input type="radio" name="access" value={v} defaultChecked={access === v} className="mt-1" />
+                  <span>
+                    <span className="font-bold">{t(`${c}.access.${v}`)}</span>
+                    <span className="block text-fg-muted">{t(`${c}.access.${v}Hint`)}</span>
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+            <label className="flex items-start gap-2 text-sm">
+              <input type="checkbox" name="confirm" value="yes" className="mt-1" />
+              <span>{t(`${c}.access.confirm`)}</span>
+            </label>
+            <button className="h-11 rounded-full bg-accent px-6 text-sm font-bold text-[var(--accent-fg)]">{t(`${c}.access.save`)}</button>
+          </form>
+        </div>
       </section>
 
       <section aria-labelledby="emails" className="space-y-3">

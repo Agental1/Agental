@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@/generated/prisma/client";
 import { toProfileFacts, type ProfileFacts } from "@/domain/workflow/profile";
-import { workflowEligibility, type WorkflowMode } from "@/domain/workflow/eligibility";
+import { workflowEligibility, type SearchAccess, type WorkflowMode } from "@/domain/workflow/eligibility";
+import { searchAccess } from "@/lib/app-settings";
 import { emailIsVerified } from "@/lib/agents";
 import { completenessOf } from "@/lib/completeness";
 
@@ -16,7 +17,7 @@ import { completenessOf } from "@/lib/completeness";
  * account nobody has classified is never run.
  */
 
-export type ProfilesDb = Pick<PrismaClient, "artistProfile">;
+export type ProfilesDb = Pick<PrismaClient, "artistProfile"> & Partial<Pick<PrismaClient, "appSetting">>;
 
 export interface LoadedProfiles {
   profiles: ProfileFacts[];
@@ -30,7 +31,7 @@ export async function loadProfileFacts(
   now: Date,
   mode: WorkflowMode = "staging",
   /** firstAuto: the job is the first automatic search, its own consent record. */
-  opts: { firstAuto?: boolean } = {}
+  opts: { firstAuto?: boolean; access?: SearchAccess } = {}
 ): Promise<LoadedProfiles> {
   if (profileIds.length === 0) return { profiles: [], skipped: 0 };
   const rows = await db.artistProfile.findMany({
@@ -64,6 +65,9 @@ export async function loadProfileFacts(
     },
   });
   const byId = new Map(rows.map((row) => [row.id, row]));
+  // Round 10: the founder's switch, read through the same client (a claim runs
+  // in a transaction). A client without settings (tests) means the default.
+  const access = opts.access ?? (db.appSetting ? await searchAccess({ appSetting: db.appSetting }) : "test_only");
   const profiles: ProfileFacts[] = [];
   // The order of the pilot list is kept, so runs are repeatable.
   for (const id of profileIds) {
@@ -78,7 +82,8 @@ export async function loadProfileFacts(
         profileComplete: completenessOf(row) === 100,
         optedIn: row.user.agentsOptInAt !== null || row.user.autoSearchOptIn || !!opts.firstAuto,
       },
-      mode
+      mode,
+      access
     );
     if (eligible.ok) profiles.push(facts);
   }

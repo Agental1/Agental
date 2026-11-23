@@ -193,6 +193,9 @@ vi.mock("next/headers", () => ({
 }));
 vi.mock("next/server", () => ({ after }));
 vi.mock("@/lib/mailer", () => ({ sendEmail, emailSenderConfigured }));
+// Round 10: sign-up sends a 6-digit code (src/lib/email-code.ts, tested on its own).
+const { sendEmailCode } = vi.hoisted(() => ({ sendEmailCode: vi.fn() }));
+vi.mock("@/lib/email-code", () => ({ sendEmailCode }));
 vi.mock("@/lib/consent", () => ({ readConsentCookie: async () => null }));
 
 const {
@@ -1190,36 +1193,29 @@ describe("signupAction", () => {
     return data;
   }
 
-  it("emails the confirmation link right after creating the account, then signs in", async () => {
+  it("round 10: sends the 6-digit code right after creating the account, then signs in on the code screen", async () => {
+    sendEmailCode.mockResolvedValueOnce({ ok: true, email: "new.person@example.com" });
     expect(await signupAction(undefined, form())).toBeUndefined();
 
     expect(db.user.create).toHaveBeenCalledTimes(1);
-    expect(sendEmail).toHaveBeenCalledTimes(1);
-    const [message] = sent();
-    expect(message.to).toBe("new.person@example.com");
-    expect(message.subject).toBe(esApp.emails.verifySubject);
-    expect(linkIn(message)).toContain(`${SITE}/es/verifier?token=`);
-    expect(store.tokens.map((t) => t.identifier)).toEqual(["verify:new-1"]);
+    expect(sendEmailCode).toHaveBeenCalledWith({ userId: "new-1" });
     expect(signIn).toHaveBeenCalledTimes(1);
-    expect(db.auditLog.create.mock.invocationCallOrder[0]).toBeLessThan(
-      sendEmail.mock.invocationCallOrder[0]
-    );
-    expect(sendEmail.mock.invocationCallOrder[0]).toBeLessThan(signIn.mock.invocationCallOrder[0]);
+    expect(signIn.mock.calls[0][1]).toMatchObject({ redirectTo: "/es/verifier" });
+    expect(sendEmailCode.mock.invocationCallOrder[0]).toBeLessThan(signIn.mock.invocationCallOrder[0]);
   });
 
-  it("sends nothing, and signs in as before, while no sender is configured", async () => {
-    emailSenderConfigured.mockReturnValue(false);
+  it("skips the code screen, and signs in as before, when no code could be sent", async () => {
+    sendEmailCode.mockResolvedValueOnce({ ok: false, reason: "unavailable" });
 
     expect(await signupAction(undefined, form())).toBeUndefined();
 
-    expect(sendEmail).not.toHaveBeenCalled();
-    expect(store.tokens).toEqual([]);
     expect(signIn).toHaveBeenCalledTimes(1);
+    expect(signIn.mock.calls[0][1]).toMatchObject({ redirectTo: "/es/talents/inscription" });
   });
 
   it.each([
-    { label: "answers not ok", arrange: () => sendEmail.mockResolvedValueOnce({ ok: false }) },
-    { label: "throws", arrange: () => sendEmail.mockRejectedValueOnce(new Error("boom")) },
+    { label: "answers not ok", arrange: () => sendEmailCode.mockResolvedValueOnce({ ok: false, reason: "send_failed" }) },
+    { label: "throws", arrange: () => sendEmailCode.mockRejectedValueOnce(new Error("boom")) },
   ])("still creates the account and signs in when the mailer $label", async ({ arrange }) => {
     arrange();
 

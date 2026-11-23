@@ -57,7 +57,7 @@ const RECENT_STARTS_FLOOR = 50;
 const sinceReset = (resetAt: Date | null | undefined) => (resetAt ? { createdAt: { gte: resetAt } } : {});
 
 export type StartRoleSearchResult =
-  | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean }
+  | { ok: true; id: string; quota: RoleSearchQuota; duplicate: boolean; scheduledFor?: Date }
   | { ok: false; reason: "quota_exhausted"; quota: RoleSearchQuota }
   | { ok: false; reason: "auto_exhausted"; quota: RoleSearchQuota }
   | { ok: false; reason: "ineligible"; why: IneligibleReason; quota: RoleSearchQuota };
@@ -168,7 +168,7 @@ export async function startRoleSearch(
       data: { userId, plan, periodKey, seq, clientKey, status: "queued", scheduledFor },
       select: { id: true },
     });
-    return { ok: true as const, id: row.id, duplicate: false, quota: quotaFrom(plan, counted.length + 1, start, now) };
+    return { ok: true as const, id: row.id, duplicate: false, scheduledFor, quota: quotaFrom(plan, counted.length + 1, start, now) };
   });
 }
 

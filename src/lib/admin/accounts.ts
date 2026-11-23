@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { COMPLETENESS_SELECT, completenessOf } from "@/lib/completeness";
 import { ELIGIBILITY_SELECT, factsFrom } from "@/lib/agents";
 import { agentsEnabled, isAccountStatus, workflowMode, type AccountStatus } from "@/domain/workflow/eligibility";
+import { searchAccess } from "@/lib/app-settings";
 import { removalBlock, type RemovalBlock } from "@/domain/account-removal";
 import { paidUserIds } from "@/lib/admin/account-removal";
 
@@ -127,6 +128,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
   const q = f.q?.trim();
   const now = new Date();
   const mode = workflowMode();
+  const access = await searchAccess();
   const users = await prisma.user.findMany({
     where: {
       AND: [
@@ -184,7 +186,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       verifiedAt: facts.emailVerified ?? null,
       status: isAccountStatus(u.accountStatus) ? u.accountStatus : "UNREVIEWED",
       isAdmin: u.isAdmin,
-      agentsEnabled: u.kind === "TALENT" && agentsEnabled(facts, mode),
+      agentsEnabled: u.kind === "TALENT" && agentsEnabled(facts, mode, access),
       completeness: u.artistProfile ? completenessOf(u.artistProfile) : null,
       mediaCount: u.artistProfile?._count.media ?? 0,
       website: u.sites.some((s) => s.status === "PUBLISHED") ? "published" : u.sites.length > 0 ? "draft" : "none",

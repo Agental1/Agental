@@ -861,6 +861,29 @@
         "pause": "Pause everything",
         "resume": "Resume",
         "banner": "Everything automatic is paused. Open Controls to resume."
+      },
+      "access": {
+        "title": "AI searches are open to",
+        "lead": "Who can start an AI search with “Start finding roles”. Test accounts only until you open it. Opening it lets every performer with a verified email and a 100% profile search, within their plan’s allowance and the caps below.",
+        "now": "Now: {choice}",
+        "test_only": "Test accounts only",
+        "test_onlyHint": "Today. Real performers see “AI searches open soon”.",
+        "all_verified": "All verified performers at 100%",
+        "all_verifiedHint": "Real performers can search too. Test accounts still can.",
+        "confirm": "I confirm: real performers will start AI searches, and each search costs money within the caps shown.",
+        "needConfirm": "Tick the confirmation box to open searches to all performers.",
+        "save": "Save",
+        "capsTitle": "Current spending caps",
+        "planCap": "{plan}: {searches} searches per 30 days, {slots} at a time",
+        "costCeiling": "Each search stops at {usd} USD of AI cost",
+        "budget": "{provider}: monthly budget {budget}, spent this month {spent}",
+        "noBudget": "{provider}: no monthly budget typed yet (Admin > AI accounts)",
+        "plans": {
+          "FREE": "Basic",
+          "PRO": "Pro",
+          "PREMIUM": "Premium",
+          "ULTIMATE": "Ultimate"
+        }
       }
     },
     "replies": {

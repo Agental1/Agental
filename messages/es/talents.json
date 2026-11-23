@@ -777,6 +777,36 @@
           "title": "Completa tu perfil para desbloquear tus búsquedas",
           "body": "Cuando llegue al 100 %, lanzamos tu primera búsqueda automáticamente y luego puedes lanzar {more} más tú mismo este mes.",
           "cta": "Completar mi perfil"
+        },
+        "block": {
+          "title": "Antes de empezar tu búsqueda",
+          "blocked": {
+            "text": "Las búsquedas con IA no están disponibles en esta cuenta. Escríbenos en Mensajes.",
+            "cta": "Abrir Mensajes"
+          },
+          "not_adult": {
+            "text": "Las búsquedas con IA son para artistas mayores de 18 años."
+          },
+          "email_unverified": {
+            "text": "Verifica tu correo para empezar a buscar papeles.",
+            "cta": "Envíame un código"
+          },
+          "profile_incomplete": {
+            "text": "Completa tu perfil para empezar a buscar papeles. Falta: {missing}.",
+            "cta": "Ir al primer campo pendiente"
+          },
+          "not_open": {
+            "text": "Las búsquedas con IA abren pronto. Te escribiremos en cuanto la tuya esté lista."
+          },
+          "quota": {
+            "text": "Has usado tus {limit} búsquedas. La próxima estará disponible el {date}.",
+            "textNoDate": "Has usado tus {limit} búsquedas.",
+            "cta": "Ver planes"
+          }
+        },
+        "notice": {
+          "paused": "Las búsquedas están en pausa un momento. Tu solicitud está guardada y empezará automáticamente.",
+          "queued": "Tu búsqueda está en cola. Empieza {time}."
         }
       },
       "nextAction": "Siguiente paso",

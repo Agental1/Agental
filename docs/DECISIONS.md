@@ -241,6 +241,28 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
   key is missing; alerts at 80% of a typed budget and when the casting workflow fails 3 times in 24
   hours (once a day).
 
+## Round 10 (2026-11-23): the green button
+
+- **One reason per cause** (founder): "Start finding roles" shows, under the button and in its
+  dialog, exactly why it cannot start a search, with the action that fixes it. One rule decides it
+  (`src/domain/search-block.ts`), the same in the app and the admin ("Can search"):
+  blocked by staff ("AI searches aren't available on this account. Write to us in Messages."),
+  email not verified ("Verify your email to start finding roles." + Send me a code), profile below
+  100% ("Complete your profile to start finding roles. Missing: Build, Phone." + the first missing
+  field), searches not open for this account ("AI searches open soon. We'll email you as soon as
+  yours is ready."), no searches left ("You've used your 5 searches. Your next one is available on
+  <date>." + See plans). A saved search that waits says so: all slots busy ("Your search is queued.
+  It starts at <time>."), service paused or not connected ("Searches are paused for a moment. Your
+  request is saved and will start automatically.").
+- **Who can search is a switch in Admin > Controls** (founder): "AI searches are open to" Test
+  accounts only (default, and what an unreadable value means) or All verified performers at 100%,
+  with the current caps shown and a confirmation box to open it. The founder flips it; the agent
+  leaves it on Test accounts only. Stored in `AppSetting` `search.access`, audited. `WORKFLOW_MODE`
+  keeps its meaning (live: real accounts only, Test accounts never run there).
+- **Quota reset again** (founder): every account not deleted starts with its full allowance again
+  (Basic 5), history kept, searches waiting in the queue canceled with a note (migration
+  `20261225000000_round10_search_reset`).
+
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 
 One function decides it everywhere: the profile, the dashboard, AI suggestions, the admin and

@@ -861,6 +861,29 @@
         "pause": "Tout mettre en pause",
         "resume": "Reprendre",
         "banner": "Tout ce qui est automatique est en pause. Ouvre Contrôles pour reprendre."
+      },
+      "access": {
+        "title": "Les recherches IA sont ouvertes à",
+        "lead": "Qui peut lancer une recherche IA avec « Lancer la recherche de rôles ». Comptes de test uniquement tant que tu n’ouvres pas. Ouvrir permet à chaque artiste avec un e-mail vérifié et un profil à 100 % de chercher, dans la limite de son offre et des plafonds ci-dessous.",
+        "now": "Actuellement : {choice}",
+        "test_only": "Comptes de test uniquement",
+        "test_onlyHint": "Aujourd’hui. Les vrais artistes voient « Les recherches IA ouvrent bientôt ».",
+        "all_verified": "Tous les artistes vérifiés à 100 %",
+        "all_verifiedHint": "Les vrais artistes peuvent chercher aussi. Les comptes de test toujours.",
+        "confirm": "Je confirme : de vrais artistes vont lancer des recherches IA, et chaque recherche coûte de l’argent dans les plafonds indiqués.",
+        "needConfirm": "Coche la case de confirmation pour ouvrir les recherches à tous les artistes.",
+        "save": "Enregistrer",
+        "capsTitle": "Plafonds de dépense actuels",
+        "planCap": "{plan} : {searches} recherches sur 30 jours, {slots} à la fois",
+        "costCeiling": "Chaque recherche s’arrête à {usd} USD de coût IA",
+        "budget": "{provider} : budget mensuel {budget}, dépensé ce mois-ci {spent}",
+        "noBudget": "{provider} : aucun budget mensuel saisi (Admin > Comptes IA)",
+        "plans": {
+          "FREE": "Basic",
+          "PRO": "Pro",
+          "PREMIUM": "Premium",
+          "ULTIMATE": "Ultimate"
+        }
       }
     },
     "replies": {

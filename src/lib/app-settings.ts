@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { EMAIL_CATEGORIES, type EmailCategory } from "@/lib/email-unsubscribe";
+import { isSearchAccess, type SearchAccess } from "@/domain/workflow/eligibility";
 
 /**
  * Round 9: the switches staff change in Admin > Controls. Stored in
@@ -95,4 +96,63 @@ export async function setPaused(adminId: string, paused: boolean, now = new Date
     });
     await audit({ actorUserId: adminId, action: paused ? "admin.pause.on" : "admin.pause.off", resourceType: "AppSetting", resourceId: PAUSE_KEY, before: { paused: before.paused }, after: { paused } }, tx);
   });
+}
+
+// ------------------------------------------------------------ search access
+
+/**
+ * Round 10, group 3 (founder): "AI searches are open to" in Admin > Controls.
+ * "test_only" by default and whenever the value is missing or unreadable
+ * (fail safe). Read fresh on every check, every change audited.
+ */
+const SEARCH_ACCESS_KEY = "search.access";
+
+export async function searchAccess(
+  db: { appSetting: Pick<typeof prisma.appSetting, "findUnique"> } = prisma
+): Promise<SearchAccess> {
+  // Inside a transaction, pass it: a second connection would wait on it. A
+  // database error is thrown (the caller's transaction is aborted anyway); only
+  // an unreadable value falls back on Test accounts only.
+  const row = await db.appSetting.findUnique({ where: { key: SEARCH_ACCESS_KEY } });
+  try {
+    const v = JSON.parse(row?.value ?? "{}") as { access?: unknown };
+    return isSearchAccess(v.access) ? v.access : "test_only";
+  } catch {
+    return "test_only";
+  }
+}
+
+export async function setSearchAccess(adminId: string, access: SearchAccess): Promise<void> {
+  const before = await searchAccess();
+  if (before === access) return;
+  const value = JSON.stringify({ access, since: new Date().toISOString() });
+  await prisma.$transaction(async (tx) => {
+    await tx.appSetting.upsert({
+      where: { key: SEARCH_ACCESS_KEY },
+      create: { key: SEARCH_ACCESS_KEY, value, updatedById: adminId },
+      update: { value, updatedById: adminId },
+    });
+    await audit({ actorUserId: adminId, action: "admin.search.access", resourceType: "AppSetting", resourceId: SEARCH_ACCESS_KEY, before: { access: before }, after: { access } }, tx);
+  });
+  if (access === "all_verified") await launchWaitingFirstSearches();
+}
+
+/**
+ * Round 10: opening searches to everyone starts the first automatic search of
+ * every performer who was waiting for it (verified, 100%, never searched), as
+ * reaching 100% would have. launchFirstAutoSearch checks each one again.
+ */
+async function launchWaitingFirstSearches(): Promise<number> {
+  const { launchFirstAutoSearch } = await import("@/lib/auto-search");
+  const waiting = await prisma.user.findMany({
+    where: { kind: "TALENT", deletedAt: null, roleSearchRequests: { none: {} } },
+    select: { id: true },
+    take: 2000,
+  });
+  let started = 0;
+  for (const u of waiting) {
+    const res = await launchFirstAutoSearch(u.id).catch(() => null);
+    if (res?.ok) started += 1;
+  }
+  return started;
 }

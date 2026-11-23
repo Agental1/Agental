@@ -861,6 +861,29 @@
         "pause": "Pausar todo",
         "resume": "Reanudar",
         "banner": "Todo lo automático está en pausa. Abre Controles para reanudar."
+      },
+      "access": {
+        "title": "Las búsquedas con IA están abiertas a",
+        "lead": "Quién puede iniciar una búsqueda con IA con «Empezar a buscar papeles». Solo cuentas de prueba hasta que la abras. Abrirla permite buscar a cada artista con correo verificado y perfil al 100 %, dentro de su plan y de los límites de abajo.",
+        "now": "Ahora: {choice}",
+        "test_only": "Solo cuentas de prueba",
+        "test_onlyHint": "Hoy. Los artistas reales ven «Las búsquedas con IA abren pronto».",
+        "all_verified": "Todos los artistas verificados al 100 %",
+        "all_verifiedHint": "Los artistas reales también pueden buscar. Las cuentas de prueba siguen pudiendo.",
+        "confirm": "Confirmo: artistas reales iniciarán búsquedas con IA y cada búsqueda cuesta dinero dentro de los límites indicados.",
+        "needConfirm": "Marca la casilla de confirmación para abrir las búsquedas a todos los artistas.",
+        "save": "Guardar",
+        "capsTitle": "Límites de gasto actuales",
+        "planCap": "{plan}: {searches} búsquedas cada 30 días, {slots} a la vez",
+        "costCeiling": "Cada búsqueda se detiene a {usd} USD de coste de IA",
+        "budget": "{provider}: presupuesto mensual {budget}, gastado este mes {spent}",
+        "noBudget": "{provider}: sin presupuesto mensual (Admin > Cuentas de IA)",
+        "plans": {
+          "FREE": "Basic",
+          "PRO": "Pro",
+          "PREMIUM": "Premium",
+          "ULTIMATE": "Ultimate"
+        }
       }
     },
     "replies": {

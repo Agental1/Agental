@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { bearerMatches } from "@/lib/limelight/request";
 import { agentEligibility } from "@/lib/agents";
+import { searchAccess } from "@/lib/app-settings";
 import { loadProfileFacts } from "@/lib/workflow/profiles";
 import { startRoleSearch } from "@/lib/role-search";
 import { getTalentPlan } from "@/lib/billing/entitlement";
@@ -127,6 +128,7 @@ export async function queueScheduledSearches(now: Date, mode: WorkflowMode): Pro
   const skip = total > SCHEDULED_PER_CLAIM ? (window * SCHEDULED_PER_CLAIM) % total : 0;
   const users = await prisma.user.findMany({ where, select: { id: true }, orderBy: { id: "asc" }, skip, take: SCHEDULED_PER_CLAIM });
   let queued = 0;
+  const access = await searchAccess();
   for (const u of users) {
     // Round 8b: a performer with a search already waiting gets no extra one,
     // so their own searches are not pushed back 6 hours at a time.
@@ -137,7 +139,7 @@ export async function queueScheduledSearches(now: Date, mode: WorkflowMode): Pro
       where: { userId: u.id, status: "failed", error: CEILING_ERROR, completedAt: { gt: new Date(now.getTime() - 24 * 60 * 60 * 1000) } },
     });
     if (stopped >= 2) continue;
-    if (!(await agentEligibility(u.id, { mode, now })).ok) continue;
+    if (!(await agentEligibility(u.id, { mode, now, access })).ok) continue;
     const res = await startRoleSearch(u.id, `auto6h_${window}`, now, mode, true);
     if (res.ok && !res.duplicate) queued += 1;
   }
@@ -223,12 +225,18 @@ export async function claimCastingJobs(
     }
     const jobs: CastingJob[] = [];
     let canceled = 0;
+    const access = await searchAccess(tx);
     for (const row of rows) {
       const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
       // The first automatic search is its own consent record (it stamps no click).
       const firstAuto = row.clientKey === FIRST_AUTO_KEY;
-      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode, { firstAuto }) : { profiles: [] };
+      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode, { firstAuto, access }) : { profiles: [] };
       const facts = loaded.profiles[0];
+      if (!facts && firstAuto) {
+        // Round 10: a first automatic search keeps its place (its key is unique,
+        // so a canceled one could never start again); it runs once eligible.
+        continue;
+      }
       if (!facts) {
         // Not eligible any more (status, email, age or opt-in): never run.
         await tx.roleSearchRequest.update({

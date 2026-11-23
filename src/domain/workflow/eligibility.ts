@@ -44,6 +44,20 @@ export function isAccountStatus(v: unknown): v is AccountStatus {
   return typeof v === "string" && (ACCOUNT_STATUSES as readonly string[]).includes(v);
 }
 
+/**
+ * Round 10 (founder): who may start an AI search, a switch in Admin > Controls
+ * ("AI searches are open to"), not a hidden setting. "test_only" (the default,
+ * and what an unreadable setting means): Test accounts only, as before.
+ * "all_verified": every performer with a verified email and a 100% profile, Test
+ * accounts included. WORKFLOW_MODE=live keeps its meaning (real accounts only).
+ */
+export const SEARCH_ACCESS = ["test_only", "all_verified"] as const;
+export type SearchAccess = (typeof SEARCH_ACCESS)[number];
+
+export function isSearchAccess(v: unknown): v is SearchAccess {
+  return typeof v === "string" && (SEARCH_ACCESS as readonly string[]).includes(v);
+}
+
 export const WORKFLOW_MODES = ["staging", "live"] as const;
 export type WorkflowMode = (typeof WORKFLOW_MODES)[number];
 
@@ -83,7 +97,8 @@ export interface EligibilityFacts {
 /** The account side alone (status, email, age), without the opt-in. */
 export function accountEligibility(
   account: Omit<EligibilityFacts, "optedIn">,
-  mode: WorkflowMode
+  mode: WorkflowMode,
+  access: SearchAccess = "test_only"
 ): Eligibility {
   if (!account.isAdult) return { ok: false, reason: "not_adult" };
   if (!account.emailVerified) return { ok: false, reason: "email_unverified" };
@@ -94,7 +109,8 @@ export function accountEligibility(
   if (status === "TEST") {
     if (mode !== "staging") return { ok: false, reason: "test_account" };
   } else if (status === "UNREVIEWED" || status === "APPROVED") {
-    if (mode !== "live") return { ok: false, reason: "real_account" };
+    // Round 10: the founder's switch opens searches to real performers in staging too.
+    if (mode !== "live" && access !== "all_verified") return { ok: false, reason: "real_account" };
   } else {
     // Any value nobody defined.
     return { ok: false, reason: "unreviewed" };
@@ -103,16 +119,20 @@ export function accountEligibility(
   return { ok: true };
 }
 
-export function workflowEligibility(facts: EligibilityFacts, mode: WorkflowMode): Eligibility {
-  const account = accountEligibility(facts, mode);
+export function workflowEligibility(
+  facts: EligibilityFacts,
+  mode: WorkflowMode,
+  access: SearchAccess = "test_only"
+): Eligibility {
+  const account = accountEligibility(facts, mode, access);
   if (!account.ok) return account;
   if (!facts.optedIn) return { ok: false, reason: "not_opted_in" };
   return { ok: true };
 }
 
 /** "Agents enabled" in the admin list: eligible now, opt-in included. */
-export function agentsEnabled(facts: EligibilityFacts, mode: WorkflowMode): boolean {
-  return workflowEligibility(facts, mode).ok;
+export function agentsEnabled(facts: EligibilityFacts, mode: WorkflowMode, access: SearchAccess = "test_only"): boolean {
+  return workflowEligibility(facts, mode, access).ok;
 }
 
 /** The translation key a performer sees when a click is refused. */
