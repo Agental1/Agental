@@ -600,3 +600,12 @@ summary::-webkit-details-marker {
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+/* Round 10: a required profile field that is still empty. Inputs and pickers
+   read --field-border; the bio textarea has its own border. */
+[data-missing] {
+  --field-border: var(--danger);
+}
+[data-missing] textarea {
+  border-color: var(--danger);
+}

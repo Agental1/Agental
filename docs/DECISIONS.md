@@ -4,7 +4,7 @@ The single source of truth for what the founders decided. Read this first in eve
 Change a line here only on an explicit instruction from the founders in the current
 conversation, in the same commit as the code change, with the date.
 
-Last updated: 2026-11-20 (written from the founders' decisions across rounds 1 to 6).
+Last updated: 2026-11-22 (round 10; written from the founders' decisions across rounds 1 to 10).
 
 ## Products
 
@@ -141,7 +141,8 @@ US dollars.
 
 ## Admin and agents (round 7, decided 2026-11-20)
 
-- Admin role: contact@agental.co only. No other account is admin.
+- Admin role: contact@agental.co only. No other account is admin. (Round 10, W14: the
+  `@demo.agental.co` account that still had it lost it in an audited migration.)
 - Agents stay in test mode in production (`WORKFLOW_MODE` unset): only accounts marked Test can
   trigger an agent. Live mode waits until the founders have reviewed the admin portal and marked
   real performers Approved themselves.
@@ -237,10 +238,18 @@ the server-side eligibility for agents and the automatic first search
 
 - Identity: legal first and last name, date of birth, gender, current location (city; country
   and state with the location picker), phone, bio, at least one language.
-- Physical: height, hair color, eye color.
+- Physical: height, build (round 10, founder, 2026-11-22), hair color, eye color.
 - Media: at least one photo in "Photos of yourself".
 - Preferences: at least one work type, the playable age range, paid or unpaid work (with the
   minimum day rate when the choice is "Paid work only").
+
+Round 10 (founder, 2026-11-22): **build is required** (red asterisk), and **only one photo in
+"Photos of yourself" is required**; the other media categories show "Optional, highly recommended".
+The playable age range starts at **10** (some adults look much younger). "Content boundaries"
+became **"Maturity rating"** (G, PG, PG-13, R, NC-17, optional, private): an earlier "open to
+nudity" maps to R, and "No nudity" stays as an optional limit under it. Accents: "None" first
+(exclusive), "Other: write your own" last. Below 100% the editor marks every missing required
+field in red and "Finish" walks them one by one.
 
 Optional, never counted, suggested once the profile is complete: stage name, IMDb link,
 portfolio website, every other media category (videos included), accents, school, the other

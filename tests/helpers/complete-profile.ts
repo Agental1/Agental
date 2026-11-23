@@ -13,7 +13,7 @@ export function completeProfile(key: string, withSpecialty = true) {
     phone: "+12125550100",
     bio: "Trained stage and screen actor.",
     imdbUrl: "https://www.imdb.com/name/nm0000001/",
-    physical: JSON.stringify({ heightCm: 170, hair: "Brown", eyes: "Brown", languages: ["English"], accents: [] }),
+    physical: JSON.stringify({ heightCm: 170, build: "Athletic", hair: "Brown", eyes: "Brown", languages: ["English"], accents: [] }),
     preferences: JSON.stringify({
       v: 2,
       merged: true,

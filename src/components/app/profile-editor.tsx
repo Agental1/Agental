@@ -72,6 +72,7 @@ import {
   TRAVEL,
   WORK_MODES,
   isSkillSpecialty,
+  MATURITY_RATINGS,
   type ContentBoundaries,
   type Preferences,
 } from "@/domain/preferences";
@@ -91,6 +92,7 @@ import { ACCENT_GROUPS, NO_ACCENTS, accentMatches } from "@/domain/accents";
 import { requestEmailVerification } from "@/app/actions/account-email";
 import { RoleAlertForm, type RoleAlertChannel } from "./role-alert-form";
 import { StepNumber } from "./step-number";
+import { MISSING_BOX, MissingFieldsContext, RequiredNote, useMissingField } from "./missing-fields";
 
 const SKILLS = SpecialtyKind.options.filter(isSkillSpecialty);
 
@@ -285,21 +287,43 @@ export function ProfileEditor({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function goToItem(item: MissingItem) {
+    const target = ITEM_TARGET[item];
+    setTab(target.tab);
+    focusField(target.focus);
+  }
+
+  // Round 10: each click on Finish below 100% goes to the next missing field.
+  const finishStep = useRef(0);
   function finish() {
     save.flush();
-    const first = missing[0];
-    if (data.completeness >= 100 || !first) {
+    if (data.completeness >= 100 || missing.length === 0) {
       toast.success(t("space.profileEditor.finishDone"));
       router.push("/talents/app");
       return;
     }
-    const target = ITEM_TARGET[first];
+    const item = missing[finishStep.current % missing.length];
+    finishStep.current += 1;
     toast.message(t("space.profileEditor.finishMissing"), {
-      description: t(`space.dashboard.action.${first}`),
+      description: t(`space.dashboard.action.${item}`),
     });
-    setTab(target.tab);
-    focusField(target.focus);
+    goToItem(item);
   }
+
+  const missingFields = new Set(missing.map((i) => ITEM_TARGET[i].focus));
+  const missingPerTab = (tabId: ProfileTab) => missing.filter((i) => ITEM_TARGET[i].tab === tabId).length;
+  const tabLabel = (tabId: ProfileTab, label: string) => {
+    const n = missingPerTab(tabId);
+    if (n === 0) return label;
+    return (
+      <span className="inline-flex items-center gap-1.5">
+        <span aria-hidden="true" className="size-2 rounded-full bg-danger" />
+        {label}
+        <span className="text-danger">· {n}</span>
+        <span className="sr-only">{t("space.profileEditor.tabMissing", { count: n })}</span>
+      </span>
+    );
+  };
 
   const index = PROFILE_TABS.indexOf(tab as ProfileTab);
   const nav = (
@@ -312,9 +336,17 @@ export function ProfileEditor({
         <span />
       )}
       {index < PROFILE_TABS.length - 1 ? (
-        <Button onClick={() => goTab(PROFILE_TABS[index + 1])}>
-          {t("space.profileEditor.next")} <ArrowRight />
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Round 10: below 100%, Finish is on every tab and walks the missing fields. */}
+          {data.completeness < 100 && missing.length > 0 && (
+            <Button variant="outline" onClick={finish}>
+              <Check /> {t("space.profileEditor.finish")}
+            </Button>
+          )}
+          <Button onClick={() => goTab(PROFILE_TABS[index + 1])}>
+            {t("space.profileEditor.next")} <ArrowRight />
+          </Button>
+        </div>
       ) : (
         <Button onClick={finish}>
           <Check /> {t("space.profileEditor.finish")}
@@ -329,8 +361,16 @@ export function ProfileEditor({
   );
 
   return (
+    <MissingFieldsContext.Provider value={missingFields}>
     <div className="space-y-6">
-      <Completeness value={data.completeness} done={done} celebrate={celebrate} emailVerified={emailVerified} />
+      <Completeness
+        value={data.completeness}
+        done={done}
+        celebrate={celebrate}
+        emailVerified={emailVerified}
+        missing={data.completeness < 100 ? missing : []}
+        onGo={goToItem}
+      />
       <p className="text-sm text-fg-muted">
         <span className="text-danger" aria-hidden="true">* </span>
         {t("space.profileEditor.requiredNote")}
@@ -338,10 +378,10 @@ export function ProfileEditor({
       <Tabs value={tab} onValueChange={goTab}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <TabsList className="flex-wrap">
-            <TabsTrigger value="identite">{t("space.profileEditor.tabs.identity")}</TabsTrigger>
-            <TabsTrigger value="physique">{t("space.profileEditor.tabs.physical")}</TabsTrigger>
-            <TabsTrigger value="medias">{t("space.profileEditor.tabs.media")}</TabsTrigger>
-            <TabsTrigger value="preferences">{t("space.profileEditor.tabs.preferences")}</TabsTrigger>
+            <TabsTrigger value="identite">{tabLabel("identite", t("space.profileEditor.tabs.identity"))}</TabsTrigger>
+            <TabsTrigger value="physique">{tabLabel("physique", t("space.profileEditor.tabs.physical"))}</TabsTrigger>
+            <TabsTrigger value="medias">{tabLabel("medias", t("space.profileEditor.tabs.media"))}</TabsTrigger>
+            <TabsTrigger value="preferences">{tabLabel("preferences", t("space.profileEditor.tabs.preferences"))}</TabsTrigger>
           </TabsList>
           <SaveStatus status={save.status} error={save.error} onRetry={save.retry} />
         </div>
@@ -376,6 +416,7 @@ export function ProfileEditor({
         </TabsContent>
       </Tabs>
     </div>
+    </MissingFieldsContext.Provider>
   );
 }
 
@@ -451,11 +492,16 @@ function Completeness({
   done,
   celebrate,
   emailVerified,
+  missing,
+  onGo,
 }: {
   value: number;
   done: boolean;
   celebrate: boolean;
   emailVerified: boolean;
+  /** Round 10: the missing required fields, each a link to the field. */
+  missing: MissingItem[];
+  onGo: (item: MissingItem) => void;
 }) {
   const t = useTranslations("talents");
   const [cooldown, setCooldown] = useState(false);
@@ -486,6 +532,26 @@ function Completeness({
             </div>
             {value < 100 && (
               <p className="mt-2 text-xs text-fg-muted">{t("space.profileEditor.completenessHint")}</p>
+            )}
+            {missing.length > 0 && (
+              <div className="mt-3">
+                <p className="text-xs font-bold text-danger">
+                  {t("space.profileEditor.missingTitle", { count: missing.length })}
+                </p>
+                <ul className="mt-1.5 flex flex-wrap gap-1.5">
+                  {missing.map((item) => (
+                    <li key={item}>
+                      <button
+                        type="button"
+                        onClick={() => onGo(item)}
+                        className="inline-flex items-center gap-1 rounded-full border border-danger/50 px-2.5 py-0.5 text-xs font-medium text-danger hover:bg-danger/10"
+                      >
+                        {t(`space.profileEditor.missingField.${item}`)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
@@ -557,14 +623,16 @@ function Field({
   optional?: string;
   children: React.ReactNode;
 }) {
+  const missing = useMissingField(required ? field : undefined);
   return (
-    <div className="space-y-1.5" data-field={field}>
+    <div className="space-y-1.5" data-field={field} data-missing={missing || undefined}>
       <Label>
         {label}
         {required && <Req />}
         {optional && <span className="ml-1 text-xs font-normal text-fg-muted">{optional}</span>}
       </Label>
       {children}
+      {missing && <RequiredNote />}
       {hint && <p className="text-xs text-fg-muted">{hint}</p>}
     </div>
   );
@@ -606,10 +674,11 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
   }
   const setP = (next: Partial<PhysicalTraits>) => patch({ physical: { ...p, ...next } });
   const blur = { onBlur: flush };
+  const legalMissing = useMissingField("legalName");
 
   return (
     <div className="max-w-2xl space-y-4">
-      <fieldset className="space-y-1.5" data-field="legalName">
+      <fieldset className="space-y-1.5" data-field="legalName" data-missing={legalMissing || undefined}>
         <legend className="text-sm font-medium">
           {t(`${e}.legalName`)}
           <Req />
@@ -632,6 +701,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
             {...blur}
           />
         </div>
+        {legalMissing && <RequiredNote />}
         <p className="text-xs text-fg-muted">{t(`${e}.legalNameHint`)}</p>
       </fieldset>
       <Field label={t(`${e}.stageName`)} field="stageName" hint={t(`${e}.stageNameHint`)}>
@@ -708,6 +778,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
           match={accentMatches}
           placeholder={t(`${e}.smart.addAccent`)}
           none={{ value: NO_ACCENTS, label: t(`${e}.smart.noAccents`) }}
+          writeOwn={{ label: t(`${e}.smart.writeOwn`), placeholder: t(`${e}.smart.writeOwnPlaceholder`) }}
         />
       </Field>
       <Field label={t(`${e}.bio`)} field="bio" required>
@@ -935,10 +1006,15 @@ function Tile({
   value?: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const missing = useMissingField(required ? field : undefined);
   return (
     <div
       data-field={field}
-      className="flex min-h-40 min-w-0 flex-col gap-3 rounded-sedan-xl border border-border bg-surface p-3 sm:p-4 xl:aspect-square"
+      data-missing={missing || undefined}
+      className={cn(
+        "flex min-h-40 min-w-0 flex-col gap-3 rounded-sedan-xl border bg-surface p-3 sm:p-4 xl:aspect-square",
+        missing ? "border-2 border-danger" : "border-border"
+      )}
     >
       <div className="flex items-center gap-2">
         <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent">
@@ -953,6 +1029,7 @@ function Tile({
         {value}
       </div>
       <div className="flex flex-col gap-2">{children}</div>
+      {missing && <RequiredNote />}
     </div>
   );
 }
@@ -1087,6 +1164,7 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
         icon={PersonStanding}
         label={t(`${e}.build`)}
         field="build"
+        required
         value={<BuildChips value={p.build} onChange={(build) => { patch({ build }); flush(); }} />}
       >
         <BuildSelect label={t(`${e}.build`)} value={p.build} onChange={(build) => patch({ build })} onBlur={flush} />
@@ -1227,11 +1305,15 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
 
   const ages: [number, number] = [pr.playableAgeMin ?? 18, pr.playableAgeMax ?? 30];
   const agesSet = pr.playableAgeMin != null && pr.playableAgeMax != null;
+  const workMissing = useMissingField("projectTypes");
+  const payMissing = useMissingField("compensation");
+  const agesMissing = useMissingField("ageRange");
 
   return (
     <div className="grid gap-x-12 gap-y-8 lg:grid-cols-2">
       <div className="min-w-0 space-y-7">
-        <div data-field="projectTypes" className="space-y-5">
+        <div data-field="projectTypes" data-missing={workMissing || undefined} className={cn("space-y-5", workMissing && MISSING_BOX)}>
+          {workMissing && <RequiredNote />}
           <ChipGroup
             number={1}
             legend={t(`${p}.projectTypes`)}
@@ -1249,7 +1331,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
           />
         </div>
 
-        <fieldset data-field="compensation" className="space-y-2">
+        <fieldset data-field="compensation" data-missing={payMissing || undefined} className={cn("space-y-2", payMissing && MISSING_BOX)}>
           <legend className="text-sm font-medium">
             <StepNumber n={3} />
             {t(`${p}.compensation`)}
@@ -1313,7 +1395,7 @@ function PreferencesTab({ data, setData, queue, flush, aside }: TabProps & { asi
         <TriState number={6} legend={t(`${p}.animals`)} value={pr.animals} onChange={(animals) => setPr({ animals })} />
       </div>
       <div className="min-w-0 space-y-7">
-        <fieldset data-field="ageRange" className="space-y-3">
+        <fieldset data-field="ageRange" data-missing={agesMissing || undefined} className={cn("space-y-3", agesMissing && MISSING_BOX)}>
           <legend className="text-sm font-medium">
             <StepNumber n={7} />
             {t(`${p}.ageRange`)}
@@ -1427,14 +1509,57 @@ function ContentBoundariesSection({ data, setData, queue, number }: TabProps & {
           {t(`${b}.private`)}
         </p>
       </div>
-      <TriState
-        legend={t(`${b}.nudity`)}
-        value={data.contentBoundaries.nudity}
-        onChange={(nudity) => {
-          setData((d) => ({ ...d, contentBoundaries: { nudity } }));
-          queue("boundaries", () => saveContentBoundaries({ nudity }), 0);
-        }}
-      />
+      <fieldset className="space-y-2">
+        <legend className="text-sm font-medium">{t(`${b}.question`)}</legend>
+        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t(`${b}.question`)}>
+          {MATURITY_RATINGS.map((r) => {
+            const active = data.contentBoundaries.maxRating === r;
+            return (
+              <button
+                key={r}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                title={t(`${b}.ratings.${r}`)}
+                onClick={() => {
+                  // Pressing the chosen rating again clears it.
+                  const maxRating = active ? null : r;
+                  setData((d) => ({ ...d, contentBoundaries: { ...d.contentBoundaries, maxRating } }));
+                  queue("boundaries", () => saveContentBoundaries({ maxRating }), 0);
+                }}
+                className={cn(
+                  "min-w-14 rounded-full border px-3 py-1.5 text-sm font-bold transition-colors",
+                  active ? "border-accent bg-accent-soft text-accent" : "border-border hover:border-accent"
+                )}
+              >
+                {r}
+              </button>
+            );
+          })}
+        </div>
+        {data.contentBoundaries.maxRating && (
+          <p className="text-xs text-fg-muted">{t(`${b}.ratings.${data.contentBoundaries.maxRating}`)}</p>
+        )}
+      </fieldset>
+      <fieldset className="space-y-2">
+        <legend className="text-sm font-medium">
+          {t(`${b}.limits`)}
+          <span className="ml-1 text-xs font-normal text-fg-muted">{t(`${b}.optional`)}</span>
+        </legend>
+        <label className="flex cursor-pointer items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            className="size-4 accent-[var(--accent)]"
+            checked={data.contentBoundaries.nudity === false}
+            onChange={(ev) => {
+              const nudity = ev.target.checked ? false : null;
+              setData((d) => ({ ...d, contentBoundaries: { ...d.contentBoundaries, nudity } }));
+              queue("boundaries", () => saveContentBoundaries({ nudity }), 0);
+            }}
+          />
+          {t(`${b}.noNudity`)}
+        </label>
+      </fieldset>
     </section>
   );
 }

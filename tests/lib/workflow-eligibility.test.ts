@@ -120,7 +120,7 @@ describe("loadProfileFacts", () => {
     birthDate: new Date("1990-05-01T00:00:00Z"),
     isMinor: false,
     city: "Los Angeles",
-    physical: '{"heightCm":170,"hair":"Brown","eyes":"Green","languages":["English"],"accents":[]}',
+    physical: '{"heightCm":170,"build":"Athletic","hair":"Brown","eyes":"Green","languages":["English"],"accents":[]}',
     // Round 8 required fields.
     legalFirstName: "Ana",
     legalLastName: "Lee",

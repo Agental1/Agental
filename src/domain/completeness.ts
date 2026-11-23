@@ -47,6 +47,7 @@ export const REQUIRED_ITEMS = [
   "bio",
   "languages",
   "height",
+  "build",
   "hair",
   "eyes",
   "photos",
@@ -108,6 +109,9 @@ function isFilled(item: MissingItem, p: CompletenessInput): boolean {
       return p.physical.languages.some(filled);
     case "height":
       return p.physical.heightCm != null;
+    case "build":
+      // Round 10 (founder): build is required.
+      return filled(p.physical.build);
     case "hair":
       return filled(p.physical.hair);
     case "eyes":

@@ -46,6 +46,7 @@ export const ITEM_TARGET: Record<MissingItem | ProfileGap, { tab: ProfileTab; fo
   bio: { tab: "identite", focus: "bio" },
   languages: { tab: "identite", focus: "languages" },
   height: { tab: "physique", focus: "height" },
+  build: { tab: "physique", focus: "build" },
   hair: { tab: "physique", focus: "hair" },
   eyes: { tab: "physique", focus: "eyes" },
   photos: { tab: "medias", focus: "media-SELF" },

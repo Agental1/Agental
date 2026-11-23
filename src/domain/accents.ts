@@ -1,5 +1,5 @@
 /**
- * "Accents you can do" (round 8): grouped by region, searchable by any word
+ * "Accents you can do" (round 8; extended in round 10 by region): grouped by region, searchable by any word
  * ("Leb" finds Lebanese), stored by name in physical.accents. Anything else is
  * free text ("Other").
  */
@@ -16,27 +16,38 @@ export const ACCENT_GROUPS: AccentGroup[] = [
       "New Jersey", "Philadelphia", "Baltimore", "Chicago", "Midwestern", "Minnesotan",
       "Wisconsin", "Southern", "Texan", "Deep South", "Georgia", "Appalachian", "Cajun",
       "New Orleans", "African American English", "Pacific Northwest", "Hawaiian Pidgin",
-      "Mid-Atlantic (Transatlantic)",
+      "Mid-Atlantic (Transatlantic)", "Southern Californian", "Bay Area", "Long Island", "Pittsburgh", "Upper Midwest", "Inland North", "Ozark", "Tidewater", "Gullah Geechee", "Miami", "Maine", "Rhode Island", "Utah", "Alaskan", "New Mexican", "Tejano",
     ],
   },
-  { region: "Canada", accents: ["Standard Canadian", "Newfoundland", "Québécois English", "Maritimes"] },
+  { region: "Canada", accents: ["Standard Canadian", "Newfoundland", "Québécois English", "Maritimes", "Ottawa Valley", "Canadian Prairie", "First Nations English",
+    ] },
   {
     region: "United Kingdom and Ireland",
     accents: [
       "Received Pronunciation (RP)", "Standard Southern British", "Cockney", "Estuary",
       "Multicultural London English", "West Country", "Brummie", "Black Country", "Mancunian",
       "Scouse", "Yorkshire", "Geordie", "Lancashire", "Scottish (Standard)", "Glaswegian",
-      "Edinburgh", "Welsh", "Irish (Dublin)", "Irish (Rural)", "Northern Irish",
+      "Edinburgh", "Welsh", "Irish (Dublin)", "Irish (Rural)", "Northern Irish", "Essex", "Bristolian", "Cornish", "Norfolk", "Nottingham", "Leeds", "Sheffield", "Cumbrian", "Teesside", "Aberdonian", "Highland Scottish", "Valleys Welsh", "North Welsh", "Cork", "Belfast",
     ],
   },
   {
-    region: "Oceania and Africa",
+    region: "Oceania",
     accents: [
-      "General Australian", "Broad Australian", "New Zealand", "South African", "Nigerian",
-      "Ghanaian", "Kenyan", "Ugandan", "Zimbabwean", "Ethiopian", "Cameroonian", "Senegalese",
+      "General Australian", "Broad Australian", "Aboriginal Australian English", "New Zealand",
+      "Maori English", "Fijian", "Samoan", "Tongan", "Papua New Guinean",
     ],
   },
-  { region: "Caribbean", accents: ["Jamaican", "Trinidadian", "Bahamian", "Barbadian", "Haitian"] },
+  {
+    region: "Africa",
+    accents: [
+      "South African", "Afrikaans", "Zulu", "Xhosa", "Nigerian", "Yoruba", "Igbo", "Hausa",
+      "Ghanaian", "Kenyan", "Tanzanian", "Ugandan", "Rwandan", "Zimbabwean", "Zambian", "Malawian",
+      "Botswanan", "Namibian", "Ethiopian", "Eritrean", "Somali", "Sudanese", "Cameroonian",
+      "Congolese", "Senegalese", "Ivorian", "Liberian", "Sierra Leonean",
+    ],
+  },
+  { region: "Caribbean", accents: ["Jamaican", "Trinidadian", "Bahamian", "Barbadian", "Haitian", "Guyanese", "Belizean", "Bermudian", "Grenadian", "St. Lucian", "Vincentian", "Antiguan", "Caymanian",
+    ] },
   {
     region: "French",
     accents: [
@@ -49,26 +60,27 @@ export const ACCENT_GROUPS: AccentGroup[] = [
     accents: [
       "Castilian", "Andalusian", "Mexican", "Mexico City", "Northern Mexican", "Chicano",
       "Argentine", "Rioplatense", "Colombian", "Venezuelan", "Cuban", "Puerto Rican",
-      "Dominican", "Chilean", "Peruvian", "Central American", "Spanglish",
+      "Dominican", "Chilean", "Peruvian", "Central American", "Spanglish", "Bolivian", "Ecuadorian", "Paraguayan", "Uruguayan", "Guatemalan", "Salvadoran", "Honduran", "Nicaraguan", "Costa Rican", "Panamanian", "Caribbean Colombian", "Paisa", "Canarian", "Galician Spanish", "Catalan Spanish",
     ],
   },
   {
     region: "Portuguese",
-    accents: ["Brazilian (Rio)", "Brazilian (São Paulo)", "Brazilian (Northeast)", "European Portuguese", "Angolan"],
+    accents: ["Brazilian (Rio)", "Brazilian (São Paulo)", "Brazilian (Northeast)", "European Portuguese", "Angolan", "Mozambican", "Cape Verdean",
+    ],
   },
   {
     region: "Italian, German, Dutch, Nordic",
     accents: [
       "Standard Italian", "Roman", "Neapolitan", "Sicilian", "Milanese", "Standard German",
       "Bavarian", "Berlin", "Austrian", "Swiss German", "Dutch", "Flemish", "Swedish",
-      "Norwegian", "Danish", "Finnish", "Icelandic",
+      "Norwegian", "Danish", "Finnish", "Icelandic", "Tuscan", "Venetian", "Swiss Italian", "Luxembourgish", "Maltese", "Basque", "Catalan", "Alsatian", "Corsican",
     ],
   },
   {
     region: "Eastern Europe",
     accents: [
       "Russian", "Ukrainian", "Polish", "Czech", "Slovak", "Romanian", "Hungarian", "Serbian",
-      "Croatian", "Bosnian", "Bulgarian", "Albanian", "Greek", "Georgian", "Lithuanian",
+      "Croatian", "Bosnian", "Bulgarian", "Albanian", "Greek", "Georgian", "Lithuanian", "Latvian", "Estonian", "Belarusian", "Slovenian", "Macedonian", "Moldovan", "Chechen",
     ],
   },
   {
@@ -76,19 +88,20 @@ export const ACCENT_GROUPS: AccentGroup[] = [
     accents: [
       "Lebanese", "Syrian", "Palestinian", "Jordanian", "Egyptian", "Gulf Arabic", "Saudi",
       "Iraqi", "Yemeni", "Moroccan", "Algerian", "Tunisian", "Libyan", "Israeli Hebrew",
-      "Persian (Farsi)", "Turkish", "Armenian", "Kurdish",
+      "Persian (Farsi)", "Turkish", "Armenian", "Kurdish", "Emirati", "Kuwaiti", "Qatari", "Omani", "Bahraini", "Assyrian", "Azerbaijani", "Bedouin", "Sudanese Arabic",
     ],
   },
   {
     region: "South Asia",
-    accents: ["Indian (Hindi)", "Indian (South)", "Mumbai", "Bengali", "Punjabi", "Pakistani", "Sri Lankan", "Nepali", "Bangladeshi"],
+    accents: ["Indian (Hindi)", "Indian (South)", "Mumbai", "Bengali", "Punjabi", "Pakistani", "Sri Lankan", "Nepali", "Bangladeshi", "Tamil", "Telugu", "Malayalam", "Gujarati", "Marathi", "Urdu", "Kashmiri", "Afghan (Dari)", "Pashto",
+    ],
   },
   {
     region: "East and Southeast Asia",
     accents: [
       "Mandarin (Beijing)", "Mandarin (Taiwan)", "Cantonese (Hong Kong)", "Shanghainese",
       "Korean (Seoul)", "Korean (Busan)", "Japanese (Tokyo)", "Kansai", "Filipino",
-      "Vietnamese", "Thai", "Indonesian", "Malaysian", "Singaporean", "Cambodian", "Burmese",
+      "Vietnamese", "Thai", "Indonesian", "Malaysian", "Singaporean", "Cambodian", "Burmese", "Mandarin (Mainland)", "Hokkien", "Teochew", "Tagalog", "Hmong", "Lao", "Mongolian", "Okinawan", "Tibetan", "Kazakh", "Uzbek",
     ],
   },
 ];

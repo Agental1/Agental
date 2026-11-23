@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useMissingField } from "./missing-fields";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
 import { useRef, useState, useTransition } from "react";
@@ -246,6 +247,7 @@ function CategorySection({
   const [error, setError] = useState<ActionError | undefined>();
   const errorText = useActionErrorText();
   const { setNodeRef, isOver } = useDroppable({ id: category });
+  const missing = useMissingField(`media-${category}`);
 
   function onFiles(files: FileList | null) {
     if (!files?.length) return;
@@ -301,8 +303,10 @@ function CategorySection({
         e.preventDefault();
         onFiles(e.dataTransfer.files);
       }}
+      data-missing={missing || undefined}
       className={cn(
-        "space-y-3 rounded-sedan border border-border p-4 transition-colors",
+        "space-y-3 rounded-sedan border p-4 transition-colors",
+        missing ? "border-2 border-danger" : "border-border",
         isOver && "border-accent bg-accent-soft/30"
       )}
     >
@@ -310,8 +314,18 @@ function CategorySection({
         <div className="min-w-0">
           <h3 id={`media-${category}-title`} className="font-display text-lg font-medium">
             {t(`categories.${category}.title`)}
+            {category === "SELF" ? (
+              <>
+                <span aria-hidden="true" className="ml-0.5 text-danger">*</span>
+                <span className="sr-only"> ({t("requiredOne")})</span>
+              </>
+            ) : null}
             <span className="ml-2 text-sm font-normal text-fg-subtle">{items.length}</span>
           </h3>
+          {/* Round 10: one photo of yourself is the only media required. */}
+          <p className={cn("text-xs font-bold", category === "SELF" ? "text-danger" : "text-fg-muted")}>
+            {category === "SELF" ? t("requiredOne") : t("recommended")}
+          </p>
           <p className="text-sm text-fg-muted">{t(`categories.${category}.hint`)}</p>
         </div>
         <Button variant="outline" size="sm" loading={pending} onClick={() => inputRef.current?.click()}>

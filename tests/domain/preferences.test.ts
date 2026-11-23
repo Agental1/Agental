@@ -90,13 +90,13 @@ describe("readPreferences", () => {
     // What the old form stored for anyone who pressed Save.
     const old = JSON.stringify({ autoApply: false, projectTypes: [], nudity: false, animals: false });
     expect(readPreferences(old).animals).toBeNull();
-    expect(readContentBoundaries(old)).toEqual({ nudity: null });
+    expect(readContentBoundaries(old)).toEqual({ nudity: null, maxRating: null });
   });
 
   it("keeps an old 'yes', which was a choice", () => {
     const old = JSON.stringify({ nudity: true, animals: true });
     expect(readPreferences(old).animals).toBe(true);
-    expect(readContentBoundaries(old)).toEqual({ nudity: true });
+    expect(readContentBoundaries(old)).toEqual({ nudity: true, maxRating: "R" });
   });
 
   it("reads a current 'no' as a no", () => {
@@ -106,7 +106,7 @@ describe("readPreferences", () => {
       contentBoundaries: { nudity: false },
     });
     expect(readPreferences(raw).animals).toBe(false);
-    expect(readContentBoundaries(raw)).toEqual({ nudity: false });
+    expect(readContentBoundaries(raw)).toEqual({ nudity: false, maxRating: null });
   });
 });
 
@@ -132,7 +132,7 @@ describe("mergePreferences", () => {
       travel: "local",
     });
     const next = mergePreferences(stored, parse({ animals: true }));
-    expect(readContentBoundaries(next)).toEqual({ nudity: false });
+    expect(readContentBoundaries(next)).toEqual({ nudity: false, maxRating: null });
     expect(next).not.toHaveProperty("nudity");
   });
 
@@ -144,7 +144,7 @@ describe("mergePreferences", () => {
       merged: true,
       autoApply: false,
       dailyCap: 3,
-      contentBoundaries: { nudity: true },
+      contentBoundaries: { nudity: true, maxRating: "R" },
     });
   });
 
@@ -152,7 +152,7 @@ describe("mergePreferences", () => {
     const old = JSON.stringify({ nudity: false, animals: false });
     const next = mergePreferences(old, parse({}));
     expect(next).toEqual({ v: PREFERENCES_VERSION, merged: true });
-    expect(readContentBoundaries(next)).toEqual({ nudity: null });
+    expect(readContentBoundaries(next)).toEqual({ nudity: null, maxRating: null });
   });
 });
 
@@ -167,16 +167,19 @@ describe("mergeContentBoundaries", () => {
   it("stores the answer and keeps job preferences as they were", () => {
     const stored = JSON.stringify({ v: PREFERENCES_VERSION, travel: "national", animals: true });
     const next = mergeContentBoundaries(stored, { nudity: false });
-    expect(readContentBoundaries(next)).toEqual({ nudity: false });
+    expect(readContentBoundaries(next)).toEqual({ nudity: false, maxRating: null });
     expect(readPreferences(next)).toEqual({ ...unset, travel: "national", animals: true });
   });
 
   it("clears the answer with null, including one carried over from the old form", () => {
     const old = JSON.stringify({ nudity: true, animals: true });
     const next = mergeContentBoundaries(old, { nudity: null });
-    expect(readContentBoundaries(next)).toEqual({ nudity: null });
+    // Round 10: the old "yes" also mapped to an R rating, which stays until changed.
+    expect(readContentBoundaries(next)).toEqual({ nudity: null, maxRating: "R" });
     expect(next).not.toHaveProperty("nudity");
-    expect(next).not.toHaveProperty("contentBoundaries");
+    expect(next.contentBoundaries).toEqual({ maxRating: "R" });
+    const cleared = mergeContentBoundaries(next, { maxRating: null });
+    expect(cleared).not.toHaveProperty("contentBoundaries");
     // The old "yes" for animals was a choice and is kept.
     expect(readPreferences(next).animals).toBe(true);
   });
@@ -184,8 +187,23 @@ describe("mergeContentBoundaries", () => {
   it("round-trips through JSON the way the column stores it", () => {
     const first = JSON.stringify(mergeContentBoundaries("{}", { nudity: true }));
     const second = JSON.stringify(mergePreferences(first, parse({ workModes: ["remote"] })));
-    expect(readContentBoundaries(second)).toEqual({ nudity: true });
+    expect(readContentBoundaries(second)).toEqual({ nudity: true, maxRating: "R" });
     expect(readPreferences(second).workModes).toEqual(["remote"]);
+  });
+});
+
+describe("round 10: maturity rating", () => {
+  it("accepts the five ratings and saves one without touching the nudity limit", () => {
+    expect(ContentBoundariesInput.safeParse({ maxRating: "PG-13" }).success).toBe(true);
+    expect(ContentBoundariesInput.safeParse({ maxRating: "X" }).success).toBe(false);
+    const withLimit = mergeContentBoundaries("{}", { nudity: false });
+    const next = mergeContentBoundaries(withLimit, { maxRating: "PG-13" });
+    expect(readContentBoundaries(next)).toEqual({ nudity: false, maxRating: "PG-13" });
+  });
+
+  it("plays ages from 10", () => {
+    expect(PreferencesInput.safeParse({ playableAgeMin: 10, playableAgeMax: 14 }).success).toBe(true);
+    expect(PreferencesInput.safeParse({ playableAgeMin: 9, playableAgeMax: 14 }).success).toBe(false);
   });
 });
 

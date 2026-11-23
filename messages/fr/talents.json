@@ -751,6 +751,7 @@
         "birthDate": "ajoute ta date de naissance",
         "stageName": "ajoute ton nom artistique",
         "height": "ajoute ta taille",
+        "build": "choisis ta morphologie",
         "productions": "ajoute une photo d’une production passée",
         "otherMedia": "ajoute un autre fichier utile, comme un extrait de voix",
         "legalName": "ajoute ton nom légal",
@@ -797,6 +798,7 @@
         "photos": "Ajoute une photo de toi",
         "video": "Ajoute une bande démo",
         "height": "Ajoute ta taille",
+        "build": "Choisis ta morphologie",
         "physical": "Ajoute tes cheveux, tes yeux ou ta morphologie",
         "bio": "Écris une courte bio",
         "links": "Ajoute un lien IMDb ou de portfolio",
@@ -821,6 +823,7 @@
         "photos": "Les directeurs de casting choisissent parmi les photos qu’ils voient.",
         "video": "Ajoute une bande démo ou des scènes de tes productions. Les castings regardent la vidéo en premier.",
         "height": "Beaucoup de rôles précisent une taille.",
+        "build": "Beaucoup de rôles décrivent la morphologie.",
         "physical": "Beaucoup de rôles décrivent cheveux, yeux ou morphologie.",
         "bio": "Une courte bio te distingue dans une recherche.",
         "links": "Un lien permet de vérifier tes crédits.",
@@ -1170,7 +1173,9 @@
       "dragHandle": "Glisser pour déplacer",
       "orderSaved": "Ordre enregistré.",
       "dropPhotosOnly": "Photos de toi n’accepte que des photos.",
-      "dropVideosOnly": "Vidéos générales n’accepte que des vidéos."
+      "dropVideosOnly": "Vidéos générales n’accepte que des vidéos.",
+      "requiredOne": "Obligatoire : au moins une photo",
+      "recommended": "Facultatif, vivement conseillé"
     },
     "profileEditor": {
       "completeness": "Complétude du profil",
@@ -1277,10 +1282,20 @@
         "skillsHint": "Tout ce que tu sais faire, à l’écran, sur scène ou au micro."
       },
       "boundaries": {
-        "title": "Limites de contenu",
+        "title": "Classification",
         "optional": "Facultatif",
         "private": "Toi seul vois cette section, et elle n’apparaît jamais sur ton profil.",
-        "nudity": "Rôles avec nudité"
+        "nudity": "Rôles avec nudité",
+        "question": "Quelle est la classification la plus élevée sur laquelle tu acceptes de travailler ?",
+        "limits": "Limites précises",
+        "noNudity": "Pas de nudité",
+        "ratings": {
+          "G": "G : tous publics",
+          "PG": "PG : accord parental conseillé",
+          "PG-13": "PG-13 : déconseillé aux moins de 13 ans",
+          "R": "R : restreint, contenu adulte possible",
+          "NC-17": "NC-17 : réservé aux adultes"
+        }
       },
       "imdbUrl": "Lien IMDb",
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
@@ -1391,12 +1406,35 @@
         "addOther": "Ajouter « {value} »",
         "addLanguage": "Ajouter une langue",
         "addAccent": "Ajouter un accent",
-        "noAccents": "Je ne fais aucun accent"
+        "noAccents": "Aucun",
+        "writeOwn": "Autre : écris le tien",
+        "writeOwnPlaceholder": "Écris un accent, puis appuie sur Entrée"
       },
       "optional": "(facultatif)",
       "addOwn": "Ajouter la tienne",
       "addOwnPlaceholder": "Décris ta morphologie",
-      "addMore": "Ajouter un autre"
+      "addMore": "Ajouter un autre",
+      "missingRequired": "Obligatoire",
+      "tabMissing": "{count, plural, one {# champ obligatoire manquant} other {# champs obligatoires manquants}}",
+      "missingTitle": "{count, plural, one {Il manque # champ} other {Il manque # champs}}",
+      "missingField": {
+        "legalName": "Nom légal",
+        "birthDate": "Date de naissance",
+        "gender": "Genre",
+        "city": "Ville",
+        "phone": "Téléphone",
+        "bio": "Bio",
+        "languages": "Langues",
+        "height": "Taille",
+        "build": "Morphologie",
+        "hair": "Couleur des cheveux",
+        "eyes": "Couleur des yeux",
+        "photos": "Photo de toi",
+        "workTypes": "Travail recherché",
+        "ageRange": "Âges que tu peux jouer",
+        "compensation": "Payé ou non payé",
+        "dayRate": "Tarif journalier"
+      }
     },
     "rgpd": {
       "intro": "Tu peux exporter toutes tes données, ou supprimer définitivement ton compte.",

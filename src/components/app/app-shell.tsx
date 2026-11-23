@@ -156,12 +156,33 @@ export function AppShell({
           </nav>
         </SidebarContent>
         <SidebarFooter className="border-t border-sidebar-border p-3">
-          <div className="flex min-w-0 items-center gap-2 group-data-[collapsible=icon]:justify-center">
-            <span className="flex shrink-0">{avatarSlot}</span>
-            <p className="min-w-0 truncate text-[13px] text-fg-subtle group-data-[collapsible=icon]:hidden">
-              {userLabel}
-            </p>
-          </div>
+          {userMenu ? (
+            // Round 10: the account at the bottom left opens the same menu as the
+            // avatar at the top right; folded to icons, the avatar alone opens it.
+            <UserMenu
+              {...userMenu}
+              email={userLabel}
+              labels={{ ...userMenu.labels, signOut: t("actions.logout") }}
+              side="top"
+              align="start"
+              triggerClassName="flex w-full min-w-0 items-center gap-2 rounded-sedan p-1 text-left hover:bg-surface-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:rounded-full"
+              trigger={
+                <>
+                  <span className="flex shrink-0">{userMenu.avatar}</span>
+                  <span className="min-w-0 truncate text-[13px] text-fg-subtle group-data-[collapsible=icon]:hidden">
+                    {userLabel}
+                  </span>
+                </>
+              }
+            />
+          ) : (
+            <div className="flex min-w-0 items-center gap-2 group-data-[collapsible=icon]:justify-center">
+              <span className="flex shrink-0">{avatarSlot}</span>
+              <p className="min-w-0 truncate text-[13px] text-fg-subtle group-data-[collapsible=icon]:hidden">
+                {userLabel}
+              </p>
+            </div>
+          )}
           {languageInFooter && (
             <LocaleSwitcher className="mt-1 px-1 group-data-[collapsible=icon]:hidden" />
           )}
