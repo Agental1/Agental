@@ -4,8 +4,8 @@ import { bellFor, markAllRead, markOneRead } from "@/lib/notifications";
 
 /**
  * The bell's data (round 8). GET: the latest items and the unread count; the
- * bell asks every 60 seconds (Supabase Realtime is not set up: this app signs
- * people in with its own sessions, not Supabase Auth). POST {all: true} or
+ * bell asks every 60 seconds, and at once when a Supabase Realtime signal says
+ * something new arrived (round 8c, /api/realtime/token). POST {all: true} or
  * {key}: mark read. Signed-in people only, their own items only.
  */
 function portalOf(kind: string | undefined): "TALENT" | "CASTING" {

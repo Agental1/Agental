@@ -25,6 +25,7 @@ let unverified: string;
 let approved: string;
 let spam: string;
 let minor: string;
+let limited: string;
 
 describe.skipIf(!local)("AI role searches", () => {
   beforeAll(async () => {
@@ -53,6 +54,7 @@ describe.skipIf(!local)("AI role searches", () => {
     minor = (await make("minor", {
       artistProfile: { create: { stageName: "minor", birthDate: new Date(Date.now() - 15 * 365 * 24 * 3600 * 1000), isMinor: true } },
     })).id;
+    limited = (await make("limited")).id;
     await prisma.subscription.create({
       data: { subjectType: "ARTIST", subjectId: pro, plan: "PRO", status: "ACTIVE" },
     });
@@ -62,6 +64,7 @@ describe.skipIf(!local)("AI role searches", () => {
     const users = await prisma.user.findMany({ where: { email: { startsWith: P } }, select: { id: true } });
     const ids = users.map((u) => u.id);
     await prisma.subscription.deleteMany({ where: { subjectId: { in: ids } } });
+    await prisma.rateLimitEvent.deleteMany({ where: { key: { in: ids.map((id) => `role-search:start:${id}`) } } });
     await prisma.user.deleteMany({ where: { id: { in: ids } } }); // rows cascade
   });
 
@@ -91,6 +94,15 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(gaps.every((g) => g === 6 * 60 * 60 * 1000)).toBe(true);
     // The first one may start at once.
     expect(rows[0].scheduledFor!.getTime()).toBeLessThanOrEqual(Date.now());
+  });
+
+  it("refuses the 21st press of the button within an hour (round 8c)", async () => {
+    session.mockResolvedValue({ user: { id: limited, kind: "TALENT" } });
+    for (let i = 0; i < 20; i++) {
+      const r = await startFindingRoles(key(300 + i));
+      expect(r.ok || r.error.key !== "errors.tooManyAttempts").toBe(true);
+    }
+    expect(await startFindingRoles(key(320))).toMatchObject({ ok: false, error: { key: "errors.tooManyAttempts" } });
   });
 
   it("stores one row for a retried click", async () => {

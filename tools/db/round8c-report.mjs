@@ -6,7 +6,9 @@
 //   "pick your city / fix your number" prompt), by user id and masked email;
 // - the database and Storage sizes, against the Supabase Free plan limits;
 // - which Data API roles can reach which tables, and the RLS state (round 8c
-//   security pass, written up in docs/SECURITY.md).
+//   security pass, written up in docs/SECURITY.md);
+// - the accounts Admin > Account cleanup would list for deletion (masked),
+//   for the founders' go (group 5). Nothing is deleted here.
 // It never prints a URL, a key or a password, and it never fails or holds up
 // the build: every step has a timeout, the connection is always closed, and the
 // process exits 0. Remove it once round 8c has read its output.
@@ -111,6 +113,32 @@ try {
   await section("accounts", async () => {
     const users = await c.query(`select "accountStatus" as s, count(*) as n from "User" group by 1 order by 1`);
     console.log(`[r8c-report] accounts by status: ${users.rows.map((r) => `${r.s}=${r.n}`).join(" ")}`);
+  });
+
+  await section("deletion", async () => {
+    // Same rule as listDeletionCandidates (src/lib/admin/account-deletion.ts):
+    // never verified, password account, 7+ days old, not admin, not STAFF /
+    // TEST / APPROVED, never paid, no organization, and a warning older than 7 days.
+    const r = await c.query(`
+      select u.id, u.email, u.kind, u."createdAt", u."accountStatus" as status, u."deletionWarnedAt" as warned,
+             (select count(*) from "Media" m join "ArtistProfile" ap on ap.id = m."profileId" where ap."userId" = u.id) as media
+        from "User" u
+       where u."emailVerified" is null and u."passwordHash" is not null and not u."isAdmin"
+         and u."createdAt" <= now() - interval '7 days'
+         and coalesce(u."accountStatus", '') not in ('STAFF', 'TEST', 'APPROVED')
+         and (u."deletionWarnedAt" is null or u."deletionWarnedAt" <= now() - interval '7 days')
+         and not exists (select 1 from "Membership" mb where mb."userId" = u.id)
+         and not exists (select 1 from "Subscription" s where s."subjectType" = 'ARTIST' and s."subjectId" = u.id
+                           and (s."stripeSubscriptionId" is not null or s.plan <> 'FREE'))
+         and not exists (select 1 from "SiteOrder" o where o."userId" = u.id
+                           and (o."paidAt" is not null or o.status in ('PAID', 'REFUNDED')))
+       order by u."createdAt"`);
+    const unverifiedAll = await c.query(`select count(*) as n from "User" where "emailVerified" is null`);
+    console.log(`[r8c-report] deletion: ${r.rowCount} eligible (of ${unverifiedAll.rows[0].n} unverified accounts)`);
+    for (const x of r.rows)
+      console.log(
+        `[r8c-report] deletion user=${x.id} ${mask(x.email)} ${x.kind} created=${x.createdAt.toISOString().slice(0, 10)} status=${x.status} warned=${x.warned ? x.warned.toISOString().slice(0, 10) : "-"} media=${x.media}`
+      );
   });
 
   await section("rls", async () => {

@@ -6,6 +6,15 @@ import { err, type ActionError } from "@/domain/action-result";
 import { RoleSearchClientKey, type RoleSearchQuota } from "@/domain/role-search";
 import { startRoleSearch } from "@/lib/role-search";
 import { refusalKey } from "@/domain/workflow/eligibility";
+import { hitRateLimit } from "@/lib/rate-limit";
+import { prisma } from "@/lib/db";
+
+/**
+ * Round 8c: at most 20 presses of "Start finding roles" an hour per person,
+ * on top of the plan quota (which bounds the searches themselves). Stops a
+ * script or a stuck button from hammering the quota transaction.
+ */
+const SEARCH_START_LIMIT = { limit: 20, windowMs: 60 * 60 * 1000 } as const;
 
 export type StartRoleSearchState =
   | { ok: true; id: string; quota: RoleSearchQuota }
@@ -24,6 +33,8 @@ export async function startFindingRoles(clientKey: string): Promise<StartRoleSea
   if (!key.success) return { ok: false, error: err("errors.invalidInput") };
 
   try {
+    const gate = await hitRateLimit(prisma, `role-search:start:${session.user.id}`, SEARCH_START_LIMIT);
+    if (!gate.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
     const res = await startRoleSearch(session.user.id, key.data);
     if (!res.ok && res.reason === "ineligible") {
       return { ok: false, error: err(refusalKey(res.why)), quota: res.quota };
