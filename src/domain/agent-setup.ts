@@ -13,7 +13,8 @@ export const AGENT_CUSTOM_NAME_MAX = 40;
 export const AgentSetupInput = z
   .object({
     name: z.enum(AGENT_NAMES),
-    customName: z.string().trim().max(AGENT_CUSTOM_NAME_MAX).optional(),
+    // Letters, digits, spaces and . ' - only: the name is read by the agent's model (round 9).
+    customName: z.string().trim().max(AGENT_CUSTOM_NAME_MAX).regex(/^[\p{L}\p{N} .'-]*$/u).optional(),
     helps: z.array(z.enum(AGENT_HELPS)).min(1).max(AGENT_HELPS.length),
   })
   .refine((v) => v.name !== "custom" || (v.customName ?? "").length > 0, { path: ["customName"] });

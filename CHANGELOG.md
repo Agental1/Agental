@@ -3,6 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.21.0] - 2026-11-22
+
+### Added (round 9, group 5)
+
+- **Samantha, Adrian or the performer's own name: the AI agent in Messages.** Speaks as the agent the performer set up, with the help they chose; answers about their profile, searches (used, left, running), roles found, applications and plan; points to the right page; hands off to the team for a human, contracts, money, legal matters or anything unsure. Never promises a role, never gives legal or financial advice, never sends, applies or changes the profile. Listing text and the performer's words are data, never instructions.
+- Claude Haiku 5.5, on as soon as `ANTHROPIC_API_KEY` is set (`ASSISTANT_MODEL_ENABLED=false` turns it off); in test mode for Test accounts only. Caps: 10 / 30 / 60 / 100 model replies a day by plan, 900 characters a reply, $25 a month; past a cap, the rule-based answer with a short note. Each reply's cost is recorded once.
+- Agent replies carry an "AI agent" tag for performers and staff. `docs/ASSISTANT.md` lists the prompt-injection tests (structural tests pass; live tests wait for the key).
+
 ## [0.6.20.0] - 2026-11-22
 
 ### Added (round 9, group 4)

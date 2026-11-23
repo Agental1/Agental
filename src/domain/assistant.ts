@@ -99,7 +99,7 @@ const ASKS_PROFILE = /\b(complet|complete|missing|manque|falta|next|prochain|sig
 const ASKS_STATUS = /\b(status|statut|estado|where|où|donde|dónde|applications?|candidatures?|candidaturas?|update|nouvelles|news|search|recherche|búsqueda)\w*|状态|申请|搜索/i;
 const ASKS_WHY = /\b(why|pourquoi|por qué|porque|reject|refus|rechaz|negotiat|négoci|negoci|contract|contrat|contrato|pay|paie|pago|fee|cachet|legal|lawyer|avocat|abogado)\w*|为什么|合同|拒绝/i;
 // Round 9: someone asking for a person is always handed to the team.
-const ASKS_HUMAN = /\b(human|a person|real person|someone real|humain|une personne|quelqu'un|una persona|alguien real)\b|真人|人工/i;
+const ASKS_HUMAN = /\b(?:talk|speak|chat) (?:to|with) (?:a |an |the )?(?:human|person|someone|real person|team|agent|support)\b|\b(?:a|real) human\b|\bhuman (?:agent|support)\b|\bparler (?:à|a|avec) (?:un humain|une personne|quelqu['’]un|l['’]équipe)\b|\bhablar con (?:alguien|una persona|un humano|el equipo)\b|真人|人工客服|转人工/i;
 const ASKS_PLAN = /\b(plan|formule|price|prix|precio|subscription|abonnement|suscripción|upgrade|pro|basic|premium|ultimate)\b|方案|价格|订阅/i;
 
 /**

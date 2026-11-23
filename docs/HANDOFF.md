@@ -638,7 +638,7 @@ Quotas (from `B2C_PLANS.*.aiSearches` in `src/domain/pricing.ts`): Basic 5, Pro 
 
 - Code: `src/domain/assistant.ts` (topics, context whitelist, rule-based answers), `src/lib/assistant/` (context builder, Anthropic adapter, orchestration), `replyAsAssistant` in `src/app/actions/messages.ts`.
 - Every performer message needs a topic. The assistant answers right after it (message with `fromAgent`). It hands off when the question is outside the facts it has (money, contracts, a casting decision, anything else): one honest line, `Thread.waitingForTeamSince` set, team alerted (`TEAM_INBOX_EMAIL`, if set). A team reply clears the status.
-- Model: off in production. To turn it on, set `ASSISTANT_MODEL_ENABLED=true` and `ANTHROPIC_API_KEY` in Vercel Production. It uses `claude-opus-5-5`, effort low, structured output, server-side refusal fallback to `claude-opus-4-8`, 25 s timeout; any failure falls back to the rules.
+- Model (superseded in round 9, see docs/ASSISTANT.md: the key alone turns it on, Haiku 5.5). Round 3 text: To turn it on, set `ASSISTANT_MODEL_ENABLED=true` and `ANTHROPIC_API_KEY` in Vercel Production. It uses `claude-opus-5-5`, effort low, structured output, server-side refusal fallback to `claude-opus-4-8`, 25 s timeout; any failure falls back to the rules.
 - Privacy: the context is a whitelist (stage first name, plan, completeness and missing items, specialties, job preferences, application titles and statuses, searches in progress). A test checks that no contact detail, content boundary or media link can appear in it.
 
 ## Contracts agreed for the beta brief (backend branch `feat/beta-server`)

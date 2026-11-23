@@ -13,7 +13,7 @@ import {
 } from "@/domain/assistant";
 import { buildAssistantContext } from "./context";
 import { prisma } from "@/lib/db";
-import { askModel, assistantDailyLimit, assistantModelEnabled, assistantMonthlyBudgetUsd, HAIKU_PRICE, assistantModel } from "./model";
+import { askModel, clip, assistantDailyLimit, assistantModelEnabled, assistantMonthlyBudgetUsd, HAIKU_PRICE, assistantModel } from "./model";
 import { workflowMode } from "@/domain/workflow/eligibility";
 
 /**
@@ -60,13 +60,16 @@ async function n8nSupportAllowed(userId: string): Promise<boolean> {
   const today = await prisma.message.count({
     where: { fromAgent: true, createdAt: { gte: since }, thread: { userId, kind: "TEAM" } },
   });
-  return today < assistantDailyLimit("FREE");
+  const plan = (await prisma.subscription.findUnique({ where: { subjectId: userId }, select: { plan: true } }))?.plan;
+  return today < assistantDailyLimit(plan === "PRO" || plan === "PREMIUM" || plan === "ULTIMATE" ? plan : "FREE");
 }
 
-/** Model replies to this performer in the last 24 hours. */
-function repliesToday(userId: string) {
+/** Model replies to this performer in the last 24 hours (rules answers and notes do not count). */
+async function repliesToday(userId: string) {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
-  return prisma.message.count({ where: { fromAgent: true, createdAt: { gte: since }, thread: { userId, kind: "TEAM" } } });
+  const mine = await prisma.message.findMany({ where: { senderId: userId, createdAt: { gte: since } }, select: { id: true }, take: 500 });
+  if (mine.length === 0) return 0;
+  return prisma.aiUsage.count({ where: { kind: "assistant.reply", ref: { in: mine.map((m) => m.id) } } });
 }
 
 /** What the assistant's model calls cost this calendar month (UTC), in micro-dollars. */
@@ -116,10 +119,10 @@ export async function answerMessage(input: {
 
   // Staging only: the n8n support entry answers (AGENTAL_FIND_STAGING=1),
   // for test accounts only, under the same daily cap as the model.
-  if (input.requestId && n8nSupportConfig() && (await n8nSupportAllowed(input.userId))) {
+  if (input.requestId && n8nSupportConfig() && (await n8nSupportAllowed(input.userId)) && (await modelAllowedFor(input.userId))) {
     const n8n = await askN8nSupport({ requestId: input.requestId, question: input.question });
     if (n8n) {
-      const text = n8n.handoff ? `${n8n.text}\n${raw.handoff}` : n8n.text;
+      const text = n8n.handoff ? `${clip(n8n.text)}\n${raw.handoff}` : clip(n8n.text);
       return { text, handoff: n8n.handoff, source: "model", ctx };
     }
   }

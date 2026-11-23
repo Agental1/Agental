@@ -11,7 +11,7 @@ import { prisma } from "@/lib/db";
  */
 const P = "test-r9asst-";
 const calls: { system: string; content: string }[] = [];
-let reply = { reply: "Your profile is at 100%. Open /talents/app/candidatures to see the roles found.", needs_human: false };
+const reply = { reply: "Your profile is at 100%. Open /talents/app/candidatures to see the roles found.", needs_human: false };
 vi.mock("@anthropic-ai/sdk", () => ({
   default: class {
     messages = {
@@ -66,7 +66,7 @@ describe.skipIf(!local)("round 9 assistant", () => {
     const res = await answerMessage({ userId: ids.sam, topic: "profile", question: "What should I do next?", locale: "en", history: [], requestId: `${P}m1` });
     expect(res.source).toBe("model");
     expect(calls).toHaveLength(1);
-    expect(calls[0].system).toContain("You are Sam, the AI agent");
+    expect(calls[0].system).toContain(`You are "Sam", the AI agent`);
     expect(calls[0].system).toContain("finding roles that fit them, preparing self-tapes");
     expect(calls[0].system).toMatch(/Never promise a role/);
     expect(calls[0].system).toMatch(/Never give legal, tax or financial advice/);
@@ -122,5 +122,19 @@ describe.skipIf(!local)("round 9 assistant", () => {
     const long = "This is a sentence. ".repeat(100);
     expect(clip(long).length).toBeLessThanOrEqual(MAX_REPLY_CHARS);
     expect(clip("Short.")).toBe("Short.");
+  });
+});
+
+describe("asking for a person", async () => {
+  const { answerByRules } = await import("@/domain/assistant");
+  const s = { greeting: () => "Hi.", profileStatus: () => "", profileComplete: "", missing: () => "", noApplications: "", applicationsIntro: () => "", applicationLine: () => "", searches: () => "", plan: () => "Plan.", handoff: "HANDOFF" };
+  const ctx = { topic: "other" as const, locale: "en", name: "", plan: "FREE" as const };
+  const handed = (q: string) => answerByRules(q, ctx, s, "Basic").handoff;
+  it("hands off real requests in four languages", () => {
+    for (const q of ["Can I talk to a human?", "I want to speak with someone", "je veux parler à quelqu’un", "quiero hablar con alguien", "转人工"]) expect(handed(q)).toBe(true);
+  });
+  it("does not hand off ordinary plan questions that mention a person or AI", () => {
+    expect(handed("Which plan fits a person who sings? Is the pro plan better?")).toBe(false);
+    expect(handed("你是人工智能吗 plan")).toBe(false);
   });
 });

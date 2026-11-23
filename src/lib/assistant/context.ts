@@ -44,14 +44,17 @@ export async function buildAssistantContext(
     getRoleSearchQuota(userId),
     prisma.roleSearchRequest.count({ where: { userId, status: { in: [...IN_PROGRESS_STATUSES] } } }),
     prisma.applicationDraft.findMany({
-      where: { profileId: profile.id, status: { not: "DECLINED" } },
+      // The same roles the performer sees on Applications.
+      where: { profileId: profile.id, brief: { source: "n8n-beta-v2" }, status: { not: "DECLINED" } },
       orderBy: { createdAt: "desc" },
       take: 8,
       select: { status: true, brief: { select: { title: true, roleName: true } } },
     }),
   ]);
   ctx.searches = { limit: quota.limit, used: quota.used, remaining: quota.remaining, inProgress, resetInDays: quota.resetInDays };
-  ctx.rolesFound = found.map((d) => ({ project: d.brief.title.slice(0, 120), role: d.brief.roleName?.slice(0, 120) ?? null, status: d.status }));
+  // Titles come from web listings: no address or link reaches the model.
+  const plain = (s: string) => s.replace(/https?:\/\/\S+|www\.\S+|\S+@\S+/gi, "").replace(/\s+/g, " ").trim().slice(0, 120);
+  ctx.rolesFound = found.map((d) => ({ project: plain(d.brief.title), role: d.brief.roleName ? plain(d.brief.roleName) : null, status: d.status }));
 
   if (topic === "profile") {
     const input = completenessInputOf(profile);
