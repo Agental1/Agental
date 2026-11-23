@@ -15,7 +15,7 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 
 | Group | State | Version |
 |---|---|---|
-| 1. Admin, simpler | built, reviewed, deploying | (next) |
+| 1. Admin, simpler | live | 49 |
 | 2. Emails (Resend) | waiting for Resend DNS + key (W1, W2) | |
 | 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
 | 4. Searches through n8n | app side next | |
