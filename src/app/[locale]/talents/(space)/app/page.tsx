@@ -224,6 +224,8 @@ export default async function TalentsDashboard({
       </Suspense>
 
       <FindRolesButton
+        // A new reason from the server (after a refresh) resets the button.
+        key={searchBlock?.reason ?? "ok"}
         initialQuota={quota}
         upgradeHref="/talents/app/abonnement"
         // Round 10: one reason when the account cannot search, with its fix.

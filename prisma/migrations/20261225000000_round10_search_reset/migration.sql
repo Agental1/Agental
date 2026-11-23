@@ -3,7 +3,9 @@
 -- deleted, same method as round 8d: a new quota reset date (searches from
 -- before it no longer count), the period start cleared (the next search opens
 -- a new 30-day period), and searches still waiting in the queue (none ever
--- ran: n8n is not connected) marked canceled with a note. Accounts in the
+-- ran: n8n is not connected) marked canceled with a note, except each
+-- performer's first automatic search (its key is unique, so a canceled one
+-- could never start again). Accounts in the
 -- 30-day "Deleted" list are left as they are. One audit entry with the counts.
 
 INSERT INTO "AuditLog" ("id", "actorUserId", "action", "resourceType", "resourceId", "before", "after", "createdAt")
@@ -17,7 +19,9 @@ SELECT 'r10_reset_' || md5(random()::text || clock_timestamp()::text), NULL, 'se
 
 UPDATE "role_search_requests"
 SET status = 'canceled', "completedAt" = now(), error = 'quota reset (round 10)'
-WHERE status = 'queued';
+WHERE status = 'queued'
+  -- The first automatic search keeps its place: canceling it would block it for good.
+  AND "clientKey" IS DISTINCT FROM 'auto_first';
 
 UPDATE "User" SET "searchQuotaResetAt" = now(), "searchPeriodStartedAt" = NULL
 WHERE "deletedAt" IS NULL;

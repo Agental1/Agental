@@ -66,6 +66,7 @@ export function FindRolesButton({
   // One key per attempt: a double click reuses it, so the server stores one row.
   const keyRef = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const goRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -131,6 +132,7 @@ export function FindRolesButton({
           </span>
         )}
         <button
+          ref={goRef}
           type="button"
           onClick={click}
           disabled={busy}
@@ -170,7 +172,15 @@ export function FindRolesButton({
       <ActionErrorMessage error={error} />
       {block && (
         <Dialog open={lockOpen} onOpenChange={setLockOpen}>
-          <DialogContent data-portal="talents">
+          <DialogContent
+            data-portal="talents"
+            className="w-[calc(100%-2rem)]"
+            // Opened from state, not a trigger: give the focus back to the button.
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              goRef.current?.focus();
+            }}
+          >
             <DialogHeader>
               <DialogTitle>{t("block.title")}</DialogTitle>
               <DialogDescription asChild>
@@ -235,7 +245,7 @@ function NoticeText({ notice }: { notice: SearchNotice }) {
   return (
     <p className="text-[15px] font-medium">
       {t("notice.queued", {
-        time: new Intl.DateTimeFormat(locale, { weekday: "short", hour: "numeric", minute: "2-digit" }).format(new Date(notice.startsAt)),
+        time: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(notice.startsAt)),
       })}
     </p>
   );
