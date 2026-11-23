@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.18.0] - 2026-11-22
+
+### Changed (round 9, group 1)
+
+- **Admin > Accounts, simpler cleanup.** Filters at the top (group, status, email verified, sign-up method, created before, payments, last sign-in or visit, plan, agents, audience), sortable columns, a checkbox per row with select all, and two buttons at the bottom: "Send warning email" ("Confirm your email within 7 days to keep your Agental account", recorded on the account) and "Delete" with one confirmation dialog.
+- **Deleted, restorable for 30 days.** A deleted account is disabled at once (no sign-in, sessions ended, agents off, no email, hidden from every admin list) and listed in Admin > Deleted with Restore; after 30 days it is purged with its files (daily cron, and when Deleted is opened). Staff, test, admin and paying accounts can never be deleted. Every deletion, restore and purge is in the audit log.
+- **Every count opens its list**: Staff shows the staff accounts with names and emails; Performers, Casting, Test, Spam and To review open exactly what they count.
+- **Projects**: a list and a page per project (owner, dates, role, applications and their statuses).
+- **Privacy Policy**: "Account security and abuse" and "Cookies" sections, retention of the email log; the cookie banner's "Read more" opens the cookies section. Notes for counsel in `docs/legal/ACCOUNT_MONITORING.md`, matching clause in the Terms draft.
+
+Migration `20261217000000_round9_account_removal` (four nullable columns on User, one index).
+
 ## [0.6.17.0] - 2026-11-22
 
 ### Added (round 8d, group 4)
