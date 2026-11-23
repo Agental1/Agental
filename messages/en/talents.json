@@ -1002,7 +1002,18 @@
       "placeholder": "Write your message",
       "send": "Send",
       "sending": "Sending…",
-      "repliesHere": "Replies arrive here in Messages."
+      "repliesHere": "Replies arrive here in Messages.",
+      "conversations": "Conversations",
+      "newConversation": "New conversation",
+      "untitled": "Conversation",
+      "conversationMenu": "Conversation options",
+      "deleteConversation": "Delete conversation",
+      "deleteConfirmTitle": "Delete this conversation?",
+      "deleteConfirmBody": "It disappears from your Messages right away. The Agental team keeps a copy for moderation and legal reasons.",
+      "cancel": "Cancel",
+      "deleted": "Conversation deleted",
+      "deleteFailed": "The conversation could not be deleted. Try again.",
+      "jumpToLatest": "Jump to latest"
     },
     "settings": {
       "title": "Settings",

@@ -60,7 +60,8 @@ import {
   optionKey,
   splitMulti,
 } from "@/domain/identity";
-import { formatHeight, heightToCm } from "@/domain/height";
+import { heightInBothUnits, heightToCm } from "@/domain/height";
+import { kgToLb, weightInBothUnits, weightTextToKg, type WeightUnit } from "@/domain/weight";
 import type { MissingItem } from "@/domain/completeness";
 import {
   AGE_MAX,
@@ -917,7 +918,6 @@ function TileValue({ children }: { children: React.ReactNode }) {
 
 /* ── Physical: ten tiles ──────────────────────────────────────────────── */
 
-const LB_PER_KG = 2.20462;
 
 function Tile({
   icon: Icon,
@@ -957,15 +957,22 @@ function Tile({
   );
 }
 
+/** "5 ft 10 in · 178 cm": the chosen unit, then the other one in grey. */
+function BothUnits({ main, other }: { main: string; other: string }) {
+  return (
+    <TileValue>
+      {main} <span className="font-normal text-fg-muted">· {other}</span>
+    </TileValue>
+  );
+}
+
 function PhysicalTab({ data, setData, queue, flush }: TabProps) {
   const t = useTranslations("talents");
   const e = "space.profileEditor" as const;
   const locale = useLocale();
   const p = data.physical;
-  const [weightUnit, setWeightUnit] = useState<"lb" | "kg">("lb");
-  const [weightText, setWeightText] = useState(() =>
-    p.weightKg != null ? String(Math.round(p.weightKg * LB_PER_KG)) : ""
-  );
+  const [weightUnit, setWeightUnit] = useState<WeightUnit>("lb");
+  const [weightText, setWeightText] = useState(() => (p.weightKg != null ? String(kgToLb(p.weightKg)) : ""));
 
   function patch(next: Partial<PhysicalTraits>, height?: HeightValue | null) {
     const physical = { ...p, ...next };
@@ -991,18 +998,16 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
 
   function setWeight(text: string) {
     setWeightText(text);
-    const n = Number(text.replace(",", "."));
     if (!text.trim()) return patch({ weightKg: undefined });
-    if (!Number.isFinite(n) || n <= 0) return;
-    const kg = Math.round(weightUnit === "lb" ? n / LB_PER_KG : n);
-    if (kg >= 20 && kg <= 300) patch({ weightKg: kg });
+    const kg = weightTextToKg(text, weightUnit);
+    if (kg !== undefined) patch({ weightKg: kg });
   }
 
-  function switchWeightUnit(unit: "lb" | "kg") {
+  // The toggle converts what is saved (73 kg <-> 161 lb); the stored value stays in kg.
+  function switchWeightUnit(unit: WeightUnit) {
     if (unit === weightUnit) return;
     setWeightUnit(unit);
-    if (p.weightKg != null)
-      setWeightText(String(unit === "lb" ? Math.round(p.weightKg * LB_PER_KG) : p.weightKg));
+    if (p.weightKg != null) setWeightText(String(unit === "lb" ? kgToLb(p.weightKg) : p.weightKg));
   }
 
   // What each tile shows in its middle: the saved value, in the person's words
@@ -1017,14 +1022,9 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
   const heightCm = heightToCm(data.height);
   const heightShown =
     heightCm != null ? (
-      <TileValue>{formatHeight(heightCm, locale, data.height?.unit === "metric" ? "metric" : "imperial")}</TileValue>
+      <BothUnits {...heightInBothUnits(heightCm, locale, data.height?.unit === "metric" ? "metric" : "imperial")} />
     ) : null;
-  const weightShown =
-    p.weightKg != null ? (
-      <TileValue>
-        {weightUnit === "lb" ? `${Math.round(p.weightKg * LB_PER_KG)} lb` : `${p.weightKg} kg`}
-      </TileValue>
-    ) : null;
+  const weightShown = p.weightKg != null ? <BothUnits {...weightInBothUnits(p.weightKg, weightUnit)} /> : null;
   const sizes = (["sizeTop", "sizeBottom", "sizeDressSuit"] as const).filter((k) => (p[k] ?? "").trim());
   const sizesShown = sizes.length ? (
     <ul className="space-y-0.5 text-sm">
@@ -1077,6 +1077,11 @@ function PhysicalTab({ data, setData, queue, flush }: TabProps) {
             ))}
           </div>
         </div>
+        {p.weightKg != null && (
+          <p className="text-xs text-fg-muted" aria-live="polite">
+            {weightUnit === "lb" ? `${p.weightKg} kg` : `${kgToLb(p.weightKg)} lb`}
+          </p>
+        )}
       </Tile>
       <Tile
         icon={PersonStanding}

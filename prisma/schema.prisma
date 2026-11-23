@@ -506,19 +506,22 @@ model Thread {
   id            String    @id @default(cuid())
   subject       String?
   createdAt     DateTime  @default(now())
-  // TEAM: the one conversation between a performer (userId) and the Agental
-  // team. GENERAL: threads from before that existed.
+  // TEAM: a conversation between a performer (userId) and the Agental team
+  // (several per performer since round 8d). GENERAL: threads from before that existed.
   kind          String    @default("GENERAL") // GENERAL | TEAM
   userId        String?
   lastMessageAt DateTime?
   // Set when the assistant hands the conversation to a person; cleared when
   // the team answers. Shown as "Waiting for the Agental team".
   waitingForTeamSince DateTime?
+  // Round 8d: the performer deleted this conversation. Hidden from them at
+  // once; kept for the team (moderation and legal).
+  hiddenForUserAt DateTime?
   messages      Message[]
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, kind])
+  @@index([userId, kind, lastMessageAt])
   @@index([kind, lastMessageAt])
   @@index([kind, waitingForTeamSince])
   @@schema("public")

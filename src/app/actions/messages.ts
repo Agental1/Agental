@@ -16,9 +16,11 @@ import {
 } from "@/domain/messages";
 import {
   TEAM_THREAD,
-  ensureTeamThread,
+  getMyThread,
   isTeamMember,
+  ownVisibleThread,
   postMessage,
+  startTeamThread,
 } from "@/lib/messages";
 
 /**
@@ -177,7 +179,17 @@ export async function sendMessage(input: unknown): Promise<SendMessageResult> {
   const gate = await hitRateLimit(prisma, `msg:${userId}`, MESSAGE_RATE);
   if (!gate.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
 
-  const threadId = await ensureTeamThread(prisma, userId);
+  const wanted = parsed.data.conversationId;
+  let threadId: string | null;
+  if (wanted === "new") {
+    threadId = await startTeamThread(prisma, userId, parsed.data);
+  } else if (wanted) {
+    // Someone else's id, or a conversation they deleted, finds nothing.
+    threadId = await ownVisibleThread(prisma, userId, wanted);
+    if (!threadId) return { ok: false, error: err("errors.notFound") };
+  } else {
+    threadId = (await getMyThread(userId, prisma)).threadId ?? (await startTeamThread(prisma, userId, parsed.data));
+  }
   const posted = await postMessage(prisma, {
     threadId,
     senderId: userId,
@@ -207,19 +219,48 @@ export async function sendMessage(input: unknown): Promise<SendMessageResult> {
   };
 }
 
-/** The performer opened Messages: the team's messages count as read. */
-export async function markMyThreadRead(): Promise<MessageActionResult> {
+/** The performer opened a conversation: the team's messages in it count as read. */
+export async function markMyThreadRead(threadId?: string): Promise<MessageActionResult> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return { ok: false, error: err("errors.unauthorized") };
+  const one = typeof threadId === "string" && threadId.length > 0 && threadId.length <= 100 ? threadId : undefined;
   await prisma.message.updateMany({
     where: {
-      thread: { userId, kind: TEAM_THREAD },
+      thread: { userId, kind: TEAM_THREAD, ...(one ? { id: one } : {}) },
       OR: [{ fromTeam: true }, { fromAgent: true }],
       readAt: null,
     },
     data: { readAt: new Date() },
   });
+  return { ok: true };
+}
+
+/**
+ * Round 8d: the performer deletes one of their conversations. It disappears
+ * from their Messages at once; the rows stay for the team (moderation and
+ * legal, see the Privacy Policy) and the admin inbox shows it as deleted.
+ */
+export async function deleteMyConversation(threadId: unknown): Promise<MessageActionResult> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId || session.user.kind !== "TALENT") return { ok: false, error: err("errors.unauthorized") };
+  if (typeof threadId !== "string" || threadId.length === 0 || threadId.length > 100) {
+    return { ok: false, error: err("errors.notFound") };
+  }
+  const hidden = await prisma.thread.updateMany({
+    where: { id: threadId, userId, kind: TEAM_THREAD, hiddenForUserAt: null },
+    data: { hiddenForUserAt: new Date() },
+  });
+  if (hidden.count === 0) return { ok: false, error: err("errors.notFound") };
+  await audit({
+    actorUserId: userId,
+    action: "message.conversation.delete",
+    resourceType: "Thread",
+    resourceId: threadId,
+    after: { hiddenForUser: true },
+  });
+  revalidateMessages();
   return { ok: true };
 }
 

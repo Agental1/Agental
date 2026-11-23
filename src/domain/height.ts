@@ -204,3 +204,16 @@ export function switchHeightUnit(
     cleared: false,
   };
 }
+
+/**
+ * Round 8d: the height in the chosen unit and in the other one, which the
+ * caller shows in grey, e.g. 178 → "5 ft 10 in" and "178 cm".
+ */
+export function heightInBothUnits(
+  cm: number,
+  locale: string,
+  primary: HeightUnit
+): { main: string; other: string } {
+  const other: HeightUnit = primary === "metric" ? "imperial" : "metric";
+  return { main: formatHeight(cm, locale, primary), other: formatHeight(cm, locale, other) };
+}

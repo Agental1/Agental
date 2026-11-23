@@ -347,7 +347,9 @@
         "title": "Emails waiting for a person ({count})",
         "help": "People who emailed the team directly. Open the Gmail thread with this id in the team mailbox; nothing was sent for these.",
         "done": "Mark handled"
-      }
+      },
+      "deletedByPerformer": "已被表演者删除",
+      "deletedByPerformerNote": "表演者删除了此对话。他们已看不到它；出于审核和法律原因予以保留。"
     },
     "limelight": {
       "title": "Limelight 申请",

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Human Messages: one conversation between a performer and the Agental team.
+ * Human Messages: conversations between a performer and the Agental team.
  * Rules shared by the action, the tests and the composer.
  */
 
@@ -43,6 +43,11 @@ export const SendMessageInput = z.object({
   topic: z.enum(["profile", "application", "other"], { error: "errors.messageTopicRequired" }).optional(),
   /** The page's language, for the assistant's answer. */
   locale: z.string().max(5).optional(),
+  /**
+   * Performer side (round 8d): which of their conversations, or "new" to start
+   * one. Left out: the most recent one. Always checked against the session.
+   */
+  conversationId: z.union([z.literal("new"), z.string().regex(/^[a-z0-9]{8,40}$/)]).optional(),
 });
 export type SendMessageInput = z.infer<typeof SendMessageInput>;
 

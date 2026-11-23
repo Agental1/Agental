@@ -1002,7 +1002,18 @@
       "placeholder": "Escribe tu mensaje",
       "send": "Enviar",
       "sending": "Enviando…",
-      "repliesHere": "Las respuestas llegan aquí, en Mensajes."
+      "repliesHere": "Las respuestas llegan aquí, en Mensajes.",
+      "conversations": "Conversaciones",
+      "newConversation": "Nueva conversación",
+      "untitled": "Conversación",
+      "conversationMenu": "Opciones de la conversación",
+      "deleteConversation": "Eliminar conversación",
+      "deleteConfirmTitle": "¿Eliminar esta conversación?",
+      "deleteConfirmBody": "Desaparece de tus Mensajes de inmediato. El equipo de Agental guarda una copia por motivos de moderación y legales.",
+      "cancel": "Cancelar",
+      "deleted": "Conversación eliminada",
+      "deleteFailed": "No se pudo eliminar la conversación. Inténtalo de nuevo.",
+      "jumpToLatest": "Ir al último mensaje"
     },
     "settings": {
       "title": "Ajustes",

@@ -42,9 +42,12 @@ const TOPICS: Topic[] = ["profile", "application", "other"];
  */
 export function MessageComposer({
   threadId,
+  conversationId,
   labels,
 }: {
   threadId?: string;
+  /** Performer side (round 8d): their conversation's id, or "new" to start one. */
+  conversationId?: string;
   labels: ComposerLabels;
 }) {
   const router = useRouter();
@@ -69,7 +72,7 @@ export function MessageComposer({
     setError(undefined);
     start(async () => {
       try {
-        const input = needsTopic ? { body, clientKey, topic, locale } : { body, clientKey };
+        const input = needsTopic ? { body, clientKey, topic, locale, conversationId } : { body, clientKey };
         const res = threadId ? await replyAsTeam(threadId, input) : await sendMessage(input);
         if (!res.ok) {
           setError(res.error);
@@ -78,7 +81,10 @@ export function MessageComposer({
         setBody("");
         setClientKey(crypto.randomUUID());
         toast.success(tt("sent"));
-        router.refresh();
+        // A new conversation now has an id: open it.
+        if (!threadId && conversationId !== res.threadId) {
+          router.replace({ pathname: "/talents/app/messages", query: { c: res.threadId } });
+        } else router.refresh();
       } catch {
         // A network failure: the draft and its key stay for the retry.
         setError(err("errors.generic"));
@@ -144,13 +150,14 @@ export function MessageComposer({
 
 /**
  * Marks the other side's messages as read once the conversation is open.
- * Renders nothing. With `threadId`, the team opened a performer's thread.
+ * Renders nothing. With `threadId`, the team opened a performer's thread;
+ * with `mine`, the performer opened one of their conversations.
  */
-export function MarkThreadRead({ threadId }: { threadId?: string }) {
+export function MarkThreadRead({ threadId, mine }: { threadId?: string; mine?: string }) {
   useEffect(() => {
-    void (threadId ? markThreadRead(threadId) : markMyThreadRead()).catch(() => {
+    void (threadId ? markThreadRead(threadId) : markMyThreadRead(mine)).catch(() => {
       // Best effort: the next visit marks them again.
     });
-  }, [threadId]);
+  }, [threadId, mine]);
   return null;
 }

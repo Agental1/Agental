@@ -184,7 +184,11 @@ export function NotificationBell({ portal }: { portal: Portal }) {
   const title = (item: Item) => {
     const role = typeof item.payload.role === "string" ? item.payload.role : "";
     if (item.kind === "ROLE_FOUND") return t("roleFound");
-    if (item.kind === "MESSAGE") return item.payload.from === "assistant" ? t("assistantReplied") : t("teamReplied");
+    if (item.kind === "MESSAGE") {
+      if (item.payload.from !== "assistant") return t("teamReplied");
+      const name = typeof item.payload.agentName === "string" ? item.payload.agentName : "";
+      return name ? t("agentReplied", { name }) : t("assistantReplied");
+    }
     if (item.kind === "STATUS") return t("statusChanged");
     return item.title || role;
   };

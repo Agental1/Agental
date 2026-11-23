@@ -10,6 +10,8 @@ import {
   HEIGHT_MIN_CM,
   HEIGHT_MIN_FEET,
   fieldsFromValue,
+  formatHeight,
+  heightToCm,
   heightFromFields,
   initialHeightUnit,
   switchHeightUnit,
@@ -91,6 +93,10 @@ export function HeightField({
     if (next.cleared) onChange(undefined);
   }
 
+  // Round 8d: the same height in the other unit, in grey under the inputs.
+  const cm = heightToCm(heightFromFields(unit, fields));
+  const otherUnit = cm === undefined ? null : formatHeight(cm, locale, unit === "metric" ? "imperial" : "metric");
+
   return (
     <fieldset className="space-y-1.5">
       {/* A legend must be the fieldset's first child to name it, so the
@@ -166,6 +172,11 @@ export function HeightField({
           value={fields.cm}
           onChange={(e) => edit({ ...fields, cm: e.target.value })}
         />
+      )}
+      {otherUnit && (
+        <p className="text-xs text-fg-muted" aria-live="polite">
+          {otherUnit}
+        </p>
       )}
     </fieldset>
   );

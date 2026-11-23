@@ -93,7 +93,8 @@
       "roleFound": "Nouveau rôle trouvé",
       "assistantReplied": "L’assistant a répondu",
       "teamReplied": "L’équipe Agental a répondu",
-      "statusChanged": "Mise à jour d’une candidature"
+      "statusChanged": "Mise à jour d’une candidature",
+      "agentReplied": "{name} a répondu"
     }
   },
   "account": {
@@ -318,7 +319,7 @@
     },
     "eyebrow": "Mentions",
     "title": "Politique de confidentialité",
-    "updated": "Dernière mise à jour : 20 novembre 2026.",
+    "updated": "Dernière mise à jour : 22 novembre 2026.",
     "footerLink": "Confidentialité",
     "sections": [
       {
@@ -363,7 +364,8 @@
       {
         "title": "Durée de conservation et tes choix",
         "body": [
-          "Nous conservons tes données tant que ton compte est ouvert. Tu peux modifier ton profil à tout moment et supprimer ton compte depuis les Paramètres : cela supprime ton profil, tes médias et tes messages. Tu peux nous demander une copie de tes données ou une correction en écrivant à contact@agental.co."
+          "Nous conservons tes données tant que ton compte est ouvert. Tu peux modifier ton profil à tout moment et supprimer ton compte depuis les Paramètres : cela supprime ton profil, tes médias et tes messages. Tu peux nous demander une copie de tes données ou une correction en écrivant à contact@agental.co.",
+          "Quand tu supprimes une conversation dans Messages, elle disparaît aussitôt de ton compte. Nous en gardons une copie, que tu ne vois plus, pour la modération et pour des raisons légales."
         ]
       },
       {
