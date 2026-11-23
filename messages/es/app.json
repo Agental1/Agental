@@ -430,7 +430,18 @@
       "responses": "Respuestas para revisar",
       "responsesHelp": "Papeles que los artistas aceptaron y respondieron. No se envió nada a un sitio de casting.",
       "noResponses": "Aún no se ha enviado ninguna respuesta.",
-      "videoN": "Vídeo {n}"
+      "videoN": "Vídeo {n}",
+      "cost": {
+        "title": "Coste de IA, últimos 30 días",
+        "lead": "Tokens y coste por proveedor, según los informan los workflows y el asistente. Cada búsqueda se detiene en {ceiling} (SEARCH_COST_CEILING_USD); una búsqueda que informa más avisa a los admins.",
+        "empty": "Aún no hay coste de IA registrado. Las búsquedas informan su coste cuando n8n esté conectado.",
+        "provider": "Proveedor",
+        "kind": "Tarea",
+        "jobs": "Tareas",
+        "tokens": "Tokens",
+        "cost": "Coste",
+        "column": "Coste"
+      }
     },
     "accounts": {
       "title": "Accounts",

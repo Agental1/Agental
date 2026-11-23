@@ -1,4 +1,4 @@
-import { ClaimInput, claimCastingJobs, n8nAuth, queueScheduledSearches } from "@/lib/n8n/casting";
+import { ClaimInput, claimCastingJobs, n8nAuth, queueScheduledSearches, searchCostCeilingUsd } from "@/lib/n8n/casting";
 import { workflowMode } from "@/domain/workflow/eligibility";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,8 @@ export async function POST(req: Request) {
     const mode = workflowMode();
     const scheduled = await queueScheduledSearches(now, mode);
     const { jobs, canceled } = await claimCastingJobs(body.data, { now, mode });
-    return Response.json({ jobs, scheduled, canceled, mode }, { headers });
+    // Round 9: the per-search cost ceiling the workflow must stop at.
+    return Response.json({ jobs, scheduled, canceled, mode, limits: { costCeilingUsd: searchCostCeilingUsd() } }, { headers });
   } catch (error) {
     console.error("[n8n] casting claim failed:", error instanceof Error ? error.name : "Error");
     return Response.json({ error: "unavailable" }, { status: 503, headers });

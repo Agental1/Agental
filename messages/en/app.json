@@ -430,7 +430,18 @@
       "responses": "Responses ready for review",
       "responsesHelp": "Roles performers accepted and answered. Nothing was sent to a casting site.",
       "noResponses": "No response submitted yet.",
-      "videoN": "Video {n}"
+      "videoN": "Video {n}",
+      "cost": {
+        "title": "AI cost, last 30 days",
+        "lead": "Tokens and cost per provider, as the workflows and the assistant report them. Each search stops at {ceiling} (SEARCH_COST_CEILING_USD); a search that reports more alerts the admins.",
+        "empty": "No AI cost recorded yet. Searches report their cost once n8n is connected.",
+        "provider": "Provider",
+        "kind": "Job",
+        "jobs": "Jobs",
+        "tokens": "Tokens",
+        "cost": "Cost",
+        "column": "Cost"
+      }
     },
     "accounts": {
       "title": "Accounts",

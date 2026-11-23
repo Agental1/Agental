@@ -193,8 +193,17 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
 - **The Limelight confirmation is a transactional email** (a reply to the person's own request,
   like the sign-up email): it is sent in test mode too. At most 100 a day. Open: Turnstile on the
   public Limelight form before launch (today 5 requests per 10 minutes per IP).
-- Automatic searches per 30 days for paid plans, email categories, SMS: see the group sections
-  below as they land.
+- **Automatic searches per 30 days** (group 4): Basic 1 (founders), Pro 10, Premium 50, Ultimate
+  100: 20% of each plan's allowance, the same ratio as Basic (`autoSearches`, `src/domain/pricing.ts`).
+- **Cost ceiling per search: $0.50** (`SEARCH_COST_CEILING_USD`). A run makes a fixed number of
+  calls (1 to 2 Perplexity searches, up to 10 page reads, 1 gpt-6-luna call capped at 4,200 output
+  tokens), about $0.005 to $0.06 for one performer at November 2026 prices, so $0.50 only trips on a
+  runaway. Over the ceiling: recorded, the admins alerted once; a workflow that stops reports
+  `cost_ceiling` and the search is failed (it gives its place back).
+- **Prices used for the AI cost** (checked 2026-11-22): gpt-6-luna $0.10 / $0.50 per million input /
+  output tokens; Perplexity Search $5 per 1,000 requests, Context $1 per 1,000 URLs; Claude Haiku 5.5
+  $0.10 / $0.50 per million. Re-check before go-live.
+- Email categories, SMS: see the group sections below as they land.
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 

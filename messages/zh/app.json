@@ -430,7 +430,18 @@
       "responses": "待审核的回复",
       "responsesHelp": "艺人已接受并回复的角色。未向选角网站发送任何内容。",
       "noResponses": "尚无已提交的回复。",
-      "videoN": "视频 {n}"
+      "videoN": "视频 {n}",
+      "cost": {
+        "title": "AI 费用（最近 30 天）",
+        "lead": "各提供商的 token 和费用，以工作流和助手上报为准。每次搜索在 {ceiling} 处停止（SEARCH_COST_CEILING_USD）；超出时会提醒管理员。",
+        "empty": "尚无 AI 费用记录。n8n 连接后，搜索会上报费用。",
+        "provider": "提供商",
+        "kind": "任务",
+        "jobs": "任务数",
+        "tokens": "Token",
+        "cost": "费用",
+        "column": "费用"
+      }
     },
     "accounts": {
       "title": "Accounts",

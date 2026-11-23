@@ -67,6 +67,10 @@ export default async function CandidaturesPage({
     .filter((r) => r.status === "queued")
     .sort((a, b) => (a.scheduledFor ?? a.createdAt).getTime() - (b.scheduledFor ?? b.createdAt).getTime());
   const running = searches.filter((r) => r.status === "running");
+  // Round 9: a failed search is shown for a week, so the performer knows it gave its place back.
+  const failed = searches.filter(
+    (r) => r.status === "failed" && now.getTime() - (r.completedAt ?? r.createdAt).getTime() < 7 * 24 * 60 * 60 * 1000
+  );
   const finished = searches
     .filter((r) => r.status === "done")
     .sort((a, b) => (b.completedAt ?? b.createdAt).getTime() - (a.completedAt ?? a.createdAt).getTime());
@@ -248,6 +252,16 @@ export default async function CandidaturesPage({
           <p className="text-sm text-fg-muted">
             {t("space.candidatures.finished.last", { date: dateTime(finished[0].completedAt ?? finished[0].createdAt, locale) })}
           </p>
+        )}
+        {failed.length > 0 && (
+          <ul className="space-y-2">
+            {failed.map((r) => (
+              <li key={r.id} role="status" className="rounded-sedan border border-danger/40 bg-danger/5 p-3 text-sm">
+                {t("space.candidatures.searches.failed")}{" "}
+                <span className="text-fg-muted">{dateTime(r.completedAt ?? r.createdAt, locale)}</span>
+              </li>
+            ))}
+          </ul>
         )}
         {found.length === 0 ? (
           <p className="text-sm text-fg-muted">{t("space.candidatures.finished.empty")}</p>

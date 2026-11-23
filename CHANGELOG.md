@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.20.0] - 2026-11-22
+
+### Added (round 9, group 4)
+
+- **Casting searches through n8n, app side complete.** The claim hands n8n the minimum profile and the per-search cost ceiling ($0.50, `SEARCH_COST_CEILING_USD`); the completion stores ranked roles with the full description for "Get more details" (dates, pay, union, what to send), the drafts for the team, and the tokens and cost per provider (new `AiUsage` table), once even on retry and also for a late completion.
+- Over the ceiling: recorded, the admins alerted once; a search the workflow stops is failed and gives its place back, and a performer with two such stops in a day gets no new automatic search that day.
+- Automatic searches for paid plans: Pro 10, Premium 50, Ultimate 100 per 30 days (proposal, TODO(founders)).
+- Performers see a failed search for a week under "Search finished"; Admin > Applications and AI jobs shows the cost of each search and the last 30 days per provider.
+- n8n "Agental Beta V2 - Direct Replies" (inactive): the ranking node sends the role details and the run's usage.
+
+Migration `20261219000000_round9_ai_usage` (one new table, RLS on).
+
 ## [0.6.19.0] - 2026-11-22
 
 ### Added (round 9, group 2, part 1)
