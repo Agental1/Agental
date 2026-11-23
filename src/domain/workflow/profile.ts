@@ -43,6 +43,8 @@ export interface ProfileFacts {
   preferences: {
     /** The private content boundary, not a general preference. */
     nudity: boolean | null;
+    /** Round 10: the highest maturity rating (G to NC-17), null when not answered. */
+    maxRating?: string | null;
     animals: boolean | null;
     projectTypes: string[];
     /** Paid work only, or open to unpaid work too. */
@@ -153,6 +155,7 @@ export function toProfileFacts(record: ProfileRecord, now: Date): ProfileFacts {
         : null,
     preferences: {
       nudity: boundaries.nudity,
+      maxRating: boundaries.maxRating,
       animals: preferences.animals,
       projectTypes: preferences.projectTypes,
       compensation: preferences.compensation,

@@ -56,8 +56,8 @@ export type Travel = (typeof TRAVEL)[number];
 export const WORK_MODES = ["on_set", "remote"] as const;
 export type WorkMode = (typeof WORK_MODES)[number];
 
-/** Bounds of the playable age range slider (round 8). */
-export const AGE_MIN = 16;
+/** Bounds of the playable age range slider (round 8; from 10 since round 10: some adults look much younger). */
+export const AGE_MIN = 10;
 export const AGE_MAX = 90;
 
 /** Marks a value written by this schema. See readPreferences on why it matters. */
@@ -124,17 +124,31 @@ export function isSkillSpecialty(kind: string): boolean {
 }
 
 /**
- * Optional and private. Shown to the performer only, never to a casting team,
- * and never part of general preferences.
+ * Round 10 (founder): "Maturity rating", the highest rating the performer is
+ * comfortable working on. Replaces the "Content boundaries" heading; the nudity
+ * answer stays as an optional limit under it.
  */
-export const ContentBoundariesInput = z.object({
-  nudity: z.boolean().nullable(),
-});
+export const MATURITY_RATINGS = ["G", "PG", "PG-13", "R", "NC-17"] as const;
+export type MaturityRating = (typeof MATURITY_RATINGS)[number];
+
+/**
+ * Optional and private. Shown to the performer only, never to a casting team,
+ * and never part of general preferences. Each key left out keeps its stored
+ * answer; null clears it.
+ */
+export const ContentBoundariesInput = z
+  .object({
+    nudity: z.boolean().nullable().optional(),
+    maxRating: z.enum(MATURITY_RATINGS).nullable().optional(),
+  })
+  .refine((v) => v.nudity !== undefined || v.maxRating !== undefined);
 export type ContentBoundariesInput = z.infer<typeof ContentBoundariesInput>;
 
 export interface ContentBoundaries {
-  /** true: open to roles with nudity. false: never. null: no answer given. */
+  /** true: open to roles with nudity. false: never ("No nudity"). null: no answer given. */
   nudity: boolean | null;
+  /** The highest rating, or null when never answered. */
+  maxRating: MaturityRating | null;
 }
 
 type Stored = Record<string, unknown>;
@@ -215,11 +229,30 @@ function readStoredPreferences(stored: Stored): Preferences {
 export function readContentBoundaries(raw: unknown): ContentBoundaries {
   const stored = parseStored(raw);
   const own = stored.contentBoundaries;
+  let nudity: boolean | null = stored.nudity === true ? true : null;
+  let rating: MaturityRating | null = null;
   if (own && typeof own === "object" && !Array.isArray(own)) {
-    const nudity = (own as Stored).nudity;
-    return { nudity: typeof nudity === "boolean" ? nudity : null };
+    const n = (own as Stored).nudity;
+    nudity = typeof n === "boolean" ? n : null;
+    rating = one((own as Stored).maxRating, MATURITY_RATINGS);
   }
-  return { nudity: stored.nudity === true ? true : null };
+  return { nudity, maxRating: rating ?? ratingFromNudity(nudity) };
+}
+
+/**
+ * Round 10: answers given before the maturity rating existed map to the
+ * closest rating. "Open to nudity" is R (the lowest rating where nudity is
+ * common); "no nudity" or no answer says nothing about a rating.
+ */
+function ratingFromNudity(nudity: boolean | null): MaturityRating | null {
+  return nudity === true ? "R" : null;
+}
+
+function storedBoundaries(b: ContentBoundaries): Stored | null {
+  const out: Stored = {};
+  if (b.nudity !== null) out.nudity = b.nudity;
+  if (b.maxRating !== null) out.maxRating = b.maxRating;
+  return Object.keys(out).length > 0 ? out : null;
 }
 
 /** Keys the Preferences form owns. Everything else in the column is kept. */
@@ -259,7 +292,8 @@ export function mergePreferences(raw: unknown, input: z.output<typeof Preference
   // of this form settles them (see readPreferences).
   next.merged = true;
 
-  if (boundaries.nudity !== null) next.contentBoundaries = { nudity: boundaries.nudity };
+  const kept = storedBoundaries(boundaries);
+  if (kept) next.contentBoundaries = kept;
   else delete next.contentBoundaries;
   next.v = PREFERENCES_VERSION;
   return next;
@@ -273,11 +307,15 @@ export function mergePreferences(raw: unknown, input: z.output<typeof Preference
  */
 export function mergeContentBoundaries(raw: unknown, input: ContentBoundariesInput): Stored {
   const stored = parseStored(raw);
-  const current = readPreferences(stored);
-  const next = mergePreferences(stored, current);
+  const next = mergePreferences(stored, readPreferences(stored));
   // Only a Preferences save settles the specialty merge; this one keeps it open.
   if (stored.merged !== true) delete next.merged;
-  if (input.nudity === null) delete next.contentBoundaries;
-  else next.contentBoundaries = { nudity: input.nudity };
+  const current = readContentBoundaries(stored);
+  const updated = storedBoundaries({
+    nudity: input.nudity === undefined ? current.nudity : input.nudity,
+    maxRating: input.maxRating === undefined ? current.maxRating : input.maxRating,
+  });
+  if (updated) next.contentBoundaries = updated;
+  else delete next.contentBoundaries;
   return next;
 }

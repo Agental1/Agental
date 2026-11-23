@@ -261,14 +261,15 @@ export async function saveContentBoundaries(input: unknown): Promise<SaveResult>
       preferences: toJson(mergeContentBoundaries(profile.preferences, parsed.data)),
     },
   });
-  if (before.nudity !== parsed.data.nudity) {
+  const after = readContentBoundaries(mergeContentBoundaries(profile.preferences, parsed.data));
+  if (before.nudity !== after.nudity || before.maxRating !== after.maxRating) {
     await audit({
       actorUserId: profile.userId,
       action: "profile.contentBoundaries.update",
       resourceType: "ArtistProfile",
       resourceId: profile.id,
-      before: { answered: before.nudity !== null },
-      after: { answered: parsed.data.nudity !== null },
+      before: { answered: before.nudity !== null, ratingAnswered: before.maxRating !== null },
+      after: { answered: after.nudity !== null, ratingAnswered: after.maxRating !== null },
     });
   }
   revalidatePath("/[locale]/talents/(space)/app/profil", "page");

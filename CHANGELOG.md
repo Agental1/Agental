@@ -3,6 +3,20 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.26.0] - 2026-11-22
+
+### Changed (round 10, group 1: profile fixes)
+
+- **Accents**: about 300, grouped by region (more US, UK, Latin American, African, Asian and Middle Eastern accents). "None" first (exclusive), "Other: write your own" last: what is typed becomes a chip, several allowed.
+- **Phone**: the caret never jumps, Backspace removes one digit even over a parenthesis or a space, a pasted number in any format works ("+1 213 222 7981", "213-222-7981", "(213) 2227981"), a "+" number picks its country, the selector reformats; saved as E.164 only when valid.
+- **Build is required** for 100% (red asterisk). One photo of yourself is the only required media; the other categories say "Optional, highly recommended".
+- **Ages you can play** start at 10.
+- **Maturity rating** replaces "Content boundaries": G, PG, PG-13, R, NC-17, with "No nudity" as an optional limit; an earlier "open to nudity" reads as R.
+- **The account at the bottom left** of the sidebar opens the same menu as the avatar at the top right (picture, email, Profile, Settings, Sign out); folded, the avatar alone opens it.
+- **What is missing, in red**: a red dot and a count on each tab ("Physical · 1"), a red border and "Required" on each missing field, the missing fields as links in the completeness card; "Finish" is on every tab below 100% and walks the missing fields one by one.
+- The `@demo.agental.co` account loses the admin role (W14), audited. Migration `20261223000000_round10_demo_not_admin` (data only).
+- Build log: a read-only round 10 report replaces the round 9 one.
+
 ## [0.6.25.0] - 2026-11-22
 
 ### Added (round 9, group 9)

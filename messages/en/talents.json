@@ -751,6 +751,7 @@
         "birthDate": "add your date of birth",
         "stageName": "add your stage name",
         "height": "add your height",
+        "build": "choose your build",
         "productions": "add a photo from a past production",
         "otherMedia": "add another useful file, such as a voice clip",
         "legalName": "add your legal name",
@@ -797,6 +798,7 @@
         "photos": "Add a photo of yourself",
         "video": "Add a showreel",
         "height": "Add your height",
+        "build": "Choose your build",
         "physical": "Add your hair, eyes or build",
         "bio": "Write a short bio",
         "links": "Add an IMDb or portfolio link",
@@ -821,6 +823,7 @@
         "photos": "Casting directors choose from the photos they can see.",
         "video": "Add a showreel or scenes from past productions. Casting looks at video first.",
         "height": "Many roles state a height.",
+        "build": "Many roles describe build.",
         "physical": "Many roles describe hair, eyes or build.",
         "bio": "A short bio sets you apart in a search.",
         "links": "A link lets casting directors check your credits.",
@@ -1170,7 +1173,9 @@
       "dragHandle": "Drag to move",
       "orderSaved": "Order saved.",
       "dropPhotosOnly": "Photos of yourself takes photos only.",
-      "dropVideosOnly": "General videos takes videos only."
+      "dropVideosOnly": "General videos takes videos only.",
+      "requiredOne": "Required: at least one photo",
+      "recommended": "Optional, highly recommended"
     },
     "profileEditor": {
       "completeness": "Profile completeness",
@@ -1277,10 +1282,20 @@
         "skillsHint": "Everything you can do on screen, on stage or behind the mic."
       },
       "boundaries": {
-        "title": "Content boundaries",
+        "title": "Maturity rating",
         "optional": "Optional",
         "private": "Only you can see this section, and it never appears on your profile.",
-        "nudity": "Roles with nudity"
+        "nudity": "Roles with nudity",
+        "question": "What is the highest rating you're comfortable working on?",
+        "limits": "Specific limits",
+        "noNudity": "No nudity",
+        "ratings": {
+          "G": "G: general audiences",
+          "PG": "PG: parental guidance suggested",
+          "PG-13": "PG-13: parents strongly cautioned",
+          "R": "R: restricted, adult content possible",
+          "NC-17": "NC-17: adults only"
+        }
       },
       "imdbUrl": "IMDb link",
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
@@ -1391,12 +1406,35 @@
         "addOther": "Add \"{value}\"",
         "addLanguage": "Add a language",
         "addAccent": "Add an accent",
-        "noAccents": "I don't do any accents"
+        "noAccents": "None",
+        "writeOwn": "Other: write your own",
+        "writeOwnPlaceholder": "Type an accent, then press Enter"
       },
       "optional": "(optional)",
       "addOwn": "Add your own",
       "addOwnPlaceholder": "Describe your build",
-      "addMore": "Add another"
+      "addMore": "Add another",
+      "missingRequired": "Required",
+      "tabMissing": "{count, plural, one {# required field missing} other {# required fields missing}}",
+      "missingTitle": "{count, plural, one {Missing: # field} other {Missing: # fields}}",
+      "missingField": {
+        "legalName": "Legal name",
+        "birthDate": "Date of birth",
+        "gender": "Gender",
+        "city": "City",
+        "phone": "Phone",
+        "bio": "Bio",
+        "languages": "Languages",
+        "height": "Height",
+        "build": "Build",
+        "hair": "Hair color",
+        "eyes": "Eye color",
+        "photos": "Photo of yourself",
+        "workTypes": "Work you want",
+        "ageRange": "Ages you can play",
+        "compensation": "Paid or unpaid",
+        "dayRate": "Day rate"
+      }
     },
     "rgpd": {
       "intro": "You can export all your data, or permanently delete your account.",

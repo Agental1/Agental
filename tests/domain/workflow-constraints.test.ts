@@ -490,7 +490,7 @@ describe("toProfileFacts", () => {
       specialties: [{ kind: "figuration", level: "CONFIRMED", tags: ["horse riding"] }],
       languages: ["English", "French"],
       minRateCents: null,
-      preferences: { nudity: null, animals: true, projectTypes: ["film"], compensation: null },
+      preferences: { nudity: null, maxRating: null, animals: true, projectTypes: ["film"], compensation: null },
       availability: [
         { from: "2026-12-01", to: "2026-12-05", type: "AVAILABLE", zones: [] },
         { from: "2026-12-20", to: "2026-12-22", type: "UNAVAILABLE", zones: ["Paris"] },
@@ -518,6 +518,7 @@ describe("toProfileFacts", () => {
     );
     expect(facts.preferences).toEqual({
       nudity: false,
+      maxRating: null,
       animals: false,
       projectTypes: ["film"],
       compensation: "paid_only",
@@ -526,7 +527,7 @@ describe("toProfileFacts", () => {
 
   it("leaves an unrecorded preference as null", () => {
     const facts = toProfileFacts({ ...record, preferences: "{}" }, now);
-    expect(facts.preferences).toEqual({ nudity: null, animals: null, projectTypes: [], compensation: null });
+    expect(facts.preferences).toEqual({ nudity: null, maxRating: null, animals: null, projectTypes: [], compensation: null });
   });
 
   it("refuses the 18+ gate to a minor, a flagged profile or a missing birth date", () => {

@@ -751,6 +751,7 @@
         "birthDate": "añade tu fecha de nacimiento",
         "stageName": "añade tu nombre artístico",
         "height": "añade tu estatura",
+        "build": "elige tu complexión",
         "productions": "añade una foto de una producción anterior",
         "otherMedia": "añade otro archivo útil, como un clip de voz",
         "legalName": "añade tu nombre legal",
@@ -797,6 +798,7 @@
         "photos": "Añade una foto tuya",
         "video": "Añade un videobook",
         "height": "Añade tu estatura",
+        "build": "Elige tu complexión",
         "physical": "Añade tu pelo, tus ojos o tu complexión",
         "bio": "Escribe una bio corta",
         "links": "Añade un enlace de IMDb o de portfolio",
@@ -821,6 +823,7 @@
         "photos": "Los directores de casting eligen entre las fotos que ven.",
         "video": "Añade un videobook o escenas de producciones anteriores. El casting mira primero el video.",
         "height": "Muchos papeles indican una estatura.",
+        "build": "Muchos papeles describen la complexión.",
         "physical": "Muchos papeles describen pelo, ojos o complexión.",
         "bio": "Una bio corta te distingue en una búsqueda.",
         "links": "Un enlace permite comprobar tus créditos.",
@@ -1170,7 +1173,9 @@
       "dragHandle": "Arrastrar para mover",
       "orderSaved": "Orden guardado.",
       "dropPhotosOnly": "Fotos tuyas solo acepta fotos.",
-      "dropVideosOnly": "Videos generales solo acepta videos."
+      "dropVideosOnly": "Videos generales solo acepta videos.",
+      "requiredOne": "Obligatorio: al menos una foto",
+      "recommended": "Opcional, muy recomendado"
     },
     "profileEditor": {
       "completeness": "Completitud del perfil",
@@ -1277,10 +1282,20 @@
         "skillsHint": "Todo lo que sabes hacer, en cámara, en escena o al micrófono."
       },
       "boundaries": {
-        "title": "Límites de contenido",
+        "title": "Clasificación",
         "optional": "Opcional",
         "private": "Solo tú ves esta sección, y nunca aparece en tu perfil.",
-        "nudity": "Papeles con desnudos"
+        "nudity": "Papeles con desnudos",
+        "question": "¿Cuál es la clasificación más alta en la que te sientes cómodo trabajando?",
+        "limits": "Límites específicos",
+        "noNudity": "Sin desnudos",
+        "ratings": {
+          "G": "G: todos los públicos",
+          "PG": "PG: se sugiere orientación parental",
+          "PG-13": "PG-13: no recomendada para menores de 13",
+          "R": "R: restringida, posible contenido adulto",
+          "NC-17": "NC-17: solo adultos"
+        }
       },
       "imdbUrl": "Enlace de IMDb",
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
@@ -1391,12 +1406,35 @@
         "addOther": "Añadir \"{value}\"",
         "addLanguage": "Añadir un idioma",
         "addAccent": "Añadir un acento",
-        "noAccents": "No hago ningún acento"
+        "noAccents": "Ninguno",
+        "writeOwn": "Otro: escribe el tuyo",
+        "writeOwnPlaceholder": "Escribe un acento y pulsa Enter"
       },
       "optional": "(opcional)",
       "addOwn": "Añadir la tuya",
       "addOwnPlaceholder": "Describe tu complexión",
-      "addMore": "Añadir otro"
+      "addMore": "Añadir otro",
+      "missingRequired": "Obligatorio",
+      "tabMissing": "{count, plural, one {# campo obligatorio pendiente} other {# campos obligatorios pendientes}}",
+      "missingTitle": "{count, plural, one {Falta # campo} other {Faltan # campos}}",
+      "missingField": {
+        "legalName": "Nombre legal",
+        "birthDate": "Fecha de nacimiento",
+        "gender": "Género",
+        "city": "Ciudad",
+        "phone": "Teléfono",
+        "bio": "Biografía",
+        "languages": "Idiomas",
+        "height": "Estatura",
+        "build": "Complexión",
+        "hair": "Color de pelo",
+        "eyes": "Color de ojos",
+        "photos": "Foto tuya",
+        "workTypes": "Trabajo que buscas",
+        "ageRange": "Edades que puedes interpretar",
+        "compensation": "Pagado o no pagado",
+        "dayRate": "Tarifa diaria"
+      }
     },
     "rgpd": {
       "intro": "Puedes exportar todos tus datos o eliminar definitivamente tu cuenta.",

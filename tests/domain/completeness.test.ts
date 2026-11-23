@@ -48,7 +48,7 @@ const full: CompletenessInput = {
   city: "Los Angeles",
   phone: "+12132227981",
   bio: "Trained at a conservatory.",
-  physical: { ...empty, heightCm: 170, hair: "Brown", eyes: "Green", languages: ["English"] },
+  physical: { ...empty, heightCm: 170, build: "Athletic", hair: "Brown", eyes: "Green", languages: ["English"] },
   media: [{ type: "PHOTO", category: "SELF" }],
   preferences: { ...noPrefs, projectTypes: ["film"], playableAgeMin: 18, playableAgeMax: 25, compensation: "paid_or_unpaid" },
 };
@@ -74,6 +74,7 @@ describe("scoreProfile (round 8: required fields only)", () => {
       bio: { bio: "" },
       languages: { physical: { ...full.physical, languages: [] } },
       height: { physical: { ...full.physical, heightCm: undefined } },
+      build: { physical: { ...full.physical, build: "" } },
       hair: { physical: { ...full.physical, hair: undefined } },
       eyes: { physical: { ...full.physical, eyes: "" } },
       photos: { media: [{ type: "VIDEO", category: "SELF" }] },

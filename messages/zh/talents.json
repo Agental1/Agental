@@ -751,6 +751,7 @@
         "birthDate": "填写出生日期",
         "stageName": "填写艺名",
         "height": "填写身高",
+        "build": "选择你的体型",
         "productions": "添加一张过往作品的照片",
         "otherMedia": "添加其他有用的文件，例如声音片段",
         "legalName": "填写法定姓名",
@@ -797,6 +798,7 @@
         "photos": "添加一张你的照片",
         "video": "添加作品集锦",
         "height": "填写身高",
+        "build": "选择你的体型",
         "physical": "填写发色、眼睛颜色或体型",
         "bio": "写一段简短简介",
         "links": "添加 IMDb 或作品集链接",
@@ -821,6 +823,7 @@
         "photos": "选角导演从他们能看到的照片中挑选。",
         "video": "添加作品集锦或过往作品片段。选角方会先看视频。",
         "height": "许多角色会注明身高。",
+        "build": "很多角色会描述体型。",
         "physical": "许多角色会描述发色、眼睛颜色或体型。",
         "bio": "简短简介能让你在搜索中脱颖而出。",
         "links": "链接方便选角导演核实你的履历。",
@@ -1170,7 +1173,9 @@
       "dragHandle": "拖动以移动",
       "orderSaved": "顺序已保存。",
       "dropPhotosOnly": "“你的照片”只接受照片。",
-      "dropVideosOnly": "“综合视频”只接受视频。"
+      "dropVideosOnly": "“综合视频”只接受视频。",
+      "requiredOne": "必填：至少一张照片",
+      "recommended": "可选，强烈推荐"
     },
     "profileEditor": {
       "completeness": "资料完成度",
@@ -1277,10 +1282,20 @@
         "skillsHint": "你在镜头前、舞台上或麦克风前能做的一切。"
       },
       "boundaries": {
-        "title": "内容界限",
+        "title": "分级",
         "optional": "选填",
         "private": "只有你能看到这一部分，它也不会出现在你的资料中。",
-        "nudity": "含裸露的角色"
+        "nudity": "含裸露的角色",
+        "question": "你能接受参与的最高分级是什么？",
+        "limits": "具体限制",
+        "noNudity": "不接受裸露",
+        "ratings": {
+          "G": "G：适合所有观众",
+          "PG": "PG：建议家长指导",
+          "PG-13": "PG-13：13岁以下需家长陪同",
+          "R": "R：限制级，可能含成人内容",
+          "NC-17": "NC-17：仅限成人"
+        }
       },
       "imdbUrl": "IMDb 链接",
       "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
@@ -1391,12 +1406,35 @@
         "addOther": "添加“{value}”",
         "addLanguage": "添加语言",
         "addAccent": "添加口音",
-        "noAccents": "我不会任何口音"
+        "noAccents": "无",
+        "writeOwn": "其他：自己填写",
+        "writeOwnPlaceholder": "输入口音，然后按回车"
       },
       "optional": "（选填）",
       "addOwn": "自行填写",
       "addOwnPlaceholder": "描述你的体型",
-      "addMore": "再添加一个"
+      "addMore": "再添加一个",
+      "missingRequired": "必填",
+      "tabMissing": "{count, plural, other {缺少 # 个必填项}}",
+      "missingTitle": "{count, plural, other {缺少 # 项}}",
+      "missingField": {
+        "legalName": "法定姓名",
+        "birthDate": "出生日期",
+        "gender": "性别",
+        "city": "城市",
+        "phone": "电话",
+        "bio": "简介",
+        "languages": "语言",
+        "height": "身高",
+        "build": "体型",
+        "hair": "发色",
+        "eyes": "眼睛颜色",
+        "photos": "你的照片",
+        "workTypes": "想要的工作",
+        "ageRange": "可饰演年龄",
+        "compensation": "有偿或无偿",
+        "dayRate": "日薪"
+      }
     },
     "rgpd": {
       "intro": "你可以导出全部数据，或永久删除你的账号。",

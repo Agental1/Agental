@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { changeCountry, editPhone, type PhoneEditResult } from "@/domain/phone-input";
 import { useTranslations } from "next-intl";
 import { Check, ChevronsUpDown, Loader2, X } from "lucide-react";
 import {
-  AsYouType,
   getCountries,
   getCountryCallingCode,
   parsePhoneNumberFromString,
@@ -274,6 +274,17 @@ export function PhoneField({
   const [country, setCountry] = useState<CountryCode>(parsed?.country ?? "US");
   const [text, setText] = useState(parsed?.isValid() ? parsed.formatNational() : initialText);
   const [error, setError] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  // Round 10: the caret goes back after the same digit once React has rendered
+  // the reformatted text, so it never jumps to the end.
+  const caretRef = useRef<number | null>(null);
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (el && caretRef.current != null && document.activeElement === el) {
+      el.setSelectionRange(caretRef.current, caretRef.current);
+    }
+    caretRef.current = null;
+  }, [text]);
   const regions = useMemo(() => {
     const names = new Intl.DisplayNames(["en"], { type: "region" });
     return COUNTRY_CODES.map((c) => ({
@@ -283,19 +294,17 @@ export function PhoneField({
     })).sort((a, b) => a.label.slice(3).localeCompare(b.label.slice(3)));
   }, []);
 
-  function update(next: string, cc = country) {
-    const formatted = new AsYouType(cc).input(next);
-    // Keep what the person deleted: AsYouType re-adds a closing parenthesis.
-    const shown = next.length < text.length ? next : formatted;
-    setText(shown);
-    const p = parsePhoneNumberFromString(next, cc);
-    if (!next.trim()) {
+  function apply(r: PhoneEditResult) {
+    caretRef.current = r.caret;
+    setText(r.text);
+    if (r.country !== country) setCountry(r.country);
+    if (r.empty) {
       setError(false);
       return;
     }
-    if (p?.isValid()) {
+    if (r.e164 && r.display) {
       setError(false);
-      onValid({ e164: p.number, display: p.formatInternational() });
+      onValid({ e164: r.e164, display: r.display });
     } else {
       setError(true);
       onInvalid();
@@ -313,7 +322,7 @@ export function PhoneField({
           short={(c) => `${flag(c)} +${getCountryCallingCode(c as CountryCode)}`}
           onChange={(c) => {
             setCountry(c as CountryCode);
-            update(text, c as CountryCode);
+            apply(changeCountry(text, c as CountryCode));
           }}
         />
         <Input
@@ -323,8 +332,20 @@ export function PhoneField({
           inputMode="tel"
           aria-label={t("phone")}
           aria-invalid={error || undefined}
+          ref={inputRef}
           value={text}
-          onChange={(e) => update(e.target.value)}
+          onChange={(e) => {
+            const native = e.nativeEvent as InputEvent;
+            apply(
+              editPhone({
+                prev: text,
+                next: e.target.value,
+                caret: e.target.selectionStart ?? e.target.value.length,
+                country,
+                forward: native.inputType === "deleteContentForward",
+              })
+            );
+          }}
         />
       </div>
       {error && <p role="alert" className="text-xs text-danger">{t("phoneInvalid")}</p>}
@@ -346,7 +367,13 @@ export function ChipMultiSelect({
   match,
   placeholder,
   none,
+  writeOwn,
 }: {
+  /**
+   * Round 10 (accents): a last option, "Other: write your own". It puts the
+   * cursor in the search box; what is typed then becomes a chip on Enter.
+   */
+  writeOwn?: { label: string; placeholder: string };
   label: string;
   values: string[];
   onChange: (next: string[]) => void;
@@ -360,6 +387,8 @@ export function ChipMultiSelect({
   const t = useTranslations("talents.space.profileEditor.smart");
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [writing, setWriting] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
   const add = (v: string) => {
     const clean = v.trim().slice(0, 60);
     // Typing the stored "none" value itself means the none option.
@@ -405,7 +434,13 @@ export function ChipMultiSelect({
           ))}
         </ul>
       )}
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover
+        open={open}
+        onOpenChange={(o) => {
+          setOpen(o);
+          if (!o) setWriting(false);
+        }}
+      >
         <PopoverTrigger asChild>
           <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={label} className={triggerClass}>
             <span className="truncate text-fg-subtle">{placeholder}</span>
@@ -414,8 +449,20 @@ export function ChipMultiSelect({
         </PopoverTrigger>
         <PopoverContent data-portal="talents" align="start" className="w-[min(22rem,90vw)] p-0">
           <Command shouldFilter={false}>
-            <CommandInput placeholder={t("search")} value={query} onValueChange={setQuery} />
+            <CommandInput
+              ref={searchRef}
+              placeholder={writing && writeOwn ? writeOwn.placeholder : t("search")}
+              value={query}
+              onValueChange={setQuery}
+            />
             <CommandList className="max-h-72">
+              {writing && query.trim() && !exact && (
+                <CommandGroup heading={t("other")}>
+                  <CommandItem value={`own:${query}`} onSelect={() => add(query)}>
+                    {t("addOther", { value: query.trim() })}
+                  </CommandItem>
+                </CommandGroup>
+              )}
               {showNone && none && (
                 <CommandGroup>
                   <CommandItem value={`none:${none.value}`} onSelect={chooseNone}>
@@ -432,14 +479,27 @@ export function ChipMultiSelect({
                   ))}
                 </CommandGroup>
               ))}
-              {query.trim() && !exact && (
+              {!writing && query.trim() && !exact && (
                 <CommandGroup heading={t("other")}>
                   <CommandItem value={`other:${query}`} onSelect={() => add(query)}>
                     {t("addOther", { value: query.trim() })}
                   </CommandItem>
                 </CommandGroup>
               )}
-              {!query.trim() && filtered.length === 0 && !showNone && <CommandEmpty>{t("noMatch")}</CommandEmpty>}
+              {writeOwn && !query.trim() && (
+                <CommandGroup>
+                  <CommandItem
+                    value="write-own"
+                    onSelect={() => {
+                      setWriting(true);
+                      window.setTimeout(() => searchRef.current?.focus(), 0);
+                    }}
+                  >
+                    {writeOwn.label}
+                  </CommandItem>
+                </CommandGroup>
+              )}
+              {!query.trim() && filtered.length === 0 && !showNone && !writeOwn && <CommandEmpty>{t("noMatch")}</CommandEmpty>}
             </CommandList>
           </Command>
         </PopoverContent>

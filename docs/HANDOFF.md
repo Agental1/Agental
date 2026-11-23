@@ -1,7 +1,26 @@
 # Handoff for the next model or person
 
-Updated 2026-11-22 (round 9 in progress: read "Round 9 (2026-11-22): start here" first). Older notes: the Round 9 carryover, then "Round 7b" below for
+Updated 2026-11-22 (round 10 in progress: read "Round 10 (2026-11-22): start here" first). Older notes: "Round 9" below, the Round 9 carryover, then "Round 7b" for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
+
+## Round 10 (2026-11-22): start here
+
+Brief: `Agental_Cowork_Round10_Prompt.md` (Desktop). Groups 1 to 4 run without the founder; Group 5
+waits for "Here I am, I can allow everything now", then goes through "Waiting for Jérôme" (in the
+Round 9 section below, plus the round 10 items here) step by step.
+
+Live before round 10: Version 57.
+
+| Group | State | Version |
+|---|---|---|
+| 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
+| 2. Sign-up code and onboarding | | |
+| 3. The green button | | |
+| 4. A clearer admin | | |
+
+### Waiting for Jérôme (round 10 additions)
+
+(none yet)
 
 ## Round 9 (2026-11-22): start here
 
