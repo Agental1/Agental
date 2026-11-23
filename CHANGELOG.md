@@ -3,6 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.12.0] - 2026-11-22
+
+### Added (round 8c, group 6)
+
+- **Terms of Service, as a draft**: `docs/legal/TERMS_DRAFT.md`, written from `docs/DECISIONS.md`, with every point counsel must confirm marked `LAWYER:`. The page `/talents/conditions` exists but answers 404 unless `TERMS_PAGE_ENABLED=true`; it is linked from nowhere, kept out of the sitemap and noindex. Its text comes from the draft without the LAWYER notes.
+
+No migration.
+
 ## [0.6.11.0] - 2026-11-22
 
 ### Added (round 8c, group 4)
