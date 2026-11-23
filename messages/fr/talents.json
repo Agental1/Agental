@@ -1055,12 +1055,14 @@
       "notifications": {
         "lead": "Choisis les e-mails que nous t’envoyons. Chaque réglage est enregistré dès que tu le modifies.",
         "applications": "Candidatures",
-        "applicationsBody": "Quand un rôle est trouvé pour toi ou qu’une candidature change de statut.",
+        "applicationsBody": "Quand une candidature change de statut : self-tape demandée, invitation, contrat ou refus.",
         "messages": "Messages",
-        "messagesBody": "Quand notre équipe ou ton agent t’écrit.",
+        "messagesBody": "Quand notre équipe ou ton agent t’a répondu et que tu n’as pas lu la réponse dans l’heure.",
         "product": "Nouveautés et conseils",
         "productBody": "Quelques nouveautés produit, de temps en temps. Désactivé tant que tu ne l’actives pas.",
-        "saved": "Réglages de notification enregistrés."
+        "saved": "Réglages de notification enregistrés.",
+        "roles": "Rôles trouvés",
+        "rolesBody": "Au plus un e-mail par jour avec les rôles trouvés par ton agent, si tu as choisi e-mail ou les deux ci-dessous."
       },
       "privacyPolicy": "Lire la politique de confidentialité",
       "manage": "Gérer l’abonnement"

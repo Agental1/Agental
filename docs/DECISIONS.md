@@ -207,7 +207,15 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
   `ANTHROPIC_API_KEY` is set; in test mode it answers Test accounts only. Replies per performer per
   day: Basic 10, Pro 30, Premium 60, Ultimate 100; 300 tokens / 900 characters per reply; monthly
   budget $25 in the app, $50 at the Anthropic Console. Past a cap: rules with a one-line note.
-- Email categories, SMS: see the group sections below as they land.
+- **No email category goes out without staff approval** (founder rule): Admin > Controls approves
+  each automatic category (roles found, application updates, new reply, welcome); none is approved
+  by default. Account emails (verification, reset, codes) and the Limelight confirmation are not
+  automatic emails and always go out.
+- **Hourly run through GitHub Actions** (Vercel Hobby allows daily crons only), with the same
+  `CRON_SECRET`; until the founder adds it as a GitHub secret, the emails run once a day (14:00
+  UTC), so "unread after an hour" becomes "unread at the daily run".
+- French emails use "vous" (round 8b rule); the Limelight confirmation follows it again.
+- SMS: see group 8.
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 

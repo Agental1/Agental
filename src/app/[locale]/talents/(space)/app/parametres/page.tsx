@@ -66,6 +66,7 @@ export default async function ParametresPage({
         passwordHash: true,
         locale: true,
         notifyApplications: true,
+        notifyRolesFound: true,
         notifyMessages: true,
         notifyProduct: true,
       },
@@ -151,6 +152,7 @@ export default async function ParametresPage({
         <p className="text-sm text-fg-muted">{t("space.settings.notifications.lead")}</p>
         <NotificationsForm
           initial={{
+            roles: account?.notifyRolesFound ?? true,
             applications: account?.notifyApplications ?? true,
             messages: account?.notifyMessages ?? true,
             product: account?.notifyProduct ?? false,

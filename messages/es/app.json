@@ -264,7 +264,8 @@
       "media": "Medios",
       "emails": "Correos",
       "announcements": "Anuncios",
-      "projects": "Proyectos"
+      "projects": "Proyectos",
+      "controls": "Controles"
     },
     "stats": {
       "artists": "Artistas",
@@ -807,6 +808,40 @@
         "CONTRACTED": "Contratada",
         "REJECTED": "Rechazada"
       }
+    },
+    "controls": {
+      "title": "Controles",
+      "subtitle": "Lo que funciona solo. Cada cambio queda en el registro de auditoría.",
+      "saved": "Guardado.",
+      "emails": {
+        "title": "Correos automáticos",
+        "lead": {
+          "staging": "Modo de prueba: las categorías aprobadas van solo a cuentas de prueba.",
+          "live": "Modo real: las categorías aprobadas van a cada artista que las tenga activadas en Ajustes."
+        },
+        "on": "Aprobada",
+        "off": "No aprobada",
+        "approve": "Aprobar",
+        "stop": "Detener",
+        "categories": {
+          "roles_found": {
+            "name": "Papeles encontrados",
+            "body": "Un resumen diario de los papeles que encontró el agente, si el artista eligió correo o ambos."
+          },
+          "application_update": {
+            "name": "Novedades de candidatura",
+            "body": "Self-tape pedido, invitación, contrato o rechazo."
+          },
+          "message_reply": {
+            "name": "Respuesta nueva en Mensajes",
+            "body": "Una respuesta del agente o del equipo sin leer después de una hora."
+          },
+          "welcome": {
+            "name": "Bienvenida",
+            "body": "Una vez, después de verificar el correo."
+          }
+        }
+      }
     }
   },
   "matchReasons": {
@@ -848,6 +883,63 @@
     "limelightIntro": "Gracias por pedir un sitio de portafolio. El equipo de Agental lee cada solicitud y se pondrá en contacto contigo.",
     "limelightAction": "Ver Limelight",
     "limelightReference": "Referencia de tu solicitud: {reference}",
-    "limelightIgnore": "Si no hiciste esta solicitud, ignora este correo. No pasa nada."
+    "limelightIgnore": "Si no hiciste esta solicitud, ignora este correo. No pasa nada.",
+    "auto": {
+      "signature": "El equipo de Agental",
+      "unsubscribe": "Darse de baja de estos correos",
+      "settings": "Ajustes de correo",
+      "rolesSubject": "Nuevos papeles encontrados para ti",
+      "rolesPreheader": "Abre cada uno para ver los detalles y luego acepta o rechaza.",
+      "rolesHeading": "Papeles nuevos encontrados por tu agente de IA: {count}",
+      "rolesIntro": "Estos papeles pueden encajar con tu perfil. Abre cada uno para leer la descripción completa y luego acéptalo o recházalo. No se envía nada a un equipo de casting sin ti.",
+      "rolesCta": "Ver los papeles",
+      "rolesWhy": "Recibes este correo porque elegiste enterarte por correo de los papeles encontrados. Como máximo uno al día.",
+      "updateSubject": "Novedades sobre {role}",
+      "updatePreheader": "Hay novedades sobre una de tus candidaturas.",
+      "update": {
+        "SELFTAPE_REQUESTED": "El equipo de casting pidió un self-tape para {role}. Abre Candidaturas para ver qué grabar.",
+        "INVITED": "Te invitaron para {role}. Abre Candidaturas para ver los detalles.",
+        "CONTRACTED": "Buenas noticias sobre {role}: el equipo de casting te eligió. Abre Candidaturas para los siguientes pasos.",
+        "REJECTED": "El equipo de casting eligió otra opción para {role}. Tu perfil sigue activo."
+      },
+      "updateHeading": "Novedades de una candidatura",
+      "updateCta": "Abrir Candidaturas",
+      "updateWhy": "Recibes este correo porque las novedades de candidaturas están activadas en tus ajustes.",
+      "replySubject": "Tienes una respuesta nueva en Mensajes",
+      "replyPreheader": "Abre Mensajes para leerla.",
+      "replyHeading": "Respuesta nueva en Mensajes",
+      "replyBody": "Respuestas sin leer de {from}: {count}.",
+      "replyFromTeam": "el equipo de Agental",
+      "replyFromAgent": "tu agente de IA",
+      "replyFromBoth": "tu agente de IA y el equipo de Agental",
+      "replyCta": "Abrir Mensajes",
+      "replyWhy": "Recibes este correo porque una respuesta esperó más de una hora. Los correos de mensajes están activados en tus ajustes.",
+      "welcomeSubject": "Te damos la bienvenida a Agental",
+      "welcomePreheader": "Tu correo está confirmado. Esto es lo que sigue.",
+      "welcomeHeading": "Te damos la bienvenida, {name}",
+      "welcomeHeadingAnon": "Te damos la bienvenida a Agental",
+      "welcomeIntro": "Tu correo está confirmado. Esto es lo que sigue:",
+      "welcomeItems": [
+        "Completa tu perfil al 100 %: tu primera búsqueda de papeles con IA empieza sola.",
+        "Los papeles que pueden encajar contigo aparecen en Candidaturas. Aceptas o rechazas cada uno.",
+        "Tu agente de IA en Mensajes responde tus preguntas, y el equipo de Agental también está ahí."
+      ],
+      "welcomeCta": "Abrir tu panel",
+      "welcomeWhy": "Recibes este correo una sola vez, después de confirmar tu dirección. Los consejos y novedades siguen desactivados salvo que los actives."
+    }
+  },
+  "unsubscribe": {
+    "title": "Preferencias de correo",
+    "invalid": "Este enlace no es válido. Puedes cambiar tus correos en Ajustes después de iniciar sesión.",
+    "confirm": "¿Dejar de recibir {category}?",
+    "button": "Darse de baja",
+    "done": "Listo. Ya no recibirás {category}. Puedes volver a activarlos en Ajustes.",
+    "settings": "Ajustes de correo",
+    "categories": {
+      "roles_found": "correos sobre papeles encontrados",
+      "application_update": "correos sobre candidaturas",
+      "message_reply": "correos sobre respuestas nuevas en Mensajes",
+      "welcome": "correos de consejos y novedades"
+    }
   }
 }

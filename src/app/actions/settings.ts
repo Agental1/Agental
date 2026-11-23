@@ -25,6 +25,8 @@ export async function saveLanguage(input: unknown): Promise<SettingsResult> {
 }
 
 const Notifications = z.object({
+  // Round 9: the "roles found" digest (optional for an older page still open).
+  roles: z.boolean().optional(),
   applications: z.boolean(),
   messages: z.boolean(),
   product: z.boolean(),
@@ -39,6 +41,7 @@ export async function saveNotifications(input: unknown): Promise<SettingsResult>
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
+      ...(parsed.data.roles === undefined ? {} : { notifyRolesFound: parsed.data.roles }),
       notifyApplications: parsed.data.applications,
       notifyMessages: parsed.data.messages,
       notifyProduct: parsed.data.product,

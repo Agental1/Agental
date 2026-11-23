@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.22.0] - 2026-11-22
+
+### Added (round 9, group 6)
+
+- **Automatic emails in the brand** (Talent theme, Helvetica, the A monogram): roles found (a digest, at most one a day, when the contact preference is Email or Both), application updates (self-tape requested, invited, contracted, and now declined), a new reply in Messages unread after an hour, and the welcome once the email is verified. Copy in English, French, Spanish and Chinese.
+- **Two gates**: staff approve each category in the new Admin > Controls (none approved; approving one never sends its backlog), and in test mode only Test accounts receive them. Never a deleted, spam or revoked account; nothing older than 26 hours (a week for the welcome); each run stops claiming after 40 seconds.
+- **Unsubscribe** per category: a signed one-click link (List-Unsubscribe header, page `/desabonnement`) and Settings > Notifications, which gains "Roles found". Account emails stay on.
+- Hourly run through GitHub Actions (`CRON_SECRET` as a GitHub secret), daily through the Vercel cron.
+
+Migrations `20261220000000_round9_auto_emails` (columns, the declined update) and `20261220000100_round9_app_settings` (new table, RLS on).
+
 ## [0.6.21.0] - 2026-11-22
 
 ### Added (round 9, group 5)

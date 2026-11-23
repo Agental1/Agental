@@ -264,7 +264,8 @@
       "media": "Media",
       "emails": "Emails",
       "announcements": "Announcements",
-      "projects": "Projects"
+      "projects": "Projects",
+      "controls": "Controls"
     },
     "stats": {
       "artists": "Artists",
@@ -807,6 +808,40 @@
         "CONTRACTED": "Contracted",
         "REJECTED": "Declined"
       }
+    },
+    "controls": {
+      "title": "Controls",
+      "subtitle": "What runs on its own. Every change is in the audit log.",
+      "saved": "Saved.",
+      "emails": {
+        "title": "Automatic emails",
+        "lead": {
+          "staging": "Test mode: approved categories go to Test accounts only.",
+          "live": "Live mode: approved categories go to every performer who has them on in Settings."
+        },
+        "on": "Approved",
+        "off": "Not approved",
+        "approve": "Approve",
+        "stop": "Stop",
+        "categories": {
+          "roles_found": {
+            "name": "Roles found",
+            "body": "A daily digest of the roles the agent found, when the performer chose email or both."
+          },
+          "application_update": {
+            "name": "Application updates",
+            "body": "Self-tape requested, invited, contracted or declined."
+          },
+          "message_reply": {
+            "name": "New reply in Messages",
+            "body": "A reply from the agent or the team unread after an hour."
+          },
+          "welcome": {
+            "name": "Welcome",
+            "body": "Once, after the email is verified."
+          }
+        }
+      }
     }
   },
   "matchReasons": {
@@ -848,6 +883,63 @@
     "limelightIntro": "Thank you for asking for a portfolio website. The Agental team reads every request and will get back to you.",
     "limelightAction": "See Limelight",
     "limelightReference": "Your request reference: {reference}",
-    "limelightIgnore": "If you did not make this request, ignore this email. Nothing happens."
+    "limelightIgnore": "If you did not make this request, ignore this email. Nothing happens.",
+    "auto": {
+      "signature": "The Agental team",
+      "unsubscribe": "Unsubscribe from these emails",
+      "settings": "Email settings",
+      "rolesSubject": "New roles found for you",
+      "rolesPreheader": "Open each one to see the details, then accept or decline.",
+      "rolesHeading": "New roles found by your AI agent: {count}",
+      "rolesIntro": "These roles may fit your profile. Open each one to read the full description, then accept or decline it. Nothing is sent to a casting team without you.",
+      "rolesCta": "See the roles",
+      "rolesWhy": "You get this email because you chose to hear about roles found by email. At most one a day.",
+      "updateSubject": "Update on {role}",
+      "updatePreheader": "There is news about one of your applications.",
+      "update": {
+        "SELFTAPE_REQUESTED": "The casting team asked for a self-tape for {role}. Open Applications to see what to record.",
+        "INVITED": "You are invited for {role}. Open Applications for the details.",
+        "CONTRACTED": "Good news about {role}: the casting team chose you. Open Applications for the next steps.",
+        "REJECTED": "The casting team went another way for {role}. Your profile stays active."
+      },
+      "updateHeading": "Application update",
+      "updateCta": "Open Applications",
+      "updateWhy": "You get this email because application updates are on in your settings.",
+      "replySubject": "You have a new reply in Messages",
+      "replyPreheader": "Open Messages to read it.",
+      "replyHeading": "New reply in Messages",
+      "replyBody": "Unread replies from {from}: {count}.",
+      "replyFromTeam": "the Agental team",
+      "replyFromAgent": "your AI agent",
+      "replyFromBoth": "your AI agent and the Agental team",
+      "replyCta": "Open Messages",
+      "replyWhy": "You get this email because a reply waited more than an hour. Message emails are on in your settings.",
+      "welcomeSubject": "Welcome to Agental",
+      "welcomePreheader": "Your email is confirmed. Here is what comes next.",
+      "welcomeHeading": "Welcome, {name}",
+      "welcomeHeadingAnon": "Welcome to Agental",
+      "welcomeIntro": "Your email is confirmed. Here is what comes next:",
+      "welcomeItems": [
+        "Complete your profile to 100%: your first AI role search then starts on its own.",
+        "Roles that may fit you appear in Applications. You accept or decline each one.",
+        "Your AI agent in Messages answers your questions, and the Agental team is there too."
+      ],
+      "welcomeCta": "Open your dashboard",
+      "welcomeWhy": "You get this email once, after confirming your address. Tips and news stay off unless you turn them on."
+    }
+  },
+  "unsubscribe": {
+    "title": "Email preferences",
+    "invalid": "This link is not valid. You can change your emails in Settings once signed in.",
+    "confirm": "Stop {category}?",
+    "button": "Unsubscribe",
+    "done": "Done. You will no longer get {category}. You can turn them back on in Settings.",
+    "settings": "Email settings",
+    "categories": {
+      "roles_found": "emails about roles found",
+      "application_update": "emails about application updates",
+      "message_reply": "emails about new replies in Messages",
+      "welcome": "tips and news emails"
+    }
   }
 }
