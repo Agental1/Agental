@@ -1,9 +1,9 @@
 /**
  * Translation guard. Two checks, one exit code.
  *
- *   bun run i18n:check              both checks
- *   bun run i18n:check --parity     key parity only
- *   bun run i18n:check --leaks      source-literal scan only
+ *   pnpm i18n:check              both checks
+ *   pnpm i18n:check --parity     key parity only
+ *   pnpm i18n:check --leaks      source-literal scan only
  *
  * Parity is the hard signal: English is the reference locale, and any key it has
  * that another locale lacks is a message a visitor will not see translated.

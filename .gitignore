@@ -42,7 +42,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Agental extraction pipeline (generated, regenerable via bun tools/extract/run.ts)
+# Agental extraction pipeline (generated, regenerable via pnpm tsx tools/extract/run.ts)
 /tools/extract/out/
 /public/fonts/
 

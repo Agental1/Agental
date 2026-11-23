@@ -1052,7 +1052,14 @@
     },
     "profile": {
       "title": "Mi perfil",
-      "subtitle": "Un perfil que se parece a ti: es lo que la IA usa para encontrar encajes."
+      "subtitle": "Un perfil que se parece a ti: es lo que la IA usa para encontrar encajes.",
+      "relink": {
+        "city": "No encontramos tu ciudad \"{city}\" en nuestra lista. Elígela de la lista para que encontremos papeles cerca de ti.",
+        "cityAction": "Elegir mi ciudad",
+        "phone": "No pudimos leer tu número de teléfono. Revísalo para que podamos contactarte.",
+        "phoneAction": "Corregir mi número",
+        "label": "Datos que corregir"
+      }
     },
     "selftape": {
       "title": "Reel y self-tape",

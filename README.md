@@ -6,7 +6,7 @@ Agence artistique nativement augmentée par IA. Deux portails sur une seule base
 - **Casting** (B2B, vouvoiement, peau sombre) — `/[locale]/casting/**`
 
 Next.js 16 (App Router, webpack), next-intl, Prisma 7 + PostgreSQL (Supabase), Cloudflare R2
-pour les médias, Tailwind v4, Vitest, bun.
+pour les médias, Tailwind v4, Vitest, pnpm.
 
 > **Lisez `AGENTS.md` avant d'écrire du code.** Cette version de Next.js diffère des
 > conventions courantes ; la doc de référence est embarquée dans
@@ -14,15 +14,15 @@ pour les médias, Tailwind v4, Vitest, bun.
 
 ## Démarrer
 
-Prérequis : [bun](https://bun.sh) ≥ 1.2. Node n'est pas nécessaire.
+Prérequis : Node 22 ou plus et pnpm 10 (`corepack enable`, la version est fixée par `packageManager`).
 
 ```bash
-bun install                       # `postinstall` lance prisma generate
+pnpm install                      # `postinstall` lance prisma generate
 cp .env.example .env              # puis renseigner les 4 valeurs ci-dessous
 openssl rand -base64 32           # une valeur pour AUTH_SECRET
-bun run db:migrate                # applique les migrations sur votre base
-bun run db:seed                   # jeu de démo FR (idempotent)
-bun run dev                       # http://localhost:3000
+pnpm db:migrate                     # applique les migrations sur votre base
+pnpm db:seed                        # jeu de démo FR (idempotent)
+pnpm dev                            # http://localhost:3000
 ```
 
 Il faut une base PostgreSQL. La production tourne sur Supabase et le développement
@@ -40,14 +40,14 @@ En local, laissez les quatre variables `R2_*` vides : les fichiers atterrissent 
 une configuration partielle est refusée au démarrage plutôt que de retomber
 silencieusement sur un disque que l'hébergeur efface à chaque déploiement.
 
-`bun install` seul ne suffit pas : `src/generated/` est gitignoré et le client Prisma est
+`pnpm install` seul ne suffit pas : `src/generated/` est gitignoré et le client Prisma est
 généré au `postinstall`. Sans `DATABASE_URL`, l'application refuse de démarrer avec un
 message qui dit quoi faire — elle retombait avant sur un fichier SQLite absent, ce qui
 donnait un déploiement d'apparence saine qui échouait à la première requête.
 
 ### Comptes de démonstration
 
-Mot de passe commun : `demo1234`. Le seed refuse de tourner sans `ALLOW_DEMO_SEED=true` (déjà posé par `bun run db:seed`) : ne le lancez jamais contre une base réelle. `bun run db:purge-demo` retire ces comptes d'une base (simulation par défaut, `-- --apply` pour supprimer).
+Mot de passe commun : `demo1234`. Le seed refuse de tourner sans `ALLOW_DEMO_SEED=true` (déjà posé par `pnpm db:seed`) : ne le lancez jamais contre une base réelle. `pnpm db:purge-demo` retire ces comptes d'une base (simulation par défaut, `-- --apply` pour supprimer).
 
 | Rôle | Email |
 |------|-------|
@@ -62,16 +62,16 @@ surfaces protégées sont inatteignables sur une base fraîche.
 
 | Commande | Effet |
 |----------|-------|
-| `bun run dev` | Serveur de développement |
-| `bun run build` / `start` | Build de production et service |
-| `bun run test` / `test:watch` | Tests unitaires et d'intégration (Vitest) |
-| `bun run typecheck` | `tsc --noEmit` |
-| `bun run lint` | ESLint |
-| `bun run i18n:check` | Parité des clés de traduction + détection de fuite de français |
-| `bun run a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
-| `bun run db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
-| `bun run db:lowercase-emails` | Liste les comptes dont l'email ne diffère que par la casse : la migration `20261120000000_normalize_user_emails` s'arrête tant qu'il en reste (simulation par défaut, `-- --apply` pour réécrire les autres). Marche à suivre : `docs/SUPABASE_ENVIRONMENTS.md` |
-| `bun run extract` | Pipeline d'extraction des assets de charte |
+| `pnpm dev` | Serveur de développement |
+| `pnpm build` / `start` | Build de production et service |
+| `pnpm test` / `test:watch` | Tests unitaires et d'intégration (Vitest) |
+| `pnpm typecheck` | `tsc --noEmit` |
+| `pnpm lint` | ESLint |
+| `pnpm i18n:check` | Parité des clés de traduction + détection de fuite de français |
+| `pnpm a11y:check` | Aucune cible interactive sous 24×24 px à 375 px (WCAG 2.5.8 AA) |
+| `pnpm db:migrate` / `db:deploy` / `db:seed` / `db:studio` | Prisma (`db:deploy` = migrations en production) |
+| `pnpm db:lowercase-emails` | Liste les comptes dont l'email ne diffère que par la casse : la migration `20261120000000_normalize_user_emails` s'arrête tant qu'il en reste (simulation par défaut, `-- --apply` pour réécrire les autres). Marche à suivre : `docs/SUPABASE_ENVIRONMENTS.md` |
+| `pnpm extract` | Pipeline d'extraction des assets de charte |
 
 ### Tests
 
@@ -97,14 +97,14 @@ navigateur ci-dessous : tailles rendues, contraste, fuites de langue.
 `a11y:check` pilote un Chromium via Playwright. Une seule installation :
 
 ```bash
-bunx playwright install chromium
+pnpm exec playwright install chromium
 ```
 
 Le seuil par défaut est **24 px**, celui de WCAG 2.5.8 (niveau AA) — pas 44,
 qui relève de SC 2.5.5 (AAA) et des recommandations Apple. `--min 44` mesure
 l'écart de confort sans le rendre bloquant. `--base <url>` vise un autre
 serveur : le lancer contre `next dev` est lent, la compilation à froid de
-chaque route dépassant le délai ; préférez `bun run build && bun run start`.
+chaque route dépassant le délai ; préférez `pnpm build && pnpm start`.
 
 ## Mode démo (`?demo`)
 

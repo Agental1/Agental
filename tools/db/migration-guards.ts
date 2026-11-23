@@ -1,6 +1,6 @@
 /**
  * Static checks on the SQL in prisma/migrations, read as text, so they run in
- * `bun run test` with no database. tests/db/migration-guards.test.ts applies
+ * `pnpm test` with no database. tests/db/migration-guards.test.ts applies
  * them to every migration in the repository.
  *
  * They hold the rules from docs/DATA_SECURITY.md that a review can miss:

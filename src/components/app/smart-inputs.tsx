@@ -197,7 +197,7 @@ export function LocationField({
       </div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={t("city")} className={triggerClass}>
+          <button type="button" data-focus-target aria-haspopup="listbox" aria-expanded={open} aria-label={t("city")} className={triggerClass}>
             <span className={cn("truncate", !picked && "text-fg-subtle")}>
               {picked || (legacy ? t("legacyCity", { city: legacy }) : t("cityPlaceholder"))}
             </span>
@@ -317,6 +317,7 @@ export function PhoneField({
           }}
         />
         <Input
+          data-focus-target
           type="tel"
           autoComplete="tel-national"
           inputMode="tel"

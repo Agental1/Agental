@@ -1,8 +1,8 @@
 /**
  * Trim and lowercase every User.email, the form signup now stores.
  *
- *   bun tools/db/lowercase-emails.ts           # dry run: lists changes and collisions
- *   bun tools/db/lowercase-emails.ts --apply   # writes the changes
+ *   pnpm tsx tools/db/lowercase-emails.ts           # dry run: lists changes and collisions
+ *   pnpm tsx tools/db/lowercase-emails.ts --apply   # writes the changes
  *
  * The migration 20261120000000_normalize_user_emails does the same rewrite on
  * deploy, and refuses to run while two accounts share an email once

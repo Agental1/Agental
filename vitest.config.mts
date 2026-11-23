@@ -10,7 +10,7 @@ import { defineConfig } from "vitest/config";
  * organisations and checks the wrong one is refused, cleaning up in afterAll.
  *
  * React components and pages are covered by the browser-level guards instead
- * (`bun run a11y:check`, `bun run i18n:check`), which catch what unit tests
+ * (`pnpm a11y:check`, `pnpm i18n:check`), which catch what unit tests
  * structurally cannot — rendered sizes, contrast, and language leaks.
  *
  * `.mts` rather than `.ts`: the config is ESM, and as `.ts` it is loaded as
