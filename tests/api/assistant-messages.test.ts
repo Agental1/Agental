@@ -12,7 +12,8 @@ const session = vi.fn();
 vi.mock("@/auth", () => ({ auth: session }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("@/lib/mailer", () => ({ sendEmail: vi.fn(async () => ({ ok: true, mode: "log" })) }));
-delete process.env.ASSISTANT_MODEL_ENABLED;
+// Round 9: the key alone turns the model on; this file runs with it off.
+process.env.ASSISTANT_MODEL_ENABLED = "false";
 
 const { sendMessage, replyAsTeam } = await import("@/app/actions/messages");
 const { getMyThread, listTeamThreads } = await import("@/lib/messages");

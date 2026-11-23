@@ -203,6 +203,10 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
 - **Prices used for the AI cost** (checked 2026-11-22): gpt-6-luna $0.10 / $0.50 per million input /
   output tokens; Perplexity Search $5 per 1,000 requests, Context $1 per 1,000 URLs; Claude Haiku 5.5
   $0.10 / $0.50 per million. Re-check before go-live.
+- **The assistant** (group 5, `docs/ASSISTANT.md`): Claude Haiku 5.5, on as soon as
+  `ANTHROPIC_API_KEY` is set; in test mode it answers Test accounts only. Replies per performer per
+  day: Basic 10, Pro 30, Premium 60, Ultimate 100; 300 tokens / 900 characters per reply; monthly
+  budget $25 in the app, $50 at the Anthropic Console. Past a cap: rules with a one-line note.
 - Email categories, SMS: see the group sections below as they land.
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)

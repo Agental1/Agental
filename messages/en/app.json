@@ -351,7 +351,8 @@
         "done": "Mark handled"
       },
       "deletedByPerformer": "Deleted by the performer",
-      "deletedByPerformerNote": "The performer deleted this conversation. They no longer see it; it is kept for moderation and legal reasons."
+      "deletedByPerformerNote": "The performer deleted this conversation. They no longer see it; it is kept for moderation and legal reasons.",
+      "aiTag": "AI agent"
     },
     "limelight": {
       "title": "Limelight requests",

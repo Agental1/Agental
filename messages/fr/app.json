@@ -351,7 +351,8 @@
         "done": "Traité"
       },
       "deletedByPerformer": "Supprimée par l’artiste",
-      "deletedByPerformerNote": "L’artiste a supprimé cette conversation. Il ne la voit plus ; elle est conservée pour la modération et pour des raisons légales."
+      "deletedByPerformerNote": "L’artiste a supprimé cette conversation. Il ne la voit plus ; elle est conservée pour la modération et pour des raisons légales.",
+      "aiTag": "Agent IA"
     },
     "limelight": {
       "title": "Demandes Limelight",

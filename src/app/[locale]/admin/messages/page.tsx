@@ -227,6 +227,7 @@ export default async function AdminMessagesPage({
                   teamLabel={t("admin.messages.team")}
                   performerLabel={performerName}
                   assistantLabel={openAgentName ?? t("admin.messages.assistant")}
+                  aiTag={t("admin.messages.aiTag")}
                   topicLabels={{ profile: t("admin.messages.topics.profile"), application: t("admin.messages.topics.application"), other: t("admin.messages.topics.other") }}
                   locale={locale}
                 />

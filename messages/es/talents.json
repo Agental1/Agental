@@ -1554,7 +1554,10 @@
         "application": "Un papel o una candidatura",
         "other": "Otra cosa"
       },
-      "topicRequired": "Elige de qué trata tu mensaje."
+      "topicRequired": "Elige de qué trata tu mensaje.",
+      "limitToday": "Ya usé las respuestas con IA de hoy para tu cuenta, así que esta respuesta es más simple. El equipo también puede ayudarte.",
+      "limitMonth": "Las respuestas con IA están en pausa hasta fin de mes, así que esta respuesta es más simple. El equipo también puede ayudarte.",
+      "aiTag": "Agente IA"
     },
     "library": {
       "empty": "Aún no hay grabaciones. Tus tomas guardadas aparecen aquí.",

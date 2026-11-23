@@ -1554,7 +1554,10 @@
         "application": "角色或申请",
         "other": "其他"
       },
-      "topicRequired": "请选择消息的主题。"
+      "topicRequired": "请选择消息的主题。",
+      "limitToday": "今天你账户的 AI 回答次数已用完，所以这是一个简单的回答。团队也可以帮你。",
+      "limitMonth": "本月剩余时间 AI 回答已暂停，所以这是一个简单的回答。团队也可以帮你。",
+      "aiTag": "AI 代理"
     },
     "library": {
       "empty": "还没有录像。保存的录像会显示在这里。",

@@ -131,6 +131,7 @@ export default async function MessagesPage({
                 teamLabel={t("space.team.title")}
                 performerLabel={t("space.messages.you")}
                 assistantLabel={agentName}
+                aiTag={t("space.assistant.aiTag")}
                 avatars
                 topicLabels={{ profile: t("space.assistant.topics.profile"), application: t("space.assistant.topics.application"), other: t("space.assistant.topics.other") }}
                 locale={locale}
