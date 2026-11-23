@@ -2,7 +2,7 @@ import { type Tally, runCalibration, tally } from "./run";
 import { MAYA_PREFERENCES } from "./performer";
 
 /**
- * Prints the calibration: bun tools/calibration/report.ts
+ * Prints the calibration: pnpm tsx tools/calibration/report.ts
  * Nothing is stored, sent or fetched. No model is called.
  */
 

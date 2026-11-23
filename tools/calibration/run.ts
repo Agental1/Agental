@@ -7,7 +7,7 @@ import { CALIBRATION_NOW, MAYA_PREFERENCES, mayaFacts } from "./performer";
  * One-person calibration: the same labeled briefs through a naive baseline
  * and through the rules of the dry-run path, for one synthetic performer.
  *
- * Print it with: bun tools/calibration/report.ts
+ * Print it with: pnpm tsx tools/calibration/report.ts
  * Nothing is stored, sent or fetched. No model is called.
  */
 

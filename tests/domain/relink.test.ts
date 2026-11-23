@@ -14,4 +14,9 @@ describe("relinkNeeds (round 8c)", () => {
     expect(relinkNeeds({ ...base, city: "Brooklyn-ish" })).toEqual({ city: true, phone: false });
     expect(relinkNeeds({ ...base, phone: "555 0100" })).toEqual({ city: false, phone: true });
   });
+  it("ignores blank text and treats an empty E.164 as unchecked", () => {
+    expect(relinkNeeds({ ...base, city: "   ", phone: " " })).toEqual({ city: false, phone: false });
+    expect(relinkNeeds({ ...base, phone: "555", phoneE164: "" })).toEqual({ city: false, phone: true });
+    expect(relinkNeeds({ ...base, city: "Paris", cityGeonameId: 0 })).toEqual({ city: false, phone: false });
+  });
 });

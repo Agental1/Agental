@@ -1057,7 +1057,8 @@
         "city": "We couldn't match your city \"{city}\" to our list. Pick it from the list so we find roles near you.",
         "cityAction": "Pick my city",
         "phone": "We couldn't read your phone number. Check it so we can reach you.",
-        "phoneAction": "Fix my number"
+        "phoneAction": "Fix my number",
+        "label": "Fix these profile details"
       }
     },
     "selftape": {

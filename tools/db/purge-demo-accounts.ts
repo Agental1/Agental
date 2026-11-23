@@ -1,8 +1,8 @@
 /**
  * Remove the demo accounts created by prisma/seed.ts from a database.
  *
- *   bun run db:purge-demo            # dry run: lists what would be deleted
- *   bun run db:purge-demo -- --apply # deletes it
+ *   pnpm db:purge-demo            # dry run: lists what would be deleted
+ *   pnpm db:purge-demo -- --apply # deletes it
  *
  * Point DATABASE_URL at the database you want to clean (e.g. production) in
  * your own shell, then read the dry-run output before using --apply.

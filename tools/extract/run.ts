@@ -1,7 +1,7 @@
 /**
  * Extraction pipeline entrypoint.
- *   bun tools/extract/run.ts "../Some Bundled Page.html" [moreFiles...]
- *   bun tools/extract/run.ts --all      # process the 4 known mockups
+ *   pnpm tsx tools/extract/run.ts "../Some Bundled Page.html" [moreFiles...]
+ *   pnpm tsx tools/extract/run.ts --all      # process the 4 known mockups
  *
  * For each input: unpack → write fonts → split by data-screen-label →
  * de-DSL notes → re-tokenize inline colors → write fragments + coverage report.

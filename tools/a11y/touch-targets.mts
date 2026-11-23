@@ -1,9 +1,9 @@
 /**
  * Touch-target guard.
  *
- *   bun run a11y:check                     against http://localhost:3000
- *   bun run a11y:check --base https://…    against a deployed origin
- *   bun run a11y:check --min 44            raise the bar past the AA floor
+ *   pnpm a11y:check                     against http://localhost:3000
+ *   pnpm a11y:check --base https://…    against a deployed origin
+ *   pnpm a11y:check --min 44            raise the bar past the AA floor
  *
  * Fails (exit 1) when a visible interactive element is smaller than the
  * threshold at 375px wide.

@@ -1057,7 +1057,8 @@
         "city": "No encontramos tu ciudad \"{city}\" en nuestra lista. Elígela de la lista para que encontremos papeles cerca de ti.",
         "cityAction": "Elegir mi ciudad",
         "phone": "No pudimos leer tu número de teléfono. Revísalo para que podamos contactarte.",
-        "phoneAction": "Corregir mi número"
+        "phoneAction": "Corregir mi número",
+        "label": "Datos que corregir"
       }
     },
     "selftape": {

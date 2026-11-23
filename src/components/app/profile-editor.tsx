@@ -378,20 +378,26 @@ export function ProfileEditor({
   );
 }
 
-/** Scroll to a field and put the cursor in it, once its tab has rendered. */
-function focusField(focus: string) {
-  // A timeout, not requestAnimationFrame: a tab opened in the background
-  // pauses animation frames, and the cursor would never land (round 8c).
+/**
+ * Scroll to a field and put the cursor in it, once its tab has rendered. Timers,
+ * not requestAnimationFrame: a tab opened in the background pauses animation
+ * frames, and the cursor would never land (round 8c). It tries for two seconds,
+ * so a slow phone that renders the tab late still gets the cursor.
+ */
+function focusField(focus: string, tries = 20) {
   window.setTimeout(() => {
     const el = document.querySelector<HTMLElement>(`[data-field="${focus}"]`);
-    if (!el) return;
+    if (!el || el.offsetParent === null) {
+      if (tries > 1) focusField(focus, tries - 1);
+      return;
+    }
     el.scrollIntoView({ block: "center", behavior: "smooth" });
     // A field may name the control to open (the City picker after Country).
     const target =
       el.querySelector<HTMLElement>("[data-focus-target]") ??
       el.querySelector<HTMLElement>("input, textarea, button, [role=combobox], [role=slider]");
     target?.focus({ preventScroll: true });
-  }, 50);
+  }, tries === 20 ? 50 : 100);
 }
 
 /** Confetti, once, unless the system asks for reduced motion. */

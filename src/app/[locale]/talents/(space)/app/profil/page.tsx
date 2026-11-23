@@ -7,7 +7,7 @@ import { ProfileEditor } from "@/components/app/profile-editor";
 import { AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
 import { completenessInputOf, legalNameParts, missingItems, scoreProfile } from "@/domain/completeness";
-import { parseProfileFocus, parseProfileTab } from "@/domain/profile-tabs";
+import { ITEM_TARGET, parseProfileFocus, parseProfileTab } from "@/domain/profile-tabs";
 import { relinkNeeds } from "@/domain/relink";
 import { MapPin, Phone } from "lucide-react";
 import { isoDate } from "@/domain/age";
@@ -76,13 +76,13 @@ export default async function ProfilPage({
         </div>
       </div>
       {(relink.city || relink.phone) && (
-        <ul className="space-y-2" aria-label={t("space.profile.title")}>
+        <ul className="space-y-2" aria-label={t("space.profile.relink.label")}>
           {relink.city && (
             <li className="flex flex-wrap items-center gap-3 rounded-sedan border border-warning/50 bg-surface px-4 py-3 text-[15px]">
               <MapPin aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <p className="min-w-0 flex-1">{t("space.profile.relink.city", { city: profile.city ?? "" })}</p>
               {/* A full load: the editor reads ?tab and ?focus when it mounts. */}
-              <a href={`/${locale}/talents/app/profil?tab=identite&focus=city`} className="font-bold text-accent hover:underline">
+              <a href={`/${locale}/talents/app/profil?tab=${ITEM_TARGET.city.tab}&focus=${ITEM_TARGET.city.focus}`} className="font-bold text-accent hover:underline">
                 {t("space.profile.relink.cityAction")}
               </a>
             </li>
@@ -91,7 +91,7 @@ export default async function ProfilPage({
             <li className="flex flex-wrap items-center gap-3 rounded-sedan border border-warning/50 bg-surface px-4 py-3 text-[15px]">
               <Phone aria-hidden="true" className="size-5 shrink-0 text-accent" />
               <p className="min-w-0 flex-1">{t("space.profile.relink.phone")}</p>
-              <a href={`/${locale}/talents/app/profil?tab=identite&focus=phone`} className="font-bold text-accent hover:underline">
+              <a href={`/${locale}/talents/app/profil?tab=${ITEM_TARGET.phone.tab}&focus=${ITEM_TARGET.phone.focus}`} className="font-bold text-accent hover:underline">
                 {t("space.profile.relink.phoneAction")}
               </a>
             </li>
