@@ -39,18 +39,18 @@ describe.skipIf(!local)("n8n inbox endpoints", () => {
 
   it("records one receipt for the claim, and refuses a receipt for another message", async () => {
     const row = await prisma.inboxReply.findFirstOrThrow({ where: { gmailThreadId: `${T}a` } });
-    const wrong = await post("complete", { claimId: row.claimId, threadId: `${T}b`, messageId: "m1", status: "sent" });
+    const wrong = await post("complete", { claimId: row.claimId, threadId: `${T}b`, messageId: "m1", status: "send_skipped" });
     expect(wrong.body).toMatchObject({ recorded: false });
-    const ok = await post("complete", { claimId: row.claimId, threadId: `${T}a`, messageId: "m1", status: "sent", sentMessageId: "s1", queue: "customer_support", priority: "normal", reason: null });
-    expect(ok.body).toEqual({ recorded: true, status: "sent", duplicate: false });
+    const ok = await post("complete", { claimId: row.claimId, threadId: `${T}a`, messageId: "m1", status: "send_skipped", sentMessageId: "s1", queue: "customer_support", priority: "normal", reason: null });
+    expect(ok.body).toEqual({ recorded: true, status: "send_skipped", duplicate: false });
     const retry = await post("complete", { claimId: row.claimId, threadId: `${T}a`, messageId: "m1", status: "needs_human_review" });
-    expect(retry.body).toMatchObject({ recorded: true, status: "sent", duplicate: true });
+    expect(retry.body).toMatchObject({ recorded: true, status: "send_skipped", duplicate: true });
     expect((await post("complete", { claimId: row.claimId, threadId: `${T}a`, messageId: "m1", status: "deleted" })).status).toBe(400);
   });
 
   it("queues review items for a person, never over a sent reply", async () => {
     expect((await post("review", { threadId: `${T}c`, messageId: "m9", reason: "account_security", queue: "trust_and_safety", priority: "urgent" })).body).toEqual({ queued: true, status: "needs_human_review" });
-    expect((await post("review", { threadId: `${T}a`, messageId: "m1", reason: "x" })).body).toEqual({ queued: false, status: "sent" });
+    expect((await post("review", { threadId: `${T}a`, messageId: "m1", reason: "x" })).body).toEqual({ queued: false, status: "send_skipped" });
     const list = (await listInboxForReview()).filter((r) => r.gmailThreadId.startsWith(T));
     expect(list.map((r) => [r.gmailThreadId, r.reason, r.priority])).toEqual([[`${T}c`, "account_security", "urgent"]]);
   });

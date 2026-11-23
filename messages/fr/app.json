@@ -863,7 +863,8 @@
       "decisions": {
         "sent": "Envoyée",
         "edited": "Modifiée et envoyée",
-        "discarded": "Écartée"
+        "discarded": "Écartée",
+        "expired": "Expirée"
       },
       "results": {
         "sent": "Réponse envoyée.",

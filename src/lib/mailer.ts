@@ -26,6 +26,10 @@ export interface EmailMessage {
   headers?: Record<string, string>;
   /** Round 9: a hidden copy (the team keeps a copy of each approved reply). */
   bcc?: string;
+  /** Round 9: where answers go (the team address on approved replies). */
+  replyTo?: string;
+  /** Round 9: Resend's Idempotency-Key, so a retry after a timeout never sends twice. */
+  idempotencyKey?: string;
 }
 
 /** Writes the admin email log. null turns it off (unit tests). */
@@ -142,6 +146,7 @@ export async function sendEmail(
       headers: {
         Authorization: `Bearer ${setting(env, "RESEND_API_KEY")}`,
         "Content-Type": "application/json",
+        ...(message.idempotencyKey ? { "Idempotency-Key": message.idempotencyKey.slice(0, 256) } : {}),
       },
       body: JSON.stringify({
         from: setting(env, "EMAIL_FROM"),
@@ -151,6 +156,7 @@ export async function sendEmail(
         html: message.html,
         ...(message.headers && Object.keys(message.headers).length ? { headers: message.headers } : {}),
         ...(message.bcc ? { bcc: message.bcc } : {}),
+        ...(message.replyTo ? { reply_to: message.replyTo } : {}),
       }),
       signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
     });

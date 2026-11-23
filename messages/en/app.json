@@ -863,7 +863,8 @@
       "decisions": {
         "sent": "Sent",
         "edited": "Edited and sent",
-        "discarded": "Discarded"
+        "discarded": "Discarded",
+        "expired": "Expired"
       },
       "results": {
         "sent": "Reply sent.",

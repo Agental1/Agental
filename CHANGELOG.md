@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.23.0] - 2026-11-22
+
+### Added (round 9, group 7)
+
+- **Replies to the emails we receive need a staff approval.** "Agental Beta V2 - Direct Replies" now only reads Gmail and drafts; it posts each draft with the original email to the app (`/api/n8n/inbox/draft`) and sends nothing. Admin > Replies to approve shows the original and the draft with Send, Edit then send, and Discard.
+- Only that click sends: through Resend, to the original sender, in the original thread (Re:, In-Reply-To, References), Reply-To and a hidden copy to contact@agental.co, with an idempotency key so a timeout never sends twice. A draft for an email staff already handled is refused; every decision and failed send is audited; texts, addresses and subjects are cleared after 90 days.
+- The app refuses a workflow receipt saying it "sent" a reply. The admin hub counts the replies waiting.
+
+Migration `20261221000000_round9_reply_drafts` (columns).
+
 ## [0.6.22.0] - 2026-11-22
 
 ### Added (round 9, group 6)

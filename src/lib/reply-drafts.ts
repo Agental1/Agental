@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -48,8 +49,10 @@ export async function recordDraft(input: z.infer<typeof InboxDraftInput>, now = 
     return { recorded: false as const, reason: "unknown_claim" };
   }
   if (row.status !== "claimed") return { recorded: true as const, status: row.status, duplicate: true };
+  // Staff already handled this email (marked reviewed): a late draft never revives it.
+  if (row.reviewedAt) return { recorded: false as const, reason: "already_reviewed" };
   const res = await prisma.inboxReply.updateMany({
-    where: { id: row.id, status: "claimed" },
+    where: { id: row.id, status: "claimed", reviewedAt: null },
     data: {
       status: "awaiting_approval",
       fromAddress: input.original.from,
@@ -119,6 +122,9 @@ export async function sendDraft(adminId: string, id: string, editedText?: string
   const res = await sendEmail({
     to: row.fromAddress,
     bcc: TEAM_COPY,
+    replyTo: TEAM_COPY,
+    // The same reply text for the same email is accepted once by Resend, even after a timeout.
+    idempotencyKey: `inbox-reply-${id}-${createHash("sha256").update(text).digest("hex").slice(0, 16)}`,
     kind: "inbox_reply",
     subject: replySubject(row.subject),
     text,
@@ -133,6 +139,7 @@ export async function sendDraft(adminId: string, id: string, editedText?: string
   });
   if (!res.ok || res.mode !== "resend") {
     await prisma.inboxReply.updateMany({ where: { id, status: "sending" }, data: { status: "awaiting_approval", decidedById: null } });
+    await audit({ actorUserId: adminId, action: "admin.reply.send_failed", resourceType: "InboxReply", resourceId: id });
     return { ok: false, reason: "send_failed" };
   }
   await prisma.inboxReply.update({
@@ -156,9 +163,14 @@ export async function discardDraft(adminId: string, id: string, now = new Date()
 /** Email texts older than 90 days are cleared (ids, statuses and decisions stay). */
 export async function purgeOldReplyTexts(now = new Date()) {
   const cutoff = new Date(now.getTime() - TEXT_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+  // A draft nobody decided on in 90 days is closed, then every text, address and subject is cleared.
   await prisma.inboxReply.updateMany({
-    where: { draftedAt: { lt: cutoff }, OR: [{ originalText: { not: null } }, { replyText: { not: null } }] },
-    data: { originalText: null, replyText: null },
+    where: { draftedAt: { lt: cutoff }, status: "awaiting_approval" },
+    data: { status: "discarded", decision: "expired", decidedAt: now },
+  });
+  await prisma.inboxReply.updateMany({
+    where: { draftedAt: { lt: cutoff }, OR: [{ originalText: { not: null } }, { replyText: { not: null } }, { fromAddress: { not: null } }, { subject: { not: null } }] },
+    data: { originalText: null, replyText: null, fromAddress: null, subject: null },
   });
   // A "sending" row left by a crash (the send may or may not have happened) is shown again, marked.
   await prisma.inboxReply.updateMany({

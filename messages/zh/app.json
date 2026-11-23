@@ -863,7 +863,8 @@
       "decisions": {
         "sent": "已发送",
         "edited": "已编辑并发送",
-        "discarded": "已放弃"
+        "discarded": "已放弃",
+        "expired": "已过期"
       },
       "results": {
         "sent": "回复已发送。",
