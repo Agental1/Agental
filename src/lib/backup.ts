@@ -83,10 +83,7 @@ export function expiredBackups(names: string[], now: Date, keepDays = KEEP_DAYS)
   });
 }
 
-export interface StorageEnv {
-  SUPABASE_URL?: string;
-  SUPABASE_SERVICE_ROLE_KEY?: string;
-}
+export type StorageEnv = Record<string, string | undefined>;
 
 /** Store the backup and prune old ones. Throws on a Storage refusal (the cron logs it). */
 export async function storeBackup(
