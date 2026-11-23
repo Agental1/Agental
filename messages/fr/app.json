@@ -637,6 +637,26 @@
       "submit": "Valider",
       "submitting": "Vérification…",
       "lost": "Téléphone perdu ? Demande à l’autre fondateur, ou mets ADMIN_MFA_REQUIRED=false dans Vercel le temps de te réinscrire."
+    },
+    "aiAccounts": {
+      "title": "Comptes IA",
+      "lead": "Dépenses du mois et ce qu’il reste après ta dernière recharge. Agental lit seulement ces chiffres : il ne peut ni ajouter d’argent ni modifier la facturation. Recharge à la main sur le site de chaque fournisseur, puis tape le nouveau solde ici.",
+      "spent": "Dépensé ce mois",
+      "left": "Reste",
+      "source": {
+        "live": "En direct",
+        "notConnected": "Non connecté",
+        "manual": "Saisie manuelle",
+        "error": "Lecture impossible"
+      },
+      "balance": "Solde après ta dernière recharge ($)",
+      "threshold": "Alerte sous ($, 20 par défaut)",
+      "budget": "Budget mensuel ($, alerte à 80 %)",
+      "save": "Enregistrer",
+      "saved": "Enregistré.",
+      "edit": "Modifier le solde et les alertes",
+      "none": "Indisponible",
+      "balanceNote": "Solde de {amount} saisi le {date}."
     }
   },
   "matchReasons": {

@@ -637,6 +637,26 @@
       "submit": "Confirm",
       "submitting": "Checking…",
       "lost": "Lost your phone? Ask the other founder, or set ADMIN_MFA_REQUIRED=false in Vercel until you enroll again."
+    },
+    "aiAccounts": {
+      "title": "AI accounts",
+      "lead": "Spend this month and what is left after your last top-up. Agental only reads these numbers: it cannot add money or change billing. Top up by hand on each provider's site, then type the new balance here.",
+      "spent": "Spent this month",
+      "left": "Left",
+      "source": {
+        "live": "Live",
+        "notConnected": "Not connected",
+        "manual": "Manual entry",
+        "error": "Could not read"
+      },
+      "balance": "Balance after your last top-up ($)",
+      "threshold": "Alert under ($, default 20)",
+      "budget": "Monthly budget ($, alert at 80%)",
+      "save": "Save",
+      "saved": "Saved.",
+      "edit": "Edit balance and alerts",
+      "none": "Not available",
+      "balanceNote": "Balance of {amount} typed {date}."
     }
   },
   "matchReasons": {

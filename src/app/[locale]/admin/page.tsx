@@ -19,6 +19,9 @@ import { jobCounts } from "@/lib/admin/jobs";
 import { countWaitingThreads } from "@/lib/messages";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
+import { AiAccountsCard } from "@/components/admin/ai-accounts-card";
+import { aiAccountStates, sendSpendAlerts } from "@/lib/ai-spend";
+import { PROVIDER_LABEL, dollars, remainingCents } from "@/domain/ai-spend";
 
 export async function generateMetadata({
   params,
@@ -67,6 +70,29 @@ export default async function AdminDashboard({
     { label: t("admin.hub.jobs", { queued: jobs.queued, running: jobs.running, failed: jobs.failed }), value: jobs.queued + jobs.running, icon: FolderKanban, href: "/admin/recherches" },
   ];
 
+  // Round 8d: AI accounts. Reading the card also sends any alert due (once).
+  const aiStates = await aiAccountStates();
+  await sendSpendAlerts(aiStates).catch((e) => console.error("[ai-spend] alerts failed", e instanceof Error ? e.name : "error"));
+  const money = (c: number | null) => (c === null ? "" : (c / 100).toFixed(2));
+  const aiRows = aiStates.map((st) => {
+    const left = remainingCents(st);
+    return {
+      provider: st.provider,
+      label: PROVIDER_LABEL[st.provider],
+      source: st.source,
+      monthSpend: st.monthSpendCents === null ? null : dollars(st.monthSpendCents),
+      remaining: left === null ? null : dollars(left),
+      low: left !== null && left < st.thresholdCents,
+      balance: money(st.balanceCents),
+      threshold: money(st.thresholdCents),
+      budget: money(st.monthlyBudgetCents),
+      balanceNote: st.balanceSetAt
+        ? t("admin.aiAccounts.balanceNote", { amount: dollars(st.balanceCents ?? 0), date: dateTime(st.balanceSetAt, locale) })
+        : null,
+    };
+  });
+  const ai = "admin.aiAccounts" as const;
+
   return (
     <div className="space-y-8">
       <div>
@@ -94,6 +120,29 @@ export default async function AdminDashboard({
           </Link>
         ))}
       </div>
+
+      <AiAccountsCard
+        rows={aiRows}
+        labels={{
+          title: t(`${ai}.title`),
+          lead: t(`${ai}.lead`),
+          spent: t(`${ai}.spent`),
+          left: t(`${ai}.left`),
+          source: {
+            live: t(`${ai}.source.live`),
+            not_connected: t(`${ai}.source.notConnected`),
+            manual: t(`${ai}.source.manual`),
+            error: t(`${ai}.source.error`),
+          },
+          balance: t(`${ai}.balance`),
+          threshold: t(`${ai}.threshold`),
+          budget: t(`${ai}.budget`),
+          save: t(`${ai}.save`),
+          saved: t(`${ai}.saved`),
+          edit: t(`${ai}.edit`),
+          none: t(`${ai}.none`),
+        }}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Link

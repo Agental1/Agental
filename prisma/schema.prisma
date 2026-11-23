@@ -559,6 +559,21 @@ model Message {
   @@schema("public")
 }
 
+/// Round 8d: "AI accounts" on the admin dashboard, one row per provider
+/// (openai, perplexity, anthropic). What the founders type; never a key.
+model AiProviderAccount {
+  provider           String    @id
+  balanceCents       Int?
+  balanceSetAt       DateTime?
+  thresholdCents     Int       @default(2000)
+  monthlyBudgetCents Int?
+  /// JSON string[]: alert keys already sent, so each alert goes out once.
+  lastAlerts         String    @default("[]")
+  updatedAt          DateTime  @default(now()) @updatedAt
+
+  @@schema("public")
+}
+
 /// Round 8d: the admin's authenticator app (TOTP). One per admin; the secret
 /// is encrypted with a key derived from AUTH_SECRET.
 model AdminTotp {

@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.17.0] - 2026-11-22
+
+### Added (round 8d, group 4)
+
+- **AI accounts card on the admin dashboard** for OpenAI, Perplexity and Anthropic (Claude): spend this month, read through each provider's cost report (`OPENAI_ADMIN_KEY`, `ANTHROPIC_ADMIN_KEY` in Vercel; "Not connected" without one), and what is left from the balance typed after each top-up. Perplexity has no spend or balance API: manual entry. Alerts (balance under a threshold, default $20, or 80% of a monthly budget) go once to every admin's bell and to contact@agental.co (logged until Resend is set up), on dashboard load and every 6 hours by cron (needs `CRON_SECRET`).
+- Agental never adds money, buys credit or changes billing at a provider: the code only sends GET requests to the cost reports (tested), and holds no payment method.
+
+Migration `20261216000000_round8d_ai_accounts` (one new table, RLS on).
+
 ## [0.6.16.0] - 2026-11-22
 
 ### Security (round 8d, group 3)

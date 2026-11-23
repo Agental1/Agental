@@ -2,13 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Bell, Megaphone, MessageSquare, Send, Sparkles, type LucideIcon } from "lucide-react";
+import { Bell, Megaphone, MessageSquare, Send, Sparkles, TriangleAlert, type LucideIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { Portal } from "@/lib/utils";
 
-type Kind = "ROLE_FOUND" | "MESSAGE" | "STATUS" | "UPDATE";
+type Kind = "ROLE_FOUND" | "MESSAGE" | "STATUS" | "UPDATE" | "ALERT";
 interface Item {
   key: string;
   kind: Kind;
@@ -23,6 +23,7 @@ interface Item {
 const ICONS: Record<Kind, LucideIcon> = {
   ROLE_FOUND: Sparkles,
   MESSAGE: MessageSquare,
+  ALERT: TriangleAlert,
   STATUS: Send,
   UPDATE: Megaphone,
 };
@@ -190,6 +191,7 @@ export function NotificationBell({ portal }: { portal: Portal }) {
       return name ? t("agentReplied", { name }) : t("assistantReplied");
     }
     if (item.kind === "STATUS") return t("statusChanged");
+    // ALERT titles are written in English by the server for the admins.
     return item.title || role;
   };
 
