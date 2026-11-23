@@ -9,14 +9,21 @@ Brief: `Agental_Cowork_Round10_Prompt.md` (Desktop). Groups 1 to 4 run without t
 waits for "Here I am, I can allow everything now", then goes through "Waiting for Jérôme" (in the
 Round 9 section below, plus the round 10 items here) step by step.
 
-Live before round 10: Version 57.
+Live before round 10: Version 57. Round 10 Groups 1 to 4 are live (Versions 58 to 61); Group 5 waits
+for the founder ("Here I am, I can allow everything now"): go through W0 and W17 below, then the
+round 9 list (W1 to W16) in order, testing each feature right after its key lands.
+
+Known low items left (QA, round 10): admin date filters use UTC while dates show in local time;
+"Can search" shows "-" for Casting and Staff accounts not marked Test (not performers); the CSV
+`can_search` column holds keys (`no: profile_incomplete`); timelines show audit keys; focus inside the
+banner's code dialog; the dashboard says nothing about a pause until a click.
 
 | Group | State | Version |
 |---|---|---|
 | 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
 | 2. Sign-up code and onboarding | live; sending the code waits for W0 (Resend) | 59 |
 | 3. The green button | live; reset 17 accounts (5 waiting searches canceled); the production test (3.5) waits for W0 and W17 | 60 |
-| 4. A clearer admin | live (type, Test badge, Can search, one set of counts, Cookies) | 61 |
+| 4. A clearer admin | live (type, Test badge, Can search, one set of counts, Cookies). Production after the deploy: 17 accounts = 12 Performers + 3 Casting + 2 Staff, 6 Test, 0 Deleted; 6 accounts with a cookie choice recorded, 11 without; visitors recorded from now on | 61 |
 
 ### Why the green button failed for the founder's new account (3.1, read from production 2026-11-23)
 
