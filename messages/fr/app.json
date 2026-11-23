@@ -270,7 +270,8 @@
       "projects": "Projets",
       "controls": "Contrôles",
       "replies": "Réponses à approuver",
-      "ai": "Comptes IA"
+      "ai": "Comptes IA",
+      "cookies": "Cookies"
     },
     "stats": {
       "artists": "Artistes",
@@ -475,7 +476,11 @@
         "website": "Site",
         "status": "Statut",
         "agents": "Agents activés",
-        "lastSignIn": "Dernière connexion ou visite"
+        "lastSignIn": "Dernière connexion ou visite",
+        "type": "Type",
+        "canSearch": "Peut chercher",
+        "searchesUsed": "Recherches ce mois-ci",
+        "cookies": "Cookies"
       },
       "site": {
         "none": "Aucun",
@@ -549,8 +554,7 @@
         "casting": "Casting",
         "staff": "Équipe",
         "test": "Test",
-        "spam": "Spam ou révoqués",
-        "unreviewed": "À vérifier"
+        "blocked": "Bloqués par l’équipe"
       },
       "verifiedYes": "Vérifié",
       "methods": {
@@ -592,6 +596,61 @@
           "test": "Protégé : test",
           "paid": "Protégé : payant ou dans une équipe",
           "deleted": "Supprimé"
+        }
+      },
+      "counts": {
+        "note": "Les chiffres sont les mêmes sur toutes les pages admin. Les comptes supprimés ne sont comptés que dans Supprimés.",
+        "accounts": {
+          "label": "Comptes",
+          "help": "Comptes : toutes les personnes inscrites, de tout type, non supprimées, comptes de test compris."
+        },
+        "performers": {
+          "label": "Artistes",
+          "help": "Artistes : comptes de type Artiste, non supprimés, comptes de test compris."
+        },
+        "casting": {
+          "label": "Casting",
+          "help": "Casting : comptes de type Casting, non supprimés, comptes de test compris."
+        },
+        "staff": {
+          "label": "Équipe",
+          "help": "Équipe : les comptes des fondateurs et de l’équipe, non supprimés, comptes de test compris."
+        },
+        "test": {
+          "label": "Test",
+          "help": "Test : comptes avec l’option Test activée, de tout type, non supprimés. Chacun est aussi compté dans son type."
+        },
+        "deleted": {
+          "label": "Supprimés",
+          "help": "Supprimés : comptes de la liste Supprimés (30 jours), comptés nulle part ailleurs, effacés après 30 jours."
+        }
+      },
+      "marks": {
+        "choose": "Choisir une modification",
+        "TEST": "Test : activé",
+        "UNREVIEWED": "Test : désactivé (retour à la normale)",
+        "staff_on": "Type : Équipe",
+        "staff_off": "Type : Artiste ou Casting (selon l’inscription)",
+        "REVOKED": "Bloquer les recherches IA",
+        "SPAM": "Spam (bloque les recherches IA)"
+      },
+      "canSearchHelp": "La même raison que celle affichée à l’artiste sous le bouton vert.",
+      "types": {
+        "PERFORMER": "Artiste",
+        "CASTING": "Casting",
+        "STAFF": "Équipe"
+      },
+      "testBadge": "Test",
+      "can": {
+        "yes": "Oui",
+        "no": "Non :",
+        "reasons": {
+          "blocked": "bloqué par l’équipe",
+          "not_adult": "moins de 18 ans",
+          "email_unverified": "e-mail non vérifié",
+          "profile_incomplete": "profil sous 100 %",
+          "not_open": "recherches pas encore ouvertes à ce compte (mode test)",
+          "quota": "plus de recherches ce mois-ci"
         }
       }
     },
@@ -944,6 +1003,44 @@
       "texts": "SMS",
       "none": "Aucun sur les 30 derniers jours.",
       "balances": "Soldes, budgets et seuils d’alerte : sur le tableau de bord"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "subtitle": "Qui a accepté les cookies. Comptes : chaque choix avec sa date et la version de la politique (actuelle : {version}). Visiteurs sans compte : totaux par semaine seulement, rien qui les identifie.",
+      "accountsTitle": "Comptes",
+      "visitorsTitle": "Visiteurs sans compte",
+      "visitorsLead": "Totaux par semaine et par choix, enregistrés depuis le round 10 (2026-11-23). Avant, le choix d’un visiteur n’était gardé que dans son propre navigateur.",
+      "visitorsEmpty": "Aucun choix de visiteur enregistré pour l’instant.",
+      "choices": {
+        "accepted_all": "Tout accepté",
+        "rejected": "Non essentiels refusés",
+        "custom": "Personnalisé",
+        "none": "Aucun choix enregistré"
+      },
+      "filters": {
+        "choice": "Choix",
+        "version": "Version de la politique",
+        "from": "Choisi depuis",
+        "to": "Choisi jusqu’au",
+        "all": "Tous",
+        "apply": "Filtrer",
+        "clear": "Effacer"
+      },
+      "csv": "Exporter en CSV",
+      "cols": {
+        "account": "Compte",
+        "choice": "Choix",
+        "categories": "Catégories",
+        "date": "Date",
+        "version": "Version de la politique",
+        "week": "Semaine"
+      },
+      "categories": "Mesure d’audience {analytics} · Marketing {marketing}",
+      "on": "oui",
+      "off": "non",
+      "noVersion": "avant les versions",
+      "weekOf": "Semaine du {date}",
+      "more": "{count} de plus dans l’export CSV."
     }
   },
   "matchReasons": {

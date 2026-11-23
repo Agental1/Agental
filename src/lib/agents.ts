@@ -11,6 +11,7 @@ import {
   type SearchAccess,
 } from "@/domain/workflow/eligibility";
 import { searchAccess } from "@/lib/app-settings";
+import { effectiveStatus } from "@/domain/account-model";
 
 type Db = Pick<Prisma.TransactionClient, "user" | "appSetting">;
 
@@ -32,6 +33,9 @@ export const ELIGIBILITY_SELECT = {
   emailVerified: true,
   passwordHash: true,
   accountStatus: true,
+  isStaff: true,
+  isAdmin: true,
+  kind: true,
   deletedAt: true,
   agentsOptInAt: true,
   autoSearchOptIn: true,
@@ -44,7 +48,8 @@ export type EligibilityRow = Prisma.UserGetPayload<{ select: typeof ELIGIBILITY_
 export function factsFrom(u: EligibilityRow, now = new Date()): Omit<EligibilityFacts, "optedIn"> & { optedIn: boolean } {
   const p = u.artistProfile;
   return {
-    accountStatus: u.accountStatus,
+    // Round 10: Staff accounts never search unless marked Test.
+    accountStatus: effectiveStatus(u),
     emailVerified: emailIsVerified(u),
     isAdult: !!p && !p.isMinor && isAdult(p.birthDate, now),
     profileComplete: !!p && completenessOf(p) === 100,

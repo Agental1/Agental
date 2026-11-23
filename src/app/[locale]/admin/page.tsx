@@ -3,9 +3,6 @@ import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
-  Users,
-  UserCheck,
-  Building2,
   FolderKanban,
   Send,
   ShieldAlert,
@@ -14,7 +11,8 @@ import {
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
-import { signupTotals } from "@/lib/admin/accounts";
+import { accountCounts } from "@/lib/admin/accounts";
+import { CountCard } from "@/components/admin/count-card";
 import { jobCounts } from "@/lib/admin/jobs";
 import { countWaitingThreads } from "@/lib/messages";
 import { countDraftsToApprove } from "@/lib/reply-drafts";
@@ -46,8 +44,8 @@ export default async function AdminDashboard({
 
   const viewerId = await currentAdminId();
   if (!viewerId) notFound();
-  const [totals, waiting, newLeads, jobs, projects, pendingMinors, recentAudits, drafts] = await Promise.all([
-    signupTotals(),
+  const [counts, waiting, newLeads, jobs, projects, pendingMinors, recentAudits, drafts] = await Promise.all([
+    accountCounts(),
     countWaitingThreads(viewerId),
     prisma.limelightLead.count({ where: { status: "NEW" } }),
     jobCounts(),
@@ -57,19 +55,21 @@ export default async function AdminDashboard({
     countDraftsToApprove(),
   ]);
 
+  // Round 10: the same counts and definitions as Admin > Accounts.
+  const c4 = "admin.accounts.counts" as const;
   const kpis = [
-    { label: t("admin.accounts.totals.performers"), value: totals.performers.total, icon: Users, href: "/admin/comptes?group=performers" },
-    { label: t("admin.accounts.totals.casting"), value: totals.casting.total, icon: Building2, href: "/admin/comptes?group=casting" },
-    { label: t("admin.accounts.totals.staff"), value: totals.staff, icon: UserCheck, href: "/admin/comptes?group=staff" },
-    { label: t("admin.accounts.totals.test"), value: totals.test, icon: UserCheck, href: "/admin/comptes?group=test" },
-    { label: t("admin.accounts.totals.spam"), value: totals.spam, icon: ShieldAlert, href: "/admin/comptes?group=spam" },
-    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban, href: "/admin/projets" },
+    { key: "accounts", value: counts.accounts, href: "/admin/comptes" },
+    { key: "performers", value: counts.performers, href: "/admin/comptes?group=performers" },
+    { key: "casting", value: counts.casting, href: "/admin/comptes?group=casting" },
+    { key: "staff", value: counts.staff, href: "/admin/comptes?group=staff" },
+    { key: "test", value: counts.test, href: "/admin/comptes?group=test" },
+    { key: "deleted", value: counts.deleted, href: "/admin/suppression" },
   ];
   const todo = [
+    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban, href: "/admin/projets" },
     { label: t("admin.nav.waiting"), value: waiting, icon: MessageSquare, href: "/admin/messages?waiting=1" },
     { label: t("admin.nav.replies"), value: drafts, icon: Send, href: "/admin/reponses" },
     { label: t("admin.hub.newLeads"), value: newLeads, icon: Send, href: "/admin/limelight?status=NEW" },
-    { label: t("admin.hub.toReview"), value: totals.performers.unreviewed + totals.casting.unreviewed, icon: Users, href: "/admin/comptes?group=unreviewed" },
     { label: t("admin.hub.jobs", { queued: jobs.queued, running: jobs.running, failed: jobs.failed }), value: jobs.queued + jobs.running, icon: FolderKanban, href: "/admin/recherches" },
   ];
 
@@ -105,14 +105,10 @@ export default async function AdminDashboard({
 
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {kpis.map((k) => (
-          <Link key={k.label} href={k.href} className="rounded-sedan border border-border bg-surface p-4 transition-colors hover:border-accent">
-            <k.icon className="size-4 text-accent" />
-            <p className="mt-2 font-display text-2xl tabular-nums">{k.value}</p>
-            <p className="text-xs text-fg-muted">{k.label}</p>
-          </Link>
+          <CountCard key={k.key} label={t(`${c4}.${k.key}.label`)} help={t(`${c4}.${k.key}.help`)} value={k.value} href={k.href} />
         ))}
       </div>
-      <p className="text-xs text-fg-muted">{t("admin.accounts.totals.note")}</p>
+      <p className="text-xs text-fg-muted">{t("admin.accounts.counts.note")}</p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {todo.map((k) => (

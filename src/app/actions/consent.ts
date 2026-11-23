@@ -1,5 +1,7 @@
 "use server";
 
+import { consentChoiceOf, weekStartOf } from "@/domain/consent-choice";
+
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -26,7 +28,12 @@ export async function saveConsent(input: unknown): Promise<SaveConsentResult> {
 
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return { ok: true };
+  if (!userId) {
+    // Round 10: a visitor without an account. Only a weekly total by choice is
+    // kept (nothing that identifies anyone); a failure never blocks the choice.
+    await tallyVisitorChoice(choice).catch(() => undefined);
+    return { ok: true };
+  }
 
   const before = await prisma.user.findUnique({
     where: { id: userId },
@@ -44,4 +51,14 @@ export async function saveConsent(input: unknown): Promise<SaveConsentResult> {
     after: choice,
   });
   return { ok: true };
+}
+
+async function tallyVisitorChoice(choice: { analytics: boolean; marketing: boolean }): Promise<void> {
+  const kind = consentChoiceOf({ consentAnalytics: choice.analytics, consentMarketing: choice.marketing });
+  const weekStart = weekStartOf(new Date());
+  await prisma.consentTally.upsert({
+    where: { weekStart_choice: { weekStart, choice: kind } },
+    create: { weekStart, choice: kind, count: 1 },
+    update: { count: { increment: 1 } },
+  });
 }

@@ -5,8 +5,9 @@ import { toLocale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { accountFiltersFrom, listAccounts, signupTotals, type AccountGroup } from "@/lib/admin/accounts";
-import { ACCOUNT_STATUSES, STAFF_STATUSES, workflowMode } from "@/domain/workflow/eligibility";
+import { accountCounts, accountFiltersFrom, listAccounts, type AccountGroup, type AccountRow } from "@/lib/admin/accounts";
+import { workflowMode } from "@/domain/workflow/eligibility";
+import { CountCard } from "@/components/admin/count-card";
 import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 import { SelectAll } from "@/components/admin/select-all";
 import { BulkBar } from "@/components/admin/bulk-bar";
@@ -22,14 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const PAGE_SIZE = 100;
 
-const STATUS_VARIANT = {
-  UNREVIEWED: "warning",
-  APPROVED: "success",
-  TEST: "accent",
-  STAFF: "neutral",
-  SPAM: "danger",
-  REVOKED: "danger",
-} as const;
+/** Round 10: what staff can mark, in the order of the select. */
+const MARKS = ["TEST", "UNREVIEWED", "staff:on", "staff:off", "REVOKED", "SPAM"] as const;
 
 /**
  * Every account, with the signup totals, filters, CSV export, the review
@@ -53,7 +48,7 @@ export default async function AccountsPage({
   const sp = await searchParams;
   const one = (k: string) => (typeof sp[k] === "string" ? (sp[k] as string) : undefined);
   const f = accountFiltersFrom(one);
-  const [rows, totals] = await Promise.all([listAccounts(f), signupTotals()]);
+  const [rows, counts] = await Promise.all([listAccounts(f), accountCounts()]);
   const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const page = Math.min(pages, Math.max(1, Number.parseInt(one("page") ?? "1", 10) || 1));
   const shown = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -72,13 +67,14 @@ export default async function AccountsPage({
   const select = "h-10 rounded-sedan border border-border bg-surface px-2 text-sm";
   const mode = workflowMode();
 
-  const cards: { label: string; value: number; sub?: string; group?: AccountGroup }[] = [
-    { label: t("admin.accounts.totals.performers"), value: totals.performers.total, sub: t("admin.accounts.totals.split", totals.performers), group: "performers" },
-    { label: t("admin.accounts.totals.casting"), value: totals.casting.total, sub: t("admin.accounts.totals.split", totals.casting), group: "casting" },
-    { label: t("admin.accounts.totals.staff"), value: totals.staff, group: "staff" },
-    { label: t("admin.accounts.totals.test"), value: totals.test, group: "test" },
-    { label: t("admin.accounts.totals.spam"), value: totals.spam, group: "spam" },
-    { label: t("admin.accounts.totals.all"), value: totals.all },
+  const c4 = "admin.accounts.counts" as const;
+  const cards: { key: string; value: number; group?: AccountGroup; href?: string }[] = [
+    { key: "accounts", value: counts.accounts },
+    { key: "performers", value: counts.performers, group: "performers" },
+    { key: "casting", value: counts.casting, group: "casting" },
+    { key: "staff", value: counts.staff, group: "staff" },
+    { key: "test", value: counts.test, group: "test" },
+    { key: "deleted", value: counts.deleted, href: "/admin/suppression" },
   ];
   const a = "admin.accounts" as const;
   const removed = one("removed");
@@ -101,23 +97,18 @@ export default async function AccountsPage({
           {t(`${a}.totals.title`)}
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {cards.map((c) => {
-            const active = c.group ? f.group === c.group : !filtered;
-            return (
-              <Link
-                key={c.label}
-                href={c.group ? `/admin/comptes?group=${c.group}` : "/admin/comptes"}
-                aria-current={active ? "page" : undefined}
-                className={`rounded-sedan border bg-surface p-4 transition-colors hover:border-accent ${active ? "border-accent" : "border-border"}`}
-              >
-                <p className="font-display text-2xl tabular-nums">{c.value}</p>
-                <p className="text-xs font-bold">{c.label}</p>
-                {c.sub && <p className="text-xs text-fg-muted">{c.sub}</p>}
-              </Link>
-            );
-          })}
+          {cards.map((c) => (
+            <CountCard
+              key={c.key}
+              label={t(`${c4}.${c.key}.label`)}
+              help={t(`${c4}.${c.key}.help`)}
+              value={c.value}
+              href={c.href ?? (c.group ? `/admin/comptes?group=${c.group}` : "/admin/comptes")}
+              active={c.href ? false : c.group ? f.group === c.group : !filtered}
+            />
+          ))}
         </div>
-        <p className="text-xs text-fg-muted">{t(`${a}.totals.note`)}</p>
+        <p className="text-xs text-fg-muted">{t(`${c4}.note`)}</p>
         <p className="text-sm font-bold">{t(`${a}.mode.${mode}`)}</p>
       </section>
 
@@ -133,20 +124,9 @@ export default async function AccountsPage({
             {t(`${a}.filters.group`)}
             <select name="group" defaultValue={f.group ?? ""} className={select}>
               <option value="">{t(`${a}.all`)}</option>
-              {(["performers", "casting", "staff", "test", "spam", "unreviewed"] as const).map((g) => (
+              {(["performers", "casting", "staff", "test", "blocked"] as const).map((g) => (
                 <option key={g} value={g}>
                   {t(`${a}.groups.${g}`)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1 text-xs font-bold">
-            {cols("status")}
-            <select name="status" defaultValue={f.status ?? ""} className={select}>
-              <option value="">{t(`${a}.all`)}</option>
-              {ACCOUNT_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {t(`${a}.statuses.${s}`)}
                 </option>
               ))}
             </select>
@@ -198,14 +178,6 @@ export default async function AccountsPage({
               {["FREE", "PRO", "PREMIUM", "ULTIMATE"].map((p) => (
                 <option key={p}>{p}</option>
               ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1 text-xs font-bold">
-            {cols("agents")}
-            <select name="agents" defaultValue={f.agents ?? ""} className={select}>
-              <option value="">{t(`${a}.all`)}</option>
-              <option value="yes">{t(`${a}.yes`)}</option>
-              <option value="no">{t(`${a}.no`)}</option>
             </select>
           </label>
           <label className="flex flex-col gap-1 text-xs font-bold">
@@ -262,11 +234,11 @@ export default async function AccountsPage({
             <span className="font-bold">{t(`${a}.setStatus`)}</span>
             <select name="status" defaultValue="" className={select} aria-label={t(`${a}.setStatus`)}>
               <option value="" disabled>
-                {cols("status")}
+                {t(`${a}.marks.choose`)}
               </option>
-              {STAFF_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {t(`${a}.statuses.${s}`)}
+              {MARKS.map((m) => (
+                <option key={m} value={m}>
+                  {t(`${a}.marks.${m.replace(":", "_")}`)}
                 </option>
               ))}
             </select>
@@ -284,24 +256,21 @@ export default async function AccountsPage({
           </div>
         ) : (
           <div className="overflow-x-auto rounded-sedan border border-border">
-            <table className="w-full min-w-[980px] text-sm">
+            <table className="w-full min-w-[1100px] text-sm">
               <thead className="bg-surface-2 text-left text-fg-muted">
                 <tr>
                   <th className="w-10 p-3">
                     <SelectAll label={t(`${a}.selectAll`)} />
                   </th>
                   <SortHeader label={cols("name")} column="name" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
-                  <th className="p-3 font-medium">{cols("audience")}</th>
+                  <th className="p-3 font-medium">{cols("type")}</th>
+                  <th className="p-3 font-medium">{cols("verified")}</th>
+                  <SortHeader label={cols("completeness")} column="completeness" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
+                  <th className="p-3 font-medium" title={t(`${a}.canSearchHelp`)}>{cols("canSearch")}</th>
+                  <th className="p-3 font-medium">{cols("searchesUsed")}</th>
                   <SortHeader label={cols("created")} column="created" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
                   <SortHeader label={cols("lastSignIn")} column="lastSignIn" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} title={t(`${a}.lastSignInHelp`)} />
-                  <th className="p-3 font-medium">{cols("method")}</th>
-                  <th className="p-3 font-medium">{cols("verified")}</th>
-                  <SortHeader label={cols("status")} column="status" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
-                  <th className="p-3 font-medium" title={t(`${a}.agentsHelp`)}>
-                    {cols("agents")}
-                  </th>
-                  <SortHeader label={cols("plan")} column="plan" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
-                  <SortHeader label={cols("completeness")} column="completeness" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
+                  <th className="p-3 font-medium">{cols("cookies")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -324,33 +293,38 @@ export default async function AccountsPage({
                       </Link>
                       {r.name && <p className="text-xs text-fg-muted">{r.email}</p>}
                     </td>
-                    <td className="p-3">{r.audience === "CASTING" ? t(`${a}.totals.casting`) : t(`${a}.totals.performers`)}</td>
-                    <td className="whitespace-nowrap p-3">{dateTime(r.createdAt, locale)}</td>
                     <td className="whitespace-nowrap p-3">
-                      {r.lastSignInAt ? dateTime(r.lastSignInAt, locale) : <span className="text-fg-muted">{t(`${a}.notRecorded`)}</span>}
-                    </td>
-                    <td className="p-3">{t(`${a}.methods.${r.method}`)}</td>
-                    <td className="whitespace-nowrap p-3" title={t(`${a}.verifiedReadOnly`)}>
-                      {r.verifiedAt === null ? (
-                        <span className="text-fg-muted">{t(`${a}.notVerified`)}</span>
-                      ) : r.verifiedAt.getTime() === 0 ? (
-                        t(`${a}.verifiedGoogle`)
-                      ) : (
-                        t(`${a}.verifiedOn`, { date: dateTime(r.verifiedAt, locale) })
+                      {t(`${a}.types.${r.type}`)}
+                      {r.isTest && (
+                        <Badge variant="accent" className="ml-1.5">
+                          {t(`${a}.testBadge`)}
+                        </Badge>
                       )}
-                    </td>
-                    <td className="whitespace-nowrap p-3">
-                      <Badge variant={STATUS_VARIANT[r.status]}>{t(`${a}.statuses.${r.status}`)}</Badge>
-                      {r.isAdmin && <span className="ml-1 text-xs text-fg-muted">{t(`${a}.admin`)}</span>}
                       {r.block && (
                         <p className="mt-1 text-xs text-fg-muted" title={t(`${a}.bulk.protectedHelp`)}>
                           {t(`${a}.bulk.protected.${r.block}`)}
                         </p>
                       )}
                     </td>
-                    <td className="p-3 font-bold">{r.agentsEnabled ? t(`${a}.yes`) : <span className="font-normal text-fg-muted">{t(`${a}.no`)}</span>}</td>
-                    <td className="p-3">{r.plan || "-"}</td>
+                    <td className="whitespace-nowrap p-3">
+                      {r.verifiedAt === null ? (
+                        <span className="text-danger">{t(`${a}.no`)}</span>
+                      ) : r.verifiedAt.getTime() === 0 ? (
+                        t(`${a}.verifiedGoogle`)
+                      ) : (
+                        t(`${a}.verifiedOn`, { date: dateTime(r.verifiedAt, locale) })
+                      )}
+                    </td>
                     <td className="p-3 tabular-nums">{r.completeness === null ? "-" : `${r.completeness}%`}</td>
+                    <td className="p-3">
+                      <CanSearch value={r.canSearch} t={(k, v) => t(`${a}.can.${k}`, v)} />
+                    </td>
+                    <td className="p-3 tabular-nums">{r.audience === "TALENT" ? r.searchesUsed : "-"}</td>
+                    <td className="whitespace-nowrap p-3">{dateTime(r.createdAt, locale)}</td>
+                    <td className="whitespace-nowrap p-3">
+                      {r.lastSignInAt ? dateTime(r.lastSignInAt, locale) : <span className="text-fg-muted">{t(`${a}.notRecorded`)}</span>}
+                    </td>
+                    <td className="whitespace-nowrap p-3 text-xs">{t(`admin.cookies.choices.${r.consent.choice}`)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -376,5 +350,16 @@ export default async function AccountsPage({
         </nav>
       )}
     </div>
+  );
+}
+
+/** "Can search: Yes" or "No: <reason>", the same reasons the performer sees. */
+function CanSearch({ value, t }: { value: AccountRow["canSearch"]; t: (key: string, values?: Record<string, string | number>) => string }) {
+  if (value === "n/a") return <span className="text-fg-muted">-</span>;
+  if (value === null) return <span className="font-bold text-success">{t("yes")}</span>;
+  return (
+    <span className="text-xs">
+      <span className="font-bold text-danger">{t("no")}</span> {t(`reasons.${value.reason}`)}
+    </span>
   );
 }

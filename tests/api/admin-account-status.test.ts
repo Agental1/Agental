@@ -16,7 +16,7 @@ const redirect = vi.fn();
 vi.mock("@/i18n/navigation", () => ({ redirect }));
 
 const { setAccountStatus, setAccountStatusForm } = await import("@/app/actions/admin-accounts");
-const { listAccounts, signupTotals } = await import("@/lib/admin/accounts");
+const { listAccounts, accountCounts } = await import("@/lib/admin/accounts");
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
 let admin: string;
@@ -110,20 +110,21 @@ describe.skipIf(!local)("account review status", () => {
     expect((await listAccounts({ q: P, status: "TEST" })).map((r) => r.id).sort()).toEqual([a, b].sort());
   });
 
-  it("counts each account once, with staff, test and spam apart", async () => {
-    const before = await signupTotals();
+  it("round 10: counts each account once by type, Test as a flag counted in its type too", async () => {
+    const before = await accountCounts();
     session.mockResolvedValue({ user: { id: admin } });
     await setAccountStatus([plain], "SPAM");
     // Approving by hand no longer exists: eligibility is automatic.
     expect(await setAccountStatus([c], "APPROVED" as never)).toEqual({ ok: false, reason: "invalid" });
-    const after = await signupTotals();
-    expect(after.all).toBe(before.all);
-    expect(after.spam).toBe(before.spam + 1);
-    expect(after.performers.total).toBe(before.performers.total - 1);
-    // An admin counts as staff whatever the status.
+    const after = await accountCounts();
+    expect(after.accounts).toBe(before.accounts);
+    // Spam is not a type: the account is still a Performer.
+    expect(after.performers).toBe(before.performers);
+    // An admin is Staff whatever the status; marking it Test adds it to Test, not to a type.
     await setAccountStatus([admin], "TEST");
-    const again = await signupTotals();
+    const again = await accountCounts();
     expect(again.staff).toBe(after.staff);
-    expect(again.test).toBe(after.test);
+    expect(again.test).toBe(after.test + 1);
+    expect(again.performers + again.casting + again.staff).toBe(again.accounts);
   });
 });

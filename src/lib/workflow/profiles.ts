@@ -2,6 +2,7 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import { toProfileFacts, type ProfileFacts } from "@/domain/workflow/profile";
 import { workflowEligibility, type SearchAccess, type WorkflowMode } from "@/domain/workflow/eligibility";
 import { searchAccess } from "@/lib/app-settings";
+import { effectiveStatus } from "@/domain/account-model";
 import { emailIsVerified } from "@/lib/agents";
 import { completenessOf } from "@/lib/completeness";
 
@@ -59,7 +60,7 @@ export async function loadProfileFacts(
       gender: true,
       phone: true,
       cityGeonameId: true,
-      user: { select: { id: true, emailVerified: true, passwordHash: true, accounts: { select: { provider: true } }, accountStatus: true, agentsOptInAt: true, autoSearchOptIn: true } },
+      user: { select: { id: true, emailVerified: true, passwordHash: true, accounts: { select: { provider: true } }, accountStatus: true, isStaff: true, isAdmin: true, kind: true, agentsOptInAt: true, autoSearchOptIn: true } },
       specialties: { select: { kind: true, level: true, tags: true } },
       availability: { select: { from: true, to: true, type: true, zones: true } },
     },
@@ -76,7 +77,7 @@ export async function loadProfileFacts(
     const facts = toProfileFacts(row, now);
     const eligible = workflowEligibility(
       {
-        accountStatus: row.user.accountStatus,
+        accountStatus: effectiveStatus(row.user),
         emailVerified: emailIsVerified(row.user),
         isAdult: facts.isAdult,
         profileComplete: completenessOf(row) === 100,

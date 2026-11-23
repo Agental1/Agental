@@ -72,7 +72,14 @@ export async function setAccountStatusForm(formData: FormData): Promise<void> {
   const status = String(formData.get("status") ?? "");
   const back = String(formData.get("back") ?? "/admin/comptes");
   const safeBack = /^\/admin\/comptes(\/[A-Za-z0-9_-]+)?(\?[^#]*)?$/.test(back) ? back : "/admin/comptes";
-  const res = isStaffStatus(status) ? await setAccountStatus(ids, status) : ({ ok: false, reason: "invalid" } as const);
+  // Round 10: "staff:on" / "staff:off" change the type; the rest set the status
+  // (Test on = TEST, Test off = UNREVIEWED, Block searches = REVOKED, Spam).
+  const res =
+    status === "staff:on" || status === "staff:off"
+      ? await setAccountStaff(ids, status === "staff:on")
+      : isStaffStatus(status)
+        ? await setAccountStatus(ids, status)
+        : ({ ok: false, reason: "invalid" } as const);
   const [path, query = ""] = safeBack.split("?");
   const qs = new URLSearchParams(query);
   qs.delete("updated");
@@ -80,4 +87,37 @@ export async function setAccountStatusForm(formData: FormData): Promise<void> {
   if (res.ok) qs.set("updated", String(res.changed));
   else qs.set("statusError", res.reason);
   redirect({ href: `${path}?${qs.toString()}`, locale });
+}
+
+/**
+ * Round 10: make accounts Staff (the team's accounts) or give them back their
+ * signed-up type. Admins only, audited per account. The Test flag is kept.
+ */
+export async function setAccountStaff(ids: string[], on: boolean): Promise<SetStatusResult> {
+  const adminId = await currentAdminId();
+  if (!adminId) return { ok: false, reason: "forbidden" };
+  const unique = [...new Set(ids)];
+  if (unique.length === 0 || unique.length > MAX_BULK || !unique.every((id) => ID.test(id))) {
+    return { ok: false, reason: "invalid" };
+  }
+  const changed = await prisma.$transaction(async (tx) => {
+    const rows = await tx.user.findMany({
+      where: { id: { in: unique }, isStaff: !on, deletedAt: null },
+      select: { id: true },
+    });
+    let n = 0;
+    for (const u of rows) {
+      const { count } = await tx.user.updateMany({ where: { id: u.id, isStaff: !on, deletedAt: null }, data: { isStaff: on } });
+      if (count !== 1) continue;
+      n += 1;
+      await audit(
+        { actorUserId: adminId, action: "admin.account.type", resourceType: "User", resourceId: u.id, before: { isStaff: !on }, after: { isStaff: on, bulk: unique.length > 1 } },
+        tx
+      );
+    }
+    return n;
+  });
+  revalidatePath("/[locale]/admin/comptes", "page");
+  revalidatePath("/[locale]/admin", "page");
+  return { ok: true, changed };
 }

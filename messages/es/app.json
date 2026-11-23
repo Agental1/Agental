@@ -270,7 +270,8 @@
       "projects": "Proyectos",
       "controls": "Controles",
       "replies": "Respuestas por aprobar",
-      "ai": "Cuentas de IA"
+      "ai": "Cuentas de IA",
+      "cookies": "Cookies"
     },
     "stats": {
       "artists": "Artistas",
@@ -475,7 +476,11 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "Último inicio o visita"
+        "lastSignIn": "Último inicio o visita",
+        "type": "Tipo",
+        "canSearch": "Puede buscar",
+        "searchesUsed": "Búsquedas este mes",
+        "cookies": "Cookies"
       },
       "site": {
         "none": "None",
@@ -549,8 +554,7 @@
         "casting": "Casting",
         "staff": "Equipo",
         "test": "Prueba",
-        "spam": "Spam o revocadas",
-        "unreviewed": "Por revisar"
+        "blocked": "Bloqueadas por el equipo"
       },
       "verifiedYes": "Verificado",
       "methods": {
@@ -592,6 +596,61 @@
           "test": "Protegida: prueba",
           "paid": "Protegida: de pago o en un equipo",
           "deleted": "Eliminada"
+        }
+      },
+      "counts": {
+        "note": "Las cifras son las mismas en todas las páginas de administración. Las cuentas eliminadas solo se cuentan en Eliminadas.",
+        "accounts": {
+          "label": "Cuentas",
+          "help": "Cuentas: todas las personas registradas, de cualquier tipo, no eliminadas, incluidas las de prueba."
+        },
+        "performers": {
+          "label": "Artistas",
+          "help": "Artistas: cuentas de tipo Artista, no eliminadas, incluidas las de prueba."
+        },
+        "casting": {
+          "label": "Casting",
+          "help": "Casting: cuentas de tipo Casting, no eliminadas, incluidas las de prueba."
+        },
+        "staff": {
+          "label": "Equipo",
+          "help": "Equipo: las cuentas de los fundadores y del equipo, no eliminadas, incluidas las de prueba."
+        },
+        "test": {
+          "label": "Prueba",
+          "help": "Prueba: cuentas con la opción Prueba activada, de cualquier tipo, no eliminadas. Cada una se cuenta también en su tipo."
+        },
+        "deleted": {
+          "label": "Eliminadas",
+          "help": "Eliminadas: cuentas en la lista Eliminadas (30 días), no contadas en otro lugar, borradas a los 30 días."
+        }
+      },
+      "marks": {
+        "choose": "Elige un cambio",
+        "TEST": "Prueba: activada",
+        "UNREVIEWED": "Prueba: desactivada (volver a normal)",
+        "staff_on": "Tipo: Equipo",
+        "staff_off": "Tipo: Artista o Casting (según el registro)",
+        "REVOKED": "Bloquear búsquedas con IA",
+        "SPAM": "Spam (bloquea búsquedas con IA)"
+      },
+      "canSearchHelp": "La misma razón que ve el artista bajo el botón verde.",
+      "types": {
+        "PERFORMER": "Artista",
+        "CASTING": "Casting",
+        "STAFF": "Equipo"
+      },
+      "testBadge": "Prueba",
+      "can": {
+        "yes": "Sí",
+        "no": "No:",
+        "reasons": {
+          "blocked": "bloqueada por el equipo",
+          "not_adult": "menor de 18",
+          "email_unverified": "correo no verificado",
+          "profile_incomplete": "perfil por debajo del 100 %",
+          "not_open": "búsquedas aún no abiertas a esta cuenta (modo prueba)",
+          "quota": "sin búsquedas este mes"
         }
       }
     },
@@ -944,6 +1003,44 @@
       "texts": "Textos",
       "none": "Ninguno en los últimos 30 días.",
       "balances": "Saldos, presupuestos y umbrales de alerta: en el panel"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "subtitle": "Quién aceptó las cookies. Cuentas: cada elección con su fecha y la versión de la política (actual: {version}). Visitantes sin cuenta: solo totales por semana, nada que los identifique.",
+      "accountsTitle": "Cuentas",
+      "visitorsTitle": "Visitantes sin cuenta",
+      "visitorsLead": "Totales por semana y elección, registrados desde la ronda 10 (2026-11-23). Antes, la elección de un visitante solo se guardaba en su navegador.",
+      "visitorsEmpty": "Aún no hay elecciones de visitantes registradas.",
+      "choices": {
+        "accepted_all": "Aceptó todo",
+        "rejected": "Rechazó las no esenciales",
+        "custom": "Personalizado",
+        "none": "Sin elección registrada"
+      },
+      "filters": {
+        "choice": "Elección",
+        "version": "Versión de la política",
+        "from": "Elegido desde",
+        "to": "Elegido hasta",
+        "all": "Todas",
+        "apply": "Filtrar",
+        "clear": "Borrar"
+      },
+      "csv": "Exportar CSV",
+      "cols": {
+        "account": "Cuenta",
+        "choice": "Elección",
+        "categories": "Categorías",
+        "date": "Fecha",
+        "version": "Versión de la política",
+        "week": "Semana"
+      },
+      "categories": "Analítica {analytics} · Marketing {marketing}",
+      "on": "sí",
+      "off": "no",
+      "noVersion": "antes de las versiones",
+      "weekOf": "Semana del {date}",
+      "more": "{count} más en la exportación CSV."
     }
   },
   "matchReasons": {

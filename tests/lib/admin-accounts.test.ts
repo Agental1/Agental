@@ -29,7 +29,7 @@ describe.skipIf(!local)("admin data hub", () => {
   });
 
   it("neutralizes spreadsheet formulas in the CSV", () => {
-    const csv = accountsCsv([{ id: "1", name: "=cmd", email: "a@b", audience: "TALENT", plan: "FREE", createdAt: new Date(0), method: "email", emailVerified: true, verifiedAt: new Date(0), status: "UNREVIEWED", isAdmin: false, agentsEnabled: false, completeness: 10, mediaCount: 0, website: "none", lastSignInAt: null, paid: false, block: null }]);
+    const csv = accountsCsv([{ id: "1", name: "=cmd", email: "a@b", audience: "TALENT", plan: "FREE", createdAt: new Date(0), method: "email", emailVerified: true, verifiedAt: new Date(0), status: "UNREVIEWED", isAdmin: false, agentsEnabled: false, completeness: 10, mediaCount: 0, website: "none", lastSignInAt: null, paid: false, block: null, type: "PERFORMER", isTest: false, canSearch: null, searchesUsed: 0, consent: { choice: "none", at: null, version: null } }]);
     expect(csv).toContain("'=cmd");
   });
 });

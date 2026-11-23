@@ -263,6 +263,32 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
   (Basic 5), history kept, searches waiting in the queue canceled with a note (migration
   `20261225000000_round10_search_reset`).
 
+## Round 10 (2026-11-23): the account model and the counts (definitions for every round)
+
+- **Account:** everyone who signed up. Each account has one **type**: **Performer** (signed up as a
+  performer), **Casting** (signed up for Agental Casting) or **Staff** (the founders' and the team's
+  accounts: `User.isStaff`, an admin, or the older STAFF status), whatever it signed up as.
+- **Test:** a separate on/off flag (stored as `accountStatus` TEST), shown as a badge, never a type.
+  A Test account can start AI searches in test mode; a Staff account can only when marked Test.
+- **Deleted:** accounts in the 30-day "Deleted" list. They are counted nowhere else; after 30 days
+  they are purged.
+- **Blocked by staff:** Spam or "Block AI searches" (REVOKED): not a type, a reason under "Can
+  search".
+- **The counts** (same on every admin page, each with an "i"): Accounts = all types, not deleted,
+  Test included; Performers / Casting / Staff = that type, not deleted, Test included (the three
+  add up to Accounts); Test = Test flag on, any type, not deleted (also counted in its type);
+  Deleted = the 30-day list only.
+- **One line per account:** name, email, type, Test badge, email verified (date), profile %, "Can
+  search: Yes" or "No: <reason>" (the same reasons as the green button), searches used this
+  month, sign-up date, last sign-in, cookie choice. The older statuses (unreviewed, approved,
+  eligibility, agents enabled, automatic mode) stay in the database, out of the screens.
+- **Fixed types (round 10 migration):** every admin and older STAFF account became Staff; the
+  founder's own Test account became Staff and kept its Test flag.
+- **Cookies (Admin > Cookies):** for accounts, the choice (accepted all, rejected non-essential,
+  custom with the categories), its date and the policy version, recorded on the account since
+  round 7b. Visitors without an account: weekly totals by choice only (`ConsentTally`, since round
+  10); before that their choice was kept only in their own browser.
+
 ## What 100% means (founders' decision, round 8, 2026-11-22)
 
 One function decides it everywhere: the profile, the dashboard, AI suggestions, the admin and

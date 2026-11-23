@@ -15,6 +15,7 @@ import { isPaused } from "@/lib/app-settings";
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
   { href: "/admin/comptes", key: "accounts", icon: "console" },
+  { href: "/admin/cookies", key: "cookies", icon: "audit" },
   { href: "/admin/profils", key: "profiles", icon: "talents" },
   { href: "/admin/medias", key: "media", icon: "video" },
   { href: "/admin/emails", key: "emails", icon: "messages" },
