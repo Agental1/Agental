@@ -265,7 +265,8 @@
       "emails": "E-mails",
       "announcements": "Annonces",
       "projects": "Projets",
-      "controls": "Contrôles"
+      "controls": "Contrôles",
+      "replies": "Réponses à approuver"
     },
     "stats": {
       "artists": "Artistes",
@@ -841,6 +842,38 @@
             "body": "Une fois, après la vérification de l’e-mail."
           }
         }
+      }
+    },
+    "replies": {
+      "title": "Réponses à approuver",
+      "subtitle": "Les e-mails reçus sur contact@agental.co pour lesquels le workflow a préparé une réponse. Rien ne part tant que tu ne cliques pas sur Envoyer. La réponse part vers l’expéditeur dans le fil d’origine, avec une copie à contact@agental.co.",
+      "noSender": "Aucun service d’envoi n’est configuré (clé Resend) : Envoyer ne fonctionnera pas avant.",
+      "empty": "Aucune réponse en attente.",
+      "emptyHint": "Les brouillons apparaissent ici quand le workflow Direct Replies lit un nouvel e-mail. Le spam et les e-mails automatiques sont ignorés.",
+      "noSubject": "(sans objet)",
+      "original": "E-mail d’origine de {from}",
+      "draft": "Brouillon de réponse",
+      "textCleared": "Texte effacé après 90 jours.",
+      "send": "Envoyer",
+      "edit": "Modifier puis envoyer",
+      "sendEdited": "Envoyer cette version",
+      "discard": "Écarter",
+      "how": "Envoie à {to}, dans le fil d’origine, depuis contact@agental.co.",
+      "recent": "Décisions récentes",
+      "decisions": {
+        "sent": "Envoyée",
+        "edited": "Modifiée et envoyée",
+        "discarded": "Écartée"
+      },
+      "results": {
+        "sent": "Réponse envoyée.",
+        "discarded": "Brouillon écarté.",
+        "already_decided": "Quelqu’un a déjà traité ce brouillon.",
+        "no_sender": "Non envoyée : aucun service d’envoi n’est configuré.",
+        "send_failed": "Non envoyée : le service d’e-mail l’a refusée. Le brouillon est toujours là.",
+        "empty": "Non envoyée : la réponse est vide.",
+        "not_found": "Ce brouillon n’existe plus.",
+        "forbidden": "Non autorisé."
       }
     }
   },

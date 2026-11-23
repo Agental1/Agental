@@ -1171,6 +1171,21 @@ model InboxReply {
   reviewedAt     DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  // Round 9, group 7: the draft waiting for a staff member (status
+  // awaiting_approval, then approved_sent or discarded), with the original
+  // email. Texts cleared after 90 days.
+  fromAddress    String?
+  subject        String?
+  originalText   String?
+  replyText      String?
+  inReplyTo      String?
+  references     String?
+  category       String?
+  draftedAt      DateTime?
+  decidedAt      DateTime?
+  decidedById    String?
+  decision       String? // sent | edited | discarded
+  resendId       String?
 
   @@unique([gmailThreadId, gmailMessageId])
   @@index([status, createdAt])

@@ -17,6 +17,7 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { signupTotals } from "@/lib/admin/accounts";
 import { jobCounts } from "@/lib/admin/jobs";
 import { countWaitingThreads } from "@/lib/messages";
+import { countDraftsToApprove } from "@/lib/reply-drafts";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { AiAccountsCard } from "@/components/admin/ai-accounts-card";
@@ -45,7 +46,7 @@ export default async function AdminDashboard({
 
   const viewerId = await currentAdminId();
   if (!viewerId) notFound();
-  const [totals, waiting, newLeads, jobs, projects, pendingMinors, recentAudits] = await Promise.all([
+  const [totals, waiting, newLeads, jobs, projects, pendingMinors, recentAudits, drafts] = await Promise.all([
     signupTotals(),
     countWaitingThreads(viewerId),
     prisma.limelightLead.count({ where: { status: "NEW" } }),
@@ -53,6 +54,7 @@ export default async function AdminDashboard({
     prisma.project.count(),
     prisma.minorCase.count({ where: { state: { not: "READY" } } }),
     prisma.auditLog.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
+    countDraftsToApprove(),
   ]);
 
   const kpis = [
@@ -65,6 +67,7 @@ export default async function AdminDashboard({
   ];
   const todo = [
     { label: t("admin.nav.waiting"), value: waiting, icon: MessageSquare, href: "/admin/messages?waiting=1" },
+    { label: t("admin.nav.replies"), value: drafts, icon: Send, href: "/admin/reponses" },
     { label: t("admin.hub.newLeads"), value: newLeads, icon: Send, href: "/admin/limelight?status=NEW" },
     { label: t("admin.hub.toReview"), value: totals.performers.unreviewed + totals.casting.unreviewed, icon: Users, href: "/admin/comptes?group=unreviewed" },
     { label: t("admin.hub.jobs", { queued: jobs.queued, running: jobs.running, failed: jobs.failed }), value: jobs.queued + jobs.running, icon: FolderKanban, href: "/admin/recherches" },

@@ -265,7 +265,8 @@
       "emails": "Emails",
       "announcements": "Announcements",
       "projects": "Projects",
-      "controls": "Controls"
+      "controls": "Controls",
+      "replies": "Replies to approve"
     },
     "stats": {
       "artists": "Artists",
@@ -841,6 +842,38 @@
             "body": "Once, after the email is verified."
           }
         }
+      }
+    },
+    "replies": {
+      "title": "Replies to approve",
+      "subtitle": "Emails that reached contact@agental.co and got a draft reply from the workflow. Nothing is sent until you click Send. The reply goes to the sender in the original thread, with a copy to contact@agental.co.",
+      "noSender": "No email sender is configured yet (Resend key): Send will not work until it is.",
+      "empty": "No reply waiting.",
+      "emptyHint": "Drafts appear here when the Direct Replies workflow reads a new email. Spam and automated mail are skipped.",
+      "noSubject": "(no subject)",
+      "original": "Original email from {from}",
+      "draft": "Draft reply",
+      "textCleared": "Text cleared after 90 days.",
+      "send": "Send",
+      "edit": "Edit then send",
+      "sendEdited": "Send this version",
+      "discard": "Discard",
+      "how": "Sends to {to}, in the original thread, from contact@agental.co.",
+      "recent": "Recent decisions",
+      "decisions": {
+        "sent": "Sent",
+        "edited": "Edited and sent",
+        "discarded": "Discarded"
+      },
+      "results": {
+        "sent": "Reply sent.",
+        "discarded": "Draft discarded.",
+        "already_decided": "Someone already decided on this draft.",
+        "no_sender": "Not sent: no email sender is configured yet.",
+        "send_failed": "Not sent: the email service refused it. The draft is still here.",
+        "empty": "Not sent: the reply is empty.",
+        "not_found": "This draft no longer exists.",
+        "forbidden": "Not allowed."
       }
     }
   },

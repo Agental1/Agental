@@ -215,6 +215,10 @@ Decided by the agent, `TODO(founders)` (change any of them in a sentence):
   `CRON_SECRET`; until the founder adds it as a GitHub secret, the emails run once a day (14:00
   UTC), so "unread after an hour" becomes "unread at the daily run".
 - French emails use "vous" (round 8b rule); the Limelight confirmation follows it again.
+- **Replies to received emails are sent by the app, not by n8n** (group 7): the approved reply goes
+  out through Resend from contact@agental.co with the threading headers, so it lands in the original
+  thread for the sender, and a hidden copy keeps it in the team's mailbox. n8n only reads Gmail and
+  drafts. Email texts kept 90 days.
 - SMS: see group 8.
 
 ## What 100% means (founders' decision, round 8, 2026-11-22)

@@ -39,7 +39,9 @@ export async function claimInboxReply(input: z.infer<typeof InboxClaimInput>) {
   }
 }
 
-const OUTCOMES = ["sent", "send_needs_reconciliation", "needs_human_review", "send_skipped"] as const;
+// Round 9: "awaiting_approval" is the receipt after a draft was posted to
+// /api/n8n/inbox/draft; the row is no longer "claimed", so it changes nothing.
+const OUTCOMES = ["sent", "send_needs_reconciliation", "needs_human_review", "send_skipped", "awaiting_approval"] as const;
 
 export const InboxCompleteInput = z.object({
   claimId: z.string().trim().min(1).max(64),

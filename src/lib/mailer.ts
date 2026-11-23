@@ -24,6 +24,8 @@ export interface EmailMessage {
   kind?: string;
   /** Round 9: extra headers (List-Unsubscribe and List-Unsubscribe-Post on automatic emails). */
   headers?: Record<string, string>;
+  /** Round 9: a hidden copy (the team keeps a copy of each approved reply). */
+  bcc?: string;
 }
 
 /** Writes the admin email log. null turns it off (unit tests). */
@@ -148,6 +150,7 @@ export async function sendEmail(
         text: message.text,
         html: message.html,
         ...(message.headers && Object.keys(message.headers).length ? { headers: message.headers } : {}),
+        ...(message.bcc ? { bcc: message.bcc } : {}),
       }),
       signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
     });

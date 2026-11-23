@@ -265,7 +265,8 @@
       "emails": "Correos",
       "announcements": "Anuncios",
       "projects": "Proyectos",
-      "controls": "Controles"
+      "controls": "Controles",
+      "replies": "Respuestas por aprobar"
     },
     "stats": {
       "artists": "Artistas",
@@ -841,6 +842,38 @@
             "body": "Una vez, después de verificar el correo."
           }
         }
+      }
+    },
+    "replies": {
+      "title": "Respuestas por aprobar",
+      "subtitle": "Correos que llegaron a contact@agental.co y para los que el workflow preparó una respuesta. No se envía nada hasta que hagas clic en Enviar. La respuesta va al remitente en el hilo original, con copia a contact@agental.co.",
+      "noSender": "Aún no hay servicio de envío configurado (clave de Resend): Enviar no funcionará hasta entonces.",
+      "empty": "No hay respuestas en espera.",
+      "emptyHint": "Los borradores aparecen aquí cuando el workflow Direct Replies lee un correo nuevo. Se omiten el spam y los correos automáticos.",
+      "noSubject": "(sin asunto)",
+      "original": "Correo original de {from}",
+      "draft": "Borrador de respuesta",
+      "textCleared": "Texto borrado después de 90 días.",
+      "send": "Enviar",
+      "edit": "Editar y enviar",
+      "sendEdited": "Enviar esta versión",
+      "discard": "Descartar",
+      "how": "Envía a {to}, en el hilo original, desde contact@agental.co.",
+      "recent": "Decisiones recientes",
+      "decisions": {
+        "sent": "Enviada",
+        "edited": "Editada y enviada",
+        "discarded": "Descartada"
+      },
+      "results": {
+        "sent": "Respuesta enviada.",
+        "discarded": "Borrador descartado.",
+        "already_decided": "Alguien ya decidió sobre este borrador.",
+        "no_sender": "No enviada: aún no hay servicio de envío configurado.",
+        "send_failed": "No enviada: el servicio de correo la rechazó. El borrador sigue aquí.",
+        "empty": "No enviada: la respuesta está vacía.",
+        "not_found": "Este borrador ya no existe.",
+        "forbidden": "No permitido."
       }
     }
   },
