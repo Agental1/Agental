@@ -3,6 +3,61 @@
 Updated 2026-11-22 (round 8 closed: v0.6.4.0 live, see docs/ROUND8_PLAN.md and docs/ROLLBACK_R8.md). Read the Round 9 carryover first, then "Round 7b" below for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
 
+## Round 8c (2026-11-22): start here
+
+Live: Versions 40 (group A), 41 (group 1), 42 (group 4), 43 (group 6); rows in `docs/RELEASES.md`.
+Production is in test mode (`WORKFLOW_MODE` unset). Package manager is now **pnpm** (see CLAUDE.md).
+
+### Waiting on the founders (exact steps were sent in the round 8c conversation)
+
+1. **Resend:** DNS records at name.com (DKIM `resend._domainkey`, MX and TXT on `send`, as Resend
+   shows them; DMARC already exists), verify, then `RESEND_API_KEY` (Production and Preview),
+   `EMAIL_FROM` = `Agental <contact@agental.co>`, webhook secret `RESEND_WEBHOOK_SECRET`.
+   Unblocks group 2 (sign-up verification, password reset, USC code, email log statuses, the
+   first automatic search check) and the deletion warning email.
+2. **admin.agental.co:** CNAME `admin` -> `cname.vercel-dns.com` at name.com (the domain is
+   already on the Vercel project). Unblocks group 3 (check HTTPS, admin-only on the server, a
+   non-admin gets nothing).
+3. **Supabase Realtime:** `SUPABASE_JWT_SECRET` (Project Settings > JWT Keys > Legacy JWT secret)
+   and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (API Keys > publishable) in Vercel Production, then
+   redeploy. The bell then updates live; until then it refreshes every 60 s.
+4. **Backups:** `CRON_SECRET` in Vercel Production (any long random value, `openssl rand -base64
+   32`), then redeploy. The daily backup then runs at 09:30 UTC (docs/BACKUPS.md). Also lets the
+   Limelight retry drain run if a scheduler calls it.
+5. **Group 5 go:** 8 accounts are eligible for deletion (list in the Version 42 build log,
+   `[r8c-report] deletion`). 4 of them are the round 1 demo accounts `@demo.agental.co`
+   (status Unreviewed, so the rule includes them): mark them Test in /admin/comptes if they
+   should stay. Nothing is deleted without the founder's "go" in the conversation. The warning
+   email needs Resend first and the founder's OK on its wording.
+6. **Test account for group 2:** no production account is marked Test (all 22 Unreviewed), so
+   the first automatic search (test mode) cannot be checked until one is: /admin/comptes > the
+   founder's test account > status Test.
+7. **Signed-in production checks:** the agent's browsers have no production session and it
+   cannot type a real password. Sign in once in the Claude app's browser pane (www.agental.co and
+   admin.agental.co) so the agent can click through the signed-in pages.
+8. **Permission rules:** the auto mode classifier refused every edit of
+   `.claude/settings.local.json`; the founder adds allow rules and `"dialogExpiry": "never"` by hand.
+
+### Done and checked
+- Group A: Preferences numbered 1 to 10; Build multi-select with chips; every Physical tile shows
+  its value; Applications three buttons with counts, Get more details, then Accept/Decline.
+  Checked locally (screenshots in docs/screenshots/r8c). Not checked signed in on production.
+- Group 1: pnpm (Vercel builds with it; same direct dependency versions as bun.lock); flaky
+  Limelight test skipped on a one-connection pool; relink prompt (6 cities, 1 phone on
+  production); deep links focus City / phone / age range (headless check); media drag and drop
+  by keyboard and by touch at 390 px pass (headless, local). Camera recording in Chrome and Safari
+  not checked (no camera in the agent's browsers).
+- Group 4: RLS audit (57 tables closed, docs/SECURITY.md), Realtime code and migration live but
+  off, backup cron live but off (restore drill passed locally), search launch limit live.
+- Group 6: docs/legal/TERMS_DRAFT.md; /talents/conditions 404 until `TERMS_PAGE_ENABLED=true`.
+
+### Next exact step
+When the founder says a founder action is done: re-run `vercel env ls` / `dig`, redeploy, and
+finish its group (2, 3), then Realtime and backup checks on production (trigger a notification on
+a test account; call nothing by hand on /api/cron/backup, wait for 09:30 UTC or ask the founder to
+run the cron from Vercel > Settings > Cron Jobs). Remove `tools/db/round8c-report.mjs` and its
+build step once group 5 is settled.
+
 ## Round 8c carryover
 
 Round 8b (front-end polish, 2026-11-22) noted these back-end items for round 8c. Round 8c does not
@@ -79,6 +134,16 @@ runs in its own session before round 9.
 - Six-hour automatic searches now count in the automatic cap on Basic (1 per period, the first automatic search included).
 - A running dev server corrupts `.next` (see CLAUDE.md, Tooling); stop it and delete `.next` before typecheck or build.
 - Local test runs leave `test-*` rows in the local database (local only).
+
+### 6. From round 8c (2026-11-22)
+
+- The bell's Realtime token is a real `authenticated` token for every Supabase API; keep Storage
+  and app tables closed to `authenticated` (docs/SECURITY.md).
+- Backups live in the same Supabase project; an off-project copy is a founder decision. A failed
+  backup only shows as a failed cron invocation: add an alert or the last backup date on the
+  admin hub.
+- The Limelight real-database race test needs a pooled database (no CI exists).
+- n8n or agents writing `Notification` rows get the Realtime signal automatically (trigger).
 
 ### 5. From round 8b (2026-11-22)
 
