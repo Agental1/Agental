@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ const STATUS_HREF = {
  */
 export function SearchStatus({ initial }: { initial: MySearchStatus }) {
   const t = useTranslations("talents.space.dashboard.status");
+  const locale = useLocale();
   const [s, setS] = useState(initial);
 
   const load = useCallback(async () => {
@@ -54,7 +55,8 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
 
   const items = [
     { key: "queued", label: t("queued", { count: s.queued }) },
-    { key: "running", label: t("running", { count: s.running }) },
+    // Round 8d: "1 of 2 running", the plan's parallel slots.
+    { key: "running", label: t("running", { count: s.running, slots: s.slots }) },
     { key: "finished", label: t("finished", { count: s.finished }) },
     { key: "rolesFound", label: t("rolesFound", { count: s.rolesFound }) },
   ] as const;
@@ -77,6 +79,13 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
             </span>
           ))}
         </p>
+        {s.queued > 0 && s.nextStart && (
+          <p className="mt-1 text-sm text-fg-muted">
+            {t("nextStart", {
+              date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(s.nextStart)),
+            })}
+          </p>
+        )}
       </div>
       <Button asChild variant="outline" className="self-start sm:self-end">
         <Link href="/talents/app/candidatures">

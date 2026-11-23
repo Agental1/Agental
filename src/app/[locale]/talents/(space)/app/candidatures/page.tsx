@@ -9,7 +9,7 @@ import { prisma } from "@/lib/db";
 import { Radar } from "lucide-react";
 import { getRoleSearchQuota, listMyRoleSearches } from "@/lib/role-search";
 import { date, dateTime } from "@/lib/format";
-import { hoursUntil, SEARCH_SPACING_HOURS } from "@/domain/role-search";
+import { hoursUntil, searchPaceFor, searchSpacingHoursFor } from "@/domain/role-search";
 import { readSubmission } from "@/domain/application-response";
 import { FoundRoleCard, type FoundRole } from "@/components/talents/found-role-card";
 import { SearchStateTabs } from "@/components/app/search-state-tabs";
@@ -55,8 +55,9 @@ export default async function CandidaturesPage({
     orderBy: { appliedAt: "desc" },
   });
 
-  // Round 8b: three search states. Searches run one every 6 hours; each queued
-  // search shows when it starts, from its scheduled time.
+  // Round 8b: three search states. Round 8d: the plan runs several searches at
+  // once (slots); each queued search shows its expected start, from its
+  // scheduled time.
   const now = new Date();
   const [searches, quota] = await Promise.all([
     listMyRoleSearches(session.user.id, 30),
@@ -171,7 +172,15 @@ export default async function CandidaturesPage({
         </p>
       </div>
       <p className="rounded-sedan border border-border bg-surface-2/50 px-4 py-3 text-[15px]">
-        {t("space.candidatures.queue.rule", { count: quota.limit, hours: SEARCH_SPACING_HOURS })}
+        {t("space.candidatures.queue.rule", {
+          count: quota.limit,
+          slots: searchPaceFor(quota.plan).slots,
+          hours: searchSpacingHoursFor(quota.plan),
+        })}
+        {" "}
+        <span className="font-medium">
+          {t("space.candidatures.queue.slotsInUse", { running: running.length, slots: searchPaceFor(quota.plan).slots })}
+        </span>
       </p>
 
       <SearchStateTabs
@@ -183,6 +192,9 @@ export default async function CandidaturesPage({
               {queued.length === 0 ? (
           <p className="text-sm text-fg-muted">{t("space.candidatures.queue.empty")}</p>
         ) : (
+          <>
+          {/* Until the search engine is connected (round 9), nothing comes back: say so. */}
+          <p className="text-[15px] font-medium">{t("space.candidatures.queue.queuedHonest")}</p>
           <ul className="space-y-2">
             {queued.map((r, i) => {
               const h = hoursUntil(r.scheduledFor ?? r.createdAt, now);
@@ -193,12 +205,19 @@ export default async function CandidaturesPage({
                     <p className="font-medium">{t("space.candidatures.queue.item", { n: i + 1 })}</p>
                     <p className="text-sm text-fg-muted">
                       {h === 0 ? t("space.candidatures.queue.soon") : t("space.candidatures.queue.startsIn", { hours: h })}
+                      {h > 0 && (
+                        <>
+                          {" · "}
+                          {t("space.candidatures.queue.startsAt", { date: dateTime(r.scheduledFor ?? r.createdAt, locale) })}
+                        </>
+                      )}
                     </p>
                   </div>
                 </li>
               );
             })}
           </ul>
+          </>
         )}
             </section>
           ),

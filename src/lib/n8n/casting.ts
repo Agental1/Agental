@@ -5,7 +5,8 @@ import { bearerMatches } from "@/lib/limelight/request";
 import { agentEligibility } from "@/lib/agents";
 import { loadProfileFacts } from "@/lib/workflow/profiles";
 import { startRoleSearch } from "@/lib/role-search";
-import { FIRST_AUTO_KEY } from "@/domain/role-search";
+import { FIRST_AUTO_KEY, busySlots, searchPaceFor, type SearchPace } from "@/domain/role-search";
+import { PlanB2C } from "@/domain/enums";
 import { workflowMode, type WorkflowMode } from "@/domain/workflow/eligibility";
 import type { ProfileFacts } from "@/domain/workflow/profile";
 
@@ -137,31 +138,53 @@ export async function claimCastingJobs(
       select: { id: true, userId: true, clientKey: true },
       orderBy: { createdAt: "asc" },
     });
-    const rows =
+    const due =
       held.length > 0
-        ? held
-        : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null }[]>`
-            SELECT id, "userId", "clientKey" FROM "public"."role_search_requests"
+        ? held.map((h) => ({ ...h, plan: null as string | null }))
+        : await tx.$queryRaw<{ id: string; userId: string; clientKey: string | null; plan: string | null }[]>`
+            SELECT id, "userId", "clientKey", plan FROM "public"."role_search_requests"
             WHERE status = 'queued'
               AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
-              -- Round 8b: one every 6 hours per performer, even after a backlog.
-              AND NOT EXISTS (
-                SELECT 1 FROM "public"."role_search_requests" r2
-                WHERE r2."userId" = "role_search_requests"."userId"
-                  AND (r2.status = 'running' OR r2."startedAt" > ${new Date(now.getTime() - SIX_HOURS)})
-              )
             ORDER BY COALESCE("scheduledFor", "createdAt") ASC
-            LIMIT ${input.limit}
+            LIMIT ${input.limit * 10}
             FOR UPDATE SKIP LOCKED`;
+    // Round 8d: each performer runs at most their plan's slots at once, and a
+    // slot starts one search per gap (B2C_PLANS searchSlots, searchSpacingHours).
+    // Round 8b's "one every 6 hours" is the one-slot case.
+    const free = new Map<string, number>();
+    if (held.length === 0 && due.length > 0) {
+      const users = [...new Set(due.map((r) => r.userId))];
+      const maxGap = Math.max(...PlanB2C.options.map((p) => searchPaceFor(p).spacingMs));
+      const active = await tx.roleSearchRequest.findMany({
+        where: {
+          userId: { in: users },
+          OR: [{ status: "running" }, { startedAt: { gt: new Date(now.getTime() - maxGap) } }],
+        },
+        select: { userId: true, status: true, startedAt: true },
+      });
+      for (const r of due) {
+        if (free.has(r.userId)) continue;
+        const parsed = PlanB2C.safeParse(r.plan);
+        const pace: SearchPace = searchPaceFor(parsed.success ? parsed.data : "FREE");
+        const mine = active.filter((a) => a.userId === r.userId);
+        free.set(r.userId, Math.max(0, pace.slots - busySlots(mine, now, pace)));
+      }
+    }
+    const rows: typeof due = [];
+    for (const r of due) {
+      if (held.length > 0) {
+        rows.push(r);
+        continue;
+      }
+      if (rows.length >= input.limit) break;
+      const left = free.get(r.userId) ?? 0;
+      if (left <= 0) continue;
+      free.set(r.userId, left - 1);
+      rows.push(r);
+    }
     const jobs: CastingJob[] = [];
     let canceled = 0;
-    // Round 8b: at most one new search per performer in one claim.
-    const seen = new Set<string>();
     for (const row of rows) {
-      if (held.length === 0) {
-        if (seen.has(row.userId)) continue;
-        seen.add(row.userId);
-      }
       const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
       // The first automatic search is its own consent record (it stamps no click).
       const firstAuto = row.clientKey === FIRST_AUTO_KEY;

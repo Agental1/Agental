@@ -772,7 +772,7 @@
       "findRoles": {
         "label": "Trouver des rôles",
         "scanning": "Recherche…",
-        "sent": "Notre agent cherche des rôles pour toi. On revient vers toi bientôt.",
+        "sent": "Ta recherche est en file. Les résultats apparaîtront dans Candidatures.",
         "available": "{count, plural, one {# recherche disponible} other {# recherches disponibles}}",
         "leftOf": "{left} {left, plural, one {recherche restante} other {recherches restantes}} sur {limit} · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
         "noneLeft": "Plus de recherche · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
@@ -842,10 +842,11 @@
       "status": {
         "title": "Statut",
         "queued": "{count, plural, one {# recherche en file} other {# recherches en file}}",
-        "running": "{count} en cours",
+        "running": "{count} sur {slots} en cours",
         "finished": "{count, plural, one {# terminée} other {# terminées}}",
         "rolesFound": "{count, plural, one {# rôle trouvé} other {# rôles trouvés}}",
-        "check": "Voir tes candidatures"
+        "check": "Voir tes candidatures",
+        "nextStart": "Prochaine recherche prévue {date}"
       }
     },
     "candidatures": {
@@ -925,12 +926,15 @@
         "open": "Ouvrir ce rôle"
       },
       "queue": {
-        "rule": "Tu peux mettre jusqu’à {count} recherches en file. Nous en lançons une toutes les {hours} heures.",
+        "rule": "Tu peux mettre jusqu’à {count} recherches en file. Ton offre en lance {slots, plural, one {une à la fois} other {# en même temps}}, et chacune démarre au plus toutes les {hours} heures.",
         "title": "Recherches en file",
         "empty": "Aucune recherche en attente.",
         "item": "Recherche {n}",
         "soon": "Commence bientôt",
-        "startsIn": "Commence dans environ {hours, plural, one {# heure} other {# heures}}"
+        "startsIn": "Commence dans environ {hours, plural, one {# heure} other {# heures}}",
+        "startsAt": "Démarrage prévu : {date}",
+        "queuedHonest": "Ta recherche est en file. Les résultats apparaîtront ici.",
+        "slotsInUse": "{running} sur {slots} en cours"
       },
       "running": {
         "title": "Recherche en cours",

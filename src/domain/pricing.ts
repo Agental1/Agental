@@ -26,18 +26,26 @@ export interface B2CPlanDef {
    * (only the plan's allowance applies).
    */
   autoSearches: number | null;
+  /**
+   * Round 8d (founders, 2026-11-22): how many of the performer's searches may
+   * run at the same time. Each slot runs one search at a time and starts at
+   * most one every `searchSpacingHours`.
+   */
+  searchSlots: number;
+  /** The gap between two starts in one slot, in hours. */
+  searchSpacingHours: number;
 }
 
 export const B2C_PLANS: Record<PlanB2C, B2CPlanDef> = {
   // Internal id stays FREE (no migration); the display name is "Basic" (messages).
   // Basic: 1 automatic search out of 5 (owner, round 7b).
-  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 }, autoSearches: 1 },
+  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 }, autoSearches: 1, searchSlots: 1, searchSpacingHours: 6 },
   // TODO(founders): automatic searches for Pro, Premium and Ultimate. Until
   // decided there is no separate cap (the six-hour searches keep working as
   // before, inside the monthly allowance).
-  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 }, autoSearches: null },
-  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 }, autoSearches: null },
-  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 }, autoSearches: null },
+  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 }, autoSearches: null, searchSlots: 2, searchSpacingHours: 6 },
+  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 }, autoSearches: null, searchSlots: 5, searchSpacingHours: 6 },
+  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 }, autoSearches: null, searchSlots: 10, searchSpacingHours: 6 },
 };
 
 export interface B2BPlanDef {

@@ -772,7 +772,7 @@
       "findRoles": {
         "label": "开始寻找角色",
         "scanning": "搜索中…",
-        "sent": "我们的代理正在为你寻找角色，稍后会联系你。",
+        "sent": "你的搜索已排队。结果将显示在“申请”中。",
         "available": "可用 {count} 次搜索",
         "leftOf": "剩余 {left} / {limit} 次搜索 · {days} 天后重置",
         "noneLeft": "搜索次数已用完 · {days} 天后重置",
@@ -842,10 +842,11 @@
       "status": {
         "title": "状态",
         "queued": "{count} 次搜索排队中",
-        "running": "{count} 次进行中",
+        "running": "{count}/{slots} 正在运行",
         "finished": "{count} 次已完成",
         "rolesFound": "找到 {count} 个角色",
-        "check": "查看你的申请"
+        "check": "查看你的申请",
+        "nextStart": "下一次搜索预计 {date}"
       }
     },
     "candidatures": {
@@ -925,12 +926,15 @@
         "open": "打开该角色"
       },
       "queue": {
-        "rule": "你最多可以排队 {count} 次搜索。我们每 {hours} 小时运行一次。",
+        "rule": "你最多可排队 {count} 次搜索。你的方案可同时运行 {slots} 次搜索，每个通道最多每 {hours} 小时开始一次。",
         "title": "排队中的搜索",
         "empty": "没有等待中的搜索。",
         "item": "搜索 {n}",
         "soon": "即将开始",
-        "startsIn": "大约 {hours} 小时后开始"
+        "startsIn": "大约 {hours} 小时后开始",
+        "startsAt": "预计开始：{date}",
+        "queuedHonest": "你的搜索已排队。结果将显示在这里。",
+        "slotsInUse": "{running}/{slots} 正在运行"
       },
       "running": {
         "title": "进行中的搜索",
