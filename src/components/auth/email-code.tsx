@@ -22,9 +22,12 @@ const RESEND_SECONDS = 60;
 export function EmailCodeForm({
   email,
   sendOnMount = false,
+  initialCooldown,
   onVerified,
 }: {
   email: string;
+  /** Seconds before a new code may be asked, from the server (the screen after sign-up). */
+  initialCooldown?: number;
   /** The banner sends the first code when the dialog opens; sign-up already sent it. */
   sendOnMount?: boolean;
   onVerified: () => void;
@@ -32,7 +35,8 @@ export function EmailCodeForm({
   const t = useTranslations("common.emailFlow");
   const [code, setCode] = useState("");
   const [error, setError] = useState<ActionError | undefined>();
-  const [cooldown, setCooldown] = useState(sendOnMount ? 0 : RESEND_SECONDS);
+  const [cooldown, setCooldown] = useState(initialCooldown ?? (sendOnMount ? 0 : RESEND_SECONDS));
+  const [locked, setLocked] = useState(false);
   const [notice, setNotice] = useState<string>("");
   const [pending, start] = useTransition();
   const sentOnce = useRef(false);
@@ -53,10 +57,17 @@ export function EmailCodeForm({
       if (res.ok) {
         setNotice(t("codeSent", { email }));
         setCooldown(RESEND_SECONDS);
+        setLocked(false);
+        setError(undefined);
+        return;
+      }
+      // A code went out moment ago: it still works; the button counts down the
+      // server's own wait instead of showing an error.
+      if ("codePending" in res && res.codePending) {
+        setCooldown(res.retryInSeconds ?? RESEND_SECONDS);
         return;
       }
       setError(res.error);
-      if ("codePending" in res && res.codePending) setCooldown(RESEND_SECONDS);
     });
   }
 
@@ -77,6 +88,11 @@ export function EmailCodeForm({
       if (res.ok) return onVerified();
       setError(res.error);
       setCode("");
+      // Locked after 5 tries: only a new code helps.
+      if (res.error.key === "errors.codeLocked" || res.error.key === "errors.codeExpired") {
+        setLocked(true);
+        return;
+      }
       // Back in the boxes for the next try.
       window.setTimeout(() => boxes.current?.focus(), 0);
     });
@@ -99,7 +115,7 @@ export function EmailCodeForm({
         autoComplete="one-time-code"
         aria-labelledby="email-code-label"
         aria-invalid={error ? true : undefined}
-        disabled={pending}
+        disabled={pending || locked}
         containerClassName="justify-center"
       >
         <InputOTPGroup className="gap-2">
@@ -133,7 +149,17 @@ export function EmailCodeForm({
 }
 
 /** The screen right after a password sign-up (/verifier without a token). */
-export function EmailCodeScreen({ email, next, liveCode }: { email: string; next: string; liveCode: boolean }) {
+export function EmailCodeScreen({
+  email,
+  next,
+  liveCode,
+  cooldown,
+}: {
+  email: string;
+  next: string;
+  liveCode: boolean;
+  cooldown: number;
+}) {
   const t = useTranslations("common.emailFlow");
   const router = useRouter();
   return (
@@ -142,7 +168,12 @@ export function EmailCodeScreen({ email, next, liveCode }: { email: string; next
         <h1 className="text-2xl">{t("codeTitle")}</h1>
       </div>
       {/* Coming back later with no live code: a new one goes out at once. */}
-      <EmailCodeForm email={email} sendOnMount={!liveCode} onVerified={() => router.replace(next)} />
+      <EmailCodeForm
+        email={email}
+        sendOnMount={!liveCode}
+        initialCooldown={liveCode ? cooldown : undefined}
+        onVerified={() => router.replace(next)}
+      />
       <form action={logoutAction} className="text-center">
         <button
           type="submit"

@@ -524,7 +524,7 @@ export async function sendVerificationForNewUser(user: {
 
 export type EmailCodeActionResult =
   | { ok: true; alreadyVerified?: boolean }
-  | { ok: false; error: ActionError; codePending?: boolean };
+  | { ok: false; error: ActionError; codePending?: boolean; retryInSeconds?: number };
 
 /**
  * "Send me a code" (the code screen after sign-up and the "Verify your email"
@@ -547,11 +547,8 @@ export async function sendMyEmailCode(): Promise<EmailCodeActionResult> {
     if (res.reason === "daily_limit") return { ok: false, error: err("errors.codeDailyLimit") };
     if (res.reason === "already") return { ok: true, alreadyVerified: true };
     if (res.reason === "too_soon") {
-      return {
-        ok: false,
-        codePending: true,
-        error: err("errors.codeTooSoon", { seconds: Math.ceil((res.retryInMs ?? 60_000) / 1000) }),
-      };
+      const seconds = Math.ceil((res.retryInMs ?? 60_000) / 1000);
+      return { ok: false, codePending: true, retryInSeconds: seconds, error: err("errors.codeTooSoon", { seconds }) };
     }
     return { ok: false, error: err("errors.codeUnavailable") };
   } catch (error) {

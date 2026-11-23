@@ -14,7 +14,7 @@ vi.mock("@/lib/mailer", () => ({
   }),
 }));
 vi.mock("@/lib/auto-search", () => ({ launchFirstAutoSearch: vi.fn(async () => undefined) }));
-const { sendEmailCode, verifyEmailCode } = await import("@/lib/email-code");
+const { sendEmailCode, verifyEmailCode, codeScreenState } = await import("@/lib/email-code");
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
 const codeFrom = (m: Mail) => /\b(\d{6})\b/.exec(m.text)![1];
@@ -43,6 +43,13 @@ describe.skipIf(!local)("sign-up email code (round 10)", () => {
     expect(row.codeHash).not.toContain(codeFrom(mail));
     expect(row.expiresAt.getTime() - t0.getTime()).toBe(10 * 60 * 1000);
     expect(await sendEmailCode({ userId: a, now: new Date(t0.getTime() + 30_000) })).toMatchObject({ ok: false, reason: "too_soon" });
+  });
+
+  it("tells the code screen the server's own wait, so a reload keeps the countdown", async () => {
+    const row = await prisma.emailVerificationCode.findFirstOrThrow({ where: { userId: a }, orderBy: { createdAt: "desc" } });
+    const at = new Date(row.createdAt.getTime() + 20_000);
+    expect(await codeScreenState(a, at)).toEqual({ live: true, cooldown: 40 });
+    expect(await codeScreenState(a, new Date(row.createdAt.getTime() + 11 * 60_000))).toEqual({ live: false, cooldown: 0 });
   });
 
   it("counts wrong codes and locks after 5 tries, even for the right code", async () => {

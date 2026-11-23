@@ -14,7 +14,7 @@ Live before round 10: Version 57.
 | Group | State | Version |
 |---|---|---|
 | 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
-| 2. Sign-up code and onboarding | | |
+| 2. Sign-up code and onboarding | live; sending the code waits for W0 (Resend) | 59 |
 | 3. The green button | | |
 | 4. A clearer admin | | |
 

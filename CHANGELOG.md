@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.27.0] - 2026-11-23
+
+### Added (round 10, group 2: sign-up code and questions)
+
+- **A 6-digit code at sign-up.** After "Create account" with a password, the next screen says "Enter the 6-digit code we sent to <email>": six boxes (a pasted code fills them), checked at the sixth digit, a new code after 60 seconds, 10 minutes, 5 attempts, at most 5 code emails a day; only a keyed hash is stored. Google sign-ups skip it. Sent from `EMAIL_FROM` through Resend; without Resend in production the screen is skipped.
+- **"Verify your email to start finding roles"** at the top of the app for password accounts that never verified, with "Send me a code" and the same form in a dialog (shown while a code can be sent).
+- **The sign-up questions are the profile's own fields**, saved into the profile: legal first and last name and stage name, then date of birth, gender and phone (no city, no specialties). The agreement screen and the 3-step welcome stay. New accounts (Google too) that have not answered them go back to them at sign-in.
+
+Migration `20261224000000_round10_email_code` (new table, RLS on).
+
 ## [0.6.26.0] - 2026-11-22
 
 ### Changed (round 10, group 1: profile fixes)

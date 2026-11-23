@@ -122,6 +122,7 @@ export function OnboardingWizard({
             </fieldset>
             <Field label={t(`${e}.stageName`)} hint={t(`${e}.stageNameHint`)}>
               <Input
+                aria-label={t(`${e}.stageName`)}
                 value={data.stageName}
                 onChange={(ev) => set("stageName", ev.target.value)}
                 autoComplete="nickname"
@@ -150,6 +151,7 @@ export function OnboardingWizard({
               <Field label={t(`${e}.birthDate`)} required>
                 <Input
                   type="date"
+                  aria-label={t(`${e}.birthDate`)}
                   value={data.birthDate}
                   onChange={(ev) => set("birthDate", ev.target.value)}
                   autoComplete="bday"
@@ -188,6 +190,10 @@ export function OnboardingWizard({
                 }}
                 onInvalid={() => {
                   phoneOk.current = false;
+                }}
+                onEmpty={() => {
+                  phoneOk.current = true;
+                  setData((d) => ({ ...d, phone: "", phoneE164: "" }));
                 }}
               />
             </Field>

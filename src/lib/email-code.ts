@@ -139,3 +139,14 @@ export async function verifyEmailCode(input: { userId: string; code: string; now
   await launchFirstAutoSearch(input.userId).catch(() => {});
   return { ok: true };
 }
+
+/** For the code screen: is a code still usable, and how long until a new one may be asked. */
+export async function codeScreenState(userId: string, now = new Date()): Promise<{ live: boolean; cooldown: number }> {
+  const live = await prisma.emailVerificationCode.findFirst({
+    where: { userId, consumedAt: null, expiresAt: { gt: now }, attempts: { lt: CODE_MAX_ATTEMPTS } },
+    orderBy: { createdAt: "desc" },
+    select: { createdAt: true },
+  });
+  if (!live) return { live: false, cooldown: 0 };
+  return { live: true, cooldown: Math.max(0, Math.ceil((live.createdAt.getTime() + CODE_RESEND_MS - now.getTime()) / 1000)) };
+}
