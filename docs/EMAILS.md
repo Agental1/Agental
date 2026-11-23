@@ -55,8 +55,14 @@ Nothing older than a week is ever sent late.
 
 ## Replies to emails we receive (round 9, group 7)
 
-Drafted by "Agental Beta V2 - Direct Replies", approved by a staff member in Admin > Replies to
-approve, sent in the original thread. Listed here once group 7 lands.
+"Agental Beta V2 - Direct Replies" reads each email that reaches contact@agental.co, skips spam and
+automated mail, writes a draft and posts it to the app (`/api/n8n/inbox/draft`); it sends nothing.
+Admin > Replies to approve shows the original email and the draft with three buttons: Send, Edit then
+send, Discard. Only that click sends.
+
+| Email | `kind` | Trigger | To | Status | Inbox or spam |
+|---|---|---|---|---|---|
+| Reply to an email we received | `inbox_reply` | a staff member clicks Send in Admin > Replies to approve | the original sender, in the original thread (Re: subject, In-Reply-To, References), hidden copy to contact@agental.co | built; D3 test prepared (founder) | not tested yet |
 
 ## How to test one (Test account, an address the founder controls)
 

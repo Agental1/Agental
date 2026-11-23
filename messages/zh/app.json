@@ -265,7 +265,8 @@
       "emails": "邮件",
       "announcements": "公告",
       "projects": "项目",
-      "controls": "控制"
+      "controls": "控制",
+      "replies": "待批准的回复"
     },
     "stats": {
       "artists": "艺人",
@@ -841,6 +842,39 @@
             "body": "邮箱验证后发送一次。"
           }
         }
+      }
+    },
+    "replies": {
+      "title": "待批准的回复",
+      "subtitle": "发到 contact@agental.co 并由工作流起草了回复的邮件。点击“发送”之前不会发出任何内容。回复会在原邮件线程中发给发件人，并抄送 contact@agental.co。",
+      "noSender": "尚未配置邮件发送服务（Resend 密钥）：在此之前无法发送。",
+      "empty": "没有待处理的回复。",
+      "emptyHint": "Direct Replies 工作流读取新邮件后，草稿会出现在这里。垃圾邮件和自动邮件会被跳过。",
+      "noSubject": "（无主题）",
+      "original": "来自 {from} 的原邮件",
+      "draft": "回复草稿",
+      "textCleared": "文本已在 90 天后清除。",
+      "send": "发送",
+      "edit": "编辑后发送",
+      "sendEdited": "发送此版本",
+      "discard": "放弃",
+      "how": "从 contact@agental.co 在原线程中发送给 {to}。",
+      "recent": "最近的决定",
+      "decisions": {
+        "sent": "已发送",
+        "edited": "已编辑并发送",
+        "discarded": "已放弃",
+        "expired": "已过期"
+      },
+      "results": {
+        "sent": "回复已发送。",
+        "discarded": "草稿已放弃。",
+        "already_decided": "已有人处理了此草稿。",
+        "no_sender": "未发送：尚未配置邮件发送服务。",
+        "send_failed": "未发送：邮件服务拒绝了它。草稿仍在此处。",
+        "empty": "未发送：回复为空。",
+        "not_found": "此草稿已不存在。",
+        "forbidden": "不允许。"
       }
     }
   },

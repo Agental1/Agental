@@ -20,8 +20,8 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
 | 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | built and tested with the model faked; live injection tests wait for W10 | 52 |
-| 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | (deploying) |
-| 7. Direct Replies | after 6; D3 waits for the founder | |
+| 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | 54 |
+| 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | (deploying) |
 | 8. Texts (flag off) | after 7 | |
 | 9. Controls, GO_LIVE | after 8 | |
 
@@ -100,8 +100,23 @@ the agent: the founder pastes them. Commands below generate a value straight to 
     unarchive it in n8n (Workflows > Archived > Beta V2 > Unarchive, leave it inactive) and say so:
     the agent applies the same patch to it (`n8n_g4.py`, kept in the scratchpad, logic in HANDOFF
     Group 4 notes).
-16. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
-    below in the Group 7 notes); run by the founder.
+16. **W13, Group 7: D3 email test (prepared; run by the founder).** Needs W2 (Resend key in
+    Preview too), W8 (staging secret + the `Agental app (staging)` credential), W9 (bypass token) and
+    an admin account on staging. Since round 9 the workflow only drafts: the reply goes out when you
+    click Send in staging Admin > Replies to approve.
+    1. From an address you control, email contact@agental.co: subject "Agental D3 test", one
+       question (for example "How do the plans work?").
+    2. n8n > "Agental Beta V2 - Direct Replies" > node "Incoming Gmail" > Fetch test event: note
+       `threadId` and `id` (message id).
+    3. Node "Beta Test Settings": `mode: 'inbox_test'`, `testTo: '<your address, lowercase>'`,
+       `gmailThreadId: '<threadId>'`, `gmailMessageId: '<id>'`,
+       `confirmSend: 'SEND TEST TO <your address, lowercase>'`. Execute workflow.
+    4. Staging admin (https://agental-staging-agentalco.vercel.app/en/admin/reponses): the draft and
+       your email are there. Click Send (or Edit then send).
+    5. Check: exactly one reply in your mailbox, in the original thread ("Re: Agental D3 test"), and
+       a copy in contact@agental.co. A second Execute with the same ids answers "existing" and creates
+       nothing.
+    6. Set `mode` back to `'providers'`; leave the workflow inactive and unpublished.
 
 ## Round 8d (2026-11-22): start here
 
