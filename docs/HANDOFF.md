@@ -18,7 +18,7 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | 1. Admin, simpler | live | 49 |
 | 2. Emails (Resend) | part 1 live (list, Limelight confirmation, demo accounts Test); sending waits for W1 to W3 | 50 |
 | 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
-| 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11 | (deploying) |
+| 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | app side next; live calls wait for W8 | |
 | 6. Automatic emails | after 4 and 5 | |
 | 7. Direct Replies | after 6; D3 waits for the founder | |
