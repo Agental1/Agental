@@ -264,7 +264,8 @@
       "media": "媒体",
       "emails": "邮件",
       "announcements": "公告",
-      "projects": "项目"
+      "projects": "项目",
+      "controls": "控制"
     },
     "stats": {
       "artists": "艺人",
@@ -807,6 +808,40 @@
         "CONTRACTED": "已签约",
         "REJECTED": "已拒绝"
       }
+    },
+    "controls": {
+      "title": "控制",
+      "subtitle": "自动运行的内容。每次更改都会记录在审计日志中。",
+      "saved": "已保存。",
+      "emails": {
+        "title": "自动邮件",
+        "lead": {
+          "staging": "测试模式：已批准的类别只发送给测试账户。",
+          "live": "正式模式：已批准的类别发送给在设置中开启的所有演员。"
+        },
+        "on": "已批准",
+        "off": "未批准",
+        "approve": "批准",
+        "stop": "停止",
+        "categories": {
+          "roles_found": {
+            "name": "找到的角色",
+            "body": "演员选择邮件或两者时，每日汇总代理找到的角色。"
+          },
+          "application_update": {
+            "name": "申请进展",
+            "body": "请求自录视频、邀请、签约或拒绝。"
+          },
+          "message_reply": {
+            "name": "“消息”中的新回复",
+            "body": "代理或团队的回复一小时后仍未读。"
+          },
+          "welcome": {
+            "name": "欢迎",
+            "body": "邮箱验证后发送一次。"
+          }
+        }
+      }
     }
   },
   "matchReasons": {
@@ -848,6 +883,63 @@
     "limelightIntro": "感谢你申请作品集网站。Agental 团队会阅读每一份申请，并与你联系。",
     "limelightAction": "查看 Limelight",
     "limelightReference": "你的申请编号：{reference}",
-    "limelightIgnore": "如果这不是你提交的申请，请忽略此邮件，不会有任何变化。"
+    "limelightIgnore": "如果这不是你提交的申请，请忽略此邮件，不会有任何变化。",
+    "auto": {
+      "signature": "Agental 团队",
+      "unsubscribe": "退订此类邮件",
+      "settings": "邮件设置",
+      "rolesSubject": "为你找到了新角色",
+      "rolesPreheader": "逐个打开查看详情，然后接受或拒绝。",
+      "rolesHeading": "你的 AI 代理找到的新角色：{count}",
+      "rolesIntro": "这些角色可能适合你的资料。逐个打开阅读完整说明，然后接受或拒绝。未经你同意，不会向任何选角团队发送任何内容。",
+      "rolesCta": "查看角色",
+      "rolesWhy": "你收到此邮件是因为你选择通过邮件接收找到的角色。每天最多一封。",
+      "updateSubject": "{role} 有新进展",
+      "updatePreheader": "你的一份申请有新进展。",
+      "update": {
+        "SELFTAPE_REQUESTED": "选角团队请你为 {role} 提交自录视频。打开“申请”查看需要录制的内容。",
+        "INVITED": "你已受邀参加 {role}。打开“申请”查看详情。",
+        "CONTRACTED": "关于 {role} 的好消息：选角团队选择了你。打开“申请”查看后续步骤。",
+        "REJECTED": "选角团队为 {role} 做了其他选择。你的资料仍然有效。"
+      },
+      "updateHeading": "申请进展",
+      "updateCta": "打开申请",
+      "updateWhy": "你收到此邮件是因为你在设置中开启了申请进展通知。",
+      "replySubject": "你在“消息”中有新回复",
+      "replyPreheader": "打开“消息”阅读。",
+      "replyHeading": "“消息”中的新回复",
+      "replyBody": "来自{from}的未读回复：{count}。",
+      "replyFromTeam": "Agental 团队",
+      "replyFromAgent": "你的 AI 代理",
+      "replyFromBoth": "你的 AI 代理和 Agental 团队",
+      "replyCta": "打开消息",
+      "replyWhy": "你收到此邮件是因为有回复已等待超过一小时。你在设置中开启了消息邮件。",
+      "welcomeSubject": "欢迎来到 Agental",
+      "welcomePreheader": "你的邮箱已确认。接下来是这些。",
+      "welcomeHeading": "欢迎你，{name}",
+      "welcomeHeadingAnon": "欢迎来到 Agental",
+      "welcomeIntro": "你的邮箱已确认。接下来：",
+      "welcomeItems": [
+        "将资料完善到 100%：你的第一次 AI 角色搜索会自动开始。",
+        "可能适合你的角色会出现在“申请”中。你可以逐个接受或拒绝。",
+        "“消息”中的 AI 代理会回答你的问题，Agental 团队也在。"
+      ],
+      "welcomeCta": "打开控制台",
+      "welcomeWhy": "此邮件只在你确认邮箱后发送一次。除非你开启，否则不会收到提示和新闻。"
+    }
+  },
+  "unsubscribe": {
+    "title": "邮件偏好",
+    "invalid": "此链接无效。登录后可在设置中更改邮件。",
+    "confirm": "停止接收{category}？",
+    "button": "退订",
+    "done": "已完成。你将不再收到{category}。可在设置中重新开启。",
+    "settings": "邮件设置",
+    "categories": {
+      "roles_found": "关于找到角色的邮件",
+      "application_update": "关于申请进展的邮件",
+      "message_reply": "关于“消息”新回复的邮件",
+      "welcome": "提示和新闻邮件"
+    }
   }
 }

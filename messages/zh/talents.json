@@ -1055,12 +1055,14 @@
       "notifications": {
         "lead": "选择我们向你发送哪些邮件。每个开关在更改后立即保存。",
         "applications": "申请",
-        "applicationsBody": "当为你找到角色或申请状态发生变化时。",
+        "applicationsBody": "申请状态变化时：请求自录视频、邀请、签约或拒绝。",
         "messages": "消息",
-        "messagesBody": "当我们的团队或你的代理联系你时。",
+        "messagesBody": "当团队或代理回复你而你一小时内未读时。",
         "product": "动态与建议",
         "productBody": "偶尔的产品动态。默认关闭，需要你手动开启。",
-        "saved": "通知设置已保存。"
+        "saved": "通知设置已保存。",
+        "roles": "找到的角色",
+        "rolesBody": "如果你在下方选择了邮件或两者，每天最多一封邮件，列出代理找到的角色。"
       },
       "privacyPolicy": "阅读隐私政策",
       "manage": "管理订阅"

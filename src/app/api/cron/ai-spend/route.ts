@@ -3,6 +3,7 @@ import { aiAccountStates, sendSpendAlerts } from "@/lib/ai-spend";
 import { purgeDeletedAccounts } from "@/lib/admin/account-removal";
 import { drainOutbox } from "@/lib/limelight/outbox";
 import { drainConfirmations } from "@/lib/limelight/confirmation";
+import { runAutoEmails } from "@/lib/auto-emails";
 
 /**
  * GET /api/cron/ai-spend (round 8d): reads each AI provider's spend and sends
@@ -33,8 +34,14 @@ export async function GET(req: Request) {
     console.error("[cron] limelight drain failed", e instanceof Error ? e.name : "error");
     return null;
   });
+  // Round 9, group 6: the automatic emails also run once a day from here (the hourly
+  // run is the GitHub Actions schedule, Vercel Hobby allowing daily crons only).
+  const auto = await runAutoEmails().catch((e) => {
+    console.error("[cron] automatic emails failed", e instanceof Error ? e.name : "error");
+    return null;
+  });
   return Response.json(
-    { ok: true, alerts: sent.length, purged: purge.purged, purgeFailed: purge.failed, limelightAlerts: limelight?.[0].sent ?? null, confirmations: limelight?.[1].sent ?? null },
+    { ok: true, autoEmails: auto, alerts: sent.length, purged: purge.purged, purgeFailed: purge.failed, limelightAlerts: limelight?.[0].sent ?? null, confirmations: limelight?.[1].sent ?? null },
     { headers }
   );
 }

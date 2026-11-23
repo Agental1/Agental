@@ -20,7 +20,7 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | 3. Staging and n8n | waiting for secrets and bypass (W4 to W7) | |
 | 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | built and tested with the model faked; live injection tests wait for W10 | 52 |
-| 6. Automatic emails | after 4 and 5 | |
+| 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | (deploying) |
 | 7. Direct Replies | after 6; D3 waits for the founder | |
 | 8. Texts (flag off) | after 7 | |
 | 9. Controls, GO_LIVE | after 8 | |
@@ -85,7 +85,14 @@ the agent: the founder pastes them. Commands below generate a value straight to 
     off; it cannot open the admin without enrolling, since two-factor is required). DECISIONS says
     "Admin role: contact@agental.co only". Say "remove admin from the demo account" and the agent
     adds an audited migration that clears `isAdmin` on it.
-14. **W15, Groups 3 and 4: which workflow is "Agental Beta V2"?** In n8n the app-connection
+14. **W16, Group 6: hourly automatic emails.** The agent's GitHub token cannot add workflow files
+    (no `workflow` scope), so the schedule is in `docs/ops/hourly-notify.yml`. Either run once in
+    Terminal `gh auth refresh -s workflow` (browser approval) and tell the agent "push the hourly
+    workflow", or copy the file yourself to `.github/workflows/hourly-notify.yml` on GitHub (Add file
+    > Create new file). Then GitHub > Agental1/Agental > Settings > Secrets and variables > Actions >
+    New repository secret: name `CRON_SECRET`, value the same as in Vercel (W6). Then GitHub > Actions > "Hourly automatic emails" > Run workflow once to check (HTTP 200).
+    Also: Admin > Controls > approve the email categories you want (none is approved).
+15. **W15, Groups 3 and 4: which workflow is "Agental Beta V2"?** In n8n the app-connection
     workflow "Beta V2" (id `lKTl1S67ihlNz08C`) is **archived**; the API refuses to edit it. "Agental
     Beta V2 - Direct Replies" (id `p2Woctc1Xl0jL7fp`, inactive) contains the whole casting path
     too, already pointed at staging, so round 9 edits went there (backup of both in
@@ -93,7 +100,7 @@ the agent: the founder pastes them. Commands below generate a value straight to 
     unarchive it in n8n (Workflows > Archived > Beta V2 > Unarchive, leave it inactive) and say so:
     the agent applies the same patch to it (`n8n_g4.py`, kept in the scratchpad, logic in HANDOFF
     Group 4 notes).
-15. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
+16. **W13, Group 7: D3 email test.** Prepared by the agent when Group 7 is ready (exact values
     below in the Group 7 notes); run by the founder.
 
 ## Round 8d (2026-11-22): start here

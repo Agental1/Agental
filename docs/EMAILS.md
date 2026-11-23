@@ -36,15 +36,22 @@ Retries: the Limelight alert and confirmation are retried after each request and
 
 ## Automatic emails (round 9, group 6)
 
-To be added in group 6, each with its own unsubscribe link and a link to Settings >
-Notifications. In test mode (`WORKFLOW_MODE` unset) they go only to Test accounts.
+Layout: `src/lib/email-branded.ts` (Talent theme, Helvetica, the A monogram from `/apple-icon`, plain
+English, no em dash). Engine: `src/lib/auto-emails.ts`, run every hour (GitHub Actions
+`docs/ops/hourly-notify.yml, to be placed in .github/workflows` calling `/api/cron/notify`) and once a day by the Vercel cron.
+Each has a one-click unsubscribe for its category (signed link, `List-Unsubscribe` header, page
+`/desabonnement`) and a link to Settings > Notifications. Account emails stay on.
 
-| Email | `kind` | Trigger | Status |
-|---|---|---|---|
-| Roles found (daily digest, at most one a day) | `roles_found` | new application drafts | group 6 |
-| Application update | `application_update` | self-tape requested, invited, contracted, declined | group 6 |
-| New reply in Messages | `message_reply` | a reply not opened within an hour | group 6 |
-| Welcome | `welcome` | once the email is verified | group 6 |
+Two gates before anything goes out: **staff approve each category in Admin > Controls** (none is
+approved by default), and in test mode (`WORKFLOW_MODE` unset) only **Test accounts** receive them.
+Nothing older than a week is ever sent late.
+
+| Email | `kind` | Trigger | Category switch for the performer | Status | Inbox or spam |
+|---|---|---|---|---|---|
+| Roles found (digest) | `roles_found` | new roles found (`ROLE_FOUND` notifications), at most one email a day, if the contact preference is Email or Both | Settings > Notifications > Roles found (`notifyRolesFound`) | built, tested with the mailer faked | not tested yet |
+| Application update | `application_update` | self-tape requested, invited, contracted, declined (`STATUS` notifications; "declined" added in round 9) | Applications (`notifyApplications`) | built, tested with the mailer faked | not tested yet |
+| New reply in Messages | `message_reply` | a reply from the agent or the team still unread after one hour; one email listing the count | Messages (`notifyMessages`) | built, tested with the mailer faked | not tested yet |
+| Welcome | `welcome` | once, after the email is verified (within a week) | News and tips (`notifyProduct`) | built, tested with the mailer faked | not tested yet |
 
 ## Replies to emails we receive (round 9, group 7)
 

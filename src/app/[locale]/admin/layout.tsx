@@ -22,6 +22,7 @@ const NAV = [
   { href: "/admin/annonces", key: "announcements", icon: "messages" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
   { href: "/admin/revenus", key: "revenue", icon: "console" },
+  { href: "/admin/controles", key: "controls", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/suppression", key: "cleanup", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },

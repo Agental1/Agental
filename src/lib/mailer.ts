@@ -22,6 +22,8 @@ export interface EmailMessage {
   html: string;
   /** For the admin email log: verify, reset, student, deletion_warning, limelight_alert... */
   kind?: string;
+  /** Round 9: extra headers (List-Unsubscribe and List-Unsubscribe-Post on automatic emails). */
+  headers?: Record<string, string>;
 }
 
 /** Writes the admin email log. null turns it off (unit tests). */
@@ -145,6 +147,7 @@ export async function sendEmail(
         subject: message.subject,
         text: message.text,
         html: message.html,
+        ...(message.headers && Object.keys(message.headers).length ? { headers: message.headers } : {}),
       }),
       signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
     });

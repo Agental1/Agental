@@ -58,7 +58,7 @@ export function LanguageForm({ current }: { current: Locale }) {
   );
 }
 
-type Prefs = { applications: boolean; messages: boolean; product: boolean };
+type Prefs = { roles: boolean; applications: boolean; messages: boolean; product: boolean };
 
 /** Email notifications: each switch saves on its own. */
 export function NotificationsForm({ initial }: { initial: Prefs }) {
@@ -82,7 +82,7 @@ export function NotificationsForm({ initial }: { initial: Prefs }) {
     });
   }
 
-  const rows: { key: keyof Prefs }[] = [{ key: "applications" }, { key: "messages" }, { key: "product" }];
+  const rows: { key: keyof Prefs }[] = [{ key: "roles" }, { key: "applications" }, { key: "messages" }, { key: "product" }];
   return (
     <ul className="space-y-2">
       {rows.map(({ key }) => (

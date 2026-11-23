@@ -264,7 +264,8 @@
       "media": "Médias",
       "emails": "E-mails",
       "announcements": "Annonces",
-      "projects": "Projets"
+      "projects": "Projets",
+      "controls": "Contrôles"
     },
     "stats": {
       "artists": "Artistes",
@@ -807,6 +808,40 @@
         "CONTRACTED": "Engagée",
         "REJECTED": "Refusée"
       }
+    },
+    "controls": {
+      "title": "Contrôles",
+      "subtitle": "Ce qui tourne tout seul. Chaque changement figure dans le journal d’audit.",
+      "saved": "Enregistré.",
+      "emails": {
+        "title": "E-mails automatiques",
+        "lead": {
+          "staging": "Mode test : les catégories approuvées partent vers les comptes Test seulement.",
+          "live": "Mode réel : les catégories approuvées partent vers chaque talent qui les a activées dans ses Réglages."
+        },
+        "on": "Approuvé",
+        "off": "Non approuvé",
+        "approve": "Approuver",
+        "stop": "Arrêter",
+        "categories": {
+          "roles_found": {
+            "name": "Rôles trouvés",
+            "body": "Un récapitulatif quotidien des rôles trouvés par l’agent, si le talent a choisi e-mail ou les deux."
+          },
+          "application_update": {
+            "name": "Nouvelles de candidature",
+            "body": "Self-tape demandée, invitation, contrat ou refus."
+          },
+          "message_reply": {
+            "name": "Nouvelle réponse dans Messages",
+            "body": "Une réponse de l’agent ou de l’équipe non lue après une heure."
+          },
+          "welcome": {
+            "name": "Bienvenue",
+            "body": "Une fois, après la vérification de l’e-mail."
+          }
+        }
+      }
     }
   },
   "matchReasons": {
@@ -844,10 +879,67 @@
     "codeSubject": "Votre code de vérification Agental",
     "codeIntro": "Saisissez ce code dans Agental pour vérifier votre adresse étudiante USC :",
     "codeExpiry": "Il est valable 10 minutes.",
-    "limelightSubject": "On a bien reçu ta demande Limelight",
-    "limelightIntro": "Merci pour ta demande de site portfolio. L’équipe Agental lit chaque demande et revient vers toi.",
+    "limelightSubject": "Nous avons bien reçu votre demande Limelight",
+    "limelightIntro": "Merci pour votre demande de site portfolio. L’équipe Agental lit chaque demande et revient vers vous.",
     "limelightAction": "Voir Limelight",
-    "limelightReference": "Référence de ta demande : {reference}",
-    "limelightIgnore": "Si tu n’es pas à l’origine de cette demande, ignore cet e-mail. Rien ne se passe."
+    "limelightReference": "Référence de votre demande : {reference}",
+    "limelightIgnore": "Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail. Rien ne se passe.",
+    "auto": {
+      "signature": "L’équipe Agental",
+      "unsubscribe": "Se désabonner de ces e-mails",
+      "settings": "Réglages des e-mails",
+      "rolesSubject": "De nouveaux rôles trouvés pour vous",
+      "rolesPreheader": "Ouvrez chacun pour voir les détails, puis acceptez ou refusez.",
+      "rolesHeading": "Nouveaux rôles trouvés par votre agent IA : {count}",
+      "rolesIntro": "Ces rôles peuvent correspondre à votre profil. Ouvrez chacun pour lire la description complète, puis acceptez ou refusez. Rien n’est envoyé à une équipe de casting sans vous.",
+      "rolesCta": "Voir les rôles",
+      "rolesWhy": "Vous recevez cet e-mail car vous avez choisi les alertes de rôles trouvés par e-mail. Au plus un par jour.",
+      "updateSubject": "Du nouveau pour {role}",
+      "updatePreheader": "Il y a du nouveau sur une de vos candidatures.",
+      "update": {
+        "SELFTAPE_REQUESTED": "L’équipe de casting demande une self-tape pour {role}. Ouvrez Candidatures pour voir quoi enregistrer.",
+        "INVITED": "Une invitation vous attend pour {role}. Ouvrez Candidatures pour les détails.",
+        "CONTRACTED": "Bonne nouvelle pour {role} : l’équipe de casting a fait son choix et c’est vous. Ouvrez Candidatures pour la suite.",
+        "REJECTED": "L’équipe de casting a fait un autre choix pour {role}. Votre profil reste actif."
+      },
+      "updateHeading": "Du nouveau sur une candidature",
+      "updateCta": "Ouvrir Candidatures",
+      "updateWhy": "Vous recevez cet e-mail car les nouvelles de candidatures sont activées dans vos réglages.",
+      "replySubject": "Vous avez une nouvelle réponse dans Messages",
+      "replyPreheader": "Ouvrez Messages pour la lire.",
+      "replyHeading": "Nouvelle réponse dans Messages",
+      "replyBody": "Réponses non lues de {from} : {count}.",
+      "replyFromTeam": "l’équipe Agental",
+      "replyFromAgent": "votre agent IA",
+      "replyFromBoth": "votre agent IA et l’équipe Agental",
+      "replyCta": "Ouvrir Messages",
+      "replyWhy": "Vous recevez cet e-mail car une réponse attend depuis plus d’une heure. Les e-mails de messages sont activés dans vos réglages.",
+      "welcomeSubject": "Bienvenue sur Agental",
+      "welcomePreheader": "Votre e-mail est confirmé. Voici la suite.",
+      "welcomeHeading": "Bienvenue, {name}",
+      "welcomeHeadingAnon": "Bienvenue sur Agental",
+      "welcomeIntro": "Votre e-mail est confirmé. Voici la suite :",
+      "welcomeItems": [
+        "Complétez votre profil à 100 % : votre première recherche de rôles par IA démarre alors toute seule.",
+        "Les rôles qui peuvent vous correspondre apparaissent dans Candidatures. Vous acceptez ou refusez chacun.",
+        "Votre agent IA dans Messages répond à vos questions, et l’équipe Agental est là aussi."
+      ],
+      "welcomeCta": "Ouvrir votre tableau de bord",
+      "welcomeWhy": "Vous recevez cet e-mail une seule fois, après la confirmation de votre adresse. Les conseils et nouveautés restent désactivés sauf si vous les activez."
+    }
+  },
+  "unsubscribe": {
+    "title": "Préférences d’e-mails",
+    "invalid": "Ce lien n’est pas valide. Tu peux changer tes e-mails dans les Réglages une fois connecté.",
+    "confirm": "Arrêter les {category} ?",
+    "button": "Se désabonner",
+    "done": "C’est fait. Tu ne recevras plus les {category}. Tu peux les réactiver dans les Réglages.",
+    "settings": "Réglages des e-mails",
+    "categories": {
+      "roles_found": "e-mails sur les rôles trouvés",
+      "application_update": "e-mails sur les candidatures",
+      "message_reply": "e-mails sur les nouvelles réponses dans Messages",
+      "welcome": "e-mails de conseils et nouveautés"
+    }
   }
 }

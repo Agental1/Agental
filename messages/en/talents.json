@@ -1055,12 +1055,14 @@
       "notifications": {
         "lead": "Choose which emails we send you. Each switch saves as soon as you change it.",
         "applications": "Applications",
-        "applicationsBody": "When a role is found for you or an application changes status.",
+        "applicationsBody": "When an application changes status: self-tape requested, invited, contracted or declined.",
         "messages": "Messages",
-        "messagesBody": "When our team or your agent writes to you.",
+        "messagesBody": "When our team or your agent replied and you have not read it within an hour.",
         "product": "News and tips",
         "productBody": "Occasional product news. Off unless you turn it on.",
-        "saved": "Notification settings saved."
+        "saved": "Notification settings saved.",
+        "roles": "Roles found",
+        "rolesBody": "At most one email a day listing the roles your agent found, if you chose email or both below."
       },
       "privacyPolicy": "Read the Privacy Policy",
       "manage": "Manage subscription"

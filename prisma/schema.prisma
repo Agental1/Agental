@@ -52,6 +52,11 @@ model User {
   notifyApplications    Boolean   @default(true)
   notifyMessages        Boolean   @default(true)
   notifyProduct         Boolean   @default(false)
+  // Round 9: the "roles found" email digest (sent when the contact preference is
+  // email or both), the welcome email once sent, and the last digest.
+  notifyRolesFound      Boolean   @default(true)
+  welcomeEmailAt        DateTime?
+  rolesDigestAt         DateTime?
   // When the "verify within N days or the account is deleted" email went out
   // (admin > Account cleanup). Null when never warned.
   deletionWarnedAt      DateTime?
@@ -560,6 +565,8 @@ model Message {
   topic       String?
   // Written by the Agental assistant, not by a person. Shown as the assistant.
   fromAgent   Boolean   @default(false)
+  // Round 9: when the performer was emailed about this unread reply.
+  emailedAt   DateTime?
 
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   sender User?  @relation(fields: [senderId], references: [id], onDelete: SetNull)
@@ -627,9 +634,12 @@ model Notification {
   link      String?
   readAt    DateTime?
   createdAt DateTime  @default(now())
+  /// Round 9: when this notification went out by email (automatic emails).
+  emailedAt DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([kind, emailedAt])
   @@schema("public")
 }
 
@@ -1298,5 +1308,16 @@ model AiUsage {
   @@unique([kind, ref, provider])
   @@index([createdAt])
   @@index([kind, ref])
+  @@schema("public")
+}
+
+// Round 9: switches staff change in Admin > Controls (approved automatic email
+// categories, the pause switch). Values are JSON strings; every change audited.
+model AppSetting {
+  key         String   @id
+  value       String
+  updatedById String?
+  updatedAt   DateTime @default(now()) @updatedAt
+
   @@schema("public")
 }

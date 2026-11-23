@@ -1055,12 +1055,14 @@
       "notifications": {
         "lead": "Elige qué correos te enviamos. Cada interruptor se guarda al cambiarlo.",
         "applications": "Candidaturas",
-        "applicationsBody": "Cuando se encuentra un papel para ti o una candidatura cambia de estado.",
+        "applicationsBody": "Cuando una candidatura cambia de estado: self-tape pedido, invitación, contrato o rechazo.",
         "messages": "Mensajes",
-        "messagesBody": "Cuando nuestro equipo o tu agente te escribe.",
+        "messagesBody": "Cuando nuestro equipo o tu agente te respondió y no lo leíste en una hora.",
         "product": "Novedades y consejos",
         "productBody": "Novedades ocasionales del producto. Desactivado salvo que lo actives.",
-        "saved": "Ajustes de notificación guardados."
+        "saved": "Ajustes de notificación guardados.",
+        "roles": "Papeles encontrados",
+        "rolesBody": "Como máximo un correo al día con los papeles que encontró tu agente, si elegiste correo o ambos abajo."
       },
       "privacyPolicy": "Leer la política de privacidad",
       "manage": "Gestionar la suscripción"
