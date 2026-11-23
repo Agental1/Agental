@@ -3,6 +3,45 @@
 Updated 2026-11-22 (round 8 closed: v0.6.4.0 live, see docs/ROUND8_PLAN.md and docs/ROLLBACK_R8.md). Read the Round 9 carryover first, then "Round 7b" below for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
 
+## Round 8d (2026-11-22): start here
+
+Live: Versions 45 (group 1), 46 (group 2), 47 (group 3), 48 (group 4); rows in `docs/RELEASES.md`.
+Production stays in test mode (`WORKFLOW_MODE` unset).
+
+### Done
+- Group 1: height and weight in both units (cm and kg stored), the agent's saved name in Messages,
+  the admin inbox and the bell, several conversations with delete for the performer only (kept for
+  the team, Privacy Policy line), visible thread scrollbar and Jump to latest.
+- Group 2: parallel search slots per plan (`searchSlots`, `searchSpacingHours` in `B2C_PLANS`), n8n
+  claim honors the current plan's slots under a per-performer lock, honest queue copy, expected start
+  per queued search. Quota reset on 2026-11-22: 16 accounts, 12 queued searches canceled, 12 rows
+  kept (`User.searchQuotaResetAt`). The founder's account is Test (it was UNREVIEWED, which test mode
+  refuses: that was the "AI searches are not available" message).
+- Group 3: admin two-factor (TOTP) required in production (`/securite-admin`), sign-in limit inside
+  the credentials check, Minors and Style guide pages check the admin role, media links 10 minutes,
+  price-tampering tests. Answers in `docs/SECURITY.md` (round 8d check).
+- Group 4: AI accounts card (admin dashboard), alerts to the admin bell and contact@agental.co.
+
+### Waiting on the founders
+1. **Enroll the admin authenticator now** (www.agental.co/en/admin redirects to the QR code). Until
+   then the admin answers as for a non-admin. Lost phone: `ADMIN_MFA_REQUIRED=false` in Vercel, then
+   delete the row in `AdminTotp` (docs/SECURITY.md).
+2. **AI account keys (optional):** `OPENAI_ADMIN_KEY` and `ANTHROPIC_ADMIN_KEY` in Vercel Production.
+   Neither provider offers a read-only or a balance key: both are organization admin keys (they can
+   manage members and keys, not billing). Without them the card shows "Not connected" and works on
+   typed balances. Perplexity: typed balance only.
+3. **`CRON_SECRET`** (already pending since 8c) also turns on the 6-hourly AI spend alerts.
+4. Earlier 8c items (Resend DNS and key, admin CNAME, Realtime keys) are unchanged.
+
+### Round 9 carryover
+- The first automatic search and the green button now work for Test accounts in test mode; a search
+  stays "queued" until n8n is connected (no fake result is shown). The n8n claim already honors the
+  plan's slots and the 6-hour gap per slot.
+- `tools/db/round8d-report.mjs` (read-only build report) to remove once round 8d is read.
+- Messages: the assistant does not yet introduce itself by the performer's chosen agent name (the
+  name is shown by the UI only); the agents' prompts are round 9's.
+- Account cleanup UI simplification (from 8c) still open.
+
 ## Round 8c (2026-11-22): start here
 
 Live: Versions 40 (group A), 41 (group 1), 42 (group 4), 43 (group 6); rows in `docs/RELEASES.md`.

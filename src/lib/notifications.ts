@@ -7,7 +7,7 @@ import { agentNameFor } from "@/lib/agent-name";
  * announcements for their audience, newest first, with what is unread.
  * In-app only: nothing here sends an email, a text or a push.
  */
-export type BellKind = "ROLE_FOUND" | "MESSAGE" | "STATUS" | "UPDATE";
+export type BellKind = "ROLE_FOUND" | "MESSAGE" | "STATUS" | "UPDATE" | "ALERT";
 
 export interface BellItem {
   id: string;
@@ -53,7 +53,8 @@ export async function bellFor(userId: string, portal: "TALENT" | "CASTING"): Pro
     ...notes.map((n) => ({
       id: n.id,
       key: `n:${n.id}`,
-      kind: (["ROLE_FOUND", "MESSAGE", "STATUS"].includes(n.kind) ? n.kind : "STATUS") as BellKind,
+      // ALERT: round 8d, AI spending alerts for admins (src/lib/ai-spend.ts).
+      kind: (["ROLE_FOUND", "MESSAGE", "STATUS", "ALERT"].includes(n.kind) ? n.kind : "STATUS") as BellKind,
       title: n.title ?? n.kind,
       body: n.body,
       link: n.link,
