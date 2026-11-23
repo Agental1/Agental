@@ -13,7 +13,7 @@ import { isAdminAccount } from "@/domain/admin";
  * HMAC (key derived from AUTH_SECRET): it cannot be made in a browser, and it
  * stops counting as soon as the admin's enrollment is removed.
  *
- * Required in production. ADMIN_MFA_REQUIRED=false in Vercel turns it off
+ * Required in production builds (Vercel production and preview). ADMIN_MFA_REQUIRED=false in Vercel turns it off
  * (a lost phone, until the founders re-enroll); =true turns it on elsewhere.
  */
 
@@ -25,8 +25,11 @@ type Env = Record<string, string | undefined>;
 export function adminMfaRequired(env: Env = process.env): boolean {
   const flag = (env.ADMIN_MFA_REQUIRED ?? "").trim().toLowerCase();
   if (flag === "true") return true;
-  if (flag === "false") return false;
-  return env.VERCEL_ENV === "production";
+  if (flag === "false") {
+    if (env.NODE_ENV === "production") console.warn("[admin-mfa] ADMIN_MFA_REQUIRED=false: the admin second factor is OFF");
+    return false;
+  }
+  return env.VERCEL_ENV === "production" || env.NODE_ENV === "production";
 }
 
 function key(purpose: string): Buffer {
@@ -54,27 +57,36 @@ function sign(payload: string): string {
   return createHmac("sha256", key("session-proof")).update(payload).digest("base64url");
 }
 
-/** The cookie value proving a code was typed: "<userId>.<expiry ms>.<hmac>". */
-export function mfaProof(userId: string, now = new Date()): { value: string; expires: Date } {
+/**
+ * The cookie value proving a code was typed: "<userId>.<expiry ms>.<hmac>".
+ * The HMAC also covers the enrollment's id, so a new enrollment voids every
+ * earlier proof.
+ */
+export function mfaProof(userId: string, enrollmentId: string, now = new Date()): { value: string; expires: Date } {
   const expires = new Date(now.getTime() + ADMIN_MFA_HOURS * 60 * 60 * 1000);
-  const payload = `${userId}.${expires.getTime()}`;
-  return { value: `${payload}.${sign(payload)}`, expires };
+  const mac = sign(`${userId}.${enrollmentId}.${expires.getTime()}`);
+  return { value: `${userId}.${expires.getTime()}.${mac}`, expires };
 }
 
-export function proofValid(value: string | undefined, userId: string, now = new Date()): boolean {
+export function proofValid(
+  value: string | undefined,
+  userId: string,
+  enrollmentId: string,
+  now = new Date()
+): boolean {
   if (!value) return false;
   const parts = value.split(".");
   if (parts.length !== 3) return false;
   const [id, exp, mac] = parts;
   if (id !== userId || !/^\d+$/.test(exp) || Number(exp) <= now.getTime()) return false;
-  const expected = Buffer.from(sign(`${id}.${exp}`));
+  const expected = Buffer.from(sign(`${id}.${enrollmentId}.${exp}`));
   const given = Buffer.from(mac);
   return expected.length === given.length && timingSafeEqual(expected, given);
 }
 
 /** Set the proof cookie (server actions only). */
-export async function setMfaCookie(userId: string): Promise<void> {
-  const { value, expires } = mfaProof(userId);
+export async function setMfaCookie(userId: string, enrollmentId: string): Promise<void> {
+  const { value, expires } = mfaProof(userId, enrollmentId);
   (await cookies()).set(ADMIN_MFA_COOKIE, value, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -88,9 +100,14 @@ export async function setMfaCookie(userId: string): Promise<void> {
 export async function adminMfaSatisfied(userId: string): Promise<boolean> {
   if (!adminMfaRequired()) return true;
   const value = (await cookies()).get(ADMIN_MFA_COOKIE)?.value;
-  if (!proofValid(value, userId)) return false;
-  const enrolled = await prisma.adminTotp.findUnique({ where: { userId }, select: { verifiedAt: true } });
-  return !!enrolled?.verifiedAt;
+  if (!value) return false;
+  const enrolled = await prisma.adminTotp.findUnique({ where: { userId }, select: { id: true, verifiedAt: true } });
+  return !!enrolled?.verifiedAt && proofValid(value, userId, enrolled.id);
+}
+
+/** Sign-out: the second factor goes with the session. */
+export async function clearMfaCookie(): Promise<void> {
+  (await cookies()).delete(ADMIN_MFA_COOKIE);
 }
 
 /**

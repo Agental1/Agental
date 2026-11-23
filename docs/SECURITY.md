@@ -37,7 +37,12 @@ success and failure is in the audit log. A good code sets an HttpOnly signed coo
 hours; without it, an admin is treated as a non-admin everywhere (pages, actions, APIs, media,
 inbox). Required in production. `ADMIN_MFA_REQUIRED=false` in Vercel turns it off (a lost phone);
 the founder then signs in, the page offers a new enrollment only after the old `AdminTotp` row
-is removed (Supabase SQL editor: `delete from "AdminTotp" where "userId" = '<id>';`).
+is removed (Supabase SQL editor: `delete from "AdminTotp" where "userId" = '<id>';`). The same
+row reset is needed if `AUTH_SECRET` is ever rotated (the stored secret is encrypted with a key
+derived from it). The proof cookie is tied to the enrollment (a new enrollment voids old
+proofs), is deleted at sign-out, and works on www and on admin.agental.co (each host asks once).
+Enrollment trusts the first device that finishes it: the founder enrolls right after the
+deploy, and every enrollment is in the audit log (`admin.mfa.enroll`).
 
 **Rate limits.** Sign-up (5 an hour per address, 3 per email), sign-in (30 per 15 minutes per
 address, 10 per email) in the form action and, since round 8d, inside the credentials check

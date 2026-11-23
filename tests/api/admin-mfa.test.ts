@@ -17,6 +17,7 @@ vi.mock("next/headers", () => ({
   cookies: async () => ({
     get: (name: string) => (jar.has(name) ? { name, value: jar.get(name)! } : undefined),
     set: (name: string, value: string) => void jar.set(name, value),
+    delete: (name: string) => void jar.delete(name),
   }),
   headers: async () => new Headers(),
 }));
@@ -34,18 +35,21 @@ describe("admin second factor, pure parts", () => {
     expect(adminMfaRequired({ VERCEL_ENV: "production" })).toBe(true);
     expect(adminMfaRequired({ VERCEL_ENV: "production", ADMIN_MFA_REQUIRED: "false" })).toBe(false);
     expect(adminMfaRequired({ VERCEL_ENV: "preview" })).toBe(false);
+    expect(adminMfaRequired({ NODE_ENV: "production" })).toBe(true);
     expect(adminMfaRequired({ ADMIN_MFA_REQUIRED: "true" })).toBe(true);
   });
 
   it("encrypts the secret and signs the proof", () => {
     expect(decryptSecret(encryptSecret("JBSWY3DPEHPK3PXP"))).toBe("JBSWY3DPEHPK3PXP");
     const now = new Date();
-    const { value } = mfaProof("user-a", now);
-    expect(proofValid(value, "user-a", now)).toBe(true);
-    expect(proofValid(value, "user-b", now)).toBe(false);
-    expect(proofValid(value, "user-a", new Date(now.getTime() + 13 * 3600_000))).toBe(false);
-    expect(proofValid(value.replace(/.$/, (c) => (c === "A" ? "B" : "A")), "user-a", now)).toBe(false);
-    expect(proofValid(`user-a.${now.getTime() + 3600_000}.forged`, "user-a", now)).toBe(false);
+    const { value } = mfaProof("user-a", "enr-1", now);
+    expect(proofValid(value, "user-a", "enr-1", now)).toBe(true);
+    expect(proofValid(value, "user-b", "enr-1", now)).toBe(false);
+    // A new enrollment voids earlier proofs.
+    expect(proofValid(value, "user-a", "enr-2", now)).toBe(false);
+    expect(proofValid(value, "user-a", "enr-1", new Date(now.getTime() + 13 * 3600_000))).toBe(false);
+    expect(proofValid(value.replace(/.$/, (c) => (c === "A" ? "B" : "A")), "user-a", "enr-1", now)).toBe(false);
+    expect(proofValid(`user-a.${now.getTime() + 3600_000}.forged`, "user-a", "enr-1", now)).toBe(false);
   });
 });
 
@@ -96,6 +100,31 @@ describe.skipIf(!local)("admin second factor against the database", () => {
   it("a cookie made in the browser does not count", async () => {
     jar.set(ADMIN_MFA_COOKIE, `${admin}.${Date.now() + 3600_000}.forged`);
     expect(await currentAdminId()).toBeNull();
+  });
+
+  it("a signed proof stops counting once the enrollment is removed, and an admin without it reads no one's media", async () => {
+    const { canReadMedia } = await import("@/lib/media-access");
+    const owner = await prisma.user.create({
+      data: { email: `${P}owner@test.local`, kind: "TALENT", artistProfile: { create: { stageName: "owner" } } },
+      include: { artistProfile: true },
+    });
+    const profileId = owner.artistProfile!.id;
+    expect(await canReadMedia(admin, profileId)).toBe(false);
+    const enrollment = await prisma.adminTotp.findUniqueOrThrow({ where: { userId: admin } });
+    jar.set(ADMIN_MFA_COOKIE, mfaProof(admin, enrollment.id).value);
+    expect(await canReadMedia(admin, profileId)).toBe(true);
+    await prisma.adminTotp.update({ where: { userId: admin }, data: { verifiedAt: null } });
+    expect(await currentAdminId()).toBeNull();
+    expect(await canReadMedia(admin, profileId)).toBe(false);
+  });
+
+  it("refuses a visitor and a non-admin", async () => {
+    session.mockResolvedValueOnce(null);
+    expect(await submitAdminCode("123456")).toMatchObject({ ok: false, error: { key: "errors.unauthorized" } });
+    const other = await prisma.user.create({ data: { email: `${P}other@test.local`, kind: "TALENT" } });
+    session.mockResolvedValueOnce({ user: { id: other.id, kind: "TALENT" } });
+    expect(await submitAdminCode("123456")).toMatchObject({ ok: false, error: { key: "errors.forbidden" } });
+    expect(jar.size).toBe(0);
   });
 
   it("guessing is rate limited", async () => {

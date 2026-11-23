@@ -3,6 +3,9 @@ import { prisma } from "@/lib/db";
 import { getStorage } from "@/lib/storage";
 import { canReadMedia } from "@/lib/media-access";
 
+/** How long a media link works once access is checked (round 8d: 10 minutes). */
+const MEDIA_SIGNED_URL_SECONDS = 10 * 60;
+
 /**
  * Serve a stored media object by its Media row id.
  *
@@ -22,9 +25,6 @@ import { canReadMedia } from "@/lib/media-access";
  * Anything else gets 404 rather than 403: telling an unauthenticated caller
  * that an id exists is itself a disclosure.
  */
-/** How long a media link works once access is checked. */
-const MEDIA_SIGNED_URL_SECONDS = 10 * 60;
-
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }

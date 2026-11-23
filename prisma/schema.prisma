@@ -105,9 +105,11 @@ model User {
   promoCodes        PromoVerificationCode[]
   planChoices       PlanChoice[]
 
+  // Round 8d: the admin's authenticator app (admins only).
+  adminTotp             AdminTotp?
+
   @@index([accountStatus])
   @@schema("public")
-  adminTotp             AdminTotp?
 }
 
 model Account {

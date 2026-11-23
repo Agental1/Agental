@@ -130,5 +130,8 @@ export async function loginAction(
 }
 
 export async function logoutAction() {
+  // Round 8d: the admin's second factor ends with the session.
+  const { clearMfaCookie } = await import("@/lib/admin-mfa");
+  await clearMfaCookie();
   await signOut({ redirectTo: "/" });
 }

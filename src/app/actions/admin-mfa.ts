@@ -50,6 +50,6 @@ export async function submitAdminCode(code: unknown): Promise<AdminCodeResult> {
     resourceType: "User",
     resourceId: userId,
   });
-  await setMfaCookie(userId);
+  await setMfaCookie(userId, row.id);
   return { ok: true };
 }

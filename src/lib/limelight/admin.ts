@@ -3,10 +3,10 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
 /**
- * Round 8d: and the admin typed their two-factor code (src/lib/admin-mfa.ts).
- *
  * The signed-in admin's user id, or null for everyone else: a visitor, a
- * signed-in account that is not an admin, a session whose user row is gone.
+ * signed-in account that is not an admin, a session whose user row is gone,
+ * and (round 8d) an admin who has not typed their two-factor code
+ * (src/lib/admin-mfa.ts).
  *
  * `isAdmin` is read from the database on every call, never from the session
  * token, so removing the flag takes effect at once. In the Limelight module
