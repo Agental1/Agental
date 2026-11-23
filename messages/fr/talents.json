@@ -1052,7 +1052,13 @@
     },
     "profile": {
       "title": "Mon profil",
-      "subtitle": "Un profil qui te ressemble, c'est ce que l'IA fait matcher."
+      "subtitle": "Un profil qui te ressemble, c'est ce que l'IA fait matcher.",
+      "relink": {
+        "city": "On n’a pas retrouvé ta ville « {city} » dans notre liste. Choisis-la dans la liste pour qu’on trouve des rôles près de chez toi.",
+        "cityAction": "Choisir ma ville",
+        "phone": "On n’a pas pu lire ton numéro de téléphone. Vérifie-le pour qu’on puisse te joindre.",
+        "phoneAction": "Corriger mon numéro"
+      }
     },
     "selftape": {
       "title": "Bande démo & self-tape",

@@ -5,21 +5,21 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev --webpack",
-    "build": "node tools/db/migrate-on-production-build.mjs && next build --webpack",
+    "build": "node tools/db/migrate-on-production-build.mjs && node tools/db/round8c-report.mjs && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "extract": "bun tools/extract/run.ts",
+    "extract": "tsx tools/extract/run.ts",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:seed": "ALLOW_DEMO_SEED=true bun prisma/seed.ts",
-    "db:purge-demo": "bun tools/db/purge-demo-accounts.ts",
-    "db:lowercase-emails": "bun tools/db/lowercase-emails.ts",
+    "db:seed": "ALLOW_DEMO_SEED=true tsx prisma/seed.ts",
+    "db:purge-demo": "tsx tools/db/purge-demo-accounts.ts",
+    "db:lowercase-emails": "tsx tools/db/lowercase-emails.ts",
     "db:studio": "prisma studio",
-    "i18n:check": "bun tools/i18n/check-leaks.ts",
-    "a11y:check": "bun tools/a11y/touch-targets.ts"
+    "i18n:check": "tsx tools/i18n/check-leaks.mts",
+    "a11y:check": "tsx tools/a11y/touch-targets.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.1",
@@ -70,16 +70,19 @@
     "prisma": "^7.8.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "tsx": "^4.20.0",
     "typescript": "^5",
     "vitest": "^4.1.11"
   },
-  "ignoreScripts": [
-    "sharp",
-    "unrs-resolver"
-  ],
-  "trustedDependencies": [
-    "better-sqlite3",
-    "sharp",
-    "unrs-resolver"
-  ]
+  "packageManager": "pnpm@10.34.9",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "better-sqlite3",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
 }

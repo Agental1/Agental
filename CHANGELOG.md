@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.10.0] - 2026-11-22
+
+### Changed (round 8c, group 1)
+
+- **pnpm replaces bun**: `bun.lock` removed, `pnpm-lock.yaml` added with the same direct dependency versions, `packageManager` pins pnpm 10.34.9, so Vercel installs with pnpm. Scripts that ran TypeScript with bun use `tsx`; the two scripts with top-level await are `.mts`.
+- **Flaky test**: the Limelight "two drains at the same moment" case against the real database is skipped on a one-connection local database (it failed at random there); the race itself stays covered by the unit test with a fake outbox.
+- **Pick your city, fix your number**: a profile whose city or phone round 8 could not link shows a short prompt at the top of the profile, with a link that opens the field with the cursor in it.
+- **Deep links put the cursor in the field** even when the page opened in a background tab (a short timeout instead of an animation frame), and land on the City picker (not Country) and the phone number input.
+- A one-off read-only report in the production build log lists the profiles that need the prompt and the database and Storage sizes (removed after round 8c).
+
+No migration.
+
 ## [0.6.9.0] - 2026-11-22
 
 ### Changed (round 8c, group A)

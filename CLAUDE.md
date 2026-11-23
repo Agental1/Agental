@@ -36,10 +36,11 @@ figure in a message file.
 
 ## Tooling
 
-- Package manager: bun (not pnpm or npm). Checks: `bun run typecheck`, `bun run lint`,
-  `bun run i18n:check`, `npx vitest run --no-file-parallelism` (the local database takes one
-  connection; parallel files drop it).
-- Never run database tests or `bun run build` against the database in `.env`: point
+- Package manager: pnpm (round 8c, 2026-11-22; `packageManager` pins the version, `bun.lock` is
+  gone and Vercel installs with pnpm from `pnpm-lock.yaml`). Checks: `pnpm typecheck`,
+  `pnpm lint`, `pnpm i18n:check`, `npx vitest run --no-file-parallelism` (the local database takes
+  one connection; parallel files drop it). Scripts that run TypeScript files use `tsx`.
+- Never run database tests or `pnpm build` against the database in `.env`: point
   `DATABASE_URL`/`DIRECT_URL` at the local database (localhost) first.
 - Branches: production deploys (`vercel deploy --prod` from this Mac) come from
   `frontend-redesign`; keep `main` fast-forwarded to it after each release. Work on a branch,
