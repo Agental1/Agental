@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.11.0] - 2026-11-22
+
+### Added (round 8c, group 4)
+
+- **Live bell**: a new notification reaches the bell at once through Supabase Realtime Broadcast (a private topic per person, opened by a one-hour token the app signs; no notification content travels over Realtime). Off until `SUPABASE_JWT_SECRET` and the publishable key are set; the 60-second refresh stays as the fallback.
+- **Daily database backup**, free: a Vercel cron at 09:30 UTC copies every app table to the private Storage bucket `backups` (14 days kept), with a restore script that never overwrites (`docs/BACKUPS.md`). Needs `CRON_SECRET`.
+- **Rate limit on search launches**: 20 presses of "Start finding roles" an hour per person.
+- `docs/SECURITY.md`: RLS audit of the round 8 and 8b tables (all closed on production), rate limits, Free plan usage and when Pro is needed.
+
+Migration `20261212000000_round8c_realtime_bell` (one trigger function, one trigger, one policy on `realtime.messages`; nothing granted on app tables).
+
 ## [0.6.10.0] - 2026-11-22
 
 ### Changed (round 8c, group 1)

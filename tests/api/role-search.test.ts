@@ -93,6 +93,16 @@ describe.skipIf(!local)("AI role searches", () => {
     expect(rows[0].scheduledFor!.getTime()).toBeLessThanOrEqual(Date.now());
   });
 
+  it("refuses the 21st press of the button within an hour (round 8c)", async () => {
+    session.mockResolvedValue({ user: { id: basic, kind: "TALENT" } });
+    for (let i = 0; i < 20; i++) {
+      const r = await startFindingRoles(key(300 + i));
+      expect(r).toMatchObject({ ok: false, error: { key: "errors.roleSearchQuota" } });
+    }
+    expect(await startFindingRoles(key(320))).toMatchObject({ ok: false, error: { key: "errors.tooManyAttempts" } });
+    await prisma.rateLimitEvent.deleteMany({ where: { key: `role-search:start:${basic}` } });
+  });
+
   it("stores one row for a retried click", async () => {
     session.mockResolvedValue({ user: { id: other, kind: "TALENT" } });
     const a = await startFindingRoles(key(200));

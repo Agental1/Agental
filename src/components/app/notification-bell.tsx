@@ -27,8 +27,70 @@ const ICONS: Record<Kind, LucideIcon> = {
   UPDATE: Megaphone,
 };
 
-/** How often the bell asks for news (Supabase Realtime is not set up). */
+/**
+ * How often the bell asks for news. Since round 8c a Supabase Realtime signal
+ * reloads it at once when a notification arrives; this refresh stays as the
+ * fallback (Realtime not configured, socket down, announcements).
+ */
 const REFRESH_MS = 60_000;
+
+/**
+ * Listen for "something new" on this person's private bell topic and call
+ * `onSignal` each time. Returns a stop function. Does nothing when the server
+ * says Realtime is not configured. No notification content comes over the
+ * socket: the bell reloads through /api/notifications.
+ */
+function listenForNotifications(onSignal: () => void): () => void {
+  let stopped = false;
+  let stop = () => {};
+  let renew: ReturnType<typeof setTimeout> | undefined;
+  type TokenAnswer = { url: string; anonKey: string; token: string; topic: string; expiresAt: string };
+  const fetchToken = async (): Promise<TokenAnswer | null> => {
+    try {
+      const res = await fetch("/api/realtime/token", { cache: "no-store" });
+      return res.ok ? ((await res.json()) as TokenAnswer) : null;
+    } catch {
+      return null;
+    }
+  };
+  void (async () => {
+    const first = await fetchToken();
+    if (!first || stopped) return;
+    const { RealtimeClient } = await import("@supabase/realtime-js");
+    if (stopped) return;
+    const client = new RealtimeClient(`${first.url.replace(/^http/, "ws")}/realtime/v1`, {
+      params: { apikey: first.anonKey },
+    });
+    await client.setAuth(first.token);
+    const channel = client.channel(first.topic, { config: { private: true } });
+    channel.on("broadcast", { event: "notification" }, () => onSignal()).subscribe();
+    // A new token five minutes before this one ends.
+    const schedule = (expiresAt: string) => {
+      const wait = Math.max(60_000, new Date(expiresAt).getTime() - Date.now() - 5 * 60_000);
+      renew = setTimeout(async () => {
+        const next = await fetchToken();
+        if (stopped) return;
+        if (next) {
+          await client.setAuth(next.token);
+          schedule(next.expiresAt);
+        } else schedule(new Date(Date.now() + 10 * 60_000).toISOString());
+      }, wait);
+    };
+    schedule(first.expiresAt);
+    stop = () => {
+      void client.removeAllChannels();
+      client.disconnect();
+    };
+    if (stopped) stop();
+  })().catch(() => {
+    // Realtime is a bonus: the 60-second refresh keeps working.
+  });
+  return () => {
+    stopped = true;
+    if (renew) clearTimeout(renew);
+    stop();
+  };
+}
 
 /**
  * The notification bell in the app header (round 8): a badge with the unread
@@ -64,9 +126,11 @@ export function NotificationBell({ portal }: { portal: Portal }) {
     const timer = setInterval(() => {
       if (document.visibilityState === "visible") void load();
     }, REFRESH_MS);
+    const stopListening = listenForNotifications(() => void load());
     return () => {
       clearTimeout(first);
       clearInterval(timer);
+      stopListening();
     };
   }, [load]);
 
