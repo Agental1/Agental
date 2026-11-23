@@ -270,7 +270,8 @@
       "projects": "Projects",
       "controls": "Controls",
       "replies": "Replies to approve",
-      "ai": "AI accounts"
+      "ai": "AI accounts",
+      "cookies": "Cookies"
     },
     "stats": {
       "artists": "Artists",
@@ -452,7 +453,7 @@
     },
     "accounts": {
       "title": "Accounts",
-      "subtitle": "{count, plural, one {# account matches.} other {# accounts match.}} Every view, export and status change is logged.",
+      "subtitle": "{count, plural, one {# account matches.} other {# accounts match.}} Every view, export and change is logged.",
       "search": "Name or email",
       "all": "All",
       "filter": "Filter",
@@ -475,7 +476,11 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "Last sign-in or visit"
+        "lastSignIn": "Last sign-in or visit",
+        "type": "Type",
+        "canSearch": "Can search",
+        "searchesUsed": "Searches this month",
+        "cookies": "Cookies"
       },
       "site": {
         "none": "None",
@@ -519,7 +524,7 @@
       },
       "selectAll": "Select every account on this page",
       "select": "Select {name}",
-      "setStatus": "Set status of selected accounts",
+      "setStatus": "Change the selected accounts",
       "apply": "Apply",
       "updated": "{count, plural, =0 {No account changed.} one {# account updated.} other {# accounts updated.}}",
       "statusError": "Nothing changed. Select at least one account and a status.",
@@ -527,13 +532,13 @@
       "prev": "Previous",
       "next": "Next",
       "agentsHelp": "Yes when the email is verified, the profile is 100% complete, the person is an adult and opted in, and staff did not mark the account Spam, Test (outside staging) or revoked. Nobody approves accounts by hand.",
-      "statusOne": "Account status",
+      "statusOne": "Change this account",
       "admin": "admin",
       "verifiedOn": "Verified {date}",
       "verifiedGoogle": "Verified by Google",
       "notVerified": "Not verified",
       "verifiedReadOnly": "Set by the real verification only. Staff cannot change it.",
-      "exceptionsNote": "Accounts become eligible on their own. Mark only exceptions: Spam, Test, Staff, or revoke eligibility. \"Automatic\" undoes a mark.",
+      "exceptionsNote": "Searches open on their own once the email is verified and the profile is at 100%. Mark only what differs: Test, Staff, or block AI searches. \"Test: off\" removes the Test flag.",
       "filters": {
         "group": "Group",
         "createdBefore": "Created before",
@@ -549,8 +554,7 @@
         "casting": "Casting",
         "staff": "Staff",
         "test": "Test",
-        "spam": "Spam or revoked",
-        "unreviewed": "To review"
+        "blocked": "Blocked by staff"
       },
       "verifiedYes": "Verified",
       "methods": {
@@ -592,6 +596,61 @@
           "test": "Protected: test",
           "paid": "Protected: paid or in a team",
           "deleted": "Deleted"
+        }
+      },
+      "counts": {
+        "note": "Counts are the same on every admin page. Deleted accounts are counted only in Deleted.",
+        "accounts": {
+          "label": "Accounts",
+          "help": "Accounts: everyone who signed up, of any type, not deleted, including Test accounts."
+        },
+        "performers": {
+          "label": "Performers",
+          "help": "Performers: accounts of type Performer, not deleted, including Test accounts."
+        },
+        "casting": {
+          "label": "Casting",
+          "help": "Casting: accounts of type Casting, not deleted, including Test accounts."
+        },
+        "staff": {
+          "label": "Staff",
+          "help": "Staff: the founders' and the team's accounts, not deleted, including Test accounts."
+        },
+        "test": {
+          "label": "Test",
+          "help": "Test: accounts with the Test flag on, of any type, not deleted. Each is also counted in its type."
+        },
+        "deleted": {
+          "label": "Deleted",
+          "help": "Deleted: accounts in the 30-day Deleted list, counted nowhere else, purged after 30 days."
+        }
+      },
+      "marks": {
+        "choose": "Choose a change",
+        "TEST": "Test: on",
+        "UNREVIEWED": "Test: off (back to normal)",
+        "staff_on": "Type: Staff",
+        "staff_off": "Type: Performer or Casting (as signed up)",
+        "REVOKED": "Block AI searches",
+        "SPAM": "Spam (blocks AI searches)"
+      },
+      "canSearchHelp": "The same reason the performer sees under the green button.",
+      "types": {
+        "PERFORMER": "Performer",
+        "CASTING": "Casting",
+        "STAFF": "Staff"
+      },
+      "testBadge": "Test",
+      "can": {
+        "yes": "Yes",
+        "no": "No:",
+        "reasons": {
+          "blocked": "blocked by staff",
+          "not_adult": "under 18",
+          "email_unverified": "email not verified",
+          "profile_incomplete": "profile below 100%",
+          "not_open": "searches not open for this account (test mode)",
+          "quota": "no searches left this month"
         }
       }
     },
@@ -944,6 +1003,44 @@
       "texts": "Texts",
       "none": "None in the last 30 days.",
       "balances": "Balances, budgets and alert thresholds: on the dashboard"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "subtitle": "Who accepted the cookies. Accounts: each choice with its date and the policy version (current: {version}). Visitors without an account: weekly totals only, nothing that identifies them.",
+      "accountsTitle": "Accounts",
+      "visitorsTitle": "Visitors without an account (choices made)",
+      "visitorsLead": "Choices made by week, recorded since round 10 (2026-11-23), at most 3 an hour from one address. A visitor who changes their mind counts again. Before that, a visitor's choice was kept only in their own browser.",
+      "visitorsEmpty": "No visitor choice recorded yet.",
+      "choices": {
+        "accepted_all": "Accepted all",
+        "rejected": "Rejected non-essential",
+        "custom": "Custom",
+        "none": "No choice recorded"
+      },
+      "filters": {
+        "choice": "Choice",
+        "version": "Policy version",
+        "from": "Chosen from",
+        "to": "Chosen until",
+        "all": "All",
+        "apply": "Filter",
+        "clear": "Clear"
+      },
+      "csv": "Export CSV",
+      "cols": {
+        "account": "Account",
+        "choice": "Choice",
+        "categories": "Categories",
+        "date": "Date",
+        "version": "Policy version",
+        "week": "Week"
+      },
+      "categories": "Analytics {analytics} · Marketing {marketing}",
+      "on": "on",
+      "off": "off",
+      "noVersion": "before versions",
+      "weekOf": "Week of {date}",
+      "more": "{count} more in the CSV export."
     }
   },
   "matchReasons": {

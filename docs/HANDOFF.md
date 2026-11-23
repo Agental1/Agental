@@ -15,8 +15,8 @@ Live before round 10: Version 57.
 |---|---|---|
 | 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
 | 2. Sign-up code and onboarding | live; sending the code waits for W0 (Resend) | 59 |
-| 3. The green button | live; the production test (3.5) waits for W0 and W17 | 60 |
-| 4. A clearer admin | | |
+| 3. The green button | live; reset 17 accounts (5 waiting searches canceled); the production test (3.5) waits for W0 and W17 | 60 |
+| 4. A clearer admin | live (type, Test badge, Can search, one set of counts, Cookies) | 61 |
 
 ### Why the green button failed for the founder's new account (3.1, read from production 2026-11-23)
 

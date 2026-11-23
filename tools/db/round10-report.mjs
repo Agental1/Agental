@@ -68,7 +68,7 @@ try {
   await section("targets", async () => {
     for (const [label, hash] of Object.entries(TARGETS)) {
       const r = await c.query(
-        `select u.id, u.email, u.kind, u."isAdmin", u."accountStatus", u."emailVerified", u."deletedAt",
+        `select u.id, u.email, u.kind, u."isAdmin", u."isStaff", u."accountStatus", u."emailVerified", u."deletedAt",
                 u."createdAt", u."lastSignInAt", u."passwordHash" is not null pw, u."searchQuotaResetAt",
                 u."searchPeriodStartedAt", u."agentsOptInAt", u."onboardingCompletedAt",
                 (select string_agg(a.provider, ',') from "Account" a where a."userId" = u.id) providers,
@@ -83,7 +83,7 @@ try {
         continue;
       }
       const u = r.rows[0];
-      log(`${label}: user=${u.id} ${mask(u.email)} kind=${u.kind} admin=${u.isAdmin} status=${u.accountStatus} verified=${u.emailVerified ? u.emailVerified.toISOString() : "no"} deleted=${!!u.deletedAt} created=${u.createdAt.toISOString()} lastSignIn=${u.lastSignInAt?.toISOString() ?? "none"} password=${u.pw} providers=${u.providers ?? "none"} optIn=${u.agentsOptInAt?.toISOString() ?? "none"} quotaReset=${u.searchQuotaResetAt?.toISOString() ?? "none"} period=${u.searchPeriodStartedAt?.toISOString() ?? "none"} emails=${u.emails} ${u.email_kinds ?? ""}`);
+      log(`${label}: user=${u.id} ${mask(u.email)} kind=${u.kind} admin=${u.isAdmin} staff=${u.isStaff} status=${u.accountStatus} verified=${u.emailVerified ? u.emailVerified.toISOString() : "no"} deleted=${!!u.deletedAt} created=${u.createdAt.toISOString()} lastSignIn=${u.lastSignInAt?.toISOString() ?? "none"} password=${u.pw} providers=${u.providers ?? "none"} optIn=${u.agentsOptInAt?.toISOString() ?? "none"} quotaReset=${u.searchQuotaResetAt?.toISOString() ?? "none"} period=${u.searchPeriodStartedAt?.toISOString() ?? "none"} emails=${u.emails} ${u.email_kinds ?? ""}`);
       const p = await c.query(
         `select p.id, p."legalFirstName", p."legalLastName", p."legalName", p."birthDate", p.gender, p.city,
                 p."cityGeonameId", p.phone, p.bio, p.physical, p.preferences, p."minRateCents",
@@ -123,6 +123,23 @@ try {
     for (const x of t.rows) log(`marked user=${x.id} ${mask(x.email)} kind=${x.kind} status=${x.s}`);
     const m = await c.query(`select count(*) n from "Membership"`);
     log(`memberships n=${m.rows[0].n}`);
+  });
+
+  await section("model", async () => {
+    const r = await c.query(`select
+        count(*) filter (where "deletedAt" is null) accounts,
+        count(*) filter (where "deletedAt" is null and not ("isStaff" or "isAdmin" or "accountStatus" = 'STAFF') and kind <> 'CASTING') performers,
+        count(*) filter (where "deletedAt" is null and not ("isStaff" or "isAdmin" or "accountStatus" = 'STAFF') and kind = 'CASTING') casting,
+        count(*) filter (where "deletedAt" is null and ("isStaff" or "isAdmin" or "accountStatus" = 'STAFF')) staff,
+        count(*) filter (where "deletedAt" is null and "accountStatus" = 'TEST') test,
+        count(*) filter (where "deletedAt" is not null) deleted
+      from "User"`);
+    const x = r.rows[0];
+    log(`model accounts=${x.accounts} performers=${x.performers} casting=${x.casting} staff=${x.staff} test=${x.test} deleted=${x.deleted}`);
+    const s = await c.query(`select u.id, u.email, u."accountStatus" s from "User" u where u."isStaff" and u."deletedAt" is null order by u."createdAt"`);
+    for (const y of s.rows) log(`staff user=${y.id} ${mask(y.email)} test=${y.s === "TEST"}`);
+    const v = await c.query(`select choice, sum(count) n from "ConsentTally" group by 1 order by 1`);
+    for (const y of v.rows) log(`visitor consent choice=${y.choice} n=${y.n}`);
   });
 
   await section("consent", async () => {

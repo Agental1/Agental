@@ -4,7 +4,15 @@ import { ELIGIBILITY_SELECT, factsFrom } from "@/lib/agents";
 import { agentsEnabled, isAccountStatus, workflowMode, type AccountStatus } from "@/domain/workflow/eligibility";
 import { searchAccess } from "@/lib/app-settings";
 import { removalBlock, type RemovalBlock } from "@/domain/account-removal";
+import { accountType, effectiveStatus, isTestAccount, type AccountType } from "@/domain/account-model";
+import { searchBlock, type SearchBlock } from "@/domain/search-block";
+import { completenessInputOf, missingItems } from "@/domain/completeness";
+import { COUNTED_STATUSES, allowanceFor, periodActive, periodKeyFor } from "@/domain/role-search";
+import { consentChoiceOf, type ConsentChoice } from "@/domain/consent-choice";
+import { isAdult } from "@/domain/age";
+import type { PlanB2C } from "@/domain/enums";
 import { paidUserIds } from "@/lib/admin/account-removal";
+import { effectivePlan } from "@/lib/billing/entitlement";
 
 /**
  * The admin data hub: every account with the facts the team asks about, and
@@ -36,7 +44,8 @@ export interface AccountFilters {
   dir?: "asc" | "desc";
 }
 
-export const ACCOUNT_GROUPS = ["performers", "casting", "staff", "test", "spam", "unreviewed"] as const;
+/** Round 10: the groups are the types, the Test flag and "blocked by staff". */
+export const ACCOUNT_GROUPS = ["performers", "casting", "staff", "test", "blocked"] as const;
 export type AccountGroup = (typeof ACCOUNT_GROUPS)[number];
 export const ACCOUNT_SORTS = ["name", "email", "created", "lastSignIn", "status", "plan", "completeness"] as const;
 export type AccountSort = (typeof ACCOUNT_SORTS)[number];
@@ -62,6 +71,15 @@ export interface AccountRow {
   paid: boolean;
   /** Why the row cannot be ticked for Delete or the warning (null: it can). */
   block: RemovalBlock | null;
+  /** Round 10: Performer, Casting or Staff, and the separate Test flag. */
+  type: AccountType;
+  isTest: boolean;
+  /** Round 10: null = "Can search: Yes"; "n/a" for Casting and Staff not marked Test. */
+  canSearch: SearchBlock | null | "n/a";
+  /** Searches counted this 30-day period (since the last quota reset). */
+  searchesUsed: number;
+  /** Round 10: the cookie choice recorded on the account. */
+  consent: { choice: ConsentChoice; at: Date | null; version: string | null };
 }
 
 const isDay = (v: string | undefined) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T00:00:00Z`)) ? v : undefined);
@@ -98,22 +116,21 @@ export function accountFiltersFrom(get: (k: string) => string | null | undefined
   };
 }
 
-/** The database filter for a group, the same split as signupTotals. */
+/** The database filter for a group (round 10 model, see src/domain/account-model.ts). */
+const STAFF_WHERE = { OR: [{ isStaff: true }, { isAdmin: true }, { accountStatus: "STAFF" }] };
+const NOT_STAFF = { isStaff: false, isAdmin: false, accountStatus: { not: "STAFF" } };
 function groupWhere(g: AccountGroup | undefined) {
-  const notStaff = { isAdmin: false, accountStatus: { not: "STAFF" } };
   switch (g) {
     case "staff":
-      return { OR: [{ isAdmin: true }, { accountStatus: "STAFF" }] };
+      return STAFF_WHERE;
     case "test":
-      return { isAdmin: false, accountStatus: "TEST" };
-    case "spam":
-      return { isAdmin: false, accountStatus: { in: ["SPAM", "REVOKED"] } };
+      return { accountStatus: "TEST" };
+    case "blocked":
+      return { accountStatus: { in: ["SPAM", "REVOKED"] } };
     case "performers":
-      return { ...notStaff, kind: { not: "CASTING" }, accountStatus: { notIn: ["STAFF", "TEST", "SPAM", "REVOKED"] } };
+      return { ...NOT_STAFF, kind: { not: "CASTING" } };
     case "casting":
-      return { ...notStaff, kind: "CASTING", accountStatus: { notIn: ["STAFF", "TEST", "SPAM", "REVOKED"] } };
-    case "unreviewed":
-      return { isAdmin: false, accountStatus: { notIn: ["STAFF", "TEST", "SPAM", "REVOKED", "APPROVED"] } };
+      return { ...NOT_STAFF, kind: "CASTING" };
     default:
       return {};
   }
@@ -149,10 +166,14 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       id: true,
       name: true,
       email: true,
-      kind: true,
-      isAdmin: true,
       createdAt: true,
       lastSignInAt: true,
+      searchPeriodStartedAt: true,
+      searchQuotaResetAt: true,
+      consentAnalytics: true,
+      consentMarketing: true,
+      consentAt: true,
+      consentVersion: true,
       ...ELIGIBILITY_SELECT,
       artistProfile: {
         select: { id: true, isMinor: true, ...COMPLETENESS_SELECT },
@@ -164,16 +185,42 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
     where: { subjectType: "ARTIST", subjectId: { in: users.map((u) => u.id) } },
     select: { subjectId: true, plan: true, compPlan: true, compUntil: true, status: true },
   });
-  const planOf = new Map(
-    subs.map((s) => [
-      s.subjectId,
-      s.status !== "ACTIVE" ? "FREE" : s.plan === "FREE" && s.compPlan && s.compUntil && s.compUntil > now ? s.compPlan : s.plan,
-    ])
-  );
+  // Round 10: the same plan the performer's quota uses (a comp plan included).
+  const planOf = new Map(subs.map((s) => [s.subjectId, effectivePlan(s, now).plan]));
   const paid = await paidUserIds(users.map((u) => u.id));
+  // Searches counted this period, in one query (same rule as getRoleSearchQuota).
+  const counted = await prisma.roleSearchRequest.findMany({
+    where: { userId: { in: users.map((u) => u.id) }, status: { in: [...COUNTED_STATUSES] } },
+    select: { userId: true, periodKey: true, createdAt: true },
+  });
+  const usedOf = (u: { id: string; searchPeriodStartedAt: Date | null; searchQuotaResetAt: Date | null }) => {
+    const start = u.searchPeriodStartedAt;
+    if (!periodActive(start, now)) return 0;
+    const key = periodKeyFor(start!);
+    return counted.filter((r) => r.userId === u.id && r.periodKey === key && (!u.searchQuotaResetAt || r.createdAt >= u.searchQuotaResetAt)).length;
+  };
   const rows: AccountRow[] = users.map((u) => {
     const facts = factsFrom(u, now);
     const isPaid = paid.has(u.id);
+    const type = accountType(u);
+    const plan = (u.kind === "TALENT" ? (planOf.get(u.id) ?? "FREE") : "FREE") as PlanB2C;
+    const used = usedOf(u);
+    const limit = allowanceFor(plan).count;
+    const p = u.artistProfile;
+    const canSearch: AccountRow["canSearch"] =
+      u.kind !== "TALENT" || (type === "STAFF" && !isTestAccount(u))
+        ? "n/a"
+        : searchBlock({
+            kind: u.kind,
+            accountStatus: effectiveStatus(u),
+            deleted: false,
+            isAdult: !!p && !p.isMinor && isAdult(p.birthDate, now),
+            emailVerified: facts.emailVerified !== null,
+            missing: p ? missingItems(completenessInputOf(p)) : ["legalName"],
+            quota: { limit, remaining: Math.max(0, limit - used), resetsAt: null },
+            mode,
+            access,
+          });
     return {
       id: u.id,
       name: u.artistProfile?.stageName || u.name || "",
@@ -192,7 +239,12 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       website: u.sites.some((s) => s.status === "PUBLISHED") ? "published" : u.sites.length > 0 ? "draft" : "none",
       lastSignInAt: u.lastSignInAt,
       paid: isPaid,
-      block: removalBlock({ isAdmin: u.isAdmin, accountStatus: u.accountStatus, deletedAt: null, paid: isPaid }),
+      block: removalBlock({ isAdmin: u.isAdmin || u.isStaff, accountStatus: effectiveStatus(u), deletedAt: null, paid: isPaid }),
+      type,
+      isTest: isTestAccount(u),
+      canSearch,
+      searchesUsed: used,
+      consent: { choice: consentChoiceOf(u), at: u.consentAt, version: u.consentVersion },
     };
   });
   const kept = rows.filter(
@@ -235,51 +287,41 @@ export function sortAccounts(rows: AccountRow[], sort: AccountSort | undefined, 
   });
 }
 
-export interface SignupTotals {
-  /** Unique registered accounts, every kind and status. */
-  all: number;
-  /** Real accounts (not staff, test or spam), by type and review state. */
-  performers: { total: number; approved: number; unreviewed: number };
-  casting: { total: number; approved: number; unreviewed: number };
+/**
+ * Round 10: the one set of counts every admin page shows (definitions in
+ * docs/DECISIONS.md). Accounts in the 30-day "Deleted" list are counted only
+ * as "deleted". Test accounts are counted in their type and in "test".
+ */
+export interface AccountCounts {
+  /** Everyone who signed up and is not deleted. */
+  accounts: number;
+  performers: number;
+  casting: number;
   staff: number;
+  /** Accounts with the Test flag, whatever their type. */
   test: number;
-  spam: number;
+  /** In Admin > Deleted (restorable for 30 days, then purged). */
+  deleted: number;
 }
 
-/**
- * The signup counts. One row per User (email is unique), so an account is
- * counted once. Staff means status STAFF or an admin, whatever the status.
- * Limelight leads live in their own table and are never counted here.
- */
-export async function signupTotals(): Promise<SignupTotals> {
+export async function accountCounts(): Promise<AccountCounts> {
   const groups = await prisma.user.groupBy({
-    by: ["kind", "accountStatus", "isAdmin"],
+    by: ["kind", "accountStatus", "isAdmin", "isStaff"],
     where: { deletedAt: null },
     _count: { _all: true },
   });
-  const t: SignupTotals = {
-    all: 0,
-    performers: { total: 0, approved: 0, unreviewed: 0 },
-    casting: { total: 0, approved: 0, unreviewed: 0 },
-    staff: 0,
-    test: 0,
-    spam: 0,
-  };
+  const deleted = await prisma.user.count({ where: { deletedAt: { not: null } } });
+  const c: AccountCounts = { accounts: 0, performers: 0, casting: 0, staff: 0, test: 0, deleted };
   for (const g of groups) {
     const n = g._count._all;
-    t.all += n;
-    if (g.isAdmin || g.accountStatus === "STAFF") t.staff += n;
-    else if (g.accountStatus === "TEST") t.test += n;
-    // Spam and revoked eligibility: both excluded from the agents by staff.
-    else if (g.accountStatus === "SPAM" || g.accountStatus === "REVOKED") t.spam += n;
-    else {
-      const side = g.kind === "CASTING" ? t.casting : t.performers;
-      side.total += n;
-      if (g.accountStatus === "APPROVED") side.approved += n;
-      else side.unreviewed += n;
-    }
+    c.accounts += n;
+    const type = accountType(g);
+    if (type === "STAFF") c.staff += n;
+    else if (type === "CASTING") c.casting += n;
+    else c.performers += n;
+    if (isTestAccount(g)) c.test += n;
   }
-  return t;
+  return c;
 }
 
 export type TimelineKind = "signup" | "verified" | "audit" | "media" | "search" | "message" | "limelight" | "plan";
@@ -303,6 +345,7 @@ export async function accountTimeline(userId: string) {
       emailVerified: true,
       accountStatus: true,
       isAdmin: true,
+      isStaff: true,
       deletedAt: true,
       agentsOptInAt: true,
       autoSearchOptIn: true,
@@ -355,9 +398,9 @@ export function accountsCsv(rows: AccountRow[]): string {
     if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const head = ["id", "name", "email", "audience", "plan", "created_at", "signup", "email_verified", "status", "admin", "agents_enabled", "completeness", "media", "website", "last_sign_in", "paid"];
+  const head = ["id", "name", "email", "type", "test", "email_verified", "verified_at", "completeness", "can_search", "searches_used", "created_at", "last_sign_in", "plan", "signup", "cookies", "cookies_at", "cookies_version", "media", "website", "paid", "admin"];
   const lines = rows.map((r) =>
-    [r.id, r.name, r.email, r.audience, r.plan, r.createdAt, r.method, r.emailVerified, r.status, r.isAdmin, r.agentsEnabled, r.completeness ?? "", r.mediaCount, r.website, r.lastSignInAt ?? "", r.paid]
+    [r.id, r.name, r.email, r.type, r.isTest, r.emailVerified, r.verifiedAt && r.verifiedAt.getTime() > 0 ? r.verifiedAt : "", r.completeness ?? "", r.canSearch === null ? "yes" : r.canSearch === "n/a" ? "n/a" : `no: ${r.canSearch.reason}`, r.searchesUsed, r.createdAt, r.lastSignInAt ?? "", r.plan, r.method, r.consent.choice, r.consent.at ?? "", r.consent.version ?? "", r.mediaCount, r.website, r.paid, r.isAdmin]
       .map(cell)
       .join(",")
   );

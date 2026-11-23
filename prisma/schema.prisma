@@ -84,6 +84,10 @@ model User {
   // Agents run only for APPROVED accounts in live, TEST accounts in staging
   // (src/domain/workflow/eligibility.ts).
   accountStatus         String    @default("UNREVIEWED")
+  // Round 10: the account type is Performer or Casting (from `kind`) or Staff.
+  // Staff: the founders' and the team's accounts, whatever their kind. Test
+  // stays a separate on/off flag (accountStatus TEST), shown as a badge.
+  isStaff               Boolean   @default(false)
   // First "Start finding roles" click: the performer's opt-in to the agents.
   agentsOptInAt         DateTime?
   // Opt-in to the six-hour automatic search.
@@ -1294,6 +1298,18 @@ model EmailVerificationCode {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
+  @@schema("public")
+}
+
+/// Round 10: cookie choices of visitors without an account, as weekly totals
+/// only (nothing that identifies anyone). Signed-in choices stay on User.
+model ConsentTally {
+  weekStart DateTime
+  /// accepted_all | rejected | custom
+  choice    String
+  count     Int      @default(0)
+
+  @@id([weekStart, choice])
   @@schema("public")
 }
 

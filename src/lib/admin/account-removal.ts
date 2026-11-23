@@ -50,12 +50,13 @@ export async function paidUserIds(ids: string[], db = prisma): Promise<Set<strin
 export async function removalBlocks(ids: string[]): Promise<Map<string, RemovalBlock>> {
   const users = await prisma.user.findMany({
     where: { id: { in: ids } },
-    select: { id: true, isAdmin: true, accountStatus: true, deletedAt: true },
+    select: { id: true, isAdmin: true, isStaff: true, accountStatus: true, deletedAt: true },
   });
   const paid = await paidUserIds(users.map((u) => u.id));
   const out = new Map<string, RemovalBlock>();
   for (const u of users) {
-    const b = removalBlock({ isAdmin: u.isAdmin, accountStatus: u.accountStatus, deletedAt: u.deletedAt, paid: paid.has(u.id) });
+    // Round 10: Staff accounts are protected like admins.
+    const b = removalBlock({ isAdmin: u.isAdmin || u.isStaff, accountStatus: u.accountStatus, deletedAt: u.deletedAt, paid: paid.has(u.id) });
     if (b) out.set(u.id, b);
   }
   return out;
@@ -86,7 +87,7 @@ export async function softDeleteAccounts(adminId: string, rawIds: string[], now 
     const { count } = await prisma.user.updateMany({
       // The status just read: a change in between makes this match nothing, so
       // deletedPrevStatus is always the status the account really had.
-      where: { id: u.id, deletedAt: null, isAdmin: false, accountStatus: u.accountStatus },
+      where: { id: u.id, deletedAt: null, isAdmin: false, isStaff: false, accountStatus: u.accountStatus },
       data: { deletedAt: now, deletedById: adminId, deletedPrevStatus: u.accountStatus, accountStatus: "REVOKED", sessionsValidAfter: now },
     });
     if (count !== 1) continue;

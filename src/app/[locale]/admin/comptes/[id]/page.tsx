@@ -7,7 +7,7 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { accountTimeline } from "@/lib/admin/accounts";
 import { dateTime } from "@/lib/format";
-import { STAFF_STATUSES, isStaffStatus } from "@/domain/workflow/eligibility";
+import { accountType, isTestAccount } from "@/domain/account-model";
 import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 
 /** One account's timeline. Media open through the private media route (signed link). */
@@ -48,7 +48,8 @@ export default async function AccountPage({
           {user.artistProfile?.stageName || user.name || user.email}
         </h1>
         <p className="text-fg-muted">
-          {user.email} · {user.kind}
+          {user.email} · {t(`admin.accounts.types.${accountType(user)}`)}
+          {isTestAccount(user) ? ` · ${t("admin.accounts.testBadge")}` : ""}
           {user.artistProfile
             ? ` · ${completenessOf(user.artistProfile)}%`
             : ""}
@@ -83,17 +84,16 @@ export default async function AccountPage({
             <span className="font-bold">{t("admin.accounts.statusOne")}</span>
             <select
               name="status"
-              defaultValue={
-                isStaffStatus(user.accountStatus)
-                  ? user.accountStatus
-                  : "UNREVIEWED"
-              }
+              defaultValue=""
               aria-label={t("admin.accounts.statusOne")}
               className="h-10 rounded-sedan border border-border bg-surface px-2 text-sm"
             >
-              {STAFF_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {t(`admin.accounts.statuses.${s}`)}
+              <option value="" disabled>
+                {t("admin.accounts.marks.choose")}
+              </option>
+              {(["TEST", "UNREVIEWED", "staff:on", "staff:off", "REVOKED", "SPAM"] as const).map((m) => (
+                <option key={m} value={m}>
+                  {t(`admin.accounts.marks.${m.replace(":", "_")}`)}
                 </option>
               ))}
             </select>

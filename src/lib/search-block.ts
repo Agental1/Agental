@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { ELIGIBILITY_SELECT, emailIsVerified } from "@/lib/agents";
 import { isAdult } from "@/domain/age";
+import { effectiveStatus } from "@/domain/account-model";
 import { completenessInputOf, missingItems } from "@/domain/completeness";
 import { searchBlock, type SearchBlock, type SearchNotice } from "@/domain/search-block";
 import { workflowMode, type SearchAccess, type WorkflowMode } from "@/domain/workflow/eligibility";
@@ -19,14 +20,14 @@ export async function searchBlockFor(
   const now = opts.now ?? new Date();
   const u = await prisma.user.findUnique({
     where: { id: userId },
-    select: { ...ELIGIBILITY_SELECT, kind: true },
+    select: ELIGIBILITY_SELECT,
   });
   if (!u) return { reason: "blocked" };
   const p = u.artistProfile;
   const quota = await getRoleSearchQuota(userId, now);
   return searchBlock({
     kind: u.kind,
-    accountStatus: u.accountStatus,
+    accountStatus: effectiveStatus(u),
     deleted: !!u.deletedAt,
     isAdult: !!p && !p.isMinor && isAdult(p.birthDate, now),
     emailVerified: !!emailIsVerified(u),

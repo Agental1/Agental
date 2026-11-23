@@ -3,6 +3,16 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.29.0] - 2026-11-23
+
+### Changed (round 10, group 4: a clearer admin)
+
+- **One account model, explained on the page:** a type (Performer, Casting or Staff), Test as a separate badge, Deleted counted only in Deleted. Six counts (Accounts, Performers, Casting, Staff, Test, Deleted), each with an "i" that says what it counts, the same on Admin home and Admin > Accounts. Admins and older STAFF accounts, and the founder's own Test account (kept Test), became Staff.
+- **One readable line per account:** name, email, type, Test badge, email verified with the date, profile %, "Can search: Yes" or "No: <reason>" (the green button's reasons), searches used this month, sign-up date, last sign-in, cookie choice. The review statuses and "Agents enabled" left the screens (kept in the database and the CSV). The change menu: Test on/off, Staff on/off, Block AI searches, Spam.
+- **Admin > Cookies:** each account's choice with its date and policy version, filters and CSV; visitors without an account as weekly totals by choice only, recorded from now on.
+
+Migration `20261226000000_round10_account_model` (a column, a table, RLS on; data: Staff types, audited).
+
 ## [0.6.28.0] - 2026-11-23
 
 ### Changed (round 10, group 3: the green button)

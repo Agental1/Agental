@@ -1,5 +1,10 @@
 "use server";
 
+import { createHash } from "node:crypto";
+import { headers } from "next/headers";
+import { consentChoiceOf, weekStartOf } from "@/domain/consent-choice";
+import { hitRateLimit } from "@/lib/rate-limit";
+
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
@@ -26,7 +31,12 @@ export async function saveConsent(input: unknown): Promise<SaveConsentResult> {
 
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return { ok: true };
+  if (!userId) {
+    // Round 10: a visitor without an account. Only a weekly total by choice is
+    // kept (nothing that identifies anyone); a failure never blocks the choice.
+    await tallyVisitorChoice(choice).catch(() => undefined);
+    return { ok: true };
+  }
 
   const before = await prisma.user.findUnique({
     where: { id: userId },
@@ -44,4 +54,20 @@ export async function saveConsent(input: unknown): Promise<SaveConsentResult> {
     after: choice,
   });
   return { ok: true };
+}
+
+async function tallyVisitorChoice(choice: { analytics: boolean; marketing: boolean }): Promise<void> {
+  // A few choices an hour per address count; a script cannot inflate the totals.
+  const hdrs = await headers();
+  const ip = hdrs.get("x-real-ip")?.trim() || hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ipKey = createHash("sha256").update(`agental.consent-tally:${process.env.AUTH_SECRET ?? ""}:${ip}`).digest("hex");
+  const gate = await hitRateLimit(prisma, `consent-tally:${ipKey}`, { limit: 3, windowMs: 60 * 60 * 1000 });
+  if (!gate.allowed) return;
+  const kind = consentChoiceOf({ consentAnalytics: choice.analytics, consentMarketing: choice.marketing });
+  const weekStart = weekStartOf(new Date());
+  await prisma.consentTally.upsert({
+    where: { weekStart_choice: { weekStart, choice: kind } },
+    create: { weekStart, choice: kind, count: 1 },
+    update: { count: { increment: 1 } },
+  });
 }

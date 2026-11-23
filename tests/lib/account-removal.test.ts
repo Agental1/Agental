@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
 import { listDeleted, purgeDeletedAccounts, restoreAccount, softDeleteAccounts } from "@/lib/admin/account-removal";
-import { listAccounts, signupTotals } from "@/lib/admin/accounts";
+import { listAccounts, accountCounts } from "@/lib/admin/accounts";
 import { daysLeft, purgeDue, removalBlock } from "@/domain/account-removal";
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
@@ -62,8 +62,11 @@ describe.skipIf(!local)("account removal", () => {
     expect(rows.find((r) => r.id === ids.paid)?.block).toBe("paid");
     const deleted = await listDeleted();
     expect(deleted.map((d) => d.id)).toEqual(expect.arrayContaining([ids.junk, ids.spam]));
-    const totals = await signupTotals();
-    expect(totals.all).toBe(await prisma.user.count({ where: { deletedAt: null } }));
+    const totals = await accountCounts();
+    expect(totals.accounts).toBe(await prisma.user.count({ where: { deletedAt: null } }));
+    // Round 10: deleted accounts are counted only as deleted.
+    expect(totals.deleted).toBe(await prisma.user.count({ where: { deletedAt: { not: null } } }));
+    expect(totals.performers + totals.casting + totals.staff).toBe(totals.accounts);
   });
 
   it("keeps a deleted account away from the agents, even if its status is changed", async () => {

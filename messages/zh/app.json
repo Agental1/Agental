@@ -270,7 +270,8 @@
       "projects": "项目",
       "controls": "控制",
       "replies": "待批准的回复",
-      "ai": "AI 账户"
+      "ai": "AI 账户",
+      "cookies": "Cookie"
     },
     "stats": {
       "artists": "艺人",
@@ -452,7 +453,7 @@
     },
     "accounts": {
       "title": "Accounts",
-      "subtitle": "{count, plural, one {# account matches.} other {# accounts match.}} Every view, export and status change is logged.",
+      "subtitle": "{count, plural, other {# 个账户匹配。}} 每次查看、导出和更改都会记录。",
       "search": "Name or email",
       "all": "All",
       "filter": "Filter",
@@ -475,7 +476,11 @@
         "website": "Website",
         "status": "Status",
         "agents": "Agents enabled",
-        "lastSignIn": "最近登录或访问"
+        "lastSignIn": "最近登录或访问",
+        "type": "类型",
+        "canSearch": "可搜索",
+        "searchesUsed": "本月搜索",
+        "cookies": "Cookie"
       },
       "site": {
         "none": "None",
@@ -519,7 +524,7 @@
       },
       "selectAll": "Select every account on this page",
       "select": "Select {name}",
-      "setStatus": "Set status of selected accounts",
+      "setStatus": "更改所选账户",
       "apply": "Apply",
       "updated": "{count, plural, =0 {No account changed.} one {# account updated.} other {# accounts updated.}}",
       "statusError": "Nothing changed. Select at least one account and a status.",
@@ -527,13 +532,13 @@
       "prev": "Previous",
       "next": "Next",
       "agentsHelp": "当邮箱已验证、资料 100% 完整、用户已成年并已选择加入，且团队未将账户标记为垃圾、测试（staging 之外）或撤销时为“是”。无人手动批准账户。",
-      "statusOne": "Account status",
+      "statusOne": "更改此账户",
       "admin": "admin",
       "verifiedOn": "验证于 {date}",
       "verifiedGoogle": "由 Google 验证",
       "notVerified": "未验证",
       "verifiedReadOnly": "仅由真实验证设置，团队无法修改。",
-      "exceptionsNote": "账户会自动获得资格。只标记例外：垃圾、测试、员工或撤销资格。“自动”可撤销标记。",
+      "exceptionsNote": "邮箱验证且资料达到 100% 后，搜索会自动开放。只标记不同之处：测试、团队或封禁 AI 搜索。“测试：关”会移除测试标记。",
       "filters": {
         "group": "分组",
         "createdBefore": "创建早于",
@@ -549,8 +554,7 @@
         "casting": "选角",
         "staff": "团队",
         "test": "测试",
-        "spam": "垃圾或已撤销",
-        "unreviewed": "待审核"
+        "blocked": "被团队封禁"
       },
       "verifiedYes": "已验证",
       "methods": {
@@ -592,6 +596,61 @@
           "test": "受保护：测试",
           "paid": "受保护：已付款或在团队中",
           "deleted": "已删除"
+        }
+      },
+      "counts": {
+        "note": "所有管理页面上的数字一致。已删除账户只计入“已删除”。",
+        "accounts": {
+          "label": "账户",
+          "help": "账户：所有注册的人，任何类型，未删除，包括测试账户。"
+        },
+        "performers": {
+          "label": "演员",
+          "help": "演员：类型为演员的账户，未删除，包括测试账户。"
+        },
+        "casting": {
+          "label": "选角",
+          "help": "选角：类型为选角的账户，未删除，包括测试账户。"
+        },
+        "staff": {
+          "label": "团队",
+          "help": "团队：创始人和团队的账户，未删除，包括测试账户。"
+        },
+        "test": {
+          "label": "测试",
+          "help": "测试：开启测试标记的账户，任何类型，未删除。每个也计入其类型。"
+        },
+        "deleted": {
+          "label": "已删除",
+          "help": "已删除：30 天“已删除”列表中的账户，不计入其他地方，30 天后清除。"
+        }
+      },
+      "marks": {
+        "choose": "选择更改",
+        "TEST": "测试：开",
+        "UNREVIEWED": "测试：关（恢复正常）",
+        "staff_on": "类型：团队",
+        "staff_off": "类型：演员或选角（按注册）",
+        "REVOKED": "封禁 AI 搜索",
+        "SPAM": "垃圾账户（封禁 AI 搜索）"
+      },
+      "canSearchHelp": "与演员在绿色按钮下看到的原因相同。",
+      "types": {
+        "PERFORMER": "演员",
+        "CASTING": "选角",
+        "STAFF": "团队"
+      },
+      "testBadge": "测试",
+      "can": {
+        "yes": "是",
+        "no": "否：",
+        "reasons": {
+          "blocked": "被团队封禁",
+          "not_adult": "未满 18 岁",
+          "email_unverified": "邮箱未验证",
+          "profile_incomplete": "资料未达 100%",
+          "not_open": "搜索尚未向此账户开放（测试模式）",
+          "quota": "本月搜索已用完"
         }
       }
     },
@@ -944,6 +1003,44 @@
       "texts": "短信",
       "none": "最近 30 天没有。",
       "balances": "余额、预算和提醒阈值：在控制台"
+    },
+    "cookies": {
+      "title": "Cookie",
+      "subtitle": "谁接受了 Cookie。账户：每个选择及其日期和政策版本（当前：{version}）。无账户的访客：仅按周统计，不含任何可识别信息。",
+      "accountsTitle": "账户",
+      "visitorsTitle": "无账户的访客（已做选择）",
+      "visitorsLead": "按周统计的选择，自第 10 轮（2026-11-23）起记录，同一地址每小时最多 3 次。访客改变主意会再次计入。此前访客的选择只保存在其浏览器中。",
+      "visitorsEmpty": "尚无访客选择记录。",
+      "choices": {
+        "accepted_all": "全部接受",
+        "rejected": "拒绝非必要",
+        "custom": "自定义",
+        "none": "未记录选择"
+      },
+      "filters": {
+        "choice": "选择",
+        "version": "政策版本",
+        "from": "选择起始",
+        "to": "选择截止",
+        "all": "全部",
+        "apply": "筛选",
+        "clear": "清除"
+      },
+      "csv": "导出 CSV",
+      "cols": {
+        "account": "账户",
+        "choice": "选择",
+        "categories": "类别",
+        "date": "日期",
+        "version": "政策版本",
+        "week": "周"
+      },
+      "categories": "分析 {analytics} · 营销 {marketing}",
+      "on": "开",
+      "off": "关",
+      "noVersion": "版本之前",
+      "weekOf": "{date} 那一周",
+      "more": "另有 {count} 条见 CSV 导出。"
     }
   },
   "matchReasons": {
