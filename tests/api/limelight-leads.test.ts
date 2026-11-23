@@ -16,7 +16,9 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
  *
  * A drain handles every alert that is due, whoever wrote it. So this file
  * refuses to start when the database holds a pending alert that is not a
- * test's: draining it here would mark a real alert as sent.
+ * test's: draining it here would mark a real alert as sent. Round 9: the
+ * after-response task also sends the confirmations of pending leads (through
+ * the fake mailer): run this file only against a local test database.
  */
 const hasDb = Boolean(process.env.DATABASE_URL);
 const TAG = "test-ll-leads-";
@@ -226,9 +228,13 @@ describe.skipIf(!hasDb)("Limelight leads, end to end", () => {
 
       await afterTasks[0]();
 
-      expect(mailer.sent).toHaveLength(1);
-      expect(mailer.sent[0].to).toBe("owner@agental.test");
+      // Round 9: the team alert, then the confirmation to the person.
+      // (Earlier tests' leads may get their confirmation in the same drain.)
+      const alerts = mailer.sent.filter((m) => m.to === "owner@agental.test");
+      expect(alerts).toHaveLength(1);
+      expect(mailer.sent.filter((m) => m.to === lead!.email)).toEqual([expect.objectContaining({ kind: "limelight_confirmation" })]);
       expect((await alertOf(lead!.id))?.status).toBe("SENT");
+      expect((await prisma.limelightLead.findUnique({ where: { id: lead!.id } }))?.confirmation).toBe("sent");
     });
 
     it("201: a failing drain after the response changes nothing for the person", async () => {

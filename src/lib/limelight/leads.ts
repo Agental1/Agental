@@ -18,7 +18,8 @@ import { limelightKeyHash } from "./request";
  * `recordInterest`. A lead is answered as received only once its row is
  * committed, and the alert to the team is an outbox row written in the same
  * transaction: either both exist or neither does. Nothing here calls n8n,
- * and no email is sent on this path (see ./outbox.ts).
+ * and no email is sent on this path (see ./outbox.ts; the confirmation to the
+ * person is sent after the response too, see ./confirmation.ts).
  *
  * This is a plain module, not a "use server" file. `recordInterest` is safe
  * to call for anyone; the two functions below it return personal data and

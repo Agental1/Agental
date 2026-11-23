@@ -831,6 +831,11 @@
     "deletionIgnore": "如果你没有创建此账户，请忽略此邮件：该账户将被删除。",
     "codeSubject": "你的 Agental 验证码",
     "codeIntro": "在 Agental 中输入此验证码，以验证你的 USC 学生邮箱：",
-    "codeExpiry": "验证码 10 分钟内有效。"
+    "codeExpiry": "验证码 10 分钟内有效。",
+    "limelightSubject": "我们已收到你的 Limelight 申请",
+    "limelightIntro": "感谢你申请作品集网站。Agental 团队会阅读每一份申请，并与你联系。",
+    "limelightAction": "查看 Limelight",
+    "limelightReference": "你的申请编号：{reference}",
+    "limelightIgnore": "如果这不是你提交的申请，请忽略此邮件，不会有任何变化。"
   }
 }

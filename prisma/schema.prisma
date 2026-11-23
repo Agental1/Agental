@@ -1012,6 +1012,10 @@ model LimelightLead {
   locale         String   @default("en")
   status         String   @default("NEW") // NEW | CONTACTED | CLOSED
   submissions    Int      @default(1)
+  /// Round 9: the confirmation email to the person. pending | sending | sent | failed | before_r9
+  confirmation         String    @default("pending")
+  confirmationAttempts Int       @default(0)
+  confirmationSentAt   DateTime?
   firstSeenAt    DateTime @default(now())
   lastSeenAt     DateTime @default(now())
 

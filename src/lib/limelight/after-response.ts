@@ -1,5 +1,6 @@
 import { after } from "next/server";
 import { drainOutbox } from "./outbox";
+import { drainConfirmations } from "./confirmation";
 
 /**
  * Run one outbox drain once the response is on its way.
@@ -16,6 +17,12 @@ export function scheduleOutboxDrain(): void {
   const task = async () => {
     try {
       await drainOutbox({ limit: 5 });
+    } catch (error) {
+      console.error("[limelight] outbox drain failed:", error instanceof Error ? error.name : "unknown error");
+    }
+    try {
+      // Round 9: the confirmation to the person (its own state, see ./confirmation.ts).
+      await drainConfirmations({ limit: 5 });
     } catch (error) {
       console.error(
         "[limelight] outbox drain failed:",
