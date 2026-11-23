@@ -1,6 +1,6 @@
 "use server";
 
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { findPromotion } from "@/domain/pricing";
 import { z } from "zod";
 import { headers } from "next/headers";
@@ -258,7 +258,7 @@ export async function setLeadStatus(
     where: { id: session.user.id },
     select: { isAdmin: true, email: true },
   });
-  if (!isAdminAccount(me)) return { ok: false, error: err("errors.forbidden") };
+  if (!(await isVerifiedAdmin(me && { id: session.user.id, ...me }))) return { ok: false, error: err("errors.forbidden") };
 
   const id = LeadId.safeParse(leadId);
   const next = LimelightLeadStatus.safeParse(status);

@@ -1,4 +1,4 @@
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { prisma } from "@/lib/db";
 
 /**
@@ -34,7 +34,7 @@ export async function canReadMedia(
       select: { isAdmin: true, email: true },
     }),
   ]);
-  if (owned || isAdminAccount(user)) return true;
+  if (owned || (await isVerifiedAdmin(user && { id: userId, ...user }))) return true;
 
   // A file that is still processing, or that failed, is the owner's to see
   // and nobody else's.

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { isAdminAccount } from "@/domain/admin";
+import { adminMfaSatisfied } from "@/lib/admin-mfa";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -45,6 +46,8 @@ export default async function AdminLayout({
   // Not found rather than a redirect: the admin area is not advertised, and on
   // the admin host a redirect to "/" would come straight back here.
   if (!isAdminAccount(me)) notFound();
+  // Round 8d: the admin role needs its second factor (an authenticator code).
+  if (!(await adminMfaSatisfied(me!.id))) return redirect({ href: "/securite-admin", locale });
 
   // The folded sidebar is remembered in the shadcn cookie.
   const sidebarOpen = (await cookies()).get("sidebar_state")?.value !== "false";

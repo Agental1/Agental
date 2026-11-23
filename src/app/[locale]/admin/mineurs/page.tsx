@@ -1,3 +1,5 @@
+import { currentAdminId } from "@/lib/limelight/admin";
+import { notFound } from "next/navigation";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -35,6 +37,9 @@ export default async function AdminMinorsPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
+  // Round 8d: each admin page checks the admin role itself (the layout's check
+  // alone does not cover a page's own data loading).
+  if (!(await currentAdminId())) notFound();
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
   setRequestLocale(locale);

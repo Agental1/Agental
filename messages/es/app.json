@@ -168,7 +168,8 @@
     "codeExpired": "Este código ha caducado. Pide uno nuevo.",
     "codeLocked": "Demasiados intentos. Pide un código nuevo.",
     "codeDailyLimit": "Demasiados códigos enviados hoy. Inténtalo mañana.",
-    "uscEmailTaken": "Esta dirección de USC ya verificó otra cuenta."
+    "uscEmailTaken": "Esta dirección de USC ya verificó otra cuenta.",
+    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app."
   },
   "auth": {
     "name": "Nombre",
@@ -624,6 +625,18 @@
       "colAudience": "Público",
       "colDate": "Fecha",
       "colReads": "Leído por"
+    },
+    "mfa": {
+      "title": "Admin two-factor authentication",
+      "enrollLead": "The admin requires a code from an authenticator app on your phone (Google Authenticator, 1Password, Authy, Microsoft Authenticator).",
+      "step1": "1. In the app, add an account and scan this QR code.",
+      "step2": "2. Or type this key by hand (time-based):",
+      "step3": "3. Type the 6-digit code the app shows.",
+      "verifyLead": "Type the 6-digit code from your authenticator app. It keeps the admin open for {hours} hours on this browser.",
+      "code": "6-digit code",
+      "submit": "Confirm",
+      "submitting": "Checking…",
+      "lost": "Lost your phone? Ask the other founder, or set ADMIN_MFA_REQUIRED=false in Vercel until you enroll again."
     }
   },
   "matchReasons": {

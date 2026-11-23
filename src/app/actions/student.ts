@@ -1,6 +1,6 @@
 "use server";
 
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { z } from "zod";
 import { err, zodError, type ActionError } from "@/domain/action-result";
 import { revalidatePath } from "next/cache";
@@ -80,7 +80,7 @@ export async function createStudentCode(input: {
     where: { id: session.user.id },
     select: { isAdmin: true, email: true },
   });
-  if (!isAdminAccount(me)) return { ok: false, error: err("errors.forbidden") };
+  if (!(await isVerifiedAdmin(me && { id: session.user.id, ...me }))) return { ok: false, error: err("errors.forbidden") };
 
   const parsed = CreateStudentCodeInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: zodError(parsed.error) };

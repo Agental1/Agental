@@ -15,7 +15,7 @@ describe("admin.agental.co routing", () => {
     // Auth.js's unprefixed sign-in page, and the post sign-in landing.
     expect(adminHostRoute("/connexion")).toEqual({ kind: "redirect", to: "/en/connexion" });
     expect(adminHostRoute("/fr/continuer")).toEqual({ kind: "redirect", to: "/fr/admin" });
-    for (const p of ["/en/admin", "/en/admin/comptes/abc", "/fr/connexion", "/en/mot-de-passe-oublie", "/en/reinitialiser", "/en/verifier"]) {
+    for (const p of ["/en/admin", "/en/admin/comptes/abc", "/fr/connexion", "/en/mot-de-passe-oublie", "/en/reinitialiser", "/en/verifier", "/en/securite-admin"]) {
       expect(adminHostRoute(p)).toEqual({ kind: "allow" });
     }
     for (const p of ["/en/talents", "/en/talents/app", "/en/casting", "/en/administrator", "/en/admin-x", "/xx/admin"]) {

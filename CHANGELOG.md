@@ -3,6 +3,18 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.16.0] - 2026-11-22
+
+### Security (round 8d, group 3)
+
+- **Two-factor authentication for the admin role** (TOTP, any authenticator app): enroll by QR code on `/securite-admin`, then a code every 12 hours. Without it an admin is treated as a non-admin by every page, action and API. Secret encrypted at rest, each code works once, 5 codes per 15 minutes, every attempt audited. Required in production; `ADMIN_MFA_REQUIRED=false` turns it off.
+- **Sign-in limit inside the credentials check**, so a direct POST to the auth endpoint is limited like the form.
+- **Admin pages Minors and Style guide** check the admin role themselves.
+- **Media links last 10 minutes** (were an hour).
+- Tests: TOTP against the RFC 6238 vectors, admin second factor end to end, and modified requests that try to change a price, promotion, plan or quota.
+
+Migration `20261215000000_round8d_admin_totp` (one new table, RLS on). New dependency `qrcode` (QR code for enrollment).
+
 ## [0.6.15.0] - 2026-11-22
 
 ### Changed (round 8d, group 2)

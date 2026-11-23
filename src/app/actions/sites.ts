@@ -1,6 +1,6 @@
 "use server";
 
-import { isAdminAccount } from "@/domain/admin";
+import { isVerifiedAdmin } from "@/lib/admin-mfa";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { err, type ActionError } from "@/domain/action-result";
@@ -101,7 +101,7 @@ async function adminUserId(): Promise<string | Failure> {
     where: { id: session.user.id },
     select: { isAdmin: true, email: true },
   });
-  return isAdminAccount(me) ? session.user.id : fail("errors.forbidden");
+  return (await isVerifiedAdmin(me && { id: session.user.id, ...me })) ? session.user.id : fail("errors.forbidden");
 }
 
 /** Who is calling a site action. */
@@ -128,7 +128,7 @@ async function siteActor(): Promise<Actor | null> {
     isAdmin: () =>
       (admin ??= prisma.user
         .findUnique({ where: { id }, select: { isAdmin: true, email: true } })
-        .then((me) => isAdminAccount(me))),
+        .then((me) => isVerifiedAdmin(me && { id, ...me }))),
   };
   if (actor.kind === "TALENT") return actor;
   return (await actor.isAdmin()) ? actor : null;

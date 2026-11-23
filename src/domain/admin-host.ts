@@ -18,7 +18,7 @@ export type AdminHostRoute = { kind: "redirect"; to: string } | { kind: "allow" 
 
 const LOCALE = `(?:${routing.locales.join("|")})`;
 const ALLOWED = new RegExp(
-  `^/${LOCALE}(?:/admin(?:/.*)?|/connexion|/mot-de-passe-oublie|/reinitialiser|/verifier)/?$`
+  `^/${LOCALE}(?:/admin(?:/.*)?|/connexion|/mot-de-passe-oublie|/reinitialiser|/verifier|/securite-admin)/?$`
 );
 
 export function adminHostRoute(pathname: string): AdminHostRoute {

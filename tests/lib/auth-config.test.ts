@@ -11,6 +11,10 @@ import bcrypt from "bcryptjs";
 const findUnique = vi.fn();
 const findMany = vi.fn();
 const userFindUnique = vi.fn();
+// Round 8d: the credentials check is rate limited (src/lib/abuse.ts); allowed here
+// unless a test says otherwise.
+const authAllowed = vi.fn(async () => true);
+vi.mock("@/lib/abuse", () => ({ authAllowed }));
 vi.mock("@/lib/db", () => ({
   prisma: { account: { findUnique }, user: { findMany, findUnique: userFindUnique } },
 }));
@@ -140,6 +144,13 @@ describe("Credentials sign-in", () => {
     };
     return credentials.options.authorize({ email, password });
   }
+
+  it("refuses before any password check once the sign-in limit is reached (direct POST included)", async () => {
+    authAllowed.mockResolvedValueOnce(false);
+    findMany.mockClear();
+    expect(await authorize("ana@gmail.com", "right-password")).toBeNull();
+    expect(findMany).not.toHaveBeenCalled();
+  });
 
   it("finds an account stored with its signup casing", async () => {
     findMany.mockResolvedValueOnce([row("legacy", "Ana@Gmail.com", "right-password")]);

@@ -1,3 +1,5 @@
+import { currentAdminId } from "@/lib/limelight/admin";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Sparkles, Star, Check, Circle } from "lucide-react";
 import { PortalTheme } from "@/components/portal-theme";
@@ -233,7 +235,10 @@ function Showcase({ portal }: { portal: Portal }) {
   );
 }
 
-export default function StyleguidePage() {
+export default async function StyleguidePage() {
+  // Round 8d: each admin page checks the admin role itself (the layout's check
+  // alone does not cover a page's own data loading).
+  if (!(await currentAdminId())) notFound();
   return (
     <main className="min-h-screen bg-surface-2 p-6 md:p-10">
       <div className="mx-auto max-w-7xl space-y-6">
