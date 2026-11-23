@@ -519,3 +519,59 @@ export async function sendVerificationForNewUser(user: {
     );
   }
 }
+
+/* ── Round 10: the 6-digit sign-up code ─────────────────────────────────── */
+
+export type EmailCodeActionResult =
+  | { ok: true; alreadyVerified?: boolean }
+  | { ok: false; error: ActionError; codePending?: boolean };
+
+/**
+ * "Send me a code" (the code screen after sign-up and the "Verify your email"
+ * banner). At most 5 code emails a day per account, on top of the 60-second wait.
+ */
+export async function sendMyEmailCode(): Promise<EmailCodeActionResult> {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
+    const day = await hitRateLimit(prisma, `email-code-send:${session.user.id}`, { limit: 5, windowMs: 24 * HOUR_MS });
+    if (!day.allowed) return { ok: false, error: err("errors.codeDailyLimit") };
+    const { sendEmailCode } = await import("@/lib/email-code");
+    const res = await sendEmailCode({ userId: session.user.id });
+    if (res.ok) return { ok: true };
+    if (res.reason === "already") return { ok: true, alreadyVerified: true };
+    if (res.reason === "too_soon") {
+      return {
+        ok: false,
+        codePending: true,
+        error: err("errors.codeTooSoon", { seconds: Math.ceil((res.retryInMs ?? 60_000) / 1000) }),
+      };
+    }
+    return { ok: false, error: err("errors.codeUnavailable") };
+  } catch (error) {
+    console.error("[account-email] code send failed:", errorLabel(error));
+    return { ok: false, error: err("errors.generic") };
+  }
+}
+
+/** Check the 6-digit code; a match verifies the email. */
+export async function confirmMyEmailCode(code: unknown): Promise<EmailCodeActionResult> {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
+    const parsed = z.string().max(12).safeParse(code);
+    if (!parsed.success) return { ok: false, error: err("errors.codeWrong", { left: 0 }) };
+    const limit = await hitRateLimit(prisma, `email-code:${session.user.id}`, { limit: 30, windowMs: HOUR_MS });
+    if (!limit.allowed) return { ok: false, error: err("errors.codeLocked") };
+    const { verifyEmailCode } = await import("@/lib/email-code");
+    const res = await verifyEmailCode({ userId: session.user.id, code: parsed.data });
+    if (res.ok) return { ok: true };
+    if (res.reason === "wrong") return { ok: false, error: err("errors.codeWrong", { left: res.attemptsLeft ?? 0 }) };
+    if (res.reason === "locked") return { ok: false, error: err("errors.codeLocked") };
+    if (res.reason === "expired") return { ok: false, error: err("errors.codeExpired") };
+    return { ok: false, error: err("errors.codeWrong", { left: 0 }) };
+  } catch (error) {
+    console.error("[account-email] code check failed:", errorLabel(error));
+    return { ok: false, error: err("errors.generic") };
+  }
+}

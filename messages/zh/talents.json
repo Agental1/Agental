@@ -654,24 +654,18 @@
   },
   "onboarding": {
     "steps": {
-      "identity": "身份",
-      "profile": "资料",
-      "mandat": "代理协议"
+      "identity": "你的姓名",
+      "profile": "关于你",
+      "mandat": "协议"
     },
     "identity": {
       "title": "你是谁？",
-      "subtitle": "先从基本信息开始。",
-      "stageName": "艺名",
-      "stageNamePlaceholder": "你的艺名",
-      "birthDate": "出生日期",
-      "city": "城市",
-      "cityPlaceholder": "里昂"
+      "subtitle": "证件上的姓名，以及不同的艺名（如有）。会直接保存到你的个人资料。"
     },
     "profile": {
-      "title": "你的专长",
-      "subtitle": "至少选择一项专长。身高为选填。",
-      "specialties": "专长",
-      "height": "身高（选填）"
+      "title": "关于你",
+      "subtitle": "三个快速问题，保存到你的个人资料。",
+      "phoneHint": "有角色时团队可以快速联系你。也可以稍后再添加。"
     },
     "mandat": {
       "title": "关于代理协议",

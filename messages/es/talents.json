@@ -654,24 +654,18 @@
   },
   "onboarding": {
     "steps": {
-      "identity": "Identidad",
-      "profile": "Perfil",
-      "mandat": "Mandato"
+      "identity": "Tu nombre",
+      "profile": "Sobre ti",
+      "mandat": "Contrato"
     },
     "identity": {
       "title": "¿Quién eres?",
-      "subtitle": "Empecemos por lo básico.",
-      "stageName": "Nombre artístico",
-      "stageNamePlaceholder": "Tu nombre artístico",
-      "birthDate": "Fecha de nacimiento",
-      "city": "Ciudad",
-      "cityPlaceholder": "Lyon"
+      "subtitle": "Tu nombre como en tu documento de identidad, y tu nombre artístico si es distinto. Se guarda directamente en tu perfil."
     },
     "profile": {
-      "title": "Lo que haces",
-      "subtitle": "Elige al menos una especialidad. La altura es opcional.",
-      "specialties": "Especialidades",
-      "height": "Altura (opcional)"
+      "title": "Sobre ti",
+      "subtitle": "Tres respuestas rápidas, guardadas en tu perfil.",
+      "phoneHint": "El equipo puede contactarte rápido cuando surja un papel. Puedes añadirlo después."
     },
     "mandat": {
       "title": "Sobre el contrato de representación",

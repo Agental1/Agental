@@ -19,9 +19,11 @@ export async function getSetupState(userId: string): Promise<SetupState> {
   const profile = await prisma.artistProfile.findUnique({
     where: { userId },
     select: {
-      stageName: true,
+      legalFirstName: true,
+      legalLastName: true,
+      legalName: true,
       birthDate: true,
-      _count: { select: { specialties: true } },
+      gender: true,
     },
   });
   const user = await prisma.user.findUnique({
@@ -30,11 +32,7 @@ export async function getSetupState(userId: string): Promise<SetupState> {
   });
   return {
     nextStep: nextSetupStep(
-      profile && {
-        stageName: profile.stageName,
-        birthDate: profile.birthDate,
-        specialtiesCount: profile._count.specialties,
-      }
+      profile
     ),
     onboardingCompletedAt: user?.onboardingCompletedAt ?? null,
   };

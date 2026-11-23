@@ -137,17 +137,15 @@ export async function completeBetaOnboarding(): Promise<CompleteOnboardingResult
     where: { userId },
     select: {
       id: true,
-      stageName: true,
+      legalFirstName: true,
+      legalLastName: true,
+      legalName: true,
       birthDate: true,
-      _count: { select: { specialties: true } },
+      gender: true,
     },
   });
   const nextStep = nextSetupStep(
-    profile && {
-      stageName: profile.stageName,
-      birthDate: profile.birthDate,
-      specialtiesCount: profile._count.specialties,
-    }
+    profile
   );
   if (nextStep || !profile) {
     return { ok: true, nextStep: nextStep ?? "identity", path: "/talents/app" };

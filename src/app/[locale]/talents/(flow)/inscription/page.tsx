@@ -9,7 +9,7 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { signupAction } from "@/app/actions/auth";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
-import { parseJson, PhysicalTraits } from "@/domain/json";
+import { legalNameParts } from "@/domain/completeness";
 import { isoDate } from "@/domain/age";
 import { getSetupState } from "@/lib/setup";
 import { SETUP_STEPS } from "@/domain/setup";
@@ -68,31 +68,37 @@ export default async function TalentsSignupPage({
     );
   }
 
-  // Signed in: the basics are saved, so the wizard has nothing left to ask.
-  const { nextStep } = await getSetupState(session.user.id);
-  if (nextStep === null) {
+  // Signed in: once the basics are saved and the last screen was passed, the
+  // wizard has nothing left to ask. Round 10: the answers save straight into
+  // the profile, so the basics can be complete while the third screen (the
+  // agreement, which stamps the first run) is still ahead.
+  const { nextStep, onboardingCompletedAt } = await getSetupState(session.user.id);
+  if (nextStep === null && onboardingCompletedAt) {
     return redirect({ href: "/talents/app", locale });
   }
 
   // Otherwise load or create the profile and resume at the first unfinished step.
+  // Round 10: the questions are the profile's own fields (Google may have
+  // prefilled the names).
   const profile = await prisma.artistProfile.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, stageName: "" },
     update: {},
-    include: { specialties: true },
   });
-
-  const physical = parseJson(PhysicalTraits, profile.physical);
+  const names = legalNameParts(profile);
 
   return (
     <OnboardingWizard
-      initialStep={SETUP_STEPS.indexOf(nextStep)}
+      initialStep={nextStep === null ? SETUP_STEPS.length : SETUP_STEPS.indexOf(nextStep)}
       initial={{
+        legalFirstName: names.first,
+        legalLastName: names.last,
         stageName: profile.stageName,
-        city: profile.city ?? "",
         birthDate: profile.birthDate ? isoDate(profile.birthDate) : "",
-        heightCm: physical.heightCm,
-        specialties: profile.specialties.map((s) => s.kind),
+        gender: profile.gender ?? "",
+        genderOther: profile.genderOther ?? "",
+        phone: profile.phone ?? "",
+        phoneE164: profile.phoneE164 ?? "",
       }}
     />
   );

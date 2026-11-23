@@ -169,7 +169,9 @@
     "codeLocked": "Too many tries. Ask for a new code.",
     "codeDailyLimit": "Too many codes sent today. Try again tomorrow.",
     "uscEmailTaken": "This USC address already verified another account.",
-    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app."
+    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
+    "legalNameRequired": "Enter your legal first and last name.",
+    "genderRequired": "Choose your gender."
   },
   "auth": {
     "name": "Name",
@@ -954,6 +956,7 @@
     "deletionIgnore": "If you did not create this account, ignore this email: it will be removed.",
     "codeSubject": "Your Agental verification code",
     "codeIntro": "Enter this code in Agental to verify your USC student email:",
+    "signupCodeIntro": "Enter this code in Agental to verify your email address:",
     "codeExpiry": "It works for 10 minutes.",
     "limelightSubject": "We received your Limelight request",
     "limelightIntro": "Thank you for asking for a portfolio website. The Agental team reads every request and will get back to you.",

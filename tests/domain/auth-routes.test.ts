@@ -89,11 +89,10 @@ describe("postAuthHome", () => {
     expect(needsFirstRun("CASTING", { hasOwnerMembership: true })).toBe(false);
   });
 
-  it("opens the dashboard while a setup step is missing, and stamps nothing", () => {
-    // The dashboard's "Complete my profile" card names the step and resumes
-    // it, on this sign-in and on every later one.
+  it("round 10: a new account answers the sign-up questions first; an older one goes to the dashboard", () => {
     for (const setupStep of ["identity", "profile"] as const) {
-      expect(postAuthHome("TALENT", "fr", { setupStep })).toBe("/fr/talents/app");
+      expect(postAuthHome("TALENT", "fr", { setupStep })).toBe("/fr/talents/inscription");
+      expect(postAuthHome("TALENT", "fr", { setupStep, onboardingCompletedAt: seen })).toBe("/fr/talents/app");
       expect(needsFirstRun("TALENT", { setupStep })).toBe(false);
     }
     // A caller that says nothing about setup is treated as still in setup.
@@ -107,7 +106,7 @@ describe("postAuthHome", () => {
       expect(postAuthHome("TALENT", "en", { mandat, setupStep: null, onboardingCompletedAt: seen })).toBe(
         "/en/talents/app"
       );
-      expect(postAuthHome("TALENT", "en", { mandat, setupStep: "profile" })).toBe("/en/talents/app");
+      expect(postAuthHome("TALENT", "en", { mandat, setupStep: "profile", onboardingCompletedAt: seen })).toBe("/en/talents/app");
     }
     // A mandate signed before the beta does not stand in for the basics.
     expect(needsFirstRun("TALENT", { mandat: signed })).toBe(false);

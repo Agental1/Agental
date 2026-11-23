@@ -107,6 +107,10 @@ export function postAuthHome(
   if (kind === "CASTING") {
     return isCastingOnboarded(state) ? appHome(kind, locale) : onboardingHome(kind, locale);
   }
+  // Round 10: a new account (email or Google) answers the quick sign-up
+  // questions first, the profile's own fields. Accounts already past their
+  // first run are never sent back there.
+  if (state.setupStep && !state.onboardingCompletedAt) return onboardingHome("TALENT", locale);
   // The caller stamps onboardingCompletedAt (see needsFirstRun).
   return needsFirstRun("TALENT", state) ? firstRunHome("TALENT", locale) : appHome("TALENT", locale);
 }

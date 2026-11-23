@@ -1,12 +1,9 @@
 "use client";
 
-import { SpecialtyKind } from "@/domain/enums";
 import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
-import { HeightField } from "@/components/app/height-field";
 import { err, type ActionError } from "@/domain/action-result";
-import type { HeightValue } from "@/domain/height";
-import { useId, useState, useTransition } from "react";
+import { useId, useRef, useState, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import {
   ArrowRight,
@@ -17,34 +14,32 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PhoneField } from "@/components/app/smart-inputs";
+import { GENDERS } from "@/domain/identity";
 import { cn } from "@/lib/utils";
-import {
-  saveIdentity,
-  saveProfileBasics,
-  completeBetaOnboarding,
-} from "@/app/actions/onboarding";
+import { completeBetaOnboarding } from "@/app/actions/onboarding";
+import { saveProfileIdentity } from "@/app/actions/profile";
 
 /**
- * Specialty kinds come from the Zod enum, which is what the database stores.
- * Only their labels are translated (app.specialties.<kind>), and the kind is
- * never touched — this list used to be duplicated verbatim here and in
- * profile-editor.tsx, so a label edit in one place silently diverged.
- */
-const SPECIALTY_KINDS = SpecialtyKind.options;
-
-/**
- * Three steps. Physical details, photos and videos live in the profile
- * editor. The third step names the representation agreement, which is out
- * of the beta: it only says so and moves on to the profile.
+ * Round 10 (founder): the sign-up questions are the profile's own questions,
+ * with the same fields and components, saved straight into the profile so
+ * they count toward 100%. Quick answers only (typing or one click): legal first
+ * and last name and stage name, then date of birth, gender and phone. The city
+ * is not asked here; it comes later in the profile. The third screen, which
+ * explains the representation agreement, stays.
  */
 const STEP_KEYS = ["identity", "profile", "mandat"] as const;
 
 export interface OnboardingInitial {
+  legalFirstName: string;
+  legalLastName: string;
   stageName: string;
-  city: string;
   birthDate: string;
-  heightCm?: number;
-  specialties: string[];
+  gender: string;
+  genderOther: string;
+  phone: string;
+  phoneE164: string;
 }
 
 export function OnboardingWizard({
@@ -56,30 +51,26 @@ export function OnboardingWizard({
   initialStep?: number;
 }) {
   const t = useTranslations("talents");
-  const ta = useTranslations("app");
+  const e = "space.profileEditor" as const;
   const [step, setStep] = useState(() =>
     Math.min(Math.max(initialStep, 0), STEP_KEYS.length - 1)
   );
   const [data, setData] = useState(initial);
-  // Untouched, the stored height goes back as exact centimeters.
-  const [height, setHeight] = useState<HeightValue | undefined>(
-    initial.heightCm != null ? { unit: "metric", cm: initial.heightCm } : undefined
-  );
+  const phoneOk = useRef(true);
   const [error, setError] = useState<ActionError | undefined>();
   const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
 
-  function set<K extends keyof OnboardingInitial>(
-    key: K,
-    value: OnboardingInitial[K]
-  ) {
+  function set<K extends keyof OnboardingInitial>(key: K, value: OnboardingInitial[K]) {
     setData((d) => ({ ...d, [key]: value }));
   }
 
-  function next(save: () => Promise<{ ok: boolean; error?: ActionError }>) {
+  function next(check: () => ActionError | null, save: () => Promise<{ ok: boolean; error?: ActionError }>) {
     setError(undefined);
+    const problem = check();
+    if (problem) return setError(problem);
     startTransition(async () => {
-      const res = await save();
+      const res = await save().catch(() => ({ ok: false, error: err("errors.generic") }));
       if (!res.ok) {
         setError(res.error ?? err("errors.generic"));
         return;
@@ -106,41 +97,47 @@ export function OnboardingWizard({
       <div className="mt-6">
         {step === 0 && (
           <Step title={t("onboarding.identity.title")} subtitle={t("onboarding.identity.subtitle")}>
-            <Field label={t("onboarding.identity.stageName")} required>
+            <fieldset className="space-y-1.5">
+              <legend className="text-sm font-medium">
+                {t(`${e}.legalName`)}
+                <span className="text-danger"> *</span>
+              </legend>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Input
+                  aria-label={t(`${e}.legalFirstName`)}
+                  placeholder={t(`${e}.legalFirstName`)}
+                  autoComplete="given-name"
+                  value={data.legalFirstName}
+                  onChange={(ev) => set("legalFirstName", ev.target.value)}
+                />
+                <Input
+                  aria-label={t(`${e}.legalLastName`)}
+                  placeholder={t(`${e}.legalLastName`)}
+                  autoComplete="family-name"
+                  value={data.legalLastName}
+                  onChange={(ev) => set("legalLastName", ev.target.value)}
+                />
+              </div>
+              <p className="text-xs text-fg-muted">{t(`${e}.legalNameHint`)}</p>
+            </fieldset>
+            <Field label={t(`${e}.stageName`)} hint={t(`${e}.stageNameHint`)}>
               <Input
                 value={data.stageName}
-                onChange={(e) => set("stageName", e.target.value)}
-                placeholder={t("onboarding.identity.stageNamePlaceholder")}
+                onChange={(ev) => set("stageName", ev.target.value)}
                 autoComplete="nickname"
               />
             </Field>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={t("onboarding.identity.birthDate")} required>
-                <Input
-                  type="date"
-                  value={data.birthDate}
-                  onChange={(e) => set("birthDate", e.target.value)}
-                  autoComplete="bday"
-                />
-              </Field>
-              <Field label={t("onboarding.identity.city")}>
-                <Input
-                  value={data.city}
-                  onChange={(e) => set("city", e.target.value)}
-                  placeholder={t("onboarding.identity.cityPlaceholder")}
-                  autoComplete="address-level2"
-                />
-              </Field>
-            </div>
             <Nav
               pending={pending}
               onNext={() =>
-                next(() =>
-                  saveIdentity({
-                    stageName: data.stageName,
-                    city: data.city,
-                    birthDate: data.birthDate || undefined,
-                  })
+                next(
+                  () => (data.legalFirstName.trim() && data.legalLastName.trim() ? null : err("errors.legalNameRequired")),
+                  () =>
+                    saveProfileIdentity({
+                      legalFirstName: data.legalFirstName,
+                      legalLastName: data.legalLastName,
+                      stageName: data.stageName,
+                    })
                 )
               }
             />
@@ -148,55 +145,70 @@ export function OnboardingWizard({
         )}
 
         {step === 1 && (
-          <Step
-            title={t("onboarding.profile.title")}
-            subtitle={t("onboarding.profile.subtitle")}
-          >
-            <Field label={t("onboarding.profile.specialties")} required>
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                {SPECIALTY_KINDS.map((kind) => {
-                  const active = data.specialties.includes(kind);
-                  return (
-                    <button
-                      key={kind}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() =>
-                        set(
-                          "specialties",
-                          active
-                            ? data.specialties.filter((k) => k !== kind)
-                            : [...data.specialties, kind]
-                        )
-                      }
-                      className={cn(
-                        "rounded-sedan border px-3 py-3 text-sm transition-colors",
-                        active
-                          ? "border-accent bg-accent-soft text-accent"
-                          : "border-border hover:border-accent"
-                      )}
-                    >
-                      {ta(`specialties.${kind}`)}
-                    </button>
-                  );
-                })}
-              </div>
-            </Field>
-            <div className="sm:max-w-xs">
-              {/* Every step change unmounts this field. It reopens on the
-                  height Continue will send, never on the page-load value. */}
-              <HeightField
-                label={t("onboarding.profile.height")}
-                defaultValue={height}
-                onChange={setHeight}
-              />
+          <Step title={t("onboarding.profile.title")} subtitle={t("onboarding.profile.subtitle")}>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label={t(`${e}.birthDate`)} required>
+                <Input
+                  type="date"
+                  value={data.birthDate}
+                  onChange={(ev) => set("birthDate", ev.target.value)}
+                  autoComplete="bday"
+                />
+              </Field>
+              <Field label={t(`${e}.gender`)} hint={t(`${e}.genderHint`)} required>
+                <Select value={data.gender || undefined} onValueChange={(gender) => set("gender", gender)}>
+                  <SelectTrigger className="w-full" aria-label={t(`${e}.gender`)}>
+                    <SelectValue placeholder={t(`${e}.choose`)} />
+                  </SelectTrigger>
+                  <SelectContent data-portal="talents">
+                    {GENDERS.map((g) => (
+                      <SelectItem key={g} value={g}>{t(`${e}.genders.${g}`)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {data.gender === "other" && (
+                  <Input
+                    className="mt-2"
+                    maxLength={60}
+                    aria-label={t(`${e}.genderOther`)}
+                    placeholder={t(`${e}.genderOther`)}
+                    value={data.genderOther}
+                    onChange={(ev) => set("genderOther", ev.target.value)}
+                  />
+                )}
+              </Field>
             </div>
+            <Field label={t(`${e}.phone`)} hint={t("onboarding.profile.phoneHint")}>
+              <PhoneField
+                initialE164={data.phoneE164 || null}
+                initialText={data.phone}
+                onValid={({ e164, display }) => {
+                  phoneOk.current = true;
+                  setData((d) => ({ ...d, phone: display, phoneE164: e164 }));
+                }}
+                onInvalid={() => {
+                  phoneOk.current = false;
+                }}
+              />
+            </Field>
             <Nav
               pending={pending}
               onBack={() => back(0)}
               onNext={() =>
-                next(() =>
-                  saveProfileBasics({ specialties: data.specialties, height })
+                next(
+                  () => {
+                    if (!data.birthDate) return err("errors.birthDateRequired");
+                    if (!data.gender) return err("errors.genderRequired");
+                    if (!phoneOk.current) return err("errors.phoneInvalid");
+                    return null;
+                  },
+                  () =>
+                    saveProfileIdentity({
+                      birthDate: data.birthDate,
+                      gender: data.gender,
+                      ...(data.gender === "other" ? { genderOther: data.genderOther } : {}),
+                      ...(data.phoneE164 ? { phone: data.phone, phoneE164: data.phoneE164 } : {}),
+                    })
                 )
               }
             />
@@ -343,10 +355,12 @@ function Step({
 function Field({
   label,
   required,
+  hint,
   children,
 }: {
   label: string;
   required?: boolean;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -356,6 +370,7 @@ function Field({
         {required && <span className="text-danger"> *</span>}
       </Label>
       {children}
+      {hint && <p className="text-xs text-fg-muted">{hint}</p>}
     </div>
   );
 }

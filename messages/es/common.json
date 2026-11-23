@@ -311,7 +311,15 @@
     "signOut": "Cerrar sesión",
     "bannerTitle": "Verifica tu email.",
     "bannerBody": "Confirma {email} para que podamos escribirte sobre castings y tu cuenta.",
-    "bannerResend": "Enviar el enlace"
+    "bannerResend": "Enviar el enlace",
+    "codeTitle": "Verifica tu correo",
+    "codeLead": "Introduce el código de 6 dígitos que enviamos a {email}",
+    "codeSent": "Enviamos un nuevo código a {email}.",
+    "codeVerify": "Verificar",
+    "codeResend": "Enviar un nuevo código",
+    "codeExpiry": "El código vale 10 minutos. Revisa la carpeta de spam si no lo ves.",
+    "bannerCodeTitle": "Verifica tu correo para empezar a buscar papeles.",
+    "bannerSendCode": "Envíame un código"
   },
   "privacy": {
     "meta": {
