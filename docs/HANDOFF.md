@@ -30,7 +30,7 @@ Production stays in test mode (`WORKFLOW_MODE` unset).
    Neither provider offers a read-only or a balance key: both are organization admin keys (they can
    manage members and keys, not billing). Without them the card shows "Not connected" and works on
    typed balances. Perplexity: typed balance only.
-3. **`CRON_SECRET`** (already pending since 8c) also turns on the 6-hourly AI spend alerts.
+3. **`CRON_SECRET`** (already pending since 8c) also turns on the daily AI spend check (14:00 UTC).
 4. Earlier 8c items (Resend DNS and key, admin CNAME, Realtime keys) are unchanged.
 
 ### Round 9 carryover
