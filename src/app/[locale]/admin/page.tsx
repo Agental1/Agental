@@ -30,7 +30,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale: toLocale(locale), namespace: "app" });
-  return { title: `Bang — ${t("admin.nav.overview")}` };
+  return { title: `Bang · ${t("admin.nav.overview")}` };
 }
 
 export default async function AdminDashboard({
@@ -56,17 +56,17 @@ export default async function AdminDashboard({
   ]);
 
   const kpis = [
-    { label: t("admin.accounts.totals.performers"), value: totals.performers.total, icon: Users, href: "/admin/comptes?audience=TALENT" },
-    { label: t("admin.accounts.totals.casting"), value: totals.casting.total, icon: Building2, href: "/admin/comptes?audience=CASTING" },
-    { label: t("admin.accounts.totals.staff"), value: totals.staff, icon: UserCheck, href: "/admin/comptes?status=STAFF" },
-    { label: t("admin.accounts.totals.test"), value: totals.test, icon: UserCheck, href: "/admin/comptes?status=TEST" },
-    { label: t("admin.accounts.totals.spam"), value: totals.spam, icon: ShieldAlert, href: "/admin/comptes?status=SPAM" },
-    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban, href: "/admin" },
+    { label: t("admin.accounts.totals.performers"), value: totals.performers.total, icon: Users, href: "/admin/comptes?group=performers" },
+    { label: t("admin.accounts.totals.casting"), value: totals.casting.total, icon: Building2, href: "/admin/comptes?group=casting" },
+    { label: t("admin.accounts.totals.staff"), value: totals.staff, icon: UserCheck, href: "/admin/comptes?group=staff" },
+    { label: t("admin.accounts.totals.test"), value: totals.test, icon: UserCheck, href: "/admin/comptes?group=test" },
+    { label: t("admin.accounts.totals.spam"), value: totals.spam, icon: ShieldAlert, href: "/admin/comptes?group=spam" },
+    { label: t("admin.stats.projects"), value: projects, icon: FolderKanban, href: "/admin/projets" },
   ];
   const todo = [
     { label: t("admin.nav.waiting"), value: waiting, icon: MessageSquare, href: "/admin/messages?waiting=1" },
     { label: t("admin.hub.newLeads"), value: newLeads, icon: Send, href: "/admin/limelight?status=NEW" },
-    { label: t("admin.hub.toReview"), value: totals.performers.unreviewed + totals.casting.unreviewed, icon: Users, href: "/admin/comptes?status=UNREVIEWED" },
+    { label: t("admin.hub.toReview"), value: totals.performers.unreviewed + totals.casting.unreviewed, icon: Users, href: "/admin/comptes?group=unreviewed" },
     { label: t("admin.hub.jobs", { queued: jobs.queued, running: jobs.running, failed: jobs.failed }), value: jobs.queued + jobs.running, icon: FolderKanban, href: "/admin/recherches" },
   ];
 

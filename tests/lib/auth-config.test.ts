@@ -16,7 +16,7 @@ const userFindUnique = vi.fn();
 const authAllowed = vi.fn(async () => true);
 vi.mock("@/lib/abuse", () => ({ authAllowed }));
 vi.mock("@/lib/db", () => ({
-  prisma: { account: { findUnique }, user: { findMany, findUnique: userFindUnique } },
+  prisma: { account: { findUnique }, user: { findMany, findUnique: userFindUnique, update: vi.fn(async () => ({})) } },
 }));
 vi.mock("@/lib/auth/oauth-cookies", () => ({
   readIntentCookie: vi.fn(async () => null),
@@ -97,13 +97,18 @@ describe("jwt callback on an ordinary request", () => {
     expect(await call({ sub: "u1", kind: "TALENT", authAt: 1 })).toEqual({ sub: "u1", kind: "TALENT", authAt: 1 });
     expect(userFindUnique).toHaveBeenLastCalledWith({
       where: { id: "u1" },
-      select: { sessionsValidAfter: true },
+      select: { sessionsValidAfter: true, deletedAt: true },
     });
   });
 
   it("ends the session of a deleted account", async () => {
     userFindUnique.mockResolvedValueOnce(null);
     expect(await call({ sub: "gone", authAt: Date.now() })).toBeNull();
+  });
+
+  it("ends the session of an account an admin deleted (round 9, restorable)", async () => {
+    userFindUnique.mockResolvedValueOnce({ sessionsValidAfter: null, deletedAt: new Date() });
+    expect(await call({ sub: "u2", authAt: Date.now() })).toBeNull();
   });
 
   it("refuses a session that began before the cut-off and keeps one that began after", async () => {

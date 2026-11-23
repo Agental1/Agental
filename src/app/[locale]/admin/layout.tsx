@@ -13,16 +13,17 @@ import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
   { href: "/admin/comptes", key: "accounts", icon: "console" },
-  { href: "/admin/suppression", key: "cleanup", icon: "audit" },
   { href: "/admin/profils", key: "profiles", icon: "talents" },
   { href: "/admin/medias", key: "media", icon: "video" },
   { href: "/admin/emails", key: "emails", icon: "messages" },
   { href: "/admin/messages", key: "messages", icon: "messages" },
   { href: "/admin/limelight", key: "limelight", icon: "website" },
+  { href: "/admin/projets", key: "projects", icon: "console" },
   { href: "/admin/annonces", key: "announcements", icon: "messages" },
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
   { href: "/admin/revenus", key: "revenue", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
+  { href: "/admin/suppression", key: "cleanup", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },
 ] as const;
 

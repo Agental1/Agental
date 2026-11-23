@@ -81,6 +81,15 @@ model User {
   agentsOptInAt         DateTime?
   // Opt-in to the six-hour automatic search.
   autoSearchOptIn       Boolean   @default(false)
+  // Round 9: "Delete" in Admin > Accounts. Set means removed: sign-in refused,
+  // sessions ended, agents off, hidden from the lists. Restorable for 30 days
+  // (Admin > Deleted), then purged with its files. deletedPrevStatus is the
+  // accountStatus to put back on restore.
+  deletedAt             DateTime?
+  deletedById           String?
+  deletedPrevStatus     String?
+  // Round 9: last successful sign-in (null before round 9 or never).
+  lastSignInAt          DateTime?
 
   accounts            Account[]
   sessions            Session[]
@@ -109,6 +118,7 @@ model User {
   adminTotp             AdminTotp?
 
   @@index([accountStatus])
+  @@index([deletedAt])
   @@schema("public")
 }
 

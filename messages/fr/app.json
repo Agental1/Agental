@@ -259,11 +259,12 @@
       "accounts": "Comptes",
       "revenue": "Revenus",
       "waiting": "En attente de l’équipe",
-      "cleanup": "Nettoyage des comptes",
+      "cleanup": "Supprimés",
       "profiles": "Profils",
       "media": "Médias",
       "emails": "E-mails",
-      "announcements": "Annonces"
+      "announcements": "Annonces",
+      "projects": "Projets"
     },
     "stats": {
       "artists": "Artistes",
@@ -455,7 +456,8 @@
         "media": "Médias",
         "website": "Site",
         "status": "Statut",
-        "agents": "Agents activés"
+        "agents": "Agents activés",
+        "lastSignIn": "Dernière connexion"
       },
       "site": {
         "none": "Aucun",
@@ -513,7 +515,67 @@
       "verifiedGoogle": "Vérifié par Google",
       "notVerified": "Non vérifié",
       "verifiedReadOnly": "Fixé uniquement par la vraie vérification. L’équipe ne peut pas le modifier.",
-      "exceptionsNote": "Les comptes deviennent éligibles d’eux-mêmes. Marque seulement les exceptions : Spam, Test, Équipe, ou retrait. « Automatique » annule une marque."
+      "exceptionsNote": "Les comptes deviennent éligibles d’eux-mêmes. Marque seulement les exceptions : Spam, Test, Équipe, ou retrait. « Automatique » annule une marque.",
+      "filters": {
+        "group": "Groupe",
+        "createdBefore": "Créé avant le",
+        "paid": "Paiements",
+        "neverPaid": "N’a jamais payé",
+        "paidOrTeam": "A payé ou dans une équipe",
+        "signInNever": "Aucune enregistrée",
+        "signInBefore": "Avant une date",
+        "signedInBefore": "Dernière connexion avant le"
+      },
+      "groups": {
+        "performers": "Talents",
+        "casting": "Casting",
+        "staff": "Équipe",
+        "test": "Test",
+        "spam": "Spam ou révoqués",
+        "unreviewed": "À vérifier"
+      },
+      "verifiedYes": "Vérifié",
+      "methods": {
+        "email": "E-mail",
+        "google": "Google",
+        "other": "Autre"
+      },
+      "clear": "Effacer les filtres",
+      "empty": "Aucun compte ne correspond à ces filtres.",
+      "emptyHint": "Retire un filtre ou cherche un autre nom ou e-mail.",
+      "notRecorded": "Non enregistrée",
+      "lastSignInHelp": "Enregistrée depuis le 22 novembre 2026. Les connexions plus anciennes apparaissent comme non enregistrées.",
+      "bulk": {
+        "selected": "{count, plural, =0 {Aucun compte sélectionné} one {# compte sélectionné} other {# comptes sélectionnés}}",
+        "warnCta": "Envoyer l’e-mail d’avertissement",
+        "deleteCta": "Supprimer",
+        "warnTitle": "Envoyer l’avertissement à {count, plural, one {# compte} other {# comptes}} ?",
+        "warnBody": "Chacun reçoit « Confirmez votre e-mail sous 7 jours pour garder votre compte Agental » avec un lien de confirmation. L’envoi est noté sur le compte.",
+        "deleteTitle": "Supprimer {count, plural, one {# compte} other {# comptes}} ?",
+        "deleteBody": "Impossible d’annuler après 30 jours. D’ici là, les comptes restent dans Supprimés, où tu peux les rétablir. Ensuite ils sont effacés définitivement avec leurs fichiers.",
+        "warnKept": "{count, plural, one {# compte coché est ignoré} other {# comptes cochés sont ignorés}} : déjà vérifiés, inscrits avec Google, ou équipe, test, admin ou payants.",
+        "deleteKept": "{count, plural, one {# compte coché est} other {# comptes cochés sont}} équipe, test, admin ou payants et seront gardés.",
+        "nothingTitle": "Rien à faire",
+        "nothingWarn": "Aucun compte coché ne peut recevoir l’avertissement : ils sont vérifiés, inscrits avec Google, ou équipe, test, admin ou payants.",
+        "nothingDelete": "Aucun compte coché ne peut être supprimé : les comptes équipe, test, admin et payants sont toujours gardés.",
+        "cancel": "Annuler",
+        "confirmDelete": "Supprimer {count, plural, one {# compte} other {# comptes}}",
+        "confirmWarn": "Envoyer {count, plural, one {# e-mail} other {# e-mails}}",
+        "removed": "{count, plural, =0 {Aucun compte supprimé.} one {# compte supprimé.} other {# comptes supprimés.}}",
+        "skipped": "{count, plural, one {# ignoré.} other {# ignorés.}}",
+        "openDeleted": "Ouvrir Supprimés pour rétablir",
+        "warned": "{count, plural, =0 {Aucun avertissement envoyé.} one {# avertissement envoyé.} other {# avertissements envoyés.}}",
+        "noSender": "Aucun service d’envoi n’est configuré (clé Resend) : rien n’a été envoyé.",
+        "tooMany": "Sélectionne 200 comptes au plus à la fois.",
+        "protectedHelp": "Ce compte ne peut pas être supprimé d’ici.",
+        "protected": {
+          "admin": "Protégé : admin",
+          "staff": "Protégé : équipe",
+          "test": "Protégé : test",
+          "paid": "Protégé : payant ou dans une équipe",
+          "deleted": "Supprimé"
+        }
+      }
     },
     "studentRequests": {
       "title": "Demandes de prix étudiant",
@@ -657,6 +719,81 @@
       "edit": "Modifier le solde et les alertes",
       "none": "Indisponible",
       "balanceNote": "Solde de {amount} saisi le {date}."
+    },
+    "deleted": {
+      "title": "Comptes supprimés",
+      "subtitle": "Les comptes supprimés dans Comptes. Chacun est désactivé et peut être rétabli pendant {days} jours, puis il est effacé définitivement avec ses fichiers. Chaque suppression, rétablissement et effacement figure dans le journal d’audit.",
+      "restored": "Compte rétabli. Il peut se reconnecter et retrouve son statut.",
+      "restoreError": "Ce compte n’a pas pu être rétabli. Il l’a peut-être déjà été, ou il a été effacé définitivement.",
+      "empty": "Aucun compte supprimé.",
+      "emptyHint": "Les comptes que tu supprimes apparaissent ici pendant 30 jours.",
+      "cols": {
+        "account": "Compte",
+        "audience": "Type",
+        "deletedAt": "Supprimé le",
+        "deletedBy": "Par",
+        "purgeOn": "Effacé définitivement le"
+      },
+      "daysLeft": "{count, plural, =0 {Aujourd’hui} one {# jour restant} other {# jours restants}}",
+      "restore": "Rétablir"
+    },
+    "projects": {
+      "title": "Projets",
+      "subtitle": "{count, plural, =0 {Aucun projet pour l’instant.} one {# projet. Ouvre-le pour voir son rôle et ses candidatures.} other {# projets. Ouvre-en un pour voir son rôle et ses candidatures.}}",
+      "search": "Titre ou organisation",
+      "empty": "Aucun projet ne correspond.",
+      "emptyHint": "Les équipes de casting créent leurs projets dans leur espace. Efface la recherche pour tout voir.",
+      "cols": {
+        "title": "Projet",
+        "organization": "Organisation",
+        "owner": "Responsable",
+        "status": "Statut",
+        "shooting": "Tournage",
+        "applications": "Candidatures",
+        "created": "Créé le"
+      },
+      "range": "du {from} au {to}",
+      "statuses": {
+        "DRAFT": "Brouillon",
+        "OPEN": "Ouvert",
+        "SHORTLISTING": "Présélection",
+        "CLOSED": "Fermé"
+      },
+      "back": "Tous les projets",
+      "details": "Détails",
+      "updated": "Dernière modification",
+      "budget": "Budget",
+      "role": {
+        "title": "Rôle",
+        "empty": "Pas encore de détails sur le rôle.",
+        "role": "Rôle",
+        "gender": "Genre",
+        "age": "Âge",
+        "type": "Type physique",
+        "language": "Langue",
+        "accent": "Accent",
+        "constraints": "Contraintes"
+      },
+      "applications": "{count, plural, =0 {Candidatures} one {# candidature} other {# candidatures}}",
+      "appCols": {
+        "performer": "Talent",
+        "source": "Source",
+        "status": "Statut",
+        "score": "Correspondance",
+        "applied": "Reçue le"
+      },
+      "external": "Talent externe",
+      "noApplications": "Aucune candidature pour l’instant.",
+      "appStatuses": {
+        "NEW": "Nouvelle",
+        "SHORTLISTED": "Présélectionnée",
+        "STARRED": "Favorite",
+        "EXCLUDED": "Écartée",
+        "SELFTAPE_REQUESTED": "Self-tape demandée",
+        "INVITED": "Invitée",
+        "CONTRACTED": "Engagée",
+        "REJECTED": "Refusée"
+      }
     }
   },
   "matchReasons": {

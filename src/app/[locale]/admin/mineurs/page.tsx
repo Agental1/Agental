@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale: toLocale(locale), namespace: "app" });
-  return { title: `Bang — ${t("admin.nav.minors")}` };
+  return { title: `Bang · ${t("admin.nav.minors")}` };
 }
 
 // Stored code -> message key under `admin.minors`. The columns are plain
@@ -89,7 +89,7 @@ export default async function AdminMinorsPage({
                       {c.artistProfile.stageName}
                     </td>
                     <td className="px-4 py-2.5 text-fg-muted">
-                      {c.project?.title ?? "—"}
+                      {c.project?.title ?? "-"}
                     </td>
                     <td className="px-4 py-2.5">
                       <Badge variant={c.prefectoralAuthStatus === "GRANTED" ? "success" : "warning"}>

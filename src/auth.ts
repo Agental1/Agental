@@ -57,6 +57,8 @@ async function buildProviders(): Promise<NextAuthConfig["providers"]> {
         // account this is.
         for (const user of await findUsersByEmail(prisma, parsed.data.email)) {
           if (!user.passwordHash) continue;
+          // Round 9: an account an admin deleted (restorable for 30 days) cannot sign in.
+          if (user.deletedAt) continue;
           if (!(await bcrypt.compare(parsed.data.password, user.passwordHash))) {
             continue;
           }
@@ -128,6 +130,15 @@ async function buildProviders(): Promise<NextAuthConfig["providers"]> {
 function sessionStartedAt(token: { authAt?: unknown; iat?: unknown }): number {
   if (typeof token.authAt === "number") return token.authAt;
   return typeof token.iat === "number" ? token.iat * 1000 : 0;
+}
+
+/** Round 9: the "last sign-in" admin filter. Never blocks a sign-in. */
+async function stampSignIn(userId: string): Promise<void> {
+  try {
+    await prisma.user.update({ where: { id: userId }, data: { lastSignInAt: new Date() } });
+  } catch (error) {
+    console.error("[auth] last sign-in not recorded", error instanceof Error ? error.name : "error");
+  }
 }
 
 function connexionError(locale: string, code: AuthErrorCode): string {
@@ -244,6 +255,9 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
             include: { user: true },
           });
           if (!linked) return null;
+          // Round 9: an account an admin deleted cannot sign in.
+          if (linked.user.deletedAt) return null;
+          await stampSignIn(linked.user.id);
           token.sub = linked.user.id;
           token.email = linked.user.email;
           token.name = linked.user.name;
@@ -255,6 +269,7 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
         }
         if (user) {
           // Credentials sign-in.
+          if (user.id) await stampSignIn(user.id);
           token.kind = user.kind;
           token.locale = user.locale;
           token.authAt = Date.now();
@@ -265,11 +280,11 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
         // not predate a cut-off (set when a provider sign-in took over an
         // account whose password was never proven, see linkOAuthUser).
         if (token.sub) {
-          let account: { sessionsValidAfter: Date | null } | null;
+          let account: { sessionsValidAfter: Date | null; deletedAt: Date | null } | null;
           try {
             account = await prisma.user.findUnique({
               where: { id: token.sub },
-              select: { sessionsValidAfter: true },
+              select: { sessionsValidAfter: true, deletedAt: true },
             });
           } catch (error) {
             // The database is unreachable. Keep the session as it is: every
@@ -279,6 +294,8 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
             return token;
           }
           if (!account) return null;
+          // Round 9: deleted by an admin (restorable for 30 days): no session.
+          if (account.deletedAt) return null;
           if (
             account.sessionsValidAfter &&
             sessionStartedAt(token) < account.sessionsValidAfter.getTime()

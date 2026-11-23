@@ -20,14 +20,14 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   const locale = toLocale((await params).locale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "common.privacy" });
-  const sections = t.raw("sections") as { title: string; body: string[] }[];
+  const sections = t.raw("sections") as { id?: string; title: string; body: string[] }[];
   return (
     <>
       <PageHero eyebrow={t("eyebrow")} title={t("title")} subtitle={t("updated")} />
       <Section width="prose" rhythm="compact">
         <div className="space-y-8">
           {sections.map((s) => (
-            <section key={s.title}>
+            <section key={s.title} id={s.id} className="scroll-mt-24">
               <h2 className="text-[22px] font-bold tracking-[-0.01em]">{s.title}</h2>
               {s.body.map((p) => (
                 <p key={p} className="mt-3 text-[16px] leading-relaxed text-fg-muted">

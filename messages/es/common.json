@@ -202,7 +202,8 @@
     "bannerLead": "Usamos algunas cookies para que Agental funcione. Las demás siguen desactivadas si no las aceptas.",
     "policyLink": "Política de privacidad",
     "recordedOn": "Registrado el {date}, versión del aviso {version}.",
-    "notRecorded": "Aún no hay ninguna elección registrada. Solo se usan las cookies estrictamente necesarias."
+    "notRecorded": "Aún no hay ninguna elección registrada. Solo se usan las cookies estrictamente necesarias.",
+    "readMore": "Más información"
   },
   "tour": {
     "start": "Empieza aquí",
@@ -362,10 +363,27 @@
         ]
       },
       {
+        "id": "security",
+        "title": "Seguridad de las cuentas y abusos",
+        "body": [
+          "Para que Agental sea seguro para artistas y equipos de casting, observamos cómo se usan las cuentas para detectar spam, cuentas falsas y abusos. Miramos cuándo se creó la cuenta y cuándo inició sesión por última vez, si su correo está verificado, los intentos fallidos repetidos de inicio de sesión o registro, y el uso del perfil, los archivos, las búsquedas con IA y los mensajes. Solo usamos estos datos para la seguridad y para prevenir fraudes y abusos, y nunca los vendemos.",
+          "Cualquier medida la decide una persona de nuestro equipo, nunca un sistema automático. Podemos limitar, suspender o eliminar una cuenta que incumpla nuestras Condiciones. Antes podemos escribirte para que confirmes tu dirección en 7 días. Una cuenta eliminada se desactiva al momento y se conserva 30 días, para poder restaurarla si nos equivocamos; después se elimina para siempre con sus archivos. Escríbenos a contact@agental.co si crees que nos equivocamos.",
+          "Esta vigilancia no usa cookies. Las únicas cookies que usamos son las que aparecen en el aviso de cookies."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies",
+        "body": [
+          "Solo usamos las cookies que aparecen en el aviso: las estrictamente necesarias (inicio de sesión, seguridad, tu idioma y tu elección de cookies), siempre activas, y cookies de analítica y marketing, que siguen desactivadas salvo que las aceptes. Hoy no usamos ninguna cookie opcional. Puedes cambiar tu elección cuando quieras en Ajustes."
+        ]
+      },
+      {
         "title": "How long we keep it, and your choices",
         "body": [
           "We keep your data while your account is open. You can edit your profile at any time and delete your account from Settings; this removes your profile, media and messages. You can ask us for a copy of your data or for a correction by writing to contact@agental.co.",
-          "When you delete a conversation in Messages, it disappears from your account right away. We keep a copy, hidden from you, for moderation and legal reasons."
+          "When you delete a conversation in Messages, it disappears from your account right away. We keep a copy, hidden from you, for moderation and legal reasons.",
+          "Guardamos el registro de los correos enviados durante 180 días. Las copias de seguridad de la base de datos se conservan un tiempo limitado después de una eliminación."
         ]
       },
       {
