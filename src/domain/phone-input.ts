@@ -14,7 +14,7 @@ import {
  * - Deleting a formatting character (a parenthesis, a space, a dash) deletes the
  *   digit before it, so Backspace always removes one character the person sees
  *   as part of the number.
- * - A pasted or typed international number ("+1 213 222 7981", "+33 6 12...")
+ * - A pasted or typed international number ("+1 213 555 0123", "+33 6 12...")
  *   picks its country.
  * - The saved value is E.164, only when the number is valid.
  */

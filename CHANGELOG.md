@@ -8,7 +8,7 @@ Toutes les évolutions notables de ce projet. Format inspiré de
 ### Changed (round 10, group 1: profile fixes)
 
 - **Accents**: about 300, grouped by region (more US, UK, Latin American, African, Asian and Middle Eastern accents). "None" first (exclusive), "Other: write your own" last: what is typed becomes a chip, several allowed.
-- **Phone**: the caret never jumps, Backspace removes one digit even over a parenthesis or a space, a pasted number in any format works ("+1 213 222 7981", "213-222-7981", "(213) 2227981"), a "+" number picks its country, the selector reformats; saved as E.164 only when valid.
+- **Phone**: the caret never jumps, Backspace removes one digit even over a parenthesis or a space, a pasted number in any format works ("+1 213 555 0123", "213-555-0123", "(213) 5550123"), a "+" number picks its country, the selector reformats; saved as E.164 only when valid.
 - **Build is required** for 100% (red asterisk). One photo of yourself is the only required media; the other categories say "Optional, highly recommended".
 - **Ages you can play** start at 10.
 - **Maturity rating** replaces "Content boundaries": G, PG, PG-13, R, NC-17, with "No nudity" as an optional limit; an earlier "open to nudity" reads as R.
@@ -265,7 +265,7 @@ Migration `20261207000000_round8_website_card` (one nullable column).
 ### Added (round 8, group 3)
 
 - **Location picker**: country first (United States by default, with search), then state or province where the country has them, then a city picked from suggestions as you type (free text refused; "Can't find your city? Pick the nearest one."). Data from GeoNames (CC BY 4.0) in our own database (`GeoCountry`, `GeoAdmin1`, `GeoCity`, 70,101 cities), searched by `/api/geo`; no API key, nothing sent to a third party.
-- **Phone**: country code with flag on the left (+1 by default), the number formatted as typed ((213) 222-7981), validated with `libphonenumber-js` and stored in E.164 in a new column; the typed text stays.
+- **Phone**: country code with flag on the left (+1 by default), the number formatted as typed ((213) 555-0123), validated with `libphonenumber-js` and stored in E.164 in a new column; the typed text stays.
 - **Languages**: chips with search by name or code (FR, EN, ES, ZH); English, Mandarin, Spanish and French pinned, then every ISO 639 language A to Z, Mandarin and Cantonese separate, "Other" as free text.
 - **Accents you can do**: a separate chip list grouped by region (about 200 accents), searchable by any word, "Other" as free text.
 - Existing cities like "Los Angeles, USA" are linked when exactly one place matches; US phone numbers that parse cleanly get their E.164 form. Nothing typed is overwritten.

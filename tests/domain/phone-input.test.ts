@@ -15,18 +15,18 @@ function typeAll(chars: string, country: "US" | "FR" = "US") {
 
 describe("phone field (round 10)", () => {
   it("formats as typed and saves E.164", () => {
-    const r = typeAll("2132227981");
-    expect(r.text).toBe("(213) 222-7981");
-    expect(r.e164).toBe("+12132227981");
+    const r = typeAll("2135550123");
+    expect(r.text).toBe("(213) 555-0123");
+    expect(r.e164).toBe("+12135550123");
   });
 
-  it.each(["+1 213 222 7981", "213-222-7981", "(213) 2227981", "2132227981", "+12132227981"])(
+  it.each(["+1 213 555 0123", "213-555-0123", "(213) 5550123", "2135550123", "+12135550123"])(
     "accepts a paste of %s",
     (pasted) => {
       const r = editPhone({ prev: "", next: pasted, caret: pasted.length, country: "US" });
-      expect(r.e164).toBe("+12132227981");
+      expect(r.e164).toBe("+12135550123");
       expect(r.country).toBe("US");
-      expect(r.text).toBe("(213) 222-7981");
+      expect(r.text).toBe("(213) 555-0123");
     }
   );
 
@@ -37,16 +37,16 @@ describe("phone field (round 10)", () => {
   });
 
   it("keeps the caret after the same digit when typing in the middle", () => {
-    // "(213) 222-7981": insert 5 after "(21"
-    const prev = "(213) 222-798";
-    const next = "(215" + "3) 222-798";
+    // "(213) 555-012": insert 5 after "(21"
+    const prev = "(213) 555-012";
+    const next = "(215" + "3) 555-012";
     const r = editPhone({ prev, next, caret: 4, country: "US" });
-    expect(r.text).toBe("(215) 322-2798");
+    expect(r.text).toBe("(215) 355-5012");
     expect(r.text.slice(0, r.caret)).toBe("(215");
   });
 
   it("deletes one digit per Backspace, including over a parenthesis or a space", () => {
-    let text = "(213) 222-7981";
+    let text = "(213) 555-0123";
     const seen: string[] = [];
     for (let i = 0; i < 10; i++) {
       const caret = text.length;
@@ -55,7 +55,7 @@ describe("phone field (round 10)", () => {
       text = r.text;
       seen.push(text.replace(/\D/g, ""));
     }
-    expect(seen).toEqual(["213222798", "21322279", "2132227", "213222", "21322", "2132", "213", "21", "2", ""]);
+    expect(seen).toEqual(["213555012", "21355501", "2135550", "213555", "21355", "2135", "213", "21", "2", ""]);
   });
 
   it("Backspace right after the closing parenthesis removes the 3", () => {
@@ -66,10 +66,10 @@ describe("phone field (round 10)", () => {
   });
 
   it("Delete before a formatting character removes the next digit", () => {
-    const prev = "(213) 222-7981";
+    const prev = "(213) 555-0123";
     // caret before "-" (index 9), Delete removes "-"
-    const r = editPhone({ prev, next: "(213) 2227981", caret: 9, country: "US", forward: true });
-    expect(r.text.replace(/\D/g, "")).toBe("213222981");
+    const r = editPhone({ prev, next: "(213) 5550123", caret: 9, country: "US", forward: true });
+    expect(r.text.replace(/\D/g, "")).toBe("213555123");
   });
 
   it("reformats when the country changes", () => {
@@ -79,8 +79,8 @@ describe("phone field (round 10)", () => {
   });
 
   it("a pasted +number replaces digits already in the field", () => {
-    const r = editPhone({ prev: "(213) 2", next: "(213) 2+1 213 222 7981", caret: 22, country: "FR" });
-    expect(r.e164).toBe("+12132227981");
+    const r = editPhone({ prev: "(213) 2", next: "(213) 2+1 213 555 0123", caret: 22, country: "FR" });
+    expect(r.e164).toBe("+12135550123");
     expect(r.country).toBe("US");
   });
 
