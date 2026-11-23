@@ -169,7 +169,10 @@
     "codeLocked": "Trop d’essais. Demande un nouveau code.",
     "codeDailyLimit": "Trop de codes envoyés aujourd’hui. Réessaie demain.",
     "uscEmailTaken": "Cette adresse USC a déjà vérifié un autre compte.",
-    "adminCodeWrong": "Ce code n’est pas bon. Tape le code le plus récent de ton application d’authentification."
+    "adminCodeWrong": "Ce code n’est pas bon. Tape le code le plus récent de ton application d’authentification.",
+    "legalNameRequired": "Saisis ton prénom et ton nom légaux.",
+    "genderRequired": "Choisis ton genre.",
+    "onboardingIncomplete": "Une étape manque encore. Termine-la, puis continue."
   },
   "auth": {
     "name": "Nom",
@@ -954,6 +957,7 @@
     "deletionIgnore": "Si tu n’as pas créé ce compte, ignore cet e-mail : il sera supprimé.",
     "codeSubject": "Votre code de vérification Agental",
     "codeIntro": "Saisissez ce code dans Agental pour vérifier votre adresse étudiante USC :",
+    "signupCodeIntro": "Saisissez ce code dans Agental pour vérifier votre adresse e-mail :",
     "codeExpiry": "Il est valable 10 minutes.",
     "limelightSubject": "Nous avons bien reçu votre demande Limelight",
     "limelightIntro": "Merci pour votre demande de site portfolio. L’équipe Agental lit chaque demande et revient vers vous.",

@@ -14,7 +14,6 @@ import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
 import { toLocale } from "@/i18n/routing";
 import { safeReturnPath } from "@/domain/return-path";
-import { sendVerificationForNewUser } from "@/app/actions/account-email";
 
 export type AuthState = { error?: ActionError } | undefined;
 
@@ -63,18 +62,18 @@ export async function signupAction(
     after: { kind },
   });
 
-  // The confirmation link, when the deployment can send email. A mail failure
-  // must never fail a sign-up: the account exists and a new link can be asked
-  // for later.
+  // Round 10: a 6-digit code goes out at once and the next screen asks for it
+  // ("Enter the 6-digit code we sent to ..."). A mail failure must never fail a
+  // sign-up: the account exists, the code screen offers a new code, and the
+  // banner in the app does too. Without a way to send email (production
+  // without Resend), the code screen is skipped and the banner stays.
+  let codeSent = false;
   try {
-    await sendVerificationForNewUser({
-      id: user.id,
-      email: user.email,
-      locale: user.locale,
-    });
+    const { sendEmailCode } = await import("@/lib/email-code");
+    codeSent = (await sendEmailCode({ userId: user.id })).ok;
   } catch (error) {
     console.error(
-      "[auth] confirmation email skipped:",
+      "[auth] sign-up code skipped:",
       error instanceof Error ? error.name : "unknown error"
     );
   }
@@ -83,7 +82,7 @@ export async function signupAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: onboardingHome(kind, locale),
+      redirectTo: codeSent ? `/${toLocale(locale)}/verifier` : onboardingHome(kind, locale),
     });
   } catch (error) {
     // On success signIn throws a redirect (not an AuthError) — rethrow it.

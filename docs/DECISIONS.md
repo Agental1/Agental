@@ -136,7 +136,18 @@ US dollars.
 - First sign-in lands on Profile completeness with the welcome tour; later sign-ins on the
   dashboard.
 - Email verification with a 6-digit code for email-and-password accounts; Google accounts
-  skip it.
+  skip it. **Built in round 10 (2026-11-22):** right after "Create account" the next screen asks
+  for the code sent from contact@agental.co (six boxes, a new code after 60 seconds, 10 minutes,
+  5 attempts; only a keyed hash is stored). Accounts created without verification see "Verify
+  your email to start finding roles" with "Send me a code" at the top of the app. Without Resend
+  in production the code screen is skipped (nobody could receive the code) and the banner stays.
+- **Sign-up questions (founder, round 10, 2026-11-22):** after sign-up, the quick questions are
+  the profile's own fields, saved into the profile: legal first and last name and stage name,
+  then date of birth, gender and phone; no city (it comes later in the profile). The third screen
+  (the agreement) and the 3-step welcome stay. Agent's decisions, `TODO(founders)`: stage name and
+  phone are optional at this step (the phone stays required for 100%); a new account that has not
+  finished these questions is sent back to them at its next sign-in (Google included), never an
+  account past its first run.
 - Profile prefill from Google (name, email, photo with confirmation).
 
 ## Admin and agents (round 7, decided 2026-11-20)

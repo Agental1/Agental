@@ -120,6 +120,8 @@ model User {
   uscVerifiedEmail  String?   @unique
   promoCodes        PromoVerificationCode[]
   planChoices       PlanChoice[]
+  // Round 10: the 6-digit code that verifies the sign-up email.
+  emailCodes        EmailVerificationCode[]
 
   // Round 8d: the admin's authenticator app (admins only).
   adminTotp             AdminTotp?
@@ -1276,6 +1278,25 @@ model AnnouncementRead {
 
 
 // Round 8b: one 6-digit code per send (keyed hash only), 10 minutes, 5 attempts.
+/// Round 10: a 6-digit code sent at sign-up (or from the "Verify your email"
+/// banner) to prove the account's address. Only a keyed hash is stored; 10
+/// minutes, 5 attempts, a new code replaces the earlier ones.
+model EmailVerificationCode {
+  id          String    @id @default(cuid())
+  userId      String
+  email       String
+  codeHash    String
+  attempts    Int       @default(0)
+  expiresAt   DateTime
+  consumedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@schema("public")
+}
+
 model PromoVerificationCode {
   id          String    @id @default(cuid())
   userId      String

@@ -259,12 +259,15 @@ export function PhoneField({
   initialText,
   onValid,
   onInvalid,
+  onEmpty,
 }: {
   initialE164: string | null;
   /** What was typed before round 8, shown when it does not parse. */
   initialText: string;
   onValid: (v: { e164: string; display: string }) => void;
   onInvalid: () => void;
+  /** Round 10: the field was emptied (the sign-up questions accept no phone). */
+  onEmpty?: () => void;
 }) {
   const t = useTranslations("talents.space.profileEditor.smart");
   const parsed = useMemo(
@@ -300,6 +303,7 @@ export function PhoneField({
     if (r.country !== country) setCountry(r.country);
     if (r.empty) {
       setError(false);
+      onEmpty?.();
       return;
     }
     if (r.e164 && r.display) {

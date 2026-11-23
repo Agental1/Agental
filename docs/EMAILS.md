@@ -13,7 +13,8 @@ Status column: **built** = code live, not yet sent for real (no Resend key);
 
 | Email | `kind` | Trigger | To | Template | Status | Inbox or spam |
 |---|---|---|---|---|---|---|
-| Confirm your email (sign-up) | `verify` | Sign-up with a password, "Resend the email" | the account | `verificationEmail` in `src/lib/email-templates.ts`, `emails.verify*` | built | not tested yet |
+| Sign-up code (round 10): "Enter the 6-digit code we sent to ..." | `signup_code` | "Create account" with a password; "Send me a code" (banner and code screen) | the account | `signupCodeEmail` in `src/lib/email-templates.ts`, `emails.codeSubject`, `emails.signupCodeIntro` | built (round 10 group 2), tested locally with the code printed in the dev log | not tested yet (needs W1 to W3) |
+| Confirm your email (link, before round 10) | `verify` | Sign-up with a password, "Resend the email" | the account | `verificationEmail` in `src/lib/email-templates.ts`, `emails.verify*` | built | not tested yet |
 | Reset your password | `reset` | "Forgot password?" | the account (one account per address) | `passwordResetEmail`, `emails.reset*` | built | not tested yet |
 | USC verification code | `usc_code` | Promotions > USC, "Send the code" | the @usc.edu address | `promoCodeEmail`, `emails.code*` | built | not tested yet |
 | School email link (old route) | `student` | no longer reachable from the UI (round 8b) | school address | `studentEmail` | kept for links already sent | n/a |

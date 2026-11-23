@@ -14,13 +14,21 @@ Live before round 10: Version 57.
 | Group | State | Version |
 |---|---|---|
 | 1. Profile fixes (+ W14 demo admin removed) | live | 58 |
-| 2. Sign-up code and onboarding | | |
+| 2. Sign-up code and onboarding | live; sending the code waits for W0 (Resend) | 59 |
 | 3. The green button | | |
 | 4. A clearer admin | | |
 
 ### Waiting for Jérôme (round 10 additions)
 
-(none yet)
+0. **W0 (top priority), Group 2: Resend, so the sign-up code reaches people.** Nothing can send
+   email from production yet: `RESEND_API_KEY` is not set (`EMAIL_FROM` is). Until it is, the code
+   screen after sign-up is skipped and "Send me a code" answers "We can't send the code right now";
+   no account can verify its email, so no real performer can start a search. Exact steps: W1
+   (DNS records at name.com, Verify in Resend), W2 (API key into Vercel Production and Preview),
+   W3 (webhook). Resume: `vercel env ls | grep RESEND_API_KEY`, redeploy, sign up with a new Test
+   address on production, receive the code from contact@agental.co, enter it, check inbox or spam,
+   then the banner path with an older unverified account. Tested so far: locally (code printed in
+   the dev log), every step and error message.
 
 ## Round 9 (2026-11-22): start here
 

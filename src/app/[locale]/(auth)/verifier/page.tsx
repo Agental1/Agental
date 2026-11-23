@@ -3,7 +3,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
 import { auth } from "@/auth";
-import { CheckInbox, VerifyEmailButton } from "@/components/auth/email-flows";
+import { VerifyEmailButton } from "@/components/auth/email-flows";
+import { EmailCodeScreen } from "@/components/auth/email-code";
+import { prisma } from "@/lib/db";
+import { codeScreenState } from "@/lib/email-code";
+import { onboardingHome } from "@/domain/auth-routes";
 
 export async function generateMetadata({
   params,
@@ -17,9 +21,11 @@ export async function generateMetadata({
 
 /**
  * Two states on one address:
- * - with `?token=`, the confirmation email's landing: a button confirms;
- * - without, "Check your inbox" for a signed-in account that still has to
- *   confirm, with the resend button.
+ * - with `?token=`, the landing of a confirmation link sent before round 10:
+ *   a button confirms;
+ * - without, round 10's code screen for a signed-in password account that has
+ *   not verified its email: "Enter the 6-digit code we sent to ...". Once the
+ *   code is right, the person continues to onboarding (or the app).
  */
 export default async function VerifyEmailPage({
   params,
@@ -35,6 +41,17 @@ export default async function VerifyEmailPage({
   if (typeof raw === "string" && raw.length > 0) return <VerifyEmailButton token={raw} />;
 
   const session = await auth();
-  if (!session?.user?.email) return redirect({ href: "/connexion", locale });
-  return <CheckInbox email={session.user.email} />;
+  if (!session?.user?.id || !session.user.email) return redirect({ href: "/connexion", locale });
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { emailVerified: true, passwordHash: true, kind: true, onboardingCompletedAt: true },
+  });
+  const next = user && !user.onboardingCompletedAt ? onboardingHome(user.kind, locale) : `/${locale}/continuer`;
+  // Google accounts and verified ones have nothing to do here.
+  if (!user || user.emailVerified || !user.passwordHash) return redirect({ href: next.replace(/^\/[a-z]{2}/, ""), locale });
+  // The server's own 60-second wait, so a reload never restarts the countdown.
+  const { live, cooldown } = await codeScreenState(session.user.id);
+  return (
+    <EmailCodeScreen email={session.user.email} next={next.replace(/^\/[a-z]{2}/, "")} liveCode={live} cooldown={cooldown} />
+  );
 }

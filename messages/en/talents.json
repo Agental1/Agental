@@ -654,24 +654,18 @@
   },
   "onboarding": {
     "steps": {
-      "identity": "Identity",
-      "profile": "Profile",
-      "mandat": "Mandate"
+      "identity": "Your name",
+      "profile": "About you",
+      "mandat": "Agreement"
     },
     "identity": {
       "title": "Who are you?",
-      "subtitle": "Let's start with the basics.",
-      "stageName": "Stage name",
-      "stageNamePlaceholder": "Your stage name",
-      "birthDate": "Date of birth",
-      "city": "City",
-      "cityPlaceholder": "Los Angeles"
+      "subtitle": "Your name as on your ID, and the name you work under if it is different. It goes straight into your profile."
     },
     "profile": {
-      "title": "What you do",
-      "subtitle": "Pick at least one specialty. Height is optional.",
-      "specialties": "Specialties",
-      "height": "Height (optional)"
+      "title": "About you",
+      "subtitle": "Three quick answers, saved in your profile.",
+      "phoneHint": "The team can reach you fast when a role comes up. You can add it later."
     },
     "mandat": {
       "title": "About the representation agreement",

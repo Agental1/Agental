@@ -220,8 +220,21 @@ export function limelightConfirmationEmail(locale: string, reference: string, li
  * code is typed into the six boxes in the app.
  */
 export function promoCodeEmail(locale: string, code: string): EmailContent {
+  return codeEmail(locale, code, "codeIntro");
+}
+
+/**
+ * Round 10: the 6-digit code that verifies a sign-up email ("Enter the 6-digit
+ * code we sent to ..."). Same layout as the USC code: the code, how long it
+ * works, nothing else to click.
+ */
+export function signupCodeEmail(locale: string, code: string): EmailContent {
+  return codeEmail(locale, code, "signupCodeIntro");
+}
+
+function codeEmail(locale: string, code: string, introKey: "codeIntro" | "signupCodeIntro"): EmailContent {
   const resolved = toLocale(locale);
-  const s = STRINGS[resolved];
+  const s = { ...STRINGS[resolved], codeIntro: STRINGS[resolved][introKey] };
   const clean = code.replace(/\D/g, "").slice(0, 6);
   const text = [s.codeIntro, "", clean, "", s.codeExpiry, s.ignore, "", s.signature, ""].join("\n");
   const e = escapeHtml;

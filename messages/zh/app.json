@@ -169,7 +169,10 @@
     "codeLocked": "尝试次数过多，请重新获取验证码。",
     "codeDailyLimit": "今天发送的验证码过多，请明天再试。",
     "uscEmailTaken": "此 USC 邮箱已验证过另一个账户。",
-    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app."
+    "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
+    "legalNameRequired": "请输入你的法定名字和姓氏。",
+    "genderRequired": "请选择你的性别。",
+    "onboardingIncomplete": "还缺少一个步骤。完成后再继续。"
   },
   "auth": {
     "name": "姓名",
@@ -954,6 +957,7 @@
     "deletionIgnore": "如果你没有创建此账户，请忽略此邮件：该账户将被删除。",
     "codeSubject": "你的 Agental 验证码",
     "codeIntro": "在 Agental 中输入此验证码，以验证你的 USC 学生邮箱：",
+    "signupCodeIntro": "在 Agental 中输入此验证码以验证你的电子邮件地址：",
     "codeExpiry": "验证码 10 分钟内有效。",
     "limelightSubject": "我们已收到你的 Limelight 申请",
     "limelightIntro": "感谢你申请作品集网站。Agental 团队会阅读每一份申请，并与你联系。",

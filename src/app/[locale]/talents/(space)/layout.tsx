@@ -6,8 +6,9 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Avatar, AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
-import { parseRequiredSince, requiresEmailVerification, showsVerifyBanner } from "@/domain/email-verification";
-import { VerifyEmailBanner } from "@/components/auth/verify-email-banner";
+import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
+import { VerifyEmailCodeBanner } from "@/components/auth/email-code";
+import { emailCodeAvailable } from "@/lib/email-code";
 import { ConsentSync } from "@/components/consent/consent-sync";
 import { syncAccountPrefs } from "@/lib/account-prefs";
 import { prefillFromProvider } from "@/lib/profile-prefill";
@@ -84,7 +85,10 @@ export default async function TalentsAppLayout({
     return redirect({ href: "/verifier", locale });
   }
   const prefs = await syncAccountPrefs(session.user.id, locale);
-  const verifyBanner = !!emailState && showsVerifyBanner(emailState, emailOpts);
+  // Round 10: every password account without a verified email sees "Verify your
+  // email to start finding roles" with "Send me a code" (6-digit code).
+  // Shown only while a code can actually be sent (production needs Resend).
+  const verifyBanner = !!emailState && !!emailState.passwordHash && !emailState.emailVerified && emailCodeAvailable();
 
   // The plan the talent really has, the Limelight Pro months included.
   const { plan: current } = await getTalentPlan(session.user.id);
@@ -139,7 +143,7 @@ export default async function TalentsAppLayout({
     >
       <ConsentSync consent={prefs.consent} at={prefs.consentAt} pv={prefs.consentVersion} />
       <MessagesShortcut />
-      {verifyBanner && session.user.email && <VerifyEmailBanner email={session.user.email} />}
+      {verifyBanner && session.user.email && <VerifyEmailCodeBanner email={session.user.email} portal="talents" />}
       {children}
     </AppShell>
   );

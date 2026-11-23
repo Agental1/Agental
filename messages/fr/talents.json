@@ -654,24 +654,18 @@
   },
   "onboarding": {
     "steps": {
-      "identity": "Identité",
-      "profile": "Profil",
-      "mandat": "Mandat"
+      "identity": "Ton nom",
+      "profile": "À propos de toi",
+      "mandat": "Contrat"
     },
     "identity": {
       "title": "Qui es-tu ?",
-      "subtitle": "On commence par les bases.",
-      "stageName": "Nom artistique",
-      "stageNamePlaceholder": "Ton nom de scène",
-      "birthDate": "Date de naissance",
-      "city": "Ville",
-      "cityPlaceholder": "Lyon"
+      "subtitle": "Ton nom comme sur ta pièce d’identité, et ton nom d’artiste s’il est différent. Tout va directement dans ton profil."
     },
     "profile": {
-      "title": "Ce que tu fais",
-      "subtitle": "Choisis au moins une spécialité. La taille est facultative.",
-      "specialties": "Spécialités",
-      "height": "Taille (facultatif)"
+      "title": "À propos de toi",
+      "subtitle": "Trois réponses rapides, enregistrées dans ton profil.",
+      "phoneHint": "L’équipe peut te joindre vite quand un rôle se présente. Tu peux l’ajouter plus tard."
     },
     "mandat": {
       "title": "À propos du mandat de représentation",
