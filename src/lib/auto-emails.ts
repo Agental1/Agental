@@ -10,6 +10,7 @@ import { siteBaseUrl } from "@/lib/email-tokens";
 import { toLocale, type Locale } from "@/i18n/routing";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { approvedEmailCategories } from "@/lib/app-settings";
+import { SMS_TEXT, sendSms, smsConfig } from "@/lib/sms";
 
 /**
  * Round 9, group 6: the automatic emails, one run at a time (the hourly job
@@ -40,7 +41,7 @@ const RECENT = 26 * HOUR;
 const TIME_BUDGET_MS = 40_000;
 const PER_RUN = 200;
 
-export type AutoEmailCounts = Record<EmailCategory, number> & { skipped: boolean };
+export type AutoEmailCounts = Record<EmailCategory, number> & { skipped: boolean; roles_text?: number };
 
 type Recipient = { id: string; email: string; locale: string; name: string };
 
@@ -259,6 +260,39 @@ export async function runAutoEmails(
     else {
       await prisma.notification.updateMany({ where: { id: { in: ids }, emailedAt: now }, data: { emailedAt: null } });
       await prisma.user.updateMany({ where: { id: userId, rolesDigestAt: now }, data: { rolesDigestAt: null } });
+    }
+  }
+
+  // 5. Round 9, group 8: the "roles found" text, behind SMS_ENABLED (off). Text or Both,
+  //    consent given, a US number, no STOP; at most one a day; same approval and test-mode gates.
+  // Daytime only in the US: 17:00 to 01:00 UTC is 9am to 5pm Pacific and noon to 8pm Eastern.
+  const utcHour = now.getUTCHours();
+  const daytime = utcHour >= 17 || utcHour < 1;
+  if (smsConfig(env) && approved.has("roles_found") && daytime) {
+    counts.roles_text = 0;
+    const texters = await prisma.user.findMany({
+      where: {
+        ...who,
+        OR: [{ rolesTextAt: null }, { rolesTextAt: { lte: dayAgo } }],
+        artistProfile: { roleAlertChannel: { in: ["sms", "both"] }, smsConsentAt: { not: null }, smsOptOutAt: null, phoneE164: { startsWith: "+1" } },
+        // Only performers with something to say, the longest waiting first.
+        notifications: { some: { kind: "ROLE_FOUND", createdAt: { gt: weekAgo } } },
+      },
+      orderBy: { rolesTextAt: { sort: "asc", nulls: "first" } },
+      take: PER_RUN,
+      select: { id: true, locale: true, rolesTextAt: true, artistProfile: { select: { phoneE164: true } } },
+    });
+    for (const u of texters) {
+      if (outOfTime()) break;
+      const since = u.rolesTextAt && u.rolesTextAt > weekAgo ? u.rolesTextAt : weekAgo;
+      const n = await prisma.notification.count({ where: { userId: u.id, kind: "ROLE_FOUND", createdAt: { gt: since } } });
+      if (n === 0) continue;
+      const claimed = await prisma.user.updateMany({ where: { id: u.id, OR: [{ rolesTextAt: null }, { rolesTextAt: { lte: dayAgo } }] }, data: { rolesTextAt: now } });
+      if (claimed.count !== 1) continue;
+      const res = await sendSms(u.artistProfile!.phoneE164!, SMS_TEXT.rolesFound(n, `${base}/${toLocale(u.locale)}/talents/app/candidatures`), { userId: u.id, kind: "roles_found" }, { env });
+      if (res.ok) counts.roles_text += 1;
+      // A temporary failure gives the day back; a refused number keeps it (no retry every hour).
+      else if (!res.permanent) await prisma.user.updateMany({ where: { id: u.id, rolesTextAt: now }, data: { rolesTextAt: u.rolesTextAt } });
     }
   }
   return counts;

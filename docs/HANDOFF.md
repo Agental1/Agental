@@ -21,8 +21,8 @@ Live before round 9: Version 48. Production stays in test mode (`WORKFLOW_MODE` 
 | 4. Searches through n8n | app side built (cost per provider, ceiling, details, failed shown); n8n Direct Replies patched; live run waits for W8, W9, W11, W15 | 51 |
 | 5. Samantha and Adrian | built and tested with the model faked; live injection tests wait for W10 | 52 |
 | 6. Automatic emails | built (4 emails, unsubscribe, Controls approvals); sending waits for W1 to W3, W6, W16 and staff approval | 54 |
-| 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | (deploying) |
-| 8. Texts (flag off) | after 7 | |
+| 7. Direct Replies | drafts only in n8n, Admin > Replies to approve built; D3 prepared (W13) | 55 |
+| 8. Texts (flag off) | built behind SMS_ENABLED (off); what is missing: "Group 8: texts" below | (deploying) |
 | 9. Controls, GO_LIVE | after 8 | |
 
 ### Waiting for Jérôme
@@ -117,6 +117,27 @@ the agent: the founder pastes them. Commands below generate a value straight to 
        a copy in contact@agental.co. A second Execute with the same ids answers "existing" and creates
        nothing.
     6. Set `mode` back to `'providers'`; leave the workflow inactive and unpublished.
+
+### Group 8: texts, what is missing before the first text
+
+Built (round 9, off): the "roles found" text (Text or Both, consent, a US number, no STOP, at most
+one a day, same staff approval and test-mode gates as the emails), STOP / START / HELP on
+`/api/sms/inbound` with Twilio's signature checked, the opt-out recorded (`smsOptOutAt`), a log
+without numbers or messages (`SmsLog`). To turn it on, in this order:
+1. **Provider account:** Twilio (or tell the agent another provider). Create a Messaging Service.
+2. **US carrier registration (A2P 10DLC):** in Twilio, register the brand (Agental's legal name,
+   EIN, address, website) and a campaign ("account notifications", sample message: "Agental: your
+   AI agent found new roles for you (3). See them: https://www.agental.co/... Reply STOP to opt
+   out, HELP for help.", opt-in description: the unticked consent box in Settings with its text
+   version `sms-roles-2026-11-22`). Approval takes days to weeks. Buy a number and add it to the
+   Messaging Service once the campaign is approved.
+3. **Keys in Vercel (Production):** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`,
+   `TWILIO_MESSAGING_SERVICE_SID`.
+4. **Inbound URL:** on the number, "A message comes in" webhook
+   `https://www.agental.co/api/sms/inbound` (HTTP POST).
+5. **The switch:** `SMS_ENABLED=true` in Vercel, redeploy, and approve "Roles found" in Admin >
+   Controls. Test with a Test account first (test mode sends to Test accounts only).
+`LAWYER:` the TCPA consent wording and the Privacy Policy line for texts.
 
 ## Round 8d (2026-11-22): start here
 

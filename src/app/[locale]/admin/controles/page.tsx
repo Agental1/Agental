@@ -7,6 +7,7 @@ import { audit } from "@/lib/audit";
 import { approvedEmailCategories } from "@/lib/app-settings";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
+import { smsConfig } from "@/lib/sms";
 import { setEmailApprovalForm } from "@/app/actions/admin-controls";
 import { Badge } from "@/components/ui/badge";
 
@@ -70,6 +71,15 @@ export default async function ControlsPage({ params, searchParams }: { params: P
             );
           })}
         </ul>
+      </section>
+      <section aria-labelledby="texts" className="space-y-2">
+        <h2 id="texts" className="font-display text-xl font-medium">
+          {t(`${c}.texts.title`)}
+        </h2>
+        <p className="flex flex-wrap items-center gap-2 text-sm">
+          <Badge variant={smsConfig() ? "success" : "neutral"}>{smsConfig() ? t(`${c}.texts.on`) : t(`${c}.texts.off`)}</Badge>
+          <span className="text-fg-muted">{t(`${c}.texts.lead`)}</span>
+        </p>
       </section>
     </div>
   );

@@ -57,6 +57,8 @@ model User {
   notifyRolesFound      Boolean   @default(true)
   welcomeEmailAt        DateTime?
   rolesDigestAt         DateTime?
+  // Round 9, group 8: the last "roles found" text (at most one a day).
+  rolesTextAt           DateTime?
   // When the "verify within N days or the account is deleted" email went out
   // (admin > Account cleanup). Null when never warned.
   deletionWarnedAt      DateTime?
@@ -219,6 +221,8 @@ model ArtistProfile {
   roleAlertChannel  String?
   smsConsentAt      DateTime?
   smsConsentVersion String?
+  // Round 9: the performer texted STOP (or a synonym); cleared by START.
+  smsOptOutAt       DateTime?
   status            String    @default("DRAFT") // DRAFT | ACTIVE
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -1334,5 +1338,19 @@ model AppSetting {
   updatedById String?
   updatedAt   DateTime @default(now()) @updatedAt
 
+  @@schema("public")
+}
+
+// Round 9, group 8: every text sent or refused, without the message or the
+// number (ids and statuses only). kind: roles_found | stop | help | start.
+model SmsLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  kind       String
+  status     String // sent | failed | logged
+  providerId String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
   @@schema("public")
 }

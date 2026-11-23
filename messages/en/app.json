@@ -842,6 +842,12 @@
             "body": "Once, after the email is verified."
           }
         }
+      },
+      "texts": {
+        "title": "Text messages",
+        "on": "On",
+        "off": "Off",
+        "lead": "The \"roles found\" text for performers who chose Text or Both and consented, at most one a day, with STOP and HELP. On only with SMS_ENABLED=true and the Twilio settings, after US carrier registration (docs/HANDOFF.md)."
       }
     },
     "replies": {
