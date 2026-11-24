@@ -13,7 +13,6 @@ import type { AuthState } from "@/app/actions/auth";
 import { passwordChecks, type PasswordRuleId } from "@/domain/auth";
 import { ConsentChoice } from "@/components/consent/consent-choice";
 import { cn } from "@/lib/utils";
-import { PRIVACY_SECURITY_ANCHOR } from "@/domain/legal-versions";
 
 type Action = (state: AuthState, formData: FormData) => Promise<AuthState>;
 
@@ -82,7 +81,11 @@ export function AuthForm({
   const [seenState, setSeenState] = useState(state);
   if (state !== seenState) {
     setSeenState(state);
-    if (state?.error) setStep("credentials");
+    if (state?.error) {
+      setStep("credentials");
+      // React resets the form after a refused submit: the box shows unticked, so the state follows.
+      setAgreed(false);
+    }
   }
 
   return (
@@ -181,7 +184,7 @@ export function AuthForm({
           <label htmlFor="privacy" className="text-[14px] leading-snug">
             {t.rich(termsEnabled ? "auth.agreePrivacyTerms" : "auth.agreePrivacy", {
               privacy: (chunks) => (
-                <Link href={`/talents/confidentialite#${PRIVACY_SECURITY_ANCHOR}`} target="_blank" className="font-bold text-accent underline underline-offset-4">
+                <Link href="/talents/confidentialite" target="_blank" className="font-bold text-accent underline underline-offset-4">
                   {chunks}
                 </Link>
               ),

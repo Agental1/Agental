@@ -1,3 +1,4 @@
+import { PRIVACY_POLICY_VERSION } from "@/domain/legal-versions";
 import { prisma } from "@/lib/db";
 import { zonedDayStart } from "@/lib/format";
 import { auditLabel } from "@/domain/audit-labels";
@@ -165,7 +166,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
         groupWhere(f.group),
         f.createdBefore ? { createdAt: { lt: zonedDayStart(f.createdBefore) } } : {},
         f.lastSignIn === "never" ? { lastSignInAt: null } : {},
-        f.privacy === "yes" ? { privacyAcceptedAt: { not: null } } : f.privacy === "no" ? { privacyAcceptedAt: null } : {},
+        f.privacy === "yes" ? { privacyAcceptedAt: { not: null }, privacyVersion: PRIVACY_POLICY_VERSION } : f.privacy === "no" ? { OR: [{ privacyAcceptedAt: null }, { privacyVersion: { not: PRIVACY_POLICY_VERSION } }, { privacyVersion: null }] } : {},
         f.lastSignIn === "before" && f.signedInBefore ? { lastSignInAt: { lt: zonedDayStart(f.signedInBefore) } } : {},
       ],
     },

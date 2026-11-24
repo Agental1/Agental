@@ -417,6 +417,7 @@
     "agreePrivacy": "Acepto la <privacy>Política de privacidad</privacy>.",
     "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy> y las <terms>Condiciones del servicio</terms>.",
     "continue": "Continuar",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "deleteInstead": "¿Prefieres eliminar tu cuenta? Escribe a contact@agental.co."
   }
 }

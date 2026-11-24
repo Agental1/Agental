@@ -417,6 +417,7 @@
     "agreePrivacy": "我同意<privacy>隐私政策</privacy>。",
     "agreePrivacyTerms": "我同意<privacy>隐私政策</privacy>和<terms>服务条款</terms>。",
     "continue": "继续",
-    "signOut": "退出登录"
+    "signOut": "退出登录",
+    "deleteInstead": "想删除账户？请写信至 contact@agental.co。"
   }
 }

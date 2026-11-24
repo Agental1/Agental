@@ -42,7 +42,7 @@ export function AcceptPrivacyScreen({ termsEnabled = false }: { termsEnabled?: b
     };
 
   return (
-    <main className="mx-auto flex min-h-svh max-w-md flex-col justify-center px-4 py-16">
+    <main className="mx-auto flex min-h-svh max-w-md flex-col justify-center px-4 pt-16 pb-[50svh] sm:pb-16">
       <div className="space-y-5 rounded-sedan-2xl border border-border bg-surface p-6 shadow-sm">
         <div className="space-y-2">
           <ShieldCheck aria-hidden="true" className="size-7 text-accent" />
@@ -71,6 +71,7 @@ export function AcceptPrivacyScreen({ termsEnabled = false }: { termsEnabled?: b
         <Button className="w-full" onClick={accept} loading={pending} disabled={!agreed}>
           {t("continue")}
         </Button>
+        <p className="text-center text-[13.5px] text-fg-muted">{t("deleteInstead")}</p>
         <form action={logoutAction} className="text-center">
           <button
             type="submit"

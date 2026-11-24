@@ -1,3 +1,4 @@
+import { PRIVACY_POLICY_VERSION } from "@/domain/legal-versions";
 import { prisma } from "@/lib/db";
 import { zonedDayStart } from "@/lib/format";
 import { CONSENT_CHOICES, consentChoiceOf, type ConsentChoice } from "@/domain/consent-choice";
@@ -56,7 +57,7 @@ export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRo
     where: {
       deletedAt: null,
       ...(f.version ? { consentVersion: f.version } : {}),
-      ...(f.privacy === "yes" ? { privacyAcceptedAt: { not: null } } : f.privacy === "no" ? { privacyAcceptedAt: null } : {}),
+      ...(f.privacy === "yes" ? { privacyAcceptedAt: { not: null }, privacyVersion: PRIVACY_POLICY_VERSION } : f.privacy === "no" ? { OR: [{ privacyAcceptedAt: null }, { privacyVersion: { not: PRIVACY_POLICY_VERSION } }, { privacyVersion: null }] } : {}),
       ...(f.privacyVersion ? { privacyVersion: f.privacyVersion } : {}),
       ...(f.from || f.to
         ? {

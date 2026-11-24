@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { browserConsentAfterSignIn, clearConsent, readConsent, writeConsent, type Consent } from "./consent-cookie";
+import { saveConsent } from "@/app/actions/consent";
+import { browserConsentAfterSignIn, clearConsent, readConsent, readConsentRecord, writeConsent, type Consent } from "./consent-cookie";
+
+/** Round 11: browser choices made from this day on are fresh answers, kept and saved on the account. */
+const ASK_AGAIN_FROM = Date.parse("2026-11-24T00:00:00Z");
 
 /**
  * The cookie choice is saved on the account. On every signed-in page the
@@ -25,7 +29,15 @@ export function ConsentSync({
     // Round 11: an account with no choice recorded (older accounts) is asked
     // again: the banner comes back and its answer is saved on the account.
     if (!consent) {
-      if (readConsent()) clearConsent();
+      const record = readConsentRecord();
+      if (!record) return;
+      // A choice made in this browser since round 11 (for example just before a
+      // Google sign-up, or a save that failed) is kept and saved on the account.
+      if (record.at && Date.parse(record.at) >= ASK_AGAIN_FROM) {
+        void saveConsent({ analytics: record.analytics, marketing: record.marketing }).catch(() => undefined);
+        return;
+      }
+      clearConsent();
       return;
     }
     const next = browserConsentAfterSignIn(readConsent(), consent);

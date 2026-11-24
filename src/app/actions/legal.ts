@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { err, type ActionError } from "@/domain/action-result";
-import { PRIVACY_POLICY_VERSION, TERMS_VERSION, acceptanceColumns } from "@/domain/legal-versions";
+import { PRIVACY_POLICY_VERSION, TERMS_VERSION, acceptanceColumns, needsLegalAcceptance } from "@/domain/legal-versions";
 import { termsPageEnabled } from "@/domain/legal/terms";
 
 export type AcceptLegalResult = { ok: true } | { ok: false; error: ActionError };
@@ -22,9 +22,11 @@ export async function acceptLegalDocuments(agreed: unknown): Promise<AcceptLegal
   const terms = termsPageEnabled();
   const before = await prisma.user.findUnique({
     where: { id: userId },
-    select: { privacyVersion: true, termsVersion: true, deletedAt: true },
+    select: { privacyVersion: true, termsVersion: true, privacyAcceptedAt: true, termsAcceptedAt: true, deletedAt: true },
   });
   if (!before || before.deletedAt) return { ok: false, error: err("errors.unauthorized") };
+  // Already accepted (a double click, a replay): the first date stays.
+  if (!needsLegalAcceptance(before, terms)) return { ok: true };
   await prisma.$transaction(async (tx) => {
     await tx.user.update({ where: { id: userId }, data: acceptanceColumns(terms) });
     await audit(

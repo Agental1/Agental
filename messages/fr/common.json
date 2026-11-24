@@ -412,11 +412,12 @@
   },
   "legalAccept": {
     "title": "Avant de continuer",
-    "lead": "Nous avons mis à jour notre Politique de confidentialité. Lisez-la et acceptez-la une fois pour continuer à utiliser Agental.",
+    "lead": "Nous avons mis à jour notre Politique de confidentialité. Lis-la et accepte-la une fois pour continuer à utiliser Agental.",
     "security": "Elle explique comment nous repérons le spam et les faux comptes, et que nous pouvons supprimer les comptes non vérifiés ou abusifs : <security>Sécurité des comptes et abus</security>.",
     "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy>.",
     "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy> et les <terms>Conditions d’utilisation</terms>.",
     "continue": "Continuer",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "deleteInstead": "Tu préfères supprimer ton compte ? Écris à contact@agental.co."
   }
 }

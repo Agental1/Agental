@@ -174,7 +174,7 @@
     "genderRequired": "Choisis ton genre.",
     "onboardingIncomplete": "Une étape manque encore. Termine-la, puis continue.",
     "emailSame": "C'est déjà ton adresse e-mail.",
-    "privacyRequired": "Cochez la case pour accepter la Politique de confidentialité."
+    "privacyRequired": "Coche la case pour accepter la Politique de confidentialité."
   },
   "auth": {
     "name": "Nom",
