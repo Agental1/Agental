@@ -1,4 +1,5 @@
 import { completenessOf } from "@/lib/completeness";
+import { consentChoiceOf } from "@/domain/consent-choice";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
@@ -53,6 +54,18 @@ export default async function AccountPage({
           {user.artistProfile
             ? ` · ${completenessOf(user.artistProfile)}%`
             : ""}
+        </p>
+        {/* Round 11: the cookie choice and the Privacy Policy accepted, with dates (Los Angeles) and versions. */}
+        <p className="mt-1 text-sm">
+          <span className="font-bold">{t("admin.accounts.cols.cookies")}:</span>{" "}
+          {t(`admin.cookies.choices.${consentChoiceOf(user)}`)}
+          {user.consentAt ? ` · ${adminDateTime(user.consentAt, locale)}` : ""}
+          {user.consentVersion ? ` · ${user.consentVersion}` : ""}
+          {" · "}
+          <span className="font-bold">{t("admin.accounts.cols.privacy")}:</span>{" "}
+          {user.privacyAcceptedAt
+            ? t("admin.cookies.privacyAccepted", { date: adminDateTime(user.privacyAcceptedAt, locale), version: user.privacyVersion ?? "-" })
+            : t("admin.cookies.privacyNo")}
         </p>
       </div>
       {user.deletedAt ? (

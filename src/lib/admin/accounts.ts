@@ -1,3 +1,4 @@
+import { PRIVACY_POLICY_VERSION } from "@/domain/legal-versions";
 import { prisma } from "@/lib/db";
 import { zonedDayStart } from "@/lib/format";
 import { auditLabel } from "@/domain/audit-labels";
@@ -42,6 +43,8 @@ export interface AccountFilters {
   /** never: no sign-in recorded (recorded since round 9); before: last sign-in before signedInBefore. */
   lastSignIn?: "never" | "before";
   signedInBefore?: string;
+  /** Round 11: the Privacy Policy accepted (any version) or not. */
+  privacy?: "yes" | "no";
   sort?: AccountSort;
   dir?: "asc" | "desc";
 }
@@ -82,6 +85,8 @@ export interface AccountRow {
   searchesUsed: number;
   /** Round 10: the cookie choice recorded on the account. */
   consent: { choice: ConsentChoice; at: Date | null; version: string | null };
+  /** Round 11: the Privacy Policy accepted on the account, when and which version. */
+  privacy: { at: Date | null; version: string | null };
 }
 
 const isDay = (v: string | undefined) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T00:00:00Z`)) ? v : undefined);
@@ -100,6 +105,7 @@ export function accountFiltersFrom(get: (k: string) => string | null | undefined
   const lastSignIn = one("lastSignIn");
   const sort = one("sort");
   const dir = one("dir");
+  const privacy = one("privacy");
   return {
     q: one("q")?.slice(0, 100),
     audience: audience === "TALENT" || audience === "CASTING" ? audience : undefined,
@@ -113,6 +119,7 @@ export function accountFiltersFrom(get: (k: string) => string | null | undefined
     neverPaid: neverPaid === "yes" || neverPaid === "no" ? neverPaid : undefined,
     lastSignIn: lastSignIn === "never" || lastSignIn === "before" ? lastSignIn : undefined,
     signedInBefore: isDay(one("signedInBefore")),
+    privacy: privacy === "yes" || privacy === "no" ? privacy : undefined,
     sort: (ACCOUNT_SORTS as readonly string[]).includes(sort ?? "") ? (sort as AccountSort) : undefined,
     dir: dir === "asc" || dir === "desc" ? dir : undefined,
   };
@@ -159,6 +166,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
         groupWhere(f.group),
         f.createdBefore ? { createdAt: { lt: zonedDayStart(f.createdBefore) } } : {},
         f.lastSignIn === "never" ? { lastSignInAt: null } : {},
+        f.privacy === "yes" ? { privacyAcceptedAt: { not: null }, privacyVersion: PRIVACY_POLICY_VERSION } : f.privacy === "no" ? { OR: [{ privacyAcceptedAt: null }, { privacyVersion: { not: PRIVACY_POLICY_VERSION } }, { privacyVersion: null }] } : {},
         f.lastSignIn === "before" && f.signedInBefore ? { lastSignInAt: { lt: zonedDayStart(f.signedInBefore) } } : {},
       ],
     },
@@ -176,6 +184,8 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       consentMarketing: true,
       consentAt: true,
       consentVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
       ...ELIGIBILITY_SELECT,
       artistProfile: {
         select: { id: true, isMinor: true, ...COMPLETENESS_SELECT },
@@ -247,6 +257,7 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
       canSearch,
       searchesUsed: used,
       consent: { choice: consentChoiceOf(u), at: u.consentAt, version: u.consentVersion },
+      privacy: { at: u.privacyAcceptedAt, version: u.privacyVersion },
     };
   });
   const kept = rows.filter(
@@ -351,6 +362,13 @@ export async function accountTimeline(userId: string) {
       deletedAt: true,
       agentsOptInAt: true,
       autoSearchOptIn: true,
+      // Round 11: the cookie choice and the Privacy Policy, side by side on the page.
+      consentAnalytics: true,
+      consentMarketing: true,
+      consentAt: true,
+      consentVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
       artistProfile: { select: { id: true, ...COMPLETENESS_SELECT } },
     },
   });
@@ -400,9 +418,9 @@ export function accountsCsv(rows: AccountRow[]): string {
     if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const head = ["id", "name", "email", "type", "test", "email_verified", "verified_at", "completeness", "can_search", "searches_used", "created_at", "last_sign_in", "plan", "signup", "cookies", "cookies_at", "cookies_version", "media", "website", "paid", "admin"];
+  const head = ["id", "name", "email", "type", "test", "email_verified", "verified_at", "completeness", "can_search", "searches_used", "created_at", "last_sign_in", "plan", "signup", "cookies", "cookies_at", "cookies_version", "privacy_accepted_at", "privacy_version", "media", "website", "paid", "admin"];
   const lines = rows.map((r) =>
-    [r.id, r.name, r.email, r.type, r.isTest, r.emailVerified, r.verifiedAt && r.verifiedAt.getTime() > 0 ? r.verifiedAt : "", r.completeness ?? "", canSearchCsv(r.canSearch), r.searchesUsed, r.createdAt, r.lastSignInAt ?? "", r.plan, r.method, r.consent.choice, r.consent.at ?? "", r.consent.version ?? "", r.mediaCount, r.website, r.paid, r.isAdmin]
+    [r.id, r.name, r.email, r.type, r.isTest, r.emailVerified, r.verifiedAt && r.verifiedAt.getTime() > 0 ? r.verifiedAt : "", r.completeness ?? "", canSearchCsv(r.canSearch), r.searchesUsed, r.createdAt, r.lastSignInAt ?? "", r.plan, r.method, r.consent.choice, r.consent.at ?? "", r.consent.version ?? "", r.privacy.at ?? "", r.privacy.version ?? "", r.mediaCount, r.website, r.paid, r.isAdmin]
       .map(cell)
       .join(",")
   );

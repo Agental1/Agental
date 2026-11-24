@@ -95,3 +95,35 @@ needs any extra notice to the guardian.
   https://cppa.ca.gov/regulations/pdf/ccpa_updates_cyber_risk_admt_appr_text.pdf
 - Littler, final ADMT regulations:
   https://littler.com/news-analysis/asap/californias-long-awaited-final-regulations-automated-decisionmaking-create-new
+
+## Round 11 (2026-11-24): consent records
+
+What changed, and what counsel should confirm:
+
+- **Sign-up checkbox.** Creating an account with an email and password now requires ticking
+  "I agree to the Privacy Policy" (and "the Terms of Service" once they are published with
+  `TERMS_PAGE_ENABLED`). The box is not pre-ticked. The account records the date and the version
+  (`privacyAcceptedAt`, `privacyVersion`; `termsAcceptedAt`, `termsVersion`; versions in
+  `src/domain/legal-versions.ts`). The server refuses a sign-up without it.
+  `LAWYER:` whether a checkbox ("clickwrap") with a link to the policy is enough, or whether the
+  policy must also be shown in full before the click.
+- **Google sign-ups and older accounts.** They accept once, on a screen shown before the app
+  opens, at their next sign-in (same box, same record, audited as `legal.accepted`). Until they
+  tick it, they cannot use the app; they can still sign out.
+  `LAWYER:` whether blocking the app until acceptance is fine for accounts created before the
+  policy said this, or whether those accounts need a notice period first.
+- **Deleting unverified or abusive accounts.** The Privacy Policy, section "Account security and
+  abuse" (anchor `#security`), now says in one paragraph that we may limit, suspend or delete an
+  account that is fake, abusive or used for spam, breaks the Terms, or whose email address was
+  never verified, and that we may email first with a 7-day notice. The paragraph is linked from
+  the cookie banner ("How we protect accounts") and from the sign-up checkbox.
+  `LAWYER:` whether deleting an account only because its email was never verified needs the
+  7-day notice every time (today it is "may").
+- **Cookie choice asked again.** Signed-in accounts with no cookie choice recorded on the account
+  (11 at the end of round 10) see the cookie banner again; the answer is saved on the account
+  with its date and notice version (`consent.update` in the audit log).
+- **What the admin shows.** Admin > Accounts and each account page: the cookie choice and
+  "Privacy Policy accepted: date, version" side by side, with filters (accepted or not, version)
+  and both in the CSV exports. Dates are shown in Los Angeles time.
+  `LAWYER:` how long these acceptance records must be kept after an account is deleted (today they
+  go with the account row after the 30-day hold; the audit entry stays with a hash of the email).

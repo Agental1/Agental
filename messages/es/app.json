@@ -173,7 +173,8 @@
     "legalNameRequired": "Escribe tu nombre y apellido legales.",
     "genderRequired": "Elige tu género.",
     "onboardingIncomplete": "Todavía falta un paso. Complétalo y continúa.",
-    "emailSame": "Ese ya es tu correo electrónico."
+    "emailSame": "Ese ya es tu correo electrónico.",
+    "privacyRequired": "Marca la casilla para aceptar la Política de privacidad."
   },
   "auth": {
     "name": "Nombre",
@@ -195,7 +196,9 @@
       "length": "8 caracteres o más",
       "uppercase": "Una letra mayúscula",
       "special": "Un carácter especial"
-    }
+    },
+    "agreePrivacy": "Acepto la <privacy>Política de privacidad</privacy>.",
+    "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy> y las <terms>Condiciones del servicio</terms>."
   },
   "height": {
     "unit": "Unidad de altura",
@@ -481,7 +484,8 @@
         "type": "Tipo",
         "canSearch": "Puede buscar",
         "searchesUsed": "Búsquedas este mes",
-        "cookies": "Cookies"
+        "cookies": "Cookies",
+        "privacy": "Política de privacidad"
       },
       "site": {
         "none": "None",
@@ -1037,7 +1041,9 @@
         "to": "Elegido hasta",
         "all": "Todas",
         "apply": "Filtrar",
-        "clear": "Borrar"
+        "clear": "Borrar",
+        "privacy": "Política de privacidad",
+        "privacyVersion": "Versión de la política"
       },
       "csv": "Exportar CSV",
       "cols": {
@@ -1046,14 +1052,19 @@
         "categories": "Categorías",
         "date": "Fecha",
         "version": "Versión de la política",
-        "week": "Semana"
+        "week": "Semana",
+        "privacy": "Política de privacidad"
       },
       "categories": "Analítica {analytics} · Marketing {marketing}",
       "on": "sí",
       "off": "no",
       "noVersion": "antes de las versiones",
       "weekOf": "Semana del {date}",
-      "more": "{count} más en la exportación CSV."
+      "more": "{count} más en la exportación CSV.",
+      "privacyAccepted": "Aceptada el {date}, versión {version}",
+      "privacyYes": "Aceptada",
+      "privacyNo": "Aún no aceptada",
+      "privacySummary": "Política de privacidad: {accepted} de {total} cuentas la aceptaron ({current} en la versión actual, {version}). Ver quiénes no"
     }
   },
   "matchReasons": {

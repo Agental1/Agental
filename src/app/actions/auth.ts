@@ -14,6 +14,8 @@ import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
 import { toLocale } from "@/i18n/routing";
 import { safeReturnPath } from "@/domain/return-path";
+import { PRIVACY_POLICY_VERSION, acceptanceColumns } from "@/domain/legal-versions";
+import { termsPageEnabled } from "@/domain/legal/terms";
 
 export type AuthState = { error?: ActionError } | undefined;
 
@@ -31,6 +33,8 @@ export async function signupAction(
     return { error: zodError(parsed.error) };
   }
   const { email, password, kind, locale } = parsed.data;
+  // Round 11: "I agree to the Privacy Policy" (and the Terms once published) is required.
+  if (formData.get("privacy") !== "yes") return { error: err("errors.privacyRequired") };
 
   if (!(await captchaPassed(formData.get("cf-turnstile-response")))) {
     return { error: err("errors.captchaFailed") };
@@ -52,6 +56,7 @@ export async function signupAction(
       kind,
       locale,
       ...(consent ? consentColumns(consent) : {}),
+      ...acceptanceColumns(termsPageEnabled()),
     },
   });
   await audit({
@@ -59,7 +64,7 @@ export async function signupAction(
     action: "user.signup",
     resourceType: "User",
     resourceId: user.id,
-    after: { kind },
+    after: { kind, privacyVersion: PRIVACY_POLICY_VERSION },
   });
 
   // Round 10: a 6-digit code goes out at once and the next screen asks for it

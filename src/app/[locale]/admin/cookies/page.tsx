@@ -8,6 +8,7 @@ import { audit } from "@/lib/audit";
 import { cookieFiltersFrom, cookieTotals, listCookieChoices, visitorTallies } from "@/lib/admin/cookies";
 import { CONSENT_CHOICES } from "@/domain/consent-choice";
 import { CONSENT_POLICY_VERSION } from "@/domain/consent";
+import { PRIVACY_POLICY_VERSION } from "@/domain/legal-versions";
 import { Badge } from "@/components/ui/badge";
 import { adminDateTime } from "@/lib/format";
 
@@ -38,6 +39,9 @@ export default async function CookiesPage({
   const f = cookieFiltersFrom(one);
   const [rows, weeks] = await Promise.all([listCookieChoices(f), visitorTallies()]);
   const totals = cookieTotals(rows);
+  // Round 11: how many of these accounts accepted the Privacy Policy (current version or older).
+  const privacyAccepted = rows.filter((r) => r.privacyAt).length;
+  const privacyCurrent = rows.filter((r) => r.privacyVersion === PRIVACY_POLICY_VERSION).length;
   await audit({ actorUserId: adminId, action: "admin.view.cookies", resourceType: "User", resourceId: "*", after: { count: rows.length } });
   const c = "admin.cookies" as const;
   const qs = new URLSearchParams(Object.entries(f).filter(([, v]) => v) as [string, string][]).toString();
@@ -67,6 +71,11 @@ export default async function CookiesPage({
             </Link>
           ))}
         </div>
+        <p className="text-sm">
+          <Link href="/admin/cookies?privacy=no" className="font-bold text-accent hover:underline">
+            {t(`${c}.privacySummary`, { accepted: privacyAccepted, current: privacyCurrent, total: rows.length, version: PRIVACY_POLICY_VERSION })}
+          </Link>
+        </p>
 
         <form method="get" className="flex flex-wrap items-end gap-3 rounded-sedan border border-border bg-surface p-4">
           <label className="flex flex-col gap-1 text-xs font-bold">
@@ -83,6 +92,18 @@ export default async function CookiesPage({
           <label className="flex flex-col gap-1 text-xs font-bold">
             {t(`${c}.filters.version`)}
             <input name="version" defaultValue={f.version} placeholder={CONSENT_POLICY_VERSION} className={input} />
+          </label>
+          <label className="flex flex-col gap-1 text-xs font-bold">
+            {t(`${c}.filters.privacy`)}
+            <select name="privacy" defaultValue={f.privacy ?? ""} className={input}>
+              <option value="">{t(`${c}.filters.all`)}</option>
+              <option value="yes">{t(`${c}.privacyYes`)}</option>
+              <option value="no">{t(`${c}.privacyNo`)}</option>
+            </select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs font-bold">
+            {t(`${c}.filters.privacyVersion`)}
+            <input name="privacyVersion" defaultValue={f.privacyVersion} placeholder={PRIVACY_POLICY_VERSION} className={input} />
           </label>
           <label className="flex flex-col gap-1 text-xs font-bold">
             {t(`${c}.filters.from`)}
@@ -104,7 +125,7 @@ export default async function CookiesPage({
         </form>
 
         <div className="overflow-x-auto rounded-sedan border border-border">
-          <table className="w-full min-w-[760px] text-sm">
+          <table className="w-full min-w-[920px] text-sm">
             <thead className="bg-surface-2 text-left text-fg-muted">
               <tr>
                 <th className="p-3 font-medium">{t(`${c}.cols.account`)}</th>
@@ -112,6 +133,7 @@ export default async function CookiesPage({
                 <th className="p-3 font-medium">{t(`${c}.cols.categories`)}</th>
                 <th className="p-3 font-medium">{t(`${c}.cols.date`)}</th>
                 <th className="p-3 font-medium">{t(`${c}.cols.version`)}</th>
+                <th className="p-3 font-medium">{t(`${c}.cols.privacy`)}</th>
               </tr>
             </thead>
             <tbody>
@@ -139,6 +161,13 @@ export default async function CookiesPage({
                   </td>
                   <td className="whitespace-nowrap p-3">{r.at ? adminDateTime(r.at, locale) : "-"}</td>
                   <td className="p-3">{r.version ?? <span className="text-fg-muted">{t(`${c}.noVersion`)}</span>}</td>
+                  <td className="p-3 text-xs">
+                    {r.privacyAt ? (
+                      t(`${c}.privacyAccepted`, { date: adminDateTime(r.privacyAt, locale), version: r.privacyVersion ?? "-" })
+                    ) : (
+                      <span className="text-fg-muted">{t(`${c}.privacyNo`)}</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

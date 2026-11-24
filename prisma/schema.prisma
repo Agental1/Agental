@@ -48,6 +48,13 @@ model User {
   // The policy version the choice was made under (CONSENT_POLICY_VERSION). A newer
   // version asks again.
   consentVersion        String?
+  // Round 11, group 3: the Privacy Policy (and, once published, the Terms of
+  // Service) accepted with the box at sign-up or once at the next sign-in:
+  // when, and which version (src/domain/legal-versions.ts).
+  privacyAcceptedAt     DateTime?
+  privacyVersion        String?
+  termsAcceptedAt       DateTime?
+  termsVersion          String?
   // Email notifications, set in Settings. Product news is opt-in.
   notifyApplications    Boolean   @default(true)
   notifyMessages        Boolean   @default(true)

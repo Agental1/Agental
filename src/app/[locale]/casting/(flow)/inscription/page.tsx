@@ -1,4 +1,5 @@
 import { toLocale } from "@/i18n/routing";
+import { termsPageEnabled } from "@/domain/legal/terms";
 import type { Metadata } from "next";
 import { redirect } from "@/i18n/navigation";
 import { mustVerifyEmail } from "@/lib/email-gate";
@@ -59,6 +60,7 @@ export default async function CastingSignupPage({
         />
         <AuthForm
           action={signupAction}
+          termsEnabled={termsPageEnabled()}
           submitLabel={t("signup.submit")}
           kind="CASTING"
           locale={locale}

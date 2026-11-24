@@ -203,7 +203,8 @@
     "policyLink": "Política de privacidad",
     "recordedOn": "Registrado el {date}, versión del aviso {version}.",
     "notRecorded": "Aún no hay ninguna elección registrada. Solo se usan las cookies estrictamente necesarias.",
-    "readMore": "Más información"
+    "readMore": "Más información",
+    "accountSecurity": "Cómo protegemos las cuentas"
   },
   "tour": {
     "start": "Empieza aquí",
@@ -335,7 +336,7 @@
     },
     "eyebrow": "Legal",
     "title": "Política de privacidad",
-    "updated": "Última actualización: 22 de noviembre de 2026. El texto completo está en inglés.",
+    "updated": "Última actualización: 24 de noviembre de 2026. El texto completo está en inglés.",
     "footerLink": "Privacidad",
     "sections": [
       {
@@ -382,7 +383,7 @@
         "title": "Seguridad de las cuentas y abusos",
         "body": [
           "Para que Agental sea seguro para artistas y equipos de casting, observamos cómo se usan las cuentas para detectar spam, cuentas falsas y abusos. Miramos cuándo se creó la cuenta y cuándo inició sesión por última vez, si su correo está verificado, los intentos fallidos repetidos de inicio de sesión o registro, y el uso del perfil, los archivos, las búsquedas con IA y los mensajes. Solo usamos estos datos para la seguridad y para prevenir fraudes y abusos, y nunca los vendemos.",
-          "Cualquier medida la decide una persona de nuestro equipo, nunca un sistema automático. Podemos limitar, suspender o eliminar una cuenta que incumpla nuestras Condiciones. Antes podemos escribirte para que confirmes tu dirección en 7 días. Una cuenta eliminada se desactiva al momento y se conserva 30 días, para poder restaurarla si nos equivocamos; después se elimina para siempre con sus archivos. Escríbenos a contact@agental.co si crees que nos equivocamos.",
+          "Cualquier medida la decide una persona de nuestro equipo, nunca un sistema automático. Podemos limitar, suspender o eliminar una cuenta falsa, abusiva o usada para spam, una cuenta que incumpla nuestras Condiciones, o una cuenta cuyo correo nunca se verificó. Antes de eliminar una cuenta sin verificar, podemos escribirte para que confirmes tu dirección en 7 días. Una cuenta eliminada se desactiva al momento y se conserva 30 días, para poder restaurarla si nos equivocamos; después se elimina para siempre con sus archivos. Escríbenos a contact@agental.co si crees que nos equivocamos.",
           "Esta vigilancia no usa cookies. Las únicas cookies que usamos son las que aparecen en el aviso de cookies."
         ]
       },
@@ -408,5 +409,15 @@
         ]
       }
     ]
+  },
+  "legalAccept": {
+    "title": "Antes de continuar",
+    "lead": "Actualizamos nuestra Política de privacidad. Léela y acéptala una vez para seguir usando Agental.",
+    "security": "Explica cómo detectamos el spam y las cuentas falsas, y que podemos eliminar cuentas sin verificar o abusivas: <security>Seguridad de las cuentas y abusos</security>.",
+    "agreePrivacy": "Acepto la <privacy>Política de privacidad</privacy>.",
+    "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy> y las <terms>Condiciones del servicio</terms>.",
+    "continue": "Continuar",
+    "signOut": "Cerrar sesión",
+    "deleteInstead": "¿Prefieres eliminar tu cuenta? Escribe a contact@agental.co."
   }
 }
