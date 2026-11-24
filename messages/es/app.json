@@ -172,7 +172,8 @@
     "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
     "legalNameRequired": "Escribe tu nombre y apellido legales.",
     "genderRequired": "Elige tu género.",
-    "onboardingIncomplete": "Todavía falta un paso. Complétalo y continúa."
+    "onboardingIncomplete": "Todavía falta un paso. Complétalo y continúa.",
+    "emailSame": "Ese ya es tu correo electrónico."
   },
   "auth": {
     "name": "Nombre",
@@ -651,7 +652,8 @@
           "profile_incomplete": "perfil por debajo del 100 %",
           "not_open": "búsquedas aún no abiertas a esta cuenta (modo prueba)",
           "quota": "sin búsquedas este mes"
-        }
+        },
+        "notPerformer": "No es artista"
       }
     },
     "studentRequests": {
@@ -943,6 +945,17 @@
           "PREMIUM": "Premium",
           "ULTIMATE": "Ultimate"
         }
+      },
+      "emailGate": {
+        "title": "Verificación del correo obligatoria antes del panel",
+        "lead": "Si está activada, una cuenta con correo y contraseña debe introducir el código de 6 dígitos enviado a su dirección antes de abrir cualquier página de la app, tras el registro y en cada inicio de sesión hasta hacerlo. Las cuentas de Google pasan. Actívala solo cuando los códigos lleguen de verdad.",
+        "isOn": "Activada desde {since}.",
+        "isOff": "Desactivada: nadie queda bloqueado. Se puede crear una cuenta y mirar sin verificar.",
+        "noSender": "Este despliegue no puede enviar correos (Resend no está configurado), así que nadie queda bloqueado aunque esté activada.",
+        "confirm": "Comprobé que un código de registro llega por correo en producción.",
+        "needConfirm": "Marca primero la casilla: activarla bloquea las cuentas sin verificar.",
+        "turnOn": "Activar",
+        "turnOff": "Desactivar"
       }
     },
     "replies": {

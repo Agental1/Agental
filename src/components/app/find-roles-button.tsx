@@ -44,6 +44,7 @@ export function FindRolesButton({
   initialBlock,
   email,
   footer,
+  paused = false,
 }: {
   initialQuota: RoleSearchQuota;
   /**
@@ -53,6 +54,8 @@ export function FindRolesButton({
   initialBlock: SearchBlock | null;
   /** For "Send me a code" when the email is not verified. */
   email: string;
+  /** Round 11: staff paused AI searches; the card says so before any click. */
+  paused?: boolean;
   /** Round 8b: the Status block and "Check your applications", at the bottom of the card. */
   footer?: React.ReactNode;
   upgradeHref: string;
@@ -162,6 +165,7 @@ export function FindRolesButton({
         {phase === "sent" && !notice && <p className="text-[15px] font-medium">{t("sent")}</p>}
         {phase === "sent" && notice && <NoticeText notice={notice} />}
         {block && <BlockText block={block} />}
+        {paused && !block && phase !== "sent" && <p className="text-[15px] font-medium">{t("notice.pausedNow")}</p>}
       </div>
 
       {block && block.reason !== "not_open" && block.reason !== "not_adult" && (

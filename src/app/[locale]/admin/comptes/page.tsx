@@ -14,7 +14,7 @@ import { BulkBar } from "@/components/admin/bulk-bar";
 import { SortHeader } from "@/components/admin/sort-header";
 import { deleteAccountsForm, warnAccountsForm } from "@/app/actions/admin-removal";
 import { Badge } from "@/components/ui/badge";
-import { dateTime } from "@/lib/format";
+import { adminDateTime } from "@/lib/format";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const t = await getTranslations({ locale: toLocale((await params).locale), namespace: "app" });
@@ -312,7 +312,7 @@ export default async function AccountsPage({
                       ) : r.verifiedAt.getTime() === 0 ? (
                         t(`${a}.verifiedGoogle`)
                       ) : (
-                        t(`${a}.verifiedOn`, { date: dateTime(r.verifiedAt, locale) })
+                        t(`${a}.verifiedOn`, { date: adminDateTime(r.verifiedAt, locale) })
                       )}
                     </td>
                     <td className="p-3 tabular-nums">{r.completeness === null ? "-" : `${r.completeness}%`}</td>
@@ -320,9 +320,9 @@ export default async function AccountsPage({
                       <CanSearch value={r.canSearch} t={(k, v) => t(`${a}.can.${k}`, v)} />
                     </td>
                     <td className="p-3 tabular-nums">{r.audience === "TALENT" ? r.searchesUsed : "-"}</td>
-                    <td className="whitespace-nowrap p-3">{dateTime(r.createdAt, locale)}</td>
+                    <td className="whitespace-nowrap p-3">{adminDateTime(r.createdAt, locale)}</td>
                     <td className="whitespace-nowrap p-3">
-                      {r.lastSignInAt ? dateTime(r.lastSignInAt, locale) : <span className="text-fg-muted">{t(`${a}.notRecorded`)}</span>}
+                      {r.lastSignInAt ? adminDateTime(r.lastSignInAt, locale) : <span className="text-fg-muted">{t(`${a}.notRecorded`)}</span>}
                     </td>
                     <td className="whitespace-nowrap p-3 text-xs">{t(`admin.cookies.choices.${r.consent.choice}`)}</td>
                   </tr>
@@ -355,7 +355,7 @@ export default async function AccountsPage({
 
 /** "Can search: Yes" or "No: <reason>", the same reasons the performer sees. */
 function CanSearch({ value, t }: { value: AccountRow["canSearch"]; t: (key: string, values?: Record<string, string | number>) => string }) {
-  if (value === "n/a") return <span className="text-fg-muted">-</span>;
+  if (value === "n/a") return <span className="text-xs text-fg-muted">{t("notPerformer")}</span>;
   if (value === null) return <span className="font-bold text-success">{t("yes")}</span>;
   return (
     <span className="text-xs">

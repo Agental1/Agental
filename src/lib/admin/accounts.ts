@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+import { zonedDayStart } from "@/lib/format";
+import { auditLabel } from "@/domain/audit-labels";
 import { COMPLETENESS_SELECT, completenessOf } from "@/lib/completeness";
 import { ELIGIBILITY_SELECT, factsFrom } from "@/lib/agents";
 import { agentsEnabled, isAccountStatus, workflowMode, type AccountStatus } from "@/domain/workflow/eligibility";
@@ -33,7 +35,7 @@ export interface AccountFilters {
    * staff: status STAFF or an admin; test; spam: spam or revoked.
    */
   group?: AccountGroup;
-  /** Created before this day (YYYY-MM-DD, UTC). */
+  /** Created before this day (YYYY-MM-DD, admin time zone: Los Angeles). */
   createdBefore?: string;
   /** yes: never paid and in no organization; no: paid or in one. */
   neverPaid?: "yes" | "no";
@@ -155,9 +157,9 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
         f.audience ? { kind: f.audience } : {},
         f.status ? { accountStatus: f.status } : {},
         groupWhere(f.group),
-        f.createdBefore ? { createdAt: { lt: new Date(`${f.createdBefore}T00:00:00Z`) } } : {},
+        f.createdBefore ? { createdAt: { lt: zonedDayStart(f.createdBefore) } } : {},
         f.lastSignIn === "never" ? { lastSignInAt: null } : {},
-        f.lastSignIn === "before" && f.signedInBefore ? { lastSignInAt: { lt: new Date(`${f.signedInBefore}T00:00:00Z`) } } : {},
+        f.lastSignIn === "before" && f.signedInBefore ? { lastSignInAt: { lt: zonedDayStart(f.signedInBefore) } } : {},
       ],
     },
     orderBy: { createdAt: "desc" },
@@ -380,7 +382,7 @@ export async function accountTimeline(userId: string) {
   ]);
   const events: TimelineEvent[] = [{ at: user.createdAt, kind: "signup" }];
   if (user.emailVerified) events.push({ at: user.emailVerified, kind: "verified" });
-  for (const a of audits) if (a.action !== "user.signup") events.push({ at: a.createdAt, kind: "audit", detail: a.action });
+  for (const a of audits) if (a.action !== "user.signup") events.push({ at: a.createdAt, kind: "audit", detail: auditLabel(a.action) });
   for (const m of media) events.push({ at: m.createdAt, kind: "media", detail: `${m.type} · ${m.destination}`, mediaId: m.id });
   for (const s of searches) events.push({ at: s.createdAt, kind: "search", detail: s.status });
   for (const m of messages)
@@ -400,9 +402,24 @@ export function accountsCsv(rows: AccountRow[]): string {
   };
   const head = ["id", "name", "email", "type", "test", "email_verified", "verified_at", "completeness", "can_search", "searches_used", "created_at", "last_sign_in", "plan", "signup", "cookies", "cookies_at", "cookies_version", "media", "website", "paid", "admin"];
   const lines = rows.map((r) =>
-    [r.id, r.name, r.email, r.type, r.isTest, r.emailVerified, r.verifiedAt && r.verifiedAt.getTime() > 0 ? r.verifiedAt : "", r.completeness ?? "", r.canSearch === null ? "yes" : r.canSearch === "n/a" ? "n/a" : `no: ${r.canSearch.reason}`, r.searchesUsed, r.createdAt, r.lastSignInAt ?? "", r.plan, r.method, r.consent.choice, r.consent.at ?? "", r.consent.version ?? "", r.mediaCount, r.website, r.paid, r.isAdmin]
+    [r.id, r.name, r.email, r.type, r.isTest, r.emailVerified, r.verifiedAt && r.verifiedAt.getTime() > 0 ? r.verifiedAt : "", r.completeness ?? "", canSearchCsv(r.canSearch), r.searchesUsed, r.createdAt, r.lastSignInAt ?? "", r.plan, r.method, r.consent.choice, r.consent.at ?? "", r.consent.version ?? "", r.mediaCount, r.website, r.paid, r.isAdmin]
       .map(cell)
       .join(",")
   );
   return [head.join(","), ...lines].join("\r\n") + "\r\n";
+}
+
+/** Round 11: the CSV says it in words, the same as the table (English, like the other columns). */
+const CAN_SEARCH_CSV: Record<SearchBlock["reason"], string> = {
+  blocked: "no: blocked by staff",
+  not_adult: "no: under 18",
+  email_unverified: "no: email not verified",
+  profile_incomplete: "no: profile below 100%",
+  not_open: "no: searches not open for this account (test mode)",
+  quota: "no: no searches left this month",
+};
+export function canSearchCsv(value: AccountRow["canSearch"]): string {
+  if (value === null) return "yes";
+  if (value === "n/a") return "not a performer";
+  return CAN_SEARCH_CSV[value.reason];
 }

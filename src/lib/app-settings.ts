@@ -156,3 +156,49 @@ async function launchWaitingFirstSearches(): Promise<number> {
   }
   return started;
 }
+
+// ------------------------------------------------- email verification gate
+
+/**
+ * Round 11 (founder): "Email verification required before the dashboard" in
+ * Admin > Controls. Off by default, and off whenever the value is missing or
+ * unreadable: a broken setting must never lock people out. Turned on only once
+ * sign-up codes really arrive. Read fresh on every page, every change audited.
+ */
+const EMAIL_GATE_KEY = "email.verification.required";
+
+export async function emailVerificationRequired(
+  db: { appSetting: Pick<typeof prisma.appSetting, "findUnique"> } = prisma
+): Promise<boolean> {
+  try {
+    const row = await db.appSetting.findUnique({ where: { key: EMAIL_GATE_KEY } });
+    const v = JSON.parse(row?.value ?? "{}") as { required?: unknown };
+    return v.required === true;
+  } catch {
+    return false;
+  }
+}
+
+export async function emailGateState(): Promise<{ required: boolean; since: string | null }> {
+  const row = await prisma.appSetting.findUnique({ where: { key: EMAIL_GATE_KEY } });
+  try {
+    const v = JSON.parse(row?.value ?? "{}") as { required?: unknown; since?: unknown };
+    return { required: v.required === true, since: typeof v.since === "string" ? v.since : null };
+  } catch {
+    return { required: false, since: null };
+  }
+}
+
+export async function setEmailVerificationRequired(adminId: string, required: boolean, now = new Date()): Promise<void> {
+  const before = await emailVerificationRequired();
+  if (before === required) return;
+  const value = JSON.stringify({ required, since: now.toISOString() });
+  await prisma.$transaction(async (tx) => {
+    await tx.appSetting.upsert({
+      where: { key: EMAIL_GATE_KEY },
+      create: { key: EMAIL_GATE_KEY, value, updatedById: adminId },
+      update: { value, updatedById: adminId },
+    });
+    await audit({ actorUserId: adminId, action: required ? "admin.emailGate.on" : "admin.emailGate.off", resourceType: "AppSetting", resourceId: EMAIL_GATE_KEY, before: { required: before }, after: { required } }, tx);
+  });
+}

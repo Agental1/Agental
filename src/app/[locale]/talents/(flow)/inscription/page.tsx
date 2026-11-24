@@ -1,6 +1,7 @@
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { redirect } from "@/i18n/navigation";
+import { mustVerifyEmail } from "@/lib/email-gate";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
@@ -68,6 +69,8 @@ export default async function TalentsSignupPage({
       </div>
     );
   }
+  // Round 11: the code first when Admin > Controls requires it (off by default).
+  if (await mustVerifyEmail(session.user.id)) return redirect({ href: "/verifier", locale });
 
   // Signed in: once the basics are saved and the last screen was passed, the
   // wizard has nothing left to ask. Round 10: the answers save straight into

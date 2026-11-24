@@ -150,3 +150,60 @@ export async function codeScreenState(userId: string, now = new Date()): Promise
   if (!live) return { live: false, cooldown: 0 };
   return { live: true, cooldown: Math.max(0, Math.ceil((live.createdAt.getTime() + CODE_RESEND_MS - now.getTime()) / 1000)) };
 }
+
+export type ChangeEmailResult =
+  | { ok: true; email: string; codeSent: boolean }
+  | { ok: false; reason: "not_allowed" | "invalid" | "taken" | "same" };
+
+/**
+ * Round 11: "Wrong email? Change it" on the code screen. Only for a password
+ * account that has not verified its address (a verified or Google account
+ * changes nothing here). The pending codes are dropped (they prove the old
+ * address), the change is audited without the addresses, and a new code goes
+ * to the new one. The caller rate-limits (3 an hour) and caps the sends.
+ */
+export async function changeUnverifiedEmail(input: {
+  userId: string;
+  email: string;
+  allowSend?: () => Promise<boolean>;
+}): Promise<ChangeEmailResult> {
+  const { z } = await import("zod");
+  const parsed = z.string().trim().toLowerCase().max(254).email().safeParse(input.email);
+  if (!parsed.success) return { ok: false, reason: "invalid" };
+  const email = parsed.data;
+  const user = await prisma.user.findUnique({
+    where: { id: input.userId },
+    select: { email: true, emailVerified: true, passwordHash: true, deletedAt: true },
+  });
+  if (!user || user.deletedAt || user.emailVerified || !user.passwordHash) return { ok: false, reason: "not_allowed" };
+  if (user.email.toLowerCase() === email) return { ok: false, reason: "same" };
+  const { findUsersByEmail } = await import("@/lib/auth/user-by-email");
+  if ((await findUsersByEmail(prisma, email)).length > 0) return { ok: false, reason: "taken" };
+  const domain = (a: string) => a.split("@")[1] ?? "";
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Guarded: still unverified and still the address the screen showed.
+      const changed = await tx.user.updateMany({
+        where: { id: input.userId, email: user.email, emailVerified: null },
+        data: { email },
+      });
+      if (changed.count !== 1) throw new Error("email-change-raced");
+      await tx.emailVerificationCode.deleteMany({ where: { userId: input.userId, consumedAt: null } });
+      // Links mailed to the old address (confirm, reset) must not confirm the new one.
+      const { revokeEmailTokens } = await import("@/lib/email-tokens");
+      await revokeEmailTokens(tx, { purpose: "verify", userId: input.userId });
+      await revokeEmailTokens(tx, { purpose: "reset", userId: input.userId });
+      await audit(
+        { actorUserId: input.userId, action: "auth.email.changed", resourceType: "User", resourceId: input.userId, before: { domain: domain(user.email) }, after: { domain: domain(email), via: "code_screen" } },
+        tx
+      );
+    });
+  } catch (error) {
+    // The unique index caught a sign-up with the same address in between.
+    if ((error as { code?: unknown }).code === "P2002") return { ok: false, reason: "taken" };
+    if (error instanceof Error && error.message === "email-change-raced") return { ok: false, reason: "not_allowed" };
+    throw error;
+  }
+  const sent = await sendEmailCode({ userId: input.userId, allowSend: input.allowSend });
+  return { ok: true, email, codeSent: sent.ok };
+}

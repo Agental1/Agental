@@ -4,7 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { approvedEmailCategories, pauseState, searchAccess } from "@/lib/app-settings";
+import { approvedEmailCategories, emailGateState, pauseState, searchAccess } from "@/lib/app-settings";
+import { emailCodeAvailable } from "@/lib/email-code";
 import { aiAccountStates } from "@/lib/ai-spend";
 import { PROVIDER_LABEL } from "@/domain/ai-spend";
 import { searchCostCeilingUsd } from "@/lib/n8n/casting";
@@ -13,8 +14,8 @@ import { PlanB2C } from "@/domain/enums";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
-import { setEmailApprovalForm, setPauseForm, setSearchAccessForm } from "@/app/actions/admin-controls";
-import { dateTime } from "@/lib/format";
+import { setEmailApprovalForm, setEmailGateForm, setPauseForm, setSearchAccessForm } from "@/app/actions/admin-controls";
+import { adminDateTime, dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -34,7 +35,8 @@ export default async function ControlsPage({ params, searchParams }: { params: P
   if (!adminId) notFound();
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
-  const [approved, pause, access, ai] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates()]);
+  const [approved, pause, access, ai, gate] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates(), emailGateState()]);
+  const canSendCodes = emailCodeAvailable();
   const usd = (cents: number | null) =>
     cents === null ? null : new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
   await audit({ actorUserId: adminId, action: "admin.view.controls", resourceType: "AppSetting", resourceId: "*" });
@@ -126,6 +128,37 @@ export default async function ControlsPage({ params, searchParams }: { params: P
             <button className="h-11 rounded-full bg-accent px-6 text-sm font-bold text-[var(--accent-fg)]">{t(`${c}.access.save`)}</button>
           </form>
         </div>
+      </section>
+
+      <section aria-labelledby="email-gate" className={`space-y-3 rounded-sedan border p-5 ${gate.required ? "border-accent bg-accent-soft/30" : "border-border bg-surface"}`}>
+        <h2 id="email-gate" className="font-display text-xl font-medium">
+          {t(`${c}.emailGate.title`)}
+        </h2>
+        <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.emailGate.lead`)}</p>
+        <p className="text-sm font-bold">
+          {gate.required
+            ? t(`${c}.emailGate.isOn`, { since: gate.since ? adminDateTime(new Date(gate.since), locale) : "" })
+            : t(`${c}.emailGate.isOff`)}
+        </p>
+        {gate.required && !canSendCodes && (
+          <p role="alert" className="text-sm font-bold text-danger">{t(`${c}.emailGate.noSender`)}</p>
+        )}
+        {sp.gateConfirm && (
+          <p role="alert" className="text-sm font-bold text-danger">{t(`${c}.emailGate.needConfirm`)}</p>
+        )}
+        <form action={setEmailGateForm} className="space-y-3">
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="required" value={gate.required ? "0" : "1"} />
+          {!gate.required && (
+            <label className="flex items-start gap-2 text-sm">
+              <input type="checkbox" name="confirm" value="yes" className="mt-1" />
+              <span>{t(`${c}.emailGate.confirm`)}</span>
+            </label>
+          )}
+          <button className={`h-11 rounded-full px-6 text-sm font-bold ${gate.required ? "border border-border-strong text-fg" : "bg-accent text-[var(--accent-fg)]"}`}>
+            {gate.required ? t(`${c}.emailGate.turnOff`) : t(`${c}.emailGate.turnOn`)}
+          </button>
+        </form>
       </section>
 
       <section aria-labelledby="emails" className="space-y-3">

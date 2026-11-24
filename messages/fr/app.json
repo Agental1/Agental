@@ -172,7 +172,8 @@
     "adminCodeWrong": "Ce code n’est pas bon. Tape le code le plus récent de ton application d’authentification.",
     "legalNameRequired": "Saisis ton prénom et ton nom légaux.",
     "genderRequired": "Choisis ton genre.",
-    "onboardingIncomplete": "Une étape manque encore. Termine-la, puis continue."
+    "onboardingIncomplete": "Une étape manque encore. Termine-la, puis continue.",
+    "emailSame": "C'est déjà ton adresse e-mail."
   },
   "auth": {
     "name": "Nom",
@@ -651,7 +652,8 @@
           "profile_incomplete": "profil sous 100 %",
           "not_open": "recherches pas encore ouvertes à ce compte (mode test)",
           "quota": "plus de recherches ce mois-ci"
-        }
+        },
+        "notPerformer": "Pas un artiste"
       }
     },
     "studentRequests": {
@@ -943,6 +945,17 @@
           "PREMIUM": "Premium",
           "ULTIMATE": "Ultimate"
         }
+      },
+      "emailGate": {
+        "title": "Vérification de l'e-mail obligatoire avant le tableau de bord",
+        "lead": "Activée, un compte e-mail et mot de passe doit saisir le code à 6 chiffres envoyé à son adresse avant d'ouvrir une page de l'app, après l'inscription et à chaque connexion tant que ce n'est pas fait. Les comptes Google passent. À activer seulement quand les codes arrivent vraiment.",
+        "isOn": "Activée depuis le {since}.",
+        "isOff": "Désactivée : personne n'est bloqué. On peut s'inscrire et visiter sans vérifier.",
+        "noSender": "Aucun e-mail ne peut partir de ce déploiement (Resend n'est pas configuré) : personne n'est bloqué, même avec l'interrupteur activé.",
+        "confirm": "J'ai vérifié qu'un code d'inscription arrive bien par e-mail en production.",
+        "needConfirm": "Coche d'abord la case : l'activation bloque les comptes non vérifiés.",
+        "turnOn": "Activer",
+        "turnOff": "Désactiver"
       }
     },
     "replies": {

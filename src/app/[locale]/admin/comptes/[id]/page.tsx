@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
 import { accountTimeline } from "@/lib/admin/accounts";
-import { dateTime } from "@/lib/format";
+import { adminDateTime } from "@/lib/format";
 import { accountType, isTestAccount } from "@/domain/account-model";
 import { setAccountStatusForm } from "@/app/actions/admin-accounts";
 
@@ -123,7 +123,7 @@ export default async function AccountPage({
             className="flex flex-wrap items-baseline gap-3 rounded-sedan border border-border bg-surface p-3 text-sm"
           >
             <span className="w-40 shrink-0 text-fg-muted">
-              {dateTime(e.at, locale)}
+              {adminDateTime(e.at, locale)}
             </span>
             <span className="font-bold">
               {t(`admin.accounts.events.${e.kind}`)}

@@ -172,7 +172,8 @@
     "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
     "legalNameRequired": "请输入你的法定名字和姓氏。",
     "genderRequired": "请选择你的性别。",
-    "onboardingIncomplete": "还缺少一个步骤。完成后再继续。"
+    "onboardingIncomplete": "还缺少一个步骤。完成后再继续。",
+    "emailSame": "这已经是你的邮箱地址。"
   },
   "auth": {
     "name": "姓名",
@@ -651,7 +652,8 @@
           "profile_incomplete": "资料未达 100%",
           "not_open": "搜索尚未向此账户开放（测试模式）",
           "quota": "本月搜索已用完"
-        }
+        },
+        "notPerformer": "非演员账户"
       }
     },
     "studentRequests": {
@@ -943,6 +945,17 @@
           "PREMIUM": "Premium",
           "ULTIMATE": "Ultimate"
         }
+      },
+      "emailGate": {
+        "title": "进入控制台前必须验证邮箱",
+        "lead": "开启后，使用邮箱和密码的账户必须先输入发送到其邮箱的 6 位验证码，才能打开任何应用页面；注册后以及每次登录时都会要求，直到完成验证。Google 账户无需验证。请在注册验证码确实能送达后再开启。",
+        "isOn": "自 {since} 起已开启。",
+        "isOff": "已关闭：不会阻止任何人。用户无需验证即可注册和浏览。",
+        "noSender": "此部署无法发送邮件（尚未配置 Resend），因此即使开关已开启，也不会阻止任何人。",
+        "confirm": "我已确认注册验证码能在生产环境通过邮件送达。",
+        "needConfirm": "请先勾选确认框：开启后会阻止未验证的账户。",
+        "turnOn": "开启",
+        "turnOff": "关闭"
       }
     },
     "replies": {

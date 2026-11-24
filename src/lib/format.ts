@@ -72,3 +72,42 @@ export function percent(rate: number, locale: string): string {
     maximumFractionDigits: 1,
   }).format(rate);
 }
+
+/**
+ * Round 11: the admin shows dates and reads its date filters in ONE zone, the
+ * founders' (Los Angeles), with the zone printed, so "created before Nov 23"
+ * means the same day the table shows, whatever the server's own zone is.
+ */
+export const ADMIN_TIME_ZONE = "America/Los_Angeles";
+
+export function adminDateTime(value: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
+    // dateStyle cannot be combined with timeZoneName: the same look, field by field.
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: ADMIN_TIME_ZONE,
+    timeZoneName: "short",
+  }).format(value);
+}
+
+/** Midnight at the start of a calendar day ("2026-11-23") in a time zone, as an instant. */
+export function zonedDayStart(day: string, timeZone: string = ADMIN_TIME_ZONE): Date {
+  const [y, m, d] = day.split("-").map(Number);
+  const guess = Date.UTC(y, m - 1, d);
+  const offsetAt = (t: number) => {
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat("en-US", { timeZone, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" })
+        .formatToParts(new Date(t))
+        .map((p) => [p.type, p.value])
+    );
+    const wall = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour, +parts.minute, +parts.second);
+    return wall - t;
+  };
+  // Twice: the offset at the guess can differ from the offset at the answer (a DST change that day).
+  let t = guess - offsetAt(guess);
+  t = guess - offsetAt(t);
+  return new Date(t);
+}

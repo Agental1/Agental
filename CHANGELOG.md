@@ -3,6 +3,14 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.30.0] - 2026-11-23
+
+### Changed (round 11, group 1: the sign-up code and verification before the dashboard)
+
+- **The code screen:** "Enter the 6-digit code we sent to <email>." At the bottom a blue "Send a new code" button, available 60 seconds after each code (the countdown on the button), and "Wrong email? Change it": an unverified email and password account types the right address, the old codes stop working and a new code goes there (3 changes an hour, the daily cap of 5 codes, audited without the addresses). Email only. The same form in the banner's dialog, which now keeps the focus inside and gives it back to "Send me a code" on close.
+- **Verification before the dashboard, behind a switch that stays off:** Admin > Controls, "Email verification required before the dashboard" (audited, a confirmation box to turn it on). On: an unverified email and password account goes to the code screen from every app page and onboarding, after sign-up and at every sign-in; Google and Apple accounts pass; nobody is held while no email can be sent. `EMAIL_VERIFICATION_REQUIRED_SINCE` is no longer read: it switched a gate on by itself as soon as a Resend key existed.
+- **Round 10 low items:** the admin shows and filters dates in one zone (Los Angeles, printed next to each date); "Can search" says "Not a performer" for Casting and Staff accounts; the CSV `can_search` column is in words; account timelines show what happened ("Email verified") instead of audit keys; the dashboard says when staff paused AI searches before any click. The session follows the account's address after a change.
+
 ## [0.6.29.0] - 2026-11-23
 
 ### Changed (round 10, group 4: a clearer admin)

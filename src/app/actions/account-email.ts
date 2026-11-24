@@ -578,3 +578,34 @@ export async function confirmMyEmailCode(code: unknown): Promise<EmailCodeAction
     return { ok: false, error: err("errors.generic") };
   }
 }
+
+export type ChangeEmailActionResult =
+  | { ok: true; email: string; codeSent: boolean }
+  | { ok: false; error: ActionError };
+
+/** Round 11: "Wrong email? Change it" on the code screen (unverified password accounts only). */
+export async function changeMyUnverifiedEmail(email: unknown): Promise<ChangeEmailActionResult> {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) return { ok: false, error: err("errors.unauthorized") };
+    const userId = session.user.id;
+    if (typeof email !== "string") return { ok: false, error: err("errors.emailInvalid") };
+    const limit = await hitRateLimit(prisma, `email-change:${userId}`, { limit: 3, windowMs: HOUR_MS });
+    if (!limit.allowed) return { ok: false, error: err("errors.tooManyAttempts") };
+    const { changeUnverifiedEmail } = await import("@/lib/email-code");
+    const res = await changeUnverifiedEmail({
+      userId,
+      email,
+      allowSend: async () =>
+        (await hitRateLimit(prisma, `email-code-send:${userId}`, { limit: 5, windowMs: 24 * HOUR_MS })).allowed,
+    });
+    if (res.ok) return res;
+    if (res.reason === "taken") return { ok: false, error: err("errors.emailTaken") };
+    if (res.reason === "invalid") return { ok: false, error: err("errors.emailInvalid") };
+    if (res.reason === "same") return { ok: false, error: err("errors.emailSame") };
+    return { ok: false, error: err("errors.unauthorized") };
+  } catch (error) {
+    console.error("[account-email] email change failed:", errorLabel(error));
+    return { ok: false, error: err("errors.generic") };
+  }
+}
