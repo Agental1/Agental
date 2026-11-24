@@ -5,7 +5,7 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
 import { isEmailCategory } from "@/lib/email-unsubscribe";
-import { setEmailCategoryApproved, setPaused, setSearchAccess } from "@/lib/app-settings";
+import { setEmailCategoryApproved, setEmailVerificationRequired, setPaused, setSearchAccess } from "@/lib/app-settings";
 import { isSearchAccess } from "@/domain/workflow/eligibility";
 
 /** Round 9: approve (or stop) one automatic email category. Admins only, audited. */
@@ -45,4 +45,21 @@ export async function setSearchAccessForm(formData: FormData): Promise<void> {
     redirect({ href: "/admin/controles?saved=1", locale });
   }
   redirect({ href: "/admin/controles?confirm=1", locale });
+}
+
+/**
+ * Round 11: "Email verification required before the dashboard". Turning it on
+ * needs the confirmation box (codes must really arrive first); turning it off
+ * never does. Admins only, audited.
+ */
+export async function setEmailGateForm(formData: FormData): Promise<void> {
+  const locale = toLocale(String(formData.get("locale") ?? "en"));
+  const adminId = await currentAdminId();
+  const required = formData.get("required") === "1";
+  if (adminId && (!required || formData.get("confirm") === "yes")) {
+    await setEmailVerificationRequired(adminId, required);
+    revalidatePath("/[locale]/admin", "layout");
+    redirect({ href: "/admin/controles?saved=1", locale });
+  }
+  redirect({ href: "/admin/controles?gateConfirm=1#email-gate", locale });
 }

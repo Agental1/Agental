@@ -282,11 +282,11 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
         // not predate a cut-off (set when a provider sign-in took over an
         // account whose password was never proven, see linkOAuthUser).
         if (token.sub) {
-          let account: { sessionsValidAfter: Date | null; deletedAt: Date | null; lastSignInAt?: Date | null } | null;
+          let account: { email?: string; sessionsValidAfter: Date | null; deletedAt: Date | null; lastSignInAt?: Date | null } | null;
           try {
             account = await prisma.user.findUnique({
               where: { id: token.sub },
-              select: { sessionsValidAfter: true, deletedAt: true, lastSignInAt: true },
+              select: { email: true, sessionsValidAfter: true, deletedAt: true, lastSignInAt: true },
             });
           } catch (error) {
             // The database is unreachable. Keep the session as it is: every
@@ -304,6 +304,9 @@ export async function buildAuthConfig(): Promise<NextAuthConfig> {
           ) {
             return null;
           }
+          // Round 11: "Wrong email? Change it" on the code screen changes the
+          // address; the session follows the row, never a stale copy.
+          if (account.email && token.email !== account.email) token.email = account.email;
           // Round 9: a session that started before sign-ins were recorded (or
           // a long one) still counts as activity, at most once a day, so the
           // admin's "last sign-in" filter never shows an active person as idle.

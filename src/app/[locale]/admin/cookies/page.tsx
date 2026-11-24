@@ -9,7 +9,7 @@ import { cookieFiltersFrom, cookieTotals, listCookieChoices, visitorTallies } fr
 import { CONSENT_CHOICES } from "@/domain/consent-choice";
 import { CONSENT_POLICY_VERSION } from "@/domain/consent";
 import { Badge } from "@/components/ui/badge";
-import { dateTime } from "@/lib/format";
+import { adminDateTime } from "@/lib/format";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const t = await getTranslations({ locale: toLocale((await params).locale), namespace: "app" });
@@ -137,7 +137,7 @@ export default async function CookiesPage({
                           marketing: r.marketing ? t(`${c}.on`) : t(`${c}.off`),
                         })}
                   </td>
-                  <td className="whitespace-nowrap p-3">{r.at ? dateTime(r.at, locale) : "-"}</td>
+                  <td className="whitespace-nowrap p-3">{r.at ? adminDateTime(r.at, locale) : "-"}</td>
                   <td className="p-3">{r.version ?? <span className="text-fg-muted">{t(`${c}.noVersion`)}</span>}</td>
                 </tr>
               ))}

@@ -806,7 +806,8 @@
         },
         "notice": {
           "paused": "Les recherches sont en pause un moment. Ta demande est enregistrée et démarrera automatiquement.",
-          "queued": "Ta recherche est en file d’attente. Elle démarre {time}."
+          "queued": "Ta recherche est en file d’attente. Elle démarre {time}.",
+          "pausedNow": "Les recherches IA sont en pause pour un moment. Si tu en lances une maintenant, elle est enregistrée et démarrera toute seule."
         }
       },
       "nextAction": "Prochaine action",

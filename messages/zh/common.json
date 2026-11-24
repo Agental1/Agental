@@ -313,14 +313,20 @@
     "bannerBody": "请确认 {email}，以便我们就选角和账户事宜联系你。",
     "bannerResend": "发送链接",
     "codeTitle": "验证你的电子邮件",
-    "codeLead": "输入我们发送到 {email} 的 6 位验证码",
+    "codeLead": "请输入我们发送到 {email} 的 6 位验证码。",
     "codeSent": "我们已向 {email} 发送新的验证码。",
     "codeVerify": "验证",
     "codeResend": "发送新验证码",
     "codeExpiry": "验证码 10 分钟内有效。如果没看到，请检查垃圾邮件文件夹。",
     "bannerCodeTitle": "验证你的电子邮件以开始寻找角色。",
     "bannerSendCode": "给我发送验证码",
-    "codeWrongAddress": "地址错误？退出并重新开始"
+    "codeResendIn": "{seconds} 秒后可发送新验证码",
+    "changePrompt": "邮箱填错了？",
+    "changeLink": "修改",
+    "changeLabel": "你的邮箱地址",
+    "changeSave": "保存并发送验证码",
+    "changeCancel": "取消",
+    "emailChanged": "你的邮箱已改为 {email}。请在下方获取新验证码。"
   },
   "privacy": {
     "meta": {

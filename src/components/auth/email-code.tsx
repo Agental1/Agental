@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { MailWarning } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
-import { confirmMyEmailCode, sendMyEmailCode } from "@/app/actions/account-email";
+import { changeMyUnverifiedEmail, confirmMyEmailCode, sendMyEmailCode } from "@/app/actions/account-email";
 import { logoutAction } from "@/app/actions/auth";
 import { ActionErrorMessage } from "@/components/app/action-error";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { err, type ActionError } from "@/domain/action-result";
 
@@ -39,8 +40,18 @@ export function EmailCodeForm({
   const [locked, setLocked] = useState(false);
   const [notice, setNotice] = useState<string>("");
   const [pending, start] = useTransition();
+  // Sending a code never disables the boxes: a disabled field drops the focus
+  // out of the banner's dialog (round 10 QA).
+  const [sending, startSend] = useTransition();
   const sentOnce = useRef(false);
   const boxes = useRef<HTMLInputElement>(null);
+  // Round 11: "Wrong email? Change it" (unverified password accounts).
+  const [address, setAddress] = useState(email);
+  const [changing, setChanging] = useState(false);
+  const [newAddress, setNewAddress] = useState("");
+  const [changeError, setChangeError] = useState<ActionError | undefined>();
+  const changeField = useRef<HTMLInputElement>(null);
+  const changeLink = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -51,14 +62,15 @@ export function EmailCodeForm({
   function send() {
     setError(undefined);
     setNotice("");
-    start(async () => {
+    startSend(async () => {
       const res = await sendMyEmailCode().catch(() => ({ ok: false as const, error: err("errors.generic") }));
       if (res.ok && res.alreadyVerified) return onVerified();
       if (res.ok) {
-        setNotice(t("codeSent", { email }));
+        setNotice(t("codeSent", { email: address }));
         setCooldown(RESEND_SECONDS);
         setLocked(false);
         setError(undefined);
+        window.setTimeout(() => boxes.current?.focus(), 0);
         return;
       }
       // A code went out moment ago: it still works; the button counts down the
@@ -98,10 +110,42 @@ export function EmailCodeForm({
     });
   }
 
+  function openChange() {
+    setChanging(true);
+    setChangeError(undefined);
+    setNewAddress("");
+    window.setTimeout(() => changeField.current?.focus(), 0);
+  }
+
+  function closeChange() {
+    setChanging(false);
+    window.setTimeout(() => changeLink.current?.focus(), 0);
+  }
+
+  function saveAddress(e: FormEvent) {
+    e.preventDefault();
+    setChangeError(undefined);
+    start(async () => {
+      const res = await changeMyUnverifiedEmail(newAddress).catch(() => ({ ok: false as const, error: err("errors.generic") }));
+      if (!res.ok) {
+        setChangeError(res.error);
+        return;
+      }
+      setAddress(res.email);
+      setChanging(false);
+      setCode("");
+      setLocked(false);
+      setError(undefined);
+      setCooldown(RESEND_SECONDS);
+      setNotice(res.codeSent ? t("codeSent", { email: res.email }) : t("emailChanged", { email: res.email }));
+      window.setTimeout(() => boxes.current?.focus(), 0);
+    });
+  }
+
   return (
     <div className="space-y-4">
       <p id="email-code-label" className="text-[15px] text-fg-muted">
-        {t("codeLead", { email })}
+        {t("codeLead", { email: address })}
       </p>
       <InputOTP
         ref={boxes}
@@ -130,20 +174,61 @@ export function EmailCodeForm({
       </InputOTP>
       <ActionErrorMessage error={error} />
       <p role="status" className="min-h-5 text-[14px] text-success">{notice}</p>
-      <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={() => verify()} loading={pending} disabled={code.length !== 6}>
-          {t("codeVerify")}
-        </Button>
-        <button
-          type="button"
-          disabled={pending || cooldown > 0}
-          onClick={send}
-          className="inline-flex min-h-11 items-center text-[14.5px] font-bold text-accent underline-offset-4 hover:underline disabled:text-fg-muted disabled:no-underline"
-        >
-          {cooldown > 0 ? t("resendIn", { seconds: cooldown }) : t("codeResend")}
-        </button>
-      </div>
+      <Button variant="outline" className="w-full" onClick={() => verify()} loading={pending} disabled={code.length !== 6}>
+        {t("codeVerify")}
+      </Button>
       <p className="text-xs text-fg-muted">{t("codeExpiry")}</p>
+      {/* Round 11: email only, a blue "Send a new code" after 60 seconds, then "Wrong email? Change it". */}
+      <div className="space-y-3 border-t border-border pt-4">
+        <Button className="w-full" onClick={send} loading={sending} disabled={pending || sending || cooldown > 0}>
+          {cooldown > 0 ? t("codeResendIn", { seconds: cooldown }) : t("codeResend")}
+        </Button>
+        {changing ? (
+          <form onSubmit={saveAddress} className="space-y-2" noValidate>
+            <label htmlFor="email-code-new-address" className="block text-sm font-bold">
+              {t("changeLabel")}
+            </label>
+            <Input
+              ref={changeField}
+              id="email-code-new-address"
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              maxLength={254}
+              value={newAddress}
+              onChange={(e) => setNewAddress(e.target.value)}
+              aria-invalid={changeError ? true : undefined}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  e.stopPropagation();
+                  closeChange();
+                }
+              }}
+            />
+            <ActionErrorMessage error={changeError} />
+            <div className="flex flex-wrap gap-2">
+              <Button type="submit" size="sm" loading={pending} disabled={newAddress.trim().length < 3}>
+                {t("changeSave")}
+              </Button>
+              <Button type="button" size="sm" variant="ghost" onClick={closeChange}>
+                {t("changeCancel")}
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <p className="text-center text-[14.5px]">
+            {t("changePrompt")}{" "}
+            <button
+              ref={changeLink}
+              type="button"
+              onClick={openChange}
+              className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
+            >
+              {t("changeLink")}
+            </button>
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -177,9 +262,9 @@ export function EmailCodeScreen({
       <form action={logoutAction} className="text-center">
         <button
           type="submit"
-          className="inline-flex min-h-11 items-center text-[14.5px] font-bold text-accent underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center text-[14px] text-fg-muted underline-offset-4 hover:underline"
         >
-          {t("codeWrongAddress")}
+          {t("signOut")}
         </button>
       </form>
     </div>
@@ -195,6 +280,7 @@ export function VerifyEmailCodeBanner({ email, portal = "talents" }: { email: st
   const t = useTranslations("common.emailFlow");
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
   return (
     <div
       role="region"
@@ -203,11 +289,19 @@ export function VerifyEmailCodeBanner({ email, portal = "talents" }: { email: st
     >
       <MailWarning aria-hidden="true" className="size-5 shrink-0 text-accent" />
       <p className="min-w-0 flex-1 font-bold">{t("bannerCodeTitle")}</p>
-      <Button size="sm" onClick={() => setOpen(true)}>
+      <Button ref={trigger} size="sm" onClick={() => setOpen(true)}>
         {t("bannerSendCode")}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent data-portal={portal} className="sm:max-w-md">
+        <DialogContent
+          data-portal={portal}
+          className="sm:max-w-md"
+          onCloseAutoFocus={(e) => {
+            // Back on "Send me a code" (the button is not a Radix trigger).
+            e.preventDefault();
+            trigger.current?.focus();
+          }}
+        >
           <DialogHeader>
             <DialogTitle>{t("codeTitle")}</DialogTitle>
             <DialogDescription className="sr-only">{t("bannerCodeTitle")}</DialogDescription>

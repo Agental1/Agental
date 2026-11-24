@@ -31,11 +31,10 @@ Project `agental` → **Settings → Environment Variables**, **Production** env
 |---|---|---|
 | `RESEND_API_KEY` | the key from step 1 | Emails are logged, none is sent |
 | `EMAIL_FROM` | `Agental <no-reply@agental.co>`, on the verified domain | Same: sending needs both |
-| `EMAIL_VERIFICATION_REQUIRED_SINCE` | an ISO date such as `2026-12-01` | Confirmation stays optional for everyone |
 
 Redeploy production. Links in the emails are built from `NEXT_PUBLIC_SITE_URL`, then from `AUTH_URL`, which production already has (see `OAUTH_SETUP.md`), so they point at `https://www.agental.co`.
 
-`EMAIL_VERIFICATION_REQUIRED_SINCE` is the switch for the gate. Set it to the day you want confirmation to become mandatory: accounts with a password created on or after that day (midnight UTC) must confirm their address, and every account created earlier keeps working as before. Leave it empty until the two pages below are live and one real email has arrived.
+**Round 11: the gate is a switch in Admin > Controls**, "Email verification required before the dashboard", off by default. While it is on (and email can be sent), an email and password account must enter the 6-digit code before any app page, after sign-up and at every sign-in until it is done; Google and Apple accounts pass. Turn it on only once a sign-up code has really arrived on production. `EMAIL_VERIFICATION_REQUIRED_SINCE` is no longer read (it used to switch the gate on by itself as soon as a Resend key existed); it can be deleted from Vercel.
 
 Leave the three variables out of the Preview environment. A preview then sends nothing, and a request for a confirmation email answers "could not be sent".
 
@@ -90,4 +89,4 @@ On production, after the redeploy:
 
 ## Turning it off
 
-Delete `RESEND_API_KEY` in Vercel and redeploy. Emails stop, and the gate opens for everyone at the same moment, because it only applies while a sender is configured.
+Turn the switch off in Admin > Controls (immediate). Or delete `RESEND_API_KEY` in Vercel and redeploy: emails stop, and the gate opens for everyone at the same moment, because it only applies while a sender is configured.

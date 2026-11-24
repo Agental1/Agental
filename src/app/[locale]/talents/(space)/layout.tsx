@@ -6,13 +6,13 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Avatar, AvatarEditor } from "@/components/app/avatar-editor";
 import { avatarSrc, initialsOf } from "@/domain/avatar";
-import { parseRequiredSince, requiresEmailVerification } from "@/domain/email-verification";
+import { requiresEmailVerification } from "@/domain/email-verification";
+import { emailVerificationRequired } from "@/lib/app-settings";
 import { VerifyEmailCodeBanner } from "@/components/auth/email-code";
 import { emailCodeAvailable } from "@/lib/email-code";
 import { ConsentSync } from "@/components/consent/consent-sync";
 import { syncAccountPrefs } from "@/lib/account-prefs";
 import { prefillFromProvider } from "@/lib/profile-prefill";
-import { emailSenderConfigured } from "@/lib/mailer";
 
 import { AppShell, type AppNavItem } from "@/components/app/app-shell";
 import { NotificationBell } from "@/components/app/notification-bell";
@@ -71,16 +71,14 @@ export default async function TalentsAppLayout({
   };
 
   // The plan badge at the top right opens the plan switcher on every page.
-  // Accounts that still have to confirm their email wait on "Check your inbox".
-  // The gate stays open until an email sender and a start date are configured.
+  // Round 11: with "Email verification required before the dashboard" on
+  // (Admin > Controls, off by default), an unconfirmed password account goes to
+  // the code screen from every page. Google and Apple accounts pass.
   const emailState = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { emailVerified: true, passwordHash: true, createdAt: true },
+    select: { email: true, emailVerified: true, passwordHash: true },
   });
-  const emailOpts = {
-    senderConfigured: emailSenderConfigured(),
-    requiredSince: parseRequiredSince(process.env.EMAIL_VERIFICATION_REQUIRED_SINCE),
-  };
+  const emailOpts = { gateOn: await emailVerificationRequired(), senderConfigured: emailCodeAvailable() };
   if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
   }
@@ -143,7 +141,7 @@ export default async function TalentsAppLayout({
     >
       <ConsentSync consent={prefs.consent} at={prefs.consentAt} pv={prefs.consentVersion} />
       <MessagesShortcut />
-      {verifyBanner && session.user.email && <VerifyEmailCodeBanner email={session.user.email} portal="talents" />}
+      {verifyBanner && emailState && <VerifyEmailCodeBanner email={emailState.email} portal="talents" />}
       {children}
     </AppShell>
   );

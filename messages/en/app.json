@@ -172,7 +172,8 @@
     "adminCodeWrong": "That code is not right. Type the newest code from your authenticator app.",
     "legalNameRequired": "Enter your legal first and last name.",
     "genderRequired": "Choose your gender.",
-    "onboardingIncomplete": "A step is still missing. Finish it, then continue."
+    "onboardingIncomplete": "A step is still missing. Finish it, then continue.",
+    "emailSame": "This is already your email address."
   },
   "auth": {
     "name": "Name",
@@ -651,7 +652,8 @@
           "profile_incomplete": "profile below 100%",
           "not_open": "searches not open for this account (test mode)",
           "quota": "no searches left this month"
-        }
+        },
+        "notPerformer": "Not a performer"
       }
     },
     "studentRequests": {
@@ -943,6 +945,17 @@
           "PREMIUM": "Premium",
           "ULTIMATE": "Ultimate"
         }
+      },
+      "emailGate": {
+        "title": "Email verification required before the dashboard",
+        "lead": "When on, an email and password account must enter the 6-digit code sent to its address before it can open any app page, after sign-up and at every sign-in until it is done. Google accounts pass. Turn it on only once sign-up codes really arrive.",
+        "isOn": "On since {since}.",
+        "isOff": "Off: nobody is blocked. People can sign up and look around without verifying.",
+        "noSender": "No email can be sent from this deployment (Resend is not set up), so nobody is blocked even though the switch is on.",
+        "confirm": "I checked that a sign-up code arrived by email on production.",
+        "needConfirm": "Tick the box first: turning this on blocks unverified accounts.",
+        "turnOn": "Turn on",
+        "turnOff": "Turn off"
       }
     },
     "replies": {

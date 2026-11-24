@@ -44,7 +44,7 @@ export default async function VerifyEmailPage({
   if (!session?.user?.id || !session.user.email) return redirect({ href: "/connexion", locale });
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { emailVerified: true, passwordHash: true, kind: true, onboardingCompletedAt: true },
+    select: { email: true, emailVerified: true, passwordHash: true, kind: true, onboardingCompletedAt: true },
   });
   const next = user && !user.onboardingCompletedAt ? onboardingHome(user.kind, locale) : `/${locale}/continuer`;
   // Google accounts and verified ones have nothing to do here.
@@ -52,6 +52,6 @@ export default async function VerifyEmailPage({
   // The server's own 60-second wait, so a reload never restarts the countdown.
   const { live, cooldown } = await codeScreenState(session.user.id);
   return (
-    <EmailCodeScreen email={session.user.email} next={next.replace(/^\/[a-z]{2}/, "")} liveCode={live} cooldown={cooldown} />
+    <EmailCodeScreen email={user.email} next={next.replace(/^\/[a-z]{2}/, "")} liveCode={live} cooldown={cooldown} />
   );
 }

@@ -22,6 +22,7 @@ import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
 import { getMySearchStatus, getRoleSearchQuota } from "@/lib/role-search";
 import { searchBlockFor } from "@/lib/search-block";
+import { isPaused } from "@/lib/app-settings";
 import { recentFirstAutoSearch } from "@/lib/auto-search";
 import { FindRolesButton } from "@/components/app/find-roles-button";
 import { SearchStatus } from "@/components/app/search-status";
@@ -128,6 +129,8 @@ export default async function TalentsDashboard({
   const hasSite = (await listMySites(session.user.id)).length > 0;
   const quota = await getRoleSearchQuota(session.user.id);
   const searchBlock = await searchBlockFor(session.user.id);
+  // Round 11: staff paused everything (Admin > Controls): said before any click.
+  const searchesPaused = await isPaused();
   const searchStatus = await getMySearchStatus(session.user.id);
   // The first search started on its own: say so for two weeks.
   const showAutoFirst = await recentFirstAutoSearch(session.user.id);
@@ -231,6 +234,7 @@ export default async function TalentsDashboard({
         // Round 10: one reason when the account cannot search, with its fix.
         initialBlock={searchBlock}
         email={session.user.email ?? ""}
+        paused={searchesPaused}
         footer={<SearchStatus initial={searchStatus} />}
       />
 

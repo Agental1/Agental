@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { zonedDayStart } from "@/lib/format";
 import { CONSENT_CHOICES, consentChoiceOf, type ConsentChoice } from "@/domain/consent-choice";
 import { accountType, isTestAccount, type AccountType } from "@/domain/account-model";
 
@@ -50,8 +51,8 @@ export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRo
       ...(f.from || f.to
         ? {
             consentAt: {
-              ...(f.from ? { gte: new Date(`${f.from}T00:00:00Z`) } : {}),
-              ...(f.to ? { lt: new Date(new Date(`${f.to}T00:00:00Z`).getTime() + 86_400_000) } : {}),
+              ...(f.from ? { gte: zonedDayStart(f.from) } : {}),
+              ...(f.to ? { lt: zonedDayStart(nextDay(f.to)) } : {}),
             },
           }
         : {}),
@@ -115,4 +116,9 @@ export function cookiesCsv(rows: CookieRow[]): string {
   const head = ["id", "email", "type", "test", "choice", "analytics", "marketing", "chosen_at", "policy_version"];
   const lines = rows.map((r) => [r.id, r.email, r.type, r.isTest, r.choice, r.analytics ?? "", r.marketing ?? "", r.at ?? "", r.version ?? ""].map(cell).join(","));
   return [head.join(","), ...lines].join("\r\n") + "\r\n";
+}
+
+/** The calendar day after "YYYY-MM-DD". */
+function nextDay(day: string): string {
+  return new Date(Date.parse(`${day}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
 }

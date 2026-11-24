@@ -313,14 +313,20 @@
     "bannerBody": "Confirm {email} so we can reach you about castings and your account.",
     "bannerResend": "Send the link",
     "codeTitle": "Verify your email",
-    "codeLead": "Enter the 6-digit code we sent to {email}",
+    "codeLead": "Enter the 6-digit code we sent to {email}.",
     "codeSent": "We sent a new code to {email}.",
     "codeVerify": "Verify",
     "codeResend": "Send a new code",
     "codeExpiry": "The code works for 10 minutes. Check your spam folder if you don't see it.",
     "bannerCodeTitle": "Verify your email to start finding roles.",
     "bannerSendCode": "Send me a code",
-    "codeWrongAddress": "Wrong address? Sign out and start again"
+    "codeResendIn": "Send a new code in {seconds} s",
+    "changePrompt": "Wrong email?",
+    "changeLink": "Change it",
+    "changeLabel": "Your email address",
+    "changeSave": "Save and send a code",
+    "changeCancel": "Cancel",
+    "emailChanged": "Your email is now {email}. Ask for a new code below."
   },
   "privacy": {
     "meta": {
