@@ -189,6 +189,10 @@ export async function changeUnverifiedEmail(input: {
       });
       if (changed.count !== 1) throw new Error("email-change-raced");
       await tx.emailVerificationCode.deleteMany({ where: { userId: input.userId, consumedAt: null } });
+      // Links mailed to the old address (confirm, reset) must not confirm the new one.
+      const { revokeEmailTokens } = await import("@/lib/email-tokens");
+      await revokeEmailTokens(tx, { purpose: "verify", userId: input.userId });
+      await revokeEmailTokens(tx, { purpose: "reset", userId: input.userId });
       await audit(
         { actorUserId: input.userId, action: "auth.email.changed", resourceType: "User", resourceId: input.userId, before: { domain: domain(user.email) }, after: { domain: domain(email), via: "code_screen" } },
         tx

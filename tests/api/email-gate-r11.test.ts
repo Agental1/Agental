@@ -89,7 +89,12 @@ describe.skipIf(!local)("email verification gate and email change (round 11)", (
 
   it("changes the address, drops the old code, sends a new one there, and audits without addresses", async () => {
     const oldCode = /\b(\d{6})\b/.exec(sent.at(-1)!.text)![1];
+    // Links mailed to the old address before the change (review, round 11).
+    const { createEmailToken } = await import("@/lib/email-tokens");
+    await createEmailToken(prisma, { purpose: "verify", userId: pw, ttlMs: 3_600_000 });
+    await createEmailToken(prisma, { purpose: "reset", userId: pw, ttlMs: 3_600_000 });
     const res = await changeUnverifiedEmail({ userId: pw, email: `  ${P}New@Test.local ` });
+    expect(await prisma.verificationToken.count({ where: { identifier: { in: [`verify:${pw}`, `reset:${pw}`] } } })).toBe(0);
     expect(res).toEqual({ ok: true, email: `${P}new@test.local`, codeSent: true });
     expect(sent.at(-1)!.to).toBe(`${P}new@test.local`);
     expect(await verifyEmailCode({ userId: pw, code: oldCode })).toMatchObject({ ok: false });

@@ -15,7 +15,7 @@ import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
 import { setEmailApprovalForm, setEmailGateForm, setPauseForm, setSearchAccessForm } from "@/app/actions/admin-controls";
-import { dateTime } from "@/lib/format";
+import { adminDateTime, dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -137,7 +137,7 @@ export default async function ControlsPage({ params, searchParams }: { params: P
         <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.emailGate.lead`)}</p>
         <p className="text-sm font-bold">
           {gate.required
-            ? t(`${c}.emailGate.isOn`, { since: gate.since ? dateTime(new Date(gate.since), locale) : "" })
+            ? t(`${c}.emailGate.isOn`, { since: gate.since ? adminDateTime(new Date(gate.since), locale) : "" })
             : t(`${c}.emailGate.isOff`)}
         </p>
         {gate.required && !canSendCodes && (

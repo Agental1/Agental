@@ -43,6 +43,8 @@ export function EmailCodeForm({
   // Sending a code never disables the boxes: a disabled field drops the focus
   // out of the banner's dialog (round 10 QA).
   const [sending, startSend] = useTransition();
+  // Saving a new address has its own state: the code boxes stay usable (review, round 11).
+  const [saving, startSave] = useTransition();
   const sentOnce = useRef(false);
   const boxes = useRef<HTMLInputElement>(null);
   // Round 11: "Wrong email? Change it" (unverified password accounts).
@@ -125,7 +127,7 @@ export function EmailCodeForm({
   function saveAddress(e: FormEvent) {
     e.preventDefault();
     setChangeError(undefined);
-    start(async () => {
+    startSave(async () => {
       const res = await changeMyUnverifiedEmail(newAddress).catch(() => ({ ok: false as const, error: err("errors.generic") }));
       if (!res.ok) {
         setChangeError(res.error);
@@ -136,7 +138,8 @@ export function EmailCodeForm({
       setCode("");
       setLocked(false);
       setError(undefined);
-      setCooldown(RESEND_SECONDS);
+      // No code went out (daily cap, no sender): "Send a new code" is ready at once.
+      setCooldown(res.codeSent ? RESEND_SECONDS : 0);
       setNotice(res.codeSent ? t("codeSent", { email: res.email }) : t("emailChanged", { email: res.email }));
       window.setTimeout(() => boxes.current?.focus(), 0);
     });
@@ -207,7 +210,7 @@ export function EmailCodeForm({
             />
             <ActionErrorMessage error={changeError} />
             <div className="flex flex-wrap gap-2">
-              <Button type="submit" size="sm" loading={pending} disabled={newAddress.trim().length < 3}>
+              <Button type="submit" size="sm" loading={saving} disabled={sending || newAddress.trim().length < 3}>
                 {t("changeSave")}
               </Button>
               <Button type="button" size="sm" variant="ghost" onClick={closeChange}>
@@ -222,6 +225,7 @@ export function EmailCodeForm({
               ref={changeLink}
               type="button"
               onClick={openChange}
+              disabled={sending}
               className="inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
             >
               {t("changeLink")}
@@ -296,6 +300,10 @@ export function VerifyEmailCodeBanner({ email, portal = "talents" }: { email: st
         <DialogContent
           data-portal={portal}
           className="sm:max-w-md"
+          onEscapeKeyDown={(e) => {
+            // Escape in "Change it" closes that form, not the dialog.
+            if ((e.target as HTMLElement | null)?.id === "email-code-new-address") e.preventDefault();
+          }}
           onCloseAutoFocus={(e) => {
             // Back on "Send me a code" (the button is not a Radix trigger).
             e.preventDefault();

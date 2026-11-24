@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 import { VerifyEmailButton } from "@/components/auth/email-flows";
 import { EmailCodeScreen } from "@/components/auth/email-code";
 import { prisma } from "@/lib/db";
-import { codeScreenState } from "@/lib/email-code";
+import { codeScreenState, emailCodeAvailable } from "@/lib/email-code";
 import { onboardingHome } from "@/domain/auth-routes";
 
 export async function generateMetadata({
@@ -49,6 +49,8 @@ export default async function VerifyEmailPage({
   const next = user && !user.onboardingCompletedAt ? onboardingHome(user.kind, locale) : `/${locale}/continuer`;
   // Google accounts and verified ones have nothing to do here.
   if (!user || user.emailVerified || !user.passwordHash) return redirect({ href: next.replace(/^\/[a-z]{2}/, ""), locale });
+  // No way to send a code from this deployment (no Resend key): nothing to enter here (review, round 11).
+  if (!emailCodeAvailable()) return redirect({ href: next.replace(/^\/[a-z]{2}/, ""), locale });
   // The server's own 60-second wait, so a reload never restarts the countdown.
   const { live, cooldown } = await codeScreenState(session.user.id);
   return (
