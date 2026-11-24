@@ -1190,8 +1190,28 @@ describe("signupAction", () => {
     data.set("password", STRONG);
     data.set("kind", "TALENT");
     data.set("locale", "es");
+    data.set("privacy", "yes");
     return data;
   }
+
+  it("round 11: refuses a sign-up without the Privacy Policy box, creating nothing", async () => {
+    const data = form();
+    data.delete("privacy");
+    expect(await signupAction(undefined, data)).toEqual({ error: { key: "errors.privacyRequired" } });
+    expect(db.user.create).not.toHaveBeenCalled();
+    expect(signIn).not.toHaveBeenCalled();
+  });
+
+  it("round 11: records the Privacy Policy version and date on the new account", async () => {
+    sendEmailCode.mockResolvedValueOnce({ ok: true, email: "new.person@example.com" });
+    const { PRIVACY_POLICY_VERSION } = await import("@/domain/legal-versions");
+    expect(await signupAction(undefined, form())).toBeUndefined();
+    const data = (db.user.create.mock.calls[0][0] as { data: Record<string, unknown> }).data;
+    expect(data.privacyVersion).toBe(PRIVACY_POLICY_VERSION);
+    expect(data.privacyAcceptedAt).toBeInstanceOf(Date);
+    // The Terms are not published (TERMS_PAGE_ENABLED unset): nothing recorded for them.
+    expect(data.termsVersion).toBeUndefined();
+  });
 
   it("round 10: sends the 6-digit code right after creating the account, then signs in on the code screen", async () => {
     sendEmailCode.mockResolvedValueOnce({ ok: true, email: "new.person@example.com" });

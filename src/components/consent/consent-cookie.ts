@@ -83,6 +83,16 @@ export function writeConsent(
   window.dispatchEvent(new Event(CONSENT_EVENT));
 }
 
+/**
+ * Round 11: forget this browser's choice, so the banner asks again. Used for a
+ * signed-in account that has no choice recorded on the account yet.
+ */
+export function clearConsent(): void {
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${CONSENT_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${secure}`;
+  window.dispatchEvent(new Event(CONSENT_EVENT));
+}
+
 /** True when two choices answer every category the same way. */
 export function sameConsent(a: Consent | null, b: Consent | null): boolean {
   if (!a || !b) return a === b;

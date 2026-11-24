@@ -3,6 +3,15 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.31.0] - 2026-11-24
+
+### Changed (round 11, group 3: consent, Privacy Policy, account deletion)
+
+- **Sign-up:** a required box "I agree to the Privacy Policy" (and "the Terms of Service" once they are published with `TERMS_PAGE_ENABLED`), never pre-ticked; "Create my account" stays disabled until it is ticked, and the server refuses a sign-up without it. The account records the date and the version (`privacyAcceptedAt`, `privacyVersion`, `termsAcceptedAt`, `termsVersion`; versions in `src/domain/legal-versions.ts`, Privacy Policy `2026-11-24`). Migration `20261227000000_round11_legal_acceptance` (four nullable columns).
+- **Older accounts and Google sign-ups:** accept the current Privacy Policy once, on a screen shown before the app opens at their next sign-in (audited `legal.accepted`). Accounts with no cookie choice recorded see the cookie banner again; the answer goes on the account.
+- **Privacy Policy:** "Account security and abuse" now says in one paragraph that we may limit, suspend or delete an account that is fake, abusive, used for spam, breaks the Terms, or whose email was never verified. Linked from the cookie banner ("How we protect accounts") and the sign-up box. Last updated November 24, 2026, in the four languages.
+- **Admin:** "Privacy Policy accepted: date, version" next to the cookie choice in Admin > Accounts, on each account page and in Admin > Cookies (with a count of who has not accepted), filters (accepted or not, version) and CSV columns `privacy_accepted_at`, `privacy_version`. Lawyer questions in `docs/legal/ACCOUNT_MONITORING.md`.
+
 ## [0.6.30.0] - 2026-11-23
 
 ### Changed (round 11, group 1: the sign-up code and verification before the dashboard)

@@ -68,6 +68,11 @@ export function CookieBanner() {
         <Link href="/talents/confidentialite#cookies" className="font-bold text-accent underline-offset-4 hover:underline">
           {t("readMore")}
         </Link>
+        {" · "}
+        {/* Round 11: the same policy says we may delete unverified or abusive accounts. */}
+        <Link href="/talents/confidentialite#security" className="font-bold text-accent underline-offset-4 hover:underline">
+          {t("accountSecurity")}
+        </Link>
       </p>
       {managing ? (
         <ConsentChoice className="mt-3" onChosen={choose} writeCookie={false} />

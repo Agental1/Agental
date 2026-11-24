@@ -15,6 +15,7 @@ const LABELS: Record<string, string> = {
   "onboarding.complete": "Finished onboarding",
   "casting.onboarding.complete": "Finished onboarding (casting)",
   "consent.update": "Cookie choice changed",
+  "legal.accepted": "Privacy Policy accepted",
   "agent.setup.save": "AI agent set up",
   "plan.choice": "Chose a plan",
   "subscription.change": "Plan changed",

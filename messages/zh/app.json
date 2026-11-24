@@ -173,7 +173,8 @@
     "legalNameRequired": "请输入你的法定名字和姓氏。",
     "genderRequired": "请选择你的性别。",
     "onboardingIncomplete": "还缺少一个步骤。完成后再继续。",
-    "emailSame": "这已经是你的邮箱地址。"
+    "emailSame": "这已经是你的邮箱地址。",
+    "privacyRequired": "请勾选方框以接受隐私政策。"
   },
   "auth": {
     "name": "姓名",
@@ -195,7 +196,9 @@
       "length": "至少 8 个字符",
       "uppercase": "一个大写字母",
       "special": "一个特殊字符"
-    }
+    },
+    "agreePrivacy": "我同意<privacy>隐私政策</privacy>。",
+    "agreePrivacyTerms": "我同意<privacy>隐私政策</privacy>和<terms>服务条款</terms>。"
   },
   "height": {
     "unit": "身高单位",
@@ -481,7 +484,8 @@
         "type": "类型",
         "canSearch": "可搜索",
         "searchesUsed": "本月搜索",
-        "cookies": "Cookie"
+        "cookies": "Cookie",
+        "privacy": "隐私政策"
       },
       "site": {
         "none": "None",
@@ -1037,7 +1041,9 @@
         "to": "选择截止",
         "all": "全部",
         "apply": "筛选",
-        "clear": "清除"
+        "clear": "清除",
+        "privacy": "隐私政策",
+        "privacyVersion": "隐私政策版本"
       },
       "csv": "导出 CSV",
       "cols": {
@@ -1046,14 +1052,19 @@
         "categories": "类别",
         "date": "日期",
         "version": "政策版本",
-        "week": "周"
+        "week": "周",
+        "privacy": "隐私政策"
       },
       "categories": "分析 {analytics} · 营销 {marketing}",
       "on": "开",
       "off": "关",
       "noVersion": "版本之前",
       "weekOf": "{date} 那一周",
-      "more": "另有 {count} 条见 CSV 导出。"
+      "more": "另有 {count} 条见 CSV 导出。",
+      "privacyAccepted": "已于 {date} 接受，版本 {version}",
+      "privacyYes": "已接受",
+      "privacyNo": "尚未接受",
+      "privacySummary": "隐私政策：{total} 个账户中有 {accepted} 个已接受（{current} 个为当前版本 {version}）。查看尚未接受的账户"
     }
   },
   "matchReasons": {

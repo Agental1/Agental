@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { browserConsentAfterSignIn, readConsent, writeConsent, type Consent } from "./consent-cookie";
+import { browserConsentAfterSignIn, clearConsent, readConsent, writeConsent, type Consent } from "./consent-cookie";
 
 /**
  * The cookie choice is saved on the account. On every signed-in page the
@@ -22,6 +22,12 @@ export function ConsentSync({
   pv?: string | null;
 }) {
   useEffect(() => {
+    // Round 11: an account with no choice recorded (older accounts) is asked
+    // again: the banner comes back and its answer is saved on the account.
+    if (!consent) {
+      if (readConsent()) clearConsent();
+      return;
+    }
     const next = browserConsentAfterSignIn(readConsent(), consent);
     if (!next) return;
     // The account's own date and version travel with its answers; a stricter

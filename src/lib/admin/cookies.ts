@@ -17,6 +17,9 @@ export interface CookieFilters {
   /** YYYY-MM-DD, on the date of the choice. */
   from?: string;
   to?: string;
+  /** Round 11: Privacy Policy accepted (any version), not accepted, or an exact version. */
+  privacy?: "yes" | "no";
+  privacyVersion?: string;
 }
 
 const isDay = (v: string | undefined) => (v && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T00:00:00Z`)) ? v : undefined);
@@ -28,6 +31,8 @@ export function cookieFiltersFrom(get: (k: string) => string | null | undefined)
     version: get("version")?.slice(0, 20) || undefined,
     from: isDay(get("from") || undefined),
     to: isDay(get("to") || undefined),
+    privacy: get("privacy") === "yes" ? "yes" : get("privacy") === "no" ? "no" : undefined,
+    privacyVersion: get("privacyVersion")?.slice(0, 20) || undefined,
   };
 }
 
@@ -41,6 +46,9 @@ export interface CookieRow {
   marketing: boolean | null;
   at: Date | null;
   version: string | null;
+  /** Round 11: the Privacy Policy accepted, when and which version. */
+  privacyAt: Date | null;
+  privacyVersion: string | null;
 }
 
 export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRow[]> {
@@ -48,6 +56,8 @@ export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRo
     where: {
       deletedAt: null,
       ...(f.version ? { consentVersion: f.version } : {}),
+      ...(f.privacy === "yes" ? { privacyAcceptedAt: { not: null } } : f.privacy === "no" ? { privacyAcceptedAt: null } : {}),
+      ...(f.privacyVersion ? { privacyVersion: f.privacyVersion } : {}),
       ...(f.from || f.to
         ? {
             consentAt: {
@@ -70,6 +80,8 @@ export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRo
       consentMarketing: true,
       consentAt: true,
       consentVersion: true,
+      privacyAcceptedAt: true,
+      privacyVersion: true,
     },
   });
   return users
@@ -83,6 +95,8 @@ export async function listCookieChoices(f: CookieFilters = {}): Promise<CookieRo
       marketing: u.consentMarketing,
       at: u.consentAt,
       version: u.consentVersion,
+      privacyAt: u.privacyAcceptedAt,
+      privacyVersion: u.privacyVersion,
     }))
     .filter((r) => !f.choice || r.choice === f.choice);
 }
@@ -113,8 +127,8 @@ export function cookiesCsv(rows: CookieRow[]): string {
     if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const head = ["id", "email", "type", "test", "choice", "analytics", "marketing", "chosen_at", "policy_version"];
-  const lines = rows.map((r) => [r.id, r.email, r.type, r.isTest, r.choice, r.analytics ?? "", r.marketing ?? "", r.at ?? "", r.version ?? ""].map(cell).join(","));
+  const head = ["id", "email", "type", "test", "choice", "analytics", "marketing", "chosen_at", "policy_version", "privacy_accepted_at", "privacy_version"];
+  const lines = rows.map((r) => [r.id, r.email, r.type, r.isTest, r.choice, r.analytics ?? "", r.marketing ?? "", r.at ?? "", r.version ?? "", r.privacyAt ?? "", r.privacyVersion ?? ""].map(cell).join(","));
   return [head.join(","), ...lines].join("\r\n") + "\r\n";
 }
 

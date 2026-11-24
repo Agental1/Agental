@@ -13,6 +13,7 @@ import type { AuthState } from "@/app/actions/auth";
 import { passwordChecks, type PasswordRuleId } from "@/domain/auth";
 import { ConsentChoice } from "@/components/consent/consent-choice";
 import { cn } from "@/lib/utils";
+import { PRIVACY_SECURITY_ANCHOR } from "@/domain/legal-versions";
 
 type Action = (state: AuthState, formData: FormData) => Promise<AuthState>;
 
@@ -44,6 +45,7 @@ export function AuthForm({
   showName = false,
   size = "md",
   next,
+  termsEnabled = false,
 }: {
   action: Action;
   submitLabel: string;
@@ -54,6 +56,8 @@ export function AuthForm({
   size?: "md" | "lg";
   /** A page to come back to after sign-in, checked again on the server. */
   next?: string;
+  /** Round 11: the box also accepts the Terms of Service once they are published (TERMS_PAGE_ENABLED). */
+  termsEnabled?: boolean;
 }) {
   const t = useTranslations("app");
   const errorText = useActionErrorText();
@@ -63,6 +67,8 @@ export function AuthForm({
   );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // Round 11: "I agree to the Privacy Policy" (required to create an account).
+  const [agreed, setAgreed] = useState(false);
   const [step, setStep] = useState<"credentials" | "consent">("credentials");
   const tc = useTranslations("common.consent");
   const tf = useTranslations("common.emailFlow");
@@ -160,6 +166,35 @@ export function AuthForm({
         )}
       </div>
 
+      {signup && (
+        <div className="flex items-start gap-2.5">
+          <input
+            id="privacy"
+            name="privacy"
+            type="checkbox"
+            value="yes"
+            required
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="mt-0.5 size-5 shrink-0 accent-[var(--color-accent)]"
+          />
+          <label htmlFor="privacy" className="text-[14px] leading-snug">
+            {t.rich(termsEnabled ? "auth.agreePrivacyTerms" : "auth.agreePrivacy", {
+              privacy: (chunks) => (
+                <Link href={`/talents/confidentialite#${PRIVACY_SECURITY_ANCHOR}`} target="_blank" className="font-bold text-accent underline underline-offset-4">
+                  {chunks}
+                </Link>
+              ),
+              terms: (chunks) => (
+                <Link href="/talents/conditions" target="_blank" className="font-bold text-accent underline underline-offset-4">
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </label>
+        </div>
+      )}
+
       </div>
 
       {signup && step === "consent" && (
@@ -207,7 +242,7 @@ export function AuthForm({
           type="submit"
           size={size === "lg" ? "lg" : "md"}
           className={cn("w-full", size === "lg" && "h-[52px] text-[16px]")}
-          disabled={pending || (signup && !rulesPass)}
+          disabled={pending || (signup && (!rulesPass || !agreed))}
         >
           {submitLabel}
         </Button>

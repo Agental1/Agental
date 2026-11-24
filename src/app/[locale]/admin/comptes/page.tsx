@@ -168,6 +168,14 @@ export default async function AccountsPage({
             </select>
           </label>
           <label className="flex flex-col gap-1 text-xs font-bold">
+            {cols("privacy")}
+            <select name="privacy" defaultValue={f.privacy ?? ""} className={select}>
+              <option value="">{t(`${a}.all`)}</option>
+              <option value="yes">{t("admin.cookies.privacyYes")}</option>
+              <option value="no">{t("admin.cookies.privacyNo")}</option>
+            </select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs font-bold">
             {t(`${a}.filters.signedInBefore`)}
             <input type="date" name="signedInBefore" defaultValue={f.signedInBefore} className={select} />
           </label>
@@ -256,7 +264,7 @@ export default async function AccountsPage({
           </div>
         ) : (
           <div className="overflow-x-auto rounded-sedan border border-border">
-            <table className="w-full min-w-[1100px] text-sm">
+            <table className="w-full min-w-[1240px] text-sm">
               <thead className="bg-surface-2 text-left text-fg-muted">
                 <tr>
                   <th className="w-10 p-3">
@@ -271,6 +279,7 @@ export default async function AccountsPage({
                   <SortHeader label={cols("created")} column="created" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} />
                   <SortHeader label={cols("lastSignIn")} column="lastSignIn" base="/admin/comptes" query={sortQuery} current={f.sort} dir={f.dir} title={t(`${a}.lastSignInHelp`)} />
                   <th className="p-3 font-medium">{cols("cookies")}</th>
+                  <th className="p-3 font-medium">{cols("privacy")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -325,6 +334,13 @@ export default async function AccountsPage({
                       {r.lastSignInAt ? adminDateTime(r.lastSignInAt, locale) : <span className="text-fg-muted">{t(`${a}.notRecorded`)}</span>}
                     </td>
                     <td className="whitespace-nowrap p-3 text-xs">{t(`admin.cookies.choices.${r.consent.choice}`)}</td>
+                    <td className="whitespace-nowrap p-3 text-xs">
+                      {r.privacy.at ? (
+                        t("admin.cookies.privacyAccepted", { date: adminDateTime(r.privacy.at, locale), version: r.privacy.version ?? "-" })
+                      ) : (
+                        <span className="text-fg-muted">{t("admin.cookies.privacyNo")}</span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

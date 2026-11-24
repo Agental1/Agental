@@ -1,4 +1,5 @@
 import { toLocale } from "@/i18n/routing";
+import { termsPageEnabled } from "@/domain/legal/terms";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { seo, jsonLd, serviceLd } from "@/lib/seo";
@@ -125,6 +126,7 @@ function Top({ locale }: { locale: Locale }) {
               <OAuthButtons mode="signup" kind="CASTING" locale={locale} namespace="casting" tone="dark" />
               <AuthForm
                 action={signupAction}
+                termsEnabled={termsPageEnabled()}
                 submitLabel={t("signup.submit")}
                 kind="CASTING"
                 locale={locale}

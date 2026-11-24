@@ -203,7 +203,8 @@
     "policyLink": "Politique de confidentialité",
     "recordedOn": "Enregistré le {date}, version de l’avis {version}.",
     "notRecorded": "Aucun choix enregistré. Seuls les cookies strictement nécessaires sont utilisés.",
-    "readMore": "En savoir plus"
+    "readMore": "En savoir plus",
+    "accountSecurity": "Comment nous protégeons les comptes"
   },
   "tour": {
     "start": "Commence ici",
@@ -335,7 +336,7 @@
     },
     "eyebrow": "Mentions",
     "title": "Politique de confidentialité",
-    "updated": "Dernière mise à jour : 22 novembre 2026.",
+    "updated": "Dernière mise à jour : 24 novembre 2026.",
     "footerLink": "Confidentialité",
     "sections": [
       {
@@ -382,7 +383,7 @@
         "title": "Sécurité des comptes et abus",
         "body": [
           "Pour qu’Agental reste sûr pour les talents et les équipes de casting, nous observons l’usage des comptes afin de repérer le spam, les faux comptes et les abus. Nous regardons la date de création et de dernière connexion, si l’e-mail a été vérifié, les tentatives de connexion ou d’inscription répétées qui échouent, et l’usage du profil, des médias, des recherches IA et des messages. Ces données servent uniquement à la sécurité et à prévenir la fraude et les abus. Nous ne les vendons jamais.",
-          "Toute mesure est décidée par un membre de notre équipe, jamais par un système automatique. Nous pouvons limiter, suspendre ou supprimer un compte qui enfreint nos Conditions. Nous pouvons d’abord vous écrire pour vous demander de confirmer votre adresse sous 7 jours. Un compte supprimé est désactivé tout de suite et conservé 30 jours, pour le rétablir en cas d’erreur, puis il est supprimé définitivement avec ses fichiers. Écrivez à contact@agental.co si vous pensez que nous nous sommes trompés.",
+          "Toute mesure est décidée par un membre de notre équipe, jamais par un système automatique. Nous pouvons limiter, suspendre ou supprimer un compte faux, abusif ou utilisé pour du spam, un compte qui enfreint nos Conditions, ou un compte dont l’adresse e-mail n’a jamais été vérifiée. Avant de supprimer un compte non vérifié, nous pouvons vous écrire pour vous demander de confirmer votre adresse sous 7 jours. Un compte supprimé est désactivé tout de suite et conservé 30 jours, pour le rétablir en cas d’erreur, puis il est supprimé définitivement avec ses fichiers. Écrivez à contact@agental.co si vous pensez que nous nous sommes trompés.",
           "Cette surveillance n’utilise aucun cookie. Les seuls cookies que nous déposons sont ceux listés dans le bandeau cookies."
         ]
       },
@@ -408,5 +409,14 @@
         ]
       }
     ]
+  },
+  "legalAccept": {
+    "title": "Avant de continuer",
+    "lead": "Nous avons mis à jour notre Politique de confidentialité. Lisez-la et acceptez-la une fois pour continuer à utiliser Agental.",
+    "security": "Elle explique comment nous repérons le spam et les faux comptes, et que nous pouvons supprimer les comptes non vérifiés ou abusifs : <security>Sécurité des comptes et abus</security>.",
+    "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy>.",
+    "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy> et les <terms>Conditions d’utilisation</terms>.",
+    "continue": "Continuer",
+    "signOut": "Se déconnecter"
   }
 }
