@@ -1,7 +1,4 @@
 import { cookies } from "next/headers";
-import { needsLegalAcceptance } from "@/domain/legal-versions";
-import { termsPageEnabled } from "@/domain/legal/terms";
-import { AcceptPrivacyScreen } from "@/components/legal/accept-privacy";
 import { Suspense } from "react";
 import { toLocale } from "@/i18n/routing";
 import { redirect } from "@/i18n/navigation";
@@ -66,17 +63,11 @@ export default async function CastingAppLayout({
   // the code screen from every page. Google and Apple accounts pass.
   const emailState = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { email: true, emailVerified: true, passwordHash: true, privacyAcceptedAt: true, privacyVersion: true, termsAcceptedAt: true, termsVersion: true },
+    select: { email: true, emailVerified: true, passwordHash: true },
   });
   const emailOpts = { gateOn: await emailVerificationRequired(), senderConfigured: emailCodeAvailable() };
   if (emailState && requiresEmailVerification(emailState, emailOpts)) {
     return redirect({ href: "/verifier", locale });
-  }
-  // Round 11, group 3: the current Privacy Policy (and the Terms, once
-  // published) is accepted once before the app opens: older accounts and Google
-  // sign-ups tick the box here, at their next sign-in.
-  if (emailState && needsLegalAcceptance(emailState, termsPageEnabled())) {
-    return <AcceptPrivacyScreen termsEnabled={termsPageEnabled()} />;
   }
   const prefs = await syncAccountPrefs(session.user.id, locale);
   // Round 10: every password account without a verified email sees "Verify your

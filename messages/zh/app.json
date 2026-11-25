@@ -198,8 +198,8 @@
       "uppercase": "一个大写字母",
       "special": "一个特殊字符"
     },
-    "agreePrivacy": "我同意<privacy>隐私政策</privacy>。",
-    "agreePrivacyTerms": "我同意<privacy>隐私政策</privacy>和<terms>服务条款</terms>。"
+    "agreePrivacy": "我接受<privacy>隐私政策</privacy>并同意使用 Cookie。",
+    "agreePrivacyTerms": "我接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。"
   },
   "height": {
     "unit": "身高单位",

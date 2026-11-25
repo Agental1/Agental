@@ -208,7 +208,7 @@
     "recordedOn": "记录于 {date}，通知版本 {version}。",
     "notRecorded": "尚未记录选择。仅使用严格必要的 Cookie。",
     "readMore": "了解更多",
-    "accountSecurity": "我们如何保护账户"
+    "bannerManage": "管理"
   },
   "tour": {
     "start": "从这里开始",
@@ -414,14 +414,6 @@
       }
     ]
   },
-  "legalAccept": {
-    "title": "继续之前",
-    "lead": "我们更新了隐私政策。请阅读并接受一次，即可继续使用 Agental。",
-    "security": "其中说明了我们如何发现垃圾信息和虚假账户，以及我们可能删除未验证或滥用的账户：<security>账户安全与滥用</security>。",
-    "agreePrivacy": "我同意<privacy>隐私政策</privacy>。",
-    "agreePrivacyTerms": "我同意<privacy>隐私政策</privacy>和<terms>服务条款</terms>。",
-    "continue": "继续",
-    "signOut": "退出登录",
-    "deleteInstead": "想删除账户？请写信至 contact@agental.co。"
-  }
+  "oauthAgree": "继续即表示你接受<privacy>隐私政策</privacy>并同意使用 Cookie。",
+  "oauthAgreeTerms": "继续即表示你接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。"
 }

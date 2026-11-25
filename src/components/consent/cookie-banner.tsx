@@ -57,36 +57,36 @@ export function CookieBanner() {
     <section
       role="region"
       aria-label={t("title")}
-      className="fixed inset-x-3 bottom-3 z-50 mx-auto max-h-[85svh] max-w-xl overflow-y-auto rounded-sedan-xl border border-border-strong bg-surface p-4 text-fg shadow-xl sm:left-auto sm:right-4 sm:mx-0 sm:bottom-4 sm:w-[26rem]"
+      className="fixed inset-x-0 bottom-0 z-50 max-h-[85svh] overflow-y-auto border-t border-border-strong bg-surface text-fg shadow-xl"
     >
-      <h2 className="flex items-center gap-2 text-[1.0625rem]">
-        <Cookie aria-hidden="true" className="size-5 text-accent" />
-        {t("title")}
-      </h2>
-      <p className="mt-1 text-[14px] leading-snug text-fg-muted">
-        {t("bannerLead")}{" "}
-        <Link href="/talents/confidentialite#cookies" className="font-bold text-accent underline-offset-4 hover:underline">
-          {t("readMore")}
-        </Link>
-        {" · "}
-        {/* Round 11: the same policy says we may delete unverified or abusive accounts. */}
-        <Link href="/talents/confidentialite#security" className="font-bold text-accent underline-offset-4 hover:underline">
-          {t("accountSecurity")}
-        </Link>
-      </p>
-      {managing ? (
-        <ConsentChoice className="mt-3" onChosen={choose} writeCookie={false} />
-      ) : (
-        <div className="mt-3 grid gap-2 sm:grid-cols-2">
-          <Button onClick={() => choose({ analytics: true, marketing: true })}>{t("acceptAll")}</Button>
-          <Button variant="secondary" className="border-border-strong" onClick={() => choose(NECESSARY_ONLY)}>
-            {t("reject")}
-          </Button>
-          <Button variant="secondary" className="border-border-strong sm:col-span-2" onClick={() => setManaging(true)}>
-            {t("manage")}
-          </Button>
-        </div>
-      )}
+      <div className="mx-auto max-w-5xl px-4 py-3">
+        {managing ? (
+          <ConsentChoice onChosen={choose} writeCookie={false} />
+        ) : (
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
+            <p className="flex items-start gap-2 text-[14px] leading-snug text-fg-muted md:max-w-2xl">
+              <Cookie aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
+              <span>
+                {t("bannerLead")}{" "}
+                <Link href="/talents/confidentialite#cookies" className="font-bold text-accent underline-offset-4 hover:underline">
+                  {t("readMore")}
+                </Link>
+              </span>
+            </p>
+            <div className="grid shrink-0 grid-cols-3 gap-2 md:flex">
+              <Button size="md" className="whitespace-normal px-2 text-[13px] leading-tight" onClick={() => choose({ analytics: true, marketing: true })}>
+                {t("acceptAll")}
+              </Button>
+              <Button size="md" variant="secondary" className="whitespace-normal border-border-strong px-2 text-[13px] leading-tight" onClick={() => choose(NECESSARY_ONLY)}>
+                {t("reject")}
+              </Button>
+              <Button size="md" variant="secondary" className="whitespace-normal border-border-strong px-2 text-[13px] leading-tight" onClick={() => setManaging(true)}>
+                {t("bannerManage")}
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

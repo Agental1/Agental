@@ -1,29 +1,52 @@
+import { randomInt } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
 import { prisma } from "@/lib/db";
 
 /**
- * Round 11, group 3: the Privacy Policy accepted once at the next sign-in
- * (older accounts, Google sign-ups), and the admin's filters and CSV, on the
- * real local database.
+ * Round 11.1, group 4: one box at sign-up (Privacy Policy and cookies), no
+ * acceptance screen for signed-in people, Google sign-ups record the Privacy
+ * acceptance, and the admin's filters and CSV, on the real local database.
  */
 const P = "test-legal-r11-";
-const session: { user: { id?: string } | null } = { user: null };
-vi.mock("@/auth", () => ({ auth: async () => session }));
+/** Accounts the tests create through sign-up, kept apart from the seeded ones the admin filters count. */
+const S = "test-legal-r11s-";
+const ip = `198.51.100.${randomInt(1, 254)}`;
+const banner: { choice: { analytics: boolean; marketing: boolean } | null; written: unknown[] } = { choice: null, written: [] };
+vi.mock("next/headers", () => ({ headers: async () => new Headers({ "x-real-ip": ip }) }));
+vi.mock("@/auth", () => ({ signIn: async () => undefined, signOut: async () => undefined }));
+vi.mock("next-auth", () => ({ AuthError: class AuthError extends Error {} }));
+vi.mock("@/lib/consent", () => ({
+  readConsentCookie: async () => banner.choice,
+  writeConsentCookie: async (c: unknown) => void banner.written.push(c),
+}));
+vi.mock("@/lib/email-code", () => ({ sendEmailCode: async () => ({ ok: false }) }));
 
-const { acceptLegalDocuments } = await import("@/app/actions/legal");
-const { PRIVACY_POLICY_VERSION, TERMS_VERSION, needsLegalAcceptance } = await import("@/domain/legal-versions");
+const { signupAction } = await import("@/app/actions/auth");
+const { createOAuthUser } = await import("@/lib/auth/resolve-oauth-user");
+const { PRIVACY_POLICY_VERSION } = await import("@/domain/legal-versions");
+const { CONSENT_POLICY_VERSION } = await import("@/domain/consent");
+const { abuseKeyHash } = await import("@/lib/rate-key");
 const { listAccounts, accountFiltersFrom, accountsCsv } = await import("@/lib/admin/accounts");
 const { listCookieChoices, cookieFiltersFrom, cookiesCsv } = await import("@/lib/admin/cookies");
 
 const local = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL ?? "");
+const password = "Long-Test-Passphrase-r111!";
 let older: string;
 let google: string;
 let accepted: string;
 
-describe.skipIf(!local)("Privacy Policy acceptance (round 11)", () => {
+function form(address: string, box = true): FormData {
+  const f = new FormData();
+  for (const [k, v] of Object.entries({ email: address, password, kind: "TALENT", locale: "en" })) f.set(k, v);
+  if (box) f.set("privacy", "yes");
+  return f;
+}
+
+describe.skipIf(!local)("Privacy Policy and cookies, one box (round 11.1)", () => {
   beforeAll(async () => {
     older = (await prisma.user.create({ data: { email: `${P}older@test.local`, passwordHash: "x", kind: "TALENT" } })).id;
-    google = (await prisma.user.create({ data: { email: `${P}google@test.local`, passwordHash: null, kind: "TALENT", emailVerified: new Date() } })).id;
+    google = (await prisma.user.create({ data: { email: `${P}google@test.local`, passwordHash: null, kind: "TALENT", emailVerified: new Date(), privacyAcceptedAt: new Date(), privacyVersion: PRIVACY_POLICY_VERSION } })).id;
     accepted = (
       await prisma.user.create({
         data: { email: `${P}accepted@test.local`, passwordHash: "x", kind: "CASTING", privacyAcceptedAt: new Date("2026-11-24T18:00:00Z"), privacyVersion: PRIVACY_POLICY_VERSION },
@@ -31,42 +54,57 @@ describe.skipIf(!local)("Privacy Policy acceptance (round 11)", () => {
     ).id;
   });
   afterAll(async () => {
-    const ids = [older, google, accepted];
+    const users = await prisma.user.findMany({ where: { OR: [{ email: { startsWith: P } }, { email: { startsWith: S } }] }, select: { id: true } });
+    const ids = users.map((u) => u.id);
+    await prisma.rateLimitEvent.deleteMany({ where: { key: { in: [`signup:ip:${abuseKeyHash(ip)}`, `signup-created:ip:${abuseKeyHash(ip)}`] } } });
     await prisma.auditLog.deleteMany({ where: { OR: [{ resourceId: { in: ids } }, { actorUserId: { in: ids } }] } });
+    await prisma.account.deleteMany({ where: { userId: { in: ids } } });
     await prisma.user.deleteMany({ where: { id: { in: ids } } });
   });
 
-  it("asks an account with no acceptance, or an older version, and not one on the current version", () => {
-    const none = { privacyAcceptedAt: null, privacyVersion: null, termsAcceptedAt: null, termsVersion: null };
-    expect(needsLegalAcceptance(none, false)).toBe(true);
-    expect(needsLegalAcceptance({ ...none, privacyAcceptedAt: new Date(), privacyVersion: "2026-01-01" }, false)).toBe(true);
-    const current = { ...none, privacyAcceptedAt: new Date(), privacyVersion: PRIVACY_POLICY_VERSION };
-    expect(needsLegalAcceptance(current, false)).toBe(false);
-    // Once the Terms are published, they are asked too.
-    expect(needsLegalAcceptance(current, true)).toBe(true);
-    expect(needsLegalAcceptance({ ...current, termsAcceptedAt: new Date(), termsVersion: TERMS_VERSION }, true)).toBe(false);
+  it("refuses a sign-up without the box, creating nothing", async () => {
+    const email = `${S}nobox@test.local`;
+    expect(await signupAction(undefined, form(email, false))).toEqual({ error: { key: "errors.privacyRequired" } });
+    expect(await prisma.user.count({ where: { email } })).toBe(0);
   });
 
-  it("refuses without a session or without the box", async () => {
-    session.user = null;
-    expect(await acceptLegalDocuments(true)).toEqual({ ok: false, error: { key: "errors.unauthorized" } });
-    session.user = { id: older };
-    expect(await acceptLegalDocuments(false)).toEqual({ ok: false, error: { key: "errors.privacyRequired" } });
-    expect((await prisma.user.findUniqueOrThrow({ where: { id: older } })).privacyAcceptedAt).toBeNull();
+  it("with the box and no banner choice: accepted-all cookies, the privacy version, and the browser cookie follows", async () => {
+    const email = `${S}all@test.local`;
+    banner.choice = null;
+    banner.written = [];
+    expect(await signupAction(undefined, form(email))).toBeUndefined();
+    const u = await prisma.user.findFirstOrThrow({ where: { email } });
+    expect(u).toMatchObject({ consentAnalytics: true, consentMarketing: true, consentVersion: CONSENT_POLICY_VERSION, privacyVersion: PRIVACY_POLICY_VERSION });
+    expect(u.consentAt).toBeInstanceOf(Date);
+    expect(u.privacyAcceptedAt).toBeInstanceOf(Date);
+    expect(banner.written).toEqual([{ analytics: true, marketing: true }]);
   });
 
-  it("records the date and version once ticked, audited, for a password and a Google account", async () => {
-    for (const id of [older, google]) {
-      session.user = { id };
-      expect(await acceptLegalDocuments(true)).toEqual({ ok: true });
-      const u = await prisma.user.findUniqueOrThrow({ where: { id } });
-      expect(u.privacyVersion).toBe(PRIVACY_POLICY_VERSION);
-      expect(u.privacyAcceptedAt).toBeInstanceOf(Date);
-      expect(u.termsVersion).toBeNull();
-      expect(needsLegalAcceptance(u, false)).toBe(false);
-      const log = await prisma.auditLog.findFirstOrThrow({ where: { resourceId: id, action: "legal.accepted" } });
-      expect(JSON.parse(String(log.after))).toMatchObject({ privacyVersion: PRIVACY_POLICY_VERSION, via: "prompt" });
+  it("with a prior Reject in the banner, the account keeps reject", async () => {
+    const email = `${S}reject@test.local`;
+    banner.choice = { analytics: false, marketing: false };
+    banner.written = [];
+    expect(await signupAction(undefined, form(email))).toBeUndefined();
+    const u = await prisma.user.findFirstOrThrow({ where: { email } });
+    expect(u).toMatchObject({ consentAnalytics: false, consentMarketing: false, privacyVersion: PRIVACY_POLICY_VERSION });
+    expect(u.consentAt).toBeInstanceOf(Date);
+    expect(banner.written).toEqual([]);
+  });
+
+  it("a Google sign-up records the Privacy acceptance at creation", async () => {
+    const res = await createOAuthUser(prisma, { provider: "google", providerAccountId: `${S}sub`, email: `${S}oauth@test.local`, emailAuthoritative: true, name: "G", image: null } as never, "TALENT", "en");
+    expect(res.type).toBe("created");
+    const u = await prisma.user.findFirstOrThrow({ where: { email: `${S}oauth@test.local` } });
+    expect(u.privacyVersion).toBe(PRIVACY_POLICY_VERSION);
+    expect(u.privacyAcceptedAt).toBeInstanceOf(Date);
+  });
+
+  it("no acceptance screen exists: layouts never block an account without acceptance", () => {
+    for (const side of ["talents", "casting"]) {
+      const src = readFileSync(`src/app/[locale]/${side}/(space)/layout.tsx`, "utf8");
+      expect(src).not.toMatch(/AcceptPrivacyScreen|needsLegalAcceptance/);
     }
+    expect(() => readFileSync("src/components/legal/accept-privacy.tsx")).toThrow();
   });
 
   it("filters accounts by acceptance and puts date and version in the CSV", async () => {

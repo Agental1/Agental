@@ -208,7 +208,7 @@
     "recordedOn": "Registrado el {date}, versión del aviso {version}.",
     "notRecorded": "Aún no hay ninguna elección registrada. Solo se usan las cookies estrictamente necesarias.",
     "readMore": "Más información",
-    "accountSecurity": "Cómo protegemos las cuentas"
+    "bannerManage": "Gestionar"
   },
   "tour": {
     "start": "Empieza aquí",
@@ -414,14 +414,6 @@
       }
     ]
   },
-  "legalAccept": {
-    "title": "Antes de continuar",
-    "lead": "Actualizamos nuestra Política de privacidad. Léela y acéptala una vez para seguir usando Agental.",
-    "security": "Explica cómo detectamos el spam y las cuentas falsas, y que podemos eliminar cuentas sin verificar o abusivas: <security>Seguridad de las cuentas y abusos</security>.",
-    "agreePrivacy": "Acepto la <privacy>Política de privacidad</privacy>.",
-    "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy> y las <terms>Condiciones del servicio</terms>.",
-    "continue": "Continuar",
-    "signOut": "Cerrar sesión",
-    "deleteInstead": "¿Prefieres eliminar tu cuenta? Escribe a contact@agental.co."
-  }
+  "oauthAgree": "Al continuar, aceptas la <privacy>Política de privacidad</privacy> y el uso de cookies.",
+  "oauthAgreeTerms": "Al continuar, aceptas la <privacy>Política de privacidad</privacy>, las <terms>Condiciones del servicio</terms> y el uso de cookies."
 }

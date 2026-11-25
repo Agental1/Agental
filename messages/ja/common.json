@@ -208,7 +208,7 @@
     "recordedOn": "{date} に記録、通知バージョン {version}。",
     "notRecorded": "まだ選択が記録されていません。必須の Cookie のみ使用しています。",
     "readMore": "詳しく見る",
-    "accountSecurity": "アカウントの保護について"
+    "bannerManage": "管理"
   },
   "tour": {
     "start": "ここから始める",
@@ -414,14 +414,6 @@
       }
     ]
   },
-  "legalAccept": {
-    "title": "続ける前に",
-    "lead": "プライバシーポリシーを更新しました。Agental を引き続きご利用いただくには、一度お読みのうえ同意してください。",
-    "security": "スパムや偽のアカウントをどのように見つけているか、また未確認または不正なアカウントを削除する場合があることを説明しています：<security>アカウントのセキュリティと不正利用</security>。",
-    "agreePrivacy": "<privacy>プライバシーポリシー</privacy>に同意します。",
-    "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>と<terms>利用規約</terms>に同意します。",
-    "continue": "続ける",
-    "signOut": "ログアウト",
-    "deleteInstead": "アカウントを削除したい場合は、contact@agental.co までご連絡ください。"
-  }
+  "oauthAgree": "続行すると、<privacy>プライバシーポリシー</privacy>とCookieの使用に同意したことになります。",
+  "oauthAgreeTerms": "続行すると、<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意したことになります。"
 }

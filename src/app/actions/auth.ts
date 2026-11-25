@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db";
 import { signIn, signOut } from "@/auth";
 import { LoginInput, SignupInput } from "@/domain/auth";
 import { consentColumns } from "@/domain/consent";
-import { readConsentCookie } from "@/lib/consent";
+import { readConsentCookie, writeConsentCookie } from "@/lib/consent";
 import { authAllowed, captchaPassed, recordSignupOutcome, retryMinutes, signupAllowed } from "@/lib/abuse";
 import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
@@ -33,7 +33,7 @@ export async function signupAction(
     return { error: zodError(parsed.error) };
   }
   const { email, password, kind, locale } = parsed.data;
-  // Round 11: "I agree to the Privacy Policy" (and the Terms once published) is required.
+  // One box: the Privacy Policy and the use of cookies (and the Terms once published) is required.
   if (formData.get("privacy") !== "yes") return { error: err("errors.privacyRequired") };
 
   if (!(await captchaPassed(formData.get("cf-turnstile-response")))) {
@@ -51,15 +51,19 @@ export async function signupAction(
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  // The cookie choice made at the consent step, if any, becomes the record.
-  const consent = await readConsentCookie();
+  // One box covers the Privacy Policy and the use of cookies. A choice already made
+  // in the banner is kept (an account never gets less than it picked); with none,
+  // the box counts as "accept all", and the browser cookie follows so no banner shows.
+  const banner = await readConsentCookie();
+  const consent = banner ?? { analytics: true, marketing: true };
+  if (!banner) await writeConsentCookie(consent).catch(() => undefined);
   const user = await prisma.user.create({
     data: {
       email,
       passwordHash,
       kind,
       locale,
-      ...(consent ? consentColumns(consent) : {}),
+      ...consentColumns(consent),
       ...acceptanceColumns(termsPageEnabled()),
     },
   });
@@ -69,7 +73,7 @@ export async function signupAction(
     action: "user.signup",
     resourceType: "User",
     resourceId: user.id,
-    after: { kind, privacyVersion: PRIVACY_POLICY_VERSION },
+    after: { kind, privacyVersion: PRIVACY_POLICY_VERSION, consentAnalytics: consent.analytics, consentMarketing: consent.marketing },
   });
 
   // Round 10: a 6-digit code goes out at once and the next screen asks for it

@@ -196,7 +196,7 @@ vi.mock("@/lib/mailer", () => ({ sendEmail, emailSenderConfigured }));
 // Round 10: sign-up sends a 6-digit code (src/lib/email-code.ts, tested on its own).
 const { sendEmailCode } = vi.hoisted(() => ({ sendEmailCode: vi.fn() }));
 vi.mock("@/lib/email-code", () => ({ sendEmailCode }));
-vi.mock("@/lib/consent", () => ({ readConsentCookie: async () => null }));
+vi.mock("@/lib/consent", () => ({ readConsentCookie: async () => null, writeConsentCookie: async () => undefined }));
 
 const {
   requestEmailVerification,
