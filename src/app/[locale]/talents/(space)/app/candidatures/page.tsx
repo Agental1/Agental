@@ -7,7 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { Radar } from "lucide-react";
-import { getRoleSearchQuota, listMyRoleSearches } from "@/lib/role-search";
+import { getRoleSearchQuota, listMyRoleSearches, searchesWillStart } from "@/lib/role-search";
 import { date, dateTime } from "@/lib/format";
 import { hoursUntil, searchPaceFor, searchSpacingHoursFor } from "@/domain/role-search";
 import { readSubmission } from "@/domain/application-response";
@@ -59,9 +59,11 @@ export default async function CandidaturesPage({
   // once (slots); each queued search shows its expected start, from its
   // scheduled time.
   const now = new Date();
-  const [searches, quota] = await Promise.all([
+  const [searches, quota, starts] = await Promise.all([
     listMyRoleSearches(session.user.id, 30),
     getRoleSearchQuota(session.user.id, now),
+    // Round 11.1: no start time or estimate while searches cannot start.
+    searchesWillStart(session.user.id),
   ]);
   const queued = searches
     .filter((r) => r.status === "queued")
@@ -198,7 +200,9 @@ export default async function CandidaturesPage({
         ) : (
           <>
           {/* Until the search engine is connected (round 9), nothing comes back: say so. */}
-          <p className="text-[15px] font-medium">{t("space.candidatures.queue.queuedHonest")}</p>
+          <p className="text-[15px] font-medium">
+            {starts ? t("space.candidatures.queue.queuedHonest") : t("space.dashboard.findRoles.notice.waiting")}
+          </p>
           <ul className="space-y-2">
             {queued.map((r, i) => {
               const h = hoursUntil(r.scheduledFor ?? r.createdAt, now);
@@ -207,7 +211,7 @@ export default async function CandidaturesPage({
                   <Radar aria-hidden="true" className="size-5 shrink-0 text-fg-muted" />
                   <div className="min-w-0 flex-1">
                     <p className="font-medium">{t("space.candidatures.queue.item", { n: i + 1 })}</p>
-                    <p className="text-sm text-fg-muted">
+                    {starts && <p className="text-sm text-fg-muted">
                       {h === 0 ? t("space.candidatures.queue.soon") : t("space.candidatures.queue.startsIn", { hours: h })}
                       {h > 0 && (
                         <>
@@ -215,7 +219,7 @@ export default async function CandidaturesPage({
                           {t("space.candidatures.queue.startsAt", { date: dateTime(r.scheduledFor ?? r.createdAt, locale) })}
                         </>
                       )}
-                    </p>
+                    </p>}
                   </div>
                 </li>
               );

@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { turnSearchesOn } from "../helpers/search-run";
 import { completeProfile } from "../helpers/complete-profile";
 
 /**
@@ -52,7 +53,9 @@ let adminId = "";
 let parked: { id: string; status: string }[] = [];
 
 describe.skipIf(!local)("round 9: searches through n8n, three fictional performers", () => {
+  let restoreRun: () => Promise<void> = async () => {};
   beforeAll(async () => {
+    restoreRun = await turnSearchesOn();
     vi.stubEnv("N8N_SHARED_SECRET", SECRET);
     vi.stubEnv("SEARCH_COST_CEILING_USD", "0.50");
     parked = await prisma.roleSearchRequest.findMany({ where: { status: { in: ["queued", "running"] } }, select: { id: true, status: true } });
@@ -84,6 +87,7 @@ describe.skipIf(!local)("round 9: searches through n8n, three fictional performe
   });
 
   afterAll(async () => {
+    await restoreRun();
     vi.unstubAllEnvs();
     for (const r of parked) await prisma.roleSearchRequest.update({ where: { id: r.id }, data: { status: r.status } });
     const rows = await prisma.roleSearchRequest.findMany({ where: { user: { email: { startsWith: P } } }, select: { id: true } });

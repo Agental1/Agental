@@ -57,6 +57,18 @@ Tick every line. If one cannot be ticked, do not switch.
       emails that reach contact@agental.co during a pause are not drafted after Resume; answer
       them in Gmail.
 
+## 5b. The "Run searches" switch (round 11.1)
+
+- Admin > Controls > **Run searches** is off by default. While off, every search (the first
+  automatic one at 100% and each click) is queued and stays there: the n8n claim returns an empty
+  list, nothing reaches n8n, nothing costs money, and performers read "Your search is queued.
+  Searches start soon: we'll let you know." with no start time.
+- "AI searches are open to" now only decides who may queue; its default is "All verified performers
+  at 100%". A search uses the plan's allowance when it starts; queued + running + used never passes it.
+- [ ] Turn Run searches on (the confirmation box is required) only after section 4 passed. Even on,
+      test mode still runs Test accounts only; real performers' searches wait for `WORKFLOW_MODE=live`.
+      Admin > Audit shows `admin.searchRun.on` / `admin.searchRun.off`.
+
 ## 6. Accounts
 
 - [ ] Junk accounts deleted or marked Spam in Admin > Accounts.
@@ -76,7 +88,8 @@ Tick every line. If one cannot be ticked, do not switch.
 4. Within six hours (the workflow claims searches every six hours): Admin > Applications and AI
    jobs shows searches claimed. Within the hour: Admin > Emails shows automatic emails (once their
    categories are approved); Admin > Replies to approve fills as emails arrive.
-5. If anything looks wrong: Admin > Controls > **Pause everything** (immediate), then tell the agent.
+5. If anything looks wrong: Admin > Controls > **Pause everything** or turn **Run searches** off
+   (both immediate), then tell the agent.
 
 ## Going back to test mode
 

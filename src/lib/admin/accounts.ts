@@ -10,7 +10,7 @@ import { removalBlock, type RemovalBlock } from "@/domain/account-removal";
 import { accountType, effectiveStatus, isTestAccount, type AccountType } from "@/domain/account-model";
 import { searchBlock, type SearchBlock } from "@/domain/search-block";
 import { completenessInputOf, missingItems } from "@/domain/completeness";
-import { COUNTED_STATUSES, allowanceFor, periodActive, periodKeyFor } from "@/domain/role-search";
+import { COUNTED_STATUSES, allowanceFor, periodActive } from "@/domain/role-search";
 import { consentChoiceOf, type ConsentChoice } from "@/domain/consent-choice";
 import { isAdult } from "@/domain/age";
 import type { PlanB2C } from "@/domain/enums";
@@ -200,16 +200,21 @@ export async function listAccounts(f: AccountFilters = {}, take = 10000): Promis
   // Round 10: the same plan the performer's quota uses (a comp plan included).
   const planOf = new Map(subs.map((s) => [s.subjectId, effectivePlan(s, now).plan]));
   const paid = await paidUserIds(users.map((u) => u.id));
-  // Searches counted this period, in one query (same rule as getRoleSearchQuota).
+  // Searches held now, in one query (same rule as heldSearches, round 11.1):
+  // queued and running ones, plus the ones started this period.
   const counted = await prisma.roleSearchRequest.findMany({
     where: { userId: { in: users.map((u) => u.id) }, status: { in: [...COUNTED_STATUSES] } },
-    select: { userId: true, periodKey: true, createdAt: true },
+    select: { userId: true, status: true, startedAt: true, createdAt: true },
   });
   const usedOf = (u: { id: string; searchPeriodStartedAt: Date | null; searchQuotaResetAt: Date | null }) => {
     const start = u.searchPeriodStartedAt;
-    if (!periodActive(start, now)) return 0;
-    const key = periodKeyFor(start!);
-    return counted.filter((r) => r.userId === u.id && r.periodKey === key && (!u.searchQuotaResetAt || r.createdAt >= u.searchQuotaResetAt)).length;
+    const active = periodActive(start, now);
+    return counted.filter(
+      (r) =>
+        r.userId === u.id &&
+        (!u.searchQuotaResetAt || r.createdAt >= u.searchQuotaResetAt) &&
+        (r.status !== "done" || (active && (r.startedAt ?? r.createdAt) >= start!))
+    ).length;
   };
   const rows: AccountRow[] = users.map((u) => {
     const facts = factsFrom(u, now);

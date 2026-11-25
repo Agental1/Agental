@@ -5,7 +5,7 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
 import { isEmailCategory } from "@/lib/email-unsubscribe";
-import { setEmailCategoryApproved, setEmailVerificationRequired, setPaused, setSearchAccess } from "@/lib/app-settings";
+import { setEmailCategoryApproved, setEmailVerificationRequired, setPaused, setSearchAccess, setSearchesRunning } from "@/lib/app-settings";
 import { isSearchAccess } from "@/domain/workflow/eligibility";
 
 /** Round 9: approve (or stop) one automatic email category. Admins only, audited. */
@@ -27,6 +27,22 @@ export async function setPauseForm(formData: FormData): Promise<void> {
   if (adminId) await setPaused(adminId, formData.get("paused") === "1");
   revalidatePath("/[locale]/admin", "layout");
   redirect({ href: "/admin/controles?saved=1", locale });
+}
+
+/**
+ * Round 11.1: "Run searches". Turning it on needs the confirmation box (each
+ * search then costs money); turning it off never does. Admins only, audited.
+ */
+export async function setRunSearchesForm(formData: FormData): Promise<void> {
+  const locale = toLocale(String(formData.get("locale") ?? "en"));
+  const adminId = await currentAdminId();
+  const running = formData.get("running") === "1";
+  if (adminId && (!running || formData.get("confirm") === "yes")) {
+    await setSearchesRunning(adminId, running);
+    revalidatePath("/[locale]/admin", "layout");
+    redirect({ href: "/admin/controles?saved=1#run", locale });
+  }
+  redirect({ href: "/admin/controles?runConfirm=1#run", locale });
 }
 
 /**

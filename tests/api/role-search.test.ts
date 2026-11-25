@@ -27,8 +27,15 @@ let spam: string;
 let minor: string;
 let limited: string;
 
+let savedAccess: { value: string; updatedById: string | null } | null = null;
+
 describe.skipIf(!local)("AI role searches", () => {
   beforeAll(async () => {
+    // These cases are the "Test accounts only" setting: pinned here, never read
+    // from whatever the local database happens to hold (round 11.1).
+    savedAccess = await prisma.appSetting.findUnique({ where: { key: "search.access" }, select: { value: true, updatedById: true } });
+    const pinned = JSON.stringify({ access: "test_only" });
+    await prisma.appSetting.upsert({ where: { key: "search.access" }, create: { key: "search.access", value: pinned }, update: { value: pinned } });
     // Verified, adult test accounts: the only kind staging lets through.
     const make = (name: string, over: Record<string, unknown> = {}) =>
       prisma.user.create({
@@ -61,6 +68,8 @@ describe.skipIf(!local)("AI role searches", () => {
   });
 
   afterAll(async () => {
+    await prisma.appSetting.deleteMany({ where: { key: "search.access" } });
+    if (savedAccess) await prisma.appSetting.create({ data: { key: "search.access", ...savedAccess } });
     const users = await prisma.user.findMany({ where: { email: { startsWith: P } }, select: { id: true } });
     const ids = users.map((u) => u.id);
     await prisma.subscription.deleteMany({ where: { subjectId: { in: ids } } });
@@ -143,15 +152,17 @@ describe.skipIf(!local)("AI role searches", () => {
     await startRoleSearch(pro, key(401));
     const again = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
     expect(again.searchPeriodStartedAt?.getTime()).toBe(u.searchPeriodStartedAt?.getTime());
-    expect((await getRoleSearchQuota(pro)).used).toBe(2);
+    // Round 11.1: queued searches hold their place but use nothing until they start.
+    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, held: 2, remaining: 48 });
   });
 
   it("resets after 30 days and the next search opens a new period", async () => {
     const old = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
     await prisma.user.update({ where: { id: pro }, data: { searchPeriodStartedAt: old } });
-    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, remaining: 50, resetsAt: null });
+    // Round 11.1: the two searches still queued used nothing, and still hold their place.
+    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, held: 2, remaining: 48, resetsAt: null });
     const res = await startRoleSearch(pro, key(402));
-    expect(res.ok && res.quota.used === 1).toBe(true);
+    expect(res.ok && res.quota.used === 0 && res.quota.held === 3).toBe(true);
     const u = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
     expect(u.searchPeriodStartedAt!.getTime()).toBeGreaterThan(old.getTime() + 30 * 24 * 60 * 60 * 1000);
   });

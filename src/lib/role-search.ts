@@ -15,6 +15,9 @@ import {
   type RoleSearchQuota,
 } from "@/domain/role-search";
 import { B2C_PLANS } from "@/domain/pricing";
+import { workflowMode as currentMode } from "@/domain/workflow/eligibility";
+import { effectiveStatus } from "@/domain/account-model";
+import { searchesRunning } from "@/lib/app-settings";
 
 /**
  * AI role searches, server side. The quota is checked and the row written in
@@ -37,17 +40,42 @@ export async function getRoleSearchQuota(userId: string, now = new Date()): Prom
     select: { searchPeriodStartedAt: true, searchQuotaResetAt: true },
   });
   const start = user?.searchPeriodStartedAt ?? null;
-  const used = periodActive(start, now)
-    ? await prisma.roleSearchRequest.count({
-        where: {
-          userId,
-          periodKey: periodKeyFor(start),
-          status: { in: [...COUNTED_STATUSES] },
-          ...sinceReset(user?.searchQuotaResetAt),
-        },
-      })
+  const active = periodActive(start, now);
+  const { used, held } = await heldSearches(prisma, userId, active ? start : null, user?.searchQuotaResetAt);
+  return quotaFrom(plan, used, start, now, held.length);
+}
+
+type Db = Pick<typeof prisma, "roleSearchRequest">;
+
+/**
+ * Round 11.1 (founder): a search uses the allowance only once it starts, in the
+ * period it starts in (`used`: running or done, started since the period
+ * began). `held` is what the performer holds now: every queued and running
+ * search plus the ones used this period; a click is refused once it reaches
+ * the allowance. A queued search that never ran used nothing when the period
+ * resets, but still holds its place. Rows from before a staff quota reset
+ * count nowhere. Legacy rows without a start time use their creation time.
+ */
+export async function heldSearches(
+  db: Db,
+  userId: string,
+  periodStart: Date | null,
+  resetAt: Date | null | undefined
+): Promise<{ used: number; held: { clientKey: string | null; startedAt: Date | null; createdAt: Date }[] }> {
+  const startedThisPeriod = periodStart
+    ? [
+        { status: { in: ["running", "done"] }, startedAt: { gte: periodStart } },
+        { status: { in: ["running", "done"] }, startedAt: null, createdAt: { gte: periodStart } },
+      ]
+    : [];
+  const rows = await db.roleSearchRequest.findMany({
+    where: { userId, ...sinceReset(resetAt), OR: [{ status: { in: [...IN_PROGRESS_STATUSES] } }, ...startedThisPeriod] },
+    select: { clientKey: true, status: true, startedAt: true, createdAt: true },
+  });
+  const used = periodStart
+    ? rows.filter((r) => r.status !== "queued" && (r.startedAt ?? r.createdAt) >= periodStart).length
     : 0;
-  return quotaFrom(plan, used, start, now);
+  return { used, held: rows };
 }
 
 /** How many recent searches the schedule reads at least (it needs `slots` of them). */
@@ -87,7 +115,6 @@ export async function startRoleSearch(
       where: { id: userId },
       select: { searchPeriodStartedAt: true, searchQuotaResetAt: true },
     });
-    const reset = sinceReset(u?.searchQuotaResetAt);
     const stored = u?.searchPeriodStartedAt ?? null;
     const active = periodActive(stored, now);
     const start = active ? stored : now;
@@ -98,10 +125,8 @@ export async function startRoleSearch(
       where: { userId_clientKey: { userId, clientKey } },
       select: { id: true },
     });
-    const counted = await tx.roleSearchRequest.findMany({
-      where: { userId, periodKey, status: { in: [...COUNTED_STATUSES] }, ...reset },
-      select: { seq: true, clientKey: true },
-    });
+    // Round 11.1: held = queued + running + started this period (heldSearches).
+    const { used: usedNow, held: counted } = await heldSearches(tx, userId, active ? start : null, u?.searchQuotaResetAt);
     // The gate, before anything is queued or a retried click is answered.
     // Checked under the lock, so a status changed by staff a moment earlier
     // is the one that counts.
@@ -111,24 +136,27 @@ export async function startRoleSearch(
         ok: false as const,
         reason: "ineligible" as const,
         why: eligible.reason,
-        quota: quotaFrom(plan, counted.length, active ? start : null, now),
+        quota: quotaFrom(plan, usedNow, active ? start : null, now, counted.length),
       };
     }
     if (existing) {
-      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, counted.length, start, now) };
+      return { ok: true as const, id: existing.id, duplicate: true, quota: quotaFrom(plan, usedNow, start, now, counted.length) };
     }
     if (counted.length >= allowance.count) {
-      return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
+      return { ok: false as const, reason: "quota_exhausted" as const, quota: quotaFrom(plan, usedNow, start, now, counted.length) };
     }
     // Searches the server starts on its own have their own monthly cap,
     // inside the allowance (B2C_PLANS[plan].autoSearches).
     if (scheduled === true && isAutoKey(clientKey)) {
       // Scheduled searches share the plan's automatic cap; the first automatic
       // search is counted in it too, but never refused by it.
-      const auto = counted.filter((r) => isAutoKey(r.clientKey)).length;
+      // Round 11.1: this period's automatic searches only (queued or started in it).
+      const auto = active
+        ? counted.filter((r) => isAutoKey(r.clientKey) && (r.startedAt ?? r.createdAt) >= start).length
+        : 0;
       const cap = B2C_PLANS[plan].autoSearches;
       if (cap !== null && auto >= cap) {
-        return { ok: false as const, reason: "auto_exhausted" as const, quota: quotaFrom(plan, counted.length, start, now) };
+        return { ok: false as const, reason: "auto_exhausted" as const, quota: quotaFrom(plan, usedNow, start, now, counted.length) };
       }
     }
     // The count above decides the quota (a failed search gives its place
@@ -168,7 +196,7 @@ export async function startRoleSearch(
       data: { userId, plan, periodKey, seq, clientKey, status: "queued", scheduledFor },
       select: { id: true },
     });
-    return { ok: true as const, id: row.id, duplicate: false, scheduledFor, quota: quotaFrom(plan, counted.length + 1, start, now) };
+    return { ok: true as const, id: row.id, duplicate: false, scheduledFor, quota: quotaFrom(plan, usedNow, start, now, counted.length + 1) };
   });
 }
 
@@ -220,6 +248,24 @@ export interface MySearchStatus {
   slots: number;
   /** When the next queued search is expected to start (ISO), when still ahead; else null. */
   nextStart: string | null;
+  /** Round 11.1: queued searches cannot start yet (no start time is shown). */
+  waiting: boolean;
+}
+
+/**
+ * Round 11.1: will this performer's queued searches start? Only while "Run
+ * searches" is on, and only for an account that runs in the current mode
+ * (Test accounts in test mode, real ones in live), the claim's own rule.
+ */
+export async function searchesWillStart(userId: string, mode: WorkflowMode = currentMode()): Promise<boolean> {
+  if (!(await searchesRunning())) return false;
+  const u = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { kind: true, isStaff: true, isAdmin: true, accountStatus: true },
+  });
+  if (!u) return false;
+  const status = effectiveStatus(u);
+  return mode === "live" ? status === "UNREVIEWED" || status === "APPROVED" : status === "TEST";
 }
 
 /**
@@ -227,7 +273,7 @@ export interface MySearchStatus {
  * from the role-search workflow). Failed and canceled searches are not shown.
  */
 export async function getMySearchStatus(userId: string, now = new Date()): Promise<MySearchStatus> {
-  const [byStatus, rolesFound, { plan }, next] = await Promise.all([
+  const [byStatus, rolesFound, { plan }, next, starts] = await Promise.all([
     prisma.roleSearchRequest.groupBy({
       by: ["status"],
       where: { userId, status: { in: ["queued", "running", "done"] } },
@@ -243,6 +289,7 @@ export async function getMySearchStatus(userId: string, now = new Date()): Promi
       orderBy: [{ scheduledFor: "asc" }],
       select: { scheduledFor: true },
     }),
+    searchesWillStart(userId),
   ]);
   const n = (s: string) => byStatus.find((r) => r.status === s)?._count._all ?? 0;
   return {
@@ -251,6 +298,8 @@ export async function getMySearchStatus(userId: string, now = new Date()): Promi
     finished: n("done"),
     rolesFound,
     slots: searchPaceFor(plan).slots,
-    nextStart: next?.scheduledFor ? next.scheduledFor.toISOString() : null,
+    // No start time or estimate while searches cannot start.
+    nextStart: starts && next?.scheduledFor ? next.scheduledFor.toISOString() : null,
+    waiting: !starts,
   };
 }
