@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Check, ChevronDown, Globe } from "lucide-react";
 import { usePathname, Link } from "@/i18n/navigation";
-import { routing, LANG_TAG, type Locale } from "@/i18n/routing";
+import { LANG_TAG, LOCALES_SORTED, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 /**
@@ -76,7 +76,7 @@ function Inline({ className, search }: { className?: string; search: string }) {
       aria-label={t("locale.switch")}
       className={cn("flex flex-wrap items-center gap-1 text-[14px]", className)}
     >
-      {routing.locales.map((loc) => (
+      {LOCALES_SORTED.map((loc) => (
         <Link
           key={loc}
           href={href}
@@ -151,7 +151,7 @@ function Menu({ className, search }: { className?: string; search: string }) {
           aria-label={t("locale.switch")}
           className="absolute right-0 top-[calc(100%+10px)] z-50 w-44 rounded-sedan-lg border border-border bg-surface p-1.5 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.45)]"
         >
-          {routing.locales.map((loc) => (
+          {LOCALES_SORTED.map((loc) => (
             <Link
               key={loc}
               href={href}

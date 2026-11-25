@@ -1,0 +1,427 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "이용 방법",
+    "castingTypes": "캐스팅 유형",
+    "pricing": "요금",
+    "faq": "자주 묻는 질문",
+    "about": "회사 소개",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기",
+    "skipToContent": "본문으로 건너뛰기",
+    "signIn": "로그인",
+    "portalSwitch": "Agental Talents와 Agental Casting 간 전환"
+  },
+  "footer": {
+    "tagline": "AI를 기본으로 갖춘 최초의 아티스트 에이전시.",
+    "legalTitle": "법적 고지",
+    "prefectorale": "미국 베타 서비스예요. 대리 서비스는 베타에 포함되지 않아요.",
+    "rgpd": "GDPR",
+    "mentions": "법적 고지",
+    "cgu": "이용약관",
+    "rights": "© {year} Agental. 모든 권리 보유.",
+    "sections": {
+      "product": "제품",
+      "company": "Agental",
+      "legal": "법적 고지"
+    },
+    "backToTop": "맨 위로"
+  },
+  "locale": {
+    "switch": "언어",
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "zh": "中文",
+    "it": "Italiano",
+    "pt": "Português",
+    "ja": "日本語",
+    "ko": "한국어"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "홈으로 돌아가기",
+    "backCastings": "캐스팅 둘러보기"
+  },
+  "error": {
+    "title": "문제가 발생했어요",
+    "body": "오류가 기록되었어요. 다시 시도하면 대부분 해결돼요.",
+    "retry": "다시 시도",
+    "backHome": "홈으로 돌아가기"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "Agental은 배우가 프로필을 만들고 캐스팅 자료를 준비하도록 돕고, 캐스팅 팀이 알맞은 사람을 찾도록 도와요. 베타 서비스예요."
+  },
+  "entry": {
+    "talents": "배우예요",
+    "casting": "캐스팅을 해요",
+    "enterTalents": "Agental Talents 들어가기",
+    "enterCasting": "Agental Casting 들어가기",
+    "line": "여기서 시작하세요. 연기를 하시나요, 캐스팅을 하시나요?",
+    "createTalents": "배우 계정 만들기",
+    "createCasting": "캐스팅 계정 만들기"
+  },
+  "pricing": {
+    "details": "포함된 내용"
+  },
+  "app": {
+    "menu": "메뉴",
+    "closeMenu": "메뉴 닫기",
+    "navLabel": "앱 탐색",
+    "plan": "{name} 요금제",
+    "changePlan": "요금제 변경",
+    "changePlanLead": "요금제를 고르고 포함 내용을 확인한 뒤 확정하세요.",
+    "current": "현재 요금제",
+    "confirm": "{name}(으)로 변경",
+    "confirmCurrent": "현재 요금제예요",
+    "switching": "변경 중…",
+    "allDetails": "요금제 상세 정보 모두 보기",
+    "contact": "견적 문의하기",
+    "close": "닫기",
+    "openMessages": "메시지 열기",
+    "toast": {
+      "saved": "저장했어요",
+      "uploaded": "업로드했어요",
+      "sent": "보냈어요",
+      "loading": "불러오는 중"
+    },
+    "toggleSidebar": "메뉴 표시/숨기기 (Ctrl+B)",
+    "bell": {
+      "label": "알림",
+      "labelUnread": "알림, 읽지 않음 {count}개",
+      "title": "알림",
+      "markAll": "모두 읽음으로 표시",
+      "empty": "아직 새 소식이 없어요.",
+      "roleFound": "새 배역을 찾았어요",
+      "assistantReplied": "어시스턴트가 답장했어요",
+      "teamReplied": "Agental 팀이 답장했어요",
+      "statusChanged": "지원 현황 업데이트",
+      "agentReplied": "{name}님이 답장했어요"
+    }
+  },
+  "account": {
+    "create": "계정 만들기",
+    "signIn": "로그인",
+    "seeMore": "더 보기",
+    "tabs": "계정을 만들거나 로그인하세요"
+  },
+  "audience": {
+    "menu": "이 페이지에서",
+    "how": "이용 방법",
+    "agent": "나의 AI 에이전트",
+    "selftape": "셀프 테이프",
+    "websites": "웹사이트",
+    "pricing": "요금",
+    "faq": "자주 묻는 질문",
+    "types": "캐스팅 유형",
+    "ranking": "쇼트리스트 순위를 정하는 방법",
+    "allPlans": "모든 요금제 보기",
+    "allFaq": "모든 질문 보기",
+    "forPerformers": "배우를 위한 안내",
+    "forCasting": "캐스팅 팀을 위한 안내",
+    "typesTitle": "우리가 캐스팅하는 배역",
+    "typesLead": "보조 출연부터 조연, 광고, 성우까지. 하나의 브리프, 하나의 쇼트리스트.",
+    "student": "대학생인가요? 요금제를 고를 때 학생 코드를 입력할 수 있어요."
+  },
+  "home": {
+    "what": {
+      "title": "Agental이란",
+      "body": "Agental은 배우와 캐스팅 팀을 위한 AI 플랫폼이에요(베타). 배우는 사진, 출연 경력, 릴, 셀프 테이프로 프로필을 만들고, AI 어시스턴트가 지원서 초안을 준비해요. 무엇이든 보내기 전에 배우가 직접 검토해요. 캐스팅 팀은 이유가 함께 보이는 순위별 쇼트리스트를 받아요. 대리 업무는 베타에 포함되지 않아요.",
+      "facts": [
+        {
+          "title": "무료 가입",
+          "body": "프로필 만들기는 무료예요."
+        },
+        {
+          "title": "모든 지원은 직접 승인해요",
+          "body": "에이전트가 준비하고, 보낼지는 내가 결정해요."
+        },
+        {
+          "title": "설명이 있는 쇼트리스트",
+          "body": "모든 순위에 이유가 표시돼요."
+        }
+      ]
+    },
+    "how": {
+      "title": "Agental 이용 방법",
+      "performer": "배우",
+      "casting": "캐스팅 팀",
+      "performerSteps": [
+        "프로필 만들기",
+        "AI 에이전트가 배역을 찾아요",
+        "지원을 직접 승인해요",
+        "캐스팅이 확정돼요"
+      ],
+      "castingSteps": [
+        "배역 등록",
+        "순위별 쇼트리스트 받기",
+        "알맞은 사람에게 연락하기"
+      ],
+      "meet": "캐스팅 확정",
+      "meetBody": "양쪽이 여기서 만나요. 알맞은 배우가 알맞은 배역에.",
+      "websites": "웹사이트가 없는 배우는 Limelight로 만들 수 있어요."
+    },
+    "limelight": {
+      "title": "웹사이트가 필요하신가요? 몇 분 만에 만들어 보세요.",
+      "try": "사용해 보기",
+      "pricing": "요금 보기"
+    },
+    "pricing": {
+      "title": "요금",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "웹사이트",
+      "free": "무료",
+      "perMonth": "월 {price}",
+      "perSeat": "좌석당 월 {price}",
+      "oneTime": "{price}, 1회 결제",
+      "talentLink": "Talent 요금",
+      "castingLink": "Casting 요금",
+      "websitesLink": "웹사이트 요금"
+    },
+    "final": {
+      "title": "시작할 준비가 되셨나요?"
+    }
+  },
+  "consent": {
+    "title": "쿠키 설정",
+    "lead": "Agental이 작동하려면 몇 가지 쿠키가 필요해요. 나머지는 직접 켜지 않는 한 꺼져 있고, 설정에서 언제든 바꿀 수 있어요.",
+    "necessary": "필수",
+    "necessaryBody": "로그인, 보안, 언어, 그리고 이 선택. 항상 켜져 있어요.",
+    "analytics": "분석",
+    "analyticsBody": "어떤 페이지가 쓰이는지 파악하는 데 도움이 돼요. 현재는 사용하지 않아요.",
+    "marketing": "마케팅",
+    "marketingBody": "광고 효과를 측정해요. 현재는 사용하지 않아요.",
+    "alwaysOn": "항상 켜짐",
+    "acceptAll": "모두 허용",
+    "reject": "필수 외 거부",
+    "manage": "설정 관리",
+    "saveChoice": "선택 저장",
+    "back": "뒤로",
+    "settingsTitle": "쿠키 설정",
+    "saved": "선택을 저장했어요.",
+    "continue": "계속",
+    "bannerLead": "Agental이 작동하도록 몇 가지 쿠키를 사용해요. 나머지는 동의하지 않는 한 꺼져 있어요.",
+    "policyLink": "개인정보 처리방침",
+    "recordedOn": "{date}에 기록됨, 고지 버전 {version}.",
+    "notRecorded": "아직 기록된 선택이 없어요. 필수 쿠키만 사용해요.",
+    "readMore": "자세히 보기",
+    "accountSecurity": "계정을 보호하는 방법"
+  },
+  "tour": {
+    "start": "여기서 시작",
+    "title": "이용 방법",
+    "step": "{total}단계 중 {n}단계",
+    "next": "다음",
+    "back": "뒤로",
+    "done": "알겠어요",
+    "skip": "건너뛰기",
+    "replay": "투어 다시 보기",
+    "open": "{page} 열기",
+    "talent": [
+      {
+        "title": "프로필 완성하기",
+        "body": "캐스팅 디렉터가 가장 먼저 보는 건 사진, 릴, 그리고 내 정보예요. 프로필이 충실할수록 더 많은 검색에 나타나요."
+      },
+      {
+        "title": "대시보드",
+        "body": "내 현황과 다음에 할 일을 한곳에서 확인해요. AI 제안이 먼저 보여요."
+      },
+      {
+        "title": "지원 현황 보기",
+        "body": "에이전트가 나를 위해 준비한 모든 배역과 그 상태예요. 모든 지원은 보내기 전에 직접 승인해요."
+      },
+      {
+        "title": "구독",
+        "body": "Free 포함 내용: {free}. Pro(월 {price})에서 추가되는 내용: {pro}. 대학생은 할인을 받을 수 있어요."
+      }
+    ],
+    "casting": [
+      {
+        "title": "첫 배역 등록하기",
+        "body": "배역을 몇 줄로 설명해 주세요. 어시스턴트가 명확한 브리프로 정리해요."
+      },
+      {
+        "title": "쇼트리스트 보기",
+        "body": "프로필이 순위별로 도착하고, 각각 점수와 이유가 함께 표시돼요."
+      },
+      {
+        "title": "구독",
+        "body": "Free 포함 내용: {free}. Pro(좌석당 월 {price})에서 추가되는 내용: {pro}."
+      }
+    ],
+    "welcome": "환영해요",
+    "usePhoto": "내 Google 사진 사용",
+    "photoSaved": "Google 사진이 이제 프로필 사진이에요. 오른쪽 위 사진에서 언제든 바꿀 수 있어요.",
+    "photoFailed": "Google 사진을 가져오지 못했어요. 오른쪽 위에서 사진을 추가해 주세요.",
+    "w1": {
+      "title": "프로필 완성하기",
+      "body": "프로필이 {percent}% 완성되었어요. 다음 단계: {item}. 프로필이 충실할수록 더 많은 검색에 나타나요.",
+      "bodyDone": "프로필이 {percent}% 완성되었어요. 일이 생길 때마다 최신 상태로 유지하세요.",
+      "fromGoogle": "Google에서 채워진 정보: 이름({name})과 이메일({email}). 프로필 페이지에서 무엇이든 바꿀 수 있어요."
+    },
+    "w2": {
+      "title": "AI 배역 검색 시작하기",
+      "body": "초록 버튼을 누르면 에이전트가 나에게 맞는 배역을 찾아요. 요금제에 따라 기간마다 {count}회 검색할 수 있어요. 기간은 첫 검색부터 시작되고 30일 후에 초기화돼요."
+    },
+    "w3": {
+      "title": "지원 현황과 메시지 확인하기",
+      "body": "결과는 상태와 함께 '지원 현황'에 표시돼요. Agental 팀과 어시스턴트의 답장은 '메시지'에 표시돼요."
+    }
+  },
+  "beta": {
+    "agental": "Agental은 베타 서비스예요. 기능과 제공 범위는 바뀔 수 있어요.",
+    "limelight": "Limelight는 베타 서비스예요. 포트폴리오 제작은 현재 요청 시에만 가능해요."
+  },
+  "connected": {
+    "title": "연결된 계정",
+    "lead": "Agental 계정에 연결된 서비스, 각 서비스가 공유하는 정보, 변경 방법.",
+    "google": "Google",
+    "googleWhat": "로그인에 사용돼요. Agental은 Google에서 이름, 이메일 주소, 프로필 사진을 받아요. 내 프로필, 미디어, 지원 내역은 Google로 전송되지 않아요.",
+    "password": "이메일과 비밀번호",
+    "passwordWhat": "이메일 주소와 직접 정한 비밀번호로 로그인해요.",
+    "connected": "연결됨",
+    "notConnected": "연결 안 됨",
+    "unavailable": "아직 사용할 수 없어요",
+    "connect": "Google 연결",
+    "permissions": "권한: 이름, 이메일 주소, 프로필 사진.",
+    "keepOne": "로그인 방법은 항상 하나 이상 남아 있어요.",
+    "none": "연결된 다른 서비스가 없어요. Agental은 내 소셜 미디어나 이메일 계정에 접근하지 않아요."
+  },
+  "emailFlow": {
+    "forgot": "비밀번호를 잊으셨나요?",
+    "forgotTitle": "비밀번호 재설정",
+    "forgotLead": "이메일 주소를 입력하세요. 그 주소를 쓰는 계정이 있으면 새 비밀번호를 정할 링크를 보내 드려요.",
+    "sendLink": "링크 보내기",
+    "sent": "이 주소를 쓰는 계정이 있으면 링크를 보냈어요. 1시간 동안 유효해요.",
+    "backToSignIn": "로그인으로 돌아가기",
+    "resetTitle": "새 비밀번호 정하기",
+    "resetLead": "다른 곳에서 쓰지 않는 비밀번호를 고르세요.",
+    "newPassword": "새 비밀번호",
+    "savePassword": "새 비밀번호 저장",
+    "resetDone": "비밀번호가 변경되었어요. 새 비밀번호로 로그인하세요.",
+    "missingToken": "이 페이지에는 이메일의 링크가 필요해요. 이메일을 열고 버튼을 눌러 주세요.",
+    "verifyTitle": "이메일 확인",
+    "verifyLead": "한 번만 누르면 이 주소가 내 것임을 확인할 수 있어요.",
+    "confirm": "이메일 확인하기",
+    "verified": "이메일이 확인되었어요.",
+    "continue": "계속",
+    "inboxTitle": "받은편지함을 확인하세요",
+    "inboxLead": "{email}(으)로 확인 링크를 보냈어요. 링크를 열어 계정 만들기를 마치세요.",
+    "resend": "이메일 다시 보내기",
+    "resendIn": "{seconds}초 후 다시 보내기",
+    "resent": "새 이메일을 보냈어요.",
+    "signOut": "로그아웃",
+    "bannerTitle": "이메일을 인증하세요.",
+    "bannerBody": "캐스팅과 계정에 관해 연락드릴 수 있도록 {email}을(를) 확인해 주세요.",
+    "bannerResend": "링크 보내기",
+    "codeTitle": "이메일 인증",
+    "codeLead": "{email}(으)로 보낸 6자리 코드를 입력하세요.",
+    "codeSent": "{email}(으)로 새 코드를 보냈어요.",
+    "codeVerify": "인증",
+    "codeResend": "새 코드 보내기",
+    "codeExpiry": "코드는 10분 동안 유효해요. 보이지 않으면 스팸함을 확인하세요.",
+    "bannerCodeTitle": "배역 찾기를 시작하려면 이메일을 인증하세요.",
+    "bannerSendCode": "코드 받기",
+    "codeResendIn": "{seconds}초 후 새 코드 보내기",
+    "changePrompt": "이메일이 잘못되었나요?",
+    "changeLink": "변경하기",
+    "changeLabel": "이메일 주소",
+    "changeSave": "저장하고 코드 보내기",
+    "changeCancel": "취소",
+    "emailChanged": "이메일이 이제 {email}(이)에요. 아래에서 새 코드를 요청하세요."
+  },
+  "privacy": {
+    "meta": {
+      "title": "개인정보 처리방침: Agental",
+      "description": "Agental이 무엇을, 왜 수집하고, 어디에 보관하며, 삭제를 요청하는 방법."
+    },
+    "eyebrow": "법적 고지",
+    "title": "개인정보 처리방침",
+    "updated": "최종 업데이트: 2026년 11월 24일.",
+    "footerLink": "개인정보",
+    "sections": [
+      {
+        "title": "회사 소개",
+        "body": [
+          "Agental(agental.co)은 배우가 프로필을 만들고, 캐스팅 자료를 준비하고, 배역을 찾도록 도와요. 데이터 관련 문의: contact@agental.co."
+        ]
+      },
+      {
+        "title": "수집하는 정보",
+        "body": [
+          "계정: 이메일 주소, 이름, 비밀번호(해시로만 저장) 또는 Google 로그인 정보.",
+          "프로필: 내가 입력한 내용(예명, 전문 분야, 신체 정보, 선호 조건, 링크), 사진, 영상, 셀프 테이프, 프로필 사진.",
+          "앱 내 활동: 지원, AI 배역 검색, Agental 팀 및 어시스턴트와 주고받은 메시지.",
+          "기술 데이터: 로그인 상태를 유지하는 세션 쿠키, 개인 식별 정보 없이 개인정보를 존중하는 방문 수 집계."
+        ]
+      },
+      {
+        "title": "Google 로그인",
+        "body": [
+          "Google로 로그인하면 이름, 이메일 주소, 프로필 사진만 받아요(openid, email, profile 범위). 이 정보로 계정을 만들고, 내가 확인하면 프로필 사진으로 사용해요. Gmail, Drive, 연락처 등 Google 계정의 다른 정보에는 접근하지 않아요."
+        ]
+      },
+      {
+        "title": "이용 목적",
+        "body": [
+          "계정을 운영하고, 지원한 캐스팅 팀에 프로필을 보여 주고, 나에게 맞는 배역을 찾고, 메시지에 답하고, 서비스를 안전하게 유지하기 위해서예요. 데이터를 판매하거나 광고에 사용하지 않아요."
+        ]
+      },
+      {
+        "title": "보관 위치",
+        "body": [
+          "데이터는 서비스 제공업체가 보관해요: Vercel(호스팅), Supabase(데이터베이스 및 비공개 파일 저장), Cloudflare(파일 저장). 미디어 파일은 비공개이며, 짧은 시간만 유효한 링크를 통해 나, Agental 팀, 그리고 내가 공유하거나 지원한 사람에게만 보여요."
+        ]
+      },
+      {
+        "title": "어시스턴트",
+        "body": [
+          "'메시지'의 답변은 내 프로필과 지원 내역에 관한 소수의 정보를 바탕으로 작성돼요. 연락처, 비공개 콘텐츠 선호 사항, 미디어는 절대 포함되지 않아요."
+        ]
+      },
+      {
+        "id": "security",
+        "title": "계정 보안 및 악용",
+        "body": [
+          "배우와 캐스팅 팀이 Agental을 안전하게 쓸 수 있도록, 스팸·가짜·악용 계정을 찾아내기 위해 계정 사용 방식을 살펴봐요. 계정이 만들어진 시점과 마지막 로그인 시점, 이메일 인증 여부, 반복된 로그인 또는 가입 실패, 그리고 프로필·미디어·AI 검색·메시지가 어떻게 쓰이는지를 확인해요. 이 정보는 보안과 사기·악용 방지에만 사용하며, 절대 판매하지 않아요.",
+          "어떤 조치든 자동 시스템이 아니라 우리 팀의 사람이 결정해요. 가짜 계정, 악용 계정, 스팸에 쓰이는 계정, 약관을 위반한 계정, 또는 이메일 주소가 한 번도 인증되지 않은 계정은 제한, 정지, 삭제할 수 있어요. 인증되지 않은 계정을 삭제하기 전에 7일 이내에 주소를 확인해 달라는 이메일을 보낼 수 있어요. 삭제된 계정은 즉시 비활성화되고, 실수가 있었을 경우 복구할 수 있도록 30일 동안 보관된 뒤 파일과 함께 완전히 삭제돼요. 잘못되었다고 생각되면 contact@agental.co로 연락해 주세요.",
+          "이 모니터링에는 쿠키를 사용하지 않아요. 우리가 설정하는 쿠키는 쿠키 배너에 나열된 것뿐이에요."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "쿠키",
+        "body": [
+          "쿠키 배너에 나열된 쿠키만 설정해요. 항상 켜져 있는 필수 쿠키(로그인, 보안, 언어, 쿠키 선택)와, 동의하지 않는 한 꺼져 있는 분석·마케팅 쿠키예요. 현재 선택 쿠키는 하나도 설정하지 않아요. 선택은 설정에서 언제든 바꿀 수 있어요."
+        ]
+      },
+      {
+        "title": "보관 기간과 나의 선택",
+        "body": [
+          "계정이 열려 있는 동안 데이터를 보관해요. 프로필은 언제든 수정할 수 있고, 설정에서 계정을 삭제할 수 있어요. 삭제하면 프로필, 미디어, 메시지가 지워져요. 데이터 사본이나 정정을 원하면 contact@agental.co로 요청하세요.",
+          "'메시지'에서 대화를 삭제하면 내 계정에서 바로 사라져요. 운영 및 법적 이유로 나에게는 보이지 않는 사본을 보관해요.",
+          "보낸 이메일 기록은 180일 동안 보관해요. 데이터베이스 백업은 삭제 후에도 일정 기간 보관돼요."
+        ]
+      },
+      {
+        "title": "변경 사항",
+        "body": [
+          "이 방침이 바뀌면 맨 위의 날짜도 바뀌고, 중요한 변경 사항은 로그인한 사용자에게 앱에서 알려 드려요."
+        ]
+      }
+    ]
+  },
+  "legalAccept": {
+    "title": "계속하기 전에",
+    "lead": "개인정보 처리방침을 업데이트했어요. Agental을 계속 이용하려면 한 번 읽고 동의해 주세요.",
+    "security": "스팸과 가짜 계정을 어떻게 찾아내는지, 그리고 인증되지 않았거나 악용하는 계정을 삭제할 수 있다는 내용을 설명해요: <security>계정 보안 및 악용</security>.",
+    "agreePrivacy": "<privacy>개인정보 처리방침</privacy>에 동의합니다.",
+    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy> 및 <terms>이용약관</terms>에 동의합니다.",
+    "continue": "계속",
+    "signOut": "로그아웃",
+    "deleteInstead": "계정을 삭제하고 싶으신가요? contact@agental.co로 연락해 주세요."
+  }
+}

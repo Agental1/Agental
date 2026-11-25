@@ -1,8 +1,9 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { getToken } from "next-auth/jwt";
 import { routing } from "./i18n/routing";
 import { adminHostRoute, isAdminHost } from "./domain/admin-host";
+import { fromAcceptLanguage, fromCountry } from "./domain/locale-negotiation";
 
 /**
  * Locale negotiation. Named `proxy.ts`, not `middleware.ts`: Next 16 deprecated
@@ -11,12 +12,30 @@ import { adminHostRoute, isAdminHost } from "./domain/admin-host";
  * The next-intl import path is unrelated and keeps its own name.
  *
  * This is the ONLY place locale is resolved for an incoming request. It reads
- * the NEXT_LOCALE cookie and Accept-Language, then redirects an unprefixed path
+ * the NEXT_LOCALE cookie, Accept-Language, then the IP's country, then redirects an unprefixed path
  * to the visitor's locale. Static redirects in next.config.ts would run before
  * this (Next resolves redirects at step 2, proxy at step 3) and would strip that
  * negotiation, so there are none.
  */
-const negotiateLocale = createMiddleware(routing);
+const intlMiddleware = createMiddleware(routing);
+
+/**
+ * Round 11: next-intl reads the NEXT_LOCALE cookie, then Accept-Language. When
+ * neither names a language we have, the country of the IP decides (Vercel's
+ * x-vercel-ip-country), before English: src/domain/locale-negotiation.ts.
+ */
+function negotiateLocale(req: NextRequest) {
+  const cookie = req.cookies.get("NEXT_LOCALE")?.value;
+  if (cookie && (routing.locales as readonly string[]).includes(cookie)) return intlMiddleware(req);
+  if (fromAcceptLanguage(req.headers.get("accept-language"))) return intlMiddleware(req);
+  // Only page loads, and only the platform's own header (review, round 11).
+  if (req.method !== "GET" && req.method !== "HEAD") return intlMiddleware(req);
+  const byCountry = process.env.VERCEL ? fromCountry(req.headers.get("x-vercel-ip-country")) : null;
+  if (!byCountry) return intlMiddleware(req);
+  const headers = new Headers(req.headers);
+  headers.set("accept-language", byCountry);
+  return intlMiddleware(new NextRequest(req, { headers }));
+}
 
 /**
  * The three public entry points a signed-in visitor should never land on: the

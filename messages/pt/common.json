@@ -1,0 +1,427 @@
+{
+  "brand": "Agental",
+  "nav": {
+    "how": "Como funciona",
+    "castingTypes": "Tipos de casting",
+    "pricing": "Preços",
+    "faq": "Perguntas frequentes",
+    "about": "Quem somos",
+    "openMenu": "Abrir o menu",
+    "closeMenu": "Fechar o menu",
+    "skipToContent": "Pular para o conteúdo",
+    "signIn": "Entrar",
+    "portalSwitch": "Alternar entre Agental Talents e Agental Casting"
+  },
+  "footer": {
+    "tagline": "A primeira agência de artistas nativamente ampliada por IA.",
+    "legalTitle": "Jurídico",
+    "prefectorale": "Beta nos Estados Unidos. Os serviços de representação não fazem parte da beta.",
+    "rgpd": "GDPR",
+    "mentions": "Aviso legal",
+    "cgu": "Termos",
+    "rights": "© {year} Agental. Todos os direitos reservados.",
+    "sections": {
+      "product": "Produto",
+      "company": "Agental",
+      "legal": "Jurídico"
+    },
+    "backToTop": "Voltar ao topo"
+  },
+  "locale": {
+    "switch": "Idioma",
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "zh": "中文",
+    "it": "Italiano",
+    "pt": "Português",
+    "ja": "日本語",
+    "ko": "한국어"
+  },
+  "notFound": {
+    "code": "404",
+    "backHome": "Voltar ao início",
+    "backCastings": "Ver castings"
+  },
+  "error": {
+    "title": "Algo deu errado",
+    "body": "O incidente foi registrado. Tentar de novo costuma resolver.",
+    "retry": "Tentar de novo",
+    "backHome": "Voltar ao início"
+  },
+  "meta": {
+    "title": "Agental",
+    "template": "%s · Agental",
+    "description": "A Agental ajuda artistas a montar o perfil e preparar os materiais de casting, e ajuda equipes de casting a encontrar as pessoas certas. Em beta."
+  },
+  "entry": {
+    "talents": "Sou artista",
+    "casting": "Faço casting",
+    "enterTalents": "Entrar no Agental Talents",
+    "enterCasting": "Entrar no Agental Casting",
+    "line": "Comece aqui. Você atua ou faz casting?",
+    "createTalents": "Crie sua conta de artista",
+    "createCasting": "Crie sua conta de casting"
+  },
+  "pricing": {
+    "details": "O que está incluído"
+  },
+  "app": {
+    "menu": "Menu",
+    "closeMenu": "Fechar o menu",
+    "navLabel": "Navegação do app",
+    "plan": "Plano {name}",
+    "changePlan": "Mudar de plano",
+    "changePlanLead": "Escolha um plano, veja o que ele inclui e confirme.",
+    "current": "Plano atual",
+    "confirm": "Mudar para {name}",
+    "confirmCurrent": "Este é o seu plano",
+    "switching": "Mudando…",
+    "allDetails": "Ver todos os detalhes dos planos",
+    "contact": "Fale com a gente para um orçamento",
+    "close": "Fechar",
+    "openMessages": "Abrir Mensagens",
+    "toast": {
+      "saved": "Salvo",
+      "uploaded": "Arquivo enviado",
+      "sent": "Enviado",
+      "loading": "Carregando"
+    },
+    "toggleSidebar": "Mostrar ou ocultar o menu (Ctrl+B)",
+    "bell": {
+      "label": "Notificações",
+      "labelUnread": "Notificações, {count} não lidas",
+      "title": "Notificações",
+      "markAll": "Marcar todas como lidas",
+      "empty": "Nada de novo por enquanto.",
+      "roleFound": "Novo papel encontrado",
+      "assistantReplied": "O assistente respondeu",
+      "teamReplied": "A equipe Agental respondeu",
+      "statusChanged": "Atualização da candidatura",
+      "agentReplied": "{name} respondeu"
+    }
+  },
+  "account": {
+    "create": "Criar conta",
+    "signIn": "Entrar",
+    "seeMore": "Ver mais",
+    "tabs": "Crie uma conta ou entre"
+  },
+  "audience": {
+    "menu": "Nesta página",
+    "how": "Como funciona",
+    "agent": "Seu agente de IA",
+    "selftape": "Self-tape",
+    "websites": "Sites",
+    "pricing": "Preços",
+    "faq": "Perguntas frequentes",
+    "types": "Tipos de casting",
+    "ranking": "Como as shortlists são ordenadas",
+    "allPlans": "Ver todos os planos",
+    "allFaq": "Ver todas as perguntas",
+    "forPerformers": "Para artistas",
+    "forCasting": "Para equipes de casting",
+    "typesTitle": "Papéis para os quais fazemos casting",
+    "typesLead": "De figuração a papéis coadjuvantes, comerciais e voz. Um briefing, uma shortlist.",
+    "student": "É universitário? Você pode inserir um código de estudante ao escolher seu plano."
+  },
+  "home": {
+    "what": {
+      "title": "O que é a Agental",
+      "body": "A Agental é uma plataforma com IA para artistas e equipes de casting, em beta. Cada artista monta um perfil com fotos, créditos, reel e self-tapes, e um assistente de IA prepara rascunhos de candidatura que o artista revisa antes de qualquer envio. As equipes de casting recebem shortlists ordenadas com os motivos à vista. A representação não faz parte da beta.",
+      "facts": [
+        {
+          "title": "Cadastro gratuito",
+          "body": "Criar seu perfil não custa nada."
+        },
+        {
+          "title": "Você aprova cada envio",
+          "body": "Seu agente prepara. Você decide se ele sai."
+        },
+        {
+          "title": "Shortlists explicadas",
+          "body": "Cada classificação mostra seus motivos."
+        }
+      ]
+    },
+    "how": {
+      "title": "Como a Agental funciona",
+      "performer": "Artistas",
+      "casting": "Equipes de casting",
+      "performerSteps": [
+        "Crie seu perfil",
+        "Seu agente de IA encontra papéis",
+        "Você aprova os envios",
+        "Você é escalado"
+      ],
+      "castingSteps": [
+        "Publique um papel",
+        "Receba uma shortlist ordenada",
+        "Fale com as pessoas certas"
+      ],
+      "meet": "A escalação",
+      "meetBody": "Os dois lados se encontram aqui: o artista certo no papel certo.",
+      "websites": "Artistas sem site podem criar um com o Limelight."
+    },
+    "limelight": {
+      "title": "Precisa de um site? Crie o seu em minutos.",
+      "try": "Experimente",
+      "pricing": "Ver preços"
+    },
+    "pricing": {
+      "title": "Preços",
+      "talent": "Talent",
+      "casting": "Casting",
+      "websites": "Sites",
+      "free": "Grátis",
+      "perMonth": "{price} por mês",
+      "perSeat": "{price} por assento, por mês",
+      "oneTime": "{price}, pagamento único",
+      "talentLink": "Preços Talent",
+      "castingLink": "Preços Casting",
+      "websitesLink": "Preços de sites"
+    },
+    "final": {
+      "title": "Pronto para começar?"
+    }
+  },
+  "consent": {
+    "title": "Suas escolhas de cookies",
+    "lead": "A Agental precisa de alguns cookies para funcionar. Os outros ficam desativados até você ativá-los, e você pode mudar isso a qualquer momento nas Configurações.",
+    "necessary": "Estritamente necessários",
+    "necessaryBody": "Login, segurança, seu idioma e esta escolha. Sempre ativos.",
+    "analytics": "Análise",
+    "analyticsBody": "Ajudam a ver quais páginas são usadas. Nenhum é definido hoje.",
+    "marketing": "Marketing",
+    "marketingBody": "Mediriam nossos anúncios. Nenhum é definido hoje.",
+    "alwaysOn": "Sempre ativos",
+    "acceptAll": "Aceitar todos",
+    "reject": "Recusar os não essenciais",
+    "manage": "Gerenciar preferências",
+    "saveChoice": "Salvar minha escolha",
+    "back": "Voltar",
+    "settingsTitle": "Preferências de cookies",
+    "saved": "Sua escolha foi salva.",
+    "continue": "Continuar",
+    "bannerLead": "Usamos alguns cookies para a Agental funcionar. Os outros ficam desativados até você aceitá-los.",
+    "policyLink": "Política de Privacidade",
+    "recordedOn": "Registrado em {date}, versão do aviso {version}.",
+    "notRecorded": "Nenhuma escolha registrada ainda. Só os cookies estritamente necessários são usados.",
+    "readMore": "Saiba mais",
+    "accountSecurity": "Como protegemos as contas"
+  },
+  "tour": {
+    "start": "Comece aqui",
+    "title": "Como funciona",
+    "step": "Etapa {n} de {total}",
+    "next": "Próximo",
+    "back": "Voltar",
+    "done": "Entendi",
+    "skip": "Pular",
+    "replay": "Rever o tour",
+    "open": "Abrir {page}",
+    "talent": [
+      {
+        "title": "Complete seu perfil",
+        "body": "Fotos, um reel e seus dados são o que os diretores de casting veem primeiro. Um perfil mais completo aparece em mais buscas."
+      },
+      {
+        "title": "Seu painel",
+        "body": "Seu status e o que fazer em seguida, em um só lugar. As sugestões da IA vêm primeiro."
+      },
+      {
+        "title": "Veja suas candidaturas",
+        "body": "Cada papel que seu agente preparou para você, com o status. Você aprova cada envio antes de ele sair."
+      },
+      {
+        "title": "Assinaturas",
+        "body": "O Free inclui: {free}. O Pro, por {price} por mês, adiciona: {pro}. Universitários podem ter desconto."
+      }
+    ],
+    "casting": [
+      {
+        "title": "Publique seu primeiro papel",
+        "body": "Descreva o papel em poucas linhas. O assistente transforma isso em um briefing claro."
+      },
+      {
+        "title": "Leia sua shortlist",
+        "body": "Os perfis chegam ordenados, cada um com a pontuação e os motivos."
+      },
+      {
+        "title": "Assinatura",
+        "body": "O Free inclui: {free}. O Pro, por {price} por assento e por mês, adiciona: {pro}."
+      }
+    ],
+    "welcome": "Boas-vindas",
+    "usePhoto": "Usar minha foto do Google",
+    "photoSaved": "Sua foto do Google agora é sua foto de perfil. Mude quando quiser pela imagem no canto superior direito.",
+    "photoFailed": "Não conseguimos pegar sua foto do Google. Adicione uma imagem pelo canto superior direito.",
+    "w1": {
+      "title": "Complete seu perfil",
+      "body": "Seu perfil está {percent}% completo. Próximo passo: {item}. Um perfil mais completo aparece em mais buscas.",
+      "bodyDone": "Seu perfil está {percent}% completo. Mantenha-o atualizado conforme você trabalha.",
+      "fromGoogle": "Preenchido pelo Google: seu nome ({name}) e e-mail ({email}). Altere o que quiser na página Perfil."
+    },
+    "w2": {
+      "title": "Inicie sua busca de papéis com IA",
+      "body": "Aperte o botão verde e nosso agente procura papéis que combinam com você. Seu plano dá {count} buscas por período. Um período começa na sua primeira busca e se renova 30 dias depois."
+    },
+    "w3": {
+      "title": "Acompanhe suas candidaturas e mensagens",
+      "body": "Os resultados aparecem em Candidaturas, com o status. As respostas da equipe Agental e do assistente aparecem em Mensagens."
+    }
+  },
+  "beta": {
+    "agental": "A Agental está em beta. Recursos e disponibilidade podem mudar.",
+    "limelight": "O Limelight está em beta. A criação do portfólio está disponível no momento sob pedido."
+  },
+  "connected": {
+    "title": "Contas conectadas",
+    "lead": "Os serviços ligados à sua conta Agental, o que cada um compartilha e como mudar isso.",
+    "google": "Google",
+    "googleWhat": "Usado para você entrar. A Agental recebe do Google seu nome, seu endereço de e-mail e sua foto de perfil. Nada sobre seu perfil, suas mídias ou suas candidaturas é enviado ao Google.",
+    "password": "E-mail e senha",
+    "passwordWhat": "Entre com seu endereço de e-mail e uma senha que você escolheu.",
+    "connected": "Conectado",
+    "notConnected": "Não conectado",
+    "unavailable": "Ainda não disponível",
+    "connect": "Conectar o Google",
+    "permissions": "Permissões: nome, endereço de e-mail, foto de perfil.",
+    "keepOne": "Você sempre mantém pelo menos uma forma de entrar.",
+    "none": "Nenhum outro serviço está conectado. A Agental não tem acesso às suas redes sociais nem ao seu e-mail."
+  },
+  "emailFlow": {
+    "forgot": "Esqueceu a senha?",
+    "forgotTitle": "Redefina sua senha",
+    "forgotLead": "Digite seu endereço de e-mail. Se houver uma conta com ele, enviamos um link para escolher uma nova senha.",
+    "sendLink": "Enviar o link",
+    "sent": "Se houver uma conta com este endereço, o link está a caminho. Ele vale por 1 hora.",
+    "backToSignIn": "Voltar para o login",
+    "resetTitle": "Escolha uma nova senha",
+    "resetLead": "Escolha uma senha que você não use em nenhum outro lugar.",
+    "newPassword": "Nova senha",
+    "savePassword": "Salvar minha nova senha",
+    "resetDone": "Sua senha foi alterada. Entre com a nova.",
+    "missingToken": "Esta página precisa do link do seu e-mail. Abra o e-mail e use o botão dele.",
+    "verifyTitle": "Confirme seu e-mail",
+    "verifyLead": "Um clique confirma que este endereço é seu.",
+    "confirm": "Confirmar meu e-mail",
+    "verified": "Seu e-mail está confirmado.",
+    "continue": "Continuar",
+    "inboxTitle": "Confira sua caixa de entrada",
+    "inboxLead": "Enviamos um link de confirmação para {email}. Abra-o para terminar de criar sua conta.",
+    "resend": "Enviar o e-mail de novo",
+    "resendIn": "Enviar de novo em {seconds} s",
+    "resent": "Um novo e-mail está a caminho.",
+    "signOut": "Sair",
+    "bannerTitle": "Verifique seu e-mail.",
+    "bannerBody": "Confirme {email} para podermos falar com você sobre castings e sua conta.",
+    "bannerResend": "Enviar o link",
+    "codeTitle": "Verifique seu e-mail",
+    "codeLead": "Digite o código de 6 dígitos que enviamos para {email}.",
+    "codeSent": "Enviamos um novo código para {email}.",
+    "codeVerify": "Verificar",
+    "codeResend": "Enviar um novo código",
+    "codeExpiry": "O código vale por 10 minutos. Confira a pasta de spam se não encontrá-lo.",
+    "bannerCodeTitle": "Verifique seu e-mail para começar a encontrar papéis.",
+    "bannerSendCode": "Envie um código",
+    "codeResendIn": "Enviar um novo código em {seconds} s",
+    "changePrompt": "E-mail errado?",
+    "changeLink": "Alterar",
+    "changeLabel": "Seu endereço de e-mail",
+    "changeSave": "Salvar e enviar um código",
+    "changeCancel": "Cancelar",
+    "emailChanged": "Seu e-mail agora é {email}. Peça um novo código abaixo."
+  },
+  "privacy": {
+    "meta": {
+      "title": "Política de privacidade: Agental",
+      "description": "O que a Agental coleta, por quê, onde fica guardado e como pedir a remoção."
+    },
+    "eyebrow": "Jurídico",
+    "title": "Política de privacidade",
+    "updated": "Última atualização: 24 de novembro de 2026.",
+    "footerLink": "Privacidade",
+    "sections": [
+      {
+        "title": "Quem somos",
+        "body": [
+          "A Agental (agental.co) ajuda artistas a montar um perfil, preparar materiais de casting e encontrar papéis. Dúvidas sobre seus dados: contact@agental.co."
+        ]
+      },
+      {
+        "title": "O que coletamos",
+        "body": [
+          "Sua conta: endereço de e-mail, nome, senha (guardada apenas como hash) ou seu login com o Google.",
+          "Seu perfil: o que você preenche (nome artístico, especialidades, características físicas, preferências, links), suas fotos, vídeos, self-tapes e foto de perfil.",
+          "Sua atividade no app: candidaturas, buscas de papéis com IA, mensagens com a equipe Agental e com o assistente.",
+          "Dados técnicos: um cookie de sessão para manter você conectado e contagens de visitas que respeitam a privacidade, sem identificadores pessoais."
+        ]
+      },
+      {
+        "title": "Login com o Google",
+        "body": [
+          "Se você entra com o Google, recebemos apenas seu nome, endereço de e-mail e foto de perfil (os escopos openid, email e profile). Usamos isso para criar sua conta e, se você confirmar, como sua foto de perfil. Não acessamos seu Gmail, Drive, contatos nem nada mais da sua conta Google."
+        ]
+      },
+      {
+        "title": "Por que usamos",
+        "body": [
+          "Para manter sua conta, mostrar seu perfil às equipes de casting a que você se candidata, procurar papéis que combinam com você, responder suas mensagens e manter o serviço seguro. Não vendemos seus dados e não os usamos para publicidade."
+        ]
+      },
+      {
+        "title": "Onde fica guardado",
+        "body": [
+          "Seus dados ficam com nossos prestadores de serviço: Vercel (hospedagem), Supabase (banco de dados e armazenamento privado de arquivos) e Cloudflare (armazenamento de arquivos). Suas mídias são privadas; só aparecem por meio de links de curta duração para você, para a equipe Agental e para as pessoas com quem você escolhe compartilhar ou a quem se candidata."
+        ]
+      },
+      {
+        "title": "O assistente",
+        "body": [
+          "As respostas em Mensagens são escritas a partir de um pequeno conjunto de informações sobre seu perfil e suas candidaturas. Dados de contato, preferências privadas de conteúdo e mídias nunca são incluídos."
+        ]
+      },
+      {
+        "id": "security",
+        "title": "Segurança das contas e abusos",
+        "body": [
+          "Para manter a Agental segura para artistas e equipes de casting, observamos como as contas são usadas para detectar spam, contas falsas e abusivas. Vemos quando uma conta foi criada e quando entrou pela última vez, se o e-mail foi verificado, tentativas repetidas e falhas de login ou cadastro, e como o perfil, as mídias, as buscas com IA e as mensagens são usados. Usamos isso apenas para segurança e para prevenir fraudes e abusos, e nunca vendemos essas informações.",
+          "Uma pessoa da nossa equipe, nunca um sistema automático, decide qualquer ação. Podemos limitar, suspender ou excluir uma conta falsa, abusiva ou usada para spam, que viole nossos Termos, ou cujo endereço de e-mail nunca foi verificado. Antes de excluir uma conta não verificada, podemos enviar um e-mail pedindo que você confirme seu endereço em até 7 dias. Uma conta excluída é desativada na hora e guardada por 30 dias para podermos restaurá-la se tivermos errado; depois é excluída de vez com seus arquivos. Escreva para contact@agental.co se achar que erramos.",
+          "Esse monitoramento não usa cookies. Os únicos cookies que definimos são os listados no banner de cookies."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies",
+        "body": [
+          "Definimos apenas os cookies listados no banner de cookies: os estritamente necessários (login, segurança, seu idioma e sua escolha de cookies), sempre ativos, e os de análise e marketing, que ficam desativados até você aceitá-los. Nenhum dos opcionais é definido hoje. Você pode mudar sua escolha a qualquer momento nas Configurações."
+        ]
+      },
+      {
+        "title": "Por quanto tempo guardamos, e suas escolhas",
+        "body": [
+          "Guardamos seus dados enquanto sua conta estiver aberta. Você pode editar seu perfil a qualquer momento e excluir sua conta nas Configurações; isso remove seu perfil, suas mídias e suas mensagens. Você pode pedir uma cópia dos seus dados ou uma correção escrevendo para contact@agental.co.",
+          "Quando você exclui uma conversa em Mensagens, ela some da sua conta na hora. Guardamos uma cópia, oculta para você, por motivos de moderação e legais.",
+          "Guardamos o registro dos e-mails que enviamos por 180 dias. Os backups do banco de dados são guardados por um tempo limitado após uma exclusão."
+        ]
+      },
+      {
+        "title": "Alterações",
+        "body": [
+          "Se esta política mudar, a data no topo também muda, e avisamos os usuários conectados sobre mudanças importantes no app."
+        ]
+      }
+    ]
+  },
+  "legalAccept": {
+    "title": "Antes de continuar",
+    "lead": "Atualizamos nossa Política de Privacidade. Leia e aceite uma vez para continuar usando a Agental.",
+    "security": "Ela explica como identificamos spam e contas falsas, e que podemos excluir contas não verificadas ou abusivas: <security>Segurança das contas e abusos</security>.",
+    "agreePrivacy": "Concordo com a <privacy>Política de Privacidade</privacy>.",
+    "agreePrivacyTerms": "Concordo com a <privacy>Política de Privacidade</privacy> e os <terms>Termos de Serviço</terms>.",
+    "continue": "Continuar",
+    "signOut": "Sair",
+    "deleteInstead": "Prefere excluir sua conta? Escreva para contact@agental.co."
+  }
+}

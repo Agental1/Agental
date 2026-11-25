@@ -1,0 +1,2046 @@
+{
+  "meta": {
+    "title": "Agental Talents: um agente de verdade, ampliado por IA",
+    "description": "Monte seu perfil de artista: fotos, créditos, reel e self-tapes em um só lugar. Grátis durante a beta."
+  },
+  "nav": {
+    "cta": "Seja membro",
+    "crossLink": "Você é diretor de casting?"
+  },
+  "hero": {
+    "title": "Concentre-se na sua arte.",
+    "titleEmph": "A gente cuida do resto.",
+    "subtitle": "Um perfil para suas fotos, créditos, reel e self-tapes. Prepare agora seus materiais de casting; quando as candidaturas abrirem, você revisa cada rascunho antes de qualquer envio.",
+    "ctaPrimary": "Seja membro",
+    "ctaSecondary": "Veja como funciona",
+    "eyebrow": "A agência de artistas da nova geração",
+    "note": "Grátis durante a beta. Depois: três etapas rápidas para configurar seu perfil.",
+    "collage": [
+      "menino, 17",
+      "mulher, 23",
+      "mulher, 35",
+      "homem, 45"
+    ]
+  },
+  "proof": {
+    "regulated": {
+      "title": "Seus materiais em um só lugar.",
+      "body": "Fotos, créditos, reel e self-tapes, em um perfil que você controla."
+    },
+    "ai": {
+      "title": "Rascunhos que você aprova.",
+      "body": "Quando as candidaturas abrirem, nada sai sem o seu OK."
+    },
+    "free": {
+      "title": "Grátis durante a beta.",
+      "body": "Criar seu perfil não custa nada."
+    }
+  },
+  "why": {
+    "eyebrow": "Por que a Agental",
+    "title": "Uma agência que trabalha de verdade para você",
+    "items": [
+      {
+        "title": "Um perfil que trabalha para você",
+        "body": "Suas fotos, créditos, reel e especialidades em um perfil que você controla. Você escolhe o que mostrar e quando."
+      },
+      {
+        "title": "O agente trabalha enquanto você atua",
+        "body": "Nossa IA acompanha os castings sem parar, identifica os que realmente combinam com você e prepara suas candidaturas. Você mantém o controle de tudo e ganha horas toda semana."
+      },
+      {
+        "title": "Encontramos os papéis certos para você",
+        "body": "Você recebe castings escolhidos para seu perfil, sua idade, seu tipo, seus idiomas e sua disponibilidade. A relevância vem antes do volume, então você para de perder tempo com anúncios que não têm nada a ver."
+      },
+      {
+        "title": "Ajudamos você a se destacar",
+        "body": "Sabemos o que torna você único e colocamos isso no lugar certo. Nosso Self-tape Studio orienta você em enquadramento, luz, som e interpretação, para que cada envio tenha a sua cara e acerte o alvo."
+      },
+      {
+        "title": "A representação não faz parte da beta",
+        "body": "Durante a beta, a Agental não representa artistas nem cobra comissão. Qualquer contrato de representação futuro será um documento separado, que você lê e escolhe aceitar, independente de qualquer plano ou site."
+      },
+      {
+        "title": "Todo perfil tem um ponto forte",
+        "body": "As produções procuram personalidades reais e variadas, tanto para a câmera quanto para a voz. Identificamos o que diferencia você, seu visual, seu sotaque, sua presença, seu timbre, e defendemos isso. Sua singularidade vira argumento."
+      }
+    ],
+    "lead": "Um perfil que mostra o que torna você único, e ferramentas que ajudam você a se preparar."
+  },
+  "steps": {
+    "eyebrow": "Em cinco etapas",
+    "title": "Entrar na Agental em cinco etapas",
+    "cta": "Ver todos os detalhes",
+    "items": [
+      {
+        "title": "Crie seu perfil",
+        "body": "Identidade, físico, mídias, especialidades e disponibilidade."
+      },
+      {
+        "title": "Adicione seus materiais",
+        "body": "Fotos, créditos, um reel ou um self-tape."
+      },
+      {
+        "title": "Deixe a IA trabalhar",
+        "body": "Ela identifica os castings feitos para você."
+      },
+      {
+        "title": "Grave seus self-tapes",
+        "body": "Orientamos você para que eles façam você se destacar."
+      },
+      {
+        "title": "Revise seus rascunhos",
+        "body": "Quando as candidaturas abrirem, você aprova cada rascunho antes de qualquer envio."
+      }
+    ]
+  },
+  "selftape": {
+    "eyebrow": "Self-tape Studio",
+    "title": "Seu self-tape pode mudar tudo. Ajudamos você a acertar.",
+    "hint": "enquadramento · luz · som OK",
+    "cta": "Conhecer o Self-tape Studio",
+    "body": "O self-tape virou a porta de entrada de quase todo casting. Nosso estúdio integrado trabalha com você durante a gravação: enquadramento, luz, som, o ritmo da interpretação. Um preparador vocal mostra como soar certo quando o papel pede um sotaque. Você grava várias versões, compara e fica com a melhor.",
+    "offline": "Funciona também em um celular simples e com conexão lenta. Um modo leve permite gravar em qualquer lugar e receber seus comentários depois que o vídeo for enviado."
+  },
+  "commission": {
+    "eyebrow": "Comissão decrescente",
+    "title": "Quanto mais você avança, mais você fica",
+    "cta": "Ver preços detalhados",
+    "body": "Sua assinatura e a comissão do seu agente são duas coisas separadas. A representação continua gratuita. Se você escolher um plano para ter acesso a mais ferramentas, sua comissão cai ao mesmo tempo. É um modelo alinhado ao seu sucesso."
+  },
+  "pricing": {
+    "eyebrow": "Preços",
+    "title": "Preços que recompensam seu progresso",
+    "note": "Todos os planos são opcionais. A representação não faz parte da beta.",
+    "perMonth": "por mês",
+    "commission": "comissão {rate}",
+    "popular": "Popular",
+    "plans": [
+      {
+        "name": "Basic",
+        "cta": "Começar",
+        "features": [
+          "Perfil, fotos e reel",
+          "Reel e Self-tape",
+          "Acompanhamento de carreira e ganhos",
+          "{searches} buscas de papéis com IA por mês",
+          "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+        ]
+      },
+      {
+        "name": "Pro",
+        "cta": "Escolher",
+        "features": [
+          "Tudo do Basic",
+          "{searches} buscas de papéis com IA por mês",
+          "Feedback da IA sobre seus self-tapes",
+          "Respostas mais rápidas da equipe Agental",
+          "Suporte prioritário",
+          "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+        ]
+      },
+      {
+        "name": "Premium",
+        "cta": "Escolher",
+        "features": [
+          "Tudo do Pro",
+          "{searches} buscas de papéis com IA por mês",
+          "Mais coaching",
+          "Mais recursos em breve",
+          "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+        ]
+      },
+      {
+        "name": "Ultimate",
+        "cta": "Escolher",
+        "features": [
+          "Tudo do Premium",
+          "{searches} buscas de papéis com IA por mês",
+          "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Eles entraram na Agental",
+    "items": [
+      {
+        "quote": "Cresci longe da capital e achava que atuar não era para mim. Três meses com a Agental e eu já tinha gravado em duas séries. O app me avisa quando um papel combina, e o estúdio me ensinou a gravar meus self-tapes direito.",
+        "author": "Sofiane, 22 anos, figuração e pequenos papéis, Lyon"
+      },
+      {
+        "quote": "Eu pagava três plataformas diferentes e passava as noites separando anúncios. Agora tudo chega filtrado. Eu me concentro nos testes, o agente cuida do resto.",
+        "author": "Amina, 34 anos, publicidade e voz, Marselha"
+      },
+      {
+        "quote": "O que me convenceu foi o mandato. É uma agência de verdade, com um contrato de verdade, não um site que vende esperança. E uma comissão que cai conforme você cresce muda tudo ao longo de um ano.",
+        "author": "Lucas, 41 anos, papéis coadjuvantes, Lille"
+      }
+    ]
+  },
+  "minors": {
+    "title": "Um ambiente protegido para jovens talentos",
+    "cta": "Saiba mais sobre a proteção de menores",
+    "items": [
+      "Autorização da comissão departamental",
+      "Presença dos pais no casting e no set",
+      "Leitura do roteiro pelos pais",
+      "Exame médico antes da filmagem",
+      "90% do cachê retido até a maioridade"
+    ],
+    "body": "Você é pai ou mãe de uma criança que sonha em atuar? Aplicamos todas as proteções previstas na lei francesa: autorização da comissão departamental, presença dos pais no casting e no set, leitura do roteiro pelos pais, exame médico e 90% do cachê guardado em uma conta bloqueada até a maioridade. Cada etapa é acompanhada e documentada."
+  },
+  "finalCta": {
+    "title": "Pronto para ser representado?",
+    "ctaPrimary": "Seja membro",
+    "ctaSecondary": "Fazer uma pergunta",
+    "body": "Criar seu perfil leva poucos minutos. O mandato é gratuito, sem compromisso, e você pode sair quando quiser. Seu talento merece um agente que trabalhe para você."
+  },
+  "how": {
+    "meta": {
+      "title": "Como funciona: Agental Talents",
+      "description": "Da criação do perfil ao recebimento do cachê: como a Agental representa você e trabalha para você, passo a passo."
+    },
+    "hero": {
+      "eyebrow": "Como funciona",
+      "title": "Como a Agental funciona para artistas",
+      "subtitle": "Um agente de verdade que representa você, uma IA que trabalha para você sem parar. Veja o caminho, sem jargão."
+    },
+    "sections": [
+      {
+        "title": "Um perfil que tem a sua cara",
+        "body": "Você preenche sua identidade artística, seu perfil físico, suas mídias, suas especialidades e sua disponibilidade. Cada termo técnico é explicado em linguagem simples, então você não precisa do jargão da área para começar. Um reel gravado no celular basta para começar."
+      },
+      {
+        "title": "O contrato que faz você ser representado",
+        "body": "O mandato é o contrato que todo artista assina com seu agente. Ele é regido pela lei francesa. É gratuito, não gera nenhum compromisso da sua parte e pode ser encerrado quando você quiser. Ao assiná-lo, você nos autoriza a representá-lo, procurar papéis para você e negociar seus contratos."
+      },
+      {
+        "title": "Um acompanhamento que nunca para",
+        "body": "Nosso sistema acompanha os anúncios de casting sem parar, na França e no exterior. Ele compara cada anúncio com seu perfil e identifica os que realmente combinam: sua idade, seu tipo, seus idiomas, sua região, sua disponibilidade. Você recebe propostas certeiras sem precisar procurar."
+      },
+      {
+        "title": "O estúdio que dá confiança",
+        "body": "Quando um papel pede um self-tape, nosso estúdio trabalha com você durante a gravação. Ele orienta você em tempo real sobre enquadramento, luz e som. Um preparador vocal faz você ouvir a entonação certa quando o papel pede um sotaque. Você grava várias versões, compara e envia a melhor direto pelo app."
+      },
+      {
+        "title": "Da seleção ao cachê",
+        "body": "Quando você é selecionado, assumimos a parte contratual. Negociamos seu cachê e suas condições, verificamos se o contrato é legal e acompanhamos a filmagem. A Agental recebe seu cachê, retém a comissão e paga a sua parte em até sete dias após o pagamento efetivo."
+      }
+    ],
+    "cta": "Seja membro",
+    "summary": {
+      "title": "Em resumo",
+      "body": "Todo o caminho de relance: perfil, mandato, acompanhamento por IA, self-tape, contrato. Você mantém o controle em cada etapa, e uma pessoa sempre confere os contratos antes da assinatura."
+    }
+  },
+  "pricingPage": {
+    "meta": {
+      "title": "Preços: Agental Talents",
+      "description": "Planos da Agental para artistas. Grátis durante a beta; os planos pagos são opcionais."
+    },
+    "hero": {
+      "eyebrow": "Preços",
+      "title": "Preços que recompensam seu progresso",
+      "subtitle": "O plano Basic cobre seu perfil e suas mídias. Os planos pagos adicionam ferramentas e nunca são um pedágio para as oportunidades."
+    },
+    "note": "Sem fidelidade. Mude de plano ou volte ao Basic quando quiser."
+  },
+  "faq": {
+    "meta": {
+      "title": "Perguntas frequentes: Agental Talents",
+      "description": "Suas perguntas sobre a Agental: a agência, o mandato, a comissão e o dia a dia."
+    },
+    "hero": {
+      "eyebrow": "Perguntas frequentes",
+      "title": "Perguntas frequentes dos artistas",
+      "subtitle": "Tudo o que você quer saber antes de começar. Outra pergunta? Escreva para a gente."
+    },
+    "cta": "Seja membro grátis",
+    "groups": [
+      {
+        "title": "O essencial",
+        "items": [
+          {
+            "q": "O que é a Agental?",
+            "a": "Uma plataforma para artistas, em beta. Você monta seu perfil, guarda fotos, créditos, reel e self-tapes em um só lugar e prepara seus materiais de casting. Os rascunhos de candidatura sempre esperam a sua revisão."
+          },
+          {
+            "q": "A Agental me representa?",
+            "a": "Não durante a beta. A Agental não atua como seu agente e não cobra comissão. Se a representação abrir no futuro, ela virá com um contrato escrito próprio, que você escolhe aceitar."
+          },
+          {
+            "q": "Quanto custa começar?",
+            "a": "Nada. O plano Basic cobre seu perfil e suas mídias. Os planos pagos e os sites do Limelight são opcionais e nunca são condição para testes ou candidaturas."
+          },
+          {
+            "q": "Preciso de experiência para me cadastrar?",
+            "a": "Não. A Agental é justamente para os perfis pouco atendidos pelas agências tradicionais. Um reel gravado no celular basta para começar."
+          }
+        ]
+      },
+      {
+        "title": "O mandato e a comissão",
+        "items": [
+          {
+            "q": "O que é o mandato de representação?",
+            "a": "É o contrato padrão entre um artista e seu agente, regido pela lei francesa. Ele nos autoriza a representar você e negociar por você. Gratuito, sem compromisso da sua parte."
+          },
+          {
+            "q": "Quanto de comissão a Agental cobra?",
+            "a": "{commission_FREE} no Basic e no Pro, {commission_PREMIUM} no Premium, {commission_ULTIMATE} no Ultimate. Quanto mais você sobe, mais você fica."
+          },
+          {
+            "q": "A comissão é somada à assinatura?",
+            "a": "O mandato (gratuito) e a possível comissão são separados da assinatura (opcional). A assinatura financia os serviços de tecnologia; ela nunca compra acesso a oportunidades."
+          },
+          {
+            "q": "Posso cancelar meu mandato?",
+            "a": "Sim, com um aviso curto e sem precisar justificar. Você continua livre."
+          }
+        ]
+      },
+      {
+        "title": "No dia a dia",
+        "items": [
+          {
+            "q": "Como a IA encontra papéis para mim?",
+            "a": "Ela cruza seu perfil (físico, especialidades, idiomas, sotaques, disponibilidade) com os castings abertos e sugere os que realmente combinam."
+          },
+          {
+            "q": "Eu mantenho o controle das minhas candidaturas?",
+            "a": "Sim. Você define suas preferências, tipos de projeto, mobilidade e cachê mínimo, e nada é assumido em seu nome sem o seu acordo. Quem decide é sempre você."
+          },
+          {
+            "q": "A assinatura me dá acesso privilegiado aos castings?",
+            "a": "Não. As oportunidades passam pelo mandato, que é gratuito. A assinatura reduz a comissão e libera ferramentas, nunca um atalho."
+          },
+          {
+            "q": "O que acontece se eu parar de pagar?",
+            "a": "Você volta automaticamente para o plano Basic. Continua representado."
+          },
+          {
+            "q": "Funciona em um celular simples?",
+            "a": "Sim. O Self-tape Studio tem um modo reduzido feito para aparelhos modestos e conexões lentas."
+          }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "meta": {
+      "title": "Quem somos: Agental",
+      "description": "Um grupo de jovens atores e criadores, no campus, com raízes na França e na USC: dar a cada artista uma chance justa de conseguir um papel."
+    },
+    "hero": {
+      "eyebrow": "Quem somos",
+      "title": "Quem somos",
+      "subtitle": "A Agental cria ferramentas para artistas e equipes de casting. Por trás da tecnologia há um grupo de jovens atores e criadores, e uma convicção."
+    },
+    "origin": {
+      "title": "Nossa história",
+      "body": "A Agental foi criada por um grupo de jovens atores e criadores que viram como o caminho até um papel pode ser desigual. A representação costuma ir para poucos que já têm contatos, moram na cidade certa ou podem pagar um agente. Queremos que todo artista tenha a mesma chance justa.",
+      "body2": "Começamos onde estamos: no campus, com raízes na França e na USC. Construímos a partir daí, um artista de cada vez."
+    },
+    "stance": {
+      "title": "No que acreditamos",
+      "body": "Acreditamos que um sotaque, uma origem ou um visual singular são pontos fortes, porque as produções procuram personalidades reais e variadas. Acreditamos que um bom começo deve ser aberto a todos, e gratuito. E acreditamos que a tecnologia deve continuar a serviço das pessoas, com clareza: a Agental usa IA para ajudar os artistas a se preparar e as equipes de casting a encontrar os perfis certos mais rápido, e cada sugestão pode ser explicada. Quem decide são as pessoas."
+    },
+    "mission": {
+      "title": "Nossa missão",
+      "body": "Ajudar cada artista a ser visto e tornar a busca por talentos mais justa e eficaz. Dos dois lados, queremos que os encontros certos finalmente aconteçam.",
+      "ctaPrimary": "Seja membro",
+      "ctaSecondary": "Conheça o Agental Casting"
+    }
+  },
+  "castingLandings": {
+    "index": {
+      "meta": {
+        "title": "Todos os tipos de casting: Agental Talents",
+        "description": "Figuração, participação, papéis coadjuvantes, publicidade, foto, voz, crianças, criadores: encontre o tipo de casting feito para você e deixe a Agental representar você."
+      },
+      "eyebrow": "Tipos de casting",
+      "title": "Encontre o casting feito para você",
+      "subtitle": "Seja qual for seu perfil, há um lugar para você. Escolha um universo, a gente encontra os papéis que combinam."
+    },
+    "audienceTitle": "Para quem é",
+    "benefitsTitle": "O que a Agental oferece",
+    "protectionTitle": "A proteção aplicada",
+    "cachetsTitle": "Cachês de referência na França",
+    "cachetsNote": "Faixas de referência, que variam conforme o projeto, a produção e a experiência.",
+    "startTitle": "Como começar",
+    "cta": "Seja membro",
+    "othersTitle": "Outros tipos de casting",
+    "faqTitle": "Perguntas frequentes"
+  },
+  "notFound": {
+    "title": "Esta página saiu do set.",
+    "body": "O link pode ser antigo, ou a página mudou de nome. Seus castings continuam onde você deixou."
+  },
+  "castingTypes": {
+    "figuration": {
+      "name": "Figuração",
+      "h1": "Casting de figuração",
+      "tagline": "A porta de entrada para o cinema e a TV. Não precisa de experiência.",
+      "audience": "Você quer aparecer na tela, ver como um set funciona e conseguir um primeiro crédito. Todos os perfis, todas as idades, em qualquer lugar da França.",
+      "chapo": "Fazer figuração é aparecer na tela em um filme, série, comercial ou videoclipe, sem falas. A participação é uma figuração que se destaca, em que seu rosto ou uma ação específica chama atenção. Muitas vezes são os primeiros passos na profissão, e um ótimo jeito de entender um set.",
+      "apporte": "Representamos você com um mandato de verdade, gratuito. Nossa IA identifica os castings de figuração que combinam com seu perfil e sua região, e avisa você assim que surge um papel urgente. Quando pedem um self-tape, orientamos você para que fique limpo e destaque você. Sua visibilidade cresce, e você pode passar para participações e depois para pequenos papéis com falas.",
+      "steps": [
+        "Crie seu perfil e adicione algumas fotos.",
+        "Assine seu mandato gratuito.",
+        "Receba seus primeiros castings de figuração certeiros."
+      ],
+      "faq": [
+        {
+          "q": "Precisa de experiência para fazer figuração?",
+          "a": "Não. A figuração é aberta a iniciantes. Muitas vezes é o primeiro passo de uma carreira."
+        },
+        {
+          "q": "Precisa morar na capital?",
+          "a": "Não. As filmagens acontecem no país todo. Você informa sua mobilidade, e propomos papéis que você consegue alcançar de casa."
+        },
+        {
+          "q": "A figuração é paga?",
+          "a": "Sim. O cachê de figuração costuma ficar entre 80 e 180 euros por dia."
+        },
+        {
+          "q": "Como passar da figuração para pequenos papéis?",
+          "a": "Desenvolvendo seu perfil e seus self-tapes. Orientamos você para chegar a papéis com falas."
+        }
+      ]
+    },
+    "silhouette": {
+      "name": "Participação",
+      "h1": "Casting de participação",
+      "tagline": "Um passo além da figuração: um gesto, uma presença que se nota.",
+      "audience": "Você tem um visual, uma postura ou uma ação precisa para interpretar diante da câmera. Um papel sem falas, mas visível, geralmente mais bem pago que a figuração.",
+      "chapo": "A participação é uma figuração que se destaca: seu rosto é reconhecível ou você realiza uma ação específica na tela. É o degrau logo acima da figuração, muitas vezes mais bem pago, e o caminho mais natural para papéis com falas.",
+      "apporte": "Buscamos as participações que combinam com seu tipo e sua região, e avisamos você rápido porque elas costumam sair em cima da hora. Orientamos você no self-tape quando ele é pedido e destacamos o que torna você reconhecível na tela. Negociamos seu cachê e verificamos seus direitos de imagem.",
+      "steps": [
+        "Crie seu perfil e capriche nas fotos de frente e de perfil.",
+        "Assine seu mandato gratuito.",
+        "Receba participações certeiras na sua região."
+      ],
+      "faq": [
+        {
+          "q": "Qual a diferença para a figuração?",
+          "a": "Na figuração você compõe a cena sem ser identificável. Na participação, seu rosto ou sua ação se destaca na tela."
+        },
+        {
+          "q": "A participação é mais bem paga?",
+          "a": "Muitas vezes, sim. O cachê costuma ser maior que o de figuração, e uma exigência específica pode aumentá-lo ainda mais."
+        },
+        {
+          "q": "Precisa de experiência?",
+          "a": "Não, mas uma primeira experiência de figuração ajuda você a se sentir à vontade no set."
+        }
+      ]
+    },
+    "seconds-roles": {
+      "name": "Papéis coadjuvantes",
+      "h1": "Casting de papéis coadjuvantes",
+      "tagline": "Falas, um personagem, séries e longas-metragens.",
+      "audience": "Você atua, tem (ou está construindo) alguma experiência e quer papéis com falas em séries, dramas e filmes.",
+      "chapo": "Um pequeno papel ou papel coadjuvante é um personagem com falas, presente em uma ou várias cenas, sem ser o protagonista. Esses papéis são o coração do volume de castings e um caminho sólido para construir uma carreira de ator.",
+      "apporte": "Representamos você e buscamos os castings de pequenos papéis feitos para o seu perfil. Nossa IA compara cada anúncio com sua idade, seu tipo, seus sotaques e seus idiomas. Orientamos você nos self-tapes para que sua candidatura chegue o mais perto possível do que o papel pede, e destacamos o que diferencia você. Negociamos seu contrato e garantimos seu cachê.",
+      "steps": [
+        "Crie um perfil completo, com um reel se você tiver.",
+        "Assine seu mandato gratuito.",
+        "Receba castings certeiros de pequenos papéis e grave seus self-tapes com orientação."
+      ],
+      "faq": [
+        {
+          "q": "Qual a diferença entre um pequeno papel e a figuração?",
+          "a": "Um pequeno papel tem falas. A figuração aparece na tela sem falas."
+        },
+        {
+          "q": "Precisa de formação em atuação?",
+          "a": "Ajuda, mas não é obrigatório. Muitos artistas evoluem com a prática e uma boa orientação nos self-tapes."
+        },
+        {
+          "q": "Quanto paga um pequeno papel em uma série?",
+          "a": "Muitas vezes entre 350 e 800 euros por dia, dependendo do projeto."
+        }
+      ]
+    },
+    "publicite": {
+      "name": "Comerciais",
+      "h1": "Casting de comerciais",
+      "tagline": "As filmagens mais bem pagas, abertas a todos os perfis.",
+      "audience": "Um rosto, uma família, um atleta, um idoso, uma criança, mãos habilidosas… A publicidade procura pessoas reais, não modelos. Cachês altos e direitos de imagem negociados.",
+      "chapo": "O casting publicitário recruta rostos e silhuetas para campanhas de marcas, na televisão, na internet ou em mídia impressa. É um dos segmentos mais bem pagos da profissão e procura uma grande variedade de perfis, de casais a famílias, de atletas a rostos marcantes.",
+      "apporte": "Buscamos os castings publicitários adequados ao seu perfil e avisamos você rápido, porque esses castings costumam andar depressa. Orientamos você no self-tape para que fique limpo e convincente. Verificamos os direitos de imagem, um ponto essencial na publicidade, e negociamos seu cachê e as condições de veiculação.",
+      "steps": [
+        "Crie seu perfil e capriche nas fotos.",
+        "Assine seu mandato gratuito.",
+        "Receba castings publicitários certeiros e rápidos."
+      ],
+      "faq": [
+        {
+          "q": "Os castings publicitários pagam bem?",
+          "a": "Sim. O cachê de um comercial costuma ficar entre 800 e 3.000 euros por dia, sem contar os direitos de veiculação."
+        },
+        {
+          "q": "O que são direitos de imagem na publicidade?",
+          "a": "A autorização para usar sua imagem na veiculação da campanha. Verificamos e negociamos esses direitos por você."
+        },
+        {
+          "q": "Precisa de experiência?",
+          "a": "Não. A publicidade procura acima de tudo perfis críveis e variados."
+        }
+      ]
+    },
+    "photo": {
+      "name": "Foto",
+      "h1": "Casting de fotografia",
+      "tagline": "Campanhas, catálogos, editoriais: sua imagem trabalhando.",
+      "audience": "Você fica à vontade diante da câmera em ensaios comerciais ou editoriais. Rostos autênticos, de todos os tipos e idades.",
+      "chapo": "O casting de fotografia recruta modelos e rostos para ensaios publicitários, campanhas de marcas, catálogos e editoriais. Ele busca uma grande variedade de perfis, muito além dos padrões da moda clássica.",
+      "apporte": "Identificamos os castings de fotografia que combinam com você, cuidamos dos seus direitos de imagem e negociamos suas condições. Orientamos você nas imagens do seu perfil para que valorizem você ao máximo. Seu visual singular é um trunfo, e nós o destacamos.",
+      "steps": [
+        "Crie seu perfil com fotos variadas.",
+        "Assine seu mandato gratuito.",
+        "Receba castings certeiros de foto e moda."
+      ],
+      "faq": [
+        {
+          "q": "Precisa ser modelo profissional?",
+          "a": "Não. A fotografia e a moda procuram cada vez mais perfis variados e autênticos."
+        },
+        {
+          "q": "Quem cuida dos meus direitos de imagem?",
+          "a": "A Agental verifica e negocia seus direitos de imagem em cada projeto."
+        },
+        {
+          "q": "Que fotos colocar no meu perfil?",
+          "a": "Fotos nítidas e variadas. Orientamos você sobre as que mais valorizam você."
+        }
+      ]
+    },
+    "voix-doublage": {
+      "name": "Voz e dublagem",
+      "h1": "Casting de voz e dublagem",
+      "tagline": "Sua voz basta: publicidade, dublagem, narração, e-learning.",
+      "audience": "Você tem uma voz marcante, um sotaque, um idioma ou um timbre especial. O trabalho acontece em estúdio, muitas vezes sem precisar ir longe.",
+      "chapo": "O casting de voz recruta intérpretes e vozes para dublagem, publicidade em rádio, e-learning, audiolivros e vozes sintéticas. É uma profissão própria, que valoriza timbre, dicção e a capacidade de atuar só com a voz.",
+      "apporte": "Buscamos os castings de voz adequados ao seu timbre e aos seus idiomas. Nosso preparador vocal ajuda você a preparar os testes e ajustar a interpretação, inclusive para sotaques pedidos. Negociamos suas sessões e garantimos seus direitos.",
+      "steps": [
+        "Crie seu perfil e grave uma amostra de voz.",
+        "Assine seu mandato gratuito.",
+        "Receba castings certeiros de voz e dublagem."
+      ],
+      "faq": [
+        {
+          "q": "Precisa de um estúdio para começar?",
+          "a": "Não. Uma gravação limpa com fone e microfone basta para os primeiros testes."
+        },
+        {
+          "q": "Quanto paga uma sessão de voz?",
+          "a": "Muitas vezes entre 200 e 800 euros, dependendo do projeto e dos direitos."
+        },
+        {
+          "q": "Sotaques são um diferencial?",
+          "a": "Sim. Sotaques e idiomas ampliam claramente suas oportunidades."
+        }
+      ]
+    },
+    "enfants": {
+      "name": "Crianças e adolescentes",
+      "h1": "Casting de crianças e adolescentes",
+      "tagline": "Uma proteção rigorosa, para atuar com segurança.",
+      "audience": "Seu filho quer ir para o set? Figuração, comerciais, séries: as oportunidades existem, dentro de um marco legal de proteção que aplicamos à risca.",
+      "chapo": "O casting infantil recruta jovens com menos de 16 anos para cinema, séries, moda e publicidade. Na França, essa área é rigorosamente regulada por lei para proteger a criança. A Agental aplica cada uma dessas proteções e acompanha os pais em cada etapa.",
+      "apporte": "Identificamos os castings adequados ao seu filho, montamos os documentos exigidos e garantimos que cada proteção seja respeitada. Você mantém o controle e a visibilidade sobre tudo.",
+      "steps": [
+        "Crie o perfil do seu filho com o seu consentimento.",
+        "Assine o mandato, gratuitamente.",
+        "Receba castings supervisionados e acompanhados."
+      ],
+      "faq": [
+        {
+          "q": "É legal meu filho atuar?",
+          "a": "Sim, dentro de um marco rigoroso. A autorização da comissão departamental é obrigatória, e a Agental cuida do processo."
+        },
+        {
+          "q": "O que acontece com o dinheiro que meu filho ganha?",
+          "a": "90% do cachê é depositado em uma conta bloqueada na Caisse des dépôts até a maioridade."
+        },
+        {
+          "q": "Preciso estar presente?",
+          "a": "Sim. A presença dos pais é obrigatória no casting e no set."
+        },
+        {
+          "q": "Meu filho pode filmar à noite?",
+          "a": "Filmagens noturnas são proibidas para menores de 16 anos, salvo uma exceção rigorosamente controlada."
+        }
+      ]
+    },
+    "createurs": {
+      "name": "Criadores de conteúdo",
+      "h1": "Casting para criadores de conteúdo",
+      "tagline": "Seu público e sua naturalidade diante da câmera são trunfos no casting.",
+      "audience": "Você já cria conteúdo e quer monetizar sua presença: publicidade, campanhas de marca, formatos híbridos. A gente estrutura e negocia por você.",
+      "chapo": "O casting de criadores de conteúdo conecta criadores ativos no TikTok, YouTube, Instagram e Twitch com marcas e produções. Os anunciantes procuram criadores autênticos para conduzir suas campanhas, e esse mercado cresce rápido.",
+      "apporte": "Representamos você e buscamos as oportunidades de parceria adequadas à sua linha editorial e ao seu público. Negociamos suas condições, verificamos os contratos e ajudamos você a profissionalizar sua atividade mantendo sua liberdade criativa.",
+      "steps": [
+        "Crie seu perfil e conecte seus canais.",
+        "Assine seu mandato gratuito.",
+        "Receba propostas de parceria certeiras."
+      ],
+      "faq": [
+        {
+          "q": "Existe um número mínimo de seguidores?",
+          "a": "Não. Seu nicho e sua autenticidade contam tanto quanto o tamanho do seu público."
+        },
+        {
+          "q": "A Agental cobra comissão sobre minhas parcerias?",
+          "a": "Sobre os contratos fechados pela Agental, sim, conforme a comissão decrescente do seu plano. Sua atividade pessoal continua sendo sua."
+        },
+        {
+          "q": "Mantenho minha liberdade criativa?",
+          "a": "Sim. Defendemos seus interesses, e você mantém o controle do seu conteúdo."
+        }
+      ]
+    },
+    "performeurs": {
+      "name": "Performers e palco",
+      "h1": "Casting para performers e artistas de palco",
+      "tagline": "Dança, música, mágica, circo, apresentação, dublês: sua disciplina é um papel.",
+      "audience": "Para todo artista de palco que quer acesso a mais oportunidades e representação por um agente. Sua disciplina, seu nível e sua versatilidade são seus trunfos.",
+      "chapo": "O casting de performers recruta artistas de palco para eventos, espetáculos, videoclipes, filmagens e apresentações. Ele abrange uma grande diversidade de disciplinas: dança, música, mágica, circo, apresentação, dublês e muitas outras.",
+      "apporte": "Buscamos os castings adequados à sua disciplina e à sua região, negociamos suas condições e garantimos seus contratos. Destacamos suas habilidades específicas junto a produções e eventos.",
+      "steps": [
+        "Crie seu perfil e apresente sua disciplina e seus vídeos.",
+        "Assine seu mandato gratuito.",
+        "Receba castings adequados à sua arte."
+      ],
+      "faq": [
+        {
+          "q": "Quais disciplinas são atendidas?",
+          "a": "Dança, música, mágica, circo, apresentação, dublês e muitas outras práticas de palco."
+        },
+        {
+          "q": "Posso informar várias disciplinas?",
+          "a": "Sim. Sua versatilidade amplia suas oportunidades."
+        },
+        {
+          "q": "Precisa ter nível profissional?",
+          "a": "Seu nível real é valorizado como ele é. Buscamos as oportunidades que combinam com ele."
+        }
+      ]
+    },
+    "units": {
+      "day": "/ dia",
+      "session": "/ sessão",
+      "project": "por projeto",
+      "variable": "Variável"
+    }
+  },
+  "login": {
+    "metaTitle": "Entrar",
+    "title": "Que bom ver você de novo",
+    "subtitle": "Entre no seu espaço Agental.",
+    "submit": "Entrar",
+    "noAccount": "Ainda não tem conta?",
+    "signUp": "Seja membro"
+  },
+  "signup": {
+    "metaTitle": "Seja membro",
+    "title": "Crie sua conta de artista",
+    "subtitle": "Crie seu perfil e prepare seus materiais de casting.",
+    "submit": "Criar minha conta",
+    "already": "Já é membro?",
+    "signIn": "Entrar"
+  },
+  "onboarding": {
+    "steps": {
+      "identity": "Seu nome",
+      "profile": "Sobre você",
+      "mandat": "Contrato"
+    },
+    "identity": {
+      "title": "Quem é você?",
+      "subtitle": "Seu nome como no documento de identidade, e o nome com que você trabalha se for diferente. Vai direto para o seu perfil."
+    },
+    "profile": {
+      "title": "Sobre você",
+      "subtitle": "Três respostas rápidas, salvas no seu perfil.",
+      "phoneHint": "A equipe pode falar com você rápido quando surgir um papel. Você pode adicionar depois."
+    },
+    "mandat": {
+      "title": "Sobre o contrato de representação",
+      "subtitle": "O contrato de representação ficará disponível mais tarde. Você pode completar seu perfil agora.",
+      "read": "Sobre o contrato",
+      "status": "O contrato que permite à Agental representar você ainda está em análise. Durante a beta você não assina nada, e seu perfil, suas mídias e seu site funcionam sem ele. Quando uma versão estiver pronta, mostraremos aqui e pediremos sua confirmação antes de qualquer assinatura.",
+      "submit": "Continuar para meu perfil"
+    },
+    "back": "Voltar",
+    "continue": "Continuar"
+  },
+  "space": {
+    "nav": {
+      "dashboard": "Painel",
+      "profile": "Perfil",
+      "candidatures": "Candidaturas",
+      "selftape": "Reel e Self-tape",
+      "career": "Carreira",
+      "subscription": "Assinatura",
+      "messages": "Mensagens",
+      "settings": "Configurações",
+      "account": "Minha conta"
+    },
+    "dashboard": {
+      "tagline": "A gente procura por você, você se concentra na sua arte.",
+      "represented": "Representado",
+      "plan": "Plano {plan}",
+      "recent": "Candidaturas recentes",
+      "empty": "Os papéis que combinam com você aparecem aqui assim que uma candidatura for aberta para você.",
+      "suggestions": "Sugestões da IA",
+      "activeCount": "Candidaturas ativas",
+      "pendingCount": "Aguardando retorno",
+      "auditions": "Próximos testes",
+      "urgent": "Oportunidades urgentes",
+      "complete": "Completar",
+      "selftapeHint": "Grave um primeiro self-tape. A gente orienta você para que ele se destaque.",
+      "view": "Ver",
+      "welcome": "Boas-vindas, {name}.",
+      "welcomeAnon": "Boas-vindas.",
+      "completenessHint": "Seu perfil está {percent}% completo. Preencha para a IA fazer mais com ele.",
+      "urgentHint": "{count, plural, one {Você está muito bem posicionado para # oportunidade. Capriche na candidatura.} other {Você está muito bem posicionado para # oportunidades. Capriche nas candidaturas.}}",
+      "completeProfile": {
+        "title": "Complete seu perfil",
+        "subtitle": "Os diretores de casting escolhem pelo que conseguem ver. Adicione estes itens para aparecer em mais buscas.",
+        "percent": "{percent}% completo",
+        "gaps": {
+          "photos": "Adicionar fotos",
+          "video": "Adicionar um self-tape ou reel",
+          "physical": "Adicionar suas características físicas",
+          "bio": "Escrever uma bio curta",
+          "links": "Adicionar um link do IMDb ou portfólio",
+          "productions": "Adicionar uma produção anterior",
+          "otherMedia": "Adicionar outro arquivo útil"
+        },
+        "next": "Próximo passo:",
+        "cta": "Retomar"
+      },
+      "setup": {
+        "title": "Completar meu perfil",
+        "subtitle": "Ainda faltam alguns detalhes para configurar sua conta.",
+        "next": "Próximo passo: {step}.",
+        "steps": {
+          "identity": "Seu nome artístico e sua data de nascimento.",
+          "profile": "Pelo menos uma especialidade."
+        },
+        "cta": "Retomar"
+      },
+      "nextItem": "{percent}% completo. Próximo passo: {item}.",
+      "missing": {
+        "photos": "adicione fotos",
+        "video": "adicione um self-tape ou reel",
+        "physical": "adicione cabelo, olhos ou biotipo",
+        "bio": "escreva uma bio curta",
+        "links": "adicione um link do IMDb ou portfólio",
+        "city": "adicione sua cidade atual",
+        "specialties": "escolha uma especialidade",
+        "birthDate": "adicione sua data de nascimento",
+        "stageName": "adicione seu nome artístico",
+        "height": "adicione sua altura",
+        "build": "escolha seu biotipo",
+        "productions": "adicione uma foto de uma produção anterior",
+        "otherMedia": "adicione outro arquivo útil, como um trecho de voz",
+        "legalName": "adicione seu nome legal",
+        "gender": "escolha seu gênero",
+        "phone": "adicione seu número de telefone",
+        "languages": "adicione seus idiomas",
+        "hair": "escolha a cor do cabelo",
+        "eyes": "escolha a cor dos olhos",
+        "workTypes": "escolha os trabalhos que você quer",
+        "ageRange": "defina as idades que você pode interpretar",
+        "compensation": "escolha trabalhos pagos ou não pagos",
+        "dayRate": "adicione seu cachê diário"
+      },
+      "launch": {
+        "title": "Inicie sua primeira busca",
+        "body": "Seu perfil está completo. Inicie uma busca e nosso agente vai procurar papéis para você.",
+        "cta": "Começar a encontrar papéis"
+      },
+      "findRoles": {
+        "label": "Começar a encontrar papéis",
+        "scanning": "Buscando…",
+        "sent": "Sua busca está na fila. Os resultados vão aparecer em Candidaturas.",
+        "available": "{count, plural, one {# busca disponível} other {# buscas disponíveis}}",
+        "leftOf": "{left} de {limit} {left, plural, one {busca restante} other {buscas restantes}} · renova em {days, plural, one {# dia} other {# dias}}",
+        "noneLeft": "Nenhuma busca restante · renova em {days, plural, one {# dia} other {# dias}}",
+        "upgradeMore": "Faça upgrade para ter mais buscas",
+        "usage": "Buscas com IA neste período",
+        "locked": {
+          "title": "Complete seu perfil para liberar suas buscas",
+          "body": "Quando chegar a 100%, lançamos sua primeira busca automaticamente, e depois você pode lançar mais {more} neste mês.",
+          "cta": "Completar meu perfil"
+        },
+        "block": {
+          "title": "Antes que sua busca possa começar",
+          "blocked": {
+            "text": "As buscas com IA não estão disponíveis nesta conta. Escreva para a gente em Mensagens.",
+            "cta": "Abrir Mensagens"
+          },
+          "not_adult": {
+            "text": "As buscas com IA são para artistas com 18 anos ou mais."
+          },
+          "email_unverified": {
+            "text": "Verifique seu e-mail para começar a encontrar papéis.",
+            "cta": "Envie um código"
+          },
+          "profile_incomplete": {
+            "text": "Complete seu perfil para começar a encontrar papéis. Falta: {missing}.",
+            "cta": "Ir para o primeiro campo que falta"
+          },
+          "not_open": {
+            "text": "As buscas com IA abrem em breve. Vamos mandar um e-mail assim que a sua estiver pronta."
+          },
+          "quota": {
+            "text": "Você usou suas {limit} buscas. A próxima fica disponível em {date}.",
+            "textNoDate": "Você usou suas {limit} buscas.",
+            "cta": "Ver planos"
+          }
+        },
+        "notice": {
+          "paused": "As buscas estão pausadas por um momento. Seu pedido está salvo e vai começar automaticamente.",
+          "queued": "Sua busca está na fila. Ela começa às {time}.",
+          "pausedNow": "As buscas com IA estão pausadas por um momento. Se você iniciar uma agora, ela fica salva e começa automaticamente."
+        }
+      },
+      "nextAction": "Próxima ação",
+      "checkApplications": {
+        "title": "Confira suas candidaturas",
+        "body": "Veja os papéis encontrados para você e a situação de cada um."
+      },
+      "noSuggestions": "Nada mais por enquanto. Sua próxima ação está no topo.",
+      "action": {
+        "stageName": "Adicione seu nome artístico",
+        "birthDate": "Adicione sua data de nascimento",
+        "specialties": "Escolha pelo menos uma especialidade",
+        "photos": "Adicione uma foto sua",
+        "video": "Adicione um reel",
+        "height": "Adicione sua altura",
+        "build": "Escolha seu biotipo",
+        "physical": "Adicione cabelo, olhos ou biotipo",
+        "bio": "Escreva uma bio curta",
+        "links": "Adicione um link do IMDb ou portfólio",
+        "city": "Adicione sua cidade atual",
+        "productions": "Adicione uma produção anterior",
+        "otherMedia": "Adicione outro arquivo útil",
+        "legalName": "Adicione seu nome legal",
+        "gender": "Escolha seu gênero",
+        "phone": "Adicione seu número de telefone",
+        "languages": "Adicione seus idiomas",
+        "hair": "Escolha a cor do cabelo",
+        "eyes": "Escolha a cor dos olhos",
+        "workTypes": "Escolha os trabalhos que você quer",
+        "ageRange": "Defina as idades que você pode interpretar",
+        "compensation": "Escolha trabalhos pagos ou não pagos",
+        "dayRate": "Adicione seu cachê diário"
+      },
+      "why": {
+        "stageName": "É o nome que os diretores de casting veem.",
+        "birthDate": "Os papéis são combinados com sua faixa etária.",
+        "specialties": "Os papéis são combinados com o que você faz.",
+        "photos": "Os diretores de casting escolhem pelas fotos que conseguem ver.",
+        "video": "Adicione um reel ou cenas de produções anteriores. O casting olha o vídeo primeiro.",
+        "height": "Muitos papéis informam uma altura.",
+        "build": "Muitos papéis descrevem o biotipo.",
+        "physical": "Muitos papéis descrevem cabelo, olhos ou biotipo.",
+        "bio": "Uma bio curta faz você se destacar em uma busca.",
+        "links": "Um link permite que os diretores de casting confiram seus créditos.",
+        "city": "Muitos papéis são locais.",
+        "productions": "Cartazes e fotos de cena mostram o trabalho que você já fez.",
+        "otherMedia": "Um trecho de voz ou um documento pode fazer a diferença.",
+        "legalName": "Contratos e pagamentos usam seu nome legal.",
+        "gender": "Os papéis são combinados com base nisso.",
+        "phone": "A equipe pode falar com você rápido quando surgir um papel.",
+        "languages": "Muitos papéis pedem um idioma.",
+        "hair": "Muitos papéis descrevem o cabelo.",
+        "eyes": "Muitos papéis descrevem os olhos.",
+        "workTypes": "Só procuramos os trabalhos que você quer.",
+        "ageRange": "Os papéis são escalados pela idade que você pode interpretar.",
+        "compensation": "Filtramos os trabalhos que não combinam.",
+        "dayRate": "Pulamos trabalhos pagos abaixo do seu cachê."
+      },
+      "autoFirst": "Lançamos sua primeira busca com IA. Restam {left} de {limit} buscas neste mês.",
+      "status": {
+        "title": "Status",
+        "queued": "{count, plural, one {# busca na fila} other {# buscas na fila}}",
+        "running": "{count} de {slots} em andamento",
+        "finished": "{count} concluídas",
+        "rolesFound": "{count, plural, one {# papel encontrado} other {# papéis encontrados}}",
+        "check": "Confira suas candidaturas",
+        "nextStart": "Próxima busca prevista para {date}"
+      }
+    },
+    "candidatures": {
+      "title": "Minhas candidaturas",
+      "subtitle": "Cada candidatura e seu status, em um só lugar.",
+      "empty": "Nenhuma candidatura ainda.",
+      "emptyList": "Nenhuma candidatura aqui ainda. Os papéis vão aparecer assim que uma candidatura for aberta para você.",
+      "origin": {
+        "auto": "Pela IA",
+        "manual": "Manual"
+      },
+      "status": {
+        "NEW": "Enviada",
+        "SHORTLISTED": "Na shortlist",
+        "STARRED": "Mantida",
+        "INVITED": "Convidado para teste",
+        "SELFTAPE_REQUESTED": "Self-tape solicitado",
+        "CONTRACTED": "Contratado",
+        "REJECTED": "Não vai seguir",
+        "EXCLUDED": "Deixada de lado"
+      },
+      "groups": {
+        "all": "Todas",
+        "sent": "Enviadas",
+        "short": "Na shortlist",
+        "won": "Contratadas",
+        "closed": "Encerradas"
+      },
+      "ratePerDay": "${amount}/dia",
+      "searchInProgress": {
+        "title": "Busca em andamento",
+        "body": "Nosso agente está procurando papéis para você. Iniciada em {date}."
+      },
+      "searches": {
+        "label": "Suas buscas recentes com IA",
+        "queued": "Busca na fila",
+        "running": "Busca em andamento",
+        "completed": "Busca concluída",
+        "failed": "A busca falhou. Ela não conta nas suas buscas.",
+        "canceled": "Busca cancelada. Ela não conta nas suas buscas.",
+        "started": "Iniciada em {date}."
+      },
+      "found": {
+        "title": "Papéis encontrados para você",
+        "body": "Cada um vem com a fonte e um rascunho que você pode editar. Nada é enviado até você decidir.",
+        "source": "Abrir o anúncio de casting",
+        "draft": "Rascunho de candidatura",
+        "status": {
+          "draft": "Aguardando sua revisão",
+          "reviewed": "Revisada",
+          "accepted": "Aceita: a equipe Agental está cuidando disso",
+          "submitted": "Enviada para revisão"
+        }
+      },
+      "role": {
+        "back": "Voltar para candidaturas",
+        "conditions": "O que este papel pede",
+        "conditionsSummary": "{videos, plural, =0 {Nenhum vídeo} one {# vídeo} other {# vídeos}} e {questions, plural, =0 {nenhuma pergunta} one {# pergunta} other {# perguntas}}.",
+        "nothingAsked": "Este papel não pede nada além do seu perfil. Aceite, depois envie, e a equipe Agental prepara sua candidatura.",
+        "video": "Vídeo {n}",
+        "question": "Pergunta {n}",
+        "accept": "Aceitar",
+        "acceptHint": "Aceitar abre o formulário de resposta. Nada é enviado ao casting.",
+        "yourAnswer": "Sua resposta",
+        "record": "Gravar",
+        "pick": "Escolher em Reel e Self-tape",
+        "pickNone": "Nenhum vídeo em Reel e Self-tape ainda.",
+        "chosen": "Escolhido: {title}",
+        "untitled": "Gravação sem título",
+        "saveDraft": "Salvar minhas respostas",
+        "saved": "Respostas salvas.",
+        "submit": "Enviar",
+        "submitHint": "Sua resposta vai para a equipe Agental revisar. Nada é enviado a um site de casting.",
+        "submitted": "Enviada em {date}. A equipe Agental está revisando sua resposta.",
+        "recordTitle": "Gravar o vídeo {n}",
+        "recordHint": "A gravação é salva em Reel e Self-tape, de forma privada, e colocada neste espaço. Se algo interromper, escolha ela aqui em Reel e Self-tape.",
+        "open": "Abrir este papel"
+      },
+      "queue": {
+        "rule": "Você pode colocar até {count} buscas na fila. Seu plano roda {slots, plural, one {uma busca por vez} other {# buscas ao mesmo tempo}}, e cada uma começa no máximo a cada {hours} horas.",
+        "title": "Busca na fila",
+        "empty": "Nenhuma busca aguardando.",
+        "item": "Busca {n}",
+        "soon": "Começa em breve",
+        "startsIn": "Começa em cerca de {hours, plural, one {# hora} other {# horas}}",
+        "startsAt": "Início previsto: {date}",
+        "queuedHonest": "Sua busca está na fila. Os resultados vão aparecer aqui.",
+        "slotsInUse": "{running} de {slots} em andamento"
+      },
+      "running": {
+        "title": "Busca em andamento",
+        "empty": "Nenhuma busca em andamento agora."
+      },
+      "finished": {
+        "title": "Busca concluída",
+        "last": "Última busca concluída em {date}.",
+        "empty": "Os papéis encontrados pelas suas buscas vão aparecer aqui."
+      },
+      "decide": {
+        "intro": "Veja uma descrição completa do que é pedido antes de aceitar ou recusar este teste, e a gente ajuda você a partir daí.",
+        "role": "Papel",
+        "project": "Projeto",
+        "dates": "Datas",
+        "location": "Local",
+        "pay": "Pagamento",
+        "notGiven": "Não informado",
+        "toSend": "O que enviar",
+        "nothingToSend": "Nada além do seu perfil.",
+        "video": "Vídeo {n}: {text}",
+        "question": "Pergunta {n}: {text}",
+        "fullNotice": "Ler o anúncio completo",
+        "source": "Abrir o anúncio de casting ({host})",
+        "accept": "Aceitar",
+        "decline": "Recusar",
+        "accepted": "Aceito: a equipe Agental está cuidando disso",
+        "submitted": "Enviado para revisão da equipe",
+        "open": "Adicionar os detalhes",
+        "declined": "Papel recusado.",
+        "undo": "Desfazer",
+        "undoFailed": "Tarde demais para desfazer. O papel continua recusado.",
+        "dateRange": "De {from} a {to}",
+        "dateFrom": "A partir de {from}",
+        "remote": "Remoto",
+        "unpaid": "Não pago",
+        "paid": "Pago, valor não informado",
+        "moreDetails": "Ver mais detalhes",
+        "lessDetails": "Ocultar os detalhes"
+      },
+      "states": {
+        "label": "Suas buscas"
+      }
+    },
+    "career": {
+      "title": "Minha carreira",
+      "subtitle": "Seus papéis, seus cachês, seu progresso.",
+      "empty": "Seu histórico de papéis vai aparecer aqui a partir do seu primeiro cachê.",
+      "role": "Papel",
+      "date": "Data",
+      "fee": "Cachê",
+      "commission": "Comissão",
+      "status": "Status",
+      "gross": "Cachês brutos",
+      "net": "Líquido recebido",
+      "agencyCommission": "Comissão da Agental",
+      "paid": "Pago",
+      "pending": "Pendente",
+      "rolesBooked": "Papéis conquistados",
+      "grossFee": "Cachê bruto"
+    },
+    "messages": {
+      "title": "Mensagens",
+      "subtitle": "Escreva para a equipe Agental. Uma pessoa lê cada mensagem e responde aqui.",
+      "empty": "Sua conversa com a equipe Agental começa aqui.",
+      "to": "Para",
+      "you": "Você",
+      "composerLabel": "Sua mensagem",
+      "placeholder": "Escreva sua mensagem",
+      "send": "Enviar",
+      "sending": "Enviando…",
+      "repliesHere": "As respostas chegam aqui em Mensagens.",
+      "conversations": "Conversas",
+      "newConversation": "Nova conversa",
+      "untitled": "Conversa",
+      "conversationMenu": "Opções da conversa",
+      "deleteConversation": "Excluir conversa",
+      "deleteConfirmTitle": "Excluir esta conversa?",
+      "deleteConfirmBody": "Ela some das suas Mensagens na hora. A equipe Agental guarda uma cópia por motivos de moderação e legais.",
+      "cancel": "Cancelar",
+      "deleted": "Conversa excluída",
+      "deleteFailed": "Não foi possível excluir a conversa. Tente de novo.",
+      "jumpToLatest": "Ir para a mais recente"
+    },
+    "settings": {
+      "title": "Configurações",
+      "subtitle": "Sua conta, idioma, notificações, privacidade e assinatura.",
+      "account": "Conta",
+      "email": "E-mail",
+      "stageName": "Nome artístico",
+      "mandat": "Mandato de representação",
+      "subscription": "Assinatura",
+      "editProfile": "Editar meu perfil",
+      "mandatNote": "Gratuito, pode ser cancelado a qualquer momento. É o que faz você ser representado, independentemente de qualquer assinatura.",
+      "subNote": "Serviço de tecnologia opcional. Ele nunca compra acesso a oportunidades.",
+      "manageSub": "Gerenciar assinatura (em breve)",
+      "signedOn": "Assinado em {date}",
+      "planSummary": "{price} por mês",
+      "sections": {
+        "account": "Conta",
+        "language": "Idioma",
+        "notifications": "Notificações",
+        "privacy": "Privacidade e cookies",
+        "subscription": "Assinatura"
+      },
+      "name": "Nome",
+      "emailVerified": "Verificado",
+      "emailUnverified": "Não verificado",
+      "password": "Senha",
+      "passwordChange": "Alterar senha",
+      "passwordSet": "Definir uma senha",
+      "passwordHint": "Enviamos por e-mail um link seguro para você escolher uma nova.",
+      "language": {
+        "label": "Idioma",
+        "lead": "O idioma do app e dos e-mails que enviamos para você. Ele fica salvo na sua conta.",
+        "saved": "Idioma salvo.",
+        "search": "Buscar um idioma",
+        "noMatch": "Nenhum idioma corresponde."
+      },
+      "notifications": {
+        "lead": "Escolha quais e-mails enviamos para você. Cada chave é salva assim que você muda.",
+        "applications": "Candidaturas",
+        "applicationsBody": "Quando uma candidatura muda de status: self-tape solicitado, convite, contratação ou recusa.",
+        "messages": "Mensagens",
+        "messagesBody": "Quando nossa equipe ou seu agente respondeu e você não leu em até uma hora.",
+        "product": "Novidades e dicas",
+        "productBody": "Novidades ocasionais do produto. Desativado até você ativar.",
+        "saved": "Configurações de notificação salvas.",
+        "roles": "Papéis encontrados",
+        "rolesBody": "No máximo um e-mail por dia com os papéis que seu agente encontrou, se você escolheu e-mail ou ambos abaixo."
+      },
+      "privacyPolicy": "Ler a Política de Privacidade",
+      "manage": "Gerenciar assinatura"
+    },
+    "profile": {
+      "title": "Meu perfil",
+      "subtitle": "Um perfil com a sua cara: é nele que a IA se baseia para combinar.",
+      "relink": {
+        "city": "Não conseguimos encontrar sua cidade \"{city}\" na nossa lista. Escolha na lista para acharmos papéis perto de você.",
+        "cityAction": "Escolher minha cidade",
+        "phone": "Não conseguimos ler seu número de telefone. Confira para podermos falar com você.",
+        "phoneAction": "Corrigir meu número",
+        "label": "Corrija estes dados do perfil"
+      }
+    },
+    "selftape": {
+      "title": "Reel e Self-tape",
+      "subtitle": "Seu self-tape pode mudar tudo. Ajudamos você a acertar: enquadramento, luz e som em tempo real.",
+      "takes": "Suas gravações",
+      "degraded": "Modo reduzido",
+      "take": "Gravação {n}",
+      "framing": "Enquadramento",
+      "light": "Luz",
+      "sound": "Som",
+      "tips": {
+        "framing": "Fique no centro e deixe um pouco de espaço acima da cabeça.",
+        "light": "Fique de frente para uma luz suave.",
+        "sound": "Chegue mais perto do microfone e reduza o barulho de fundo.",
+        "tooShort": "Sua gravação está muito curta, faça a cena inteira.",
+        "excellent": "Ótima gravação: enquadramento, luz e som estão todos certos."
+      },
+      "privacy": "Suas gravações são privadas. Só você pode vê-las até escolher enviar uma.",
+      "whatFor": "Um self-tape é um vídeo gravado para um teste ou casting específico.",
+      "whereGoes": "Ele fica privado, visível só para você, até você anexá-lo a uma candidatura."
+    },
+    "subscription": {
+      "title": "Assinatura",
+      "subtitle": "Um serviço opcional que recompensa seu progresso. O mandato continua gratuito."
+    },
+    "planFeatures": {
+      "FREE": [
+        "Perfil, fotos e reel",
+        "Reel e Self-tape",
+        "Acompanhamento de carreira e ganhos",
+        "{searches} buscas de papéis com IA por mês",
+        "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+      ],
+      "PRO": [
+        "Tudo do Basic",
+        "{searches} buscas de papéis com IA por mês",
+        "Feedback da IA sobre seus self-tapes",
+        "Respostas mais rápidas da equipe Agental",
+        "Suporte prioritário",
+        "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+      ],
+      "PREMIUM": [
+        "Tudo do Pro",
+        "{searches} buscas de papéis com IA por mês",
+        "Mais coaching",
+        "Mais recursos em breve",
+        "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+      ],
+      "ULTIMATE": [
+        "Tudo do Premium",
+        "{searches} buscas de papéis com IA por mês",
+        "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
+      ]
+    },
+    "media": {
+      "drop": "Solte aqui suas fotos, reels ou voz: um reel gravado no celular já basta.",
+      "setPrimary": "Definir como principal",
+      "delete": "Excluir",
+      "choose": "Escolher arquivos",
+      "primary": "Principal",
+      "lead": "Material geral que nos ajuda a encontrar testes para você. Vídeos feitos para um teste específico vão em Reel e Self-tape.",
+      "add": "Adicionar",
+      "empty": "Nada aqui ainda. Solte arquivos aqui ou use Adicionar.",
+      "categories": {
+        "SELF": {
+          "title": "Fotos suas",
+          "hint": "Fotos de rosto e de corpo inteiro."
+        },
+        "PRODUCTIONS": {
+          "title": "Produções anteriores",
+          "hint": "Cartazes, fotos de cena e cenas dos trabalhos em que você atuou."
+        },
+        "VIDEOS": {
+          "title": "Vídeos gerais",
+          "hint": "Seu reel e seus clipes."
+        },
+        "OTHER": {
+          "title": "Outros",
+          "hint": "Qualquer outra coisa útil, um trecho de voz, por exemplo."
+        }
+      },
+      "categoryLabel": "Categoria",
+      "descriptionLabel": "Descrição",
+      "descriptionPlaceholder": "Descreva em poucas palavras",
+      "descriptionSaved": "Descrição salva.",
+      "noPreview": "Sem prévia neste navegador. O arquivo está salvo.",
+      "open": "Abrir o arquivo",
+      "play": "Reproduzir",
+      "listen": "Ouvir",
+      "dragHint": "Arraste um arquivo pela alça para reordenar ou mover para outra categoria.",
+      "dragHandle": "Arraste para mover",
+      "orderSaved": "Ordem salva.",
+      "dropPhotosOnly": "Fotos suas aceita apenas fotos.",
+      "dropVideosOnly": "Vídeos gerais aceita apenas vídeos.",
+      "requiredOne": "Obrigatório: pelo menos uma foto",
+      "recommended": "Opcional, muito recomendado"
+    },
+    "profileEditor": {
+      "completeness": "Completude do perfil",
+      "completenessHint": "Preencha os campos marcados com * para chegar a 100%.",
+      "birthDate": "Data de nascimento",
+      "bioPlaceholder": "Algumas linhas sobre sua trajetória, o que torna você único…",
+      "tabs": {
+        "identity": "Identidade",
+        "physical": "Físico",
+        "media": "Mídias",
+        "specialties": "Especialidades",
+        "preferences": "Preferências"
+      },
+      "stageName": "Nome artístico",
+      "city": "Cidade atual",
+      "phone": "Telefone",
+      "bio": "Bio",
+      "height": "Altura",
+      "build": "Biotipo",
+      "hair": "Cor do cabelo",
+      "eyes": "Cor dos olhos",
+      "languages": "Idiomas",
+      "accents": "Sotaques que você faz",
+      "minRate": "Cachê mínimo ($/dia)",
+      "save": "Salvar",
+      "saved": "Salvo",
+      "specialtiesHint": "Escolha todos os tipos de trabalho que você faz, na tela, no palco ou no microfone.",
+      "prefs": {
+        "optionalHint": "Tudo aqui é opcional. Um grupo deixado vazio fica sem resposta.",
+        "clearHint": "Toque de novo em uma opção selecionada para desmarcar.",
+        "notSet": "Não definido",
+        "yes": "Sim",
+        "no": "Não",
+        "projectTypes": "Trabalhos que você quer",
+        "projectTypeLabels": {
+          "film": "Cinema",
+          "tv-streaming": "TV e streaming",
+          "commercial": "Comerciais",
+          "theatre": "Teatro",
+          "voice": "Voz",
+          "music-video": "Videoclipes",
+          "short-film": "Curtas-metragens",
+          "student-film": "Filmes universitários",
+          "web-digital": "Web e digital",
+          "corporate": "Corporativo",
+          "live-event": "Eventos ao vivo"
+        },
+        "roleTypes": "Tipos de papel",
+        "roleTypeLabels": {
+          "lead": "Protagonista",
+          "supporting": "Coadjuvante",
+          "day-player": "Diária",
+          "background": "Figuração",
+          "stand-in": "Dublê de corpo",
+          "voice": "Voz",
+          "host": "Apresentador"
+        },
+        "compensation": "Trabalho pago ou não pago",
+        "compensationLabels": {
+          "paid_only": "Só trabalho pago",
+          "paid_or_unpaid": "Pago ou não pago"
+        },
+        "travel": "Até onde você viaja para trabalhar",
+        "travelLabels": {
+          "local": "Local",
+          "regional": "Regional",
+          "national": "Nacional",
+          "international": "Internacional"
+        },
+        "workModes": "Modo de trabalho",
+        "workModeLabels": {
+          "on_set": "No set",
+          "remote": "Remoto"
+        },
+        "animals": "Trabalhar com animais",
+        "languages": "Idiomas",
+        "languagesEmpty": "Adicione seus idiomas na aba Físico.",
+        "languagesEdit": "Editar em Físico",
+        "availability": "Disponibilidade",
+        "availabilityHint": "Datas em que você pode ou não pode trabalhar.",
+        "availabilityFrom": "De",
+        "availabilityTo": "Até",
+        "availabilityType": "Tipo",
+        "availabilityTypes": {
+          "AVAILABLE": "Disponível",
+          "UNAVAILABLE": "Indisponível"
+        },
+        "availabilityAdd": "Adicionar datas",
+        "availabilityRemove": "Remover",
+        "availabilityEmpty": "Adicione as datas em que você está disponível ou fora.",
+        "ageRange": "Idades que você pode interpretar",
+        "ageRangeValue": "De {from} a {to}",
+        "ageRangeUnset": "Mova os controles para definir",
+        "ageFrom": "A partir da idade",
+        "ageTo": "Até a idade",
+        "dayRateTitle": "Seu cachê diário mínimo (USD)",
+        "dayRateHint": "Pulamos trabalhos pagos abaixo deste valor.",
+        "dayRateShown": "Cachê diário {rate}",
+        "dayRateAdd": "Adicionar seu cachê diário",
+        "edit": "Editar",
+        "cancel": "Cancelar",
+        "save": "Salvar",
+        "skills": "Habilidades",
+        "skillsHint": "Tudo o que você faz na tela, no palco ou no microfone."
+      },
+      "boundaries": {
+        "title": "Classificação indicativa",
+        "optional": "Opcional",
+        "private": "Só você vê esta seção, e ela nunca aparece no seu perfil.",
+        "nudity": "Papéis com nudez",
+        "question": "Qual é a classificação mais alta em que você se sente à vontade para trabalhar?",
+        "limits": "Limites específicos",
+        "noNudity": "Sem nudez",
+        "ratings": {
+          "G": "G: livre para todos os públicos",
+          "PG": "PG: orientação dos pais sugerida",
+          "PG-13": "PG-13: forte orientação dos pais",
+          "R": "R: restrito, possível conteúdo adulto",
+          "NC-17": "NC-17: apenas adultos"
+        }
+      },
+      "imdbUrl": "Link do IMDb",
+      "imdbUrlPlaceholder": "imdb.com/name/nm1234567",
+      "portfolioUrl": "Link do portfólio ou site",
+      "portfolioUrlPlaceholder": "https://seu-site.com",
+      "noLinks": "Não tenho site nem link de portfólio",
+      "stageNameHint": "Se você trabalha com outro nome.",
+      "legalName": "Nome legal",
+      "legalFirstName": "Nome",
+      "legalLastName": "Sobrenome",
+      "legalNameHint": "Usado em contratos e pagamentos. Nunca mostrado ao casting.",
+      "gender": "Gênero",
+      "genderHint": "Usado só para combinar você com papéis.",
+      "genderOther": "Conte em poucas palavras",
+      "genders": {
+        "male": "Masculino",
+        "female": "Feminino",
+        "trans_male": "Homem trans",
+        "trans_female": "Mulher trans",
+        "non_binary": "Não binário",
+        "other": "Outro",
+        "prefer_not": "Prefiro não dizer"
+      },
+      "choose": "Escolher",
+      "otherValue": "Outro: {value}",
+      "hairLength": "Comprimento do cabelo",
+      "options": {
+        "black": "Preto",
+        "dark_brown": "Castanho-escuro",
+        "brown": "Castanho",
+        "light_brown": "Castanho-claro",
+        "auburn": "Ruivo-acastanhado",
+        "red": "Ruivo",
+        "strawberry_blond": "Loiro-avermelhado",
+        "blond": "Loiro",
+        "platinum_blond": "Loiro platinado",
+        "gray": "Grisalho",
+        "white": "Branco",
+        "salt_and_pepper": "Grisalho mesclado",
+        "bald_or_shaved": "Careca ou raspado",
+        "dyed_or_other": "Tingido ou outro",
+        "buzz": "Raspado curto",
+        "short": "Curto",
+        "medium": "Médio",
+        "shoulder_length": "Na altura dos ombros",
+        "long": "Longo",
+        "very_long": "Muito longo",
+        "hazel": "Castanho-esverdeado",
+        "amber": "Âmbar",
+        "green": "Verde",
+        "blue": "Azul",
+        "heterochromia": "Heterocromia",
+        "other": "Outro",
+        "slim": "Magro",
+        "lean": "Esguio",
+        "athletic": "Atlético",
+        "average": "Médio",
+        "muscular": "Musculoso",
+        "curvy": "Curvilíneo",
+        "stocky": "Robusto",
+        "heavyset": "Corpulento",
+        "petite": "Mignon",
+        "plus_size": "Plus size"
+      },
+      "requiredNote": "Os campos marcados com * são obrigatórios para chegar a 100%.",
+      "required": "obrigatório",
+      "saving": "Salvando…",
+      "notSaved": "Não salvo.",
+      "retry": "Tentar de novo",
+      "back": "Voltar",
+      "next": "Próximo",
+      "finish": "Concluir",
+      "finishDone": "Seu perfil está completo.",
+      "finishMissing": "Ainda falta preencher um campo obrigatório.",
+      "completeTitle": "Seu perfil está completo. Você está pronto para lançar buscas com IA.",
+      "verifyToSearch": "Verifique seu e-mail para começar sua primeira busca.",
+      "verifyResend": "Reenviar o e-mail",
+      "verifySent": "E-mail enviado. Confira sua caixa de entrada.",
+      "linksTitle": "Informações adicionais que vão nos ajudar",
+      "improveWebsite": "Melhore seu site",
+      "weight": "Peso",
+      "units": "Unidades",
+      "tattoos": "Tatuagens ou marcas visíveis",
+      "piercings": "Piercings",
+      "clothing": "Tamanhos de roupa",
+      "sizeTop": "Parte de cima",
+      "sizeBottom": "Parte de baixo",
+      "sizeDressSuit": "Vestido ou terno",
+      "shoeSize": "Número do calçado",
+      "avatarHeadshot": "Usar minha foto de perfil como minha primeira foto de rosto",
+      "avatarHeadshotHint": "Ainda não há foto sua. Comece com sua foto de perfil.",
+      "smart": {
+        "search": "Buscar",
+        "noMatch": "Nenhum resultado.",
+        "country": "País",
+        "state": "Estado ou província",
+        "city": "Cidade",
+        "cityPlaceholder": "Digite sua cidade",
+        "legacyCity": "{city} (escolha na lista)",
+        "searching": "Buscando…",
+        "noCity": "Nenhuma cidade encontrada.",
+        "cityHelp": "Não encontrou sua cidade? Escolha a mais próxima.",
+        "phoneCountry": "Código do país",
+        "phone": "Número de telefone",
+        "phoneInvalid": "Confira o número. Ele só é salvo quando for válido.",
+        "remove": "Remover {value}",
+        "other": "Outro",
+        "addOther": "Adicionar \"{value}\"",
+        "addLanguage": "Adicionar um idioma",
+        "addAccent": "Adicionar um sotaque",
+        "noAccents": "Nenhum",
+        "writeOwn": "Outro: escreva o seu",
+        "writeOwnPlaceholder": "Digite um sotaque e pressione Enter"
+      },
+      "optional": "(opcional)",
+      "addOwn": "Adicionar o seu",
+      "addOwnPlaceholder": "Descreva seu biotipo",
+      "addMore": "Adicionar outro",
+      "missingRequired": "Obrigatório",
+      "tabMissing": "{count, plural, one {# campo obrigatório faltando} other {# campos obrigatórios faltando}}",
+      "missingTitle": "{count, plural, one {Falta: # campo} other {Faltam: # campos}}",
+      "missingField": {
+        "legalName": "Nome legal",
+        "birthDate": "Data de nascimento",
+        "gender": "Gênero",
+        "city": "Cidade",
+        "phone": "Telefone",
+        "bio": "Bio",
+        "languages": "Idiomas",
+        "height": "Altura",
+        "build": "Biotipo",
+        "hair": "Cor do cabelo",
+        "eyes": "Cor dos olhos",
+        "photos": "Foto sua",
+        "workTypes": "Trabalhos que você quer",
+        "ageRange": "Idades que você pode interpretar",
+        "compensation": "Pago ou não pago",
+        "dayRate": "Cachê diário"
+      }
+    },
+    "rgpd": {
+      "intro": "Você pode exportar todos os seus dados ou excluir sua conta de vez.",
+      "delete": "Excluir minha conta",
+      "confirm": "Confirmar a exclusão?"
+    },
+    "plans": {
+      "demo": "Modo de demonstração: nenhum pagamento real. O mandato de representação continua gratuito e separado, seja qual for o seu plano.",
+      "current": "Atual",
+      "perMonth": "/mês",
+      "currentPlan": "Plano atual",
+      "choose": "Escolher"
+    },
+    "profitability": {
+      "title": "Retorno da assinatura",
+      "atVolume": "Com o seu volume atual, seu plano",
+      "save": "Com o seu volume, o plano {plan} economizaria {amount} por ano.",
+      "best": "Com o seu volume atual, seu plano {plan} já é o melhor custo-benefício: não precisa pagar mais.",
+      "intro": "Para um volume anual estimado de <strong>{amount}</strong> em cachês, veja o custo total (comissão + assinatura) de cada plano.",
+      "columns": {
+        "plan": "Plano",
+        "commission": "Comissão",
+        "subscription": "Assinatura",
+        "total": "Total / ano"
+      },
+      "current": "(atual)"
+    },
+    "studio": {
+      "enableCamera": "Ativar a câmera",
+      "cameraUnavailable": "Câmera indisponível. Mude para o modo reduzido e envie um vídeo.",
+      "record": "Começar a gravação",
+      "analysing": "Analisando sua gravação…",
+      "import": "Enviar um vídeo",
+      "score": "Nota de qualidade da sua gravação",
+      "overlays": "Feedback da IA ao vivo",
+      "lighting": "Iluminação",
+      "meterOk": "Bom",
+      "meterAdjust": "Precisa ajustar",
+      "reducedMode": "Modo reduzido (conexão lenta ou aparelho modesto)",
+      "stop": "Parar",
+      "newTake": "Nova gravação",
+      "review": "Confira sua gravação",
+      "saveTo": "Onde salvar",
+      "toProfile": "Mídias no meu perfil",
+      "toProfileHint": "Mostradas às equipes de casting a que você se candidata.",
+      "toLibrary": "Biblioteca Reel e Self-tape",
+      "toLibraryHint": "Privada até você escolher enviar.",
+      "save": "Salvar",
+      "again": "Gravar de novo",
+      "uploading": "Enviando, {percent}%",
+      "limit": "Até {minutes} minutos por gravação ({mb} MB). A gravação para sozinha no limite.",
+      "download": "Baixar"
+    },
+    "find": {
+      "intro": "Seu agente pessoal está chegando em Mensagens. Configure agora.",
+      "explain": "O Agental Find ainda não está no ar. Suas escolhas ficam salvas na sua conta para quando ele for lançado.",
+      "start": "Configurar",
+      "steps": {
+        "name": "Escolha seu assistente",
+        "help": "Em que ele deve ajudar?",
+        "review": "Revisar e salvar"
+      },
+      "stepOf": "Etapa {n} de {total}",
+      "nameLead": "Escolha um nome para seu agente ou digite o seu.",
+      "names": {
+        "samantha": "Samantha",
+        "adrian": "Adrian",
+        "custom": "Personalizado"
+      },
+      "helpLead": "Escolha um ou mais.",
+      "helps": {
+        "roles": {
+          "title": "Encontrar papéis adequados",
+          "sample": "Por exemplo: papéis coadjuvantes em filmes independentes, Los Angeles, inglês ou espanhol."
+        },
+        "profile": {
+          "title": "Revisar meu perfil",
+          "sample": "Por exemplo: apontar uma foto de rosto que falta ou um crédito sem ano."
+        },
+        "selftape": {
+          "title": "Preparar um self-tape",
+          "sample": "Por exemplo: dicas de enquadramento, luz e som antes de gravar uma cena de dois minutos."
+        },
+        "draft": {
+          "title": "Redigir uma candidatura para minha revisão",
+          "sample": "Por exemplo: uma nota de apresentação curta para um papel, que você edita e aprova antes de qualquer envio."
+        }
+      },
+      "reviewLead": "Confira suas escolhas. Você pode mudá-las antes de salvar.",
+      "assistant": "Assistente",
+      "helpWith": "Ajuda com",
+      "none": "Nada selecionado ainda",
+      "edit": "Editar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "save": "Salvar preferências do agente",
+      "customLabel": "O nome do seu agente",
+      "customPlaceholder": "Digite um nome",
+      "editAgent": "Editar seu agente de IA",
+      "stepsLabel": "Etapas da configuração",
+      "cancel": "Cancelar",
+      "savedNote": "Seu agente de IA foi salvo."
+    },
+    "team": {
+      "title": "Equipe Agental",
+      "firstMessage": "Mande sua primeira mensagem. Faça uma pergunta ou conte no que você está trabalhando."
+    },
+    "avatar": {
+      "title": "Foto de perfil",
+      "intro": "Uma foto recente e nítida do seu rosto. Ela aparece no seu app e no seu site do Limelight depois de publicado.",
+      "cropHint": "Arraste a foto e aproxime para seu rosto preencher o círculo.",
+      "preview": "Prévia do recorte",
+      "zoom": "Zoom",
+      "upload": "Enviar uma foto",
+      "choose": "Escolher outra foto",
+      "save": "Salvar foto",
+      "remove": "Remover foto",
+      "add": "Adicionar uma foto de perfil",
+      "change": "Mudar a foto de perfil"
+    },
+    "student": {
+      "title": "É universitário?",
+      "lead": "Verifique seu e-mail universitário para ter o desconto de estudante no Pro.",
+      "label": "E-mail universitário",
+      "placeholder": "voce@universidade.edu",
+      "submit": "Enviar o link",
+      "sent": "Confira {email}: enviamos um link para confirmar. Ele vale por 48 horas.",
+      "notSent": "Seu pedido está salvo, mas os e-mails ainda não estão ativados. A equipe Agental vai confirmar seu e-mail universitário.",
+      "verified": "Desconto de estudante verificado com {email}.",
+      "pending": "Ele vale para o Pro quando os planos pagos abrirem.",
+      "percent": "Desconto de estudante: {percent}% no Pro.",
+      "link": "É universitário? Verifique seu e-mail universitário.",
+      "confirmTitle": "E-mail universitário",
+      "confirmed": "Seu e-mail universitário {email} está confirmado. O desconto de estudante está na sua conta.",
+      "confirmInvalid": "Este link não é mais válido. Peça um novo em Assinatura.",
+      "confirmExpired": "Este link expirou. Peça um novo em Assinatura.",
+      "confirmTaken": "Este e-mail universitário já verificou outra conta.",
+      "back": "Ir para Assinatura"
+    },
+    "assistant": {
+      "greeting": "Oi, {name}.",
+      "greetingAnon": "Oi.",
+      "profileStatus": "Seu perfil está {percent}% completo. Próximo passo: {next}.",
+      "profileStatusNoNext": "Seu perfil está {percent}% completo.",
+      "profileComplete": "Seu perfil está completo. Você pode lançar sua primeira busca pelo painel.",
+      "noApplications": "Você ainda não tem candidaturas. Quando um papel for aberto para você, ele aparece na página Candidaturas.",
+      "applicationsIntro": "Você tem {count} candidatura(s):",
+      "applicationLine": "- {title}: {status}",
+      "searches": "Buscas de papéis com IA em andamento: {count}.",
+      "plan": "Você está no plano {plan}. Você pode comparar os planos e mudar na página Assinatura.",
+      "handoff": "Não tenho certeza de que consigo responder bem, então passei sua mensagem para a equipe Agental. Eles vão responder aqui.",
+      "assistant": "Assistente Agental",
+      "waiting": "Aguardando a equipe Agental",
+      "topicLegend": "Qual é o assunto?",
+      "topics": {
+        "profile": "Meu perfil",
+        "application": "Um papel ou candidatura",
+        "other": "Outro assunto"
+      },
+      "topicRequired": "Escolha o assunto da sua mensagem.",
+      "limitToday": "Já usei as respostas de IA de hoje da sua conta, então esta resposta é simples. A equipe também pode ajudar.",
+      "limitMonth": "As respostas de IA estão pausadas pelo resto do mês, então esta resposta é simples. A equipe também pode ajudar.",
+      "aiTag": "Agente de IA"
+    },
+    "library": {
+      "empty": "Nenhuma gravação ainda. Suas gravações salvas aparecem aqui.",
+      "delete": "Excluir",
+      "confirmDelete": "Excluir esta gravação de vez?",
+      "video": "Vídeo"
+    },
+    "roleAlert": {
+      "legend": "Quando encontrarmos um papel para você, me avise por",
+      "channels": {
+        "email": "E-mail",
+        "sms": "Mensagem de texto",
+        "both": "Ambos"
+      },
+      "consent": "Concordo em receber mensagens de texto da Agental sobre papéis encontrados para mim. Podem ser cobradas tarifas de mensagens e dados. Responda STOP para cancelar.",
+      "needsPhone": "Adicione primeiro um número de telefone válido em Identidade.",
+      "save": "Salvar",
+      "saved": "Salvo",
+      "note": "As mensagens de texto começam quando nosso provedor estiver configurado. Até lá, usamos e-mail."
+    }
+  },
+  "responseRate": {
+    "title": "Candidaturas que recebem resposta",
+    "body": "Nosso método tem um objetivo simples: que suas candidaturas recebam muito mais respostas. Mirando os papéis certos e caprichando em cada envio, buscamos triplicar sua taxa de resposta em comparação com envios em massa.",
+    "disclaimer": "Um objetivo do método, medido e melhorado continuamente."
+  },
+  "landing": {
+    "agentCard": {
+      "title": "Seu agente",
+      "body": "Procurando papéis que combinam com você, dia e noite."
+    },
+    "faces": {
+      "title": "Todo tipo de rosto tem vez.",
+      "lead": "Figuração, participações, comerciais, voz, crianças, criadores, palco. Conte o trabalho que você quer e a gente procura com você.",
+      "typesLabel": "Tipos de casting",
+      "note": "Retratos ilustrativos de pessoas fictícias."
+    },
+    "commissionHead": {
+      "plan": "Plano",
+      "price": "Por mês",
+      "commission": "Comissão"
+    },
+    "take": "Gravação {n}"
+  },
+  "limelight": {
+    "nav": "Sites",
+    "meta": {
+      "title": "Limelight by Agental: um site para cada artista",
+      "description": "Envie suas fotos, seu reel e algumas linhas sobre seu trabalho. Criamos seu site de artista a partir de {price}, com o primeiro ano de hospedagem incluído."
+    },
+    "band": {
+      "title": "Precisa de um site? A gente cria com você.",
+      "body": "O Limelight transforma suas fotos, seu reel e sua história em um site que os diretores de casting abrem com um clique. A partir de {price}.",
+      "cta": "Ver o Limelight"
+    },
+    "hero": {
+      "eyebrow": "Limelight by Agental",
+      "title": "Suas fotos, créditos e reel em um só link.",
+      "subtitle": "Envie suas fotos, seu reel e algumas linhas sobre seu trabalho. Criamos um site que os diretores de casting abrem com um clique, e você deixa com a sua cara. Para atores e para todo artista.",
+      "ctaPrimary": "Criar meu site",
+      "ctaSecondary": "Ver as ofertas",
+      "note": "Criamos um site de portfólio com seus materiais. Revise a prévia antes de ele ir ao ar.",
+      "scrollHint": "Role para ver ele sendo montado",
+      "request": "Pedir meu site",
+      "explore": "Explorar um exemplo"
+    },
+    "frame": {
+      "address": "seunome.agental.site",
+      "name": "Maya Okafor",
+      "role": "Atriz de tela e palco, Los Angeles",
+      "line": "Tela e palco. Inglês e espanhol.",
+      "reel": "Ver o reel",
+      "resume": "Currículo",
+      "contact": "Contato",
+      "caption": "Exemplo fictício"
+    },
+    "how": {
+      "title": "Três etapas até seu site",
+      "steps": [
+        {
+          "title": "Compartilhe suas fotos e sua história",
+          "body": "Envie de 3 a 12 fotos, o link do seu reel e respostas para três perguntas curtas sobre seu trabalho."
+        },
+        {
+          "title": "Fazemos um rascunho do seu site",
+          "body": "Escolhemos o layout que combina com suas fotos e escrevemos um rascunho da sua bio a partir das suas respostas. Você recebe uma prévia privada."
+        },
+        {
+          "title": "Revise e publique",
+          "body": "Mude qualquer palavra, troque qualquer foto e publique. Seu site vai ao ar no seu próprio endereço."
+        }
+      ]
+    },
+    "templates": {
+      "title": "Escolha um visual",
+      "lead": "Cada modelo vem em vários temas de cor escolhidos para valorizar fotos de rosto. Seu site mantém suas próprias cores, separadas das da Agental.",
+      "caption": "Exemplo fictício",
+      "items": [
+        {
+          "name": "Marquee",
+          "fit": "Seu nome em destaque, sobre uma foto de rosto marcante",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        },
+        {
+          "name": "Folha de contato",
+          "fit": "Feito para muitas fotos",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        },
+        {
+          "name": "Reel primeiro",
+          "fit": "Seu reel começa assim que a página abre",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        },
+        {
+          "name": "Porta do palco",
+          "fit": "Créditos de teatro, críticas e imprensa",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        },
+        {
+          "name": "Cabine de voz",
+          "fit": "Demos de áudio em destaque",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        },
+        {
+          "name": "Estúdio",
+          "fit": "Limpo e claro, para comerciais e mídia impressa",
+          "performer": "Maya Okafor",
+          "role": "Atriz de tela e palco, Los Angeles"
+        }
+      ]
+    },
+    "offers": {
+      "title": "Duas formas de ter seu site",
+      "lead": "Pague uma vez para criar. O primeiro ano de hospedagem está incluído, e você só paga depois de aprovar a prévia.",
+      "oneTime": "pagamento único",
+      "essential": {
+        "name": "Essential",
+        "price": "{price}",
+        "summary": "Uma página que diz tudo.",
+        "features": [
+          "Foto de rosto, bio, reel, currículo e formulário de contato",
+          "Seu endereço: seunome.agental.site",
+          "Três modelos para escolher",
+          "Edite você mesmo quando quiser",
+          "Uma rodada de revisão com nossa equipe"
+        ],
+        "renewal": "Hospedagem depois do primeiro ano: {price} por ano. Cancele quando quiser no seu painel.",
+        "cta": "Começar com o Essential"
+      },
+      "signature": {
+        "name": "Signature",
+        "price": "{price}",
+        "summary": "Um site completo que cresce com sua carreira.",
+        "features": [
+          "Galeria, créditos, imprensa e mais seções",
+          "Seu próprio domínio, primeiro ano incluído",
+          "Todos os modelos e temas de cor",
+          "Demos de áudio e faixas para voz e música",
+          "Três rodadas de revisão com nossa equipe"
+        ],
+        "renewal": "Hospedagem e domínio depois do primeiro ano: {price} por ano. Cancele quando quiser no seu painel.",
+        "cta": "Começar com o Signature"
+      },
+      "custom": {
+        "title": "Tem outra coisa em mente?",
+        "body": "Um EPK para uma banda, um site em vários idiomas, uma página para uma dupla. Conte para a gente.",
+        "cta": "Fale com a gente"
+      },
+      "usd": "Preços em dólares americanos.",
+      "student": "É universitário? Envie um comprovante de matrícula (carteirinha ou endereço .edu) para contact@agental.co para ter o preço de estudante.",
+      "studentPrice": "Preço de estudante: {price}",
+      "studentPending": "Preço de estudante: a anunciar.",
+      "proIncluded": "Inclui {months} meses de Agental Pro, grátis.",
+      "websitesPro": "Todo site inclui {months} meses de Agental Pro.",
+      "renewalShort": "Depois, {price} por ano de hospedagem"
+    },
+    "faq": {
+      "title": "Perguntas dos artistas",
+      "items": [
+        {
+          "q": "De quem são meu site e minhas fotos?",
+          "a": "Seus. Suas fotos, suas palavras e seu domínio pertencem a você."
+        },
+        {
+          "q": "Preciso ser membro da Agental?",
+          "a": "O Limelight é aberto a todo artista. Comprar um site é opcional e não afeta sua entrada na Agental nem sua apresentação ao casting."
+        },
+        {
+          "q": "Vocês vão retocar minhas fotos de rosto?",
+          "a": "Recortamos, redimensionamos e comprimimos suas fotos para carregarem rápido. Os rostos ficam exatamente como são, porque o casting precisa reconhecer você pessoalmente."
+        },
+        {
+          "q": "Quanto tempo leva?",
+          "a": "Depende do que você nos enviar. Confirmamos o prazo no início, e você vê uma prévia privada antes de qualquer coisa ir ao ar."
+        },
+        {
+          "q": "O que acontece depois do primeiro ano?",
+          "a": "A hospedagem renova por {essential} por ano no Essential e {signature} por ano no Signature. Você pode cancelar no seu painel antes da renovação."
+        },
+        {
+          "q": "Sou músico, dançarino ou dublador. Isso é para mim?",
+          "a": "Sim. Os modelos partem dos atores e incluem seções para demos de áudio, faixas, coreografias e trabalhos de voz. Conte o que você faz e a gente adapta o site."
+        }
+      ]
+    },
+    "contact": {
+      "title": "Pedir meu site",
+      "lead": "Conte quem você é e do que precisa. Vamos mandar os próximos passos por e-mail. Se você já estiver pronto para começar seu site, pode pedir uma ligação.",
+      "name": "Seu nome",
+      "email": "E-mail",
+      "discipline": "Tipo de trabalho",
+      "disciplines": {
+        "actor": "Ator",
+        "musician": "Músico",
+        "dancer": "Dançarino",
+        "voice": "Dublador",
+        "model": "Modelo",
+        "comedian": "Comediante",
+        "creator": "Criador de conteúdo",
+        "other": "Outro"
+      },
+      "need": "Do que você precisa",
+      "needs": {
+        "new": "Um site novo",
+        "redo": "Refazer meu site",
+        "unsure": "Ainda decidindo"
+      },
+      "budget": "Qual oferta",
+      "budgets": {
+        "essential": "Essential, {price}",
+        "signature": "Signature, {price}"
+      },
+      "contactPref": "Como prefere que a gente fale com você?",
+      "prefs": {
+        "email": "Mandem os próximos passos por e-mail",
+        "call": "Pedir uma ligação"
+      },
+      "phone": "Número de telefone para a ligação",
+      "message": "Algo que a gente deva saber?",
+      "messageHint": "Links para seu reel, IMDb ou redes sociais ajudam muito.",
+      "submit": "Pedir meu site",
+      "sending": "Enviando…",
+      "successTitle": "Seu pedido está salvo.",
+      "successBody": "Vamos mandar os próximos passos para {email}.",
+      "privacy": "Usamos seus dados apenas para responder você.",
+      "terms": "{essential}: {essentialPrice} uma vez, depois {essentialRenewal} por ano de hospedagem após o primeiro ano. {signature}: {signaturePrice} uma vez, depois {signatureRenewal} por ano de hospedagem e domínio. Ambos incluem {months} meses de Agental Pro. Preços em dólares americanos."
+    },
+    "footerNote": "Comprar um site é opcional e nunca é condição para entrar na Agental ou ser apresentado ao casting.",
+    "try": {
+      "title": "Experimente agora",
+      "lead": "Escolha um modelo, digite seu nome e um título. Seu site aparece enquanto você digita.",
+      "name": "Seu nome",
+      "namePlaceholder": "Maya Okafor",
+      "headline": "Seu título",
+      "headlinePlaceholder": "Ator, Los Angeles",
+      "template": "Modelo",
+      "save": "Salvar meu site",
+      "saveNote": "Você só precisa de uma conta para salvar ou publicar. O que você digitou vai junto.",
+      "saved": "Salvo neste dispositivo. Crie sua conta para guardar.",
+      "address": "Seu endereço"
+    },
+    "row": {
+      "open": "Prévia de {name}",
+      "use": "Usar este modelo",
+      "close": "Fechar prévia",
+      "hint": "Role para o lado para ver todos os modelos."
+    },
+    "card": {
+      "title": "Crie seu site",
+      "body": "Um site que os diretores de casting abrem com um clique. Escolha um modelo e veja com o seu nome.",
+      "cta": "Crie seu site",
+      "resume": "Continuar seu site",
+      "improve": "Melhore seu site",
+      "improveBody": "Você tem um site. O Limelight pode deixá-lo mais forte.",
+      "hide": "Ocultar"
+    },
+    "navApp": "Site",
+    "app": {
+      "title": "Seu site",
+      "lead": "Seu site, o status dele e o próximo passo.",
+      "empty": "Você ainda não tem site.",
+      "emptyCta": "Experimentar um modelo",
+      "fromDraft": "Você começou um site antes de criar sua conta.",
+      "saveDraft": "Salvar na minha conta",
+      "draft": "Rascunho",
+      "published": "No ar em {address}",
+      "publish": "Publicar",
+      "unpublish": "Tirar do ar",
+      "hostingUntil": "Hospedagem incluída até {date}.",
+      "edit": "Mudar modelo ou texto",
+      "proUntil": "Agental Pro incluído até {date}.",
+      "live": "No ar",
+      "approved": "Aprovado, pronto para publicar",
+      "approveHint": "Confira a prévia. Quando estiver certa, aprove para que possa ser publicada.",
+      "pendingChanges": "Suas últimas alterações ficam privadas até você aprovar e publicar.",
+      "approve": "Aprovar prévia",
+      "betaNote": "Durante a beta, nossa equipe ajuda você a publicar seu site. Não é preciso pagar agora.",
+      "contactLabel": "Mostrar meus dados de contato no site",
+      "contactHint": "Desativado por padrão. Seu endereço de e-mail aparece no site público só enquanto isso estiver ativado.",
+      "sendRequest": "Enviar meu pedido",
+      "requestMessage": "Site: {name}. Modelo: {template}. Versão da prévia {version}.",
+      "requestPreview": "Esta é a prévia que nossa equipe vai usar no seu pedido: {name}.",
+      "emptyRequest": "Conte sobre seu trabalho e a gente cria seu site com você. Você continua conectado."
+    },
+    "sample": {
+      "label": "Exemplo fictício",
+      "name": "Maya Okafor",
+      "role": "Atriz de tela e palco, Los Angeles",
+      "bio": "Maya trabalha entre a tela e o palco em Los Angeles. Ela se interessa por papéis realistas e cheios de personalidade e transita com facilidade entre o inglês e o espanhol no set.",
+      "languages": "Inglês, espanhol",
+      "languagesLabel": "Idiomas",
+      "resume": "3 curtas-metragens, 1 longa independente, 2 produções teatrais",
+      "resumeLabel": "Currículo de exemplo",
+      "tabs": {
+        "overview": "Visão geral",
+        "credits": "Créditos",
+        "reel": "Reel"
+      },
+      "credits": [
+        {
+          "role": "Nina",
+          "billing": "Coadjuvante",
+          "title": "The Lucent Room",
+          "year": "2026",
+          "kind": "Longa-metragem"
+        },
+        {
+          "role": "Elena",
+          "billing": "Protagonista",
+          "title": "Last Tram to Alder Street",
+          "year": "2025",
+          "kind": "Curta-metragem"
+        },
+        {
+          "role": "Rosa",
+          "billing": "Elenco",
+          "title": "A Window for the Tide",
+          "year": "2024",
+          "kind": "Teatro"
+        }
+      ],
+      "reelLayout": "Prévia do layout. Seu reel vai tocar aqui quando você adicioná-lo.",
+      "contact": "Contato",
+      "contactNote": "Os dados de contato só aparecem se você escolher mostrá-los.",
+      "close": "Fechar prévia",
+      "dialogTitle": "Modelo {template}, exemplo fictício",
+      "pageTitle": "Portfólio de exemplo",
+      "back": "Voltar ao Limelight",
+      "useTemplate": "Pedir este modelo"
+    }
+  },
+  "stepsDemo": {
+    "illustration": "Ilustração",
+    "next": "Próximo passo",
+    "profileStrength": "Força do perfil",
+    "mandateTitle": "Mandato de representação",
+    "signed": "Assinado",
+    "aiTitle": "Novos papéis para você",
+    "fitStrong": "Combina muito",
+    "fitGood": "Combina bem",
+    "awaitingOk": "Aguardando seu OK",
+    "bookedTitle": "Escalado",
+    "bookedBody": "Seu agente confirmou as datas e mandou o contrato para você.",
+    "progress": "Etapa {n} de {total}"
+  },
+  "oauth": {
+    "google": "Continuar com o Google",
+    "apple": "Continuar com a Apple",
+    "or": "ou"
+  },
+  "promotions": {
+    "button": "Promoções",
+    "was": "Antes {price}",
+    "eligibility": "Estudante da USC: com um e-mail @usc.edu.",
+    "emailPlan": "Mande um e-mail para saber o preço do plano de estudante",
+    "emailWebsite": "Mande um e-mail para saber o preço do site para estudantes",
+    "subjectPlan": "Preço do plano de estudante",
+    "subjectWebsite": "Preço do site para estudantes",
+    "mailBody": "E-mail da minha conta Agental: {email}"
+  },
+  "checkout": {
+    "title": "Plano {plan}",
+    "lead": "O plano, o preço e o que está incluído.",
+    "perMonth": "por mês",
+    "commission": "Comissão sobre papéis conquistados: {rate}",
+    "continue": "Continuar",
+    "uscNext": "Próximo passo: verifique seu e-mail da USC para ter o preço de estudante.",
+    "verified": "Estudante da USC verificado em {date} ({email}).",
+    "close": "Fechar",
+    "cardNotice": "Os pagamentos com cartão ainda não estão abertos. Não informe os dados do seu cartão. A Agental está em beta.",
+    "cardLegend": "Dados do cartão",
+    "cardName": "Nome no cartão",
+    "cardNumber": "Número do cartão",
+    "cardExpiry": "Data de validade",
+    "cardCvc": "Código de segurança",
+    "recorded": "Salvamos o plano que você escolheu. Vamos escrever quando os pagamentos abrirem. Seu plano não muda hoje.",
+    "gotIt": "Entendi",
+    "usc": {
+      "title": "Preço de estudante da USC",
+      "emailLead": "Vamos enviar um código de verificação. Digite seu e-mail @usc.edu.",
+      "emailPlaceholder": "voce@usc.edu",
+      "send": "Enviar o código",
+      "codeLead": "Digite o código de 6 dígitos que enviamos para {email}.",
+      "verify": "Verificar",
+      "resend": "Enviar um novo código",
+      "resendIn": "Novo código em {seconds} s",
+      "otherEmail": "Usar outro e-mail",
+      "codeHint": "O código vale por 10 minutos. Confira a pasta de spam se ele não chegar.",
+      "limelightLead": "O preço de estudante exige um e-mail da USC verificado. Enviamos o pedido assim que ele for verificado.",
+      "haveCode": "Já tenho um código",
+      "codeLeadNoEmail": "Digite o código de 6 dígitos que enviamos para você."
+    }
+  }
+}

@@ -123,14 +123,16 @@ nécessaire : la visite ne passe que par les landings.
 
 ## Internationalisation
 
-Quatre locales, définies dans `src/i18n/routing.ts` : `en` (défaut), `fr`, `es`, `zh`
-(chinois simplifié). **Chaque locale porte son préfixe**, l'anglais compris — les URLs
-sont `/en/talents`, `/fr/talents`, `/es/talents`, `/zh/talents`, et aucune route non
-préfixée n'existe. Une URL sans préfixe est négociée vers la langue du visiteur ; à
-défaut, l'anglais. Le segment d'URL reste court (`zh`) mais `<html lang>` et hreflang
+Huit locales, définies dans `src/i18n/routing.ts` : `en` (défaut), `fr`, `es`, `zh`
+(chinois simplifié), et depuis le round 11 `it`, `pt` (brésilien, `pt-BR`), `ja`, `ko`.
+**Chaque locale porte son préfixe**, l'anglais compris : les URLs sont `/en/talents`,
+`/fr/talents`, `/ja/talents`, etc., et aucune route non préfixée n'existe. Une URL sans
+préfixe est négociée dans `src/proxy.ts` : le choix enregistré (cookie), puis la langue
+du navigateur, puis le pays de l'adresse IP (`src/domain/locale-negotiation.ts`), et à
+défaut l'anglais. Le segment d'URL reste court (`zh`) mais `<html lang>` et hreflang
 portent l'écriture (`zh-Hans`) : voir `LANG_TAG` dans le même fichier.
 
-Le chinois a ses propres règles typographiques dans `globals.css` (section *Chinese
+Le chinois, le japonais et le coréen ont leurs propres règles typographiques dans `globals.css` (section *Chinese
 typesetting*) : pas d'interlettrage négatif, interlignage plus ouvert, titres coupés
 aux signes de ponctuation plutôt qu'entre deux idéogrammes. Un wordmark latin qui doit
 garder son interlettrage serré porte la classe `brand-type`.

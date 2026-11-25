@@ -66,3 +66,4 @@ next-env.d.ts
 /.assets/
 /tools/extract/out/
 /public/fonts/
+tools/i18n/work/

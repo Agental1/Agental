@@ -3,6 +3,17 @@
 Toutes les évolutions notables de ce projet. Format inspiré de
 [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [0.6.32.0] - 2026-11-24
+
+### Added (round 11, group 4: languages)
+
+- **Four new languages:** Italian (`/it`), Portuguese (`/pt`, Brazilian, `pt-BR`), Japanese (`/ja`) and Korean (`/ko`), beside English, French, Spanish and Chinese. No Arabic yet. Every message file was generated from English in one pass per language, every key, ICU placeholder, plural form (Japanese and Korean use `other` only) and rich tag kept; brand and plan names stay in English.
+- **Settings > Language:** a search field at the top and the eight languages in alphabetical order of their English name, each in its own name with the English one next to it ("Italiano (Italian)"). The choice saves on the account and wins at every sign-in. The site's language switcher lists the same eight in the same order.
+- **First visit:** the language comes from the saved choice (cookie), then the browser or phone language, then the country of the IP address (`x-vercel-ip-country`: Italy, Brazil and Portugal, Japan, Korea, French-, Spanish- and Chinese-speaking countries), then English (`src/domain/locale-negotiation.ts`, tested).
+- **Emails** use the person's saved language in the four new languages too (account emails, automatic emails, the assistant's rule-based answers).
+- **Typesetting:** Japanese and Korean get the same display rules as Chinese (no negative tracking, taller line height, no mid-phrase breaks in headings) and their own font stacks (Hiragino, Noto Sans JP, Yu Gothic, Meiryo; Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic), so kanji are drawn in their Japanese forms.
+- **Checks:** `pnpm i18n:check` covers eight locales; `tests/i18n/locale-parity.test.ts` checks that every locale has every English key with the same placeholders and tags, and no em dash. Translation helpers in `tools/i18n/` (`flatten.mts`, `verify-chunks.mts`).
+
 ## [0.6.31.0] - 2026-11-24
 
 ### Changed (round 11, group 3: consent, Privacy Policy, account deletion)

@@ -32,7 +32,11 @@
     "en": "English",
     "fr": "Français",
     "es": "Español",
-    "zh": "中文"
+    "zh": "中文",
+    "it": "Italiano",
+    "pt": "Português",
+    "ja": "日本語",
+    "ko": "한국어"
   },
   "notFound": {
     "code": "404",

@@ -2,6 +2,10 @@ import enApp from "../../messages/en/app.json";
 import frApp from "../../messages/fr/app.json";
 import esApp from "../../messages/es/app.json";
 import zhApp from "../../messages/zh/app.json";
+import itApp from "../../messages/it/app.json";
+import ptApp from "../../messages/pt/app.json";
+import jaApp from "../../messages/ja/app.json";
+import koApp from "../../messages/ko/app.json";
 import { LANG_TAG, toLocale, type Locale } from "@/i18n/routing";
 
 /**
@@ -26,6 +30,10 @@ const STRINGS: Record<Locale, EmailStrings> = {
   fr: frApp.emails,
   es: esApp.emails,
   zh: zhApp.emails,
+  it: itApp.emails,
+  pt: ptApp.emails,
+  ja: jaApp.emails,
+  ko: koApp.emails,
 };
 
 export interface EmailContent {

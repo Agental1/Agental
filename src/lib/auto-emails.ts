@@ -2,6 +2,10 @@ import enApp from "../../messages/en/app.json";
 import frApp from "../../messages/fr/app.json";
 import esApp from "../../messages/es/app.json";
 import zhApp from "../../messages/zh/app.json";
+import itApp from "../../messages/it/app.json";
+import ptApp from "../../messages/pt/app.json";
+import jaApp from "../../messages/ja/app.json";
+import koApp from "../../messages/ko/app.json";
 import { prisma } from "@/lib/db";
 import { emailSenderConfigured, sendEmail, type MailerEnv } from "@/lib/mailer";
 import { brandedEmail } from "@/lib/email-branded";
@@ -28,7 +32,7 @@ import { SMS_TEXT, sendSms, smsConfig } from "@/lib/sms";
  * runs never send it twice; an item older than a week is never sent late.
  * The pause switch (group 9) stops all of it.
  */
-const ALL = { en: enApp, fr: frApp, es: esApp, zh: zhApp } as const;
+const ALL = { en: enApp, fr: frApp, es: esApp, zh: zhApp, it: itApp, pt: ptApp, ja: jaApp, ko: koApp } as const;
 type Auto = (typeof enApp)["emails"]["auto"];
 const strings = (l: Locale): Auto => (ALL[l] ?? ALL.en).emails.auto as Auto;
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ""));

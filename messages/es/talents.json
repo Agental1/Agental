@@ -1078,7 +1078,9 @@
       "language": {
         "label": "Idioma",
         "lead": "El idioma de la aplicación y de los correos que te enviamos. Se guarda en tu cuenta.",
-        "saved": "Idioma guardado."
+        "saved": "Idioma guardado.",
+        "search": "Buscar un idioma",
+        "noMatch": "Ningún idioma coincide."
       },
       "notifications": {
         "lead": "Elige qué correos te enviamos. Cada interruptor se guarda al cambiarlo.",
