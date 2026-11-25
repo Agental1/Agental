@@ -807,7 +807,8 @@
         "notice": {
           "paused": "Searches are paused for a moment. Your request is saved and will start automatically.",
           "queued": "Your search is queued. It starts at {time}.",
-          "pausedNow": "AI searches are paused for a moment. If you start one now, it is saved and starts automatically."
+          "pausedNow": "AI searches are paused for a moment. If you start one now, it is saved and starts automatically.",
+          "waiting": "Your search is queued. Searches start soon: we'll let you know."
         }
       },
       "nextAction": "Next action",

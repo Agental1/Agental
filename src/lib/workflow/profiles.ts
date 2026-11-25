@@ -1,7 +1,6 @@
 import type { PrismaClient } from "@/generated/prisma/client";
 import { toProfileFacts, type ProfileFacts } from "@/domain/workflow/profile";
 import { workflowEligibility, type SearchAccess, type WorkflowMode } from "@/domain/workflow/eligibility";
-import { searchAccess } from "@/lib/app-settings";
 import { effectiveStatus } from "@/domain/account-model";
 import { emailIsVerified } from "@/lib/agents";
 import { completenessOf } from "@/lib/completeness";
@@ -66,9 +65,10 @@ export async function loadProfileFacts(
     },
   });
   const byId = new Map(rows.map((row) => [row.id, row]));
-  // Round 10: the founder's switch, read through the same client (a claim runs
-  // in a transaction). A client without settings (tests) means the default.
-  const access = opts.access ?? (db.appSetting ? await searchAccess({ appSetting: db.appSetting }) : "test_only");
+  // Round 11.1: a profile is read to RUN a search, so the strict rule applies
+  // (Test accounts only in test mode, real ones only in live). "AI searches are
+  // open to" only opens queuing; a caller may still pass `access` explicitly.
+  const access = opts.access ?? "test_only";
   const profiles: ProfileFacts[] = [];
   // The order of the pilot list is kept, so runs are repeatable.
   for (const id of profileIds) {

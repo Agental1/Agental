@@ -50,6 +50,11 @@ export function isAccountStatus(v: unknown): v is AccountStatus {
  * and what an unreadable setting means): Test accounts only, as before.
  * "all_verified": every performer with a verified email and a 100% profile, Test
  * accounts included. WORKFLOW_MODE=live keeps its meaning (real accounts only).
+ *
+ * Round 11.1 (founder): the setting now opens QUEUING only, and "all_verified"
+ * is the default (src/lib/app-settings.ts). Running reads the strict rule
+ * (access "test_only", the default of the functions below): in test mode only
+ * Test accounts run, in live only real ones, and only while "Run searches" is on.
  */
 export const SEARCH_ACCESS = ["test_only", "all_verified"] as const;
 export type SearchAccess = (typeof SEARCH_ACCESS)[number];

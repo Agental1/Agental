@@ -5,7 +5,7 @@ import { effectiveStatus } from "@/domain/account-model";
 import { completenessInputOf, missingItems } from "@/domain/completeness";
 import { searchBlock, type SearchBlock, type SearchNotice } from "@/domain/search-block";
 import { workflowMode, type SearchAccess, type WorkflowMode } from "@/domain/workflow/eligibility";
-import { getRoleSearchQuota } from "@/lib/role-search";
+import { getRoleSearchQuota, searchesWillStart } from "@/lib/role-search";
 import { isPaused, searchAccess } from "@/lib/app-settings";
 
 /**
@@ -47,7 +47,10 @@ export function searchServiceConnected(env: Record<string, string | undefined> =
  * "Searches are paused for a moment": staff paused everything, or the search
  * service is not connected. The click is still saved and starts by itself.
  */
-export async function searchPausedNotice(): Promise<SearchNotice | null> {
+export async function searchPausedNotice(userId?: string): Promise<SearchNotice | null> {
+  // Round 11.1: "Run searches" off (or an account that does not run in this
+  // mode): queued, no start time.
+  if (userId && !(await searchesWillStart(userId))) return { kind: "waiting" };
   if ((await isPaused()) || !searchServiceConnected()) return { kind: "paused" };
   return null;
 }

@@ -59,8 +59,10 @@ export function searchBlock(f: SearchBlockFacts): SearchBlock | null {
 }
 
 /**
- * Not a refusal: the click is saved and the search starts later. "paused" when
- * staff paused everything or the search service is not connected; "queued"
- * when every slot is busy (startsAt is the planned start).
+ * Not a refusal: the click is saved and the search starts later. "waiting"
+ * (round 11.1) while "Run searches" is off or this account does not run in the
+ * current mode: queued, with no start time or estimate. "paused" when staff
+ * paused everything or the search service is not connected; "queued" when
+ * every slot is busy (startsAt is the planned start).
  */
-export type SearchNotice = { kind: "paused" } | { kind: "queued"; startsAt: string };
+export type SearchNotice = { kind: "waiting" } | { kind: "paused" } | { kind: "queued"; startsAt: string };

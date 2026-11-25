@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { approvedEmailCategories, emailGateState, pauseState, searchAccess } from "@/lib/app-settings";
+import { approvedEmailCategories, emailGateState, pauseState, searchAccess, searchRunState } from "@/lib/app-settings";
 import { emailCodeAvailable } from "@/lib/email-code";
 import { aiAccountStates } from "@/lib/ai-spend";
 import { PROVIDER_LABEL } from "@/domain/ai-spend";
@@ -14,7 +14,7 @@ import { PlanB2C } from "@/domain/enums";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
-import { setEmailApprovalForm, setEmailGateForm, setPauseForm, setSearchAccessForm } from "@/app/actions/admin-controls";
+import { setEmailApprovalForm, setEmailGateForm, setPauseForm, setRunSearchesForm, setSearchAccessForm } from "@/app/actions/admin-controls";
 import { adminDateTime, dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
@@ -35,7 +35,7 @@ export default async function ControlsPage({ params, searchParams }: { params: P
   if (!adminId) notFound();
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
-  const [approved, pause, access, ai, gate] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates(), emailGateState()]);
+  const [approved, pause, access, ai, gate, run] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates(), emailGateState(), searchRunState()]);
   const canSendCodes = emailCodeAvailable();
   const usd = (cents: number | null) =>
     cents === null ? null : new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
@@ -67,6 +67,34 @@ export default async function ControlsPage({ params, searchParams }: { params: P
           <input type="hidden" name="paused" value={pause.paused ? "0" : "1"} />
           <button className={`h-11 rounded-full px-6 text-sm font-bold ${pause.paused ? "bg-accent text-[var(--accent-fg)]" : "bg-danger text-white"}`}>
             {pause.paused ? t(`${c}.pause.resume`) : t(`${c}.pause.pause`)}
+          </button>
+        </form>
+      </section>
+
+      <section aria-labelledby="run" className={`space-y-3 rounded-sedan border p-5 ${run.running ? "border-accent bg-accent-soft/30" : "border-border bg-surface"}`}>
+        <h2 id="run" className="font-display text-xl font-medium">
+          {t(`${c}.run.title`)}
+        </h2>
+        <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.run.lead`)}</p>
+        <p className="text-sm font-bold">
+          {run.running
+            ? t(`${c}.run.isOn`, { since: run.since ? dateTime(new Date(run.since), locale) : "" })
+            : t(`${c}.run.isOff`)}
+        </p>
+        {sp.runConfirm && (
+          <p role="alert" className="text-sm font-bold text-danger">{t(`${c}.run.needConfirm`)}</p>
+        )}
+        <form action={setRunSearchesForm} className="space-y-3">
+          <input type="hidden" name="locale" value={locale} />
+          <input type="hidden" name="running" value={run.running ? "0" : "1"} />
+          {!run.running && (
+            <label className="flex items-start gap-2 text-sm">
+              <input type="checkbox" name="confirm" value="yes" className="mt-1" />
+              <span>{t(`${c}.run.confirm`)}</span>
+            </label>
+          )}
+          <button className={`h-11 rounded-full px-6 text-sm font-bold ${run.running ? "border border-border-strong text-fg" : "bg-accent text-[var(--accent-fg)]"}`}>
+            {run.running ? t(`${c}.run.turnOff`) : t(`${c}.run.turnOn`)}
           </button>
         </form>
       </section>

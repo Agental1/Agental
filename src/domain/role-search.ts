@@ -103,7 +103,13 @@ export function periodKeyFor(start: Date): string {
 export interface RoleSearchQuota {
   plan: PlanB2C;
   limit: number;
+  /** Round 11.1: searches that started this period (the allowance they used). */
   used: number;
+  /**
+   * Round 11.1: searches held now, queued + running + used this period. A new
+   * one is refused once held reaches the limit; `remaining` is limit - held.
+   */
+  held: number;
   remaining: number;
   /** Null until the first search of a period. */
   resetsAt: string | null;
@@ -115,17 +121,23 @@ export interface RoleSearchQuota {
  * `periodStart` is the user's stored start; an ended or missing period counts
  * as zero used (the next search starts a new one). A plan change only changes
  * the limit: the period and the reset date stay.
+ *
+ * Round 11.1 (founder): a search uses the allowance only once it starts
+ * (`used`), but queued + running + used (`held`, at least `used`) may never
+ * pass the limit. Without `held`, it is `used` (callers that count both alike).
  */
-export function quotaFrom(plan: PlanB2C, used: number, periodStart: Date | null, now: Date): RoleSearchQuota {
+export function quotaFrom(plan: PlanB2C, used: number, periodStart: Date | null, now: Date, held?: number): RoleSearchQuota {
   const limit = allowanceFor(plan).count;
   const active = periodActive(periodStart, now);
   const n = active ? used : 0;
+  const h = Math.max(n, held ?? n);
   const end = active ? periodEnd(periodStart) : null;
   return {
     plan,
     limit,
     used: n,
-    remaining: Math.max(0, limit - n),
+    held: h,
+    remaining: Math.max(0, limit - h),
     resetsAt: end ? end.toISOString() : null,
     resetInDays: end ? Math.max(1, Math.ceil((end.getTime() - now.getTime()) / DAY_MS)) : null,
   };

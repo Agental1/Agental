@@ -807,7 +807,8 @@
         "notice": {
           "paused": "Las búsquedas están en pausa un momento. Tu solicitud está guardada y empezará automáticamente.",
           "queued": "Tu búsqueda está en cola. Empieza {time}.",
-          "pausedNow": "Las búsquedas con IA están en pausa por un momento. Si inicias una ahora, se guarda y empezará sola."
+          "pausedNow": "Las búsquedas con IA están en pausa por un momento. Si inicias una ahora, se guarda y empezará sola.",
+          "waiting": "Tu búsqueda está en cola. Las búsquedas empiezan pronto: te avisaremos."
         }
       },
       "nextAction": "Siguiente paso",
