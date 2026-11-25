@@ -14,6 +14,8 @@ import { isPaused } from "@/lib/app-settings";
 
 const NAV = [
   { href: "/admin", key: "overview", icon: "console" },
+  // Round 11.1 (founder): the switches are second in the menu, always in view.
+  { href: "/admin/controles", key: "controls", icon: "console" },
   { href: "/admin/comptes", key: "accounts", icon: "console" },
   { href: "/admin/cookies", key: "cookies", icon: "audit" },
   { href: "/admin/profils", key: "profiles", icon: "talents" },
@@ -27,7 +29,6 @@ const NAV = [
   { href: "/admin/recherches", key: "roleSearches", icon: "console" },
   { href: "/admin/revenus", key: "revenue", icon: "console" },
   { href: "/admin/ia", key: "ai", icon: "console" },
-  { href: "/admin/controles", key: "controls", icon: "console" },
   { href: "/admin/audit", key: "audit", icon: "audit" },
   { href: "/admin/suppression", key: "cleanup", icon: "audit" },
   { href: "/admin/mineurs", key: "minors", icon: "minors" },
