@@ -1,6 +1,5 @@
 "use server";
 
-import { createHmac, hkdfSync } from "node:crypto";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { headers } from "next/headers";
@@ -30,6 +29,7 @@ import {
   type SendEmailResult,
 } from "@/lib/mailer";
 import { hitRateLimit } from "@/lib/rate-limit";
+import { accountEmailKeyHash } from "@/lib/rate-key";
 import { captchaPassed } from "@/lib/abuse";
 
 /**
@@ -70,9 +70,6 @@ const NEW_USER_WINDOW_MS = 10 * MINUTE_MS;
 
 const BCRYPT_COST = 10;
 
-const RATE_KEY_SALT = "agental.account-email.v1";
-const RATE_KEY_INFO = "agental:rate-limit-key";
-
 /** Longer than any address a mailbox accepts; refused before the regex runs. */
 const ResetEmail = z.string().max(320).trim().toLowerCase().email();
 
@@ -90,22 +87,8 @@ function errorLabel(error: unknown): string {
   return typeof code === "string" ? `${error.name} ${code}` : error.name;
 }
 
-/**
- * A keyed hash for rate-limit keys, so the RateLimitEvent table holds neither
- * an email address nor an IP, and a dump of it alone cannot be reversed by
- * trying every IPv4 address. The key is derived from AUTH_SECRET with a label
- * of its own.
- */
-function rateKeyHash(value: string): string {
-  const key = hkdfSync(
-    "sha256",
-    process.env.AUTH_SECRET ?? "",
-    RATE_KEY_SALT,
-    RATE_KEY_INFO,
-    32
-  );
-  return createHmac("sha256", new Uint8Array(key)).update(value).digest("hex");
-}
+/** Keyed hash for rate-limit keys (src/lib/rate-key.ts). */
+const rateKeyHash = accountEmailKeyHash;
 
 /**
  * x-real-ip is set by the platform; the first x-forwarded-for hop is whatever

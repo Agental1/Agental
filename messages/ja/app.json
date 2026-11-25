@@ -101,6 +101,7 @@
     "studentCodeExpired": "このコードは期限切れです。",
     "studentCodeUsedUp": "このコードは使用上限に達しました。",
     "tooManyAttempts": "試行回数が多すぎます。しばらくしてからもう一度お試しください。",
+    "tooManySignups": "このネットワークからの登録が多すぎます。{minutes} 分後にもう一度お試しください。",
     "siteNotFound": "このウェブサイトは見つかりませんでした。",
     "siteInvalid": "ウェブサイトの情報に不足があるか、長すぎる項目があります。",
     "sitePaymentRequired": "ウェブサイトを公開する前にプランを選んでください。",
