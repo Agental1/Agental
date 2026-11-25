@@ -28,7 +28,9 @@ function negotiateLocale(req: NextRequest) {
   const cookie = req.cookies.get("NEXT_LOCALE")?.value;
   if (cookie && (routing.locales as readonly string[]).includes(cookie)) return intlMiddleware(req);
   if (fromAcceptLanguage(req.headers.get("accept-language"))) return intlMiddleware(req);
-  const byCountry = fromCountry(req.headers.get("x-vercel-ip-country"));
+  // Only page loads, and only the platform's own header (review, round 11).
+  if (req.method !== "GET" && req.method !== "HEAD") return intlMiddleware(req);
+  const byCountry = process.env.VERCEL ? fromCountry(req.headers.get("x-vercel-ip-country")) : null;
   if (!byCountry) return intlMiddleware(req);
   const headers = new Headers(req.headers);
   headers.set("accept-language", byCountry);

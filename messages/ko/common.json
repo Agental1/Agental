@@ -19,7 +19,7 @@
     "rgpd": "GDPR",
     "mentions": "법적 고지",
     "cgu": "이용약관",
-    "rights": "© {year} Agental. All rights reserved.",
+    "rights": "© {year} Agental. 모든 권리 보유.",
     "sections": {
       "product": "제품",
       "company": "Agental",
@@ -418,8 +418,8 @@
     "title": "계속하기 전에",
     "lead": "개인정보 처리방침을 업데이트했어요. Agental을 계속 이용하려면 한 번 읽고 동의해 주세요.",
     "security": "스팸과 가짜 계정을 어떻게 찾아내는지, 그리고 인증되지 않았거나 악용하는 계정을 삭제할 수 있다는 내용을 설명해요: <security>계정 보안 및 악용</security>.",
-    "agreePrivacy": "<privacy>개인정보 처리방침</privacy>에 동의해요.",
-    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy> 및 <terms>이용약관</terms>에 동의해요.",
+    "agreePrivacy": "<privacy>개인정보 처리방침</privacy>에 동의합니다.",
+    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy> 및 <terms>이용약관</terms>에 동의합니다.",
     "continue": "계속",
     "signOut": "로그아웃",
     "deleteInstead": "계정을 삭제하고 싶으신가요? contact@agental.co로 연락해 주세요."

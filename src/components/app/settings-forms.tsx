@@ -71,7 +71,7 @@ export function LanguageForm({ current }: { current: Locale }) {
         aria-labelledby="language-label"
         className="max-h-80 divide-y divide-border overflow-y-auto rounded-sedan border border-border bg-surface"
       >
-        {shown.length === 0 && <p className="px-3 py-3 text-sm text-fg-muted">{t("noMatch")}</p>}
+        {shown.length === 0 && <p role="status" className="px-3 py-3 text-sm text-fg-muted">{t("noMatch")}</p>}
         {shown.map((l) => {
           const n = LOCALE_NAMES[l];
           const selected = l === value;
