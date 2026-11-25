@@ -198,8 +198,8 @@
       "uppercase": "Une majuscule",
       "special": "Un caractère spécial"
     },
-    "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy>.",
-    "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy> et les <terms>Conditions d’utilisation</terms>."
+    "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy> et l’utilisation des cookies.",
+    "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies."
   },
   "height": {
     "unit": "Unité de taille",

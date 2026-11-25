@@ -1,4 +1,6 @@
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { termsPageEnabled } from "@/domain/legal/terms";
 import type { Locale } from "next-intl";
 import { enabledOAuthProviders } from "@/auth";
 import { oauthSignInAction } from "@/app/actions/oauth";
@@ -37,6 +39,15 @@ export async function OAuthButtons({
 }) {
   if (enabledOAuthProviders.length === 0) return null;
   const t = await getTranslations({ locale, namespace });
+  const tc = await getTranslations({ locale, namespace: "common" });
+  const link = (href: string) =>
+    function PolicyLink(chunks: React.ReactNode) {
+      return (
+        <Link href={href} target="_blank" className="font-bold text-accent underline underline-offset-4">
+          {chunks}
+        </Link>
+      );
+    };
 
   return (
     <div className={cn("space-y-3", className)}>
@@ -52,6 +63,15 @@ export async function OAuthButtons({
           </button>
         </form>
       ))}
+      {mode === "signup" && (
+        // Signing up with a provider records the Privacy Policy acceptance (and the cookie notice).
+        <p className="text-center text-[13px] leading-snug text-fg-muted">
+          {tc.rich(termsPageEnabled() ? "oauthAgreeTerms" : "oauthAgree", {
+            privacy: link("/talents/confidentialite"),
+            terms: link("/talents/conditions"),
+          })}
+        </p>
+      )}
       <div className="flex items-center gap-3 text-xs text-fg-muted">
         <span aria-hidden className="h-px flex-1 bg-border" />
         <span>{t("oauth.or")}</span>

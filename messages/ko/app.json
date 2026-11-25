@@ -198,8 +198,8 @@
       "uppercase": "대문자 1개",
       "special": "특수 문자 1개"
     },
-    "agreePrivacy": "<privacy>개인정보 처리방침</privacy>에 동의합니다.",
-    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy> 및 <terms>이용약관</terms>에 동의합니다."
+    "agreePrivacy": "<privacy>개인정보 처리방침</privacy> 및 쿠키 사용에 동의합니다.",
+    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy>, <terms>이용약관</terms> 및 쿠키 사용에 동의합니다."
   },
   "height": {
     "unit": "키 단위",

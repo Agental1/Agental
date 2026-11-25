@@ -1,4 +1,6 @@
 import type { PrismaClient } from "@/generated/prisma/client";
+import { acceptanceColumns } from "@/domain/legal-versions";
+import { termsPageEnabled } from "@/domain/legal/terms";
 import type { UserKind } from "@/domain/enums";
 import type { Locale } from "@/i18n/routing";
 import type { OAuthIdentity } from "./oauth-identity";
@@ -155,6 +157,8 @@ export async function createOAuthUser(
           locale,
           emailVerified: now,
           passwordHash: null,
+          // The sign-up page says "By continuing, you accept the Privacy Policy and the use of cookies".
+          ...acceptanceColumns(termsPageEnabled(), now),
           accounts: {
             create: {
               type: "oidc",

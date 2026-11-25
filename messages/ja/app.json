@@ -198,8 +198,8 @@
       "uppercase": "大文字 1 文字",
       "special": "記号 1 文字"
     },
-    "agreePrivacy": "<privacy>プライバシーポリシー</privacy>に同意します。",
-    "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>と<terms>利用規約</terms>に同意します。"
+    "agreePrivacy": "<privacy>プライバシーポリシー</privacy>とCookieの使用に同意します。",
+    "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意します。"
   },
   "height": {
     "unit": "身長の単位",

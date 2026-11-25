@@ -129,6 +129,9 @@ describe("resolveOAuthUser", () => {
         locale: "es",
         emailVerified: now,
         passwordHash: null,
+        // Round 11.1: the sentence under the Google button records the Privacy acceptance.
+        privacyAcceptedAt: now,
+        privacyVersion: "2026-11-24",
         accounts: {
           create: {
             type: "oidc",

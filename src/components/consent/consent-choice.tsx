@@ -14,15 +14,13 @@ import { NECESSARY_ONLY, readConsent, writeConsent, type Consent } from "./conse
  * preferences" sit beside it at the same size, so refusing takes one click,
  * exactly like accepting. Only strictly necessary cookies are on by default.
  *
- * `onChosen` runs after the choice is written; the sign-up form uses it to
- * create the account, Settings uses it to confirm the save.
+ * `onChosen` runs after the choice is written (the banner and Settings).
  */
 export function ConsentChoice({
   onChosen,
   initial,
   writeCookie = true,
   busy = false,
-  submit = false,
   className,
 }: {
   onChosen?: (consent: Consent) => void;
@@ -39,8 +37,6 @@ export function ConsentChoice({
    * page); they are marked aria-disabled and presses are ignored.
    */
   busy?: boolean;
-  /** Render the answer buttons as submit buttons (inside the sign-up form). */
-  submit?: boolean;
   className?: string;
 }) {
   const t = useTranslations("common.consent");
@@ -53,7 +49,7 @@ export function ConsentChoice({
     onChosen?.(consent);
   }
 
-  const type = submit ? "submit" : "button";
+  const type = "button";
   const categories = [
     { key: "necessary", locked: true },
     { key: "analytics", locked: false },

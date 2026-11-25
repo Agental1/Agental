@@ -13,7 +13,7 @@ const ip = `198.51.100.${randomInt(1, 254)}`;
 vi.mock("next/headers", () => ({ headers: async () => new Headers({ "x-real-ip": ip }) }));
 vi.mock("@/auth", () => ({ signIn: async () => undefined, signOut: async () => undefined }));
 vi.mock("next-auth", () => ({ AuthError: class AuthError extends Error {} }));
-vi.mock("@/lib/consent", () => ({ readConsentCookie: async () => null }));
+vi.mock("@/lib/consent", () => ({ readConsentCookie: async () => null, writeConsentCookie: async () => undefined }));
 vi.mock("@/lib/email-code", () => ({ sendEmailCode: async () => ({ ok: false }) }));
 
 const { signupAction } = await import("@/app/actions/auth");

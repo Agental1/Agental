@@ -198,8 +198,8 @@
       "uppercase": "One uppercase letter",
       "special": "One special character"
     },
-    "agreePrivacy": "I agree to the <privacy>Privacy Policy</privacy>.",
-    "agreePrivacyTerms": "I agree to the <privacy>Privacy Policy</privacy> and the <terms>Terms of Service</terms>."
+    "agreePrivacy": "I accept the <privacy>Privacy Policy</privacy> and the use of cookies.",
+    "agreePrivacyTerms": "I accept the <privacy>Privacy Policy</privacy>, the <terms>Terms of Service</terms> and the use of cookies."
   },
   "height": {
     "unit": "Height unit",

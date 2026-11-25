@@ -127,3 +127,8 @@ What changed, and what counsel should confirm:
   and both in the CSV exports. Dates are shown in Los Angeles time.
   `LAWYER:` how long these acceptance records must be kept after an account is deleted (today they
   go with the account row after the 30-day hold; the audit entry stays with a hash of the email).
+
+## Round 11.1: one checkbox at sign-up
+
+Sign-up has one required box, "I accept the Privacy Policy and the use of cookies" (plus the Terms once published). It records the Privacy version and date and also counts as the account's cookie choice (the banner choice if one was made, otherwise "accepted all"). Google sign-ups see the same sentence under the button. Signed-in people are never asked again; older accounts see only the small cookie banner once.
+`LAWYER:` the single checkbox bundles cookie consent with the Privacy Policy acceptance; is that valid consent for cookies (analytics and marketing set none today)?

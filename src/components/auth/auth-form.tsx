@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import type { AuthState } from "@/app/actions/auth";
 import { passwordChecks, type PasswordRuleId } from "@/domain/auth";
-import { ConsentChoice } from "@/components/consent/consent-choice";
 import { cn } from "@/lib/utils";
 
 type Action = (state: AuthState, formData: FormData) => Promise<AuthState>;
@@ -26,11 +25,9 @@ const RULES: PasswordRuleId[] = ["length", "uppercase", "special"];
  * in `src/domain/auth.ts`, the same list the server enforces. Sign-in never
  * applies them, so older passwords keep working.
  *
- * Sign-up has a second step, the cookie choice: "Create my account" first
- * shows every cookie category with Accept all, Reject non-essential and
- * Manage preferences; any of the three answers creates the account. The
- * choice is written to a first-party cookie that sign-up copies onto the new
- * user.
+ * Sign-up has one required box: the Privacy Policy and the use of cookies (and
+ * the Terms of Service once published). It also counts as the account's cookie
+ * choice (see signupAction). Sign-up has no cookie step of its own.
  *
  * Both fields are controlled: React resets an uncontrolled form after a
  * server action, which used to wipe the email when the server refused the
@@ -66,10 +63,8 @@ export function AuthForm({
   );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // Round 11: "I agree to the Privacy Policy" (required to create an account).
+  // One box: Privacy Policy and cookies (and Terms once published), required to create an account.
   const [agreed, setAgreed] = useState(false);
-  const [step, setStep] = useState<"credentials" | "consent">("credentials");
-  const tc = useTranslations("common.consent");
   const tf = useTranslations("common.emailFlow");
 
   const signup = Boolean(kind);
@@ -82,29 +77,18 @@ export function AuthForm({
   if (state !== seenState) {
     setSeenState(state);
     if (state?.error) {
-      setStep("credentials");
       // React resets the form after a refused submit: the box shows unticked, so the state follows.
       setAgreed(false);
     }
   }
 
   return (
-    <form
-      action={formAction}
-      className="space-y-4"
-      onSubmit={(e) => {
-        // First press on sign-up: show the cookie choice instead of submitting.
-        if (signup && step === "credentials") {
-          e.preventDefault();
-          setStep("consent");
-        }
-      }}
-    >
+    <form action={formAction} className="space-y-4">
       {kind && <input type="hidden" name="kind" value={kind} />}
       <input type="hidden" name="locale" value={locale} />
       {next && <input type="hidden" name="next" value={next} />}
 
-      <div className={cn("space-y-4", step === "consent" && "hidden")}>
+      <div className="space-y-4">
       {showName && (
         <div className="space-y-1.5">
           <Label htmlFor="name">{t("auth.name")}</Label>
@@ -200,23 +184,6 @@ export function AuthForm({
 
       </div>
 
-      {signup && step === "consent" && (
-        <div className="enter space-y-3">
-          <div>
-            <h3 className="text-[1.125rem]">{tc("title")}</h3>
-            <p className="mt-1 text-[14px] leading-snug text-fg-muted">{tc("lead")}</p>
-          </div>
-          <ConsentChoice submit />
-          <button
-            type="button"
-            onClick={() => setStep("credentials")}
-            className="inline-flex min-h-11 items-center text-[14px] font-bold text-accent underline-offset-4 hover:underline"
-          >
-            {tc("back")}
-          </button>
-        </div>
-      )}
-
       {!signup && (
         <p className="-mt-1">
           <Link
@@ -240,16 +207,14 @@ export function AuthForm({
 
       {signup && <Captcha />}
 
-      {step === "credentials" && (
-        <Button
-          type="submit"
-          size={size === "lg" ? "lg" : "md"}
-          className={cn("w-full", size === "lg" && "h-[52px] text-[16px]")}
-          disabled={pending || (signup && (!rulesPass || !agreed))}
-        >
-          {submitLabel}
-        </Button>
-      )}
+      <Button
+        type="submit"
+        size={size === "lg" ? "lg" : "md"}
+        className={cn("w-full", size === "lg" && "h-[52px] text-[16px]")}
+        disabled={pending || (signup && (!rulesPass || !agreed))}
+      >
+        {submitLabel}
+      </Button>
     </form>
   );
 }
