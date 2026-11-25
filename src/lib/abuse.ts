@@ -38,7 +38,7 @@ export const SIGNUP_LIMITS = {
   emailTaken: { limit: 5, windowMs: 60 * 60 * 1000 },
 } as const;
 
-export type SignupGate = { ok: true; ipKey: string; emailKey: string } | { ok: false; retryAfterMs: number };
+export type SignupGate = { ok: true; ipKey: string; emailKey: string } | { ok: false; retryAfterMs: number; taken?: true };
 
 /** Before a sign-up: refused when the network or the address is over its limit. */
 export async function signupAllowed(email: string): Promise<SignupGate> {
@@ -49,7 +49,8 @@ export async function signupAllowed(email: string): Promise<SignupGate> {
   const attempts = await hitRateLimit(prisma, `signup:ip:${ipKey}`, SIGNUP_LIMITS.ipAttempts);
   if (!attempts.allowed) return { ok: false, retryAfterMs: attempts.retryAfterMs };
   const taken = await peekRateLimit(prisma, `signup-taken:email:${emailKey}`, SIGNUP_LIMITS.emailTaken);
-  if (!taken.allowed) return { ok: false, retryAfterMs: taken.retryAfterMs };
+  // The address, not the network: the form keeps saying "already used".
+  if (!taken.allowed) return { ok: false, retryAfterMs: taken.retryAfterMs, taken: true };
   return { ok: true, ipKey, emailKey };
 }
 

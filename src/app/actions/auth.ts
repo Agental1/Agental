@@ -40,7 +40,7 @@ export async function signupAction(
     return { error: err("errors.captchaFailed") };
   }
   const gate = await signupAllowed(email);
-  if (!gate.ok) return { error: err("errors.tooManySignups", { minutes: retryMinutes(gate.retryAfterMs) }) };
+  if (!gate.ok) return { error: gate.taken ? err("errors.emailTaken") : err("errors.tooManySignups", { minutes: retryMinutes(gate.retryAfterMs) }) };
 
   // In any letter case: a row stored as "Ana@X.com" before emails were
   // normalized already holds "ana@x.com".
