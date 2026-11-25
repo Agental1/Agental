@@ -65,7 +65,7 @@ describe("onboardingHome", () => {
     for (const locale of routing.locales) {
       for (const kind of ["TALENT", "CASTING"]) {
         expect(onboardingHome(kind, locale)).toMatch(
-          /^\/(en|fr|es|zh)\/(talents|casting)\/inscription$/
+          new RegExp(`^/(${routing.locales.join("|")})/(talents|casting)/inscription$`)
         );
       }
     }

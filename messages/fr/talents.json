@@ -1078,7 +1078,9 @@
       "language": {
         "label": "Langue",
         "lead": "La langue de l’application et des e-mails que nous t’envoyons. Elle est enregistrée sur ton compte.",
-        "saved": "Langue enregistrée."
+        "saved": "Langue enregistrée.",
+        "search": "Rechercher une langue",
+        "noMatch": "Aucune langue ne correspond."
       },
       "notifications": {
         "lead": "Choisis les e-mails que nous t’envoyons. Chaque réglage est enregistré dès que tu le modifies.",

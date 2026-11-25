@@ -4,8 +4,9 @@ export const routing = defineRouting({
   // English is the default (decision log D2, revised 2026-11): the October
   // deck puts Los Angeles first, and English is the language the product is
   // demoed and pitched in. French, Spanish and Chinese are full locales, not
-  // fallbacks — every message key must exist in all four (`bun run i18n:check`).
-  locales: ["en", "fr", "es", "zh"],
+  // fallbacks: every message key must exist in all of them (`pnpm i18n:check`).
+  // Round 11: Italian, Portuguese, Japanese and Korean join (no Arabic yet).
+  locales: ["en", "fr", "es", "zh", "it", "pt", "ja", "ko"],
   defaultLocale: "en",
   // Every locale carries its prefix, English included: /en, /fr, /es, /zh.
   //
@@ -48,4 +49,34 @@ export const LANG_TAG: Record<Locale, string> = {
   fr: "fr",
   es: "es",
   zh: "zh-Hans",
+  it: "it",
+  // Brazilian Portuguese (the U.S. market's Portuguese speakers mostly read it).
+  pt: "pt-BR",
+  ja: "ja",
+  ko: "ko",
 };
+
+/**
+ * Each language in its own name, then in English, for the Settings list and
+ * the switcher: "Italiano (Italian)". Sorted by the English name.
+ */
+export const LOCALE_NAMES: Record<Locale, { native: string; english: string }> = {
+  en: { native: "English", english: "English" },
+  fr: { native: "Français", english: "French" },
+  es: { native: "Español", english: "Spanish" },
+  zh: { native: "中文", english: "Chinese" },
+  it: { native: "Italiano", english: "Italian" },
+  pt: { native: "Português", english: "Portuguese" },
+  ja: { native: "日本語", english: "Japanese" },
+  ko: { native: "한국어", english: "Korean" },
+};
+
+export function localeLabel(l: Locale): string {
+  const n = LOCALE_NAMES[l];
+  return n.native === n.english ? n.native : `${n.native} (${n.english})`;
+}
+
+/** The locales in alphabetical order of their English name. */
+export const LOCALES_SORTED: Locale[] = [...routing.locales].sort((a, b) =>
+  LOCALE_NAMES[a].english.localeCompare(LOCALE_NAMES[b].english, "en")
+);

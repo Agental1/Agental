@@ -107,6 +107,10 @@ const QUOTES: Record<Locale, [string, string]> = {
   fr: ["\u00AB\u202F", "\u202F\u00BB"],
   es: ["\u00AB", "\u00BB"],
   zh: ["\u201C", "\u201D"],
+  it: ["\u00AB", "\u00BB"],
+  pt: ["\u201C", "\u201D"],
+  ja: ["\u300C", "\u300D"],
+  ko: ["\u201C", "\u201D"],
 };
 
 /** Testimonial cards: quiet sheets, quote first, attribution at the foot. */

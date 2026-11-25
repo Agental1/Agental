@@ -510,20 +510,23 @@ html[data-demo="end"] * {
      - A 0.86 line height makes full-height ideographs collide across lines.
      - 1ch is the width of "0" (~0.55em), so a 12ch heading holds six
        ideographs and wraps mid-phrase.
-   These rules undo that for /zh only, unlayered so they win over utilities.
+   These rules undo that for /zh, /ja and /ko (round 11), unlayered so they
+   win over utilities. Korean keeps its spaces between words, so keep-all
+   suits it too; Japanese headings break at phrases where the browser can
+   (auto-phrase) and otherwise anywhere.
    `.brand-type` opts out: the Latin wordmark keeps its own tracking. */
-:lang(zh-Hans) [class*="tracking-[-"]:not(.brand-type),
-:lang(zh-Hans) :is(.display-xl, .display-lg, .display-md):not(.brand-type) {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) [class*="tracking-[-"]:not(.brand-type),
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) :is(.display-xl, .display-lg, .display-md):not(.brand-type) {
   letter-spacing: 0;
 }
-:lang(zh-Hans) :is(.display-xl, .display-lg, .display-md):not(.brand-type),
-:lang(zh-Hans) [class*="leading-[0."]:not(.brand-type) {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) :is(.display-xl, .display-lg, .display-md):not(.brand-type),
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) [class*="leading-[0."]:not(.brand-type) {
   line-height: 1.15;
 }
-:lang(zh-Hans) :is(h1, h2, h3)[class*="ch]"] {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) :is(h1, h2, h3)[class*="ch]"] {
   max-width: 16em;
 }
-:lang(zh-Hans) :is(h1, h2, h3) {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) :is(h1, h2, h3) {
   font-weight: 600;
   /* Chinese may break between any two ideographs, which splits phrases
      ("终于有 / 了合适"). keep-all only breaks at punctuation and spaces; if a
@@ -532,20 +535,35 @@ html[data-demo="end"] * {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
-:lang(zh-Hans) h1:not(.brand-type)[class*="text-[clamp"] {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) h1:not(.brand-type)[class*="text-[clamp"] {
   font-size: clamp(2rem, 3.9vw, 3.5rem);
 }
-:lang(zh-Hans) body {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) body {
   line-break: strict;
   line-height: 1.7;
 }
 /* Ideographs fill the whole em box, so at the same size they read about a
    sixth larger than Latin. Display sizes come down to compensate. */
-:lang(zh-Hans) .display-lg:not(.brand-type) {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) .display-lg:not(.brand-type) {
   font-size: clamp(2.2rem, 5.8vw, 5.25rem);
 }
-:lang(zh-Hans) .display-md:not(.brand-type) {
+:is(:lang(zh-Hans), :lang(ja), :lang(ko)) .display-md:not(.brand-type) {
   font-size: clamp(1.8rem, 3.7vw, 3.1rem);
+}
+
+/* Round 11: Japanese and Korean glyphs from Japanese and Korean fonts. The
+   default stack lists Chinese fonts first, which would draw Japanese kanji in
+   their Chinese forms. */
+:root:lang(ja) {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic", "Meiryo", sans-serif;
+}
+:root:lang(ko) {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR",
+    "Noto Sans CJK KR", "Malgun Gothic", sans-serif;
+}
+:lang(ja) :is(h1, h2, h3) {
+  word-break: auto-phrase;
 }
 
 /* =============================================================================

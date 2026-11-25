@@ -3,6 +3,10 @@ import en from "../../../messages/en/talents.json";
 import fr from "../../../messages/fr/talents.json";
 import es from "../../../messages/es/talents.json";
 import zh from "../../../messages/zh/talents.json";
+import it from "../../../messages/it/talents.json";
+import pt from "../../../messages/pt/talents.json";
+import ja from "../../../messages/ja/talents.json";
+import ko from "../../../messages/ko/talents.json";
 import { toLocale, type Locale } from "@/i18n/routing";
 import {
   answerByRules,
@@ -22,7 +26,7 @@ import { isPaused } from "@/lib/app-settings";
  * switched on, otherwise (or when it fails) the rule-based answer. Either way
  * the answer says when a person has to take over.
  */
-const ALL = { en, fr, es, zh } as const;
+const ALL = { en, fr, es, zh, it, pt, ja, ko } as const;
 type Raw = (typeof en)["space"]["assistant"];
 
 function fill(template: string, values: Record<string, string | number>): string {

@@ -1078,7 +1078,9 @@
       "language": {
         "label": "Language",
         "lead": "The language of the app and of the emails we send you. It is saved on your account.",
-        "saved": "Language saved."
+        "saved": "Language saved.",
+        "search": "Search a language",
+        "noMatch": "No language matches."
       },
       "notifications": {
         "lead": "Choose which emails we send you. Each switch saves as soon as you change it.",
