@@ -125,6 +125,18 @@ try {
     log(`memberships n=${m.rows[0].n}`);
   });
 
+  // Round 11.1, group 2: one line per account (masked), to decide which test accounts go.
+  await section("all", async () => {
+    const r = await c.query(`select u.id, u.email, u."deletedEmail" de, u.name, u.kind, u."accountStatus" s, u."isAdmin" a, u."isStaff" st,
+        (u."emailVerified" is not null) v, (u."deletedAt" is not null) d, u."createdAt" c, u."lastSignInAt" l, (u."passwordHash" is not null) pw,
+        (select string_agg(x.provider, ',') from "Account" x where x."userId" = u.id) p,
+        (select count(*) from "Media" m join "ArtistProfile" ap on ap.id = m."profileId" where ap."userId" = u.id) media,
+        (select count(*) from "Subscription" sb where sb."subjectId" = u.id and (sb."stripeSubscriptionId" is not null or sb.plan <> 'FREE')) paid
+      from "User" u order by u."createdAt"`);
+    for (const x of r.rows)
+      log(`all user=${x.id} ${mask(x.de ?? x.email)} nameLen=${(x.name ?? "").length} kind=${x.kind} status=${x.s} admin=${x.a} staff=${x.st} verified=${x.v} deleted=${x.d} created=${x.c?.toISOString?.().slice(0, 10)} lastSignIn=${x.l?.toISOString?.().slice(0, 10) ?? "never"} pw=${x.pw} providers=${x.p ?? "none"} media=${x.media} paid=${x.paid}`);
+  });
+
   await section("model", async () => {
     const r = await c.query(`select
         count(*) filter (where "deletedAt" is null) accounts,
