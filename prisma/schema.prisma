@@ -106,6 +106,10 @@ model User {
   deletedAt             DateTime?
   deletedById           String?
   deletedPrevStatus     String?
+  // Round 11: the address a deleted account had. On delete the email column
+  // gets a placeholder (deleted-<id>@deleted.agental.invalid) so the person can
+  // sign up again at once; a restore puts it back if nobody took it meanwhile.
+  deletedEmail          String?
   // Round 9: last successful sign-in (null before round 9 or never).
   lastSignInAt          DateTime?
 

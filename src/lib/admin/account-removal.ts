@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { getStorage } from "@/lib/storage";
@@ -24,6 +25,9 @@ import { REMOVAL_BATCH, RESTORE_DAYS, purgeDate, purgeDue, removalBlock, type Re
 
 /** The warning the brief asks for: confirm within 7 days. */
 export const WARNING_DAYS = 7;
+
+/** Round 11: the placeholder a deleted account holds, so its real address is free again. */
+export const deletedPlaceholder = (id: string) => `deleted-${id}@deleted.agental.invalid`;
 
 const hashEmail = (email: string) => createHash("sha256").update(email.trim().toLowerCase()).digest("hex");
 
@@ -88,16 +92,22 @@ export async function softDeleteAccounts(adminId: string, rawIds: string[], now 
       // The status just read: a change in between makes this match nothing, so
       // deletedPrevStatus is always the status the account really had.
       where: { id: u.id, deletedAt: null, isAdmin: false, isStaff: false, accountStatus: u.accountStatus },
-      data: { deletedAt: now, deletedById: adminId, deletedPrevStatus: u.accountStatus, accountStatus: "REVOKED", sessionsValidAfter: now },
+      data: { deletedAt: now, deletedById: adminId, deletedPrevStatus: u.accountStatus, accountStatus: "REVOKED", sessionsValidAfter: now, email: deletedPlaceholder(u.id), deletedEmail: u.email },
     });
     if (count !== 1) continue;
+    // Round 11: free the address everywhere it could block a new sign-up:
+    // Google and Apple links (a new sign-in would otherwise find this account)
+    // and pending links or codes. The person can sign up again at once.
+    const unlinked = await prisma.account.deleteMany({ where: { userId: u.id } });
+    await prisma.verificationToken.deleteMany({ where: { identifier: { in: [`verify:${u.id}`, `reset:${u.id}`] } } });
+    await prisma.emailVerificationCode.deleteMany({ where: { userId: u.id } });
     await audit({
       actorUserId: adminId,
       action: "admin.account.delete",
       resourceType: "User",
       resourceId: u.id,
       before: { emailSha256: hashEmail(u.email), kind: u.kind, status: u.accountStatus, createdAt: u.createdAt.toISOString() },
-      after: { deletedAt: now.toISOString(), purgeOn: purgeDate(now).toISOString(), restorableDays: RESTORE_DAYS },
+      after: { deletedAt: now.toISOString(), purgeOn: purgeDate(now).toISOString(), restorableDays: RESTORE_DAYS, emailFreed: true, providerLinksRemoved: unlinked.count },
     });
     done += 1;
   }
@@ -106,11 +116,19 @@ export async function softDeleteAccounts(adminId: string, rawIds: string[], now 
 
 /** Put a deleted account back as it was (status included). */
 export async function restoreAccount(adminId: string, id: string, now = new Date()): Promise<boolean> {
-  const u = await prisma.user.findUnique({ where: { id }, select: { id: true, deletedAt: true, deletedPrevStatus: true } });
+  const u = await prisma.user.findUnique({ where: { id }, select: { id: true, deletedAt: true, deletedPrevStatus: true, deletedEmail: true } });
   if (!u?.deletedAt || purgeDue(u.deletedAt, now)) return false;
+  // Round 11: the address comes back only if nobody signed up with it meanwhile.
+  if (u.deletedEmail && (await findUsersByEmail(prisma, u.deletedEmail)).length > 0) return false;
   const { count } = await prisma.user.updateMany({
     where: { id, deletedAt: u.deletedAt },
-    data: { deletedAt: null, deletedById: null, deletedPrevStatus: null, accountStatus: u.deletedPrevStatus || "UNREVIEWED" },
+    data: {
+      deletedAt: null,
+      deletedById: null,
+      deletedPrevStatus: null,
+      accountStatus: u.deletedPrevStatus || "UNREVIEWED",
+      ...(u.deletedEmail ? { email: u.deletedEmail, deletedEmail: null } : {}),
+    },
   });
   if (count !== 1) return false;
   await audit({
@@ -179,7 +197,7 @@ export async function listDeleted(): Promise<DeletedRow[]> {
     where: { deletedAt: { not: null } },
     orderBy: { deletedAt: "desc" },
     take: 2000,
-    select: { id: true, name: true, email: true, kind: true, deletedAt: true, deletedById: true, artistProfile: { select: { stageName: true } } },
+    select: { id: true, name: true, email: true, deletedEmail: true, kind: true, deletedAt: true, deletedById: true, artistProfile: { select: { stageName: true } } },
   });
   const byIds = [...new Set(users.map((u) => u.deletedById).filter((v): v is string => !!v))];
   const admins = new Map(
@@ -188,7 +206,7 @@ export async function listDeleted(): Promise<DeletedRow[]> {
   return users.map((u) => ({
     id: u.id,
     name: u.artistProfile?.stageName || u.name || "",
-    email: u.email,
+    email: u.deletedEmail ?? u.email,
     kind: u.kind,
     deletedAt: u.deletedAt!,
     purgeOn: purgeDate(u.deletedAt!),
@@ -206,7 +224,7 @@ export async function purgeDeletedAccounts(now = new Date(), actorUserId: string
   const due = await prisma.user.findMany({
     where: { deletedAt: { not: null, lte: cutoff } },
     take: limit,
-    select: { id: true, email: true, kind: true, createdAt: true, deletedAt: true },
+    select: { id: true, email: true, deletedEmail: true, kind: true, createdAt: true, deletedAt: true },
   });
   if (due.length === 0) return { purged: 0, failed: 0 };
   const storage = await getStorage();
@@ -224,7 +242,7 @@ export async function purgeDeletedAccounts(now = new Date(), actorUserId: string
         const { count } = await tx.user.deleteMany({ where: { id: r.id, deletedAt: { not: null, lte: cutoff }, isAdmin: false, accountStatus: "REVOKED" } });
         if (count !== 1) return null;
         await tx.verificationToken.deleteMany({ where: { identifier: { in: [`verify:${r.id}`, `reset:${r.id}`] } } });
-        await tx.emailLog.deleteMany({ where: { to: { equals: r.email, mode: "insensitive" } } });
+        await tx.emailLog.deleteMany({ where: { to: { equals: r.deletedEmail ?? r.email, mode: "insensitive" } } });
         return [
           ...(profile?.media.map((m) => m.storageKey) ?? []),
           ...(profile?.avatarKey ? [profile.avatarKey] : []),
@@ -242,7 +260,7 @@ export async function purgeDeletedAccounts(now = new Date(), actorUserId: string
         action: "admin.account.purge",
         resourceType: "User",
         resourceId: r.id,
-        before: { emailSha256: hashEmail(r.email), kind: r.kind, createdAt: r.createdAt.toISOString(), deletedAt: r.deletedAt!.toISOString(), files: gone.length },
+        before: { emailSha256: hashEmail(r.deletedEmail ?? r.email), kind: r.kind, createdAt: r.createdAt.toISOString(), deletedAt: r.deletedAt!.toISOString(), files: gone.length },
         after: { purged: true },
       });
       purged += 1;
