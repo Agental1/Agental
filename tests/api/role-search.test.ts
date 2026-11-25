@@ -27,8 +27,15 @@ let spam: string;
 let minor: string;
 let limited: string;
 
+let savedAccess: { value: string; updatedById: string | null } | null = null;
+
 describe.skipIf(!local)("AI role searches", () => {
   beforeAll(async () => {
+    // These cases are the "Test accounts only" setting: pinned here, never read
+    // from whatever the local database happens to hold (round 11.1).
+    savedAccess = await prisma.appSetting.findUnique({ where: { key: "search.access" }, select: { value: true, updatedById: true } });
+    const pinned = JSON.stringify({ access: "test_only" });
+    await prisma.appSetting.upsert({ where: { key: "search.access" }, create: { key: "search.access", value: pinned }, update: { value: pinned } });
     // Verified, adult test accounts: the only kind staging lets through.
     const make = (name: string, over: Record<string, unknown> = {}) =>
       prisma.user.create({
@@ -61,6 +68,8 @@ describe.skipIf(!local)("AI role searches", () => {
   });
 
   afterAll(async () => {
+    await prisma.appSetting.deleteMany({ where: { key: "search.access" } });
+    if (savedAccess) await prisma.appSetting.create({ data: { key: "search.access", ...savedAccess } });
     const users = await prisma.user.findMany({ where: { email: { startsWith: P } }, select: { id: true } });
     const ids = users.map((u) => u.id);
     await prisma.subscription.deleteMany({ where: { subjectId: { in: ids } } });
