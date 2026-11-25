@@ -26,8 +26,7 @@ describe("Settings > Language (round 11)", () => {
         locale: "ja",
         timeZone: "America/Los_Angeles",
         messages: { talents, app },
-        children: createElement(LanguageForm, { current: "it" }),
-      })
+      }, createElement(LanguageForm, { current: "it" }))
     );
     expect(html).toContain('type="search"');
     expect(html).toContain("言語を検索");
