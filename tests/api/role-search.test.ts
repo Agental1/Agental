@@ -143,15 +143,17 @@ describe.skipIf(!local)("AI role searches", () => {
     await startRoleSearch(pro, key(401));
     const again = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
     expect(again.searchPeriodStartedAt?.getTime()).toBe(u.searchPeriodStartedAt?.getTime());
-    expect((await getRoleSearchQuota(pro)).used).toBe(2);
+    // Round 11.1: queued searches hold their place but use nothing until they start.
+    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, held: 2, remaining: 48 });
   });
 
   it("resets after 30 days and the next search opens a new period", async () => {
     const old = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000);
     await prisma.user.update({ where: { id: pro }, data: { searchPeriodStartedAt: old } });
-    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, remaining: 50, resetsAt: null });
+    // Round 11.1: the two searches still queued used nothing, and still hold their place.
+    expect(await getRoleSearchQuota(pro)).toMatchObject({ used: 0, held: 2, remaining: 48, resetsAt: null });
     const res = await startRoleSearch(pro, key(402));
-    expect(res.ok && res.quota.used === 1).toBe(true);
+    expect(res.ok && res.quota.used === 0 && res.quota.held === 3).toBe(true);
     const u = await prisma.user.findUniqueOrThrow({ where: { id: pro } });
     expect(u.searchPeriodStartedAt!.getTime()).toBeGreaterThan(old.getTime() + 30 * 24 * 60 * 60 * 1000);
   });

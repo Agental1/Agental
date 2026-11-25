@@ -7,7 +7,7 @@ import { searchAccess } from "@/lib/app-settings";
 import { loadProfileFacts } from "@/lib/workflow/profiles";
 import { startRoleSearch } from "@/lib/role-search";
 import { getTalentPlan } from "@/lib/billing/entitlement";
-import { FIRST_AUTO_KEY, busySlots, searchPaceFor, type SearchPace } from "@/domain/role-search";
+import { FIRST_AUTO_KEY, PERIOD_DAYS, busySlots, searchPaceFor, type SearchPace } from "@/domain/role-search";
 import { PlanB2C } from "@/domain/enums";
 import { workflowMode, type WorkflowMode } from "@/domain/workflow/eligibility";
 import type { ProfileFacts } from "@/domain/workflow/profile";
@@ -181,6 +181,10 @@ export async function claimCastingJobs(
                 ) AS rn
                 FROM "public"."role_search_requests"
                 WHERE status = 'queued' AND ("scheduledFor" IS NULL OR "scheduledFor" <= ${now})
+                  -- Round 11.1: in test mode only Test accounts run; a real
+                  -- performer's search stays queued (never canceled) until live.
+                  -- Spam, revoked and other ineligible rows are still canceled below.
+                  AND (${mode === "live"}::boolean OR "userId" NOT IN (SELECT id FROM "public"."User" WHERE "accountStatus" IN ('UNREVIEWED', 'APPROVED')))
               ) ranked
               WHERE rn <= ${MAX_SLOTS}
             )
@@ -225,12 +229,11 @@ export async function claimCastingJobs(
     }
     const jobs: CastingJob[] = [];
     let canceled = 0;
-    const access = await searchAccess(tx);
     for (const row of rows) {
       const profile = await tx.artistProfile.findUnique({ where: { userId: row.userId }, select: { id: true } });
       // The first automatic search is its own consent record (it stamps no click).
       const firstAuto = row.clientKey === FIRST_AUTO_KEY;
-      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode, { firstAuto, access }) : { profiles: [] };
+      const loaded = profile ? await loadProfileFacts(tx, [profile.id], now, mode, { firstAuto }) : { profiles: [] };
       const facts = loaded.profiles[0];
       if (!facts && firstAuto) {
         // Round 10: a first automatic search keeps its place (its key is unique,
@@ -251,6 +254,10 @@ export async function claimCastingJobs(
           where: { id: row.id },
           data: { status: "running", startedAt: now, claimedBy: input.executionId },
         });
+        // Round 11.1: a search uses the allowance when it starts, in the period
+        // it starts in: a search that waited past its period opens a new one.
+        await tx.$executeRaw`UPDATE "public"."User" SET "searchPeriodStartedAt" = ${now}
+          WHERE id = ${row.userId} AND ("searchPeriodStartedAt" IS NULL OR "searchPeriodStartedAt" <= ${new Date(now.getTime() - PERIOD_DAYS * 24 * 60 * 60 * 1000)})`;
       }
       jobs.push({ requestId: row.id, profile: castingProfile(facts) });
     }

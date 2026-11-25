@@ -245,6 +245,7 @@ function BlockText({ block }: { block: SearchBlock }) {
 function NoticeText({ notice }: { notice: SearchNotice }) {
   const t = useTranslations("talents.space.dashboard.findRoles");
   const locale = useLocale();
+  if (notice.kind === "waiting") return <p className="text-[15px] font-medium">{t("notice.waiting")}</p>;
   if (notice.kind === "paused") return <p className="text-[15px] font-medium">{t("notice.paused")}</p>;
   return (
     <p className="text-[15px] font-medium">

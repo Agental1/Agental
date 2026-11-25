@@ -49,7 +49,7 @@ export async function startFindingRoles(clientKey: string): Promise<StartRoleSea
     }
     revalidatePath("/[locale]/talents/(space)/app", "page");
     revalidatePath("/[locale]/talents/(space)/app/candidatures", "page");
-    const paused = await searchPausedNotice();
+    const paused = await searchPausedNotice(session.user.id);
     const later = res.scheduledFor && res.scheduledFor.getTime() > Date.now() + 60_000;
     const notice: SearchNotice | undefined =
       paused ?? (later ? { kind: "queued", startsAt: res.scheduledFor!.toISOString() } : undefined);

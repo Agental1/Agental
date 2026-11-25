@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { turnSearchesOn } from "../helpers/search-run";
 import { completeProfile } from "../helpers/complete-profile";
 
 /**
@@ -49,7 +50,9 @@ let auto: string;
 let parked: { id: string; status: string; startedAt: Date | null; claimedBy: string | null }[] = [];
 
 describe.skipIf(!local)("n8n casting link", () => {
+  let restoreRun: () => Promise<void> = async () => {};
   beforeAll(async () => {
+    restoreRun = await turnSearchesOn();
     vi.stubEnv("N8N_SHARED_SECRET", SECRET);
     // Nothing else may sit in the queue for these tests; other rows are parked and put back after.
     parked = await prisma.roleSearchRequest.findMany({ where: { status: { in: ["queued", "running"] } }, select: { id: true, status: true, startedAt: true, claimedBy: true } });
@@ -81,6 +84,7 @@ describe.skipIf(!local)("n8n casting link", () => {
   });
 
   afterAll(async () => {
+    await restoreRun();
     vi.unstubAllEnvs();
     for (const r of parked) {
       await prisma.roleSearchRequest.update({ where: { id: r.id }, data: { status: r.status, startedAt: r.startedAt, claimedBy: r.claimedBy } });

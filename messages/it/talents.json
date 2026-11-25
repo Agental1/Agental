@@ -807,7 +807,8 @@
         "notice": {
           "paused": "Le ricerche sono in pausa per un momento. La tua richiesta è salvata e partirà automaticamente.",
           "queued": "La tua ricerca è in coda. Parte alle {time}.",
-          "pausedNow": "Le ricerche IA sono in pausa per un momento. Se ne avvii una ora, viene salvata e parte automaticamente."
+          "pausedNow": "Le ricerche IA sono in pausa per un momento. Se ne avvii una ora, viene salvata e parte automaticamente.",
+          "waiting": "La tua ricerca è in coda. Le ricerche partono presto: ti avviseremo."
         }
       },
       "nextAction": "Prossima azione",

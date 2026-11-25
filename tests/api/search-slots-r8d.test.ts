@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { prisma } from "@/lib/db";
+import { turnSearchesOn } from "../helpers/search-run";
 import { completeProfile } from "../helpers/complete-profile";
 
 /**
@@ -35,12 +36,15 @@ async function performer(name: string, data: Record<string, unknown> = {}, profi
 }
 
 describe.skipIf(!local)("round 8d search slots", () => {
+  let restoreRun: () => Promise<void> = async () => {};
   beforeAll(async () => {
+    restoreRun = await turnSearchesOn();
     vi.stubEnv("WORKFLOW_MODE", "");
     parked = await prisma.roleSearchRequest.findMany({ where: { status: { in: ["queued", "running"] } }, select: { id: true, status: true } });
     await prisma.roleSearchRequest.updateMany({ where: { id: { in: parked.map((r) => r.id) } }, data: { status: "parked_by_test" } });
   });
   afterAll(async () => {
+    await restoreRun();
     await prisma.user.deleteMany({ where: { email: { startsWith: P } } });
     for (const r of parked) await prisma.roleSearchRequest.update({ where: { id: r.id }, data: { status: r.status } });
     vi.unstubAllEnvs();

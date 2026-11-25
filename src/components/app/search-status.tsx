@@ -29,6 +29,7 @@ const STATUS_HREF = {
  */
 export function SearchStatus({ initial }: { initial: MySearchStatus }) {
   const t = useTranslations("talents.space.dashboard.status");
+  const tf = useTranslations("talents.space.dashboard.findRoles");
   const locale = useLocale();
   const [s, setS] = useState(initial);
   // The next start is shown in the browser's own time zone, so only after
@@ -88,6 +89,7 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
             </span>
           ))}
         </p>
+        {s.queued > 0 && s.waiting && <p className="mt-1 text-sm text-fg-muted">{tf("notice.waiting")}</p>}
         {mounted && s.queued > 0 && s.nextStart && (
           <p className="mt-1 text-sm text-fg-muted">
             {t("nextStart", {

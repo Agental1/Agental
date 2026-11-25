@@ -102,9 +102,14 @@ export async function setPaused(adminId: string, paused: boolean, now = new Date
 
 /**
  * Round 10, group 3 (founder): "AI searches are open to" in Admin > Controls.
- * "test_only" by default and whenever the value is missing or unreadable
- * (fail safe). Read fresh on every check, every change audited.
+ * Round 11.1: this decides who may QUEUE a search, and "all_verified" (every
+ * performer with a verified email and a 100% profile) is the default when no
+ * value is stored or it is unreadable. Queuing costs nothing: whether a search
+ * RUNS is the "Run searches" switch below plus WORKFLOW_MODE (Test accounts
+ * only in test mode), never this setting. "test_only" stays readable and
+ * selectable. Read fresh on every check, every change audited.
  */
+export const DEFAULT_SEARCH_ACCESS: SearchAccess = "all_verified";
 const SEARCH_ACCESS_KEY = "search.access";
 
 export async function searchAccess(
@@ -116,9 +121,9 @@ export async function searchAccess(
   const row = await db.appSetting.findUnique({ where: { key: SEARCH_ACCESS_KEY } });
   try {
     const v = JSON.parse(row?.value ?? "{}") as { access?: unknown };
-    return isSearchAccess(v.access) ? v.access : "test_only";
+    return isSearchAccess(v.access) ? v.access : DEFAULT_SEARCH_ACCESS;
   } catch {
-    return "test_only";
+    return DEFAULT_SEARCH_ACCESS;
   }
 }
 
@@ -135,6 +140,63 @@ export async function setSearchAccess(adminId: string, access: SearchAccess): Pr
     await audit({ actorUserId: adminId, action: "admin.search.access", resourceType: "AppSetting", resourceId: SEARCH_ACCESS_KEY, before: { access: before }, after: { access } }, tx);
   });
   if (access === "all_verified") await launchWaitingFirstSearches();
+}
+
+// ------------------------------------------------------------ run searches
+
+/**
+ * Round 11.1 (founder): "Run searches" in Admin > Controls. Off by default, and
+ * off whenever the value is missing or unreadable (fail safe: no cost). While
+ * off, every search is created in the queue and stays there: the n8n claim
+ * hands out nothing, so nothing reaches n8n. On, WORKFLOW_MODE still decides
+ * which accounts run (Test accounts only in test mode). Same pattern as the
+ * pause switch: read fresh, every change audited with the switch itself.
+ */
+const SEARCH_RUN_KEY = "search.run";
+
+export interface SearchRunState {
+  running: boolean;
+  since: string | null;
+  by: string | null;
+}
+
+export async function searchRunState(
+  db: { appSetting: Pick<typeof prisma.appSetting, "findUnique"> } = prisma
+): Promise<SearchRunState> {
+  const row = await db.appSetting.findUnique({ where: { key: SEARCH_RUN_KEY } });
+  try {
+    const v = JSON.parse(row?.value ?? "{}") as { running?: unknown; since?: unknown };
+    return { running: v.running === true, since: typeof v.since === "string" ? v.since : null, by: row?.updatedById ?? null };
+  } catch {
+    return { running: false, since: null, by: row?.updatedById ?? null };
+  }
+}
+
+/** True only when staff turned "Run searches" on. Never throws: an error means off. */
+export async function searchesRunning(
+  db: { appSetting: Pick<typeof prisma.appSetting, "findUnique"> } = prisma
+): Promise<boolean> {
+  try {
+    return (await searchRunState(db)).running;
+  } catch {
+    return false;
+  }
+}
+
+export async function setSearchesRunning(adminId: string, running: boolean, now = new Date()): Promise<void> {
+  const before = await searchRunState();
+  if (before.running === running) return;
+  const value = JSON.stringify({ running, since: now.toISOString() });
+  await prisma.$transaction(async (tx) => {
+    await tx.appSetting.upsert({
+      where: { key: SEARCH_RUN_KEY },
+      create: { key: SEARCH_RUN_KEY, value, updatedById: adminId },
+      update: { value, updatedById: adminId },
+    });
+    await audit({ actorUserId: adminId, action: running ? "admin.searchRun.on" : "admin.searchRun.off", resourceType: "AppSetting", resourceId: SEARCH_RUN_KEY, before: { running: before.running }, after: { running } }, tx);
+  });
+  // Performers who reached 100% before queuing opened get their first search now.
+  if (running && (await searchAccess()) === "all_verified") await launchWaitingFirstSearches();
 }
 
 /**
