@@ -1,7 +1,47 @@
 # Handoff for the next model or person
 
-Updated 2026-11-22 (round 10 in progress: read "Round 10 (2026-11-22): start here" first). Older notes: "Round 9" below, the Round 9 carryover, then "Round 7b" for
+Updated 2026-11-25 (read "Round 11 and 11.1" first). Older notes: "Round 9" below, the Round 9 carryover, then "Round 7b" for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
+
+## Round 11 and 11.1 (2026-11-24 and 25): start here
+
+Briefs: `Agental_Cowork_Round11_Prompt.md` and `Agental_Cowork_Round11-1_Prompt.md` (Desktop). Live: Version 69.
+
+| Version | What |
+|---|---|
+| 62 | Round 11 group 1: code screen, "Email verification required before the dashboard" switch (off) |
+| 63 | Round 11 group 3: Privacy Policy acceptance (simplified again in 69) |
+| 64 | Deleting an account frees its address at once |
+| 65 | Round 11 group 4: Italian, Portuguese, Japanese, Korean |
+| 66 | Round 11.1 group 1: sign-up limits ("Too many attempts" fixed) |
+| 67 | Round 11.1 group 2: six demo accounts deleted, two Test accounts created |
+| 68 | Round 11.1 group 3: green button for every verified performer at 100%, "Run searches" switch (off) |
+| 69 | Round 11.1 group 4: one consent checkbox, slim cookie bar |
+
+State: Resend works (agental.co verified, DNS at name.com: TXT `resend._domainkey`, CNAME `rsend` and `send`; `RESEND_API_KEY` and `EMAIL_FROM` in Vercel Production only). Production in test mode, n8n workflows inactive, "Run searches" off, "Email verification required" off. Production accounts: 12 (7 performers, 3 casting, 2 staff), 3 Test (the founder's Staff account and the two below), 10 deleted.
+
+Test accounts: "Agental Test Talent" (contact+talent@agental.co) and "Agental Test Casting" (contact+casting@agental.co), Test badge, no password yet: the founder sets each through "Forgot password?" (emails reach contact@agental.co). Sub-agents are defined in the parent folder `.claude/agents/` (copy-haiku, builder-sonnet, tester-talent, tester-casting, auth-opus). The testers ran on the local database only: the agent does not sign in on production.
+
+### Waiting for Jérôme (round 11.1)
+
+1. **Rotate the Resend key** (it was pasted in a chat): Resend > API keys > create `agental-production-2` (Sending access), replace `RESEND_API_KEY` in Vercel for Production and Preview, delete the old key and `Onboarding`; say "key rotated" for a redeploy.
+2. **Preview variables:** tick Preview on `RESEND_API_KEY` and `EMAIL_FROM`.
+3. **Prove the 6-digit code on production:** one email and password sign-up on www.agental.co; say inbox or spam; then wrong code, "Send a new code", "Wrong email? Change it". Then the agent turns on "Email verification required before the dashboard" (Admin > Controls) when asked.
+4. **Passwords for the two test accounts** ("Forgot password?").
+5. **Unsure accounts, kept:** vi***@icloud.com, no***@gmail.com, so***@gmai.com (password, never verified, never signed in) and vc***@gmail.com (Google, 2026-11-25). Say which to delete.
+6. **AI keys (round 11.1 group 5, not done: no key is in place):** Claude: claude.ai > Settings > Billing > Link organization (Agental Console organization, one link only), Console limit $50, auto-reload off, key `agental-assistant` into Vercel `ANTHROPIC_API_KEY` (Production and Preview). OpenAI and Perplexity: keys into n8n Credentials "OpenAI account" and "Perplexity account"; then sign in to agental.app.n8n.cloud so the provider test (`mode` = `providers`) can run without activating a workflow.
+7. Still open from round 9 and 10: W3 (Resend webhook), W4 (admin CNAME), W5 (Realtime keys), W6 (`CRON_SECRET`), W8, W9, W11, W13 (D3), W15, W16.
+
+### Round 12 carryover
+
+- Group 5 of round 11.1 (one tiny call per AI key, result on Admin > AI accounts) once item 6 lands.
+- Group 2 of round 11 (every email of `docs/EMAILS.md` tested on production, results in its last column), then the verification switch.
+- Search quota, from the group 3 review (matter only once "Run searches" is on): open the monthly period when a search starts, not when it is queued (`src/lib/role-search.ts`); count queued rows across a staff quota reset; page the first-search queuing when the switch turns on (2000-user cap in `src/lib/app-settings.ts`).
+- Sign-up: optional per-network limit on "already used" answers (enumeration is bounded by Turnstile and 30 attempts per 15 minutes today).
+- Consent: a Google sign-up with no banner choice has no cookie choice recorded until the bar is answered; decide if it should count as accepted. `LAWYER:` lines in `docs/legal/ACCOUNT_MONITORING.md`.
+- Languages: Settings > Language list as a proper radio group (arrow keys); Portugal gets Brazilian Portuguese; legal pages still mention euros and French law.
+- The build report (`tools/db/round10-report.mjs`) prints one masked line per account on each production build: remove it when no longer needed.
+- `main` is not fast-forwarded to `frontend-redesign` (needs the founder's OK).
 
 ## Round 10 (2026-11-22): start here
 
