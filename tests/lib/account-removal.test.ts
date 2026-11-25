@@ -39,7 +39,7 @@ describe.skipIf(!local)("account removal", () => {
   });
   afterAll(async () => {
     await prisma.subscription.deleteMany({ where: { subjectId: ids.paid } });
-    await prisma.user.deleteMany({ where: { email: { startsWith: P } } });
+    await prisma.user.deleteMany({ where: { OR: [{ email: { startsWith: P } }, { deletedEmail: { startsWith: P } }, { id: { in: Object.values(ids) } }] } });
     await prisma.auditLog.deleteMany({ where: { resourceId: { in: Object.values(ids) } } });
   });
 
@@ -82,6 +82,30 @@ describe.skipIf(!local)("account removal", () => {
     expect(spam?.deletedAt).toBeNull();
     expect(spam?.accountStatus).toBe("SPAM");
     expect(await restoreAccount(adminId, ids.spam)).toBe(false);
+  });
+
+  it("frees the address at once: a new sign-up and a Google link can use it; restore waits until it is free (round 11)", async () => {
+    const junk = await prisma.user.findUniqueOrThrow({ where: { id: ids.junk } });
+    expect(junk.email).toBe(`deleted-${ids.junk}@deleted.agental.invalid`);
+    expect(junk.deletedEmail).toBe(`${P}junk@test.local`);
+    const { findUsersByEmail } = await import("@/lib/auth/user-by-email");
+    expect(await findUsersByEmail(prisma, `${P}junk@test.local`)).toEqual([]);
+    // Google links are removed with the delete.
+    const g = (await prisma.user.create({ data: { email: `${P}g@test.local`, accountStatus: "UNREVIEWED" } })).id;
+    ids.g = g;
+    await prisma.account.create({ data: { userId: g, type: "oidc", provider: "google", providerAccountId: `${P}gid` } });
+    await softDeleteAccounts(adminId, [g]);
+    expect(await prisma.account.count({ where: { userId: g } })).toBe(0);
+    // Someone signs up again with the address: the old account cannot take it back.
+    const again = (await prisma.user.create({ data: { email: `${P}junk@test.local`, passwordHash: "x" } })).id;
+    ids.again = again;
+    expect(await restoreAccount(adminId, ids.junk)).toBe(false);
+    await prisma.user.delete({ where: { id: again } });
+    expect(await restoreAccount(adminId, ids.junk)).toBe(true);
+    const back = await prisma.user.findUniqueOrThrow({ where: { id: ids.junk } });
+    expect(back.email).toBe(`${P}junk@test.local`);
+    expect(back.deletedEmail).toBeNull();
+    await softDeleteAccounts(adminId, [ids.junk]);
   });
 
   it("purges only after 30 days", async () => {
