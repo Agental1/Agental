@@ -650,6 +650,19 @@ describe("requestPasswordReset", () => {
     ]);
   });
 
+  it("works for an account with no password and no provider link: the person sets it from the email (round 11.1)", async () => {
+    const row = user({ passwordHash: null, emailVerified: null });
+
+    expect(await requestPasswordReset("ana@example.com")).toEqual({ ok: true });
+    await flushDeferred();
+    expect(sendEmail).toHaveBeenCalledTimes(1);
+    const token = tokenIn(sent()[0]);
+
+    expect(await resetPassword(token, STRONG)).toEqual({ ok: true });
+    expect(await bcrypt.compare(STRONG, row.passwordHash as string)).toBe(true);
+    expect(row.emailVerified).toEqual(NOW);
+  });
+
   it("answers the same for an unknown address, and sends nothing", async () => {
     user();
 
