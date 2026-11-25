@@ -15,7 +15,7 @@ Status column: **built** = code live, not yet sent for real (no Resend key);
 |---|---|---|---|---|---|---|
 | Sign-up code (round 10): "Enter the 6-digit code we sent to ..." | `signup_code` | "Create account" with a password; "Send me a code" (banner and code screen) | the account | `signupCodeEmail` in `src/lib/email-templates.ts`, `emails.codeSubject`, `emails.signupCodeIntro` | **tested** on production 2026-11-25 (founder, email and password sign-up) | inbox |
 | Confirm your email (link, before round 10) | `verify` | Sign-up with a password, "Resend the email" | the account | `verificationEmail` in `src/lib/email-templates.ts`, `emails.verify*` | built | not tested yet |
-| Reset your password | `reset` | "Forgot password?" | the account (one account per address) | `passwordResetEmail`, `emails.reset*` | built | not tested yet |
+| Reset your password | `reset` | "Forgot password?" | the account (one account per address) | `passwordResetEmail`, `emails.reset*` | **tested** on production 2026-11-25 (founder, the two Test accounts) | inbox |
 | USC verification code | `usc_code` | Promotions > USC, "Send the code" | the @usc.edu address | `promoCodeEmail`, `emails.code*` | built | not tested yet |
 | School email link (old route) | `student` | no longer reachable from the UI (round 8b) | school address | `studentEmail` | kept for links already sent | n/a |
 
