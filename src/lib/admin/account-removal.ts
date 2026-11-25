@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
+import { emailRateLimitKeys, userRateLimitKeys } from "@/lib/rate-key";
 import { getStorage } from "@/lib/storage";
 import { emailSenderConfigured, sendEmail } from "@/lib/mailer";
 import { deletionWarningEmail } from "@/lib/email-templates";
@@ -101,6 +102,11 @@ export async function softDeleteAccounts(adminId: string, rawIds: string[], now 
     const unlinked = await prisma.account.deleteMany({ where: { userId: u.id } });
     await prisma.verificationToken.deleteMany({ where: { identifier: { in: [`verify:${u.id}`, `reset:${u.id}`] } } });
     await prisma.emailVerificationCode.deleteMany({ where: { userId: u.id } });
+    // Round 11 (r111): and the rate-limit counters keyed on the address
+    // (sign-up, sign-in, reset) or on the account (codes), so the first
+    // sign-up with the freed address is never refused as "too many attempts".
+    // Per-network counters stay: they protect against floods, not addresses.
+    await prisma.rateLimitEvent.deleteMany({ where: { key: { in: [...emailRateLimitKeys(u.email), ...userRateLimitKeys(u.id)] } } });
     await audit({
       actorUserId: adminId,
       action: "admin.account.delete",

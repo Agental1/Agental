@@ -101,6 +101,7 @@
     "studentCodeExpired": "此代码已过期。",
     "studentCodeUsedUp": "此代码已达到使用上限。",
     "tooManyAttempts": "尝试次数过多，请稍后再试。",
+    "tooManySignups": "来自此网络的注册次数过多，请在 {minutes} 分钟后再试。",
     "siteNotFound": "未找到该网站。",
     "siteInvalid": "网站信息缺失或过长。",
     "sitePaymentRequired": "发布网站前请先选择方案。",

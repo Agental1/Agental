@@ -1,7 +1,7 @@
-import { createHmac, hkdfSync } from "node:crypto";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/db";
-import { hitRateLimit } from "@/lib/rate-limit";
+import { hitRateLimit, peekRateLimit, recordRateLimit } from "@/lib/rate-limit";
+import { abuseKeyHash } from "@/lib/rate-key";
 
 /**
  * Abuse protection for sign-up, sign-in and password reset: rate limits per
@@ -12,7 +12,6 @@ import { hitRateLimit } from "@/lib/rate-limit";
 const SIGNIN_LIMITS = { ip: { limit: 30, windowMs: 15 * 60 * 1000 }, email: { limit: 10, windowMs: 15 * 60 * 1000 } } as const;
 
 export const AUTH_LIMITS = {
-  signup: { ip: { limit: 5, windowMs: 60 * 60 * 1000 }, email: { limit: 3, windowMs: 60 * 60 * 1000 } },
   signin: SIGNIN_LIMITS,
   // Round 8d: the same limits inside the credentials check itself, so a POST
   // straight to /api/auth/callback/credentials (skipping the sign-in form's
@@ -20,10 +19,50 @@ export const AUTH_LIMITS = {
   signinCallback: SIGNIN_LIMITS,
 } as const;
 
-function keyHash(value: string): string {
-  const key = hkdfSync("sha256", process.env.AUTH_SECRET ?? "", "agental:abuse", "rate-limit-key", 32);
-  return createHmac("sha256", new Uint8Array(key)).update(value).digest("hex");
+const keyHash = abuseKeyHash;
+
+/**
+ * Round 11 (r111): sign-up limits. Until r111 it was 5 attempts per hour per
+ * address and 3 per hour per email, every attempt counted: a founder testing
+ * from one network hit "Too many attempts" on the sixth sign-up of the hour,
+ * even for a brand new address. Now:
+ *   - attempts per address: 30 per 15 minutes (like sign-in), against floods;
+ *   - accounts created per address: 20 per hour, counted only on success;
+ *   - per email, only refusals for an address already taken are counted (5 per
+ *     hour), so a first attempt for an address is never refused by its email.
+ * Deleting an account clears the email-keyed counters (account-removal.ts).
+ */
+export const SIGNUP_LIMITS = {
+  ipAttempts: { limit: 30, windowMs: 15 * 60 * 1000 },
+  ipCreated: { limit: 20, windowMs: 60 * 60 * 1000 },
+  emailTaken: { limit: 5, windowMs: 60 * 60 * 1000 },
+} as const;
+
+export type SignupGate = { ok: true; ipKey: string; emailKey: string } | { ok: false; retryAfterMs: number };
+
+/** Before a sign-up: refused when the network or the address is over its limit. */
+export async function signupAllowed(email: string): Promise<SignupGate> {
+  const ipKey = keyHash(await clientAddress());
+  const emailKey = keyHash(email.trim().toLowerCase());
+  const created = await peekRateLimit(prisma, `signup-created:ip:${ipKey}`, SIGNUP_LIMITS.ipCreated);
+  if (!created.allowed) return { ok: false, retryAfterMs: created.retryAfterMs };
+  const attempts = await hitRateLimit(prisma, `signup:ip:${ipKey}`, SIGNUP_LIMITS.ipAttempts);
+  if (!attempts.allowed) return { ok: false, retryAfterMs: attempts.retryAfterMs };
+  const taken = await peekRateLimit(prisma, `signup-taken:email:${emailKey}`, SIGNUP_LIMITS.emailTaken);
+  if (!taken.allowed) return { ok: false, retryAfterMs: taken.retryAfterMs };
+  return { ok: true, ipKey, emailKey };
 }
+
+/** After the gate: count the outcome that the limits above are about. */
+export async function recordSignupOutcome(gate: { ipKey: string; emailKey: string }, outcome: "created" | "taken"): Promise<void> {
+  await recordRateLimit(
+    prisma,
+    outcome === "created" ? `signup-created:ip:${gate.ipKey}` : `signup-taken:email:${gate.emailKey}`
+  );
+}
+
+/** Minutes to show in "try again in N minutes", at least 1. */
+export const retryMinutes = (ms: number) => Math.max(1, Math.ceil(ms / 60_000));
 
 export async function clientAddress(): Promise<string> {
   const h = await headers();

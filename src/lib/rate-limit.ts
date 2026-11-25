@@ -100,3 +100,37 @@ export async function hitRateLimit(
 
   return result;
 }
+
+/**
+ * Round 11 (r111): the same window, read without counting anything. For limits
+ * that count outcomes (an account created, an address already taken) rather
+ * than attempts: peek before acting, then recordRateLimit once the outcome is
+ * known.
+ */
+export async function peekRateLimit(
+  db: RateLimitDb,
+  key: string,
+  opts: RateLimitOptions
+): Promise<RateLimitResult> {
+  const { limit, windowMs } = opts;
+  if (!Number.isInteger(limit) || limit < 1 || !(windowMs > 0)) {
+    throw new Error("peekRateLimit needs a positive integer limit and a positive windowMs.");
+  }
+  const now = opts.now ?? new Date();
+  const counted = await db.rateLimitEvent.findMany({
+    where: { key, createdAt: { gt: new Date(now.getTime() - windowMs) } },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    select: { createdAt: true },
+  });
+  if (counted.length >= limit) {
+    const oldest = counted[counted.length - 1].createdAt;
+    return { allowed: false, remaining: 0, retryAfterMs: Math.max(0, oldest.getTime() + windowMs - now.getTime()) };
+  }
+  return { allowed: true, remaining: limit - counted.length, retryAfterMs: 0 };
+}
+
+/** Count one event for `key` (see peekRateLimit). */
+export async function recordRateLimit(db: RateLimitDb, key: string, now: Date = new Date()): Promise<void> {
+  await db.rateLimitEvent.create({ data: { key, createdAt: now } });
+}

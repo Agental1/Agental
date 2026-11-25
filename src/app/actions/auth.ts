@@ -8,7 +8,7 @@ import { signIn, signOut } from "@/auth";
 import { LoginInput, SignupInput } from "@/domain/auth";
 import { consentColumns } from "@/domain/consent";
 import { readConsentCookie } from "@/lib/consent";
-import { authAllowed, captchaPassed } from "@/lib/abuse";
+import { authAllowed, captchaPassed, recordSignupOutcome, retryMinutes, signupAllowed } from "@/lib/abuse";
 import { audit } from "@/lib/audit";
 import { findUsersByEmail } from "@/lib/auth/user-by-email";
 import { onboardingHome } from "@/domain/auth-routes";
@@ -39,12 +39,16 @@ export async function signupAction(
   if (!(await captchaPassed(formData.get("cf-turnstile-response")))) {
     return { error: err("errors.captchaFailed") };
   }
-  if (!(await authAllowed("signup", email))) return { error: err("errors.tooManyAttempts") };
+  const gate = await signupAllowed(email);
+  if (!gate.ok) return { error: err("errors.tooManySignups", { minutes: retryMinutes(gate.retryAfterMs) }) };
 
   // In any letter case: a row stored as "Ana@X.com" before emails were
   // normalized already holds "ana@x.com".
   const existing = await findUsersByEmail(prisma, email);
-  if (existing.length > 0) return { error: err("errors.emailTaken") };
+  if (existing.length > 0) {
+    await recordSignupOutcome(gate, "taken");
+    return { error: err("errors.emailTaken") };
+  }
 
   const passwordHash = await bcrypt.hash(password, 10);
   // The cookie choice made at the consent step, if any, becomes the record.
@@ -59,6 +63,7 @@ export async function signupAction(
       ...acceptanceColumns(termsPageEnabled()),
     },
   });
+  await recordSignupOutcome(gate, "created");
   await audit({
     actorUserId: user.id,
     action: "user.signup",

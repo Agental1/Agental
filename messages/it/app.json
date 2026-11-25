@@ -101,6 +101,7 @@
     "studentCodeExpired": "Questo codice è scaduto.",
     "studentCodeUsedUp": "Questo codice ha raggiunto il suo limite.",
     "tooManyAttempts": "Troppi tentativi. Riprova più tardi.",
+    "tooManySignups": "Troppe registrazioni da questa rete. Riprova tra {minutes, plural, one {# minuto} other {# minuti}}.",
     "siteNotFound": "Questo sito web non è stato trovato.",
     "siteInvalid": "Alcuni dati del sito web mancano o sono troppo lunghi.",
     "sitePaymentRequired": "Scegli un'offerta prima di pubblicare il tuo sito web.",

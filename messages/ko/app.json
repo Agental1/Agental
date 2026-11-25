@@ -101,6 +101,7 @@
     "studentCodeExpired": "만료된 코드예요.",
     "studentCodeUsedUp": "이 코드는 사용 한도에 도달했어요.",
     "tooManyAttempts": "시도 횟수가 너무 많아요. 나중에 다시 시도하세요.",
+    "tooManySignups": "이 네트워크에서 가입이 너무 많아요. {minutes}분 후에 다시 시도하세요.",
     "siteNotFound": "웹사이트를 찾을 수 없어요.",
     "siteInvalid": "웹사이트 정보 중 일부가 빠졌거나 너무 길어요.",
     "sitePaymentRequired": "웹사이트를 게시하기 전에 상품을 선택하세요.",
