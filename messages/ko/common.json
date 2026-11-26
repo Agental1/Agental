@@ -421,7 +421,6 @@
   "betaPrice": {
     "label": "Beta",
     "note": "결제는 아직 열리지 않았어요."
-<<<<<<< HEAD
   },
   "legalCopy": {
     "twoThingsTitle": "서로 다른 두 가지",
@@ -447,7 +446,5 @@
       "fullText": "대리가 어떻게 작동하는지 읽어 보기",
       "noPayment": "서명한다고 해서 어떤 결제에도 묶이지 않아요. 요금제는 나중에 선택할 수도 있고, 선택하지 않을 수도 있는 별도의 선택이에요."
     }
-=======
->>>>>>> origin/frontend-redesign
   }
 }

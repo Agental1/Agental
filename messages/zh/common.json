@@ -421,7 +421,6 @@
   "betaPrice": {
     "label": "Beta",
     "note": "付款功能尚未开放。"
-<<<<<<< HEAD
   },
   "legalCopy": {
     "twoThingsTitle": "两件不同的事",
@@ -447,7 +446,5 @@
       "fullText": "了解代理的运作方式",
       "noPayment": "签署协议不会使你承担任何付款义务。方案是一项单独的选择，你可以之后再决定，也可以永远不选。"
     }
-=======
->>>>>>> origin/frontend-redesign
   }
 }
