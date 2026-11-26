@@ -29,6 +29,7 @@ export function RoleAlertForm({
   number?: number;
 }) {
   const t = useTranslations("talents.space.roleAlert");
+  const te = useTranslations("talents.space.profileEditor");
   const errorText = useActionErrorText();
   const name = useId();
   const [channel, setChannel] = useState<RoleAlertChannel>(initial);
@@ -43,6 +44,7 @@ export function RoleAlertForm({
       <legend className="text-sm font-medium">
         <StepNumber n={number} />
         {t("legend")}
+        {number != null && <span className="font-normal text-fg-muted"> {te("optional")}</span>}
       </legend>
       <div className="flex flex-wrap gap-2">
         {(["email", "sms", "both"] as const).map((c) => (

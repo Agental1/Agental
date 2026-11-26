@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2B, PlanB2C } from "@/domain/enums";
 import { formatPlanPrice as formatPrice, planFeatureLines, promoPrices } from "@/lib/plan-price";
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { PromoPrice, PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
 import { cn } from "@/lib/utils";
 
@@ -46,8 +47,11 @@ function PlanCard({
   highlighted,
   expanded,
   promos,
+  paid = false,
 }: {
   promos?: Record<string, string>;
+  /** A real price (not Free, not quoted): shows the Beta label and note. */
+  paid?: boolean;
   name: string;
   price: string;
   unit?: string;
@@ -81,7 +85,9 @@ function PlanCard({
           className="text-[2rem] font-bold leading-none tracking-[-0.03em] tabular-nums"
         />
         {unit && <span className="text-[14px] text-fg-muted">{unit}</span>}
+        {paid && <BetaBadge className="ml-1" />}
       </p>
+      {paid && <PaymentsNote className="mt-2" />}
       <Button asChild className="mt-5" variant={highlighted ? "primary" : "secondary"}>
         <Link href={href}>{cta}</Link>
       </Button>
@@ -138,6 +144,7 @@ export function TalentsPricingGrid({
             name={plan.name}
             price={formatPrice(def.priceCents, locale)}
             promos={promoPrices(id, locale)}
+            paid={def.priceCents > 0}
             unit={t("perMonth")}
             badge={i === 1 ? t("popular") : undefined}
             cta={plan.cta}
@@ -173,6 +180,7 @@ export function CastingPricingGrid({ expanded = false }: { expanded?: boolean })
             key={plan.name}
             name={plan.name}
             price={price}
+            paid={id !== "ENTERPRISE" && def.priceCents > 0}
             unit={plan.priceUnit || undefined}
             badge={i === 1 ? t("recommended") : undefined}
             cta={plan.cta}

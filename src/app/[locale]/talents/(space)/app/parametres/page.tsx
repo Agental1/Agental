@@ -1,3 +1,4 @@
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { date, percent } from "@/lib/format";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
@@ -197,7 +198,9 @@ export default async function ParametresPage({
               rate: percent(planDef.commissionRate, locale),
             })}
           </span>
+          {planDef.priceCents > 0 && <BetaBadge />}
         </div>
+        {planDef.priceCents > 0 && <PaymentsNote />}
         <p className="text-sm text-fg-muted">{t("space.settings.subNote")}</p>
         <Button asChild variant="outline" size="sm">
           <Link href="/talents/app/abonnement">{t("space.settings.manage")}</Link>

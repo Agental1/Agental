@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "Who are you?",
-      "subtitle": "Your name as on your ID, and the name you work under if it is different. It goes straight into your profile."
+      "subtitle": "Your name as on your ID, and the name you work under if it is different. It goes straight into your profile.",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "About you",
       "subtitle": "Three quick answers, saved in your profile.",
-      "phoneHint": "The team can reach you fast when a role comes up. You can add it later."
+      "phoneHint": "The team can reach you fast when a role comes up. You can add it later.",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "About the representation agreement",
@@ -675,7 +677,9 @@
       "submit": "Continue to my profile"
     },
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -767,10 +771,10 @@
       "findRoles": {
         "label": "Start finding roles",
         "scanning": "Scanning…",
-        "sent": "Your search is queued. Results will appear in Applications.",
+        "sent": "Got it. Your search is in the queue and will start soon. We'll let you know as soon as results are in.",
         "available": "{count, plural, one {# search available} other {# searches available}}",
         "leftOf": "{left} of {limit} {left, plural, one {search} other {searches}} left · resets in {days, plural, one {# day} other {# days}}",
-        "noneLeft": "No searches left · resets in {days, plural, one {# day} other {# days}}",
+        "noneLeft": "You've used your searches for now · more in {days, plural, one {# day} other {# days}}",
         "upgradeMore": "Upgrade for more searches",
         "usage": "AI searches this period",
         "locked": {
@@ -799,16 +803,16 @@
             "text": "AI searches open soon. We'll email you as soon as yours is ready."
           },
           "quota": {
-            "text": "You've used your {limit} searches. Your next one is available on {date}.",
-            "textNoDate": "You've used your {limit} searches.",
+            "text": "You've used this month's searches. More on {date}, or get more with Pro.",
+            "textNoDate": "You've used this month's searches. Get more with Pro.",
             "cta": "See plans"
           }
         },
         "notice": {
-          "paused": "Searches are paused for a moment. Your request is saved and will start automatically.",
-          "queued": "Your search is queued. It starts at {time}.",
-          "pausedNow": "AI searches are paused for a moment. If you start one now, it is saved and starts automatically.",
-          "waiting": "Your search is queued. Searches start soon: we'll let you know."
+          "paused": "Searches are on a short pause. Your request is saved and will start on its own when they resume.",
+          "queued": "Got it. Your agent is on it and starts around {time}. We'll let you know as soon as results are in.",
+          "pausedNow": "Searches are on a short pause. You can still ask for one now: we'll save it and start it when they resume.",
+          "waiting": "Got it. Your search is in the queue and will start soon. We'll let you know as soon as results are in."
         }
       },
       "nextAction": "Next action",
@@ -870,8 +874,8 @@
       "autoFirst": "We launched your first AI search. {left} of {limit} searches left this month.",
       "status": {
         "title": "Status",
-        "queued": "{count, plural, one {# search in queue} other {# searches in queue}}",
-        "running": "{count} of {slots} running",
+        "queued": "{count, plural, one {# search lined up} other {# searches lined up}}",
+        "running": "Your agent is on {count} right now",
         "finished": "{count} finished",
         "rolesFound": "{count, plural, one {# role found} other {# roles found}}",
         "check": "Check your applications",
@@ -911,11 +915,11 @@
       },
       "searches": {
         "label": "Your recent AI searches",
-        "queued": "Search queued",
-        "running": "Search running",
-        "completed": "Search completed",
-        "failed": "Search failed. It does not count against your searches.",
-        "canceled": "Search canceled. It does not count against your searches.",
+        "queued": "Waiting to start",
+        "running": "Your agent is searching",
+        "completed": "Results are in",
+        "failed": "That search did not go through, and it does not count against your searches.",
+        "canceled": "That search was canceled and does not count against your searches.",
         "started": "Started {date}."
       },
       "found": {
@@ -956,18 +960,18 @@
       },
       "queue": {
         "rule": "You can queue up to {count} searches. Your plan runs {slots, plural, one {one search at a time} other {# searches at the same time}}, and each one starts at most every {hours} hours.",
-        "title": "Search in queue",
-        "empty": "No search waiting.",
+        "title": "Up next",
+        "empty": "Nothing lined up right now.",
         "item": "Search {n}",
         "soon": "Starts soon",
         "startsIn": "Starts in about {hours, plural, one {# hour} other {# hours}}",
         "startsAt": "Expected start: {date}",
-        "queuedHonest": "Your search is queued. Results will appear here.",
-        "slotsInUse": "{running} of {slots} running"
+        "queuedHonest": "Got it. Your search is in the queue and will start soon. We'll let you know as soon as results are in.",
+        "slotsInUse": "Your agent is on {running} right now"
       },
       "running": {
         "title": "Search in progress",
-        "empty": "No search running right now."
+        "empty": "Your agent is not searching right now."
       },
       "finished": {
         "title": "Search finished",
@@ -1389,6 +1393,12 @@
         "plus_size": "Plus size"
       },
       "requiredNote": "Fields marked * are required to reach 100%.",
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
+      },
       "required": "required",
       "saving": "Saving…",
       "notSaved": "Not saved.",
@@ -1688,7 +1698,7 @@
       "description": "Send your photos, your reel and a few lines about your work. We build your performer website from {price}, first year of hosting included."
     },
     "band": {
-      "title": "Need a website? We'll build it with you.",
+      "title": "Need a portfolio website? We'll build it with you.",
       "body": "Limelight turns your photos, your reel and your story into a site casting directors can open in one click. From {price}.",
       "cta": "See Limelight"
     },

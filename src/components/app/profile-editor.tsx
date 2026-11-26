@@ -356,6 +356,10 @@ export function ProfileEditor({
   );
 
   const tabProps = { data, setData, queue: save.queue, flush: save.flush };
+  // Why the tab matters: one short line per required tab (round 12).
+  const why = (tabId: "identity" | "physical" | "media" | "preferences") => (
+    <p className="mb-4 text-sm text-fg-muted">{t(`space.profileEditor.why.${tabId}`)}</p>
+  );
   const hasSelfPhoto = initial.media.some(
     (m) => m.type === "PHOTO" && (m.category ?? "SELF") === "SELF"
   );
@@ -387,20 +391,24 @@ export function ProfileEditor({
         </div>
 
         <TabsContent value="identite">
+          {why("identity")}
           <IdentityTab {...tabProps} />
           {nav}
         </TabsContent>
         <TabsContent value="physique">
+          {why("physical")}
           <PhysicalTab {...tabProps} />
           {nav}
         </TabsContent>
         <TabsContent value="medias">
+          {why("media")}
           {hasAvatar && !hasSelfPhoto && <AvatarHeadshot />}
           {/* `initial`: media is server-owned, refreshed after each change. */}
           <MediaManager media={initial.media} />
           {nav}
         </TabsContent>
         <TabsContent value="preferences">
+          {why("preferences")}
           <PreferencesTab
             {...tabProps}
             aside={

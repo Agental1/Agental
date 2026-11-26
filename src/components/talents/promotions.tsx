@@ -4,6 +4,7 @@ import { createContext, useContext, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowRight, ChevronDown, Mail, TicketPercent } from "lucide-react";
 import { PROMOTIONS } from "@/domain/pricing";
+import { BetaPriceNote } from "@/components/ui/beta-price";
 import { cn } from "@/lib/utils";
 
 /**
@@ -103,6 +104,7 @@ export function PromotionsButton({ accountEmail }: { accountEmail?: string | nul
               </label>
             ))}
             <p className="text-xs text-fg-muted">{t("eligibility")}</p>
+            <BetaPriceNote />
             <div className="grid gap-2">
               <a
                 href={mail(t("subjectPlan"))}

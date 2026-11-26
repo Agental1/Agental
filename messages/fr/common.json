@@ -61,7 +61,9 @@
     "enterCasting": "Entrer dans Agental Casting",
     "line": "Pour commencer : artiste ou casting ?",
     "createTalents": "Créer mon compte artiste",
-    "createCasting": "Créer mon compte casting"
+    "createCasting": "Créer mon compte casting",
+    "talentsBenefit": "Un agent dans ta poche : il cherche des rôles, fait les relances et te fait avancer. Tu valides chaque étape.",
+    "castingBenefit": "Vos annonces de casting organisées, une présélection plus nette et moins de temps à trier les candidatures."
   },
   "pricing": {
     "details": "Ce qui est inclus"
@@ -164,7 +166,7 @@
       "websites": "Les artistes sans site web peuvent en créer un avec Limelight."
     },
     "limelight": {
-      "title": "Besoin d’un site web ? Crée le tien en quelques minutes.",
+      "title": "Besoin d’un site portfolio ? Crée le tien en quelques minutes.",
       "try": "Essayer",
       "pricing": "Voir les tarifs"
     },
@@ -415,5 +417,9 @@
     ]
   },
   "oauthAgree": "En continuant, tu acceptes la <privacy>Politique de confidentialité</privacy> et l’utilisation des cookies.",
-  "oauthAgreeTerms": "En continuant, tu acceptes la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies."
+  "oauthAgreeTerms": "En continuant, tu acceptes la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies.",
+  "betaPrice": {
+    "label": "Beta",
+    "note": "Les paiements ne sont pas encore ouverts."
+  }
 }

@@ -1,3 +1,4 @@
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { useLocale, useTranslations } from "next-intl";
@@ -208,7 +209,9 @@ function Start() {
                       {usd(LIMELIGHT.plans[key].priceUsd)}
                     </span>
                     <span className="text-[14px] text-fg-muted">{t("offers.oneTime")}</span>
+                    <BetaBadge className="ml-1" />
                   </p>
+                  <PaymentsNote className="mt-1.5" />
                   <p className="mt-1.5 text-[14px] text-fg-muted">
                     {t("offers.renewalShort", { price: usd(LIMELIGHT.plans[key].renewalUsdPerYear) })}
                   </p>

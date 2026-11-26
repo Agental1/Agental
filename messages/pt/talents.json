@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "Quem é você?",
-      "subtitle": "Seu nome como no documento de identidade, e o nome com que você trabalha se for diferente. Vai direto para o seu perfil."
+      "subtitle": "Seu nome como no documento de identidade, e o nome com que você trabalha se for diferente. Vai direto para o seu perfil.",
+      "why": "Obrigatório: seu nome legal vai para os contratos e pagamentos, e as equipes de casting nunca o veem."
     },
     "profile": {
       "title": "Sobre você",
       "subtitle": "Três respostas rápidas, salvas no seu perfil.",
-      "phoneHint": "A equipe pode falar com você rápido quando surgir um papel. Você pode adicionar depois."
+      "phoneHint": "A equipe pode falar com você rápido quando surgir um papel. Você pode adicionar depois.",
+      "why": "Obrigatório: as equipes de casting filtram por idade e gênero ao procurar a pessoa certa."
     },
     "mandat": {
       "title": "Sobre o contrato de representação",
@@ -675,7 +677,9 @@
       "submit": "Continuar para meu perfil"
     },
     "back": "Voltar",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "optional": "Opcional",
+    "skip": "Pular por enquanto"
   },
   "space": {
     "nav": {
@@ -767,10 +771,10 @@
       "findRoles": {
         "label": "Começar a encontrar papéis",
         "scanning": "Buscando…",
-        "sent": "Sua busca está na fila. Os resultados vão aparecer em Candidaturas.",
+        "sent": "Certo. Sua busca está na fila e começa em breve. Avisaremos assim que os resultados chegarem.",
         "available": "{count, plural, one {# busca disponível} other {# buscas disponíveis}}",
         "leftOf": "{left} de {limit} {left, plural, one {busca restante} other {buscas restantes}} · renova em {days, plural, one {# dia} other {# dias}}",
-        "noneLeft": "Nenhuma busca restante · renova em {days, plural, one {# dia} other {# dias}}",
+        "noneLeft": "Por enquanto, suas buscas acabaram · mais em {days, plural, one {# dia} other {# dias}}",
         "upgradeMore": "Faça upgrade para ter mais buscas",
         "usage": "Buscas com IA neste período",
         "locked": {
@@ -799,16 +803,16 @@
             "text": "As buscas com IA abrem em breve. Vamos mandar um e-mail assim que a sua estiver pronta."
           },
           "quota": {
-            "text": "Você usou suas {limit} buscas. A próxima fica disponível em {date}.",
-            "textNoDate": "Você usou suas {limit} buscas.",
+            "text": "Você usou as buscas deste mês. Mais a partir de {date}, ou consiga mais com o Pro.",
+            "textNoDate": "Você usou as buscas deste mês. Consiga mais com o Pro.",
             "cta": "Ver planos"
           }
         },
         "notice": {
-          "paused": "As buscas estão pausadas por um momento. Seu pedido está salvo e vai começar automaticamente.",
-          "queued": "Sua busca está na fila. Ela começa às {time}.",
-          "pausedNow": "As buscas com IA estão pausadas por um momento. Se você iniciar uma agora, ela fica salva e começa automaticamente.",
-          "waiting": "Sua busca está na fila. As buscas começam em breve: vamos te avisar."
+          "paused": "As buscas estão em pausa por um momento. Seu pedido fica salvo e começa sozinho quando voltarem.",
+          "queued": "Certo. Seu agente já cuida disso e começa por volta de {time}. Avisaremos assim que os resultados chegarem.",
+          "pausedNow": "As buscas estão em pausa por um momento. Você ainda pode pedir uma agora: vamos salvá-la e iniciá-la quando voltarem.",
+          "waiting": "Sua busca está na fila. As buscas começam em breve e avisaremos quando houver resultados."
         }
       },
       "nextAction": "Próxima ação",
@@ -871,7 +875,7 @@
       "status": {
         "title": "Status",
         "queued": "{count, plural, one {# busca na fila} other {# buscas na fila}}",
-        "running": "{count} de {slots} em andamento",
+        "running": "Seu agente tem {count} em andamento agora.",
         "finished": "{count} concluídas",
         "rolesFound": "{count, plural, one {# papel encontrado} other {# papéis encontrados}}",
         "check": "Confira suas candidaturas",
@@ -911,11 +915,11 @@
       },
       "searches": {
         "label": "Suas buscas recentes com IA",
-        "queued": "Busca na fila",
-        "running": "Busca em andamento",
-        "completed": "Busca concluída",
-        "failed": "A busca falhou. Ela não conta nas suas buscas.",
-        "canceled": "Busca cancelada. Ela não conta nas suas buscas.",
+        "queued": "Aguardando início",
+        "running": "Seu agente está buscando",
+        "completed": "Resultados prontos",
+        "failed": "A busca não foi concluída e não conta nas suas buscas.",
+        "canceled": "A busca foi cancelada e não conta nas suas buscas.",
         "started": "Iniciada em {date}."
       },
       "found": {
@@ -956,18 +960,18 @@
       },
       "queue": {
         "rule": "Você pode colocar até {count} buscas na fila. Seu plano roda {slots, plural, one {uma busca por vez} other {# buscas ao mesmo tempo}}, e cada uma começa no máximo a cada {hours} horas.",
-        "title": "Busca na fila",
-        "empty": "Nenhuma busca aguardando.",
+        "title": "Próximas buscas",
+        "empty": "Por enquanto, a fila está vazia.",
         "item": "Busca {n}",
         "soon": "Começa em breve",
         "startsIn": "Começa em cerca de {hours, plural, one {# hora} other {# horas}}",
         "startsAt": "Início previsto: {date}",
-        "queuedHonest": "Sua busca está na fila. Os resultados vão aparecer aqui.",
-        "slotsInUse": "{running} de {slots} em andamento"
+        "queuedHonest": "Certo. Sua busca está na fila e começa em breve. Avisaremos assim que os resultados chegarem.",
+        "slotsInUse": "Seu agente tem {running} em andamento agora."
       },
       "running": {
         "title": "Busca em andamento",
-        "empty": "Nenhuma busca em andamento agora."
+        "empty": "Seu agente não está buscando agora."
       },
       "finished": {
         "title": "Busca concluída",
@@ -1462,6 +1466,12 @@
         "ageRange": "Idades que você pode interpretar",
         "compensation": "Pago ou não pago",
         "dayRate": "Cachê diário"
+      },
+      "why": {
+        "identity": "Obrigatório: as equipes de casting filtram por idade, localização e idiomas, e a equipe usa seu telefone para falar com você rápido.",
+        "physical": "Obrigatório: as equipes de casting filtram por altura, porte físico, cor do cabelo e cor dos olhos.",
+        "media": "Obrigatório: uma foto sua, para que as equipes de casting saibam quem estão avaliando.",
+        "preferences": "Obrigatório: seus tipos de trabalho, as faixas etárias que você pode interpretar e a forma de pagamento nos ajudam a não enviar papéis que não combinam com você."
       }
     },
     "rgpd": {
@@ -1688,7 +1698,7 @@
       "description": "Envie suas fotos, seu reel e algumas linhas sobre seu trabalho. Criamos seu site de artista a partir de {price}, com o primeiro ano de hospedagem incluído."
     },
     "band": {
-      "title": "Precisa de um site? A gente cria com você.",
+      "title": "Precisa de um site de portfólio? A gente cria com você.",
       "body": "O Limelight transforma suas fotos, seu reel e sua história em um site que os diretores de casting abrem com um clique. A partir de {price}.",
       "cta": "Ver o Limelight"
     },

@@ -9,9 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
 import { LimelightBlock } from "@/components/marketing/limelight-block";
 import { MarketingFooter } from "@/components/marketing/footer";
-import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import { LIMELIGHT } from "@/domain/limelight";
-import { formatPlanPrice } from "@/lib/plan-price";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +23,7 @@ import { cn } from "@/lib/utils";
  * an account or sign in).
  *
  * Below the fold, in this order: what Agental is, how it works (both sides
- * meeting at the booking), Limelight, a three-column pricing overview, and the
+ * meeting at the booking), Limelight, and the
  * two choices once more.
  *
  * Signed-in visitors never see this page: src/proxy.ts sends them to
@@ -85,6 +83,7 @@ export default function EntryPage({
             label={t("entry.talents")}
             body={tt("note")}
             action={t("entry.createTalents")}
+            benefit={t("entry.talentsBenefit")}
           />
           <Tile
             portal="casting"
@@ -92,6 +91,7 @@ export default function EntryPage({
             label={t("entry.casting")}
             body={tc("note")}
             action={t("entry.createCasting")}
+            benefit={t("entry.castingBenefit")}
           />
         </div>
       </div>
@@ -101,7 +101,6 @@ export default function EntryPage({
       <section className={SECTION}>
         <LimelightBlock />
       </section>
-      <PricingOverview locale={toLocale(locale)} />
 
       {/* The two choices again, so nobody has to scroll back up to start. */}
       <section aria-labelledby="final-title" className={SECTION}>
@@ -116,6 +115,7 @@ export default function EntryPage({
             label={t("entry.talents")}
             body={tt("note")}
             action={t("entry.createTalents")}
+            benefit={t("entry.talentsBenefit")}
           />
           <Tile
             compact
@@ -124,6 +124,7 @@ export default function EntryPage({
             label={t("entry.casting")}
             body={tc("note")}
             action={t("entry.createCasting")}
+            benefit={t("entry.castingBenefit")}
           />
         </div>
       </section>
@@ -151,6 +152,7 @@ function Tile({
   label,
   body,
   action,
+  benefit,
   compact = false,
 }: {
   /** The repeat at the bottom of the page: shorter, same content. */
@@ -160,6 +162,8 @@ function Tile({
   label: string;
   body: string;
   action: string;
+  /** One line on what the audience gets, right above the call to action. */
+  benefit: string;
 }) {
   return (
     <Link
@@ -183,8 +187,13 @@ function Tile({
           {body}
         </span>
       </span>
+      <span className="block">
+        <span className="mb-3 block max-w-[40ch] text-[clamp(0.9375rem,0.3vw+0.85rem,1.0625rem)] font-bold leading-snug">
+          {benefit}
+        </span>
       <span className="cta-fill inline-flex h-12 w-fit max-w-full items-center rounded-full px-6 text-[15.5px] font-bold transition-[background-position] duration-200 ease-out group-hover:[background-position:100%_50%] group-focus-visible:[background-position:100%_50%]">
         <span className="truncate">{action}</span>
+      </span>
       </span>
     </Link>
   );
@@ -287,80 +296,6 @@ function How() {
           {t("websites")}
         </Link>
       </p>
-    </section>
-  );
-}
-
-/* --------------------------------------------------------------- pricing -- */
-
-/** Three products, three columns; each links to its full pricing section. */
-function PricingOverview({ locale }: { locale: string }) {
-  const t = useTranslations("common.home.pricing");
-  const tp = useTranslations("talents.pricing");
-  const tcp = useTranslations("casting.pricing");
-  const tl = useTranslations("talents.limelight.offers");
-  const talentNames = (tp.raw("plans") as { name: string }[]).map((p) => p.name);
-  const castingNames = (tcp.raw("plans") as { name: string }[]).map((p) => p.name);
-  const usd = (amount: number) => formatPlanPrice(amount * 100, locale);
-
-  const columns = [
-    {
-      title: t("talent"),
-      href: "/talents/tarifs",
-      link: t("talentLink"),
-      lines: [
-        { name: talentNames[0], price: formatPlanPrice(B2C_PLANS.FREE.priceCents, locale) },
-        { name: talentNames[1], price: t("perMonth", { price: formatPlanPrice(B2C_PLANS.PRO.priceCents, locale) }) },
-      ],
-    },
-    {
-      title: t("casting"),
-      href: "/casting/tarifs",
-      link: t("castingLink"),
-      lines: [
-        { name: castingNames[0], price: formatPlanPrice(B2B_PLANS.FREE.priceCents, locale) },
-        { name: castingNames[1], price: t("perSeat", { price: formatPlanPrice(B2B_PLANS.PRO.priceCents, locale) }) },
-      ],
-    },
-    {
-      title: t("websites"),
-      href: `/talents/${LIMELIGHT.slug}#start`,
-      link: t("websitesLink"),
-      note: tl("websitesPro", { months: LIMELIGHT.includedProMonths }),
-      lines: [
-        { name: tl("essential.name"), price: t("oneTime", { price: usd(LIMELIGHT.plans.essential.priceUsd) }) },
-        { name: tl("signature.name"), price: t("oneTime", { price: usd(LIMELIGHT.plans.signature.priceUsd) }) },
-      ],
-    },
-  ];
-
-  return (
-    <section id="pricing" aria-labelledby="pricing-title" className={SECTION}>
-      <h2 id="pricing-title" className="display-md">
-        {t("title")}
-      </h2>
-      <div className="mt-6 grid gap-3 md:grid-cols-3">
-        {columns.map((col) => (
-          <div key={col.title} className="flex flex-col rounded-sedan-xl border border-border bg-surface p-5">
-            <h3 className="text-[1.25rem]">{col.title}</h3>
-            <dl className="mt-4 flex-1 space-y-3">
-              {col.lines.map((line) => (
-                <div key={line.name} className="flex items-baseline justify-between gap-4 border-t border-border pt-3">
-                  <dt className="font-bold">{line.name}</dt>
-                  <dd className="text-right text-fg-muted tabular-nums">{line.price}</dd>
-                </div>
-              ))}
-            </dl>
-            {"note" in col && <p className="mt-3 text-[14px] font-bold text-accent">{col.note}</p>}
-            <Link
-              href={col.href}
-              className="mt-4 inline-flex min-h-11 items-center font-bold text-accent underline-offset-4 hover:underline"
-            >
-              {col.link}
-            </Link>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }
