@@ -421,7 +421,6 @@
   "betaPrice": {
     "label": "Beta",
     "note": "Les paiements ne sont pas encore ouverts."
-<<<<<<< HEAD
   },
   "legalCopy": {
     "twoThingsTitle": "Deux choses distinctes",
@@ -447,7 +446,5 @@
       "fullText": "Découvre comment fonctionne la représentation",
       "noPayment": "La signature ne t’engage à aucun paiement. Les formules sont un choix distinct, que tu pourras faire plus tard, ou jamais."
     }
-=======
->>>>>>> origin/frontend-redesign
   }
 }

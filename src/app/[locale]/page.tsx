@@ -9,10 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
 import { LimelightBlock } from "@/components/marketing/limelight-block";
 import { MarketingFooter } from "@/components/marketing/footer";
-<<<<<<< HEAD
 import { TwoThings } from "@/components/marketing/two-things";
-=======
->>>>>>> origin/frontend-redesign
 import { LIMELIGHT } from "@/domain/limelight";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
