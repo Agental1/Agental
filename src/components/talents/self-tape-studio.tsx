@@ -26,6 +26,8 @@ import { cn } from "@/lib/utils";
 import { uploadMedia, type UploadMediaResult } from "@/lib/media-upload";
 import { UPLOAD_LIMITS, VIDEO_MAX_MB, type UploadDestination } from "@/domain/uploads";
 import type { QualityMetrics } from "@/lib/ai/quality-scorer";
+import { describeTapeDuration, type LimitLabel } from "@/domain/tape-duration";
+import { readVideoDuration } from "@/lib/video-duration";
 
 /** 2.5 Mb/s video plus 128 kb/s audio: two minutes is about 40 MB. */
 const TAKE_VIDEO_BPS = 2_500_000;
@@ -44,11 +46,14 @@ interface Take {
 export function SelfTapeStudio({
   onSaved,
   fixedDestination,
+  maxDurationSeconds,
 }: {
   /** Called with the new media id once a take is saved (e.g. to fill an application's video slot). */
   onSaved?: (mediaId: string) => void;
   /** Saves there without asking (an application's clip goes to Reel & Self-tape, private). */
   fixedDestination?: "library" | "profile";
+  /** Length the request asks for, in seconds. Without it, only the length is shown. */
+  maxDurationSeconds?: number | null;
 } = {}) {
   const t = useTranslations("talents");
   const errorText = useActionErrorText();
@@ -287,8 +292,34 @@ export function SelfTapeStudio({
 
   function onFallbackFile(file: File | undefined) {
     if (!file) return;
-    // No live metrics for an uploaded file: a neutral estimate.
-    review(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: 8000 });
+    // No live metrics for an uploaded file: a neutral estimate for the
+    // ratings, the real length from the video's own metadata.
+    const probe = URL.createObjectURL(file);
+    void readVideoDuration(probe).then((seconds) => {
+      URL.revokeObjectURL(probe);
+      review(file, { framing: 0.7, light: 0.7, sound: 0.7, durationMs: seconds ? seconds * 1000 : 8000 });
+    });
+  }
+
+  function limitText(l: LimitLabel): string {
+    if (l.unit === "minutes") return t("space.studio.duration.limitMinutes", { n: l.value });
+    if (l.unit === "seconds") return t("space.studio.duration.limitSeconds", { n: l.value });
+    return t("space.studio.duration.limitClock", { clock: l.clock });
+  }
+
+  /** "2:48", "2:48, within the 3-minute limit" or "3:40, 40 seconds over the 3-minute limit". */
+  function durationText(durationMs: number): string | null {
+    const d = describeTapeDuration(durationMs / 1000, maxDurationSeconds);
+    if (d.status === "unknown") return null;
+    if (d.status === "plain") return d.clock;
+    if (d.status === "within") return t("space.studio.duration.within", { duration: d.clock, limit: limitText(d.limit) });
+    const over =
+      d.overMinutes === 0
+        ? t("space.studio.duration.overSeconds", { s: d.overSeconds })
+        : d.overSeconds === 0
+          ? t("space.studio.duration.overMinutes", { m: d.overMinutes })
+          : t("space.studio.duration.overBoth", { m: d.overMinutes, s: d.overSeconds });
+    return t("space.studio.duration.over", { duration: d.clock, over, limit: limitText(d.limit) });
   }
 
   useEffect(() => {
@@ -382,6 +413,11 @@ export function SelfTapeStudio({
           {phase === "review" && (
             <div className="space-y-3 rounded-sedan border border-border bg-surface p-4">
               <p className="font-bold">{t("space.studio.review")}</p>
+              {take && durationText(take.metrics.durationMs) && (
+                <p className="text-sm text-fg-muted" aria-live="polite">
+                  {t("space.studio.duration.label")} {durationText(take.metrics.durationMs)}
+                </p>
+              )}
               <fieldset hidden={!!fixedDestination}>
                 <legend className="text-sm text-fg-muted">{t("space.studio.saveTo")}</legend>
                 <div className="mt-2 space-y-2">
