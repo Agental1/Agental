@@ -160,14 +160,14 @@
         ]
       }
     ],
-    "searchesLabel": "AI role searches per month",
-    "perYear": "per year",
+    "searchesLabel": "Búsquedas de roles con IA al mes",
+    "perYear": "al año",
     "billing": {
-      "label": "Billing period",
-      "monthly": "Monthly",
-      "yearly": "Yearly",
-      "save": "2 months free",
-      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+      "label": "Periodo de facturación",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "save": "2 meses gratis",
+      "promoMonthlyOnly": "Los precios para estudiantes son mensuales. Cambia a Mensual para verlos."
     }
   },
   "testimonials": {
@@ -1719,7 +1719,7 @@
       "scrollHint": "Desplázate para verlo construirse",
       "request": "Solicitar mi sitio",
       "explore": "Ver un ejemplo",
-      "pageTitle": "Limelight by Agental, your portfolio website"
+      "pageTitle": "Limelight by Agental, tu sitio web de portfolio"
     },
     "frame": {
       "address": "tunombre.agental.site",

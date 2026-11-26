@@ -182,11 +182,11 @@
       }
     ],
     "lead": {
-      "custom": "Custom",
-      "customLabel": "Quoted for your house or studio",
-      "projects": "{count, plural, one {active project} other {active projects}}",
-      "unlimited": "Unlimited",
-      "unlimitedLabel": "projects, with up to {seats} seats"
+      "custom": "カスタム",
+      "customLabel": "貴社またはスタジオ向けの個別見積もり",
+      "projects": "{count, plural, one {進行中のプロジェクト} other {進行中のプロジェクト}}",
+      "unlimited": "無制限",
+      "unlimitedLabel": "プロジェクト、最大{seats}席"
     }
   },
   "finalCta": {

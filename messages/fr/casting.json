@@ -182,11 +182,11 @@
       }
     ],
     "lead": {
-      "custom": "Custom",
-      "customLabel": "Quoted for your house or studio",
-      "projects": "{count, plural, one {active project} other {active projects}}",
-      "unlimited": "Unlimited",
-      "unlimitedLabel": "projects, with up to {seats} seats"
+      "custom": "Sur mesure",
+      "customLabel": "Sur devis pour votre agence ou votre studio",
+      "projects": "{count, plural, one {projet actif} other {projets actifs}}",
+      "unlimited": "Illimité",
+      "unlimitedLabel": "projets, avec jusqu’à {seats} sièges"
     }
   },
   "finalCta": {

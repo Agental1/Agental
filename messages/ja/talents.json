@@ -160,14 +160,14 @@
         ]
       }
     ],
-    "searchesLabel": "AI role searches per month",
-    "perYear": "per year",
+    "searchesLabel": "月あたりのAI役割検索回数",
+    "perYear": "年額",
     "billing": {
-      "label": "Billing period",
-      "monthly": "Monthly",
-      "yearly": "Yearly",
-      "save": "2 months free",
-      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+      "label": "請求期間",
+      "monthly": "月払い",
+      "yearly": "年払い",
+      "save": "2か月分無料",
+      "promoMonthlyOnly": "学生料金は月払いのみです。表示するには月払いに切り替えてください。"
     }
   },
   "testimonials": {
@@ -1719,7 +1719,7 @@
       "scrollHint": "スクロールして作られていく様子を見る",
       "request": "サイトを依頼する",
       "explore": "サンプルを見る",
-      "pageTitle": "Limelight by Agental, your portfolio website"
+      "pageTitle": "Limelight by Agental、あなたのポートフォリオサイト"
     },
     "frame": {
       "address": "yourname.agental.site",

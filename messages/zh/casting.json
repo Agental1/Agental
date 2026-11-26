@@ -182,11 +182,11 @@
       }
     ],
     "lead": {
-      "custom": "Custom",
-      "customLabel": "Quoted for your house or studio",
-      "projects": "{count, plural, one {active project} other {active projects}}",
-      "unlimited": "Unlimited",
-      "unlimitedLabel": "projects, with up to {seats} seats"
+      "custom": "定制",
+      "customLabel": "为贵机构或工作室定制报价",
+      "projects": "{count, plural, one {进行中的项目} other {进行中的项目}}",
+      "unlimited": "不限",
+      "unlimitedLabel": "项目，最多 {seats} 个席位"
     }
   },
   "finalCta": {

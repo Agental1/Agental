@@ -160,14 +160,14 @@
         ]
       }
     ],
-    "searchesLabel": "AI role searches per month",
-    "perYear": "per year",
+    "searchesLabel": "월별 AI 역할 검색 횟수",
+    "perYear": "연간",
     "billing": {
-      "label": "Billing period",
-      "monthly": "Monthly",
-      "yearly": "Yearly",
-      "save": "2 months free",
-      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+      "label": "결제 주기",
+      "monthly": "월간",
+      "yearly": "연간",
+      "save": "2개월 무료",
+      "promoMonthlyOnly": "학생 가격은 월간으로만 있어요. 보려면 월간으로 바꿔 보세요."
     }
   },
   "testimonials": {
@@ -1719,7 +1719,7 @@
       "scrollHint": "스크롤해서 만들어지는 모습 보기",
       "request": "내 사이트 요청하기",
       "explore": "샘플 둘러보기",
-      "pageTitle": "Limelight by Agental, your portfolio website"
+      "pageTitle": "Limelight by Agental, 나만의 포트폴리오 웹사이트"
     },
     "frame": {
       "address": "yourname.agental.site",

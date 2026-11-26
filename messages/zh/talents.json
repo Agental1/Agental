@@ -160,14 +160,14 @@
         ]
       }
     ],
-    "searchesLabel": "AI role searches per month",
-    "perYear": "per year",
+    "searchesLabel": "每月 AI 角色搜索次数",
+    "perYear": "每年",
     "billing": {
-      "label": "Billing period",
-      "monthly": "Monthly",
-      "yearly": "Yearly",
-      "save": "2 months free",
-      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+      "label": "计费周期",
+      "monthly": "按月",
+      "yearly": "按年",
+      "save": "免费赠送 2 个月",
+      "promoMonthlyOnly": "学生价格按月计费。切换到按月即可查看。"
     }
   },
   "testimonials": {
@@ -1719,7 +1719,7 @@
       "scrollHint": "向下滚动，看它一步步成形",
       "request": "申请我的网站",
       "explore": "查看示例",
-      "pageTitle": "Limelight by Agental, your portfolio website"
+      "pageTitle": "Limelight by Agental，你的作品集网站"
     },
     "frame": {
       "address": "yourname.agental.site",
