@@ -1516,15 +1516,15 @@
       "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。",
       "download": "下载",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "时长：",
+        "within": "{duration}，在 {limit} 限制内",
+        "over": "{duration}，比 {limit} 限制多 {over}",
+        "limitMinutes": "{n} 分钟",
+        "limitSeconds": "{n} 秒",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, other {# 秒}}",
+        "overMinutes": "{m, plural, other {# 分钟}}",
+        "overBoth": "{m, plural, other {# 分钟}} {s, plural, other {# 秒}}"
       }
     },
     "find": {

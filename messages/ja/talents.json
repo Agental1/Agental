@@ -1516,15 +1516,15 @@
       "limit": "1 テイク最大 {minutes} 分（{mb} MB）。上限に達すると録画は自動で止まります。",
       "download": "ダウンロード",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "長さ:",
+        "within": "{duration}、上限{limit}以内",
+        "over": "{duration}、上限{limit}を{over}超過",
+        "limitMinutes": "{n}分",
+        "limitSeconds": "{n}秒",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, other {#秒}}",
+        "overMinutes": "{m, plural, other {#分}}",
+        "overBoth": "{m, plural, other {#分}} {s, plural, other {#秒}}"
       }
     },
     "find": {

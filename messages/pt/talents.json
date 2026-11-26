@@ -1516,15 +1516,15 @@
       "limit": "Até {minutes} minutos por gravação ({mb} MB). A gravação para sozinha no limite.",
       "download": "Baixar",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "Duração:",
+        "within": "{duration}, dentro do limite de {limit}",
+        "over": "{duration}, {over} acima do limite de {limit}",
+        "limitMinutes": "{n} minutos",
+        "limitSeconds": "{n} segundos",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, one {# segundo} other {# segundos}}",
+        "overMinutes": "{m, plural, one {# minuto} other {# minutos}}",
+        "overBoth": "{m, plural, one {# minuto} other {# minutos}} {s, plural, one {# segundo} other {# segundos}}"
       }
     },
     "find": {

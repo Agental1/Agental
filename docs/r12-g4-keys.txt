@@ -1,9 +1,0 @@
-talents.json:space.studio.duration.label
-talents.json:space.studio.duration.within
-talents.json:space.studio.duration.over
-talents.json:space.studio.duration.limitMinutes
-talents.json:space.studio.duration.limitSeconds
-talents.json:space.studio.duration.limitClock
-talents.json:space.studio.duration.overSeconds
-talents.json:space.studio.duration.overMinutes
-talents.json:space.studio.duration.overBoth

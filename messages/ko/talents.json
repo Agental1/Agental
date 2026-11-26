@@ -1516,15 +1516,15 @@
       "limit": "테이크당 최대 {minutes}분({mb}MB). 한도에 이르면 녹화가 자동으로 멈춰요.",
       "download": "다운로드",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "길이:",
+        "within": "{duration}, {limit} 제한 이내",
+        "over": "{duration}, {limit} 제한보다 {over} 초과",
+        "limitMinutes": "{n}분",
+        "limitSeconds": "{n}초",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, other {#초}}",
+        "overMinutes": "{m, plural, other {#분}}",
+        "overBoth": "{m, plural, other {#분}} {s, plural, other {#초}}"
       }
     },
     "find": {

@@ -1516,15 +1516,15 @@
       "limit": "Hasta {minutes} minutos por toma ({mb} MB). La grabación se detiene sola al llegar al límite.",
       "download": "Descargar",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "Duración:",
+        "within": "{duration}, dentro del límite de {limit}",
+        "over": "{duration}, {over} por encima del límite de {limit}",
+        "limitMinutes": "{n} minutos",
+        "limitSeconds": "{n} segundos",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, one {# segundo} other {# segundos}}",
+        "overMinutes": "{m, plural, one {# minuto} other {# minutos}}",
+        "overBoth": "{m, plural, one {# minuto} other {# minutos}} {s, plural, one {# segundo} other {# segundos}}"
       }
     },
     "find": {

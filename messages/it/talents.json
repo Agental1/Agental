@@ -1516,15 +1516,15 @@
       "limit": "Fino a {minutes} minuti per ripresa ({mb} MB). La registrazione si ferma da sola al limite.",
       "download": "Scarica",
       "duration": {
-        "label": "Length:",
-        "within": "{duration}, within the {limit} limit",
-        "over": "{duration}, {over} over the {limit} limit",
-        "limitMinutes": "{n}-minute",
-        "limitSeconds": "{n}-second",
+        "label": "Durata:",
+        "within": "{duration}, entro il limite di {limit}",
+        "over": "{duration}, {over} oltre il limite di {limit}",
+        "limitMinutes": "{n} minuti",
+        "limitSeconds": "{n} secondi",
         "limitClock": "{clock}",
-        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
-        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
-        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+        "overSeconds": "{s, plural, one {# secondo} other {# secondi}}",
+        "overMinutes": "{m, plural, one {# minuto} other {# minuti}}",
+        "overBoth": "{m, plural, one {# minuto} other {# minuti}} {s, plural, one {# secondo} other {# secondi}}"
       }
     },
     "find": {
