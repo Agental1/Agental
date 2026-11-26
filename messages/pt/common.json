@@ -421,5 +421,30 @@
   "betaPrice": {
     "label": "Beta",
     "note": "Os pagamentos ainda não estão abertos."
+  },
+  "legalCopy": {
+    "twoThingsTitle": "Two separate things",
+    "repTitle": "Representation",
+    "repFree": "Representation is the agent agreement, and it is free: you pay no sign-up fee and no membership fee. The only fee is a commission of {commission} of the gross fee, only on bookings you get through Agental, and only once you have been paid.",
+    "repTerms": "It runs for {months} months and renews automatically. You can end it with {noticeDays} days' notice, and it is non-exclusive by default.",
+    "repOpportunities": "Role search, submissions, negotiation and contract review all come through representation, and only through it.",
+    "repPartner": "In the US, a licensed partner agency holds your representation and receives the commission. Agental provides the technology, the tools and the coaching.",
+    "toolsTitle": "Tools",
+    "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
+    "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
+    "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
+    "pricingLine": "Representation is free. You pay a commission only when you book through us. Plans below are optional tools and never change your access to roles.",
+    "commissionNote": "Commission terms are set in the representation agreement.",
+    "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",
+    "mandate": {
+      "summaryTitle": "The agreement in plain English",
+      "free": "It is free: no sign-up fee and no membership fee.",
+      "commission": "Agental's partner takes {commission} of the gross fee, only on bookings you get through us and only after you are paid.",
+      "nonExclusive": "It is non-exclusive by default.",
+      "term": "It lasts {months} months and renews automatically.",
+      "notice": "You can end it with {noticeDays} days' notice.",
+      "fullText": "Read how representation works",
+      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
+    }
   }
 }

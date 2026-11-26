@@ -670,10 +670,8 @@
       "why": "必填：选角团队会按年龄和性别筛选，以找到合适的人选。"
     },
     "mandat": {
-      "title": "关于代理协议",
-      "subtitle": "代理协议将在以后提供。你现在就可以完善个人资料。",
-      "read": "关于代理协议",
-      "status": "让 Agental 代理你的协议仍在审核中。测试期间你无需签署任何文件，你的资料、媒体和网站都可以照常使用。协议准备好后，我们会在这里给你看，并在签署前征得你的同意。",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "继续前往我的资料"
     },
     "back": "返回",

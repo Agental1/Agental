@@ -670,10 +670,8 @@
       "why": "Obrigatório: as equipes de casting filtram por idade e gênero ao procurar a pessoa certa."
     },
     "mandat": {
-      "title": "Sobre o contrato de representação",
-      "subtitle": "O contrato de representação ficará disponível mais tarde. Você pode completar seu perfil agora.",
-      "read": "Sobre o contrato",
-      "status": "O contrato que permite à Agental representar você ainda está em análise. Durante a beta você não assina nada, e seu perfil, suas mídias e seu site funcionam sem ele. Quando uma versão estiver pronta, mostraremos aqui e pediremos sua confirmação antes de qualquer assinatura.",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "Continuar para meu perfil"
     },
     "back": "Voltar",

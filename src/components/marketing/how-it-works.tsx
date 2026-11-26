@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "./page-hero";
 import { Section } from "./section";
 import { InverseBand } from "./inverse-band";
+import { TwoThings } from "./two-things";
 
 /** Shared "how it works" page body, driven by a portal namespace. */
 export function HowItWorks({
@@ -48,6 +49,8 @@ export function HowItWorks({
             </li>
           ))}
         </ol>
+
+        {namespace === "talents.how" && <TwoThings className="mt-10" />}
 
         {hasSummary && (
           <InverseBand className="mt-10" align="left">

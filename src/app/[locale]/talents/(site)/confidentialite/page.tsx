@@ -20,6 +20,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   const locale = toLocale((await params).locale);
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "common.privacy" });
+  const tl = await getTranslations({ locale, namespace: "common.legalCopy" });
   const sections = t.raw("sections") as { id?: string; title: string; body: string[] }[];
   return (
     <>
@@ -29,7 +30,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
           {sections.map((s) => (
             <section key={s.title} id={s.id} className="scroll-mt-24">
               <h2 className="text-[22px] font-bold tracking-[-0.01em]">{s.title}</h2>
-              {s.body.map((p) => (
+              {(s.id === "cookies" ? [...s.body, tl("cookiesNever")] : s.body).map((p) => (
                 <p key={p} className="mt-3 text-[16px] leading-relaxed text-fg-muted">
                   {p}
                 </p>

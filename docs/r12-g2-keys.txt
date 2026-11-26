@@ -1,0 +1,25 @@
+common.json:legalCopy.twoThingsTitle
+common.json:legalCopy.repTitle
+common.json:legalCopy.repFree
+common.json:legalCopy.repTerms
+common.json:legalCopy.repOpportunities
+common.json:legalCopy.repPartner
+common.json:legalCopy.toolsTitle
+common.json:legalCopy.toolsBody
+common.json:legalCopy.humanLoop
+common.json:legalCopy.beta
+common.json:legalCopy.pricingLine
+common.json:legalCopy.commissionNote
+common.json:legalCopy.cookiesNever
+common.json:legalCopy.mandate.summaryTitle
+common.json:legalCopy.mandate.free
+common.json:legalCopy.mandate.commission
+common.json:legalCopy.mandate.nonExclusive
+common.json:legalCopy.mandate.term
+common.json:legalCopy.mandate.notice
+common.json:legalCopy.mandate.fullText
+common.json:legalCopy.mandate.noPayment
+talents.json:onboarding.mandat.title (reworded)
+talents.json:onboarding.mandat.subtitle (reworded)
+talents.json:onboarding.mandat.read (removed)
+talents.json:onboarding.mandat.status (removed)

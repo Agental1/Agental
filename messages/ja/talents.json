@@ -670,10 +670,8 @@
       "why": "必須：キャスティングチームは、ぴったりの人を探す際に年齢と性別で絞り込みます。"
     },
     "mandat": {
-      "title": "代理契約について",
-      "subtitle": "代理契約は後日ご利用いただけるようになります。今はプロフィールを完成させましょう。",
-      "read": "契約について",
-      "status": "Agental があなたを代理するための契約は、まだ確認中です。ベータ期間中は何も署名する必要はなく、プロフィール、メディア、ウェブサイトは契約なしで使えます。準備ができたらここでお見せし、署名の前に必ず確認をお願いします。",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "プロフィールに進む"
     },
     "back": "戻る",

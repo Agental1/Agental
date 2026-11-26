@@ -670,10 +670,8 @@
       "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
-      "title": "About the representation agreement",
-      "subtitle": "The representation agreement will be available later. You can complete your profile now.",
-      "read": "About the agreement",
-      "status": "The agreement that lets Agental represent you is still under review. During the beta you sign nothing, and your profile, media and website work without it. When a version is ready, we'll show it to you here and ask before anything is signed.",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "Continue to my profile"
     },
     "back": "Back",

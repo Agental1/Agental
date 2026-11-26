@@ -670,10 +670,8 @@
       "why": "Obligatoire : les équipes de casting filtrent par âge et genre pour trouver la bonne personne."
     },
     "mandat": {
-      "title": "À propos du mandat de représentation",
-      "subtitle": "Le mandat de représentation sera disponible ultérieurement. Tu peux compléter ton profil dès maintenant.",
-      "read": "À propos du mandat",
-      "status": "Le mandat qui permet à Agental de te représenter est encore en cours de relecture. Pendant la bêta, tu ne signes rien, et ton profil, tes médias et ton site fonctionnent sans lui. Quand une version sera prête, on te la montrera ici et on te demandera ton accord avant toute signature.",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "Continuer vers mon profil"
     },
     "back": "Retour",
