@@ -134,7 +134,7 @@
   "home": {
     "what": {
       "title": "What is Agental",
-      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is not part of the beta.",
+      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once our licensed partner agency is in place.",
       "facts": [
         {
           "title": "Free to join",
@@ -142,7 +142,7 @@
         },
         {
           "title": "You approve every submission",
-          "body": "Your agent prepares it. You decide whether it goes out."
+          "body": "Your AI assistant prepares it, and it goes out only once you approve it."
         },
         {
           "title": "Shortlists explained",
@@ -433,18 +433,18 @@
     "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
     "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
     "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
-    "pricingLine": "Representation is free. You pay a commission only when you book through us. Plans below are optional tools and never change your access to roles.",
+    "pricingLine": "Representation is free. You pay a commission only on bookings you get through Agental, and only once you've been paid. The plans below are optional tools and never change your access to roles.",
     "commissionNote": "Commission terms are set in the representation agreement.",
     "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",
     "mandate": {
       "summaryTitle": "The agreement in plain English",
       "free": "It is free: no sign-up fee and no membership fee.",
-      "commission": "Agental's partner takes {commission} of the gross fee, only on bookings you get through us and only after you are paid.",
+      "commission": "The licensed partner agency receives {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid.",
       "nonExclusive": "It is non-exclusive by default.",
       "term": "It lasts {months} months and renews automatically.",
       "notice": "You can end it with {noticeDays} days' notice.",
       "fullText": "Read how representation works",
-      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
+      "noPayment": "Signing costs nothing up front. The only fee is the commission above."
     }
   }
 }
