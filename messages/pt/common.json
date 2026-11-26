@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "O que é a Agental",
-      "body": "A Agental é uma plataforma com IA para artistas e equipes de casting, em beta. Cada artista monta um perfil com fotos, créditos, reel e self-tapes, e um assistente de IA prepara rascunhos de candidatura que o artista revisa antes de qualquer envio. As equipes de casting recebem shortlists ordenadas com os motivos à vista. A representação não faz parte da beta.",
+      "body": "A Agental é uma plataforma com IA para artistas e equipes de casting, em beta. Cada artista monta um perfil com fotos, créditos, reel e self-tapes, e um assistente de IA prepara rascunhos de candidatura que o artista revisa antes de qualquer envio. As equipes de casting recebem listas ranqueadas, com o raciocínio à mostra. A representação é um contrato separado e gratuito: você pode lê-lo agora e assiná-lo quando nossa agência parceira licenciada estiver estabelecida.",
       "facts": [
         {
           "title": "Cadastro gratuito",
@@ -138,7 +138,7 @@
         },
         {
           "title": "Você aprova cada envio",
-          "body": "Seu agente prepara. Você decide se ele sai."
+          "body": "Seu assistente de IA prepara, e nada sai sem a sua aprovação."
         },
         {
           "title": "Shortlists explicadas",
@@ -421,5 +421,33 @@
   "betaPrice": {
     "label": "Beta",
     "note": "Os pagamentos ainda não estão abertos."
+<<<<<<< HEAD
+  },
+  "legalCopy": {
+    "twoThingsTitle": "Duas coisas separadas",
+    "repTitle": "Representação",
+    "repFree": "O contrato de representação é o acordo com seu agente, e é gratuito: você não paga taxa de inscrição nem mensalidade. A única cobrança é uma comissão de {commission} do cachê bruto, somente sobre as reservas que você conseguir pela Agental, e somente depois que você for pago.",
+    "repTerms": "Tem duração de {months} meses e se renova automaticamente. Você pode encerrá-lo com aviso prévio de {noticeDays} dias, e, por padrão, ele é não exclusivo.",
+    "repOpportunities": "Busca de papéis, envios, negociação e revisão de contratos acontecem todos pela representação, e somente por ela.",
+    "repPartner": "Nos EUA, uma agência parceira licenciada detém sua representação e recebe a comissão. A Agental fornece a tecnologia, as ferramentas e o coaching.",
+    "toolsTitle": "Ferramentas",
+    "toolsBody": "Os planos são um contrato tecnológico separado, com Termos próprios, que você aceita à parte. Eles são opcionais, sem compromisso, e liberam ferramentas: envios automáticos, busca com IA, Self-tape Studio e coaching. Um plano nunca oferece acesso melhor ou antecipado a trabalhos (California Fee-Related Talent Services Law, AB 1319), e você pode ser representado sem pagar nada.",
+    "humanLoop": "Você continua no controle. Todo envio ou submissão depende da sua aprovação. Uma resposta que você submete a um papel vai para a equipe da Agental para revisão, e nada é enviado a nenhum site de casting. As respostas aos e-mails que recebemos só saem depois que um membro da equipe as aprova.",
+    "beta": "Você já pode ler o contrato de representação. Você o assina quando nosso parceiro licenciado estiver estabelecido. Os pagamentos ficam desativados até a empresa existir.",
+    "pricingLine": "A representação é gratuita. Você paga comissão somente sobre as reservas que conseguir pela Agental, e somente depois de ser pago. Os planos abaixo são ferramentas opcionais e nunca mudam seu acesso aos papéis.",
+    "commissionNote": "As condições da comissão estão definidas no contrato de representação.",
+    "cookiesNever": "Aceitar cookies nunca equivale a aceitar o contrato de representação ou um plano.",
+    "mandate": {
+      "summaryTitle": "O contrato em linguagem simples",
+      "free": "É gratuito: sem taxa de inscrição e sem mensalidade.",
+      "commission": "O parceiro licenciado recebe {commission} do cachê bruto, somente sobre as reservas que você conseguir pela Agental, e somente depois que você for pago.",
+      "nonExclusive": "Por padrão, é não exclusivo.",
+      "term": "Tem duração de {months} meses e se renova automaticamente.",
+      "notice": "Você pode encerrá-lo com aviso prévio de {noticeDays} dias.",
+      "fullText": "Leia como a representação funciona",
+      "noPayment": "Assinar não obriga você a nenhum pagamento. Os planos são uma escolha separada, que você pode fazer depois ou nunca fazer."
+    }
+=======
+>>>>>>> origin/frontend-redesign
   }
 }

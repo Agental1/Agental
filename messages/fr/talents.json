@@ -13,7 +13,7 @@
     "subtitle": "Un seul profil pour tes photos, ton CV, ta bande démo et tes self-tapes. Prépare tes éléments de casting dès maintenant ; quand les candidatures ouvriront, tu valideras chaque brouillon avant tout envoi.",
     "ctaPrimary": "Devenir membre",
     "ctaSecondary": "Voir comment ça marche",
-    "eyebrow": "L'agence artistique nouvelle génération",
+    "eyebrow": "La maison nouvelle génération pour les artistes",
     "note": "Gratuit pendant la bêta. Ensuite : trois courtes étapes pour créer ton profil.",
     "collage": [
       "fille, 9 ans",
@@ -38,7 +38,7 @@
   },
   "why": {
     "eyebrow": "Pourquoi Agental",
-    "title": "Une agence qui travaille vraiment pour toi",
+    "title": "Une équipe qui travaille vraiment pour toi",
     "items": [
       {
         "title": "Un profil qui travaille pour toi",
@@ -57,8 +57,8 @@
         "body": "On sait ce qui te rend singulier, et on le met en avant au bon endroit. Notre Self-tape Studio te guide sur le cadrage, la lumière, le son et le jeu, pour que chaque envoi te ressemble et vise juste."
       },
       {
-        "title": "La représentation ne fait pas partie de la bêta",
-        "body": "Pendant la bêta, Agental ne représente pas les artistes et ne prend aucune commission. Un éventuel futur contrat de représentation sera un document distinct, que tu liras et choisiras d’accepter, à part de toute formule ou de tout site web."
+        "title": "La représentation, à part",
+        "body": "La représentation est un mandat d’agent gratuit, détenu aux États-Unis par une agence partenaire agréée qui perçoit la commission. Tu peux le lire dès maintenant et le signer une fois ce partenaire en place. Il reste séparé de toute formule ou de tout site, et c’est toi qui choisis de l’accepter."
       },
       {
         "title": "Chaque profil a une force",
@@ -111,7 +111,7 @@
   "pricing": {
     "eyebrow": "Tarifs",
     "title": "Des tarifs qui récompensent ta progression",
-    "note": "Toutes les formules sont optionnelles. La représentation ne fait pas partie de la bêta.",
+    "note": "Chaque formule est facultative. La représentation est gratuite et ne dépend jamais d’une formule.",
     "perMonth": "par mois",
     "commission": "commission {rate}",
     "popular": "Populaire",
@@ -199,12 +199,12 @@
   "how": {
     "meta": {
       "title": "Comment ça marche : Agental Talents",
-      "description": "De la création de ton profil au versement de ton cachet : comment Agental te représente et travaille pour toi, étape par étape."
+      "description": "De la création de ton profil au versement de ton cachet : comment la représentation et les outils d’Agental travaillent pour toi, étape par étape."
     },
     "hero": {
       "eyebrow": "Comment ça marche",
       "title": "Comment fonctionne Agental, côté artiste",
-      "subtitle": "Un vrai agent qui te représente, une IA qui bosse pour toi en continu. Voici le parcours, sans jargon."
+      "subtitle": "Une représentation assurée par une agence partenaire agréée, et une IA qui travaille pour toi en continu. Voici le parcours, sans jargon."
     },
     "sections": [
       {
@@ -213,7 +213,7 @@
       },
       {
         "title": "Le contrat qui te fait représenter",
-        "body": "Le mandat, c'est le contrat que signe tout artiste avec son agent. Il est encadré par la loi française. Il est gratuit, sans engagement de ta part, et résiliable quand tu veux. En le signant, tu nous autorises à te représenter, à chercher des rôles pour toi et à négocier tes contrats."
+        "body": "Le mandat de représentation est ton contrat avec ton agent. Il est gratuit, sans frais d’inscription ni cotisation, et non exclusif par défaut. Aux États-Unis, une agence partenaire agréée détient ta représentation : la recherche de rôles, les soumissions, la négociation et la relecture des contrats passent toutes par elle. Tu peux lire le mandat dès maintenant et le signer une fois ce partenaire en place."
       },
       {
         "title": "Une veille qui ne s'arrête jamais",
@@ -221,17 +221,17 @@
       },
       {
         "title": "Le studio qui te met en confiance",
-        "body": "Quand un rôle demande un self-tape, notre studio t'accompagne pendant la prise. Il te guide sur le cadrage, la lumière et le son en temps réel. Un coach vocal te fait entendre la bonne intonation si le rôle demande un accent. Tu enregistres plusieurs versions, tu les compares, et tu envoies la meilleure directement depuis l'appli."
+        "body": "Quand un rôle demande un self-tape, notre studio t’accompagne pendant la prise. Il te guide sur le cadrage, la lumière et le son en temps réel. Un coach vocal te fait entendre la bonne intonation si le rôle demande un accent. Tu enregistres plusieurs versions, tu les compares et tu envoies la meilleure depuis l’application. Ton envoi est transmis à l’équipe Agental pour relecture, et rien n’est envoyé à un site de casting."
       },
       {
         "title": "De la sélection au cachet",
-        "body": "Quand tu es retenu, on prend le relais sur la partie contractuelle. On négocie ton cachet et tes conditions, on vérifie que le contrat est légal, et on suit le tournage. Agental encaisse ton cachet, retient sa commission, et te reverse ta part sous sept jours après paiement effectif."
+        "body": "Une fois sélectionné, la négociation et la relecture des contrats passent par ta représentation. L’agence partenaire perçoit sa commission uniquement sur les réservations que tu obtiens via Agental, et seulement une fois que tu as été payé."
       }
     ],
     "cta": "Devenir membre",
     "summary": {
       "title": "En résumé",
-      "body": "Le parcours complet, d'un coup d'œil : profil, mandat, veille IA, self-tape, contrat. Tu gardes le contrôle à chaque étape, et un humain vérifie toujours les contrats avant signature."
+      "body": "Tout le parcours d’un coup d’œil : profil, mandat, veille IA, self-tape, contrat. Tu gardes la main à chaque étape, et rien n’est envoyé ni soumis sans ton approbation."
     }
   },
   "pricingPage": {
@@ -244,7 +244,7 @@
       "title": "Des tarifs qui récompensent ta progression",
       "subtitle": "La formule Basic couvre ton profil et tes médias. Les formules payantes ajoutent des outils et ne sont jamais un péage vers les opportunités."
     },
-    "note": "Sans engagement. Tu changes de formule ou tu reviens au gratuit quand tu veux."
+    "note": "Sans engagement. Tu peux changer de formule ou revenir à Basic quand tu veux."
   },
   "faq": {
     "meta": {
@@ -267,11 +267,11 @@
           },
           {
             "q": "Est-ce qu’Agental me représente ?",
-            "a": "Pas pendant la bêta. Agental n’agit pas comme ton agent et ne prend aucune commission. Si la représentation ouvre plus tard, elle passera par un contrat écrit distinct que tu choisiras d’accepter."
+            "a": "La représentation passe par un mandat distinct et gratuit. Aux États-Unis, une agence partenaire agréée la détient et perçoit la commission, et Agental fournit la technologie, les outils et le coaching. Tu peux lire le mandat dès maintenant et le signer une fois ce partenaire en place."
           },
           {
             "q": "Combien ça coûte de commencer ?",
-            "a": "Rien. La formule Basic couvre ton profil et tes médias. Les formules payantes et les sites Limelight sont optionnels et ne conditionnent jamais l’accès aux auditions ni aux candidatures."
+            "a": "C’est gratuit. La formule Basic couvre ton profil et tes médias. Les formules payantes et les sites Limelight sont facultatifs, et ne conditionnent jamais les auditions ni les candidatures."
           },
           {
             "q": "Faut-il de l'expérience pour s'inscrire ?",
@@ -284,10 +284,10 @@
         "items": [
           {
             "q": "Qu'est-ce que le mandat de représentation ?",
-            "a": "C'est le contrat standard entre un artiste et son agent, encadré par la loi française. Il nous autorise à te représenter et à négocier pour toi. Gratuit, sans engagement de ta part."
+            "a": "C’est le mandat d’agent entre toi et ta représentation. Aux États-Unis, une agence partenaire agréée le détient et perçoit la commission. Il est gratuit, sans frais d’inscription ni cotisation, et non exclusif par défaut."
           },
           {
-            "q": "Combien prend Agental de commission ?",
+            "q": "Quel est le montant de la commission ?",
             "a": "{commission_FREE} en Basic et Pro, {commission_PREMIUM} en Premium, {commission_ULTIMATE} en Ultimate. Plus tu montes, plus tu gardes."
           },
           {
@@ -296,7 +296,7 @@
           },
           {
             "q": "Puis-je résilier mon mandat ?",
-            "a": "Oui, avec un préavis court et sans avoir à te justifier. Tu restes libre."
+            "a": "Oui. Tu peux y mettre fin avec le préavis prévu dans le mandat, sans avoir à en donner la raison."
           }
         ]
       },
@@ -313,11 +313,11 @@
           },
           {
             "q": "L'abonnement me donne-t-il un accès privilégié aux castings ?",
-            "a": "Non. Les opportunités passent par le mandat, qui est gratuit. L'abonnement réduit la commission et débloque des outils, pas un passe-droit."
+            "a": "Les opportunités passent par le mandat de représentation, qui est gratuit. Une formule ne te donne jamais un accès meilleur ou plus rapide aux rôles : l’abonnement réduit la commission et débloque des outils, mais ce n’est jamais un passe-droit."
           },
           {
             "q": "Que se passe-t-il si j'arrête de payer ?",
-            "a": "Tu repasses automatiquement en formule gratuite. Tu restes représenté."
+            "a": "Tu repasses automatiquement sur la formule Basic. Ta représentation reste exactement la même."
           },
           {
             "q": "Ça marche sur un téléphone simple ?",
@@ -670,10 +670,8 @@
       "why": "Obligatoire : les équipes de casting filtrent par âge et genre pour trouver la bonne personne."
     },
     "mandat": {
-      "title": "À propos du mandat de représentation",
-      "subtitle": "Le mandat de représentation sera disponible ultérieurement. Tu peux compléter ton profil dès maintenant.",
-      "read": "À propos du mandat",
-      "status": "Le mandat qui permet à Agental de te représenter est encore en cours de relecture. Pendant la bêta, tu ne signes rien, et ton profil, tes médias et ton site fonctionnent sans lui. Quand une version sera prête, on te la montrera ici et on te demandera ton accord avant toute signature.",
+      "title": "Le mandat de représentation",
+      "subtitle": "Voici ce que signifie la représentation, avant toute signature.",
       "submit": "Continuer vers mon profil"
     },
     "back": "Retour",

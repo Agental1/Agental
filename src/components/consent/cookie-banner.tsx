@@ -34,6 +34,7 @@ function subscribe(onChange: () => void) {
  */
 export function CookieBanner() {
   const t = useTranslations("common.consent");
+  const tl = useTranslations("common.legalCopy");
   const [managing, setManaging] = useState(false);
   // The cookie is the snapshot: it changes exactly when a choice is written.
   // The server snapshot is "done", so nothing renders on the server or during
@@ -67,7 +68,7 @@ export function CookieBanner() {
             <p className="flex items-start gap-2 text-[14px] leading-snug text-fg-muted md:max-w-2xl">
               <Cookie aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
               <span>
-                {t("bannerLead")}{" "}
+                {t("bannerLead")} {tl("cookiesNever")}{" "}
                 <Link href="/talents/confidentialite#cookies" className="font-bold text-accent underline-offset-4 hover:underline">
                   {t("readMore")}
                 </Link>

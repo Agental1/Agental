@@ -1,5 +1,6 @@
 import type { ErrorKey } from "./action-result";
 import { isAdult } from "./age";
+import { B2C_PLANS } from "./pricing";
 
 /**
  * The representation agreement a performer can accept, by version.
@@ -15,6 +16,15 @@ import { isAdult } from "./age";
 export const MANDATE: { approvedVersion: string | null } = {
   approvedVersion: null,
 };
+
+/**
+ * The terms of the representation agreement that copy quotes (docs/LEGAL_COPY.md).
+ * The base commission is read from the pricing table, never retyped; the term
+ * and the notice period live here so no message file carries a figure.
+ */
+export const MANDATE_BASE_COMMISSION_RATE = B2C_PLANS.FREE.commissionRate;
+export const MANDATE_TERM_MONTHS = 12;
+export const MANDATE_NOTICE_DAYS = 60;
 
 /**
  * The load-bearing separation between Mandat (free legal representation) and
