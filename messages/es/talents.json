@@ -813,6 +813,17 @@
           "queued": "Listo. Tu agente ya se encarga y empieza sobre las {time}. Te avisaremos en cuanto haya resultados.",
           "pausedNow": "Las búsquedas están en pausa un momento. Aún puedes pedir una ahora: la guardamos y empezará al reanudarse.",
           "waiting": "Listo. Tu búsqueda está en cola. Las búsquedas empiezan pronto y te avisaremos en cuanto haya resultados."
+        },
+        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "scan": {
+          "looking": "{agent} is checking the places roles show up.",
+          "running": "{agent} is searching right now. Results land here as soon as they're in.",
+          "kind": {
+            "boards": "Casting boards",
+            "breakdowns": "Breakdowns",
+            "notices": "Production notices",
+            "calls": "Open calls"
+          }
         }
       },
       "nextAction": "Siguiente paso",
@@ -880,6 +891,39 @@
         "rolesFound": "{count, plural, one {# papel encontrado} other {# papeles encontrados}}",
         "check": "Ver tus candidaturas",
         "nextStart": "Próxima búsqueda prevista {date}"
+      },
+      "board": {
+        "title": "Your searches",
+        "byAgent": "Run by {agent}.",
+        "rename": "Rename {agent}",
+        "lane": {
+          "queued": "Queued",
+          "running": "Running",
+          "done": "Done"
+        },
+        "laneEmpty": {
+          "queued": "Nothing waiting.",
+          "running": "Nothing running right now.",
+          "done": "Finished searches show up here."
+        },
+        "card": {
+          "next": "Next in line",
+          "inLine": "Number {n} in line",
+          "running": "{agent} is on it",
+          "done": "Finished"
+        },
+        "meter": {
+          "title": "Search allowance",
+          "text": "{used} of {total} used"
+        },
+        "matches": {
+          "title": "Best matches so far",
+          "score": "{score}% match"
+        },
+        "empty": "No searches yet. Press the green button and {agent} gets started.",
+        "error": "We couldn't refresh your searches. Check your connection and try again.",
+        "retry": "Try again",
+        "viewAll": "See everything in Applications"
       }
     },
     "candidatures": {

@@ -9,6 +9,7 @@ import { err, type ActionError } from "@/domain/action-result";
 import type { RoleSearchQuota } from "@/domain/role-search";
 import { startFindingRoles } from "@/app/actions/role-search";
 import { SearchUsageLine } from "@/components/app/search-usage";
+import { SearchScan } from "@/components/app/search-scan";
 import { EmailCodeForm } from "@/components/auth/email-code";
 import type { SearchBlock, SearchNotice } from "@/domain/search-block";
 import { itemHref } from "@/domain/profile-tabs";
@@ -23,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 
 /** How long the scanning animation plays before the confirmation shows. */
-const SCAN_MS = 2400;
+const SCAN_MS = 4800;
 
 function newClientKey(): string {
   const bytes = new Uint8Array(16);
@@ -45,7 +46,13 @@ export function FindRolesButton({
   email,
   footer,
   paused = false,
+  agent,
+  runningNow = false,
 }: {
+  /** Round 12 g5: the AI agent's name ("Jay" by default). */
+  agent: string;
+  /** A search is really running: the scan animation stays until results arrive. */
+  runningNow?: boolean;
   initialQuota: RoleSearchQuota;
   /**
    * Round 10: why this account cannot search right now (one reason, from the
@@ -157,9 +164,14 @@ export function FindRolesButton({
         </button>
       </div>
 
+      <p className="max-w-md text-[15px]">{t("explain", { agent, left: quota.remaining })}</p>
       <p id="find-roles-left" className="text-sm font-medium text-fg-muted">
         <SearchUsageLine quota={quota} />
       </p>
+
+      {(phase === "scanning" || runningNow) && (
+        <SearchScan agent={agent} running={runningNow && phase !== "scanning"} />
+      )}
 
       <div aria-live="polite" className="min-h-6 max-w-md space-y-1">
         {phase === "sent" && !notice && <p className="text-[15px] font-medium">{t("sent")}</p>}

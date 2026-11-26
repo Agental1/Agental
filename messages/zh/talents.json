@@ -813,6 +813,17 @@
           "queued": "好的。你的智能体会在 {time} 左右开始。结果出来后我们会立即通知你。",
           "pausedNow": "搜索暂时暂停。你现在仍可以发起搜索：我们会先保存，恢复后再开始。",
           "waiting": "你的搜索已加入队列。搜索即将开始，结果出来后我们会通知你。"
+        },
+        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "scan": {
+          "looking": "{agent} is checking the places roles show up.",
+          "running": "{agent} is searching right now. Results land here as soon as they're in.",
+          "kind": {
+            "boards": "Casting boards",
+            "breakdowns": "Breakdowns",
+            "notices": "Production notices",
+            "calls": "Open calls"
+          }
         }
       },
       "nextAction": "下一步",
@@ -880,6 +891,39 @@
         "rolesFound": "找到 {count} 个角色",
         "check": "查看你的申请",
         "nextStart": "下一次搜索预计 {date}"
+      },
+      "board": {
+        "title": "Your searches",
+        "byAgent": "Run by {agent}.",
+        "rename": "Rename {agent}",
+        "lane": {
+          "queued": "Queued",
+          "running": "Running",
+          "done": "Done"
+        },
+        "laneEmpty": {
+          "queued": "Nothing waiting.",
+          "running": "Nothing running right now.",
+          "done": "Finished searches show up here."
+        },
+        "card": {
+          "next": "Next in line",
+          "inLine": "Number {n} in line",
+          "running": "{agent} is on it",
+          "done": "Finished"
+        },
+        "meter": {
+          "title": "Search allowance",
+          "text": "{used} of {total} used"
+        },
+        "matches": {
+          "title": "Best matches so far",
+          "score": "{score}% match"
+        },
+        "empty": "No searches yet. Press the green button and {agent} gets started.",
+        "error": "We couldn't refresh your searches. Check your connection and try again.",
+        "retry": "Try again",
+        "viewAll": "See everything in Applications"
       }
     },
     "candidatures": {
