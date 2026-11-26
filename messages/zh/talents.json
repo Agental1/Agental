@@ -661,13 +661,13 @@
     "identity": {
       "title": "你是谁？",
       "subtitle": "证件上的姓名，以及不同的艺名（如有）。会直接保存到你的个人资料。",
-      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
+      "why": "必填：你的法定姓名会用于合同和付款，选角团队不会看到。"
     },
     "profile": {
       "title": "关于你",
       "subtitle": "三个快速问题，保存到你的个人资料。",
       "phoneHint": "有角色时团队可以快速联系你。也可以稍后再添加。",
-      "why": "Required: casting teams filter on age and gender when they look for the right person."
+      "why": "必填：选角团队会按年龄和性别筛选，以找到合适的人选。"
     },
     "mandat": {
       "title": "关于代理协议",
@@ -678,8 +678,8 @@
     },
     "back": "返回",
     "continue": "继续",
-    "optional": "Optional",
-    "skip": "Skip for now"
+    "optional": "可选",
+    "skip": "暂时跳过"
   },
   "space": {
     "nav": {
@@ -771,10 +771,10 @@
       "findRoles": {
         "label": "开始寻找角色",
         "scanning": "搜索中…",
-        "sent": "你的搜索已排队。结果将显示在“申请”中。",
+        "sent": "好的。你的搜索已排队，很快就会开始。结果出来后我们会立即通知你。",
         "available": "可用 {count} 次搜索",
         "leftOf": "剩余 {left} / {limit} 次搜索 · {days} 天后重置",
-        "noneLeft": "搜索次数已用完 · {days} 天后重置",
+        "noneLeft": "搜索次数已用完 · {days, plural, other {# 天后}}可再搜索",
         "upgradeMore": "升级以获得更多搜索",
         "usage": "本周期的 AI 搜索",
         "locked": {
@@ -803,16 +803,16 @@
             "text": "AI 搜索即将开放。你的搜索准备好后我们会发邮件通知你。"
           },
           "quota": {
-            "text": "你已用完 {limit} 次搜索。下一次可在 {date} 使用。",
-            "textNoDate": "你已用完 {limit} 次搜索。",
+            "text": "你已用完本月的搜索次数。{date} 起可再次使用，或开通 Pro 获取更多。",
+            "textNoDate": "你已用完本月的搜索次数。开通 Pro 可获取更多。",
             "cta": "查看方案"
           }
         },
         "notice": {
-          "paused": "搜索暂时暂停。你的请求已保存，将自动开始。",
-          "queued": "你的搜索已排队，将于 {time} 开始。",
-          "pausedNow": "AI 搜索暂时暂停。现在发起的搜索会被保存，并在恢复后自动开始。",
-          "waiting": "你的搜索已加入队列。搜索即将开始：我们会通知你。"
+          "paused": "搜索暂时暂停。你的请求已保存，恢复后会自动开始。",
+          "queued": "好的。你的智能体会在 {time} 左右开始。结果出来后我们会立即通知你。",
+          "pausedNow": "搜索暂时暂停。你现在仍可以发起搜索：我们会先保存，恢复后再开始。",
+          "waiting": "你的搜索已加入队列。搜索即将开始，结果出来后我们会通知你。"
         }
       },
       "nextAction": "下一步",
@@ -874,8 +874,8 @@
       "autoFirst": "我们已为你启动第一次 AI 搜索。本月还剩 {left}/{limit} 次搜索。",
       "status": {
         "title": "状态",
-        "queued": "{count} 次搜索排队中",
-        "running": "{count}/{slots} 正在运行",
+        "queued": "{count, plural, other {# 次搜索排队中}}",
+        "running": "你的智能体目前正在运行 {count} 个搜索。",
         "finished": "{count} 次已完成",
         "rolesFound": "找到 {count} 个角色",
         "check": "查看你的申请",
@@ -915,11 +915,11 @@
       },
       "searches": {
         "label": "你最近的 AI 搜索",
-        "queued": "搜索排队中",
-        "running": "搜索进行中",
-        "completed": "搜索已完成",
-        "failed": "搜索失败，不计入你的搜索次数。",
-        "canceled": "搜索已取消，不计入你的搜索次数。",
+        "queued": "等待开始",
+        "running": "智能体正在搜索",
+        "completed": "结果已出",
+        "failed": "该搜索未能完成，不计入你的搜索次数。",
+        "canceled": "该搜索已取消，不计入你的搜索次数。",
         "started": "开始于 {date}。"
       },
       "found": {
@@ -960,18 +960,18 @@
       },
       "queue": {
         "rule": "你最多可排队 {count} 次搜索。你的方案可同时运行 {slots} 次搜索，每个通道最多每 {hours} 小时开始一次。",
-        "title": "排队中的搜索",
-        "empty": "没有等待中的搜索。",
+        "title": "接下来的搜索",
+        "empty": "目前没有排队中的搜索。",
         "item": "搜索 {n}",
         "soon": "即将开始",
         "startsIn": "大约 {hours} 小时后开始",
         "startsAt": "预计开始：{date}",
-        "queuedHonest": "你的搜索已排队。结果将显示在这里。",
-        "slotsInUse": "{running}/{slots} 正在运行"
+        "queuedHonest": "好的。你的搜索已排队，很快就会开始。结果出来后我们会立即通知你。",
+        "slotsInUse": "你的智能体目前正在运行 {running} 个搜索。"
       },
       "running": {
         "title": "进行中的搜索",
-        "empty": "目前没有进行中的搜索。"
+        "empty": "你的智能体目前没有在搜索。"
       },
       "finished": {
         "title": "已完成的搜索",
@@ -1468,10 +1468,10 @@
         "dayRate": "日薪"
       },
       "why": {
-        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
-        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
-        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
-        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
+        "identity": "必填：选角团队会按年龄、所在地和语言筛选，团队也会通过你的手机快速联系你。",
+        "physical": "必填：选角团队会按身高、体型、发色和瞳色筛选。",
+        "media": "必填：一张本人照片，让选角团队知道他们在看的是谁。",
+        "preferences": "必填：你的工作类型、可出演的年龄段和报酬偏好，能帮我们避免向你推送不合适的角色。"
       }
     },
     "rgpd": {
@@ -1687,7 +1687,7 @@
       "description": "发来你的照片、作品集锦和几句关于你的介绍。我们为你打造个人网站，{price}起，含第一年托管。"
     },
     "band": {
-      "title": "需要个人网站？我们和你一起做。",
+      "title": "需要作品集网站？我们和你一起做。",
       "body": "Limelight 把你的照片、作品集锦和经历变成一个网站，选角导演一键就能打开。{price}起。",
       "cta": "了解 Limelight"
     },

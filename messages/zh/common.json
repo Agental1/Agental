@@ -62,8 +62,8 @@
     "line": "从这里开始：你是表演者，还是选角方？",
     "createTalents": "创建表演者账号",
     "createCasting": "创建选角账号",
-    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
-    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
+    "talentsBenefit": "装在口袋里的智能助手：帮你找角色、跟进进度，让你持续前进。每一步都由你确认。",
+    "castingBenefit": "为您整理角色需求，入围名单更精准，筛选投递的时间也更少。"
   },
   "pricing": {
     "details": "包含内容"
@@ -166,7 +166,7 @@
       "websites": "没有个人网站的表演者可以用 Limelight 创建一个。"
     },
     "limelight": {
-      "title": "需要个人网站？几分钟就能建好。",
+      "title": "需要作品集网站？几分钟就能建好。",
       "try": "试一试",
       "pricing": "查看价格"
     },
@@ -420,6 +420,6 @@
   "oauthAgreeTerms": "继续即表示你接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。",
   "betaPrice": {
     "label": "Beta",
-    "note": "Payments are not open yet."
+    "note": "付款功能尚未开放。"
   }
 }

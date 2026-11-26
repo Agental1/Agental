@@ -62,8 +62,8 @@
     "line": "Comece aqui. Você atua ou faz casting?",
     "createTalents": "Crie sua conta de artista",
     "createCasting": "Crie sua conta de casting",
-    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
-    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
+    "talentsBenefit": "Um agente no seu bolso: ele busca papéis, faz o acompanhamento e mantém você em movimento. Você aprova cada etapa.",
+    "castingBenefit": "Suas chamadas de elenco organizadas, uma pré-seleção mais precisa e menos tempo triando candidaturas."
   },
   "pricing": {
     "details": "O que está incluído"
@@ -166,7 +166,7 @@
       "websites": "Artistas sem site podem criar um com o Limelight."
     },
     "limelight": {
-      "title": "Precisa de um site? Crie o seu em minutos.",
+      "title": "Precisa de um site de portfólio? Crie o seu em minutos.",
       "try": "Experimente",
       "pricing": "Ver preços"
     },
@@ -420,6 +420,6 @@
   "oauthAgreeTerms": "Ao continuar, você aceita a <privacy>Política de Privacidade</privacy>, os <terms>Termos de Serviço</terms> e o uso de cookies.",
   "betaPrice": {
     "label": "Beta",
-    "note": "Payments are not open yet."
+    "note": "Os pagamentos ainda não estão abertos."
   }
 }

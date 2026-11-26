@@ -661,13 +661,13 @@
     "identity": {
       "title": "Qui es-tu ?",
       "subtitle": "Ton nom comme sur ta pièce d’identité, et ton nom d’artiste s’il est différent. Tout va directement dans ton profil.",
-      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
+      "why": "Obligatoire : ton nom légal figure sur les contrats et les paiements, et les équipes de casting ne le voient jamais."
     },
     "profile": {
       "title": "À propos de toi",
       "subtitle": "Trois réponses rapides, enregistrées dans ton profil.",
       "phoneHint": "L’équipe peut te joindre vite quand un rôle se présente. Tu peux l’ajouter plus tard.",
-      "why": "Required: casting teams filter on age and gender when they look for the right person."
+      "why": "Obligatoire : les équipes de casting filtrent par âge et genre pour trouver la bonne personne."
     },
     "mandat": {
       "title": "À propos du mandat de représentation",
@@ -678,8 +678,8 @@
     },
     "back": "Retour",
     "continue": "Continuer",
-    "optional": "Optional",
-    "skip": "Skip for now"
+    "optional": "Facultatif",
+    "skip": "Passer pour l’instant"
   },
   "space": {
     "nav": {
@@ -771,10 +771,10 @@
       "findRoles": {
         "label": "Trouver des rôles",
         "scanning": "Recherche…",
-        "sent": "Ta recherche est en file. Les résultats apparaîtront dans Candidatures.",
+        "sent": "C’est noté. Ta recherche est en file et démarrera bientôt. On te préviendra dès que les résultats seront là.",
         "available": "{count, plural, one {# recherche disponible} other {# recherches disponibles}}",
         "leftOf": "{left} {left, plural, one {recherche restante} other {recherches restantes}} sur {limit} · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
-        "noneLeft": "Plus de recherche · se renouvelle dans {days, plural, one {# jour} other {# jours}}",
+        "noneLeft": "Tu as utilisé tes recherches pour l’instant · d’autres dans {days, plural, one {# jour} other {# jours}}",
         "upgradeMore": "Passe à un plan supérieur pour plus de recherches",
         "usage": "Recherches IA de cette période",
         "locked": {
@@ -803,16 +803,16 @@
             "text": "Les recherches IA ouvrent bientôt. Nous t’écrirons dès que la tienne sera prête."
           },
           "quota": {
-            "text": "Tu as utilisé tes {limit} recherches. La prochaine sera disponible le {date}.",
-            "textNoDate": "Tu as utilisé tes {limit} recherches.",
+            "text": "Tu as utilisé les recherches de ce mois. D’autres seront disponibles le {date}, ou passe à Pro.",
+            "textNoDate": "Tu as utilisé les recherches de ce mois. Passe à Pro pour en avoir plus.",
             "cta": "Voir les offres"
           }
         },
         "notice": {
-          "paused": "Les recherches sont en pause un moment. Ta demande est enregistrée et démarrera automatiquement.",
-          "queued": "Ta recherche est en file d’attente. Elle démarre {time}.",
-          "pausedNow": "Les recherches IA sont en pause pour un moment. Si tu en lances une maintenant, elle est enregistrée et démarrera toute seule.",
-          "waiting": "Ta recherche est en file d’attente. Les recherches démarrent bientôt : on te préviendra."
+          "paused": "Les recherches sont en pause un moment. Ta demande est enregistrée et démarrera toute seule à la reprise.",
+          "queued": "C’est noté. Ton agent s’en occupe et démarre vers {time}. On te préviendra dès que les résultats seront là.",
+          "pausedNow": "Les recherches sont en pause un moment. Tu peux quand même en lancer une maintenant : on l’enregistre et elle démarrera à la reprise.",
+          "waiting": "Les recherches démarrent bientôt. Ta demande est en file, et on te préviendra dès que les résultats seront là."
         }
       },
       "nextAction": "Prochaine action",
@@ -875,7 +875,7 @@
       "status": {
         "title": "Statut",
         "queued": "{count, plural, one {# recherche en file} other {# recherches en file}}",
-        "running": "{count} sur {slots} en cours",
+        "running": "Ton agent en traite {count} en ce moment.",
         "finished": "{count, plural, one {# terminée} other {# terminées}}",
         "rolesFound": "{count, plural, one {# rôle trouvé} other {# rôles trouvés}}",
         "check": "Voir tes candidatures",
@@ -915,11 +915,11 @@
       },
       "searches": {
         "label": "Tes dernières recherches IA",
-        "queued": "Recherche en file",
-        "running": "Recherche en cours",
-        "completed": "Recherche terminée",
-        "failed": "Recherche échouée. Elle ne compte pas dans tes recherches.",
-        "canceled": "Recherche annulée. Elle ne compte pas dans tes recherches.",
+        "queued": "En attente de démarrage",
+        "running": "Ton agent cherche",
+        "completed": "Résultats prêts",
+        "failed": "La recherche a échoué et ne compte pas dans tes recherches.",
+        "canceled": "Cette recherche a été annulée et ne compte pas dans tes recherches.",
         "started": "Lancée le {date}."
       },
       "found": {
@@ -960,18 +960,18 @@
       },
       "queue": {
         "rule": "Tu peux mettre jusqu’à {count} recherches en file. Ton offre en lance {slots, plural, one {une à la fois} other {# en même temps}}, et chacune démarre au plus toutes les {hours} heures.",
-        "title": "Recherches en file",
-        "empty": "Aucune recherche en attente.",
+        "title": "Recherches à suivre",
+        "empty": "Pour l’instant, la file est vide.",
         "item": "Recherche {n}",
         "soon": "Commence bientôt",
         "startsIn": "Commence dans environ {hours, plural, one {# heure} other {# heures}}",
         "startsAt": "Démarrage prévu : {date}",
-        "queuedHonest": "Ta recherche est en file. Les résultats apparaîtront ici.",
-        "slotsInUse": "{running} sur {slots} en cours"
+        "queuedHonest": "C’est noté. Ta recherche est en file et démarrera bientôt. On te préviendra dès que les résultats seront là.",
+        "slotsInUse": "Ton agent en traite {running} en ce moment."
       },
       "running": {
         "title": "Recherche en cours",
-        "empty": "Aucune recherche en cours."
+        "empty": "Ton agent ne cherche pas en ce moment."
       },
       "finished": {
         "title": "Recherches terminées",
@@ -1468,10 +1468,10 @@
         "dayRate": "Tarif journalier"
       },
       "why": {
-        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
-        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
-        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
-        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
+        "identity": "Obligatoire : les équipes de casting filtrent selon ton âge, ta localisation et tes langues, et l’équipe utilise ton téléphone pour te joindre vite.",
+        "physical": "Obligatoire : les équipes de casting filtrent selon la taille, la corpulence, la couleur de cheveux et la couleur des yeux.",
+        "media": "Obligatoire : une photo de toi, pour que les équipes de casting sachent qui elles regardent.",
+        "preferences": "Obligatoire : tes types de travail, les âges que tu peux jouer et ton choix de rémunération nous évitent de t’envoyer des rôles qui ne te correspondent pas."
       }
     },
     "rgpd": {
@@ -1687,7 +1687,7 @@
       "description": "Envoie tes photos, ta bande démo et quelques lignes sur ton travail. On construit ton site d'artiste dès {price}, première année d'hébergement incluse."
     },
     "band": {
-      "title": "Besoin d'un site ? On le construit avec toi.",
+      "title": "Besoin d’un site portfolio ? On le construit avec toi.",
       "body": "Limelight transforme tes photos, ta bande démo et ton parcours en un site qu'un directeur de casting ouvre en un clic. Dès {price}.",
       "cta": "Découvrir Limelight"
     },

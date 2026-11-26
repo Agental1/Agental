@@ -62,8 +62,8 @@
     "line": "ここから始めましょう。出演する側ですか、キャスティングする側ですか？",
     "createTalents": "出演者アカウントを作成",
     "createCasting": "キャスティングアカウントを作成",
-    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
-    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
+    "talentsBenefit": "ポケットの中のエージェント。役を探し、フォローし、前へ進めます。すべてのステップはあなたが承認します。",
+    "castingBenefit": "キャスティング情報を整理でき、候補の絞り込みがより的確になり、応募の仕分けにかかる時間も減ります。"
   },
   "pricing": {
     "details": "含まれる内容"
@@ -166,7 +166,7 @@
       "websites": "ウェブサイトがない出演者は Limelight で作れます。"
     },
     "limelight": {
-      "title": "ウェブサイトが必要ですか？数分で作れます。",
+      "title": "ポートフォリオサイトが必要ですか？数分で作れます。",
       "try": "試してみる",
       "pricing": "料金を見る"
     },
@@ -420,6 +420,6 @@
   "oauthAgreeTerms": "続行すると、<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意したことになります。",
   "betaPrice": {
     "label": "Beta",
-    "note": "Payments are not open yet."
+    "note": "お支払いはまだ開始していません。"
   }
 }
