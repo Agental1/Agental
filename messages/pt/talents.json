@@ -159,7 +159,16 @@
           "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "AI role searches per month",
+    "perYear": "per year",
+    "billing": {
+      "label": "Billing period",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "2 months free",
+      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+    }
   },
   "testimonials": {
     "title": "Eles entraram na Agental",
@@ -1709,7 +1718,8 @@
       "note": "Criamos um site de portfólio com seus materiais. Revise a prévia antes de ele ir ao ar.",
       "scrollHint": "Role para ver ele sendo montado",
       "request": "Pedir meu site",
-      "explore": "Explorar um exemplo"
+      "explore": "Explorar um exemplo",
+      "pageTitle": "Limelight by Agental, your portfolio website"
     },
     "frame": {
       "address": "seunome.agental.site",

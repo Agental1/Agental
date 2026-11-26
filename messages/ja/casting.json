@@ -180,7 +180,14 @@
           "プライベート API"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Custom",
+      "customLabel": "Quoted for your house or studio",
+      "projects": "{count, plural, one {active project} other {active projects}}",
+      "unlimited": "Unlimited",
+      "unlimitedLabel": "projects, with up to {seats} seats"
+    }
   },
   "finalCta": {
     "title": "時間を取り戻せるショートリストを始めませんか？",

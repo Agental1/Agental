@@ -159,7 +159,16 @@
           "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "AI role searches per month",
+    "perYear": "per year",
+    "billing": {
+      "label": "Billing period",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "2 months free",
+      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+    }
   },
   "testimonials": {
     "title": "Si sono uniti ad Agental",
@@ -1709,7 +1718,8 @@
       "note": "Creiamo un sito portfolio con i tuoi materiali. Controlli l'anteprima prima che vada online.",
       "scrollHint": "Scorri per vederlo costruirsi",
       "request": "Richiedi il mio sito",
-      "explore": "Esplora un esempio"
+      "explore": "Esplora un esempio",
+      "pageTitle": "Limelight by Agental, your portfolio website"
     },
     "frame": {
       "address": "tuonome.agental.site",

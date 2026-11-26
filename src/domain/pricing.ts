@@ -16,6 +16,12 @@ export type AiSearchAllowance =
 export interface B2CPlanDef {
   plan: PlanB2C;
   priceCents: number;
+  /**
+   * Yearly price shown when the visitor picks "Yearly": 10 months for 12.
+   * Display only: payments are off and checkout never receives this figure.
+   * Round 12, founder, 2026-11-26.
+   */
+  yearlyPriceCents: number;
   commissionRate: number; // fraction, e.g. 0.10
   dailyCandidatureLimit: number | null;
   aiSearches: AiSearchAllowance;
@@ -39,13 +45,13 @@ export interface B2CPlanDef {
 export const B2C_PLANS: Record<PlanB2C, B2CPlanDef> = {
   // Internal id stays FREE (no migration); the display name is "Basic" (messages).
   // Basic: 1 automatic search out of 5 (owner, round 7b).
-  FREE: { plan: "FREE", priceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 }, autoSearches: 1, searchSlots: 1, searchSpacingHours: 6 },
+  FREE: { plan: "FREE", priceCents: 0, yearlyPriceCents: 0, commissionRate: 0.1, dailyCandidatureLimit: 0, aiSearches: { kind: "monthly", count: 5 }, autoSearches: 1, searchSlots: 1, searchSpacingHours: 6 },
   // TODO(founders): automatic searches for Pro, Premium and Ultimate, proposed by
   // the agent in round 9 (2026-11-22): 20% of the allowance, the same ratio as
   // Basic's 1 of 5. docs/DECISIONS.md, "Round 9".
-  PRO: { plan: "PRO", priceCents: 1900, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 }, autoSearches: 10, searchSlots: 2, searchSpacingHours: 6 },
-  PREMIUM: { plan: "PREMIUM", priceCents: 4900, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 }, autoSearches: 50, searchSlots: 5, searchSpacingHours: 6 },
-  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 }, autoSearches: 100, searchSlots: 10, searchSpacingHours: 6 },
+  PRO: { plan: "PRO", priceCents: 1900, yearlyPriceCents: 19000, commissionRate: 0.1, dailyCandidatureLimit: 10, aiSearches: { kind: "monthly", count: 50 }, autoSearches: 10, searchSlots: 2, searchSpacingHours: 6 },
+  PREMIUM: { plan: "PREMIUM", priceCents: 4900, yearlyPriceCents: 49000, commissionRate: 0.075, dailyCandidatureLimit: 50, aiSearches: { kind: "monthly", count: 250 }, autoSearches: 50, searchSlots: 5, searchSpacingHours: 6 },
+  ULTIMATE: { plan: "ULTIMATE", priceCents: 7900, yearlyPriceCents: 79000, commissionRate: 0.05, dailyCandidatureLimit: null, aiSearches: { kind: "monthly", count: 500 }, autoSearches: 100, searchSlots: 10, searchSpacingHours: 6 },
 };
 
 export interface B2BPlanDef {

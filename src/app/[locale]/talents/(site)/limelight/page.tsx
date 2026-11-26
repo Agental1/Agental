@@ -97,7 +97,8 @@ function Preview() {
           the preview sits beside both. */}
       <div className="grid gap-x-[clamp(32px,5vw,64px)] gap-y-[clamp(24px,3vw,36px)] lg:grid-cols-[1fr_1.15fr] lg:items-center">
         <div className="lg:self-end">
-          <h1 className="max-w-[16ch] text-[clamp(2.25rem,2.6vw+1.25rem,3.75rem)] leading-[1.02] tracking-[-0.03em]">{t("title")}</h1>
+          <h1 className="max-w-[18ch] text-[clamp(2rem,2.2vw+1.25rem,3.25rem)] leading-[1.05] tracking-[-0.03em]">{t("pageTitle")}</h1>
+          <p className="mt-4 max-w-[30ch] text-[clamp(1.25rem,1vw+1rem,1.75rem)] font-bold leading-snug">{t("title")}</p>
           <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-fg-muted">{t("note")}</p>
           {BETA.limelight && <p className="mt-2 max-w-[46ch] text-[13.5px] text-fg-subtle">{tb("beta.limelight")}</p>}
         </div>

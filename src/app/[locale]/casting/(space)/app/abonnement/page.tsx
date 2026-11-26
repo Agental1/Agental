@@ -1,3 +1,4 @@
+import { castingLead } from "@/components/marketing/pricing-grids";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
@@ -69,7 +70,11 @@ export default async function CastingAbonnementPage({
             : def.priceCents
               ? t("space.subscription.perMonth")
               : "",
-      features: t.raw(`space.planFeatures.${p}`) as string[],
+      ...(() => {
+        const lead = castingLead(def, (k, v) => t(`pricing.${k}`, v));
+        return { leadBig: lead.big, leadLabel: lead.label };
+      })(),
+      features: (t.raw(`space.planFeatures.${p}`) as string[]).slice(p === "ENTERPRISE" ? 0 : 1),
       contactOnly: p === "ENTERPRISE",
     };
   });

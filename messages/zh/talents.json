@@ -159,7 +159,16 @@
           "预订佣金 {commission}，由我们的持牌合作经纪公司收取"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "AI role searches per month",
+    "perYear": "per year",
+    "billing": {
+      "label": "Billing period",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "2 months free",
+      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+    }
   },
   "testimonials": {
     "title": "他们加入了 Agental",
@@ -1709,7 +1718,8 @@
       "note": "我们用你的材料制作作品集网站。上线前你可以先审阅预览。",
       "scrollHint": "向下滚动，看它一步步成形",
       "request": "申请我的网站",
-      "explore": "查看示例"
+      "explore": "查看示例",
+      "pageTitle": "Limelight by Agental, your portfolio website"
     },
     "frame": {
       "address": "yourname.agental.site",

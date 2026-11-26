@@ -159,7 +159,16 @@
           "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "AI role searches per month",
+    "perYear": "per year",
+    "billing": {
+      "label": "Billing period",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "2 months free",
+      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+    }
   },
   "testimonials": {
     "title": "Agental과 함께한 사람들",
@@ -1709,7 +1718,8 @@
       "note": "내 자료로 포트폴리오 사이트를 만들어요. 공개되기 전에 미리보기를 확인하세요.",
       "scrollHint": "스크롤해서 만들어지는 모습 보기",
       "request": "내 사이트 요청하기",
-      "explore": "샘플 둘러보기"
+      "explore": "샘플 둘러보기",
+      "pageTitle": "Limelight by Agental, your portfolio website"
     },
     "frame": {
       "address": "yourname.agental.site",

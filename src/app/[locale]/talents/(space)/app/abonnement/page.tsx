@@ -1,6 +1,7 @@
 import { percent } from "@/lib/format";
-import { formatPlanPrice, planFeatureLines, promoPrices } from "@/lib/plan-price";
+import { formatPlanPrice, planBenefitLines, planSearchCount, planYearlyPrice, promoPrices } from "@/lib/plan-price";
 import { PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
+import { BillingPeriodProvider } from "@/components/talents/billing-period";
 import { toLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -67,12 +68,15 @@ export default async function AbonnementPage({
     // still advertised "Auto-candidature IA" and daily quotas — the promises
     // the pricing-copy pass removed from the message files. It was rewritten
     // there and never wired up, so the subscription screen kept selling them.
-    features: planFeatureLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
+    searches: planSearchCount(p),
+    yearlyPrice: planYearlyPrice(p, locale),
+    features: planBenefitLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
     promos: promoPrices(p, locale),
   }));
 
   return (
     <PromotionsProvider>
+    <BillingPeriodProvider>
     <div className="space-y-6">
       <div>
         <h1 className="font-display text-3xl font-medium">{t("space.subscription.title")}</h1>
@@ -103,6 +107,7 @@ export default async function AbonnementPage({
       />
 
     </div>
+    </BillingPeriodProvider>
     </PromotionsProvider>
   );
 }

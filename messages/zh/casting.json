@@ -180,7 +180,14 @@
           "私有 API"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Custom",
+      "customLabel": "Quoted for your house or studio",
+      "projects": "{count, plural, one {active project} other {active projects}}",
+      "unlimited": "Unlimited",
+      "unlimitedLabel": "projects, with up to {seats} seats"
+    }
   },
   "finalCta": {
     "title": "想要一份能为您省时间的候选名单吗？",

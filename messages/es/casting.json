@@ -180,7 +180,14 @@
           "API privada"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Custom",
+      "customLabel": "Quoted for your house or studio",
+      "projects": "{count, plural, one {active project} other {active projects}}",
+      "unlimited": "Unlimited",
+      "unlimitedLabel": "projects, with up to {seats} seats"
+    }
   },
   "finalCta": {
     "title": "¿Listo para recibir short-lists que te devuelvan tiempo?",

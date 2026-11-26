@@ -65,3 +65,22 @@ export function promoPrices(product: PromoProduct, locale: string): Record<strin
   }
   return out;
 }
+
+/** The monthly AI search count of a talent plan, or null when none is set. */
+export function planSearchCount(plan: TalentPlanId): number | null {
+  return B2C_PLANS[plan].aiSearches?.count ?? null;
+}
+
+/**
+ * Benefit lines of a talent plan for the cards that lead with the search
+ * count: the searches line is left out (it is the big element) and the
+ * figures of the others are filled in.
+ */
+export function planBenefitLines(lines: string[], locale: string, plan: TalentPlanId): string[] {
+  return lines.filter((line) => !line.includes("{searches}")).map((line) => fillPlanTokens(line, locale, plan));
+}
+
+/** Yearly display price of a talent plan, formatted. Display only. */
+export function planYearlyPrice(plan: TalentPlanId, locale: string): string {
+  return formatPlanPrice(B2C_PLANS[plan].yearlyPriceCents, locale);
+}
