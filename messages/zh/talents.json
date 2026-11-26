@@ -1522,7 +1522,18 @@
       "again": "重新录制",
       "uploading": "上传中，{percent}%",
       "limit": "每条最长 {minutes} 分钟（{mb} MB），到达上限时会自动停止。",
-      "download": "下载"
+      "download": "下载",
+      "duration": {
+        "label": "时长：",
+        "within": "{duration}，在 {limit} 限制内",
+        "over": "{duration}，比 {limit} 限制多 {over}",
+        "limitMinutes": "{n} 分钟",
+        "limitSeconds": "{n} 秒",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, other {# 秒}}",
+        "overMinutes": "{m, plural, other {# 分钟}}",
+        "overBoth": "{m, plural, other {# 分钟}} {s, plural, other {# 秒}}"
+      }
     },
     "find": {
       "intro": "你的私人经纪助手即将来到消息中心。现在就来设置。",

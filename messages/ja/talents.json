@@ -1522,7 +1522,18 @@
       "again": "もう一度録画",
       "uploading": "アップロード中、{percent}%",
       "limit": "1 テイク最大 {minutes} 分（{mb} MB）。上限に達すると録画は自動で止まります。",
-      "download": "ダウンロード"
+      "download": "ダウンロード",
+      "duration": {
+        "label": "長さ:",
+        "within": "{duration}、上限{limit}以内",
+        "over": "{duration}、上限{limit}を{over}超過",
+        "limitMinutes": "{n}分",
+        "limitSeconds": "{n}秒",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, other {#秒}}",
+        "overMinutes": "{m, plural, other {#分}}",
+        "overBoth": "{m, plural, other {#分}} {s, plural, other {#秒}}"
+      }
     },
     "find": {
       "intro": "あなた専用のエージェントがまもなく「メッセージ」に登場します。今のうちに設定しましょう。",

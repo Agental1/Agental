@@ -1522,7 +1522,18 @@
       "again": "Registra di nuovo",
       "uploading": "Caricamento, {percent}%",
       "limit": "Fino a {minutes} minuti per ripresa ({mb} MB). La registrazione si ferma da sola al limite.",
-      "download": "Scarica"
+      "download": "Scarica",
+      "duration": {
+        "label": "Durata:",
+        "within": "{duration}, entro il limite di {limit}",
+        "over": "{duration}, {over} oltre il limite di {limit}",
+        "limitMinutes": "{n} minuti",
+        "limitSeconds": "{n} secondi",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, one {# secondo} other {# secondi}}",
+        "overMinutes": "{m, plural, one {# minuto} other {# minuti}}",
+        "overBoth": "{m, plural, one {# minuto} other {# minuti}} {s, plural, one {# secondo} other {# secondi}}"
+      }
     },
     "find": {
       "intro": "Il tuo agente personale sta arrivando in Messaggi. Configuralo ora.",

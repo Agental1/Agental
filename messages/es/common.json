@@ -421,6 +421,7 @@
   "betaPrice": {
     "label": "Beta",
     "note": "Los pagos aún no están abiertos."
+<<<<<<< HEAD
   },
   "legalCopy": {
     "twoThingsTitle": "Dos cosas distintas",
@@ -446,5 +447,7 @@
       "fullText": "Lee cómo funciona la representación",
       "noPayment": "Firmar no te compromete a ningún pago. Los planes son una decisión aparte que puedes tomar más adelante, o no tomar nunca."
     }
+=======
+>>>>>>> origin/frontend-redesign
   }
 }

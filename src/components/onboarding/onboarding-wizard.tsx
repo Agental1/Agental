@@ -271,6 +271,28 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
     });
   }
 
+  function finish() {
+    startTransition(async () => {
+      setError(undefined);
+      try {
+        const res = await completeBetaOnboarding();
+        if (!res.ok) {
+          setError(res.error);
+          return;
+        }
+        // A step still missing (another tab cleared it): back to that step.
+        if (res.nextStep) {
+          setError(err("errors.onboardingIncomplete"));
+          onBack(res.nextStep === "identity" ? 0 : 1);
+          return;
+        }
+        router.push(res.path);
+      } catch {
+        setError(err("errors.generic"));
+      }
+    });
+  }
+
   return (
     <Step
       title={t("onboarding.mandat.title")}

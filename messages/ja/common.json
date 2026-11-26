@@ -421,6 +421,7 @@
   "betaPrice": {
     "label": "Beta",
     "note": "お支払いはまだ開始していません。"
+<<<<<<< HEAD
   },
   "legalCopy": {
     "twoThingsTitle": "別々の2つのこと",
@@ -446,5 +447,7 @@
       "fullText": "代理の仕組みを読む",
       "noPayment": "署名しても、支払いの義務は生じません。プランは別の選択肢で、後から選ぶこともできますし、選ばないこともできます。"
     }
+=======
+>>>>>>> origin/frontend-redesign
   }
 }
