@@ -869,3 +869,9 @@ Brief: `~/Desktop/Agental_Claude_Cowork_Deployments_and_Research.md`.
 - **Local builds:** `.env` points `DATABASE_URL` at the production pooler, so a local `bun run build` pre-renders admin pages against production and can time out. Build with `DATABASE_URL` and `DIRECT_URL` set to the local prisma dev database instead.
 - **Push guard:** a credential pre-push hook is installed locally. `.gstack-redact-allowlist` lists seven known test fixtures (placeholder hosts only); every push prints what it suppresses.
 
+
+## Round 12, group 6: onboarding as a conversation
+
+- **Owner step: none for the founder's address.** The migration `20270101000000_round12_onboarding_draft` seeds `onboarding.chat` (only if absent) with "Test accounts plus allowlist" and one hashed entry (`sha256:<hex>`); no address in clear anywhere. Admin > Controls shows it as "1 saved address (hidden)".
+- Without `ANTHROPIC_API_KEY` the chat runs its scripted questions (rules parsers, fixed reactions); with it, free text is read by the model and each reading waits for a yes. To show the chat to everyone: Admin > Controls > Everyone.
+- Copy for es, fr, it, ja, ko, pt, zh is English placeholders: keys listed in `docs/r12-g6-keys.txt`.

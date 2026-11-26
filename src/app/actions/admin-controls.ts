@@ -5,7 +5,8 @@ import { currentAdminId } from "@/lib/limelight/admin";
 import { redirect } from "@/i18n/navigation";
 import { toLocale } from "@/i18n/routing";
 import { isEmailCategory } from "@/lib/email-unsubscribe";
-import { setEmailCategoryApproved, setEmailVerificationRequired, setPaused, setSearchAccess, setSearchesRunning } from "@/lib/app-settings";
+import { setEmailCategoryApproved, setEmailVerificationRequired, setOnboardingChatMode, setPaused, setSearchAccess, setSearchesRunning, updateOnboardingChatAllowlist } from "@/lib/app-settings";
+import { isChatSwitchMode, parseAllowlistInput } from "@/domain/onboarding-chat-switch";
 import { isSearchAccess } from "@/domain/workflow/eligibility";
 
 /** Round 9: approve (or stop) one automatic email category. Admins only, audited. */
@@ -78,4 +79,27 @@ export async function setEmailGateForm(formData: FormData): Promise<void> {
     redirect({ href: "/admin/controles?saved=1", locale });
   }
   redirect({ href: "/admin/controles?gateConfirm=1#email-gate", locale });
+}
+
+/** Round 12, group 6: who sees "Onboarding as a conversation". Admins only, audited. */
+export async function setOnboardingChatModeForm(formData: FormData): Promise<void> {
+  const locale = toLocale(String(formData.get("locale") ?? "en"));
+  const adminId = await currentAdminId();
+  const mode = String(formData.get("mode") ?? "");
+  if (adminId && isChatSwitchMode(mode)) await setOnboardingChatMode(adminId, mode);
+  revalidatePath("/[locale]/admin", "layout");
+  redirect({ href: "/admin/controles?saved=1#onboarding-chat", locale });
+}
+
+/** Add (textarea, one address per line) or remove (one address) allowlist entries. Admins only, audited. */
+export async function updateOnboardingChatAllowlistForm(formData: FormData): Promise<void> {
+  const locale = toLocale(String(formData.get("locale") ?? "en"));
+  const adminId = await currentAdminId();
+  if (adminId) {
+    const add = parseAllowlistInput(String(formData.get("add") ?? ""));
+    const remove = formData.getAll("remove").map(String);
+    await updateOnboardingChatAllowlist(adminId, { add, remove });
+  }
+  revalidatePath("/[locale]/admin", "layout");
+  redirect({ href: "/admin/controles?saved=1#onboarding-chat", locale });
 }

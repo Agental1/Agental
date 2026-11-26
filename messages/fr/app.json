@@ -971,6 +971,22 @@
         "needConfirm": "Coche d'abord la case : l'activation bloque les comptes non vérifiés.",
         "turnOn": "Activer",
         "turnOff": "Désactiver"
+      },
+      "onboardingChat": {
+        "title": "Onboarding as a conversation",
+        "lead": "Who sees the chat during onboarding and on the profile page. Everyone else keeps the form. Without a model key the chat still works with fixed questions.",
+        "modes": {
+          "off": "Off: the form only",
+          "test_and_allowlist": "Test accounts plus allowlist",
+          "everyone": "Everyone"
+        },
+        "save": "Save",
+        "allowlistTitle": "Allowlist",
+        "hidden": "{count, plural, one {# saved address (hidden)} other {# saved addresses (hidden)}}",
+        "none": "The list holds no plain addresses.",
+        "add": "Add addresses (one per line)",
+        "remove": "Remove",
+        "addButton": "Add"
       }
     },
     "replies": {

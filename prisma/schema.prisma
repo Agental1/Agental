@@ -255,6 +255,7 @@ model ArtistProfile {
   candidatures      Candidature[]
   careerEntries     CareerEntry[]
   mandat            Mandat?
+  onboardingDraft   OnboardingDraft?
   minorCase         MinorCase?
 
   @@schema("public")
@@ -1380,6 +1381,19 @@ model AiUsage {
 
 // Round 9: switches staff change in Admin > Controls (approved automatic email
 // categories, the pause switch). Values are JSON strings; every change audited.
+// Round 12, group 6: answers given in the onboarding chat and not yet confirmed,
+// and the one-go transcript. Server side only; deleted with the profile.
+model OnboardingDraft {
+  id         String        @id @default(cuid())
+  profileId  String        @unique
+  profile    ArtistProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  answers    Json          @default("{}")
+  transcript String?
+  updatedAt  DateTime      @default(now()) @updatedAt
+
+  @@schema("public")
+}
+
 model AppSetting {
   key         String   @id
   value       String

@@ -12,6 +12,9 @@ import { relinkNeeds } from "@/domain/relink";
 import { MapPin, Phone } from "lucide-react";
 import { isoDate } from "@/domain/age";
 import { readContentBoundaries } from "@/domain/preferences";
+import { chatModeFor } from "@/lib/onboarding-chat/mode";
+import { agentNameFor } from "@/lib/agent-name";
+import { ProfileChatSwitch } from "@/components/onboarding/profile-chat-switch";
 
 export async function generateMetadata({
   params,
@@ -28,7 +31,7 @@ export default async function ProfilPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ tab?: string | string[]; focus?: string | string[] }>;
+  searchParams: Promise<{ tab?: string | string[]; focus?: string | string[]; view?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
   // ?tab= comes from the dashboard's deep links, and from anyone's URL bar.
@@ -61,6 +64,9 @@ export default async function ProfilPage({
   const relink = relinkNeeds(profile);
   // Google accounts are verified by Google; others by the verification email.
   const emailVerified = !!profile.user.emailVerified;
+  // Round 12, group 6: "Continue with {agent}" when the chat is on for this account.
+  const chatOn = (await chatModeFor(session.user.id)) !== "form";
+  const agentName = chatOn ? ((await agentNameFor(session.user.id)) ?? "Jay") : "";
 
   return (
     <div className="space-y-6">
@@ -98,6 +104,7 @@ export default async function ProfilPage({
           )}
         </ul>
       )}
+      <ProfileChatSwitch enabled={chatOn} agentName={agentName} showChat={query.view === "chat"}>
       <ProfileEditor
         initial={{
           stageName: profile.stageName,
@@ -146,6 +153,7 @@ export default async function ProfilPage({
           consentGiven: !!profile.smsConsentAt,
         }}
       />
+      </ProfileChatSwitch>
     </div>
   );
 }
