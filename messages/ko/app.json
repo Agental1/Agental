@@ -973,20 +973,20 @@
         "turnOff": "끄기"
       },
       "onboardingChat": {
-        "title": "Onboarding as a conversation",
-        "lead": "Who sees the chat during onboarding and on the profile page. Everyone else keeps the form. Without a model key the chat still works with fixed questions.",
+        "title": "대화형 온보딩",
+        "lead": "온보딩과 프로필 페이지에서 채팅을 보는 대상입니다. 나머지 사용자는 양식을 계속 사용합니다. 모델 키가 없어도 채팅은 고정된 질문으로 동작합니다.",
         "modes": {
-          "off": "Off: the form only",
-          "test_and_allowlist": "Test accounts plus allowlist",
-          "everyone": "Everyone"
+          "off": "끔: 양식만 사용",
+          "test_and_allowlist": "테스트 계정 및 허용 목록",
+          "everyone": "모든 사용자"
         },
-        "save": "Save",
-        "allowlistTitle": "Allowlist",
-        "hidden": "{count, plural, one {# saved address (hidden)} other {# saved addresses (hidden)}}",
-        "none": "The list holds no plain addresses.",
-        "add": "Add addresses (one per line)",
-        "remove": "Remove",
-        "addButton": "Add"
+        "save": "저장",
+        "allowlistTitle": "허용 목록",
+        "hidden": "{count, plural, one {저장된 주소 #개(숨김)} other {저장된 주소 #개(숨김)}}",
+        "none": "목록에 일반 텍스트 주소가 없습니다.",
+        "add": "주소 추가(한 줄에 하나)",
+        "remove": "삭제",
+        "addButton": "추가"
       }
     },
     "replies": {

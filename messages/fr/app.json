@@ -973,20 +973,20 @@
         "turnOff": "Désactiver"
       },
       "onboardingChat": {
-        "title": "Onboarding as a conversation",
-        "lead": "Who sees the chat during onboarding and on the profile page. Everyone else keeps the form. Without a model key the chat still works with fixed questions.",
+        "title": "Accueil sous forme de conversation",
+        "lead": "Qui voit le chat pendant l’accueil et sur la page de profil. Les autres gardent le formulaire. Sans clé de modèle, le chat fonctionne quand même avec des questions fixes.",
         "modes": {
-          "off": "Off: the form only",
-          "test_and_allowlist": "Test accounts plus allowlist",
-          "everyone": "Everyone"
+          "off": "Désactivé : formulaire uniquement",
+          "test_and_allowlist": "Comptes de test et liste autorisée",
+          "everyone": "Tout le monde"
         },
-        "save": "Save",
-        "allowlistTitle": "Allowlist",
-        "hidden": "{count, plural, one {# saved address (hidden)} other {# saved addresses (hidden)}}",
-        "none": "The list holds no plain addresses.",
-        "add": "Add addresses (one per line)",
-        "remove": "Remove",
-        "addButton": "Add"
+        "save": "Enregistrer",
+        "allowlistTitle": "Liste autorisée",
+        "hidden": "{count, plural, one {# adresse enregistrée (masquée)} other {# adresses enregistrées (masquées)}}",
+        "none": "La liste ne contient aucune adresse en clair.",
+        "add": "Ajouter des adresses (une par ligne)",
+        "remove": "Retirer",
+        "addButton": "Ajouter"
       }
     },
     "replies": {

@@ -973,20 +973,20 @@
         "turnOff": "关闭"
       },
       "onboardingChat": {
-        "title": "Onboarding as a conversation",
-        "lead": "Who sees the chat during onboarding and on the profile page. Everyone else keeps the form. Without a model key the chat still works with fixed questions.",
+        "title": "对话式入职引导",
+        "lead": "可以在入职引导和资料页面中看到聊天功能的用户。其他人继续使用表单。没有模型密钥时，聊天仍会以固定问题运行。",
         "modes": {
-          "off": "Off: the form only",
-          "test_and_allowlist": "Test accounts plus allowlist",
-          "everyone": "Everyone"
+          "off": "关闭：仅使用表单",
+          "test_and_allowlist": "测试账号和允许列表",
+          "everyone": "所有人"
         },
-        "save": "Save",
-        "allowlistTitle": "Allowlist",
-        "hidden": "{count, plural, one {# saved address (hidden)} other {# saved addresses (hidden)}}",
-        "none": "The list holds no plain addresses.",
-        "add": "Add addresses (one per line)",
-        "remove": "Remove",
-        "addButton": "Add"
+        "save": "保存",
+        "allowlistTitle": "允许列表",
+        "hidden": "{count, plural, one {# 个已保存地址（已隐藏）} other {# 个已保存地址（已隐藏）}}",
+        "none": "列表中不包含明文地址。",
+        "add": "添加地址（每行一个）",
+        "remove": "移除",
+        "addButton": "添加"
       }
     },
     "replies": {
