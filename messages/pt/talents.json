@@ -13,7 +13,7 @@
     "subtitle": "Um perfil para suas fotos, créditos, reel e self-tapes. Prepare agora seus materiais de casting; quando as candidaturas abrirem, você revisa cada rascunho antes de qualquer envio.",
     "ctaPrimary": "Seja membro",
     "ctaSecondary": "Veja como funciona",
-    "eyebrow": "A agência de artistas da nova geração",
+    "eyebrow": "A casa da nova geração para artistas",
     "note": "Grátis durante a beta. Depois: três etapas rápidas para configurar seu perfil.",
     "collage": [
       "menino, 17",
@@ -38,7 +38,7 @@
   },
   "why": {
     "eyebrow": "Por que a Agental",
-    "title": "Uma agência que trabalha de verdade para você",
+    "title": "Uma equipe que trabalha de verdade para você",
     "items": [
       {
         "title": "Um perfil que trabalha para você",
@@ -57,8 +57,8 @@
         "body": "Sabemos o que torna você único e colocamos isso no lugar certo. Nosso Self-tape Studio orienta você em enquadramento, luz, som e interpretação, para que cada envio tenha a sua cara e acerte o alvo."
       },
       {
-        "title": "A representação não faz parte da beta",
-        "body": "Durante a beta, a Agental não representa artistas nem cobra comissão. Qualquer contrato de representação futuro será um documento separado, que você lê e escolhe aceitar, independente de qualquer plano ou site."
+        "title": "Representação, em separado",
+        "body": "A representação é um contrato de agente gratuito, mantido nos EUA por uma agência parceira licenciada que recebe a comissão. Você pode ler agora e assinar quando essa parceira estiver estabelecida. Ele fica separado de qualquer plano ou site, e você decide se aceita."
       },
       {
         "title": "Todo perfil tem um ponto forte",
@@ -111,7 +111,7 @@
   "pricing": {
     "eyebrow": "Preços",
     "title": "Preços que recompensam seu progresso",
-    "note": "Todos os planos são opcionais. A representação não faz parte da beta.",
+    "note": "Todos os planos são opcionais. A representação é gratuita e nunca depende de um plano.",
     "perMonth": "por mês",
     "commission": "comissão {rate}",
     "popular": "Popular",
@@ -199,12 +199,12 @@
   "how": {
     "meta": {
       "title": "Como funciona: Agental Talents",
-      "description": "Da criação do perfil ao recebimento do cachê: como a Agental representa você e trabalha para você, passo a passo."
+      "description": "Da criação do seu perfil ao recebimento do cachê: como a representação e as ferramentas da Agental trabalham por você, passo a passo."
     },
     "hero": {
       "eyebrow": "Como funciona",
       "title": "Como a Agental funciona para artistas",
-      "subtitle": "Um agente de verdade que representa você, uma IA que trabalha para você sem parar. Veja o caminho, sem jargão."
+      "subtitle": "Representação mantida por uma agência parceira licenciada, e uma IA que trabalha para você o tempo todo. Aqui está o caminho, sem jargão."
     },
     "sections": [
       {
@@ -213,7 +213,7 @@
       },
       {
         "title": "O contrato que faz você ser representado",
-        "body": "O mandato é o contrato que todo artista assina com seu agente. Ele é regido pela lei francesa. É gratuito, não gera nenhum compromisso da sua parte e pode ser encerrado quando você quiser. Ao assiná-lo, você nos autoriza a representá-lo, procurar papéis para você e negociar seus contratos."
+        "body": "O contrato de representação é o seu acordo com o agente. É gratuito, sem taxa de inscrição nem mensalidade, e não exclusivo por padrão. Nos EUA, uma agência parceira licenciada detém sua representação: busca de papéis, envios, negociação e revisão de contratos passam todos por ela. Você pode ler o contrato agora e assiná-lo quando essa parceira estiver estabelecida."
       },
       {
         "title": "Um acompanhamento que nunca para",
@@ -221,17 +221,17 @@
       },
       {
         "title": "O estúdio que dá confiança",
-        "body": "Quando um papel pede um self-tape, nosso estúdio trabalha com você durante a gravação. Ele orienta você em tempo real sobre enquadramento, luz e som. Um preparador vocal faz você ouvir a entonação certa quando o papel pede um sotaque. Você grava várias versões, compara e envia a melhor direto pelo app."
+        "body": "Quando um papel pede um self-tape, nosso estúdio acompanha você durante a gravação. Ele orienta, em tempo real, sobre enquadramento, luz e som. Um coach vocal faz você ouvir a entonação certa quando o papel pede um sotaque. Você grava várias versões, compara e envia a melhor pelo app. Seu envio vai para a equipe da Agental para revisão, e nada é enviado a nenhum site de casting."
       },
       {
         "title": "Da seleção ao cachê",
-        "body": "Quando você é selecionado, assumimos a parte contratual. Negociamos seu cachê e suas condições, verificamos se o contrato é legal e acompanhamos a filmagem. A Agental recebe seu cachê, retém a comissão e paga a sua parte em até sete dias após o pagamento efetivo."
+        "body": "Quando você é selecionado, negociação e revisão de contratos passam pela sua representação. A agência parceira recebe a comissão somente sobre as reservas que você conseguir pela Agental, e somente depois que você for pago."
       }
     ],
     "cta": "Seja membro",
     "summary": {
       "title": "Em resumo",
-      "body": "Todo o caminho de relance: perfil, mandato, acompanhamento por IA, self-tape, contrato. Você mantém o controle em cada etapa, e uma pessoa sempre confere os contratos antes da assinatura."
+      "body": "O caminho inteiro de relance: perfil, contrato, monitoramento por IA, self-tape, contrato final. Você mantém o controle em cada etapa, e nada é enviado ou submetido sem sua aprovação."
     }
   },
   "pricingPage": {
@@ -244,7 +244,7 @@
       "title": "Preços que recompensam seu progresso",
       "subtitle": "O plano Basic cobre seu perfil e suas mídias. Os planos pagos adicionam ferramentas e nunca são um pedágio para as oportunidades."
     },
-    "note": "Sem fidelidade. Mude de plano ou volte ao Basic quando quiser."
+    "note": "Mude de plano ou volte ao Basic quando quiser, sem compromisso."
   },
   "faq": {
     "meta": {
@@ -267,11 +267,11 @@
           },
           {
             "q": "A Agental me representa?",
-            "a": "Não durante a beta. A Agental não atua como seu agente e não cobra comissão. Se a representação abrir no futuro, ela virá com um contrato escrito próprio, que você escolhe aceitar."
+            "a": "A representação passa por um contrato separado e gratuito. Nos EUA, uma agência parceira licenciada a detém e recebe a comissão, enquanto a Agental fornece a tecnologia, as ferramentas e o coaching. Você pode ler o contrato agora e assiná-lo quando essa parceira estiver estabelecida."
           },
           {
             "q": "Quanto custa começar?",
-            "a": "Nada. O plano Basic cobre seu perfil e suas mídias. Os planos pagos e os sites do Limelight são opcionais e nunca são condição para testes ou candidaturas."
+            "a": "É gratuito. O plano Basic cobre seu perfil e suas mídias. Os planos pagos e os sites do Limelight são opcionais e nunca são condição para testes ou candidaturas."
           },
           {
             "q": "Preciso de experiência para me cadastrar?",
@@ -284,10 +284,10 @@
         "items": [
           {
             "q": "O que é o mandato de representação?",
-            "a": "É o contrato padrão entre um artista e seu agente, regido pela lei francesa. Ele nos autoriza a representar você e negociar por você. Gratuito, sem compromisso da sua parte."
+            "a": "É o contrato de agente entre você e sua representação. Nos EUA, uma agência parceira licenciada o detém e recebe a comissão. É gratuito, sem taxa de inscrição nem mensalidade, e não exclusivo por padrão."
           },
           {
-            "q": "Quanto de comissão a Agental cobra?",
+            "q": "Qual é o valor da comissão?",
             "a": "{commission_FREE} no Basic e no Pro, {commission_PREMIUM} no Premium, {commission_ULTIMATE} no Ultimate. Quanto mais você sobe, mais você fica."
           },
           {
@@ -296,7 +296,7 @@
           },
           {
             "q": "Posso cancelar meu mandato?",
-            "a": "Sim, com um aviso curto e sem precisar justificar. Você continua livre."
+            "a": "Sim. Você pode encerrá-lo com o aviso prévio definido no contrato, sem precisar dar motivo."
           }
         ]
       },
@@ -313,11 +313,11 @@
           },
           {
             "q": "A assinatura me dá acesso privilegiado aos castings?",
-            "a": "Não. As oportunidades passam pelo mandato, que é gratuito. A assinatura reduz a comissão e libera ferramentas, nunca um atalho."
+            "a": "As oportunidades passam pelo contrato de representação, que é gratuito. Um plano nunca oferece acesso melhor ou antecipado a trabalhos: a assinatura reduz a comissão e libera ferramentas, mas nunca é um atalho."
           },
           {
             "q": "O que acontece se eu parar de pagar?",
-            "a": "Você volta automaticamente para o plano Basic. Continua representado."
+            "a": "Você volta automaticamente para o plano Basic. Sua representação continua exatamente a mesma."
           },
           {
             "q": "Funciona em um celular simples?",
@@ -670,8 +670,8 @@
       "why": "Obrigatório: as equipes de casting filtram por idade e gênero ao procurar a pessoa certa."
     },
     "mandat": {
-      "title": "The representation agreement",
-      "subtitle": "Here is what representation means, before anything is signed.",
+      "title": "O contrato de representação",
+      "subtitle": "Veja o que representação significa, antes de assinar qualquer coisa.",
       "submit": "Continuar para meu perfil"
     },
     "back": "Voltar",

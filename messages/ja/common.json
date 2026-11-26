@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Agental とは",
-      "body": "Agental は、出演者とキャスティングチームのための AI プラットフォームです（ベータ版）。出演者は写真、出演歴、リール、セルフテープでプロフィールを作り、AI アシスタントが応募の下書きを用意します。送信前に必ず本人が確認します。キャスティングチームには、理由が見える順位付きのショートリストが届きます。代理業務はベータ版に含まれません。",
+      "body": "Agental は、出演者とキャスティングチームのための AI プラットフォームで、現在ベータ版です。出演者は写真、出演歴、リール、セルフテープでプロフィールを作成し、AI アシスタントが応募の下書きを用意します。出演者は、送信される前にそれを確認します。キャスティングチームは、判断の根拠を示した候補者リストを受け取ります。代理は別の無料契約で、今すぐ読むことができ、提携エージェンシーが整ったら署名できます。",
       "facts": [
         {
           "title": "登録は無料",
@@ -138,7 +138,7 @@
         },
         {
           "title": "すべての応募をあなたが承認",
-          "body": "エージェントが準備し、送るかどうかはあなたが決めます。"
+          "body": "エージェントが準備し、送信されるのはあなたが承認した後だけです。"
         },
         {
           "title": "理由がわかるショートリスト",
@@ -423,28 +423,28 @@
     "note": "お支払いはまだ開始していません。"
   },
   "legalCopy": {
-    "twoThingsTitle": "Two separate things",
-    "repTitle": "Representation",
-    "repFree": "Representation is the agent agreement, and it is free: you pay no sign-up fee and no membership fee. The only fee is a commission of {commission} of the gross fee, only on bookings you get through Agental, and only once you have been paid.",
-    "repTerms": "It runs for {months} months and renews automatically. You can end it with {noticeDays} days' notice, and it is non-exclusive by default.",
-    "repOpportunities": "Role search, submissions, negotiation and contract review all come through representation, and only through it.",
-    "repPartner": "In the US, a licensed partner agency holds your representation and receives the commission. Agental provides the technology, the tools and the coaching.",
-    "toolsTitle": "Tools",
-    "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
-    "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
-    "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
-    "pricingLine": "Representation is free. You pay a commission only when you book through us. Plans below are optional tools and never change your access to roles.",
-    "commissionNote": "Commission terms are set in the representation agreement.",
-    "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",
+    "twoThingsTitle": "別々の2つのこと",
+    "repTitle": "代理",
+    "repFree": "代理契約はエージェントとの契約で、無料です。入会金も会費もかかりません。唯一の手数料は総報酬の{commission}で、Agental を通じて得た予約にのみ発生し、支払いを受けた後にのみ請求されます。",
+    "repTerms": "期間は{months}か月で、自動更新されます。{noticeDays}日前までに通知すれば解約できます。また、初期設定では専属ではありません。",
+    "repOpportunities": "役の検索、応募、交渉、契約書の確認はすべて代理を通じて行われ、代理を通じてのみ行われます。",
+    "repPartner": "米国では、ライセンスを持つ提携エージェンシーがあなたの代理を担い、手数料を受け取ります。Agental は、テクノロジー、ツール、コーチングを提供します。",
+    "toolsTitle": "ツール",
+    "toolsBody": "プランは、独自の利用規約を持つ別のテクノロジー契約で、あなたが個別に同意します。プランは任意で、縛りはなく、自動応募、AI検索、Self-tape Studio、コーチングなどのツールを利用できるようになります。プランによって役へのより良い、または早いアクセスが得られることは決してなく（カリフォルニア州 Fee-Related Talent Services Law、AB 1319）、費用を払わずに代理を受けることもできます。",
+    "humanLoop": "あなたが常に主導権を持ちます。あなたの承認なしに何も送信・提出されることはありません。役に対して提出した回答は、レビューのために Agental チームに送られ、キャスティングサイトには何も送られません。当社が受け取ったメールへの返信は、スタッフが承認した後にのみ送られます。",
+    "beta": "代理契約は今すぐ読むことができます。ライセンスを持つ提携先が整ったら署名していただきます。会社が設立されるまで、支払いは停止されたままです。",
+    "pricingLine": "代理は無料です。Agental を通じて得た予約にのみ、支払いを受けた後に手数料をお支払いいただきます。以下のプランは任意のツールで、役へのアクセスが変わることは決してありません。",
+    "commissionNote": "手数料の条件は代理契約で定められています。",
+    "cookiesNever": "Cookie を受け入れることが、代理契約やプランへの同意とみなされることは決してありません。",
     "mandate": {
-      "summaryTitle": "The agreement in plain English",
-      "free": "It is free: no sign-up fee and no membership fee.",
-      "commission": "Agental's partner takes {commission} of the gross fee, only on bookings you get through us and only after you are paid.",
-      "nonExclusive": "It is non-exclusive by default.",
-      "term": "It lasts {months} months and renews automatically.",
-      "notice": "You can end it with {noticeDays} days' notice.",
-      "fullText": "Read how representation works",
-      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
+      "summaryTitle": "平易な言葉で見る契約内容",
+      "free": "無料です。入会金も会費もかかりません。",
+      "commission": "ライセンスを持つ提携エージェンシーは、総報酬の{commission}を受け取ります。これは、Agental を通じて得た予約にのみ発生し、支払いを受けた後にのみ発生します。",
+      "nonExclusive": "初期設定では専属ではありません。",
+      "term": "期間は{months}か月で、自動更新されます。",
+      "notice": "{noticeDays}日前までに通知すれば解約できます。",
+      "fullText": "代理の仕組みを読む",
+      "noPayment": "署名しても、支払いの義務は生じません。プランは別の選択肢で、後から選ぶこともできますし、選ばないこともできます。"
     }
   }
 }

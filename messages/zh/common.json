@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Agental 是什么",
-      "body": "Agental 是一个面向表演者和选角团队的 AI 平台，目前处于测试阶段。每位表演者用照片、履历、作品集和自录试镜创建资料，AI 助手会准备投递草稿，由表演者审核后才会发出。选角团队会收到排好序的入围名单，并能看到排序理由。代理服务不在测试范围内。",
+      "body": "Agental 是一个面向表演者和选角团队的 AI 平台，目前处于测试阶段。每位表演者用照片、履历、作品集和自录试镜创建资料，AI 助手会准备投递草稿，由表演者在发出前审阅。选角团队会收到附有判断依据的排序候选名单。代理协议是一份独立的免费协议：你现在即可阅读，待我们的持牌合作经纪机构到位后再签署。",
       "facts": [
         {
           "title": "免费加入",
@@ -138,7 +138,7 @@
         },
         {
           "title": "每次投递都由你确认",
-          "body": "经纪人负责准备，是否发出由你决定。"
+          "body": "经纪人负责准备，只有在你批准后才会发出。"
         },
         {
           "title": "入围名单有据可查",
@@ -423,28 +423,28 @@
     "note": "付款功能尚未开放。"
   },
   "legalCopy": {
-    "twoThingsTitle": "Two separate things",
-    "repTitle": "Representation",
-    "repFree": "Representation is the agent agreement, and it is free: you pay no sign-up fee and no membership fee. The only fee is a commission of {commission} of the gross fee, only on bookings you get through Agental, and only once you have been paid.",
-    "repTerms": "It runs for {months} months and renews automatically. You can end it with {noticeDays} days' notice, and it is non-exclusive by default.",
-    "repOpportunities": "Role search, submissions, negotiation and contract review all come through representation, and only through it.",
-    "repPartner": "In the US, a licensed partner agency holds your representation and receives the commission. Agental provides the technology, the tools and the coaching.",
-    "toolsTitle": "Tools",
-    "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
-    "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
-    "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
-    "pricingLine": "Representation is free. You pay a commission only when you book through us. Plans below are optional tools and never change your access to roles.",
-    "commissionNote": "Commission terms are set in the representation agreement.",
-    "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",
+    "twoThingsTitle": "两件不同的事",
+    "repTitle": "代理",
+    "repFree": "代理协议即你与经纪人之间的协议，免费：不收注册费，也没有会员费。唯一的费用是总片酬的 {commission} 作为佣金，仅针对你通过 Agental 获得的预订，并且只在你收到片酬之后收取。",
+    "repTerms": "协议期限为 {months} 个月，并自动续期。你可提前 {noticeDays} 天通知终止协议，默认为非独家。",
+    "repOpportunities": "试镜角色的搜寻、投递、谈判和合同审核，全部通过代理进行，且只能通过代理进行。",
+    "repPartner": "在美国，持牌合作经纪机构持有你的代理权并收取佣金。Agental 提供技术、工具和指导。",
+    "toolsTitle": "工具",
+    "toolsBody": "方案是一份独立的技术合同，附有其自身条款，你需单独接受。方案为可选，无需承诺，并可解锁工具：自动投递、AI 搜索、Self-tape Studio 和指导。方案绝不会让你获得更好或更早的角色机会（加利福尼亚州 Fee-Related Talent Services Law，AB 1319），你无需付费也可以获得代理。",
+    "humanLoop": "你始终掌控全局。任何内容都需经你批准才会发送或提交。你提交给角色的回复将交由 Agental 团队审核，不会发送到任何选角网站。我们收到的邮件回复，须经工作人员批准后才会发出。",
+    "beta": "你现在即可阅读代理协议。待我们的持牌合作方到位后，你再签署。公司成立之前，付款功能保持关闭。",
+    "pricingLine": "代理免费。你只需就通过 Agental 获得的预订支付佣金，并且仅在收到片酬之后。以下方案为可选工具，绝不会改变你获得角色的机会。",
+    "commissionNote": "佣金条款载于代理协议中。",
+    "cookiesNever": "接受 Cookie 绝不等同于接受代理协议或任何方案。",
     "mandate": {
-      "summaryTitle": "The agreement in plain English",
-      "free": "It is free: no sign-up fee and no membership fee.",
-      "commission": "Agental's partner takes {commission} of the gross fee, only on bookings you get through us and only after you are paid.",
-      "nonExclusive": "It is non-exclusive by default.",
-      "term": "It lasts {months} months and renews automatically.",
-      "notice": "You can end it with {noticeDays} days' notice.",
-      "fullText": "Read how representation works",
-      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
+      "summaryTitle": "用通俗语言解释协议",
+      "free": "免费：不收注册费，也没有会员费。",
+      "commission": "持牌合作经纪机构将收取总片酬的 {commission}，仅针对你通过 Agental 获得的预订，并且仅在你收到片酬之后收取。",
+      "nonExclusive": "默认为非独家。",
+      "term": "协议期限为 {months} 个月，并自动续期。",
+      "notice": "你可提前 {noticeDays} 天通知终止协议。",
+      "fullText": "了解代理的运作方式",
+      "noPayment": "签署协议不会使你承担任何付款义务。方案是一项单独的选择，你可以之后再决定，也可以永远不选。"
     }
   }
 }

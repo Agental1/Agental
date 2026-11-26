@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Agental, c’est quoi",
-      "body": "Agental est une plateforme propulsée par l’IA pour les artistes et les équipes de casting, en version bêta. Chaque artiste crée un profil avec ses photos, son CV, sa bande démo et ses self-tapes, et un assistant IA prépare des brouillons de candidature que l’artiste valide avant tout envoi. Les équipes de casting reçoivent des short-lists classées, avec les raisons affichées. La représentation ne fait pas partie de la bêta.",
+      "body": "Agental est une plateforme propulsée par l’IA pour les artistes et les équipes de casting, en version bêta. Chaque artiste crée un profil avec ses photos, son CV, sa bande démo et ses self-tapes, et un assistant IA prépare des brouillons de candidature que l’artiste valide avant tout envoi. Les équipes de casting reçoivent des listes classées, avec le raisonnement affiché. La représentation est un mandat distinct et gratuit : tu peux le lire dès maintenant et le signer une fois que notre agence partenaire agréée sera en place.",
       "facts": [
         {
           "title": "Inscription gratuite",
@@ -138,7 +138,7 @@
         },
         {
           "title": "Tu valides chaque candidature",
-          "body": "Ton agent la prépare. Tu décides si elle part."
+          "body": "Ton assistant IA le prépare, et il ne part qu’une fois que tu l’as approuvé."
         },
         {
           "title": "Des short-lists expliquées",
@@ -423,28 +423,28 @@
     "note": "Les paiements ne sont pas encore ouverts."
   },
   "legalCopy": {
-    "twoThingsTitle": "Two separate things",
-    "repTitle": "Representation",
-    "repFree": "Representation is the agent agreement, and it is free: you pay no sign-up fee and no membership fee. The only fee is a commission of {commission} of the gross fee, only on bookings you get through Agental, and only once you have been paid.",
-    "repTerms": "It runs for {months} months and renews automatically. You can end it with {noticeDays} days' notice, and it is non-exclusive by default.",
-    "repOpportunities": "Role search, submissions, negotiation and contract review all come through representation, and only through it.",
-    "repPartner": "In the US, a licensed partner agency holds your representation and receives the commission. Agental provides the technology, the tools and the coaching.",
-    "toolsTitle": "Tools",
-    "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
-    "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
-    "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
-    "pricingLine": "Representation is free. You pay a commission only when you book through us. Plans below are optional tools and never change your access to roles.",
-    "commissionNote": "Commission terms are set in the representation agreement.",
-    "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",
+    "twoThingsTitle": "Deux choses distinctes",
+    "repTitle": "Représentation",
+    "repFree": "Le mandat de représentation est le contrat qui te lie à ton agent, et il est gratuit : tu ne paies ni frais d’inscription ni cotisation. La seule rétribution est une commission de {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental, et seulement une fois que tu as été payé.",
+    "repTerms": "Il court pendant {months} mois et se renouvelle automatiquement. Tu peux y mettre fin avec un préavis de {noticeDays} jours, et il n’est pas exclusif par défaut.",
+    "repOpportunities": "La recherche de rôles, les soumissions, la négociation et la relecture des contrats passent toutes par la représentation, et uniquement par elle.",
+    "repPartner": "Aux États-Unis, une agence partenaire agréée détient ta représentation et perçoit la commission. Agental fournit la technologie, les outils et le coaching.",
+    "toolsTitle": "Outils",
+    "toolsBody": "Les formules font l’objet d’un contrat technologique distinct, avec leurs propres conditions, que tu acceptes séparément. Elles sont facultatives, sans engagement, et débloquent des outils : envois automatiques, recherche par IA, Self-tape Studio et coaching. Une formule ne te donne jamais un accès meilleur ou plus rapide aux rôles (California Fee-Related Talent Services Law, AB 1319), et tu peux être représenté sans rien payer.",
+    "humanLoop": "Tu gardes la main. Tout envoi ou toute soumission requiert ton approbation. Chaque réponse que tu soumets à un rôle est transmise à l’équipe Agental pour relecture, et rien n’est envoyé à un site de casting. Les réponses aux e-mails que nous recevons ne partent qu’après approbation d’un membre de l’équipe.",
+    "beta": "Tu peux dès maintenant lire le mandat de représentation. Tu le signeras une fois que notre partenaire agréé sera en place. Les paiements restent désactivés tant que la société n’existe pas.",
+    "pricingLine": "La représentation est gratuite. Tu ne paies une commission que sur les réservations obtenues via Agental, et seulement une fois payé. Les formules ci-dessous sont des outils facultatifs et ne modifient jamais ton accès aux rôles.",
+    "commissionNote": "Les conditions de la commission sont fixées dans le mandat de représentation.",
+    "cookiesNever": "Accepter les cookies ne vaut jamais acceptation du mandat de représentation ni d’une formule.",
     "mandate": {
-      "summaryTitle": "The agreement in plain English",
-      "free": "It is free: no sign-up fee and no membership fee.",
-      "commission": "Agental's partner takes {commission} of the gross fee, only on bookings you get through us and only after you are paid.",
-      "nonExclusive": "It is non-exclusive by default.",
-      "term": "It lasts {months} months and renews automatically.",
-      "notice": "You can end it with {noticeDays} days' notice.",
-      "fullText": "Read how representation works",
-      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
+      "summaryTitle": "Le mandat en langage clair",
+      "free": "Il est gratuit : aucun frais d’inscription ni cotisation.",
+      "commission": "L’agence partenaire agréée perçoit {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental et seulement une fois que tu as été payé.",
+      "nonExclusive": "Il n’est pas exclusif par défaut.",
+      "term": "Il dure {months} mois et se renouvelle automatiquement.",
+      "notice": "Tu peux y mettre fin avec un préavis de {noticeDays} jours.",
+      "fullText": "Découvre comment fonctionne la représentation",
+      "noPayment": "La signature ne t’engage à aucun paiement. Les formules sont un choix distinct, que tu pourras faire plus tard, ou jamais."
     }
   }
 }
