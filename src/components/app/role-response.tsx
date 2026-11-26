@@ -14,6 +14,7 @@ import type { ActionError } from "@/domain/action-result";
 import { ANSWER_MAX, missingParts, type Submission } from "@/domain/application-response";
 import { acceptRole, saveAnswers, setSlotVideo, submitResponse } from "@/app/actions/application-response";
 import { dateTime } from "@/lib/format";
+import { parseMaxDurationSeconds } from "@/domain/tape-duration";
 
 interface Clip {
   id: string;
@@ -190,6 +191,7 @@ export function RoleResponse({
           {recording !== null && (
             <SelfTapeStudio
               fixedDestination="library"
+              maxDurationSeconds={parseMaxDurationSeconds(submission.videos[recording])}
               onSaved={(mediaId) => {
                 const slot = recording;
                 setRecording(null);

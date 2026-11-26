@@ -1514,7 +1514,18 @@
       "again": "Grabar de nuevo",
       "uploading": "Subiendo, {percent} %",
       "limit": "Hasta {minutes} minutos por toma ({mb} MB). La grabación se detiene sola al llegar al límite.",
-      "download": "Descargar"
+      "download": "Descargar",
+      "duration": {
+        "label": "Length:",
+        "within": "{duration}, within the {limit} limit",
+        "over": "{duration}, {over} over the {limit} limit",
+        "limitMinutes": "{n}-minute",
+        "limitSeconds": "{n}-second",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
+        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
+        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+      }
     },
     "find": {
       "intro": "Tu agente personal llega a Mensajes. Configúralo ahora.",
