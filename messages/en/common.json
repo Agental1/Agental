@@ -444,7 +444,7 @@
       "term": "It lasts {months} months and renews automatically.",
       "notice": "You can end it with {noticeDays} days' notice.",
       "fullText": "Read how representation works",
-      "noPayment": "Signing costs nothing up front. The only fee is the commission above."
+      "noPayment": "Signing does not commit you to any payment. Plans are a separate choice you can make later, or never."
     }
   }
 }
