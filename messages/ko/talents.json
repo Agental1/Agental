@@ -1524,7 +1524,18 @@
       "again": "다시 녹화",
       "uploading": "업로드 중, {percent}%",
       "limit": "테이크당 최대 {minutes}분({mb}MB). 한도에 이르면 녹화가 자동으로 멈춰요.",
-      "download": "다운로드"
+      "download": "다운로드",
+      "duration": {
+        "label": "길이:",
+        "within": "{duration}, {limit} 제한 이내",
+        "over": "{duration}, {limit} 제한보다 {over} 초과",
+        "limitMinutes": "{n}분",
+        "limitSeconds": "{n}초",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, other {#초}}",
+        "overMinutes": "{m, plural, other {#분}}",
+        "overBoth": "{m, plural, other {#분}} {s, plural, other {#초}}"
+      }
     },
     "find": {
       "intro": "나만의 에이전트가 곧 '메시지'에 찾아와요. 지금 설정하세요.",

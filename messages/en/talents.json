@@ -1524,7 +1524,18 @@
       "again": "Record again",
       "uploading": "Uploading, {percent}%",
       "limit": "Up to {minutes} minutes per take ({mb} MB). Recording stops by itself at the limit.",
-      "download": "Download"
+      "download": "Download",
+      "duration": {
+        "label": "Length:",
+        "within": "{duration}, within the {limit} limit",
+        "over": "{duration}, {over} over the {limit} limit",
+        "limitMinutes": "{n}-minute",
+        "limitSeconds": "{n}-second",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, one {# second} other {# seconds}}",
+        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
+        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# second} other {# seconds}}"
+      }
     },
     "find": {
       "intro": "Your personal agent is coming to Messages. Set it up now.",

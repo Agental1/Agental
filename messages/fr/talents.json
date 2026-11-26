@@ -1524,7 +1524,18 @@
       "again": "Recommencer",
       "uploading": "Envoi en cours, {percent} %",
       "limit": "Jusqu'à {minutes} minutes par prise ({mb} Mo). L'enregistrement s'arrête seul à la limite.",
-      "download": "Télécharger"
+      "download": "Télécharger",
+      "duration": {
+        "label": "Durée :",
+        "within": "{duration}, dans la limite de {limit}",
+        "over": "{duration}, {over} au-delà de la limite de {limit}",
+        "limitMinutes": "{n} minutes",
+        "limitSeconds": "{n} secondes",
+        "limitClock": "{clock}",
+        "overSeconds": "{s, plural, one {# seconde} other {# secondes}}",
+        "overMinutes": "{m, plural, one {# minute} other {# minutes}}",
+        "overBoth": "{m, plural, one {# minute} other {# minutes}} {s, plural, one {# seconde} other {# secondes}}"
+      }
     },
     "find": {
       "intro": "Ton agent personnel arrive dans Messages. Configure-le dès maintenant.",
