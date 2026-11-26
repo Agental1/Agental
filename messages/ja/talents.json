@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "あなたについて教えてください",
-      "subtitle": "身分証明書どおりのお名前と、異なる場合は活動名。そのままプロフィールに反映されます。"
+      "subtitle": "身分証明書どおりのお名前と、異なる場合は活動名。そのままプロフィールに反映されます。",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "あなたについて",
       "subtitle": "3 つの簡単な質問です。回答はプロフィールに保存されます。",
-      "phoneHint": "役が出たときにチームがすぐ連絡できます。後から追加することもできます。"
+      "phoneHint": "役が出たときにチームがすぐ連絡できます。後から追加することもできます。",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "代理契約について",
@@ -675,7 +677,9 @@
       "submit": "プロフィールに進む"
     },
     "back": "戻る",
-    "continue": "続ける"
+    "continue": "続ける",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -1462,6 +1466,12 @@
         "ageRange": "演じられる年齢",
         "compensation": "有償か無償か",
         "dayRate": "日当"
+      },
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
       }
     },
     "rgpd": {

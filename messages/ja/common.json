@@ -61,7 +61,9 @@
     "enterCasting": "Agental Casting に入る",
     "line": "ここから始めましょう。出演する側ですか、キャスティングする側ですか？",
     "createTalents": "出演者アカウントを作成",
-    "createCasting": "キャスティングアカウントを作成"
+    "createCasting": "キャスティングアカウントを作成",
+    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
+    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
   },
   "pricing": {
     "details": "含まれる内容"
@@ -415,5 +417,9 @@
     ]
   },
   "oauthAgree": "続行すると、<privacy>プライバシーポリシー</privacy>とCookieの使用に同意したことになります。",
-  "oauthAgreeTerms": "続行すると、<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意したことになります。"
+  "oauthAgreeTerms": "続行すると、<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意したことになります。",
+  "betaPrice": {
+    "label": "Beta",
+    "note": "Payments are not open yet."
+  }
 }

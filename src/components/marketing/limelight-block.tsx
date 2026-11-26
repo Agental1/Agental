@@ -1,3 +1,4 @@
+import { BetaPriceNote } from "@/components/ui/beta-price";
 import { useLocale, useTranslations } from "next-intl";
 import { formatPlanPrice } from "@/lib/plan-price";
 import { Link } from "@/i18n/navigation";
@@ -31,6 +32,7 @@ export function LimelightBlock({ className }: { className?: string }) {
         <p className="text-[14px] font-bold text-accent">{LIMELIGHT.name}</p>
         <h2 className="display-md mt-2 max-w-[16ch]">{t("title")}</h2>
         <p className="mt-3 max-w-[48ch] text-fg-muted">{tb("body", { price: formatPlanPrice(LIMELIGHT.plans.essential.priceUsd * 100, locale) })}</p>
+        <BetaPriceNote className="mt-2" />
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
           <Button asChild size="lg">
             <Link href={`${path}#try`}>{t("try")}</Link>

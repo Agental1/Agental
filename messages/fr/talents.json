@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "Qui es-tu ?",
-      "subtitle": "Ton nom comme sur ta pièce d’identité, et ton nom d’artiste s’il est différent. Tout va directement dans ton profil."
+      "subtitle": "Ton nom comme sur ta pièce d’identité, et ton nom d’artiste s’il est différent. Tout va directement dans ton profil.",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "À propos de toi",
       "subtitle": "Trois réponses rapides, enregistrées dans ton profil.",
-      "phoneHint": "L’équipe peut te joindre vite quand un rôle se présente. Tu peux l’ajouter plus tard."
+      "phoneHint": "L’équipe peut te joindre vite quand un rôle se présente. Tu peux l’ajouter plus tard.",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "À propos du mandat de représentation",
@@ -675,7 +677,9 @@
       "submit": "Continuer vers mon profil"
     },
     "back": "Retour",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -1462,6 +1466,12 @@
         "ageRange": "Âges que tu peux jouer",
         "compensation": "Payé ou non payé",
         "dayRate": "Tarif journalier"
+      },
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
       }
     },
     "rgpd": {

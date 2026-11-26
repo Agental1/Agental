@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "당신은 누구인가요?",
-      "subtitle": "신분증에 있는 이름과, 다르다면 활동하는 이름. 바로 프로필에 들어가요."
+      "subtitle": "신분증에 있는 이름과, 다르다면 활동하는 이름. 바로 프로필에 들어가요.",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "나에 대해",
       "subtitle": "간단한 세 가지 답변이 프로필에 저장돼요.",
-      "phoneHint": "배역이 나오면 팀이 빠르게 연락할 수 있어요. 나중에 추가해도 돼요."
+      "phoneHint": "배역이 나오면 팀이 빠르게 연락할 수 있어요. 나중에 추가해도 돼요.",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "대리 계약에 대해",
@@ -675,7 +677,9 @@
       "submit": "내 프로필로 계속"
     },
     "back": "뒤로",
-    "continue": "계속"
+    "continue": "계속",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -1462,6 +1466,12 @@
         "ageRange": "연기할 수 있는 나이",
         "compensation": "유급 또는 무급",
         "dayRate": "일당"
+      },
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
       }
     },
     "rgpd": {

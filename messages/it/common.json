@@ -61,7 +61,9 @@
     "enterCasting": "Entra in Agental Casting",
     "line": "Inizia da qui. Reciti o fai casting?",
     "createTalents": "Crea il tuo account artista",
-    "createCasting": "Crea il tuo account casting"
+    "createCasting": "Crea il tuo account casting",
+    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
+    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
   },
   "pricing": {
     "details": "Cosa è incluso"
@@ -415,5 +417,9 @@
     ]
   },
   "oauthAgree": "Continuando, accetti l’<privacy>Informativa sulla privacy</privacy> e l’uso dei cookie.",
-  "oauthAgreeTerms": "Continuando, accetti l’<privacy>Informativa sulla privacy</privacy>, i <terms>Termini di servizio</terms> e l’uso dei cookie."
+  "oauthAgreeTerms": "Continuando, accetti l’<privacy>Informativa sulla privacy</privacy>, i <terms>Termini di servizio</terms> e l’uso dei cookie.",
+  "betaPrice": {
+    "label": "Beta",
+    "note": "Payments are not open yet."
+  }
 }

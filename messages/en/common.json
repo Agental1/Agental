@@ -61,10 +61,16 @@
     "enterCasting": "Enter Agental Casting",
     "line": "Start here. Are you performing or casting?",
     "createTalents": "Create your performer account",
-    "createCasting": "Create your casting account"
+    "createCasting": "Create your casting account",
+    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
+    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
   },
   "pricing": {
     "details": "What's included"
+  },
+  "betaPrice": {
+    "label": "Beta",
+    "note": "Payments are not open yet."
   },
   "app": {
     "menu": "Menu",
@@ -164,7 +170,7 @@
       "websites": "Performers without a website can build one with Limelight."
     },
     "limelight": {
-      "title": "Need a website? Build yours in minutes.",
+      "title": "Need a portfolio website? Build yours in minutes.",
       "try": "Try it",
       "pricing": "See pricing"
     },

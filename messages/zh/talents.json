@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "你是谁？",
-      "subtitle": "证件上的姓名，以及不同的艺名（如有）。会直接保存到你的个人资料。"
+      "subtitle": "证件上的姓名，以及不同的艺名（如有）。会直接保存到你的个人资料。",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "关于你",
       "subtitle": "三个快速问题，保存到你的个人资料。",
-      "phoneHint": "有角色时团队可以快速联系你。也可以稍后再添加。"
+      "phoneHint": "有角色时团队可以快速联系你。也可以稍后再添加。",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "关于代理协议",
@@ -675,7 +677,9 @@
       "submit": "继续前往我的资料"
     },
     "back": "返回",
-    "continue": "继续"
+    "continue": "继续",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -1462,6 +1466,12 @@
         "ageRange": "可饰演年龄",
         "compensation": "有偿或无偿",
         "dayRate": "日薪"
+      },
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
       }
     },
     "rgpd": {

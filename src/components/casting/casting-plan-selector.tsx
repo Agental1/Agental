@@ -1,5 +1,6 @@
 "use client";
 
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
@@ -54,6 +55,7 @@ export function CastingPlanSelector({
         {plans.map((p, i) => {
           const isCurrent = p.plan === current;
           const recommended = i === 1;
+          const paid = p.plan !== "FREE" && !p.contactOnly;
           return (
             <div
               key={p.plan}
@@ -69,7 +71,9 @@ export function CastingPlanSelector({
               <div className="mt-2 flex items-baseline gap-1">
                 <span className="font-display text-2xl">{p.price}</span>
                 {p.priceUnit && <span className="text-xs text-fg-muted">{p.priceUnit}</span>}
+                {paid && <BetaBadge className="ml-1" />}
               </div>
+              {paid && <PaymentsNote className="mt-1 text-xs" />}
               {p.plan === "PRO" && (
                 <p className="mt-0.5 text-xs text-fg-subtle">
                   {t("space.plans.activeSeats", { count: seatCount })}

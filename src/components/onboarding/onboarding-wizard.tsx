@@ -96,7 +96,11 @@ export function OnboardingWizard({
 
       <div className="mt-6">
         {step === 0 && (
-          <Step title={t("onboarding.identity.title")} subtitle={t("onboarding.identity.subtitle")}>
+          <Step
+            title={t("onboarding.identity.title")}
+            subtitle={t("onboarding.identity.subtitle")}
+            why={t("onboarding.identity.why")}
+          >
             <fieldset className="space-y-1.5">
               <legend className="text-sm font-medium">
                 {t(`${e}.legalName`)}
@@ -120,7 +124,7 @@ export function OnboardingWizard({
               </div>
               <p className="text-xs text-fg-muted">{t(`${e}.legalNameHint`)}</p>
             </fieldset>
-            <Field label={t(`${e}.stageName`)} hint={t(`${e}.stageNameHint`)}>
+            <Field label={`${t(`${e}.stageName`)} ${t(`${e}.optional`)}`} hint={t(`${e}.stageNameHint`)}>
               <Input
                 aria-label={t(`${e}.stageName`)}
                 value={data.stageName}
@@ -146,7 +150,11 @@ export function OnboardingWizard({
         )}
 
         {step === 1 && (
-          <Step title={t("onboarding.profile.title")} subtitle={t("onboarding.profile.subtitle")}>
+          <Step
+            title={t("onboarding.profile.title")}
+            subtitle={t("onboarding.profile.subtitle")}
+            why={t("onboarding.profile.why")}
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label={t(`${e}.birthDate`)} required>
                 <Input
@@ -242,10 +250,33 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
   const [error, setError] = useState<ActionError | undefined>();
   const aboutId = useId();
 
+  function finish() {
+    startTransition(async () => {
+      setError(undefined);
+      try {
+        const res = await completeBetaOnboarding();
+        if (!res.ok) {
+          setError(res.error);
+          return;
+        }
+        // A step still missing (another tab cleared it): back to that step.
+        if (res.nextStep) {
+          setError(err("errors.onboardingIncomplete"));
+          onBack(res.nextStep === "identity" ? 0 : 1);
+          return;
+        }
+        router.push(res.path);
+      } catch {
+        setError(err("errors.generic"));
+      }
+    });
+  }
+
   return (
     <Step
       title={t("onboarding.mandat.title")}
       subtitle={t("onboarding.mandat.subtitle")}
+      optional
     >
       <div className="space-y-3 rounded-sedan border border-border bg-surface p-5">
         <button
@@ -279,43 +310,23 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
         className="mt-5 w-full"
         size="lg"
         disabled={pending}
-        onClick={() =>
-          startTransition(async () => {
-            setError(undefined);
-            try {
-              const res = await completeBetaOnboarding();
-              if (!res.ok) {
-                setError(res.error);
-                return;
-              }
-              // A step still missing (another tab cleared it): back to that step.
-              if (res.nextStep) {
-                setError(err("errors.onboardingIncomplete"));
-                onBack(res.nextStep === "identity" ? 0 : 1);
-                return;
-              }
-              router.push(res.path);
-            } catch {
-              setError(err("errors.generic"));
-            }
-          })
-        }
+        onClick={finish}
       >
         {pending && <Loader2 className="size-4 animate-spin" />}
         {t("onboarding.mandat.submit")}
       </Button>
-      <Button
-        variant="ghost"
-        className="mt-2"
-        onClick={() => onBack()}
-        disabled={pending}
-      >
-        <ArrowLeft /> {t("onboarding.back")}
-      </Button>
+      <div className="mt-2 flex items-center justify-between">
+        <Button variant="ghost" onClick={() => onBack()} disabled={pending}>
+          <ArrowLeft /> {t("onboarding.back")}
+        </Button>
+        {/* Nothing to save on this step: skipping goes where Continue goes. */}
+        <Button variant="ghost" onClick={finish} disabled={pending}>
+          {t("onboarding.skip")}
+        </Button>
+      </div>
     </Step>
   );
 }
-
 /* ── small building blocks ──────────────────────────────────────────────── */
 
 function Progress({ step }: { step: number }) {
@@ -347,20 +358,39 @@ function Progress({ step }: { step: number }) {
 function Step({
   title,
   subtitle,
+  why,
+  optional = false,
   children,
 }: {
   title: string;
   subtitle: string;
+  /** Required steps say in one line why they are required. */
+  why?: string;
+  /** Optional steps wear an "Optional" label. */
+  optional?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="font-display text-2xl font-medium">{title}</h1>
+        <h1 className="font-display text-2xl font-medium">
+          {title}
+          {optional && <OptionalLabel />}
+        </h1>
         <p className="text-sm text-fg-muted">{subtitle}</p>
+        {why && <p className="mt-1 text-sm font-medium">{why}</p>}
       </div>
       {children}
     </div>
+  );
+}
+
+function OptionalLabel() {
+  const t = useTranslations("talents");
+  return (
+    <span className="ml-2 inline-block rounded-full border border-border-strong px-2 py-0.5 align-middle text-[11px] font-bold uppercase leading-none tracking-wide text-fg-muted">
+      {t("onboarding.optional")}
+    </span>
   );
 }
 

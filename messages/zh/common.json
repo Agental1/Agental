@@ -61,7 +61,9 @@
     "enterCasting": "进入 Agental Casting",
     "line": "从这里开始：你是表演者，还是选角方？",
     "createTalents": "创建表演者账号",
-    "createCasting": "创建选角账号"
+    "createCasting": "创建选角账号",
+    "talentsBenefit": "An agent in your pocket: it looks for roles, follows up and keeps you moving. You approve every step.",
+    "castingBenefit": "Your breakdowns organized, a sharper short-list, and less time sorting submissions."
   },
   "pricing": {
     "details": "包含内容"
@@ -415,5 +417,9 @@
     ]
   },
   "oauthAgree": "继续即表示你接受<privacy>隐私政策</privacy>并同意使用 Cookie。",
-  "oauthAgreeTerms": "继续即表示你接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。"
+  "oauthAgreeTerms": "继续即表示你接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。",
+  "betaPrice": {
+    "label": "Beta",
+    "note": "Payments are not open yet."
+  }
 }

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { upgradeTalentPlan } from "@/app/actions/subscription";
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { PromoPrice, useActivePromotion } from "@/components/talents/promotions";
 import { CheckoutPanel } from "@/components/talents/checkout-panel";
 import type { UscVerified } from "@/components/talents/usc-verify";
@@ -87,7 +88,9 @@ export function PlanSelector({
               <div className="mt-2 flex items-baseline gap-1">
                 <PromoPrice base={p.price} promos={p.promos} className="font-display text-2xl" />
                 <span className="text-xs text-fg-muted">{t("space.plans.perMonth")}</span>
+                {p.plan !== "FREE" && <BetaBadge className="ml-1" />}
               </div>
+              {p.plan !== "FREE" && <PaymentsNote className="mt-1 text-xs" />}
               
               <ul className="mt-4 flex-1 space-y-1.5">
                 {p.features.map((f) => (

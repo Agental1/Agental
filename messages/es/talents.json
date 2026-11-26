@@ -660,12 +660,14 @@
     },
     "identity": {
       "title": "¿Quién eres?",
-      "subtitle": "Tu nombre como en tu documento de identidad, y tu nombre artístico si es distinto. Se guarda directamente en tu perfil."
+      "subtitle": "Tu nombre como en tu documento de identidad, y tu nombre artístico si es distinto. Se guarda directamente en tu perfil.",
+      "why": "Required: your legal name goes on contracts and payments, and casting teams never see it."
     },
     "profile": {
       "title": "Sobre ti",
       "subtitle": "Tres respuestas rápidas, guardadas en tu perfil.",
-      "phoneHint": "El equipo puede contactarte rápido cuando surja un papel. Puedes añadirlo después."
+      "phoneHint": "El equipo puede contactarte rápido cuando surja un papel. Puedes añadirlo después.",
+      "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
       "title": "Sobre el contrato de representación",
@@ -675,7 +677,9 @@
       "submit": "Continuar a mi perfil"
     },
     "back": "Volver",
-    "continue": "Continuar"
+    "continue": "Continuar",
+    "optional": "Optional",
+    "skip": "Skip for now"
   },
   "space": {
     "nav": {
@@ -1462,6 +1466,12 @@
         "ageRange": "Edades que puedes interpretar",
         "compensation": "Pagado o no pagado",
         "dayRate": "Tarifa diaria"
+      },
+      "why": {
+        "identity": "Required: casting teams filter on your age, location and languages, and the team uses your phone to reach you fast.",
+        "physical": "Required: casting teams filter on height, build, hair color and eye color.",
+        "media": "Required: one photo of yourself, so casting teams know who they are looking at.",
+        "preferences": "Required: your work types, playable ages and pay choice keep us from sending you roles that do not fit."
       }
     },
     "rgpd": {

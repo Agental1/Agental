@@ -4,6 +4,7 @@ import { listMySites } from "@/lib/sites";
 import { date } from "@/lib/format";
 import { LIMELIGHT } from "@/domain/limelight";
 import { formatPlanPrice, promoPrices } from "@/lib/plan-price";
+import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
 import { PromoPrice } from "@/components/talents/promotions";
 import { SitePanel, type SiteCard } from "@/components/talents/site-panel";
 import type { Locale } from "@/i18n/routing";
@@ -78,8 +79,10 @@ export async function LimelightSection({
               <p className="font-bold">{o.name}</p>
               <p className="mt-1 text-[1.75rem] font-bold leading-none">
                 <PromoPrice base={o.price} promos={o.promos} />{" "}
-                <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>
+                <span className="text-[14px] font-normal text-fg-muted">{to("oneTime")}</span>{" "}
+                <BetaBadge />
               </p>
+              <PaymentsNote className="mt-1" />
               <p className="mt-2 text-[15px] text-fg-muted">{o.summary}</p>
               <p className="mt-1 text-[14px] text-fg-muted">{o.renewal}</p>
             </div>
