@@ -84,6 +84,10 @@ Every version that goes live on agental.co gets a version number, a git tag and 
 
 Google sign-in: the button is live and reaches Google's account screen. The Google app is still in Testing with no test users, so nobody can finish signing in yet; publishing needs a privacy-policy page (see `docs/HANDOFF.md`).
 
+## Before round 12.1
+
+The live site before round 12.1 is **Version 77** (tag `before-round-12-1`, deployment `agental-1w6lk52so-agentalco.vercel.app`). To undo the whole of round 12.1, say "go back to Version 77" (`vercel promote agental-1w6lk52so-agentalco.vercel.app`).
+
 ## Round 12: going back
 
 Before round 12 the live site was **Version 71** (tag `before-round-12`, deployment `agental-9vl403651-agentalco.vercel.app`).
