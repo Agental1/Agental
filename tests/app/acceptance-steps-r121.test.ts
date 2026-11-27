@@ -55,6 +55,9 @@ describe.skipIf(!local)("three separate acceptances", () => {
     await prisma.mandat.create({ data: { profileId, status: "ACTIVE", signedAt: null } });
     await acknowledgeRepresentationStep();
     expect((await prisma.mandat.findUniqueOrThrow({ where: { profileId } })).signedAt).toBeNull();
+    // Idempotent: a second acknowledgment keeps the first date.
+    const again = await prisma.user.findUniqueOrThrow({ where: { id: userId } });
+    expect(again.representationAckAt?.getTime()).toBe(after.representationAckAt?.getTime());
   });
 
   it("the plans step writes its own record and changes no subscription", async () => {

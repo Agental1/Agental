@@ -134,7 +134,7 @@
   "home": {
     "what": {
       "title": "What is Agental",
-      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once our licensed partner agency is in place.",
+      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once a licensed partner agency is in place.",
       "facts": [
         {
           "title": "Free to join",
@@ -432,7 +432,7 @@
     "toolsTitle": "Tools",
     "toolsBody": "Plans are a separate technology contract with their own Terms, which you accept separately. They are optional, with no commitment, and they unlock tools: auto-submissions, AI search, Self-tape Studio and coaching. A plan never gives you better or earlier access to jobs (California Fee-Related Talent Services Law, AB 1319), and you can be represented without paying anything.",
     "humanLoop": "You stay in the loop. Nothing is sent or submitted without your approval. A response you submit to a role goes to the Agental team for review, and nothing is sent to a casting site. Replies to the emails we receive go out only after a staff member approves them.",
-    "beta": "You can read the representation agreement now. You sign it once our licensed partner is in place. Payments stay off until the company exists.",
+    "beta": "You can read the representation agreement now. You can sign it once a licensed partner agency is in place. Payments stay off until the company exists.",
     "pricingLine": "Representation is free. You pay a commission only on bookings you get through Agental, and only once you've been paid. The plans below are optional tools and never change your access to roles.",
     "commissionNote": "Commission terms are set in the representation agreement.",
     "cookiesNever": "Accepting cookies never counts as accepting the representation agreement or a plan.",

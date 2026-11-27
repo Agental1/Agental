@@ -106,7 +106,7 @@
     "eyebrow": "递减佣金",
     "title": "走得越远，留得越多",
     "cta": "查看详细价格",
-    "body": "订阅和经纪人的佣金是两回事。代理始终免费。如果你选择一个方案来使用更多工具，佣金也会同时降低。这是一种与你的成功挂钩的模式。"
+    "body": "Your subscription and the representation commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
   },
   "pricing": {
     "eyebrow": "价格",
@@ -134,8 +134,8 @@
           "包含基础版全部功能",
           "每月 {searches} 次 AI 角色搜索",
           "AI 点评你的自录试镜",
-          "Agental 团队更快回复",
-          "优先支持",
+          "Faster answers to your questions about the app",
+          "Hands-on help setting up your tools",
           "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
@@ -234,7 +234,7 @@
       },
       {
         "title": "从入选到拿到片酬",
-        "body": "一旦入选，谈判和合同审核将通过你的代理进行。合作经纪机构只会就你通过 Agental 获得的预订收取佣金，并且仅在你收到片酬之后。"
+        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency will receive its commission only on bookings you get through Agental, and only once you've been paid."
       }
     ],
     "cta": "成为会员",
@@ -779,7 +779,7 @@
     "plans": {
       "title": "Plans, if you want them",
       "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
-      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "noPayment": "Picking a plan here charges nothing. You can change your plan any time in Settings.",
       "continueBasic": "Continue with Basic (free)",
       "continueWith": "Continue with {plan}"
     }
@@ -1296,8 +1296,8 @@
         "包含基础版全部功能",
         "每月 {searches} 次 AI 角色搜索",
         "AI 点评你的自录试镜",
-        "Agental 团队更快回复",
-        "优先支持",
+        "Faster answers to your questions about the app",
+        "Hands-on help setting up your tools",
         "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [

@@ -106,7 +106,7 @@
     "eyebrow": "점점 낮아지는 수수료",
     "title": "나아갈수록 더 많이 가져가요",
     "cta": "요금 자세히 보기",
-    "body": "구독과 에이전트 수수료는 별개예요. 대리 업무는 계속 무료예요. 더 많은 도구를 쓰려고 요금제를 고르면 수수료도 함께 내려가요. 나의 성공과 함께 가는 모델이에요."
+    "body": "Your subscription and the representation commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
   },
   "pricing": {
     "eyebrow": "요금",
@@ -134,8 +134,8 @@
           "Basic의 모든 기능",
           "월 {searches}회 AI 배역 검색",
           "셀프 테이프에 대한 AI 피드백",
-          "Agental 팀의 더 빠른 답장",
-          "우선 지원",
+          "Faster answers to your questions about the app",
+          "Hands-on help setting up your tools",
           "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
@@ -234,7 +234,7 @@
       },
       {
         "title": "선정부터 출연료까지",
-        "body": "선정되면 협상과 계약서 검토는 나의 대리를 통해 진행돼요. 파트너 에이전시는 Agental을 통해 얻은 예약에 대해서만, 그리고 출연료를 받은 후에만 수수료를 받아요."
+        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency will receive its commission only on bookings you get through Agental, and only once you've been paid."
       }
     ],
     "cta": "회원 가입",
@@ -779,7 +779,7 @@
     "plans": {
       "title": "Plans, if you want them",
       "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
-      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "noPayment": "Picking a plan here charges nothing. You can change your plan any time in Settings.",
       "continueBasic": "Continue with Basic (free)",
       "continueWith": "Continue with {plan}"
     }
@@ -1296,8 +1296,8 @@
         "Basic의 모든 기능",
         "월 {searches}회 AI 배역 검색",
         "셀프 테이프에 대한 AI 피드백",
-        "Agental 팀의 더 빠른 답장",
-        "우선 지원",
+        "Faster answers to your questions about the app",
+        "Hands-on help setting up your tools",
         "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [

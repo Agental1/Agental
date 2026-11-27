@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Qué es Agental",
-      "body": "Agental es una plataforma con IA para artistas y equipos de casting, en beta. Cada artista crea un perfil con sus fotos, créditos, reel y self-tapes, y un asistente de IA prepara borradores de candidatura que el artista revisa antes de que se envíe nada. Los equipos de casting reciben listas ordenadas con el razonamiento a la vista. La representación es un contrato aparte y gratuito: puedes leerlo ahora y firmarlo cuando nuestra agencia socia con licencia esté en marcha.",
+      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once a licensed partner agency is in place.",
       "facts": [
         {
           "title": "Unirse es gratis",
@@ -432,7 +432,7 @@
     "toolsTitle": "Herramientas",
     "toolsBody": "Los planes son un contrato tecnológico aparte, con sus propias Condiciones, que aceptas por separado. Son opcionales, sin compromiso, y desbloquean herramientas: envíos automáticos, búsqueda con IA, Self-tape Studio y coaching. Un plan nunca te da un acceso mejor o anterior a los trabajos (California Fee-Related Talent Services Law, AB 1319), y puedes estar representado sin pagar nada.",
     "humanLoop": "Tú sigues al mando. Todo envío o presentación requiere tu aprobación. Cada respuesta que presentes a un papel llega al equipo de Agental para su revisión, y no se envía nada a ningún sitio de casting. Las respuestas a los correos que recibimos solo se envían después de que un miembro del equipo las apruebe.",
-    "beta": "Ya puedes leer el contrato de representación. Lo firmarás cuando nuestro socio con licencia esté en marcha. Los pagos seguirán desactivados hasta que exista la empresa.",
+    "beta": "You can read the representation agreement now. You can sign it once a licensed partner agency is in place. Payments stay off until the company exists.",
     "pricingLine": "La representación es gratuita. Pagas una comisión solo en las reservas que consigas a través de Agental, y solo cuando te hayan pagado. Los planes de abajo son herramientas opcionales y nunca cambian tu acceso a los papeles.",
     "commissionNote": "Las condiciones de la comisión se establecen en el contrato de representación.",
     "cookiesNever": "Aceptar las cookies nunca equivale a aceptar el contrato de representación ni un plan.",

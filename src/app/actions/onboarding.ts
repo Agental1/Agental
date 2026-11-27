@@ -15,7 +15,7 @@ import {
 } from "@/domain/onboarding";
 import { isMinorOn } from "@/domain/age";
 import { MANDATE, canReceiveOpportunities, mandatSignBlocker } from "@/domain/mandat";
-import { plansStepColumns, representationAckColumns } from "@/domain/legal-versions";
+import { plansStepColumns, representationAckColumns, REPRESENTATION_STEP_VERSION } from "@/domain/legal-versions";
 import { PlanB2C } from "@/domain/enums";
 import { nextSetupStep, type SetupStep } from "@/domain/setup";
 import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
@@ -118,7 +118,15 @@ export async function saveProfileBasics(input: unknown): Promise<StepResult> {
  */
 export async function acknowledgeRepresentationStep(): Promise<StepResult> {
   const userId = await requireTalentUserId();
-  await prisma.user.update({ where: { id: userId }, data: representationAckColumns() });
+  // Idempotent: the first acknowledgment of a given version keeps its date
+  // (a double click or a Back and Continue does not move it).
+  await prisma.user.updateMany({
+    where: {
+      id: userId,
+      OR: [{ representationAckVersion: null }, { representationAckVersion: { not: REPRESENTATION_STEP_VERSION } }],
+    },
+    data: representationAckColumns(),
+  });
   return { ok: true };
 }
 

@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Agental とは",
-      "body": "Agental は、出演者とキャスティングチームのための AI プラットフォームで、現在ベータ版です。出演者は写真、出演歴、リール、セルフテープでプロフィールを作成し、AI アシスタントが応募の下書きを用意します。出演者は、送信される前にそれを確認します。キャスティングチームは、判断の根拠を示した候補者リストを受け取ります。代理は別の無料契約で、今すぐ読むことができ、提携エージェンシーが整ったら署名できます。",
+      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once a licensed partner agency is in place.",
       "facts": [
         {
           "title": "登録は無料",
@@ -432,7 +432,7 @@
     "toolsTitle": "ツール",
     "toolsBody": "プランは、独自の利用規約を持つ別のテクノロジー契約で、あなたが個別に同意します。プランは任意で、縛りはなく、自動応募、AI検索、Self-tape Studio、コーチングなどのツールを利用できるようになります。プランによって役へのより良い、または早いアクセスが得られることは決してなく（カリフォルニア州 Fee-Related Talent Services Law、AB 1319）、費用を払わずに代理を受けることもできます。",
     "humanLoop": "あなたが常に主導権を持ちます。あなたの承認なしに何も送信・提出されることはありません。役に対して提出した回答は、レビューのために Agental チームに送られ、キャスティングサイトには何も送られません。当社が受け取ったメールへの返信は、スタッフが承認した後にのみ送られます。",
-    "beta": "代理契約は今すぐ読むことができます。ライセンスを持つ提携先が整ったら署名していただきます。会社が設立されるまで、支払いは停止されたままです。",
+    "beta": "You can read the representation agreement now. You can sign it once a licensed partner agency is in place. Payments stay off until the company exists.",
     "pricingLine": "代理は無料です。Agental を通じて得た予約にのみ、支払いを受けた後に手数料をお支払いいただきます。以下のプランは任意のツールで、役へのアクセスが変わることは決してありません。",
     "commissionNote": "手数料の条件は代理契約で定められています。",
     "cookiesNever": "Cookie を受け入れることが、代理契約やプランへの同意とみなされることは決してありません。",

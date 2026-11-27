@@ -29,3 +29,13 @@ app  admin.accounts.acceptances.representation
 app  admin.accounts.acceptances.plans
 app  admin.accounts.acceptances.notRecorded
 app  admin.accounts.acceptances.plansPicked
+Review pass (round 12.1 group 2), English changed again, placeholder copied:
+talents  commission.body
+talents  pricing.plans.1.features.3
+talents  pricing.plans.1.features.4
+talents  space.planFeatures.PRO.3
+talents  space.planFeatures.PRO.4
+talents  how.sections.4.body
+talents  onboarding.plans.noPayment
+common  home.what.body
+common  legalCopy.beta

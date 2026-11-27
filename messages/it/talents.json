@@ -106,7 +106,7 @@
     "eyebrow": "Commissione decrescente",
     "title": "Più vai avanti, più tieni per te",
     "cta": "Vedi i prezzi dettagliati",
-    "body": "Il tuo abbonamento e la commissione del tuo agente sono due cose separate. La rappresentanza resta gratuita. Se scegli un piano per accedere a più strumenti, la tua commissione scende allo stesso tempo. È un modello allineato al tuo successo."
+    "body": "Your subscription and the representation commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
   },
   "pricing": {
     "eyebrow": "Prezzi",
@@ -134,8 +134,8 @@
           "Tutto ciò che c'è in Basic",
           "{searches} ricerche di ruoli con l'IA al mese",
           "Feedback dell'IA sui tuoi self-tape",
-          "Risposte più rapide dal team Agental",
-          "Assistenza prioritaria",
+          "Faster answers to your questions about the app",
+          "Hands-on help setting up your tools",
           "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
@@ -234,7 +234,7 @@
       },
       {
         "title": "Dalla selezione al compenso",
-        "body": "Quando sei selezionato, la negoziazione e la revisione dei contratti passano dalla tua rappresentanza. L’agenzia partner riceve la sua commissione solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato."
+        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency will receive its commission only on bookings you get through Agental, and only once you've been paid."
       }
     ],
     "cta": "Diventa membro",
@@ -779,7 +779,7 @@
     "plans": {
       "title": "Plans, if you want them",
       "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
-      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "noPayment": "Picking a plan here charges nothing. You can change your plan any time in Settings.",
       "continueBasic": "Continue with Basic (free)",
       "continueWith": "Continue with {plan}"
     }
@@ -1296,8 +1296,8 @@
         "Tutto ciò che c'è in Basic",
         "{searches} ricerche di ruoli con l'IA al mese",
         "Feedback dell'IA sui tuoi self-tape",
-        "Risposte più rapide dal team Agental",
-        "Assistenza prioritaria",
+        "Faster answers to your questions about the app",
+        "Hands-on help setting up your tools",
         "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [
