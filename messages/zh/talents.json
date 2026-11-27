@@ -814,15 +814,15 @@
           "pausedNow": "搜索暂时暂停。你现在仍可以发起搜索：我们会先保存，恢复后再开始。",
           "waiting": "你的搜索已加入队列。搜索即将开始，结果出来后我们会通知你。"
         },
-        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "explain": "{agent} 会为符合你资料的角色搜索。本期还剩 {left, plural, other {# 次搜索}}。",
         "scan": {
-          "looking": "{agent} is checking the places roles show up.",
-          "running": "{agent} is searching right now. Results land here as soon as they're in.",
+          "looking": "{agent} 正在查看角色出现的各个渠道。",
+          "running": "{agent} 正在搜索。结果一出来就会显示在这里。",
           "kind": {
-            "boards": "Casting boards",
+            "boards": "选角信息板",
             "breakdowns": "Breakdowns",
-            "notices": "Production notices",
-            "calls": "Open calls"
+            "notices": "制作通知",
+            "calls": "公开征集"
           }
         }
       },
@@ -893,37 +893,37 @@
         "nextStart": "下一次搜索预计 {date}"
       },
       "board": {
-        "title": "Your searches",
-        "byAgent": "Run by {agent}.",
-        "rename": "Rename {agent}",
+        "title": "你的搜索",
+        "byAgent": "由 {agent} 执行。",
+        "rename": "重命名 {agent}",
         "lane": {
-          "queued": "Queued",
-          "running": "Running",
-          "done": "Done"
+          "queued": "排队中",
+          "running": "进行中",
+          "done": "已完成"
         },
         "laneEmpty": {
-          "queued": "Nothing waiting.",
-          "running": "Nothing running right now.",
-          "done": "Finished searches show up here."
+          "queued": "目前没有排队中的搜索。",
+          "running": "目前没有正在进行的搜索。",
+          "done": "已完成的搜索会显示在这里。"
         },
         "card": {
-          "next": "Next in line",
-          "inLine": "Number {n} in line",
-          "running": "{agent} is on it",
-          "done": "Finished"
+          "next": "下一个",
+          "inLine": "排在第 {n} 位",
+          "running": "{agent} 正在处理",
+          "done": "已完成"
         },
         "meter": {
-          "title": "Search allowance",
-          "text": "{used} of {total} used"
+          "title": "搜索额度",
+          "text": "已用 {used} / {total}"
         },
         "matches": {
-          "title": "Best matches so far",
-          "score": "{score}% match"
+          "title": "目前最佳匹配",
+          "score": "匹配度 {score}%"
         },
-        "empty": "No searches yet. Press the green button and {agent} gets started.",
-        "error": "We couldn't refresh your searches. Check your connection and try again.",
-        "retry": "Try again",
-        "viewAll": "See everything in Applications"
+        "empty": "还没有搜索。点绿色按钮，{agent} 就会开始工作。",
+        "error": "刷新你的搜索时出了问题。请检查网络连接后重试。",
+        "retry": "重试",
+        "viewAll": "在申请中查看全部"
       }
     },
     "candidatures": {

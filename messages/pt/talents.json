@@ -814,15 +814,15 @@
           "pausedNow": "As buscas estão em pausa por um momento. Você ainda pode pedir uma agora: vamos salvá-la e iniciá-la quando voltarem.",
           "waiting": "Sua busca está na fila. As buscas começam em breve e avisaremos quando houver resultados."
         },
-        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "explain": "{agent} procura papéis que combinam com o seu perfil. Você ainda tem {left, plural, one {# busca} other {# buscas}} neste período.",
         "scan": {
-          "looking": "{agent} is checking the places roles show up.",
-          "running": "{agent} is searching right now. Results land here as soon as they're in.",
+          "looking": "{agent} está verificando os lugares onde os papéis aparecem.",
+          "running": "{agent} está buscando agora. Os resultados aparecem aqui assim que chegarem.",
           "kind": {
-            "boards": "Casting boards",
+            "boards": "Quadros de casting",
             "breakdowns": "Breakdowns",
-            "notices": "Production notices",
-            "calls": "Open calls"
+            "notices": "Avisos de produção",
+            "calls": "Convocatórias abertas"
           }
         }
       },
@@ -893,37 +893,37 @@
         "nextStart": "Próxima busca prevista para {date}"
       },
       "board": {
-        "title": "Your searches",
-        "byAgent": "Run by {agent}.",
-        "rename": "Rename {agent}",
+        "title": "Suas buscas",
+        "byAgent": "Feita por {agent}.",
+        "rename": "Renomear {agent}",
         "lane": {
-          "queued": "Queued",
-          "running": "Running",
-          "done": "Done"
+          "queued": "Na fila",
+          "running": "Em andamento",
+          "done": "Concluídas"
         },
         "laneEmpty": {
-          "queued": "Nothing waiting.",
-          "running": "Nothing running right now.",
-          "done": "Finished searches show up here."
+          "queued": "A fila está vazia no momento.",
+          "running": "Agora, nenhuma busca em andamento.",
+          "done": "As buscas concluídas aparecem aqui."
         },
         "card": {
-          "next": "Next in line",
-          "inLine": "Number {n} in line",
-          "running": "{agent} is on it",
-          "done": "Finished"
+          "next": "Próxima da fila",
+          "inLine": "Posição {n} na fila",
+          "running": "{agent} está cuidando disso",
+          "done": "Concluída"
         },
         "meter": {
-          "title": "Search allowance",
-          "text": "{used} of {total} used"
+          "title": "Limite de buscas",
+          "text": "{used} de {total} usadas"
         },
         "matches": {
-          "title": "Best matches so far",
-          "score": "{score}% match"
+          "title": "Melhores correspondências até agora",
+          "score": "{score}% de compatibilidade"
         },
-        "empty": "No searches yet. Press the green button and {agent} gets started.",
-        "error": "We couldn't refresh your searches. Check your connection and try again.",
-        "retry": "Try again",
-        "viewAll": "See everything in Applications"
+        "empty": "Ainda não há buscas. Toque no botão verde e {agent} começa a trabalhar.",
+        "error": "Houve um problema ao atualizar suas buscas. Verifique sua conexão e tente de novo.",
+        "retry": "Tentar de novo",
+        "viewAll": "Ver tudo em Candidaturas"
       }
     },
     "candidatures": {

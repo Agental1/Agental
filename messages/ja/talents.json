@@ -814,15 +814,15 @@
           "pausedNow": "検索は一時停止中です。今でもリクエストできます。保存しておき、再開したら開始します。",
           "waiting": "受け付けました。検索は間もなく始まり、結果が出たらお知らせします。"
         },
-        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "explain": "{agent} があなたのプロフィールに合う役を探します。今期はあと{left, plural, other {# 回}}検索できます。",
         "scan": {
-          "looking": "{agent} is checking the places roles show up.",
-          "running": "{agent} is searching right now. Results land here as soon as they're in.",
+          "looking": "{agent} が役を見つけられる場所を確認しています。",
+          "running": "{agent} が今検索しています。結果がそろい次第、ここに表示されます。",
           "kind": {
-            "boards": "Casting boards",
-            "breakdowns": "Breakdowns",
-            "notices": "Production notices",
-            "calls": "Open calls"
+            "boards": "キャスティングボード",
+            "breakdowns": "ブレイクダウン",
+            "notices": "制作のお知らせ",
+            "calls": "公募"
           }
         }
       },
@@ -893,37 +893,37 @@
         "nextStart": "次の検索は {date} の予定"
       },
       "board": {
-        "title": "Your searches",
-        "byAgent": "Run by {agent}.",
-        "rename": "Rename {agent}",
+        "title": "あなたの検索",
+        "byAgent": "実行: {agent}",
+        "rename": "{agent} の名前を変更",
         "lane": {
-          "queued": "Queued",
-          "running": "Running",
-          "done": "Done"
+          "queued": "待機中",
+          "running": "実行中",
+          "done": "完了"
         },
         "laneEmpty": {
-          "queued": "Nothing waiting.",
-          "running": "Nothing running right now.",
-          "done": "Finished searches show up here."
+          "queued": "待機中の検索はありません。",
+          "running": "今実行中の検索はありません。",
+          "done": "完了した検索がここに表示されます。"
         },
         "card": {
-          "next": "Next in line",
-          "inLine": "Number {n} in line",
-          "running": "{agent} is on it",
-          "done": "Finished"
+          "next": "次の番",
+          "inLine": "待ち順 {n} 番目",
+          "running": "{agent} が対応中",
+          "done": "完了"
         },
         "meter": {
-          "title": "Search allowance",
-          "text": "{used} of {total} used"
+          "title": "検索枠",
+          "text": "{total} 回中 {used} 回使用"
         },
         "matches": {
-          "title": "Best matches so far",
-          "score": "{score}% match"
+          "title": "これまでのベストマッチ",
+          "score": "{score}% 一致"
         },
-        "empty": "No searches yet. Press the green button and {agent} gets started.",
-        "error": "We couldn't refresh your searches. Check your connection and try again.",
-        "retry": "Try again",
-        "viewAll": "See everything in Applications"
+        "empty": "まだ検索はありません。緑のボタンを押すと {agent} が動き出します。",
+        "error": "検索を更新できませんでした。接続を確認して、もう一度お試しください。",
+        "retry": "再試行",
+        "viewAll": "応募一覧ですべて見る"
       }
     },
     "candidatures": {
