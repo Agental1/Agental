@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LocaleSwitcher } from "@/components/marketing/locale-switcher";
 import { LimelightBlock } from "@/components/marketing/limelight-block";
 import { MarketingFooter } from "@/components/marketing/footer";
+import { TwoThings } from "@/components/marketing/two-things";
 import { LIMELIGHT } from "@/domain/limelight";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -288,6 +289,7 @@ function How() {
           <p className="mt-2 text-[15px] leading-relaxed text-white/90">{t("meetBody")}</p>
         </div>
       </div>
+      <TwoThings className="mt-8" />
       <p className="mt-4 text-[15px] text-fg-muted">
         <Link
           href={`/talents/${LIMELIGHT.slug}`}

@@ -41,6 +41,7 @@ export default async function Page({
 function TarifsContent() {
   const t = useTranslations("talents.pricingPage");
   const tp = useTranslations("talents.pricing");
+  const tl = useTranslations("common.legalCopy");
   return (
     <>
       <PageHero
@@ -49,11 +50,13 @@ function TarifsContent() {
         subtitle={t("hero.subtitle")}
       />
       <Section rhythm="major">
+        <p className="mb-4 font-bold leading-snug">{tl("pricingLine")}</p>
         <div className="mb-8 flex items-start gap-3 rounded-sedan-lg border border-border bg-accent-soft/50 p-4 text-sm">
           <ShieldCheck className="mt-0.5 size-5 shrink-0 text-accent" />
           <p className="text-fg-muted">{tp("note")}</p>
         </div>
         <TalentsPricingGrid expanded />
+        <p className="mt-4 text-[13px] text-fg-muted">{tl("commissionNote")}</p>
         <p className="mt-8 font-mono text-[11px] text-fg-subtle">{t("note")}</p>
       </Section>
     </>

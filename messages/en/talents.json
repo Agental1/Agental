@@ -13,7 +13,7 @@
     "subtitle": "One profile for your headshots, credits, reel and self-tapes. Prepare your casting materials now; when applications open, you review every draft before anything is sent.",
     "ctaPrimary": "Become a member",
     "ctaSecondary": "See how it works",
-    "eyebrow": "The new-generation artist agency",
+    "eyebrow": "The new-generation home for performers",
     "note": "Free during the beta. Next: three short steps to set up your profile.",
     "collage": [
       "boy, 17",
@@ -38,7 +38,7 @@
   },
   "why": {
     "eyebrow": "Why Agental",
-    "title": "An agency that truly works for you",
+    "title": "A team that truly works for you",
     "items": [
       {
         "title": "A profile that works for you",
@@ -57,8 +57,8 @@
         "body": "We know what makes you singular, and we put it in the right place. Our Self-tape Studio guides you on framing, lighting, sound and performance, so every submission looks like you and aims true."
       },
       {
-        "title": "Representation is not part of the beta",
-        "body": "During the beta, Agental does not represent performers or take a commission. Any future representation agreement will be a separate document that you read and choose to accept, apart from any plan or website."
+        "title": "Representation, kept separate",
+        "body": "Representation is a free agent agreement, held in the US by a licensed partner agency that receives the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
       },
       {
         "title": "Every profile has a strength",
@@ -111,7 +111,7 @@
   "pricing": {
     "eyebrow": "Pricing",
     "title": "Pricing that rewards your progress",
-    "note": "Every plan is optional. Representation is not part of the beta.",
+    "note": "Every plan is optional. Representation is free and never depends on a plan.",
     "perMonth": "per month",
     "commission": "commission {rate}",
     "popular": "Popular",
@@ -199,12 +199,12 @@
   "how": {
     "meta": {
       "title": "How it works: Agental Talents",
-      "description": "From creating your profile to receiving your fee: how Agental represents you and works for you, step by step."
+      "description": "From creating your profile to receiving your fee: how representation and Agental's tools work for you, step by step."
     },
     "hero": {
       "eyebrow": "How it works",
       "title": "How Agental works, for artists",
-      "subtitle": "A real agent who represents you, an AI working for you continuously. Here's the journey, jargon-free."
+      "subtitle": "Representation held by a licensed partner agency, and an AI that works for you around the clock. Here's the journey, jargon-free."
     },
     "sections": [
       {
@@ -212,8 +212,8 @@
         "body": "You fill in your stage identity, your physical profile, your media, your specialities and your availability. Every technical term is explained in plain language, so you do not need the trade's jargon to begin. A reel shot on a phone is enough to start."
       },
       {
-        "title": "The contract that gets you represented",
-        "body": "The mandate is the contract every artist signs with their agent. It is governed by French law. It is free, carries no commitment on your side, and can be ended whenever you want. By signing it you authorise us to represent you, to look for roles for you and to negotiate your contracts."
+        "title": "The agreement that gets you represented",
+        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency holds your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
       },
       {
         "title": "A watch that never stops",
@@ -221,17 +221,17 @@
       },
       {
         "title": "The studio that builds your confidence",
-        "body": "When a role asks for a self-tape, our studio works with you during the take. It guides you on framing, lighting and sound in real time. A vocal coach lets you hear the right intonation when the role calls for an accent. You record several versions, compare them, and send the best straight from the app."
+        "body": "When a role asks for a self-tape, our studio works with you during the take. It guides you on framing, lighting and sound in real time. A vocal coach lets you hear the right intonation when the role calls for an accent. You record several versions, compare them, and submit the best one from the app. Your submission goes to the Agental team for review, and nothing is sent to a casting site."
       },
       {
         "title": "From selection to fee",
-        "body": "Once you are selected, we take over the contractual side. We negotiate your fee and your terms, we check that the contract is legal, and we follow the shoot. Agental collects your fee, withholds its commission, and pays your share within seven days of actual payment."
+        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency receives its commission only on bookings you get through Agental, and only once you've been paid."
       }
     ],
     "cta": "Become a member",
     "summary": {
       "title": "In short",
-      "body": "The whole path at a glance: profile, mandate, AI watch, self-tape, contract. You keep control at every step, and a human always checks contracts before signature."
+      "body": "The whole path at a glance: profile, agreement, AI watch, self-tape, contract. You keep control at every step, and nothing is sent or submitted without your approval."
     }
   },
   "pricingPage": {
@@ -244,7 +244,7 @@
       "title": "Pricing that rewards your progress",
       "subtitle": "The Basic plan covers your profile and media. Paid plans add tools and are never a toll to opportunities."
     },
-    "note": "No commitment. Change plan or go back to Basic whenever you want."
+    "note": "Change plan or go back to Basic whenever you want, with no commitment."
   },
   "faq": {
     "meta": {
@@ -267,11 +267,11 @@
           },
           {
             "q": "Does Agental represent me?",
-            "a": "Not during the beta. Agental does not act as your agent and takes no commission. If representation opens later, it will come with its own written agreement that you choose to accept."
+            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency holds it and receives the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
           },
           {
             "q": "How much does it cost to start?",
-            "a": "Nothing. The Basic plan covers your profile and media. Paid plans and Limelight websites are optional and never a condition for auditions or applications."
+            "a": "It's free. The Basic plan covers your profile and media. Paid plans and Limelight websites are optional and never a condition for auditions or applications."
           },
           {
             "q": "Do I need experience to sign up?",
@@ -284,10 +284,10 @@
         "items": [
           {
             "q": "What is the representation mandate?",
-            "a": "It's the standard contract between an artist and their agent, governed by French law. It authorises us to represent you and negotiate for you. Free, no commitment on your side."
+            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency holds it and receives the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
           },
           {
-            "q": "How much commission does Agental take?",
+            "q": "How much is the commission?",
             "a": "{commission_FREE} on Basic and Pro, {commission_PREMIUM} on Premium, {commission_ULTIMATE} on Ultimate. The more you rise, the more you keep."
           },
           {
@@ -296,7 +296,7 @@
           },
           {
             "q": "Can I cancel my mandate?",
-            "a": "Yes, with a short notice and without having to justify it. You stay free."
+            "a": "Yes. You can end it with the notice set in the agreement, and you don't have to give a reason."
           }
         ]
       },
@@ -313,11 +313,11 @@
           },
           {
             "q": "Does the subscription give me privileged access to castings?",
-            "a": "No. Opportunities go through the mandate, which is free. The subscription lowers the commission and unlocks tools, never a fast pass."
+            "a": "Opportunities go through the mandate, which is free, and a plan never gives you better or earlier access to jobs. The subscription lowers the commission and unlocks tools, never a fast pass."
           },
           {
             "q": "What happens if I stop paying?",
-            "a": "You automatically move back to the Basic plan. You remain represented."
+            "a": "You automatically move back to the Basic plan. Your representation stays exactly the same."
           },
           {
             "q": "Does it work on a basic phone?",
@@ -670,10 +670,8 @@
       "why": "Required: casting teams filter on age and gender when they look for the right person."
     },
     "mandat": {
-      "title": "About the representation agreement",
-      "subtitle": "The representation agreement will be available later. You can complete your profile now.",
-      "read": "About the agreement",
-      "status": "The agreement that lets Agental represent you is still under review. During the beta you sign nothing, and your profile, media and website work without it. When a version is ready, we'll show it to you here and ask before anything is signed.",
+      "title": "The representation agreement",
+      "subtitle": "Here is what representation means, before anything is signed.",
       "submit": "Continue to my profile"
     },
     "back": "Back",

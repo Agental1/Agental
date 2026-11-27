@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Che cos'è Agental",
-      "body": "Agental è una piattaforma basata sull'IA per artisti e team di casting, in beta. Ogni artista crea un profilo con foto, crediti, showreel e self-tape, e un assistente IA prepara bozze di candidatura che l'artista rivede prima che venga inviato qualsiasi cosa. I team di casting ricevono shortlist ordinate con le motivazioni in vista. La rappresentanza non fa parte della beta.",
+      "body": "Agental è una piattaforma basata sull’IA per artisti e team di casting, in beta. Ogni artista crea un profilo con foto, crediti, showreel e self-tape, e un assistente IA prepara bozze di candidatura che l’artista rivede prima che venga inviato qualsiasi cosa. I team di casting ricevono liste ordinate con il ragionamento in vista. La rappresentanza è un mandato separato e gratuito: puoi leggerlo ora e firmarlo quando la nostra agenzia partner autorizzata sarà operativa.",
       "facts": [
         {
           "title": "Iscrizione gratuita",
@@ -138,7 +138,7 @@
         },
         {
           "title": "Approvi ogni candidatura",
-          "body": "Il tuo agente la prepara. Sei tu a decidere se inviarla."
+          "body": "Il tuo assistente IA lo prepara, e parte solo dopo la tua approvazione."
         },
         {
           "title": "Shortlist spiegate",
@@ -421,5 +421,30 @@
   "betaPrice": {
     "label": "Beta",
     "note": "I pagamenti non sono ancora aperti."
+  },
+  "legalCopy": {
+    "twoThingsTitle": "Due cose distinte",
+    "repTitle": "Rappresentanza",
+    "repFree": "Il mandato di rappresentanza è l’accordo con il tuo agente, ed è gratuito: non paghi quote d’iscrizione né quote di adesione. L’unica commissione è pari al {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato.",
+    "repTerms": "Ha una durata di {months} mesi e si rinnova automaticamente. Puoi recederlo con un preavviso di {noticeDays} giorni, e per impostazione predefinita non è in esclusiva.",
+    "repOpportunities": "La ricerca di ruoli, le candidature, la negoziazione e la revisione dei contratti passano tutte dalla rappresentanza, e solo da essa.",
+    "repPartner": "Negli Stati Uniti, un’agenzia partner autorizzata detiene la tua rappresentanza e riceve la commissione. Agental fornisce la tecnologia, gli strumenti e il coaching.",
+    "toolsTitle": "Strumenti",
+    "toolsBody": "I piani sono un contratto tecnologico separato, con condizioni proprie che accetti a parte. Sono facoltativi, senza vincoli, e sbloccano strumenti: candidature automatiche, ricerca con IA, Self-tape Studio e coaching. Un piano non ti dà mai un accesso migliore o anticipato ai lavori (California Fee-Related Talent Services Law, AB 1319), e puoi essere rappresentato senza pagare nulla.",
+    "humanLoop": "Resti nel controllo. Ogni invio o candidatura richiede la tua approvazione. Una risposta che invii a un ruolo viene sottoposta al team Agental per la revisione, e nulla viene inviato a un sito di casting. Le risposte alle email che riceviamo partono solo dopo l’approvazione di un membro dello staff.",
+    "beta": "Puoi leggere il mandato di rappresentanza già ora. Lo firmerai quando il nostro partner autorizzato sarà operativo. I pagamenti restano disattivati finché la società non esiste.",
+    "pricingLine": "La rappresentanza è gratuita. Paghi una commissione solo sulle prenotazioni che ottieni tramite Agental, e solo dopo essere stato pagato. I piani qui sotto sono strumenti facoltativi e non cambiano mai il tuo accesso ai ruoli.",
+    "commissionNote": "Le condizioni della commissione sono stabilite nel mandato di rappresentanza.",
+    "cookiesNever": "Accettare i cookie non equivale mai ad accettare il mandato di rappresentanza o un piano.",
+    "mandate": {
+      "summaryTitle": "Il mandato in parole semplici",
+      "free": "È gratuito: nessuna quota d’iscrizione e nessuna quota di adesione.",
+      "commission": "L’agenzia partner autorizzata riceve il {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental e solo dopo che sei stato pagato.",
+      "nonExclusive": "Per impostazione predefinita non è in esclusiva.",
+      "term": "Dura {months} mesi e si rinnova automaticamente.",
+      "notice": "Puoi recederlo con un preavviso di {noticeDays} giorni.",
+      "fullText": "Leggi come funziona la rappresentanza",
+      "noPayment": "La firma non ti impegna a nessun pagamento. I piani sono una scelta separata che puoi fare più avanti, o non fare mai."
+    }
   }
 }

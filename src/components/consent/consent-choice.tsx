@@ -40,6 +40,7 @@ export function ConsentChoice({
   className?: string;
 }) {
   const t = useTranslations("common.consent");
+  const tl = useTranslations("common.legalCopy");
   const [managing, setManaging] = useState(false);
   const [draft, setDraft] = useState<Consent>(() => initial ?? readConsent() ?? NECESSARY_ONLY);
 
@@ -81,6 +82,7 @@ export function ConsentChoice({
           </li>
         ))}
       </ul>
+      <p className="text-[13px] leading-snug text-fg-muted">{tl("cookiesNever")}</p>
 
       {managing ? (
         <Button type={type} className="w-full" aria-disabled={busy || undefined} onClick={() => choose(draft)}>

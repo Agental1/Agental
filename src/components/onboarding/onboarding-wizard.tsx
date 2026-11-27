@@ -1,16 +1,14 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useActionErrorText } from "@/components/app/action-error";
 import { err, type ActionError } from "@/domain/action-result";
-import { useId, useRef, useState, useTransition } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useRef, useState, useTransition } from "react";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   ArrowRight,
   ArrowLeft,
   Loader2,
-  ShieldCheck,
-  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -18,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PhoneField } from "@/components/app/smart-inputs";
 import { GENDERS } from "@/domain/identity";
 import { cn } from "@/lib/utils";
+import { legalCopyParams } from "@/lib/legal-copy";
 import { completeBetaOnboarding } from "@/app/actions/onboarding";
 import { saveProfileIdentity } from "@/app/actions/profile";
 
@@ -243,12 +242,12 @@ export function OnboardingWizard({
  */
 function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
   const t = useTranslations("talents");
+  const tl = useTranslations("common.legalCopy");
+  const params = legalCopyParams(useLocale());
   const router = useRouter();
   const errorText = useActionErrorText();
-  const [aboutOpen, setAboutOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
-  const aboutId = useId();
 
   function finish() {
     startTransition(async () => {
@@ -278,26 +277,23 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
       subtitle={t("onboarding.mandat.subtitle")}
       optional
     >
-      <div className="space-y-3 rounded-sedan border border-border bg-surface p-5">
-        <button
-          type="button"
-          aria-expanded={aboutOpen}
-          aria-controls={aboutId}
-          onClick={() => setAboutOpen((o) => !o)}
-          className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent hover:underline md:min-h-0"
+      <div className="space-y-4 rounded-sedan border border-border bg-surface p-5">
+        <h3 className="font-bold">{tl("mandate.summaryTitle")}</h3>
+        <ul className="list-disc space-y-1.5 pl-5 text-sm text-fg-muted">
+          <li>{tl("mandate.free")}</li>
+          <li>{tl("mandate.commission", params)}</li>
+          <li>{tl("mandate.nonExclusive")}</li>
+          <li>{tl("mandate.term", params)}</li>
+          <li>{tl("mandate.notice", params)}</li>
+        </ul>
+        <Link
+          href="/talents/comment-ca-marche#two-things"
+          className="inline-flex min-h-11 items-center text-sm font-medium text-accent hover:underline md:min-h-0"
         >
-          <ShieldCheck className="size-5 shrink-0" />
-          {t("onboarding.mandat.read")}
-          <ChevronDown
-            aria-hidden="true"
-            className={cn("size-4 shrink-0 transition-transform", aboutOpen && "rotate-180")}
-          />
-        </button>
-        {aboutOpen && (
-          <p id={aboutId} className="text-sm text-fg-muted">
-            {t("onboarding.mandat.status")}
-          </p>
-        )}
+          {tl("mandate.fullText")}
+        </Link>
+        <p className="text-sm text-fg-muted">{tl("beta")}</p>
+        <p className="text-sm font-medium">{tl("mandate.noPayment")}</p>
       </div>
 
       {error && (
