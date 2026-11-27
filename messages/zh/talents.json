@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "每月 AI 角色搜索次数",
+    "priceFree": "免费",
+    "unitMonth": "/ 月",
+    "unitYear": "/ 年",
     "perYear": "每年",
     "billing": {
       "label": "计费周期",

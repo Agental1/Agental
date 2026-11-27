@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "月あたりのAI役割検索回数",
+    "priceFree": "無料",
+    "unitMonth": "/ 月",
+    "unitYear": "/ 年",
     "perYear": "年額",
     "billing": {
       "label": "請求期間",
