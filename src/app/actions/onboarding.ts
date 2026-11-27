@@ -15,6 +15,8 @@ import {
 } from "@/domain/onboarding";
 import { isMinorOn } from "@/domain/age";
 import { MANDATE, canReceiveOpportunities, mandatSignBlocker } from "@/domain/mandat";
+import { plansStepColumns, representationAckColumns, REPRESENTATION_STEP_VERSION } from "@/domain/legal-versions";
+import { PlanB2C } from "@/domain/enums";
 import { nextSetupStep, type SetupStep } from "@/domain/setup";
 import { parseJson, PhysicalTraits, toJson, withHeight } from "@/domain/json";
 
@@ -105,6 +107,40 @@ export async function saveProfileBasics(input: unknown): Promise<StepResult> {
       data: { physical: toJson(physical) },
     }),
   ]);
+  return { ok: true };
+}
+
+/**
+ * The representation step was seen and acknowledged (round 12.1, group 2).
+ * Its own date and version on the User. This is NOT a signature: it never
+ * reads or writes Mandat, so Mandat.signedAt stays as it was, and it never
+ * touches the Privacy Policy or plans records.
+ */
+export async function acknowledgeRepresentationStep(): Promise<StepResult> {
+  const userId = await requireTalentUserId();
+  // Idempotent: the first acknowledgment of a given version keeps its date
+  // (a double click or a Back and Continue does not move it).
+  await prisma.user.updateMany({
+    where: {
+      id: userId,
+      OR: [{ representationAckVersion: null }, { representationAckVersion: { not: REPRESENTATION_STEP_VERSION } }],
+    },
+    data: representationAckColumns(),
+  });
+  return { ok: true };
+}
+
+/**
+ * The optional plans step: records that the person went through it and which
+ * plan they picked, with its own date and version. Opens no payment and does
+ * not change the Subscription (the Free row is made by completeBetaOnboarding;
+ * a paid plan is bought later in Settings, when payments open).
+ */
+export async function recordPlansStep(plan: unknown): Promise<StepResult> {
+  const userId = await requireTalentUserId();
+  const parsed = PlanB2C.safeParse(plan);
+  if (!parsed.success) return { ok: false, error: err("errors.invalidPlan") };
+  await prisma.user.update({ where: { id: userId }, data: plansStepColumns(parsed.data) });
   return { ok: true };
 }
 

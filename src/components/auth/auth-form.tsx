@@ -181,6 +181,9 @@ export function AuthForm({
           </label>
         </div>
       )}
+      {signup && kind === "TALENT" && (
+        <p className="-mt-1 text-[13px] leading-snug text-fg-muted">{t("auth.agreeSeparate")}</p>
+      )}
 
       </div>
 

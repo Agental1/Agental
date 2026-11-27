@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Agental, c’est quoi",
-      "body": "Agental est une plateforme propulsée par l’IA pour les artistes et les équipes de casting, en version bêta. Chaque artiste crée un profil avec ses photos, son CV, sa bande démo et ses self-tapes, et un assistant IA prépare des brouillons de candidature que l’artiste valide avant tout envoi. Les équipes de casting reçoivent des listes classées, avec le raisonnement affiché. La représentation est un mandat distinct et gratuit : tu peux le lire dès maintenant et le signer une fois que notre agence partenaire agréée sera en place.",
+      "body": "Agental est une plateforme propulsée par l’IA pour les artistes et les équipes de casting, en version bêta. Chaque artiste crée un profil avec ses photos, son CV, sa bande démo et ses self-tapes, et un assistant IA prépare des brouillons de candidature que l’artiste valide avant tout envoi. Les équipes de casting reçoivent des listes classées, avec le raisonnement affiché. La représentation est un mandat distinct et gratuit : tu peux le lire dès maintenant et le signer une fois qu’une agence partenaire agréée sera en place.",
       "facts": [
         {
           "title": "Inscription gratuite",
@@ -428,18 +428,18 @@
     "repFree": "Le mandat de représentation est le contrat qui te lie à ton agent, et il est gratuit : tu ne paies ni frais d’inscription ni cotisation. La seule rétribution est une commission de {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental, et seulement une fois que tu as été payé.",
     "repTerms": "Il court pendant {months} mois et se renouvelle automatiquement. Tu peux y mettre fin avec un préavis de {noticeDays} jours, et il n’est pas exclusif par défaut.",
     "repOpportunities": "La recherche de rôles, les soumissions, la négociation et la relecture des contrats passent toutes par la représentation, et uniquement par elle.",
-    "repPartner": "Aux États-Unis, une agence partenaire agréée détient ta représentation et perçoit la commission. Agental fournit la technologie, les outils et le coaching.",
+    "repPartner": "Aux États-Unis, une agence partenaire agréée détiendra ta représentation et percevra la commission une fois en place. Agental fournit la technologie, les outils et le coaching.",
     "toolsTitle": "Outils",
     "toolsBody": "Les formules font l’objet d’un contrat technologique distinct, avec leurs propres conditions, que tu acceptes séparément. Elles sont facultatives, sans engagement, et débloquent des outils : envois automatiques, recherche par IA, Self-tape Studio et coaching. Une formule ne te donne jamais un accès meilleur ou plus rapide aux rôles (California Fee-Related Talent Services Law, AB 1319), et tu peux être représenté sans rien payer.",
     "humanLoop": "Tu gardes la main. Tout envoi ou toute soumission requiert ton approbation. Chaque réponse que tu soumets à un rôle est transmise à l’équipe Agental pour relecture, et rien n’est envoyé à un site de casting. Les réponses aux e-mails que nous recevons ne partent qu’après approbation d’un membre de l’équipe.",
-    "beta": "Tu peux dès maintenant lire le mandat de représentation. Tu le signeras une fois que notre partenaire agréé sera en place. Les paiements restent désactivés tant que la société n’existe pas.",
+    "beta": "Tu peux dès maintenant lire le mandat de représentation. Tu pourras le signer une fois qu’une agence partenaire agréée sera en place. Les paiements restent désactivés tant que la société n’existe pas.",
     "pricingLine": "La représentation est gratuite. Tu ne paies une commission que sur les réservations obtenues via Agental, et seulement une fois payé. Les formules ci-dessous sont des outils facultatifs et ne modifient jamais ton accès aux rôles.",
     "commissionNote": "Les conditions de la commission sont fixées dans le mandat de représentation.",
     "cookiesNever": "Accepter les cookies ne vaut jamais acceptation du mandat de représentation ni d’une formule.",
     "mandate": {
       "summaryTitle": "Le mandat en langage clair",
       "free": "Il est gratuit : aucun frais d’inscription ni cotisation.",
-      "commission": "L’agence partenaire agréée perçoit {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental et seulement une fois que tu as été payé.",
+      "commission": "La commission est de {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental et seulement une fois que tu as été payé. Elle sera détenue par une agence partenaire agréée.",
       "nonExclusive": "Il n’est pas exclusif par défaut.",
       "term": "Il dure {months} mois et se renouvelle automatiquement.",
       "notice": "Tu peux y mettre fin avec un préavis de {noticeDays} jours.",

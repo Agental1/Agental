@@ -199,7 +199,8 @@
       "special": "記号 1 文字"
     },
     "agreePrivacy": "<privacy>プライバシーポリシー</privacy>とCookieの使用に同意します。",
-    "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意します。"
+    "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意します。",
+    "agreeSeparate": "代理契約とプランは別々に選択するもので、次のステップで説明します。"
   },
   "height": {
     "unit": "身長の単位",
@@ -659,6 +660,13 @@
           "quota": "今月の検索の残りなし"
         },
         "notPerformer": "出演者ではありません"
+      },
+      "acceptances": {
+        "privacy": "プライバシーとCookie",
+        "representation": "代理のステップ（確認のみ、署名なし）",
+        "plans": "プランのステップ（任意）",
+        "notRecorded": "未記録",
+        "plansPicked": "{date}、バージョン {version}、選択したプラン: {plan}"
       }
     },
     "studentRequests": {

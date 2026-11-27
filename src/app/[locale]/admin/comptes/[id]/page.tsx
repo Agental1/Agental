@@ -61,12 +61,28 @@ export default async function AccountPage({
           {t(`admin.cookies.choices.${consentChoiceOf(user)}`)}
           {user.consentAt ? ` · ${adminDateTime(user.consentAt, locale)}` : ""}
           {user.consentVersion ? ` · ${user.consentVersion}` : ""}
-          {" · "}
-          <span className="font-bold">{t("admin.accounts.cols.privacy")}:</span>{" "}
-          {user.privacyAcceptedAt
-            ? t("admin.cookies.privacyAccepted", { date: adminDateTime(user.privacyAcceptedAt, locale), version: user.privacyVersion ?? "-" })
-            : t("admin.cookies.privacyNo")}
         </p>
+        {/* Round 12.1: three acceptances, never merged: each with its own date and version. */}
+        <dl className="mt-2 grid max-w-xl gap-1 text-sm sm:grid-cols-[14rem_1fr]">
+          <dt className="font-bold">{t("admin.accounts.acceptances.privacy")}</dt>
+          <dd>
+            {user.privacyAcceptedAt
+              ? t("admin.cookies.privacyAccepted", { date: adminDateTime(user.privacyAcceptedAt, locale), version: user.privacyVersion ?? "-" })
+              : t("admin.accounts.acceptances.notRecorded")}
+          </dd>
+          <dt className="font-bold">{t("admin.accounts.acceptances.representation")}</dt>
+          <dd>
+            {user.representationAckAt
+              ? t("admin.cookies.privacyAccepted", { date: adminDateTime(user.representationAckAt, locale), version: user.representationAckVersion ?? "-" })
+              : t("admin.accounts.acceptances.notRecorded")}
+          </dd>
+          <dt className="font-bold">{t("admin.accounts.acceptances.plans")}</dt>
+          <dd>
+            {user.plansStepAt
+              ? t("admin.accounts.acceptances.plansPicked", { date: adminDateTime(user.plansStepAt, locale), version: user.plansStepVersion ?? "-", plan: user.plansStepChoice ?? "-" })
+              : t("admin.accounts.acceptances.notRecorded")}
+          </dd>
+        </dl>
       </div>
       {user.deletedAt ? (
         <p

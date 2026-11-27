@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Qué es Agental",
-      "body": "Agental es una plataforma con IA para artistas y equipos de casting, en beta. Cada artista crea un perfil con sus fotos, créditos, reel y self-tapes, y un asistente de IA prepara borradores de candidatura que el artista revisa antes de que se envíe nada. Los equipos de casting reciben listas ordenadas con el razonamiento a la vista. La representación es un contrato aparte y gratuito: puedes leerlo ahora y firmarlo cuando nuestra agencia socia con licencia esté en marcha.",
+      "body": "Agental es una plataforma con IA para artistas y equipos de casting, en beta. Cada artista crea un perfil con sus fotos, créditos, reel y self-tapes, y un asistente de IA prepara borradores de candidatura que el artista revisa antes de que se envíe nada. Los equipos de casting reciben listas ordenadas con el razonamiento a la vista. La representación es un contrato aparte y gratuito: puedes leerlo ahora y firmarlo cuando una agencia socia con licencia esté en marcha.",
       "facts": [
         {
           "title": "Unirse es gratis",
@@ -428,18 +428,18 @@
     "repFree": "El contrato de representación es el acuerdo con tu agente, y es gratuito: no pagas cuota de alta ni cuota de socio. La única tarifa es una comisión del {commission} de la tarifa bruta, solo en las reservas que consigas a través de Agental, y solo cuando te hayan pagado.",
     "repTerms": "Tiene una duración de {months} meses y se renueva automáticamente. Puedes ponerle fin con un preaviso de {noticeDays} días, y por defecto no es exclusivo.",
     "repOpportunities": "La búsqueda de papeles, los envíos, la negociación y la revisión de contratos llegan todos a través de la representación, y solo a través de ella.",
-    "repPartner": "En Estados Unidos, una agencia asociada con licencia gestiona tu representación y recibe la comisión. Agental aporta la tecnología, las herramientas y el coaching.",
+    "repPartner": "En Estados Unidos, una agencia asociada con licencia gestionará tu representación y recibirá la comisión una vez que esté en marcha. Agental aporta la tecnología, las herramientas y el coaching.",
     "toolsTitle": "Herramientas",
     "toolsBody": "Los planes son un contrato tecnológico aparte, con sus propias Condiciones, que aceptas por separado. Son opcionales, sin compromiso, y desbloquean herramientas: envíos automáticos, búsqueda con IA, Self-tape Studio y coaching. Un plan nunca te da un acceso mejor o anterior a los trabajos (California Fee-Related Talent Services Law, AB 1319), y puedes estar representado sin pagar nada.",
     "humanLoop": "Tú sigues al mando. Todo envío o presentación requiere tu aprobación. Cada respuesta que presentes a un papel llega al equipo de Agental para su revisión, y no se envía nada a ningún sitio de casting. Las respuestas a los correos que recibimos solo se envían después de que un miembro del equipo las apruebe.",
-    "beta": "Ya puedes leer el contrato de representación. Lo firmarás cuando nuestro socio con licencia esté en marcha. Los pagos seguirán desactivados hasta que exista la empresa.",
+    "beta": "Ya puedes leer el contrato de representación. Podrás firmarlo cuando una agencia asociada con licencia esté en marcha. Los pagos seguirán desactivados hasta que exista la empresa.",
     "pricingLine": "La representación es gratuita. Pagas una comisión solo en las reservas que consigas a través de Agental, y solo cuando te hayan pagado. Los planes de abajo son herramientas opcionales y nunca cambian tu acceso a los papeles.",
     "commissionNote": "Las condiciones de la comisión se establecen en el contrato de representación.",
     "cookiesNever": "Aceptar las cookies nunca equivale a aceptar el contrato de representación ni un plan.",
     "mandate": {
       "summaryTitle": "El contrato en lenguaje sencillo",
       "free": "Es gratuito: no hay cuota de alta ni cuota de socio.",
-      "commission": "El socio con licencia recibe el {commission} de la tarifa bruta, solo en las reservas que consigas a través de Agental y solo cuando te hayan pagado.",
+      "commission": "La comisión es del {commission} de la tarifa bruta, solo en las reservas que consigas a través de Agental y solo cuando te hayan pagado. La retendrá un socio con licencia.",
       "nonExclusive": "Por defecto no es exclusivo.",
       "term": "Tiene una duración de {months} meses y se renueva automáticamente.",
       "notice": "Puedes ponerle fin con un preaviso de {noticeDays} días.",

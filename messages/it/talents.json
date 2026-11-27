@@ -58,7 +58,7 @@
       },
       {
         "title": "La rappresentanza, separata",
-        "body": "La rappresentanza è un mandato di agenzia gratuito, detenuto negli Stati Uniti da un’agenzia partner autorizzata che riceve la commissione. Puoi leggerlo ora e firmarlo quando quel partner sarà operativo. Resta separato da qualsiasi piano o sito web, e sei tu a decidere se accettarlo."
+        "body": "La rappresentanza è un mandato di agenzia gratuito, che negli Stati Uniti sarà detenuto da un’agenzia partner autorizzata che riceverà la commissione. Puoi leggerlo ora e firmarlo quando quel partner sarà operativo. Resta separato da qualsiasi piano o sito web, e sei tu a decidere se accettarlo."
       },
       {
         "title": "Ogni profilo ha un punto di forza",
@@ -106,7 +106,7 @@
     "eyebrow": "Commissione decrescente",
     "title": "Più vai avanti, più tieni per te",
     "cta": "Vedi i prezzi dettagliati",
-    "body": "Il tuo abbonamento e la commissione del tuo agente sono due cose separate. La rappresentanza resta gratuita. Se scegli un piano per accedere a più strumenti, la tua commissione scende allo stesso tempo. È un modello allineato al tuo successo."
+    "body": "Il tuo abbonamento e la commissione di rappresentanza sono due cose separate. La rappresentanza resta gratuita. Se scegli un piano per accedere a più strumenti, la tua commissione scende allo stesso tempo. È un modello allineato al tuo successo."
   },
   "pricing": {
     "eyebrow": "Prezzi",
@@ -124,7 +124,7 @@
           "Reel e Self-tape",
           "Monitoraggio di carriera e guadagni",
           "{searches} ricerche di ruoli con l'IA al mese",
-          "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+          "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
         ]
       },
       {
@@ -134,9 +134,9 @@
           "Tutto ciò che c'è in Basic",
           "{searches} ricerche di ruoli con l'IA al mese",
           "Feedback dell'IA sui tuoi self-tape",
-          "Risposte più rapide dal team Agental",
-          "Assistenza prioritaria",
-          "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+          "Risposte più rapide alle tue domande sull’app",
+          "Assistenza prioritaria per l’app",
+          "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "{searches} ricerche di ruoli con l'IA al mese",
           "Più coaching",
           "Altre funzioni in arrivo",
-          "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+          "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "Tutto ciò che c'è in Premium",
           "{searches} ricerche di ruoli con l'IA al mese",
-          "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+          "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
         ]
       }
     ],
@@ -216,7 +216,7 @@
     "hero": {
       "eyebrow": "Come funziona",
       "title": "Come funziona Agental, per gli artisti",
-      "subtitle": "Una rappresentanza affidata a un’agenzia partner autorizzata, e un’IA che lavora per te in ogni momento. Ecco il percorso, senza gergo."
+      "subtitle": "Una rappresentanza affidata a un’agenzia partner autorizzata una volta operativa, e un’IA che lavora per te in ogni momento. Ecco il percorso, senza gergo."
     },
     "sections": [
       {
@@ -225,7 +225,7 @@
       },
       {
         "title": "Il contratto che ti fa rappresentare",
-        "body": "Il mandato di rappresentanza è il tuo accordo con l’agente. È gratuito, senza quote d’iscrizione né di adesione, e per impostazione predefinita non è in esclusiva. Negli Stati Uniti, un’agenzia partner autorizzata detiene la tua rappresentanza: la ricerca di ruoli, le candidature, la negoziazione e la revisione dei contratti passano tutte da lì. Puoi leggere il mandato ora e firmarlo quando quel partner sarà operativo."
+        "body": "Il mandato di rappresentanza è il tuo accordo con l’agente. È gratuito, senza quote d’iscrizione né di adesione, e per impostazione predefinita non è in esclusiva. Negli Stati Uniti, un’agenzia partner autorizzata deterrà la tua rappresentanza: la ricerca di ruoli, le candidature, la negoziazione e la revisione dei contratti passeranno tutte da lì. Puoi leggere il mandato ora e firmarlo quando quel partner sarà operativo."
       },
       {
         "title": "Un monitoraggio che non si ferma mai",
@@ -237,7 +237,7 @@
       },
       {
         "title": "Dalla selezione al compenso",
-        "body": "Quando sei selezionato, la negoziazione e la revisione dei contratti passano dalla tua rappresentanza. L’agenzia partner riceve la sua commissione solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato."
+        "body": "Quando sei selezionato, la negoziazione e la revisione dei contratti passano dalla tua rappresentanza. L’agenzia partner riceverà la sua commissione solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato."
       }
     ],
     "cta": "Diventa membro",
@@ -279,7 +279,7 @@
           },
           {
             "q": "Agental mi rappresenta?",
-            "a": "La rappresentanza passa da un mandato separato e gratuito. Negli Stati Uniti, un’agenzia partner autorizzata la detiene e riceve la commissione, mentre Agental fornisce la tecnologia, gli strumenti e il coaching. Puoi leggere il mandato ora e firmarlo quando quel partner sarà operativo."
+            "a": "La rappresentanza passa da un mandato separato e gratuito. Negli Stati Uniti, un’agenzia partner autorizzata la deterrà e riceverà la commissione, mentre Agental fornisce la tecnologia, gli strumenti e il coaching. Puoi leggere il mandato ora e firmarlo quando quel partner sarà operativo."
           },
           {
             "q": "Quanto costa iniziare?",
@@ -296,7 +296,7 @@
         "items": [
           {
             "q": "Che cos'è il mandato di rappresentanza?",
-            "a": "È l’accordo di agenzia tra te e la tua rappresentanza. Negli Stati Uniti, un’agenzia partner autorizzata lo detiene e riceve la commissione. È gratuito, senza quote d’iscrizione né di adesione, e per impostazione predefinita non è in esclusiva."
+            "a": "È l’accordo di agenzia tra te e la tua rappresentanza. Negli Stati Uniti, un’agenzia partner autorizzata lo deterrà e riceverà la commissione. È gratuito, senza quote d’iscrizione né di adesione, e per impostazione predefinita non è in esclusiva."
           },
           {
             "q": "Quanto vale la commissione?",
@@ -668,7 +668,8 @@
     "steps": {
       "identity": "Il tuo nome",
       "profile": "Su di te",
-      "mandat": "Contratto"
+      "mandat": "Contratto",
+      "plans": "Piani"
     },
     "identity": {
       "title": "Chi sei?",
@@ -684,7 +685,9 @@
     "mandat": {
       "title": "Il mandato di rappresentanza",
       "subtitle": "Ecco cosa significa la rappresentanza, prima di firmare qualsiasi cosa.",
-      "submit": "Continua verso il mio profilo"
+      "submit": "Ho capito, continua",
+      "closed": "La firma è chiusa durante la beta, quindi oggi non c’è nulla da firmare. Puoi leggere come funziona e andare avanti.",
+      "ack": "Continuando si registra che hai letto questo passaggio. Non è una firma."
     },
     "back": "Indietro",
     "continue": "Continua",
@@ -775,6 +778,13 @@
         "discard": "Scarta",
         "cityHint": "Scegli una città"
       }
+    },
+    "plans": {
+      "title": "Piani, se li vuoi",
+      "subtitle": "I piani sono strumenti facoltativi. Non cambiano mai il tuo accesso ai ruoli né il modo in cui sei rappresentato.",
+      "noPayment": "Scegliere un piano qui non comporta alcun addebito. Puoi cambiare piano in qualsiasi momento in Impostazioni.",
+      "continueBasic": "Continua con Basic (gratuito)",
+      "continueWith": "Continua con {plan}"
     }
   },
   "space": {
@@ -1283,27 +1293,27 @@
         "Reel e Self-tape",
         "Monitoraggio di carriera e guadagni",
         "{searches} ricerche di ruoli con l'IA al mese",
-        "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+        "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
       ],
       "PRO": [
         "Tutto ciò che c'è in Basic",
         "{searches} ricerche di ruoli con l'IA al mese",
         "Feedback dell'IA sui tuoi self-tape",
-        "Risposte più rapide dal team Agental",
-        "Assistenza prioritaria",
-        "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+        "Risposte più rapide alle tue domande sull’app",
+        "Assistenza prioritaria per l’app",
+        "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
       ],
       "PREMIUM": [
         "Tutto ciò che c'è in Pro",
         "{searches} ricerche di ruoli con l'IA al mese",
         "Più coaching",
         "Altre funzioni in arrivo",
-        "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+        "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
       ],
       "ULTIMATE": [
         "Tutto ciò che c'è in Premium",
         "{searches} ricerche di ruoli con l'IA al mese",
-        "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
+        "{commission} di commissione sugli ingaggi, che sarà trattenuta da un’agenzia partner autorizzata"
       ]
     },
     "media": {

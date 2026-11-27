@@ -18,6 +18,7 @@ import { getSetupState } from "@/lib/setup";
 import { SETUP_STEPS } from "@/domain/setup";
 import { chatModeFor } from "@/lib/onboarding-chat/mode";
 import { agentNameFor } from "@/lib/agent-name";
+import { talentPlanCards } from "@/lib/plan-cards";
 
 export async function generateMetadata({
   params,
@@ -108,6 +109,7 @@ export default async function TalentsSignupPage({
   return (
     <OnboardingWizard
       chat={chat}
+      plans={talentPlanCards(t, locale)}
       initialStep={nextStep === null ? SETUP_STEPS.length : SETUP_STEPS.indexOf(nextStep)}
       initial={{
         legalFirstName: names.first,

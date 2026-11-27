@@ -199,7 +199,8 @@
       "special": "특수 문자 1개"
     },
     "agreePrivacy": "<privacy>개인정보 처리방침</privacy> 및 쿠키 사용에 동의합니다.",
-    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy>, <terms>이용약관</terms> 및 쿠키 사용에 동의합니다."
+    "agreePrivacyTerms": "<privacy>개인정보 처리방침</privacy>, <terms>이용약관</terms> 및 쿠키 사용에 동의합니다.",
+    "agreeSeparate": "대리와 요금제는 별개의 선택이며, 다음 단계에서 설명해요."
   },
   "height": {
     "unit": "키 단위",
@@ -659,6 +660,13 @@
           "quota": "이번 달 남은 검색 없음"
         },
         "notPerformer": "배우가 아님"
+      },
+      "acceptances": {
+        "privacy": "개인정보 및 쿠키",
+        "representation": "대리 단계(확인만, 서명 아님)",
+        "plans": "요금제 단계(선택 사항)",
+        "notRecorded": "기록되지 않음",
+        "plansPicked": "{date}, 버전 {version}, 선택한 요금제: {plan}"
       }
     },
     "studentRequests": {

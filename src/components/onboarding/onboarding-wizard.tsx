@@ -17,7 +17,11 @@ import { PhoneField } from "@/components/app/smart-inputs";
 import { GENDERS } from "@/domain/identity";
 import { cn } from "@/lib/utils";
 import { legalCopyParams } from "@/lib/legal-copy";
-import { completeBetaOnboarding } from "@/app/actions/onboarding";
+import { acknowledgeRepresentationStep, completeBetaOnboarding, recordPlansStep } from "@/app/actions/onboarding";
+import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
+import { BillingPeriodProvider } from "@/components/talents/billing-period";
+import { PromotionsProvider } from "@/components/talents/promotions";
+import { MANDATE } from "@/domain/mandat";
 import { saveProfileIdentity } from "@/app/actions/profile";
 import { OnboardingChat } from "./onboarding-chat";
 
@@ -29,7 +33,7 @@ import { OnboardingChat } from "./onboarding-chat";
  * is not asked here; it comes later in the profile. The third screen, which
  * explains the representation agreement, stays.
  */
-const STEP_KEYS = ["identity", "profile", "mandat"] as const;
+const STEP_KEYS = ["identity", "profile", "mandat", "plans"] as const;
 
 export interface OnboardingInitial {
   legalFirstName: string;
@@ -51,8 +55,11 @@ export function OnboardingWizard({
   initial,
   initialStep = 0,
   chat,
+  plans = [],
 }: {
   initial: OnboardingInitial;
+  /** The plan cards of the optional plans step (built on the server from the pricing table). */
+  plans?: PlanCard[];
   /** Where to resume: the first unfinished step (see src/domain/setup.ts). */
   initialStep?: number;
   /** Round 12, group 6: the chat is on for this account. `agentName` is the agent's name ("Jay" by default). */
@@ -252,43 +259,47 @@ export function OnboardingWizard({
           </Step>
         )}
 
-        {step === 2 && <MandatStep onBack={(to = 1) => back(to)} />}
+        {step === 2 && (
+          <MandatStep
+            onBack={(to = 1) => back(to)}
+            onNext={() => {
+              setError(undefined);
+              setStep(3);
+            }}
+          />
+        )}
+        {step === 3 && <PlansStep plans={plans} onBack={(to = 2) => back(to)} />}
       </div>
     </div>
   );
 }
 
 /**
- * The third step keeps its place and its name, but during the beta it signs
- * nothing: the representation agreement is out until counsel approves a
- * version (src/domain/mandat.ts). The button records that the basics are
- * done (completeBetaOnboarding) and goes where the server says.
+ * The third step: the representation agreement, explained on its own. It is
+ * free, with {commission} only on bookings through Agental. While signing is
+ * closed (src/domain/mandat.ts) it says so and lets the person continue.
+ * Continuing records that the step was seen (acknowledgeRepresentationStep, its
+ * own date and version). That is NOT a signature and never writes Mandat.
+ * No price and no plan appear here; plans are the next, separate step.
  */
-function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
+function MandatStep({ onBack, onNext }: { onBack: (to?: number) => void; onNext: () => void }) {
   const t = useTranslations("talents");
   const tl = useTranslations("common.legalCopy");
   const params = legalCopyParams(useLocale());
-  const router = useRouter();
   const errorText = useActionErrorText();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<ActionError | undefined>();
 
-  function finish() {
+  function acknowledge() {
     startTransition(async () => {
       setError(undefined);
       try {
-        const res = await completeBetaOnboarding();
+        const res = await acknowledgeRepresentationStep();
         if (!res.ok) {
-          setError(res.error);
+          setError(res.error ?? err("errors.generic"));
           return;
         }
-        // A step still missing (another tab cleared it): back to that step.
-        if (res.nextStep) {
-          setError(err("errors.onboardingIncomplete"));
-          onBack(res.nextStep === "identity" ? 0 : 1);
-          return;
-        }
-        router.push(res.path);
+        onNext();
       } catch {
         setError(err("errors.generic"));
       }
@@ -316,8 +327,12 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
         >
           {tl("mandate.fullText")}
         </Link>
+        {MANDATE.approvedVersion === null && (
+          <p className="text-sm text-fg-muted">{t("onboarding.mandat.closed")}</p>
+        )}
         <p className="text-sm text-fg-muted">{tl("beta")}</p>
         <p className="text-sm font-medium">{tl("mandate.noPayment")}</p>
+        <p className="text-xs text-fg-muted">{t("onboarding.mandat.ack")}</p>
       </div>
 
       {error && (
@@ -326,12 +341,7 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
         </p>
       )}
 
-      <Button
-        className="mt-5 w-full"
-        size="lg"
-        disabled={pending}
-        onClick={finish}
-      >
+      <Button className="mt-5 w-full" size="lg" disabled={pending} onClick={acknowledge}>
         {pending && <Loader2 className="size-4 animate-spin" />}
         {t("onboarding.mandat.submit")}
       </Button>
@@ -339,9 +349,71 @@ function MandatStep({ onBack }: { onBack: (to?: number) => void }) {
         <Button variant="ghost" onClick={() => onBack()} disabled={pending}>
           <ArrowLeft /> {t("onboarding.back")}
         </Button>
-        {/* Nothing to save on this step: skipping goes where Continue goes. */}
-        <Button variant="ghost" onClick={finish} disabled={pending}>
+        {/* Skipping moves on without recording anything. */}
+        <Button variant="ghost" onClick={onNext} disabled={pending}>
           {t("onboarding.skip")}
+        </Button>
+      </div>
+    </Step>
+  );
+}
+
+/**
+ * The fourth step: plans, later and clearly optional. Every button only
+ * records the pick (recordPlansStep, its own date and version); no payment
+ * opens and the plan does not change. The last act is the old final button:
+ * completeBetaOnboarding stamps the first run and goes where the server says.
+ */
+function PlansStep({ plans, onBack }: { plans: PlanCard[]; onBack: (to?: number) => void }) {
+  const t = useTranslations("talents");
+  const router = useRouter();
+  const errorText = useActionErrorText();
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<ActionError | undefined>();
+
+  function pick(plan: string) {
+    startTransition(async () => {
+      setError(undefined);
+      try {
+        const saved = await recordPlansStep(plan);
+        if (!saved.ok) {
+          setError(saved.error ?? err("errors.generic"));
+          return;
+        }
+        const res = await completeBetaOnboarding();
+        if (!res.ok) {
+          setError(res.error);
+          return;
+        }
+        // A step still missing (another tab cleared it): back to that step.
+        if (res.nextStep) {
+          setError(err("errors.onboardingIncomplete"));
+          onBack(res.nextStep === "identity" ? 0 : 1);
+          return;
+        }
+        router.push(res.path);
+      } catch {
+        setError(err("errors.generic"));
+      }
+    });
+  }
+
+  return (
+    <Step title={t("onboarding.plans.title")} subtitle={t("onboarding.plans.subtitle")} optional>
+      <p className="text-sm font-medium">{t("onboarding.plans.noPayment")}</p>
+      <PromotionsProvider>
+        <BillingPeriodProvider>
+          <PlanSelector plans={plans} current="" onPick={pick} pickPending={pending} />
+        </BillingPeriodProvider>
+      </PromotionsProvider>
+      {error && (
+        <p role="alert" className="text-sm text-danger">
+          {errorText(error)}
+        </p>
+      )}
+      <div className="flex items-center">
+        <Button variant="ghost" onClick={() => onBack()} disabled={pending}>
+          <ArrowLeft /> {t("onboarding.back")}
         </Button>
       </div>
     </Step>

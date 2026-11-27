@@ -199,7 +199,8 @@
       "special": "Un caractère spécial"
     },
     "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy> et l’utilisation des cookies.",
-    "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies."
+    "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies.",
+    "agreeSeparate": "La représentation et les formules sont deux choix distincts, expliqués dans les étapes suivantes."
   },
   "height": {
     "unit": "Unité de taille",
@@ -659,6 +660,13 @@
           "quota": "plus de recherches ce mois-ci"
         },
         "notPerformer": "Pas un artiste"
+      },
+      "acceptances": {
+        "privacy": "Confidentialité et cookies",
+        "representation": "Étape représentation (lue, sans signature)",
+        "plans": "Étape formules (facultative)",
+        "notRecorded": "Non enregistré",
+        "plansPicked": "{date}, version {version}, formule choisie : {plan}"
       }
     },
     "studentRequests": {
