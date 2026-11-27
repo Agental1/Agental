@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "Buscas de funções com IA por mês",
+    "priceFree": "Grátis",
+    "unitMonth": "/ mês",
+    "unitYear": "/ ano",
     "perYear": "por ano",
     "billing": {
       "label": "Período de cobrança",

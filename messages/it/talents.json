@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "Ricerche di ruoli con IA al mese",
+    "priceFree": "Gratis",
+    "unitMonth": "/ mese",
+    "unitYear": "/ anno",
     "perYear": "all’anno",
     "billing": {
       "label": "Periodo di fatturazione",

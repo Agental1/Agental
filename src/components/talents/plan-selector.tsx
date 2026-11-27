@@ -106,8 +106,9 @@ export function PlanSelector({
                 yearly={p.yearlyPrice}
                 promos={p.promos}
                 paid={p.plan !== "FREE"}
-                unitMonth={t("space.plans.perMonth")}
-                unitYear={t("pricing.perYear")}
+                unitMonth={t("pricing.unitMonth")}
+                unitYear={t("pricing.unitYear")}
+                freeLabel={t("pricing.priceFree")}
                 className="mt-4 border-t border-border pt-3"
               />
               <Button

@@ -61,8 +61,9 @@ export function TalentPlanPrice({
   paid,
   unitMonth,
   unitYear,
+  freeLabel,
   className,
-  figureClassName = "text-[1.125rem] font-bold tabular-nums",
+  figureClassName = "text-[15px] font-bold tabular-nums",
 }: {
   monthly: string;
   yearly: string;
@@ -70,6 +71,8 @@ export function TalentPlanPrice({
   paid: boolean;
   unitMonth: string;
   unitYear: string;
+  /** Shown instead of a figure on the free plan. */
+  freeLabel?: string;
   className?: string;
   figureClassName?: string;
 }) {
@@ -78,12 +81,16 @@ export function TalentPlanPrice({
   return (
     <div className={className}>
       <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
-        {yearlyView ? (
+        {!paid && freeLabel ? (
+          <span className={figureClassName}>{freeLabel}</span>
+        ) : yearlyView ? (
           <span className={figureClassName}>{yearly}</span>
         ) : (
           <PromoPrice base={monthly} promos={promos} className={figureClassName} />
         )}
-        <span className="text-[13px] text-fg-muted">{yearlyView ? unitYear : unitMonth}</span>
+        {(paid || !freeLabel) && (
+          <span className="text-[13px] text-fg-muted">{yearlyView ? unitYear : unitMonth}</span>
+        )}
         {paid && <BetaBadge className="ml-1" />}
       </p>
       {paid && <PaymentsNote className="mt-1" />}
@@ -96,7 +103,7 @@ export function PlanLead({ big, label, className }: { big: string; label: string
   return (
     <div className={className}>
       <p className="text-[2.75rem] font-bold leading-none tracking-[-0.03em] tabular-nums">{big}</p>
-      <p className="mt-1.5 text-[14px] font-bold leading-snug">{label}</p>
+      <p className="mt-0.5 text-[17px] font-bold leading-tight">{label}</p>
     </div>
   );
 }
