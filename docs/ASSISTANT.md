@@ -91,3 +91,13 @@ first week.
 
 When a limit is reached the API refuses calls and the assistant falls back to the rules: the site
 never breaks.
+
+## Onboarding chat (round 12, group 6)
+
+A second use of the same key and model (`assistantModel()`, `claude-haiku-5-5`): the onboarding
+and profile chat (`docs/ONBOARDING_CHAT_DESIGN.md`). Usage is recorded in `AiUsage` with
+`kind: "onboarding.chat"`, `ref: "<userId>:<uuid>"`, one row per call. Cap per account over a
+rolling 24 hours: 30 calls and 40,000 tokens (`ONBOARDING_CHAT_DAILY_CALLS`,
+`ONBOARDING_CHAT_DAILY_TOKENS`). Its cost counts toward `ASSISTANT_MONTHLY_BUDGET_USD` together
+with `assistant.reply`. Pause on, no key, cap or budget reached: the scripted flow (no model).
+Switch: Admin > Controls > "Onboarding as a conversation" (`AppSetting` `onboarding.chat`).

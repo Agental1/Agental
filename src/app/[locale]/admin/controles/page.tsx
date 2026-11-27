@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { toLocale } from "@/i18n/routing";
 import { currentAdminId } from "@/lib/limelight/admin";
 import { audit } from "@/lib/audit";
-import { approvedEmailCategories, emailGateState, pauseState, searchAccess, searchRunState } from "@/lib/app-settings";
+import { approvedEmailCategories, emailGateState, onboardingChatSetting, pauseState, searchAccess, searchRunState } from "@/lib/app-settings";
 import { emailCodeAvailable } from "@/lib/email-code";
 import { aiAccountStates } from "@/lib/ai-spend";
 import { PROVIDER_LABEL } from "@/domain/ai-spend";
@@ -14,7 +14,8 @@ import { PlanB2C } from "@/domain/enums";
 import { EMAIL_CATEGORIES } from "@/lib/email-unsubscribe";
 import { workflowMode } from "@/domain/workflow/eligibility";
 import { smsConfig } from "@/lib/sms";
-import { setEmailApprovalForm, setEmailGateForm, setPauseForm, setRunSearchesForm, setSearchAccessForm } from "@/app/actions/admin-controls";
+import { setEmailApprovalForm, setEmailGateForm, setOnboardingChatModeForm, setPauseForm, setRunSearchesForm, setSearchAccessForm, updateOnboardingChatAllowlistForm } from "@/app/actions/admin-controls";
+import { allowlistForDisplay, CHAT_MODES } from "@/domain/onboarding-chat-switch";
 import { adminDateTime, dateTime } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 
@@ -35,7 +36,8 @@ export default async function ControlsPage({ params, searchParams }: { params: P
   if (!adminId) notFound();
   const t = await getTranslations({ locale, namespace: "app" });
   const sp = await searchParams;
-  const [approved, pause, access, ai, gate, run] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates(), emailGateState(), searchRunState()]);
+  const [approved, pause, access, ai, gate, run, chatSetting] = await Promise.all([approvedEmailCategories(), pauseState(), searchAccess(), aiAccountStates(), emailGateState(), searchRunState(), onboardingChatSetting()]);
+  const chatList = allowlistForDisplay(chatSetting.allowlist);
   const canSendCodes = emailCodeAvailable();
   const usd = (cents: number | null) =>
     cents === null ? null : new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
@@ -187,6 +189,52 @@ export default async function ControlsPage({ params, searchParams }: { params: P
             {gate.required ? t(`${c}.emailGate.turnOff`) : t(`${c}.emailGate.turnOn`)}
           </button>
         </form>
+      </section>
+
+      <section id="onboarding-chat" aria-labelledby="onboarding-chat-title" className="space-y-3 rounded-sedan border border-border bg-surface p-5">
+        <h2 id="onboarding-chat-title" className="font-display text-xl font-medium">
+          {t(`${c}.onboardingChat.title`)}
+        </h2>
+        <p className="max-w-3xl text-sm text-fg-muted">{t(`${c}.onboardingChat.lead`)}</p>
+        <form action={setOnboardingChatModeForm} className="space-y-2">
+          <input type="hidden" name="locale" value={locale} />
+          <fieldset className="space-y-2">
+            <legend className="sr-only">{t(`${c}.onboardingChat.title`)}</legend>
+            {CHAT_MODES.map((m) => (
+              <label key={m} className="flex items-center gap-2 text-sm">
+                <input type="radio" name="mode" value={m} defaultChecked={chatSetting.mode === m} />
+                <span>{t(`${c}.onboardingChat.modes.${m}`)}</span>
+              </label>
+            ))}
+          </fieldset>
+          <button className="h-11 rounded-full bg-accent px-6 text-sm font-bold text-[var(--accent-fg)]">{t(`${c}.onboardingChat.save`)}</button>
+        </form>
+        <div className="space-y-2">
+          <h3 className="font-bold">{t(`${c}.onboardingChat.allowlistTitle`)}</h3>
+          {chatList.hidden > 0 && <p className="text-sm">{t(`${c}.onboardingChat.hidden`, { count: chatList.hidden })}</p>}
+          {chatList.plain.length === 0 ? (
+            <p className="text-sm text-fg-muted">{t(`${c}.onboardingChat.none`)}</p>
+          ) : (
+            <ul className="space-y-1">
+              {chatList.plain.map((email) => (
+                <li key={email} className="flex items-center gap-3 text-sm">
+                  <span>{email}</span>
+                  <form action={updateOnboardingChatAllowlistForm}>
+                    <input type="hidden" name="locale" value={locale} />
+                    <input type="hidden" name="remove" value={email} />
+                    <button className="text-danger hover:underline">{t(`${c}.onboardingChat.remove`)}</button>
+                  </form>
+                </li>
+              ))}
+            </ul>
+          )}
+          <form action={updateOnboardingChatAllowlistForm} className="space-y-2">
+            <input type="hidden" name="locale" value={locale} />
+            <label className="block text-sm font-bold" htmlFor="chat-allow-add">{t(`${c}.onboardingChat.add`)}</label>
+            <textarea id="chat-allow-add" name="add" rows={3} className="w-full max-w-md rounded-sedan border border-border bg-bg p-2 text-sm" />
+            <button className="h-9 rounded-sedan bg-accent px-3 text-sm font-bold text-[var(--accent-fg)]">{t(`${c}.onboardingChat.addButton`)}</button>
+          </form>
+        </div>
       </section>
 
       <section aria-labelledby="emails" className="space-y-3">

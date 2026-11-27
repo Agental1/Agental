@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { audit } from "@/lib/audit";
 import { EMAIL_CATEGORIES, type EmailCategory } from "@/lib/email-unsubscribe";
 import { isSearchAccess, type SearchAccess } from "@/domain/workflow/eligibility";
+import { isHashedEntry, normalizeAllowlistEntry, parseChatSetting, type ChatSetting, type ChatSwitchMode } from "@/domain/onboarding-chat-switch";
 
 /**
  * Round 9: the switches staff change in Admin > Controls. Stored in
@@ -263,4 +264,56 @@ export async function setEmailVerificationRequired(adminId: string, required: bo
     });
     await audit({ actorUserId: adminId, action: required ? "admin.emailGate.on" : "admin.emailGate.off", resourceType: "AppSetting", resourceId: EMAIL_GATE_KEY, before: { required: before }, after: { required } }, tx);
   });
+}
+
+// ------------------------------------------------- onboarding as a conversation
+
+/**
+ * Round 12, group 6: "Onboarding as a conversation" in Admin > Controls. Value
+ * `{ mode, allowlist, since }`; allowlist entries are an email or
+ * `sha256:<hex>`. Missing -> Test accounts only; unreadable -> off. Same
+ * pattern as the pause switch: read fresh, changes audited with the write.
+ */
+const ONBOARDING_CHAT_KEY = "onboarding.chat";
+
+export async function onboardingChatSetting(
+  db: { appSetting: Pick<typeof prisma.appSetting, "findUnique"> } = prisma
+): Promise<ChatSetting> {
+  const row = await db.appSetting.findUnique({ where: { key: ONBOARDING_CHAT_KEY } });
+  return parseChatSetting(row?.value);
+}
+
+async function writeOnboardingChat(adminId: string, next: ChatSetting, action: string, before: unknown, after: unknown): Promise<void> {
+  const value = JSON.stringify({ mode: next.mode, allowlist: next.allowlist, since: new Date().toISOString() });
+  await prisma.$transaction(async (tx) => {
+    await tx.appSetting.upsert({
+      where: { key: ONBOARDING_CHAT_KEY },
+      create: { key: ONBOARDING_CHAT_KEY, value, updatedById: adminId },
+      update: { value, updatedById: adminId },
+    });
+    await audit({ actorUserId: adminId, action, resourceType: "AppSetting", resourceId: ONBOARDING_CHAT_KEY, before, after }, tx);
+  });
+}
+
+export async function setOnboardingChatMode(adminId: string, mode: ChatSwitchMode): Promise<void> {
+  const before = await onboardingChatSetting();
+  if (before.mode === mode) return;
+  await writeOnboardingChat(adminId, { ...before, mode }, "admin.onboardingChat.mode", { mode: before.mode }, { mode });
+}
+
+/** Add and remove addresses (plain emails; a hashed entry is removed by its own text, kept otherwise). */
+export async function updateOnboardingChatAllowlist(adminId: string, change: { add?: string[]; remove?: string[] }): Promise<void> {
+  const before = await onboardingChatSetting();
+  const remove = new Set((change.remove ?? []).map((e) => e.trim().toLowerCase()));
+  const kept = before.allowlist.filter((e) => !remove.has(e));
+  const next = [...new Set([...kept, ...(change.add ?? []).map(normalizeAllowlistEntry).filter((e): e is string => !!e)])].sort();
+  if (next.join("\n") === [...before.allowlist].sort().join("\n")) return;
+  const hidden = (l: string[]) => l.filter(isHashedEntry).length;
+  await writeOnboardingChat(
+    adminId,
+    { ...before, allowlist: next },
+    "admin.onboardingChat.allowlist",
+    { plain: before.allowlist.filter((e) => !isHashedEntry(e)), hidden: hidden(before.allowlist) },
+    { plain: next.filter((e) => !isHashedEntry(e)), hidden: hidden(next) }
+  );
 }

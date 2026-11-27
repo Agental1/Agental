@@ -971,6 +971,22 @@
         "needConfirm": "Marque a caixa primeiro: ativar isso bloqueia contas não verificadas.",
         "turnOn": "Ativar",
         "turnOff": "Desativar"
+      },
+      "onboardingChat": {
+        "title": "Integração como conversa",
+        "lead": "Quem vê o chat durante a integração e na página de perfil. Os demais continuam com o formulário. Sem uma chave de modelo, o chat ainda funciona com perguntas fixas.",
+        "modes": {
+          "off": "Desligado: somente o formulário",
+          "test_and_allowlist": "Contas de teste e lista de permissões",
+          "everyone": "Todos"
+        },
+        "save": "Salvar",
+        "allowlistTitle": "Lista de permissões",
+        "hidden": "{count, plural, one {# endereço salvo (oculto)} other {# endereços salvos (ocultos)}}",
+        "none": "A lista não contém endereços em texto simples.",
+        "add": "Adicionar endereços (um por linha)",
+        "remove": "Remover",
+        "addButton": "Adicionar"
       }
     },
     "replies": {

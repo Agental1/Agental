@@ -971,6 +971,22 @@
         "needConfirm": "Marca primero la casilla: activarla bloquea las cuentas sin verificar.",
         "turnOn": "Activar",
         "turnOff": "Desactivar"
+      },
+      "onboardingChat": {
+        "title": "Incorporación como conversación",
+        "lead": "Quién ve el chat durante la incorporación y en la página de perfil. Los demás siguen con el formulario. Sin clave de modelo, el chat sigue funcionando con preguntas fijas.",
+        "modes": {
+          "off": "Desactivado: solo el formulario",
+          "test_and_allowlist": "Cuentas de prueba y lista de permitidos",
+          "everyone": "Todos"
+        },
+        "save": "Guardar",
+        "allowlistTitle": "Lista de permitidos",
+        "hidden": "{count, plural, one {# dirección guardada (oculta)} other {# direcciones guardadas (ocultas)}}",
+        "none": "La lista no contiene direcciones en texto plano.",
+        "add": "Añadir direcciones (una por línea)",
+        "remove": "Quitar",
+        "addButton": "Añadir"
       }
     },
     "replies": {

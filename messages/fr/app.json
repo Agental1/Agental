@@ -971,6 +971,22 @@
         "needConfirm": "Coche d'abord la case : l'activation bloque les comptes non vérifiés.",
         "turnOn": "Activer",
         "turnOff": "Désactiver"
+      },
+      "onboardingChat": {
+        "title": "Accueil sous forme de conversation",
+        "lead": "Qui voit le chat pendant l’accueil et sur la page de profil. Les autres gardent le formulaire. Sans clé de modèle, le chat fonctionne quand même avec des questions fixes.",
+        "modes": {
+          "off": "Désactivé : formulaire uniquement",
+          "test_and_allowlist": "Comptes de test et liste autorisée",
+          "everyone": "Tout le monde"
+        },
+        "save": "Enregistrer",
+        "allowlistTitle": "Liste autorisée",
+        "hidden": "{count, plural, one {# adresse enregistrée (masquée)} other {# adresses enregistrées (masquées)}}",
+        "none": "La liste ne contient aucune adresse en clair.",
+        "add": "Ajouter des adresses (une par ligne)",
+        "remove": "Retirer",
+        "addButton": "Ajouter"
       }
     },
     "replies": {

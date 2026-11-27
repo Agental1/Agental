@@ -971,6 +971,22 @@
         "needConfirm": "请先勾选确认框：开启后会阻止未验证的账户。",
         "turnOn": "开启",
         "turnOff": "关闭"
+      },
+      "onboardingChat": {
+        "title": "对话式入职引导",
+        "lead": "可以在入职引导和资料页面中看到聊天功能的用户。其他人继续使用表单。没有模型密钥时，聊天仍会以固定问题运行。",
+        "modes": {
+          "off": "关闭：仅使用表单",
+          "test_and_allowlist": "测试账号和允许列表",
+          "everyone": "所有人"
+        },
+        "save": "保存",
+        "allowlistTitle": "允许列表",
+        "hidden": "{count, plural, one {# 个已保存地址（已隐藏）} other {# 个已保存地址（已隐藏）}}",
+        "none": "列表中不包含明文地址。",
+        "add": "添加地址（每行一个）",
+        "remove": "移除",
+        "addButton": "添加"
       }
     },
     "replies": {

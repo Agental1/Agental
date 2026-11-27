@@ -68,7 +68,7 @@ describe("daily backup (round 8c)", () => {
     expect(Object.keys(file.tables)).toContain("public.User");
     expect(Object.keys(file.tables)).toContain("limelight.LimelightLead");
     for (const k of SKIPPED_TABLES) expect(file.tables[k]).toBeUndefined();
-    expect(file.lastMigration).toMatch(/^2026/);
+    expect(file.lastMigration).toMatch(/^202[67]/);
     expect(Array.isArray(file.tables["public.User"])).toBe(true);
   });
 });

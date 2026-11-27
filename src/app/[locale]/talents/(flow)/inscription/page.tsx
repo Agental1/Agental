@@ -16,6 +16,8 @@ import { prefillFromProvider } from "@/lib/profile-prefill";
 import { isoDate } from "@/domain/age";
 import { getSetupState } from "@/lib/setup";
 import { SETUP_STEPS } from "@/domain/setup";
+import { chatModeFor } from "@/lib/onboarding-chat/mode";
+import { agentNameFor } from "@/lib/agent-name";
 
 export async function generateMetadata({
   params,
@@ -29,8 +31,10 @@ export async function generateMetadata({
 
 export default async function TalentsSignupPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ view?: string | string[] }>;
 }) {
   const { locale: rawLocale } = await params;
   const locale = toLocale(rawLocale);
@@ -96,8 +100,14 @@ export default async function TalentsSignupPage({
   const profile = await prisma.artistProfile.findUniqueOrThrow({ where: { userId: session.user.id } });
   const names = legalNameParts(profile);
 
+  // Round 12, group 6: the chat is the default view when it is on for this account; ?view=form shows the form.
+  const view = (await searchParams).view;
+  const chatOn = (await chatModeFor(session.user.id)) !== "form";
+  const chat = chatOn ? { agentName: (await agentNameFor(session.user.id)) ?? "Jay", showChat: view !== "form" } : undefined;
+
   return (
     <OnboardingWizard
+      chat={chat}
       initialStep={nextStep === null ? SETUP_STEPS.length : SETUP_STEPS.indexOf(nextStep)}
       initial={{
         legalFirstName: names.first,

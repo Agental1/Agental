@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { legalCopyParams } from "@/lib/legal-copy";
 import { completeBetaOnboarding } from "@/app/actions/onboarding";
 import { saveProfileIdentity } from "@/app/actions/profile";
+import { OnboardingChat } from "./onboarding-chat";
 
 /**
  * Round 10 (founder): the sign-up questions are the profile's own questions,
@@ -41,13 +42,21 @@ export interface OnboardingInitial {
   phoneE164: string;
 }
 
+/** Full load on purpose: the form (or the chat) then starts from what is saved on the server. */
+function reloadWith(view: "chat" | "form") {
+  window.location.assign(`${window.location.pathname}?view=${view}`);
+}
+
 export function OnboardingWizard({
   initial,
   initialStep = 0,
+  chat,
 }: {
   initial: OnboardingInitial;
   /** Where to resume: the first unfinished step (see src/domain/setup.ts). */
   initialStep?: number;
+  /** Round 12, group 6: the chat is on for this account. `agentName` is the agent's name ("Jay" by default). */
+  chat?: { agentName: string; showChat: boolean };
 }) {
   const t = useTranslations("talents");
   const e = "space.profileEditor" as const;
@@ -83,8 +92,23 @@ export function OnboardingWizard({
     setStep(to);
   }
 
+  if (chat?.showChat) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+        <OnboardingChat scope="onboarding" onSwitchToForm={() => reloadWith("form")} onDone={() => reloadWith("form")} />
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+      {chat && (
+        <div className="mb-4 flex justify-end">
+          <Button type="button" variant="outline" size="sm" onClick={() => reloadWith("chat")}>
+            {t("onboarding.chat.continueWith", { agent: chat.agentName })}
+          </Button>
+        </div>
+      )}
       <Progress step={step} />
 
       {error && (

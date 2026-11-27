@@ -971,6 +971,22 @@
         "needConfirm": "Spunta prima la casella: attivarla blocca gli account non verificati.",
         "turnOn": "Attiva",
         "turnOff": "Disattiva"
+      },
+      "onboardingChat": {
+        "title": "Onboarding come conversazione",
+        "lead": "Chi vede la chat durante l’onboarding e nella pagina del profilo. Gli altri mantengono il modulo. Senza una chiave del modello, la chat funziona comunque con domande fisse.",
+        "modes": {
+          "off": "Disattivato: solo il modulo",
+          "test_and_allowlist": "Account di prova e lista consentita",
+          "everyone": "Tutti"
+        },
+        "save": "Salva",
+        "allowlistTitle": "Lista consentita",
+        "hidden": "{count, plural, one {# indirizzo salvato (nascosto)} other {# indirizzi salvati (nascosti)}}",
+        "none": "La lista non contiene indirizzi in chiaro.",
+        "add": "Aggiungi indirizzi (uno per riga)",
+        "remove": "Rimuovi",
+        "addButton": "Aggiungi"
       }
     },
     "replies": {
