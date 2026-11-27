@@ -811,6 +811,17 @@
           "queued": "好的。你的智能体会在 {time} 左右开始。结果出来后我们会立即通知你。",
           "pausedNow": "搜索暂时暂停。你现在仍可以发起搜索：我们会先保存，恢复后再开始。",
           "waiting": "你的搜索已加入队列。搜索即将开始，结果出来后我们会通知你。"
+        },
+        "explain": "{agent} 会为符合你资料的角色搜索。",
+        "scan": {
+          "looking": "{agent} 正在查看角色出现的各个渠道。",
+          "running": "{agent} 正在搜索。结果一出来就会显示在这里。",
+          "kind": {
+            "boards": "选角信息板",
+            "breakdowns": "Breakdowns",
+            "notices": "制作通知",
+            "calls": "公开征集"
+          }
         }
       },
       "nextAction": "下一步",
@@ -878,6 +889,39 @@
         "rolesFound": "找到 {count} 个角色",
         "check": "查看你的申请",
         "nextStart": "下一次搜索预计 {date}"
+      },
+      "board": {
+        "title": "你的搜索",
+        "byAgent": "由 {agent} 执行。",
+        "rename": "重命名 {agent}",
+        "lane": {
+          "queued": "排队中",
+          "running": "进行中",
+          "done": "已完成"
+        },
+        "laneEmpty": {
+          "queued": "目前没有排队中的搜索。",
+          "running": "目前没有正在进行的搜索。",
+          "done": "已完成的搜索会显示在这里。"
+        },
+        "card": {
+          "next": "下一个",
+          "inLine": "排在第 {n} 位",
+          "running": "{agent} 正在处理",
+          "done": "已完成"
+        },
+        "meter": {
+          "title": "搜索额度",
+          "text": "已用 {used} / {total}"
+        },
+        "matches": {
+          "title": "目前最佳匹配",
+          "score": "匹配度 {score}%"
+        },
+        "empty": "还没有搜索。点绿色按钮，{agent} 就会开始工作。",
+        "error": "刷新你的搜索时出了问题。请检查网络连接后重试。",
+        "retry": "重试",
+        "viewAll": "在申请中查看全部"
       }
     },
     "candidatures": {

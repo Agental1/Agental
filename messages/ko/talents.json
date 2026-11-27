@@ -811,6 +811,17 @@
           "queued": "알겠어요. 에이전트가 {time} 무렵 시작해요. 결과가 나오면 바로 알려 드릴게요.",
           "pausedNow": "검색이 잠시 중지되었어요. 지금 요청해도 돼요. 저장해 두었다가 재개되면 시작할게요.",
           "waiting": "검색은 곧 시작돼요. 대기열에 들어갔고, 결과가 나오면 알려 드릴게요."
+        },
+        "explain": "{agent} 에이전트가 프로필에 맞는 역할을 찾아요.",
+        "scan": {
+          "looking": "{agent} 에이전트가 역할이 올라오는 곳들을 확인하고 있어요.",
+          "running": "{agent} 에이전트가 지금 검색 중이에요. 결과가 나오면 바로 여기에 표시돼요.",
+          "kind": {
+            "boards": "캐스팅 보드",
+            "breakdowns": "브레이크다운",
+            "notices": "제작 공지",
+            "calls": "오픈 콜"
+          }
         }
       },
       "nextAction": "다음 할 일",
@@ -878,6 +889,39 @@
         "rolesFound": "{count, plural, other {찾은 배역 #개}}",
         "check": "지원 현황 확인하기",
         "nextStart": "다음 검색 예정일: {date}"
+      },
+      "board": {
+        "title": "내 검색",
+        "byAgent": "{agent} 에이전트가 실행했어요.",
+        "rename": "{agent} 이름 바꾸기",
+        "lane": {
+          "queued": "대기 중",
+          "running": "진행 중",
+          "done": "완료"
+        },
+        "laneEmpty": {
+          "queued": "대기 중인 검색이 없어요.",
+          "running": "지금 진행 중인 검색이 없어요.",
+          "done": "완료된 검색이 여기에 표시돼요."
+        },
+        "card": {
+          "next": "다음 차례",
+          "inLine": "대기 {n}번째",
+          "running": "{agent} 에이전트가 진행 중",
+          "done": "완료"
+        },
+        "meter": {
+          "title": "검색 한도",
+          "text": "{total}회 중 {used}회 사용"
+        },
+        "matches": {
+          "title": "지금까지의 최고 매칭",
+          "score": "{score}% 일치"
+        },
+        "empty": "아직 검색이 없어요. 초록 버튼을 누르면 {agent} 에이전트가 시작해요.",
+        "error": "검색 목록을 새로고침하지 못했어요. 연결을 확인하고 다시 시도해 주세요.",
+        "retry": "다시 시도",
+        "viewAll": "지원 목록에서 모두 보기"
       }
     },
     "candidatures": {

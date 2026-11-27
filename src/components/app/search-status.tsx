@@ -64,10 +64,7 @@ export function SearchStatus({ initial }: { initial: MySearchStatus }) {
   }, [load]);
 
   const items = [
-    { key: "queued", label: t("queued", { count: s.queued }) },
-    // Round 8d: "1 of 2 running", the plan's parallel slots.
-    { key: "running", label: t("running", { count: s.running, slots: s.slots }) },
-    { key: "finished", label: t("finished", { count: s.finished }) },
+    // Round 12: the "Your searches" board below shows queued, running and done.
     { key: "rolesFound", label: t("rolesFound", { count: s.rolesFound }) },
   ] as const;
 

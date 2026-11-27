@@ -20,7 +20,9 @@ import { listMySites } from "@/lib/sites";
 import { completenessInputOf, missingItems, profileGaps, scoreProfile } from "@/domain/completeness";
 import { itemHref } from "@/domain/profile-tabs";
 import { Progress } from "@/components/ui/progress";
-import { getMySearchStatus, getRoleSearchQuota } from "@/lib/role-search";
+import { getMySearchStatus, getRoleSearchQuota, listMyRoleSearches } from "@/lib/role-search";
+import { agentNameFor } from "@/lib/agent-name";
+import { SearchBoard } from "@/components/app/search-board";
 import { searchBlockFor } from "@/lib/search-block";
 import { isPaused } from "@/lib/app-settings";
 import { recentFirstAutoSearch } from "@/lib/auto-search";
@@ -132,6 +134,21 @@ export default async function TalentsDashboard({
   // Round 11: staff paused everything (Admin > Controls): said before any click.
   const searchesPaused = await isPaused();
   const searchStatus = await getMySearchStatus(session.user.id);
+  // Round 12 g5: the live board reads what is already stored.
+  const agent = (await agentNameFor(session.user.id)) ?? "Jay";
+  const boardSearches = (await listMyRoleSearches(session.user.id, 30)).map((r) => ({
+    id: r.id,
+    status: r.status,
+    createdAt: r.createdAt.toISOString(),
+    scheduledFor: r.scheduledFor?.toISOString() ?? null,
+    startedAt: r.startedAt?.toISOString() ?? null,
+    completedAt: r.completedAt?.toISOString() ?? null,
+  }));
+  const boardMatches = cands
+    .filter((c) => c.matchScore)
+    .sort((a, b) => (b.matchScore?.score ?? 0) - (a.matchScore?.score ?? 0))
+    .slice(0, 3)
+    .map((c) => ({ id: c.id, title: c.project.title, score: c.matchScore?.score ?? null }));
   // The first search started on its own: say so for two weeks.
   const showAutoFirst = await recentFirstAutoSearch(session.user.id);
 
@@ -235,7 +252,18 @@ export default async function TalentsDashboard({
         initialBlock={searchBlock}
         email={session.user.email ?? ""}
         paused={searchesPaused}
+        agent={agent}
+        runningNow={searchStatus.running > 0}
         footer={<SearchStatus initial={searchStatus} />}
+      />
+
+      <SearchBoard
+        searches={boardSearches}
+        limit={quota.limit}
+        held={quota.held}
+        agent={agent}
+        matches={boardMatches}
+        counts={{ queued: searchStatus.queued, running: searchStatus.running, finished: searchStatus.finished }}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
