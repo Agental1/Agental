@@ -820,6 +820,17 @@
           "queued": "Fatto. Il tuo agente se ne occupa e parte verso le {time}. Ti avviseremo appena ci saranno i risultati.",
           "pausedNow": "Le ricerche sono in pausa per un momento. Puoi comunque avviarne una adesso: la salviamo e partirà alla ripresa.",
           "waiting": "La tua ricerca è in coda. Le ricerche partono presto e ti avviseremo appena ci saranno i risultati."
+        },
+        "explain": "{agent} cerca ruoli in linea con il tuo profilo.",
+        "scan": {
+          "looking": "{agent} controlla i posti in cui compaiono i ruoli.",
+          "running": "{agent} sta cercando adesso. I risultati compariranno qui appena pronti.",
+          "kind": {
+            "boards": "Bacheche di casting",
+            "breakdowns": "Breakdowns",
+            "notices": "Avvisi di produzione",
+            "calls": "Call aperte"
+          }
         }
       },
       "nextAction": "Prossima azione",
@@ -887,6 +898,39 @@
         "rolesFound": "{count, plural, one {# ruolo trovato} other {# ruoli trovati}}",
         "check": "Controlla le tue candidature",
         "nextStart": "Prossima ricerca prevista il {date}"
+      },
+      "board": {
+        "title": "Le tue ricerche",
+        "byAgent": "Avviata da {agent}.",
+        "rename": "Rinomina {agent}",
+        "lane": {
+          "queued": "In coda",
+          "running": "In corso",
+          "done": "Completate"
+        },
+        "laneEmpty": {
+          "queued": "Al momento nessuna ricerca in attesa.",
+          "running": "Al momento nessuna ricerca in corso.",
+          "done": "Le ricerche completate compaiono qui."
+        },
+        "card": {
+          "next": "Prossima in coda",
+          "inLine": "Numero {n} in coda",
+          "running": "{agent} ci sta lavorando",
+          "done": "Completata"
+        },
+        "meter": {
+          "title": "Limite di ricerche",
+          "text": "{used} su {total} utilizzate"
+        },
+        "matches": {
+          "title": "Migliori corrispondenze finora",
+          "score": "{score}% di corrispondenza"
+        },
+        "empty": "Avvia una ricerca premendo il pulsante verde: {agent} si mette subito al lavoro.",
+        "error": "Si è verificato un problema nell’aggiornare le tue ricerche. Controlla la connessione e riprova.",
+        "retry": "Riprova",
+        "viewAll": "Vedi tutto in Candidature"
       }
     },
     "candidatures": {

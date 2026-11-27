@@ -820,6 +820,17 @@
           "queued": "Listo. Tu agente ya se encarga y empieza sobre las {time}. Te avisaremos en cuanto haya resultados.",
           "pausedNow": "Las búsquedas están en pausa un momento. Aún puedes pedir una ahora: la guardamos y empezará al reanudarse.",
           "waiting": "Listo. Tu búsqueda está en cola. Las búsquedas empiezan pronto y te avisaremos en cuanto haya resultados."
+        },
+        "explain": "{agent} busca roles que encajan con tu perfil.",
+        "scan": {
+          "looking": "{agent} revisa los lugares donde aparecen los roles.",
+          "running": "{agent} está buscando ahora mismo. Los resultados llegan aquí en cuanto estén listos.",
+          "kind": {
+            "boards": "Tableros de casting",
+            "breakdowns": "Breakdowns",
+            "notices": "Avisos de producción",
+            "calls": "Convocatorias abiertas"
+          }
         }
       },
       "nextAction": "Siguiente paso",
@@ -887,6 +898,39 @@
         "rolesFound": "{count, plural, one {# papel encontrado} other {# papeles encontrados}}",
         "check": "Ver tus candidaturas",
         "nextStart": "Próxima búsqueda prevista {date}"
+      },
+      "board": {
+        "title": "Tus búsquedas",
+        "byAgent": "Lanzada por {agent}.",
+        "rename": "Cambiar nombre de {agent}",
+        "lane": {
+          "queued": "En cola",
+          "running": "En curso",
+          "done": "Terminadas"
+        },
+        "laneEmpty": {
+          "queued": "Ahora mismo no hay nada en espera.",
+          "running": "Ahora mismo, ninguna búsqueda en curso.",
+          "done": "Las búsquedas terminadas aparecen aquí."
+        },
+        "card": {
+          "next": "Siguiente en la fila",
+          "inLine": "Número {n} en la fila",
+          "running": "{agent} ya está en ello",
+          "done": "Terminada"
+        },
+        "meter": {
+          "title": "Cupo de búsquedas",
+          "text": "{used} de {total} usadas"
+        },
+        "matches": {
+          "title": "Mejores coincidencias hasta ahora",
+          "score": "{score} % de coincidencia"
+        },
+        "empty": "Todavía no hay búsquedas. Pulsa el botón verde y {agent} se pone en marcha.",
+        "error": "Hubo un problema al actualizar tus búsquedas. Revisa tu conexión e inténtalo de nuevo.",
+        "retry": "Intentar de nuevo",
+        "viewAll": "Ver todo en Candidaturas"
       }
     },
     "candidatures": {
