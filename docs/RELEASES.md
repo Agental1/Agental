@@ -90,6 +90,10 @@ Google sign-in: the button is live and reaches Google's account screen. The Goog
 
 The live site before round 12.1 is **Version 77** (tag `before-round-12-1`, deployment `agental-1w6lk52so-agentalco.vercel.app`). To undo the whole of round 12.1, say "go back to Version 77" (`vercel promote agental-1w6lk52so-agentalco.vercel.app`).
 
+### Before round 12.1 group 3 (the onboarding chat changes)
+
+**Version 79** (tag `before-round-12-1-group-3`, deployment `agental-p7gm99q7h-agentalco.vercel.app`) has groups 1 and 2 of round 12.1 without the chat changes. Say "go back to Version 79" (`vercel promote agental-p7gm99q7h-agentalco.vercel.app`). Version 78 (`agental-g0ampny5x-agentalco.vercel.app`) has group 1 only.
+
 ## Round 12: going back
 
 Before round 12 the live site was **Version 71** (tag `before-round-12`, deployment `agental-9vl403651-agentalco.vercel.app`).
