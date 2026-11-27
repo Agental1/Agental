@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "AI role searches per month",
+    "priceFree": "Free",
+    "unitMonth": "/ month",
+    "unitYear": "/ year",
     "perYear": "per year",
     "billing": {
       "label": "Billing period",

@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "월별 AI 역할 검색 횟수",
+    "priceFree": "무료",
+    "unitMonth": "/ 월",
+    "unitYear": "/ 년",
     "perYear": "연간",
     "billing": {
       "label": "결제 주기",

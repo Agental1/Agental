@@ -161,6 +161,9 @@
       }
     ],
     "searchesLabel": "Búsquedas de roles con IA al mes",
+    "priceFree": "Gratis",
+    "unitMonth": "/ mes",
+    "unitYear": "/ año",
     "perYear": "al año",
     "billing": {
       "label": "Periodo de facturación",

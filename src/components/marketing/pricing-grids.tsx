@@ -148,8 +148,9 @@ export function TalentsPricingGrid({
                 yearly={planYearlyPrice(id, locale)}
                 promos={promoPrices(id, locale)}
                 paid={def.priceCents > 0}
-                unitMonth={t("perMonth")}
-                unitYear={t("perYear")}
+                unitMonth={t("unitMonth")}
+                unitYear={t("unitYear")}
+                freeLabel={t("priceFree")}
               />
             }
             badge={i === 1 ? t("popular") : undefined}
