@@ -1,9 +1,57 @@
 # Handoff for the next model or person
 
-Updated 2026-11-25 (read "Round 11 and 11.1" first). Older notes: "Round 9" below, the Round 9 carryover, then "Round 7b" for
+Updated 2026-11-26 (read "Round 12" first, then "Round 11 and 11.1"). Older notes: "Round 9" below, the Round 9 carryover, then "Round 7b" for
 the details behind each line, `docs/STATUS.md` and `docs/RELEASES.md`.
 
-## Round 11 and 11.1 (2026-11-24 and 25): start here
+## Round 12 (2026-11-26): start here
+
+Brief: `Agental_Cowork_Round12_Prompt.md` (Desktop). Before round 12: Version 71 (tag `before-round-12`). Going back, per group and for the database: `docs/RELEASES.md`, "Round 12: going back".
+
+| Version | Tag | What |
+|---|---|---|
+| 72 | `round-12-group-4` | Self-tape: real length of the take or imported file, checked against the limit written in the request |
+| 73 | `round-12-group-1` | Benefit line per home card, "Need a portfolio website?", Pricing off the home page, Beta badge on prices, search wording, "Required: why" lines |
+| 74 | `round-12-group-2` | Representation and services copy in five places, `docs/LEGAL_COPY.md` |
+| 75 | `round-12-group-5` | Search animation, "Your searches" board, explainer under the button, green #1F5C47 |
+| 76 | `round-12-group-3` | Plan cards lead with searches, Monthly/Yearly toggle (display only), Limelight link fixed |
+| 77 | `round-12-group-6` | Conversational onboarding behind Admin > Controls > "Conversational onboarding" (Test accounts and the allowlist only) |
+
+State: production in test mode, n8n workflows inactive, `WORKFLOW_MODE` unset, "Run searches" off, AI search agents off. Round 11.1 stays paused: nothing of it was touched.
+
+### Waiting for Jérôme (round 12)
+
+1. **Lawyer, commission and plans (AB 1319):** the grid still lowers the commission on paid plans (10%, 7.5%, 5%) and the FAQ says "The subscription lowers the commission" and "The more you rise, the more you keep". Nothing was changed. Suggested wording if counsel wants the link cut: "Your commission rate is set in your representation agreement with our licensed partner agency, and a plan never changes your access to roles, your priority or how you are represented."
+2. **Contracts reviewed by a person:** not written anywhere in the docs, so the claim was left out of the copy. Say if a person reviews every contract and it goes in.
+3. **Plan features that read like better representation:** Pro lists "Faster replies from the Agental team" and "Priority support". Left as is; decide whether they stay.
+4. **"Taken by our licensed partner agency"** is on every plan line: it reads as if the partner agency is already in place.
+5. **Full representation agreement text:** none exists in the repository. The "Read the full agreement" link goes to the "two things" section until counsel supplies the text. `MANDATE.approvedVersion` stays `null`: signing is closed.
+6. **Terms:** when `TERMS_PAGE_ENABLED` turns on, the Terms are accepted in the same act as the privacy box. Give the Terms their own step before turning it on.
+7. **Pricing line:** the live sentence is the reviewed one ("Representation is free. You pay a commission only on bookings you get through Agental, and only once you've been paid. The plans below are optional tools and never change your access to roles."), longer than the one in the brief. Say if you want yours back.
+8. **Claude key:** `ANTHROPIC_API_KEY` is still absent from Vercel (round 11.1 item 6). Until it is there, the onboarding chat runs its scripted questions (no AI call) and "tell me everything in one go" is hidden. Voice needs a real browser with a microphone: try it yourself on a Test account.
+9. **Unused copy still in the files** (`talents.commission.*`, `testimonials` with a quote about a signed contract, `finalCta`, `minors` under French law): delete or rewrite.
+10. **Casting copy older than this round** opens with a negation in places ("No commitment. Change plan or cancel anytime."): reword in round 13.
+11. **This Mac's disk filled up during the round** (2 GB free after cleaning build caches). Free some space before the next round.
+12. **No "Round 11.1 paused" note existed in this file** before round 12; the paused groups are listed in the carryover below.
+13. Everything still open under "Waiting for Jérôme (round 11.1)" below.
+
+### Round 13 ideas
+
+- Self-tape: judgment of the acting itself (pace, eyeline, energy, framing against the request). Round 12 checks the length only.
+- A separate "plans" screen offered after the representation step, so the two choices are never on the same screen.
+- Search board: show a match score on roles found by the agents (none is stored today, so Done cards show the date only).
+- Self-tape limit: the limit is read from the free text of the request and can misread a stray number ("slate 10 seconds"); a structured field would be exact.
+
+### Round 13 carryover
+
+- **Paused round 11.1:** group 5 (one tiny call per AI key, result on Admin > AI accounts) once the keys are in place; round 11 group 2 (every email of `docs/EMAILS.md` tested on production); the items of "Round 12 carryover" below (search quota period, sign-up limit, consent for Google sign-ups, languages, build report, `main` fast-forward).
+- Group 6, not tested: voice (needs a real browser and microphone), the "tell me everything in one go" review screen (hidden until the Claude key exists), the Admin > Controls switch through the page itself (the local check set it in the local database; unit tests cover the action), height, age range and city answers. Pressing Return on a long answer sometimes only added a new line until Send was clicked (seen once, not reproduced).
+- Group 4: the length line was covered by tests, not looked at in a browser.
+- Group 3: the signed-in Casting subscription page was not checked (the local casting demo account has no organization); the public Casting pricing page was. The "Choose" buttons were not clicked.
+- Group 5: reduced-motion rules exist in the CSS and were not checked in a browser; the screenshots in `docs/screenshots/r12/` were taken before the green changed to #1F5C47 and before the duplicate allowance line was removed. The button stays active right after a request is queued.
+- Group 6, low items from the safety review: the assistant's own budget check counts only `assistant.reply` (`src/lib/assistant/index.ts`); the one-go path guesses chip fields; `saveReview` is not one transaction; the chat creates its own Anthropic client.
+- Group 6 scope: the chat asks name, stage name, birth date, gender and phone, then the work wanted (project types); weight is not asked; reactions written by the model are in English only.
+
+## Round 11 and 11.1 (2026-11-24 and 25)
 
 Briefs: `Agental_Cowork_Round11_Prompt.md` and `Agental_Cowork_Round11-1_Prompt.md` (Desktop). Live: Version 69.
 
