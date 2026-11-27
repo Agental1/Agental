@@ -159,7 +159,16 @@
           "{commission} commission on bookings, taken by our licensed partner agency"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "AI role searches per month",
+    "perYear": "per year",
+    "billing": {
+      "label": "Billing period",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "2 months free",
+      "promoMonthlyOnly": "Student prices are monthly. Switch to Monthly to see them."
+    }
   },
   "testimonials": {
     "title": "They joined Agental",
@@ -1753,7 +1762,8 @@
       "note": "We build a portfolio site from your materials. Review the preview before it goes live.",
       "scrollHint": "Scroll to watch it build",
       "request": "Request my site",
-      "explore": "Explore a sample"
+      "explore": "Explore a sample",
+      "pageTitle": "Limelight by Agental, your portfolio website"
     },
     "frame": {
       "address": "yourname.agental.site",

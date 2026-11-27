@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { upgradeTalentPlan } from "@/app/actions/subscription";
-import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
-import { PromoPrice, useActivePromotion } from "@/components/talents/promotions";
+import { BillingToggle, PlanLead, TalentPlanPrice } from "@/components/talents/billing-period";
+import { useActivePromotion } from "@/components/talents/promotions";
 import { CheckoutPanel } from "@/components/talents/checkout-panel";
 import type { UscVerified } from "@/components/talents/usc-verify";
 
@@ -20,6 +20,10 @@ export interface PlanCard {
   name: string;
   price: string;
   commission: string;
+  /** Monthly AI searches (the big element), null when not set. */
+  searches: number | null;
+  /** Yearly display price, formatted. Display only: checkout never gets it. */
+  yearlyPrice: string;
   features: string[];
   /** Promotional prices by promotion id (round 8). */
   promos?: Record<string, string>;
@@ -65,6 +69,7 @@ export function PlanSelector({
 
   return (
     <div className="space-y-3">
+      <BillingToggle />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {plans.map((p, i) => {
           const isCurrent = p.plan === current;
@@ -85,14 +90,10 @@ export function PlanSelector({
                 <h3 className="font-display text-lg">{p.name}</h3>
                 {isCurrent && <Badge variant="solid">{t("space.plans.current")}</Badge>}
               </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <PromoPrice base={p.price} promos={p.promos} className="font-display text-2xl" />
-                <span className="text-xs text-fg-muted">{t("space.plans.perMonth")}</span>
-                {p.plan !== "FREE" && <BetaBadge className="ml-1" />}
-              </div>
-              {p.plan !== "FREE" && <PaymentsNote className="mt-1 text-xs" />}
-              
-              <ul className="mt-4 flex-1 space-y-1.5">
+              {p.searches !== null && (
+                <PlanLead big={String(p.searches)} label={t("pricing.searchesLabel")} className="mt-3" />
+              )}
+              <ul className="mt-3 flex-1 space-y-1.5">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs">
                     <Check className="mt-0.5 size-3 shrink-0 text-success" />
@@ -100,6 +101,15 @@ export function PlanSelector({
                   </li>
                 ))}
               </ul>
+              <TalentPlanPrice
+                monthly={p.price}
+                yearly={p.yearlyPrice}
+                promos={p.promos}
+                paid={p.plan !== "FREE"}
+                unitMonth={t("space.plans.perMonth")}
+                unitYear={t("pricing.perYear")}
+                className="mt-4 border-t border-border pt-3"
+              />
               <Button
                 className="mt-4"
                 variant={isCurrent ? "outline" : popular ? "primary" : "secondary"}

@@ -180,7 +180,14 @@
           "API privada"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Personalizado",
+      "customLabel": "Orçamento para a sua agência ou o seu estúdio",
+      "projects": "{count, plural, one {projeto ativo} other {projetos ativos}}",
+      "unlimited": "Ilimitado",
+      "unlimitedLabel": "projetos, com até {seats} assentos"
+    }
   },
   "finalCta": {
     "title": "Pronto para shortlists que devolvem seu tempo?",

@@ -180,7 +180,14 @@
           "API privata"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Personalizzato",
+      "customLabel": "Preventivo per la sua agenzia o il suo studio",
+      "projects": "{count, plural, one {progetto attivo} other {progetti attivi}}",
+      "unlimited": "Illimitato",
+      "unlimitedLabel": "progetti, con fino a {seats} posti"
+    }
   },
   "finalCta": {
     "title": "Pronto per shortlist che ti restituiscono tempo?",

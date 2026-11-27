@@ -180,7 +180,14 @@
           "API privée"
         ]
       }
-    ]
+    ],
+    "lead": {
+      "custom": "Sur mesure",
+      "customLabel": "Sur devis pour votre agence ou votre studio",
+      "projects": "{count, plural, one {projet actif} other {projets actifs}}",
+      "unlimited": "Illimité",
+      "unlimitedLabel": "projets, avec jusqu’à {seats} sièges"
+    }
   },
   "finalCta": {
     "title": "Prêt à recevoir des short-lists qui vous font gagner du temps ?",

@@ -159,7 +159,16 @@
           "出演料に対する手数料 {commission}（提携する認可エージェンシーが受け取ります）"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "月あたりのAI役割検索回数",
+    "perYear": "年額",
+    "billing": {
+      "label": "請求期間",
+      "monthly": "月払い",
+      "yearly": "年払い",
+      "save": "2か月分無料",
+      "promoMonthlyOnly": "学生料金は月払いのみです。表示するには月払いに切り替えてください。"
+    }
   },
   "testimonials": {
     "title": "Agental に参加した人たち",
@@ -1753,7 +1762,8 @@
       "note": "あなたの素材からポートフォリオサイトを作ります。公開前にプレビューを確認してください。",
       "scrollHint": "スクロールして作られていく様子を見る",
       "request": "サイトを依頼する",
-      "explore": "サンプルを見る"
+      "explore": "サンプルを見る",
+      "pageTitle": "Limelight by Agental、あなたのポートフォリオサイト"
     },
     "frame": {
       "address": "yourname.agental.site",

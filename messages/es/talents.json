@@ -159,7 +159,16 @@
           "{commission} de comisión sobre las contrataciones, cobrada por nuestra agencia asociada con licencia"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "Búsquedas de roles con IA al mes",
+    "perYear": "al año",
+    "billing": {
+      "label": "Periodo de facturación",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "save": "2 meses gratis",
+      "promoMonthlyOnly": "Los precios para estudiantes son mensuales. Cambia a Mensual para verlos."
+    }
   },
   "testimonials": {
     "title": "Se han unido a Agental",
@@ -1753,7 +1762,8 @@
       "note": "Creamos tu sitio portafolio con tus materiales. Revisas la vista previa antes de que se publique.",
       "scrollHint": "Desplázate para verlo construirse",
       "request": "Solicitar mi sitio",
-      "explore": "Ver un ejemplo"
+      "explore": "Ver un ejemplo",
+      "pageTitle": "Limelight by Agental, tu sitio web de portfolio"
     },
     "frame": {
       "address": "tunombre.agental.site",

@@ -159,7 +159,16 @@
           "{commission} di commissione sugli ingaggi, trattenuta dalla nostra agenzia partner autorizzata"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "Ricerche di ruoli con IA al mese",
+    "perYear": "all’anno",
+    "billing": {
+      "label": "Periodo di fatturazione",
+      "monthly": "Mensile",
+      "yearly": "Annuale",
+      "save": "2 mesi gratis",
+      "promoMonthlyOnly": "I prezzi studenti sono mensili. Passa a Mensile per vederli."
+    }
   },
   "testimonials": {
     "title": "Si sono uniti ad Agental",
@@ -1753,7 +1762,8 @@
       "note": "Creiamo un sito portfolio con i tuoi materiali. Controlli l'anteprima prima che vada online.",
       "scrollHint": "Scorri per vederlo costruirsi",
       "request": "Richiedi il mio sito",
-      "explore": "Esplora un esempio"
+      "explore": "Esplora un esempio",
+      "pageTitle": "Limelight by Agental, il tuo sito portfolio"
     },
     "frame": {
       "address": "tuonome.agental.site",
