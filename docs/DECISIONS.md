@@ -32,6 +32,12 @@ the `{price}`, `{commission}` and `{searches}` tokens filled by `src/lib/plan-pr
 
 The internal id of Basic stays `FREE`. (Restored to this grid on 2026-11-20.)
 
+**Yearly display prices (Round 12, founder, 2026-11-26: yearly display prices, 10 months for 12; display only):**
+Pro $190, Premium $490, Ultimate $790 a year (`yearlyPriceCents` in `B2C_PLANS`); Basic stays $0.
+The Monthly/Yearly toggle on the Talent plan cards only changes what is shown. Checkout still answers
+"billing unavailable" and never receives a yearly price. Casting has no yearly prices. Student prices
+stay monthly-only.
+
 **Student prices (founders' decision, round 8, 2026-11-22):** a promotion named "USC student",
 eligible with a @usc.edu email: Pro $9/month (instead of $19), Premium $29 (instead of $49),
 Ultimate $59 (instead of $79), Limelight Essential $29 one-time (hosting unchanged, $25/year).

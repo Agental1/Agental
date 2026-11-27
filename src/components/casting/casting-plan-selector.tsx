@@ -10,6 +10,7 @@ import { Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { PlanLead } from "@/components/talents/billing-period";
 import { changeOrgPlan } from "@/app/actions/subscription";
 
 export interface CastingPlanCard {
@@ -17,6 +18,9 @@ export interface CastingPlanCard {
   name: string;
   price: string;
   priceUnit: string;
+  /** The big element: what the plan gives (projects, or seats). */
+  leadBig: string;
+  leadLabel: string;
   features: string[];
   contactOnly?: boolean;
 }
@@ -68,17 +72,7 @@ export function CastingPlanSelector({
                 <h3 className="font-display text-lg">{p.name}</h3>
                 {isCurrent && <Badge variant="solid">{t("space.plans.current")}</Badge>}
               </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="font-display text-2xl">{p.price}</span>
-                {p.priceUnit && <span className="text-xs text-fg-muted">{p.priceUnit}</span>}
-                {paid && <BetaBadge className="ml-1" />}
-              </div>
-              {paid && <PaymentsNote className="mt-1 text-xs" />}
-              {p.plan === "PRO" && (
-                <p className="mt-0.5 text-xs text-fg-subtle">
-                  {t("space.plans.activeSeats", { count: seatCount })}
-                </p>
-              )}
+              <PlanLead big={p.leadBig} label={p.leadLabel} className="mt-3" />
               <ul className="mt-4 flex-1 space-y-1.5">
                 {p.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs">
@@ -87,6 +81,19 @@ export function CastingPlanSelector({
                   </li>
                 ))}
               </ul>
+              <div className="mt-4 border-t border-border pt-3">
+                <div className="flex flex-wrap items-baseline gap-1">
+                  <span className="text-lg font-bold">{p.price}</span>
+                  {p.priceUnit && <span className="text-xs text-fg-muted">{p.priceUnit}</span>}
+                  {paid && <BetaBadge className="ml-1" />}
+                </div>
+                {paid && <PaymentsNote className="mt-1 text-xs" />}
+                {p.plan === "PRO" && (
+                  <p className="mt-0.5 text-xs text-fg-subtle">
+                    {t("space.plans.activeSeats", { count: seatCount })}
+                  </p>
+                )}
+              </div>
               <Button
                 className="mt-4"
                 variant={isCurrent ? "outline" : recommended ? "primary" : "secondary"}

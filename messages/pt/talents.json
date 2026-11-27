@@ -159,7 +159,16 @@
           "{commission} de comissão sobre trabalhos fechados, cobrada pela nossa agência parceira licenciada"
         ]
       }
-    ]
+    ],
+    "searchesLabel": "Buscas de funções com IA por mês",
+    "perYear": "por ano",
+    "billing": {
+      "label": "Período de cobrança",
+      "monthly": "Mensal",
+      "yearly": "Anual",
+      "save": "2 meses grátis",
+      "promoMonthlyOnly": "Os preços para estudantes são mensais. Troque para Mensal para vê-los."
+    }
   },
   "testimonials": {
     "title": "Eles entraram na Agental",
@@ -897,6 +906,17 @@
           "queued": "Certo. Seu agente já cuida disso e começa por volta de {time}. Avisaremos assim que os resultados chegarem.",
           "pausedNow": "As buscas estão em pausa por um momento. Você ainda pode pedir uma agora: vamos salvá-la e iniciá-la quando voltarem.",
           "waiting": "Sua busca está na fila. As buscas começam em breve e avisaremos quando houver resultados."
+        },
+        "explain": "{agent} procura papéis que combinam com o seu perfil.",
+        "scan": {
+          "looking": "{agent} está verificando os lugares onde os papéis aparecem.",
+          "running": "{agent} está buscando agora. Os resultados aparecem aqui assim que chegarem.",
+          "kind": {
+            "boards": "Quadros de casting",
+            "breakdowns": "Breakdowns",
+            "notices": "Avisos de produção",
+            "calls": "Convocatórias abertas"
+          }
         }
       },
       "nextAction": "Próxima ação",
@@ -964,6 +984,39 @@
         "rolesFound": "{count, plural, one {# papel encontrado} other {# papéis encontrados}}",
         "check": "Confira suas candidaturas",
         "nextStart": "Próxima busca prevista para {date}"
+      },
+      "board": {
+        "title": "Suas buscas",
+        "byAgent": "Feita por {agent}.",
+        "rename": "Renomear {agent}",
+        "lane": {
+          "queued": "Na fila",
+          "running": "Em andamento",
+          "done": "Concluídas"
+        },
+        "laneEmpty": {
+          "queued": "A fila está vazia no momento.",
+          "running": "Agora, nenhuma busca em andamento.",
+          "done": "As buscas concluídas aparecem aqui."
+        },
+        "card": {
+          "next": "Próxima da fila",
+          "inLine": "Posição {n} na fila",
+          "running": "{agent} está cuidando disso",
+          "done": "Concluída"
+        },
+        "meter": {
+          "title": "Limite de buscas",
+          "text": "{used} de {total} usadas"
+        },
+        "matches": {
+          "title": "Melhores correspondências até agora",
+          "score": "{score}% de compatibilidade"
+        },
+        "empty": "Ainda não há buscas. Toque no botão verde e {agent} começa a trabalhar.",
+        "error": "Houve um problema ao atualizar suas buscas. Verifique sua conexão e tente de novo.",
+        "retry": "Tentar de novo",
+        "viewAll": "Ver tudo em Candidaturas"
       }
     },
     "candidatures": {
@@ -1795,7 +1848,8 @@
       "note": "Criamos um site de portfólio com seus materiais. Revise a prévia antes de ele ir ao ar.",
       "scrollHint": "Role para ver ele sendo montado",
       "request": "Pedir meu site",
-      "explore": "Explorar um exemplo"
+      "explore": "Explorar um exemplo",
+      "pageTitle": "Limelight by Agental, seu site de portfólio"
     },
     "frame": {
       "address": "seunome.agental.site",

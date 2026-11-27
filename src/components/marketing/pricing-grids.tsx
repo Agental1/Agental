@@ -4,9 +4,10 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { B2B_PLANS, B2C_PLANS } from "@/domain/pricing";
 import type { PlanB2B, PlanB2C } from "@/domain/enums";
-import { formatPlanPrice as formatPrice, planFeatureLines, promoPrices } from "@/lib/plan-price";
+import { formatPlanPrice as formatPrice, planBenefitLines, planSearchCount, planYearlyPrice, promoPrices } from "@/lib/plan-price";
 import { BetaBadge, PaymentsNote } from "@/components/ui/beta-price";
-import { PromoPrice, PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
+import { PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
+import { BillingPeriodProvider, BillingToggle, PlanLead, TalentPlanPrice } from "@/components/talents/billing-period";
 import { cn } from "@/lib/utils";
 
 /**
@@ -35,10 +36,13 @@ type CastingPlan = {
   features: string[];
 };
 
+/** Round 12: each card leads with what the plan gives; the price sits small underneath. */
+
 function PlanCard({
   name,
-  price,
-  unit,
+  leadBig,
+  leadLabel,
+  priceNode,
   badge,
   cta,
   href,
@@ -46,15 +50,12 @@ function PlanCard({
   lines,
   highlighted,
   expanded,
-  promos,
-  paid = false,
 }: {
-  promos?: Record<string, string>;
-  /** A real price (not Free, not quoted): shows the Beta label and note. */
-  paid?: boolean;
   name: string;
-  price: string;
-  unit?: string;
+  leadBig: string;
+  leadLabel: string;
+  /** The small price block under the benefits. */
+  priceNode: React.ReactNode;
   badge?: string;
   cta: string;
   href: string;
@@ -78,19 +79,7 @@ function PlanCard({
           </span>
         )}
       </div>
-      <p className="mt-4 flex items-baseline gap-1.5">
-        <PromoPrice
-          base={price}
-          promos={promos}
-          className="text-[2rem] font-bold leading-none tracking-[-0.03em] tabular-nums"
-        />
-        {unit && <span className="text-[14px] text-fg-muted">{unit}</span>}
-        {paid && <BetaBadge className="ml-1" />}
-      </p>
-      {paid && <PaymentsNote className="mt-2" />}
-      <Button asChild className="mt-5" variant={highlighted ? "primary" : "secondary"}>
-        <Link href={href}>{cta}</Link>
-      </Button>
+      <PlanLead big={leadBig} label={leadLabel} className="mt-5" />
       <details open={expanded} className="group mt-4 border-t border-border pt-1">
         <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-sedan text-[14px] font-bold text-accent">
           {details}
@@ -108,6 +97,10 @@ function PlanCard({
           ))}
         </ul>
       </details>
+      <div className="mt-3 border-t border-border pt-4">{priceNode}</div>
+      <Button asChild className="mt-4" variant={highlighted ? "primary" : "secondary"}>
+        <Link href={href}>{cta}</Link>
+      </Button>
     </div>
   );
 }
@@ -127,8 +120,12 @@ export function TalentsPricingGrid({
   const plans = (t.raw("plans") as TalentsPlan[]).slice(0, only);
   return (
     <PromotionsProvider>
+    <BillingPeriodProvider>
     <div className="space-y-3">
+    <div className="flex flex-wrap items-start justify-between gap-3">
+    <BillingToggle />
     <PromotionsButton />
+    </div>
     <div
       className={cn(
         "grid items-start gap-3 sm:grid-cols-2",
@@ -138,19 +135,28 @@ export function TalentsPricingGrid({
       {plans.map((plan, i) => {
         const id = TALENT_PLAN_ORDER[i];
         const def = B2C_PLANS[id];
+        const searches = planSearchCount(id);
         return (
           <PlanCard
             key={plan.name}
             name={plan.name}
-            price={formatPrice(def.priceCents, locale)}
-            promos={promoPrices(id, locale)}
-            paid={def.priceCents > 0}
-            unit={t("perMonth")}
+            leadBig={searches === null ? "" : String(searches)}
+            leadLabel={t("searchesLabel")}
+            priceNode={
+              <TalentPlanPrice
+                monthly={formatPrice(def.priceCents, locale)}
+                yearly={planYearlyPrice(id, locale)}
+                promos={promoPrices(id, locale)}
+                paid={def.priceCents > 0}
+                unitMonth={t("perMonth")}
+                unitYear={t("perYear")}
+              />
+            }
             badge={i === 1 ? t("popular") : undefined}
             cta={plan.cta}
             href="/talents/inscription"
             details={tc("details")}
-            lines={planFeatureLines(plan.features, locale, id)}
+            lines={planBenefitLines(plan.features, locale, id)}
             highlighted={i === 1}
             expanded={expanded}
           />
@@ -158,8 +164,19 @@ export function TalentsPricingGrid({
       })}
     </div>
     </div>
+    </BillingPeriodProvider>
     </PromotionsProvider>
   );
+}
+
+/** The big element of a Casting card, from the plan table (projects, then seats). */
+export function castingLead(
+  def: (typeof B2B_PLANS)[PlanB2B],
+  t: (key: string, values?: Record<string, number>) => string
+): { big: string; label: string } {
+  if (def.plan === "ENTERPRISE") return { big: t("lead.custom"), label: t("lead.customLabel") };
+  if (def.activeProjects !== null) return { big: String(def.activeProjects), label: t("lead.projects", { count: def.activeProjects }) };
+  return { big: t("lead.unlimited"), label: t("lead.unlimitedLabel", { seats: def.maxSeats ?? 0 }) };
 }
 
 /** Casting plans (Free, Pro, Studio, Enterprise); Pro is the highlighted one. */
@@ -175,18 +192,29 @@ export function CastingPricingGrid({ expanded = false }: { expanded?: boolean })
         const def = B2B_PLANS[id];
         // Enterprise is quoted, so its "price" is the wording in the messages.
         const price = id === "ENTERPRISE" ? plan.price : formatPrice(def.priceCents, locale);
+        const paid = id !== "ENTERPRISE" && def.priceCents > 0;
+        const lead = castingLead(def, (k, v) => t(k, v));
         return (
           <PlanCard
             key={plan.name}
             name={plan.name}
-            price={price}
-            paid={id !== "ENTERPRISE" && def.priceCents > 0}
-            unit={plan.priceUnit || undefined}
+            leadBig={lead.big}
+            leadLabel={lead.label}
+            priceNode={
+              <>
+                <p className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+                  <span className="text-[1.125rem] font-bold tabular-nums">{price}</span>
+                  {plan.priceUnit && <span className="text-[13px] text-fg-muted">{plan.priceUnit}</span>}
+                  {paid && <BetaBadge className="ml-1" />}
+                </p>
+                {paid && <PaymentsNote className="mt-1" />}
+              </>
+            }
             badge={i === 1 ? t("recommended") : undefined}
             cta={plan.cta}
             href="/casting/inscription"
             details={tc("details")}
-            lines={plan.features}
+            lines={id === "ENTERPRISE" ? plan.features : plan.features.slice(1)}
             highlighted={i === 1}
             expanded={expanded}
           />

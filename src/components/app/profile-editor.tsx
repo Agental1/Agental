@@ -828,7 +828,7 @@ function IdentityTab({ data, setData, queue, flush }: TabProps) {
         </Field>
         {/* No portfolio: Limelight builds one. With one: Limelight improves it. */}
         <Button asChild variant={data.portfolioUrl.trim() ? "outline" : "primary"} size="sm">
-          <Link href="/talents/app/abonnement#limelight">
+          <Link href={data.portfolioUrl.trim() ? "/talents/app/abonnement#limelight" : "/talents/limelight#offers"}>
             {data.portfolioUrl.trim() ? t(`${e}.improveWebsite`) : t(`${e}.noLinks`)}
           </Link>
         </Button>
