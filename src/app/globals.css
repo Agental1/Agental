@@ -99,8 +99,8 @@
   --accent-soft: var(--blue-wash);
   --ring: var(--blue);
   --success: #196b42;
-  /* "Start finding roles": white on #196b42 is 6.6:1. */
-  --go: #196b42;
+  /* "Start finding roles": white on #1F5C47 (the founder action color) is 8.6:1, AA. */
+  --go: #1F5C47;
   --go-fg: #ffffff;
   --warning: #8f5400;
   --danger: #c02c1e;
