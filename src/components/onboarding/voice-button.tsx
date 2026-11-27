@@ -58,7 +58,10 @@ export function VoiceButton({ onText, disabled }: { onText: (text: string) => vo
       return;
     }
     const Ctor = recognitionCtor();
-    if (!Ctor) return;
+    if (!Ctor) {
+      setRefused(true);
+      return;
+    }
     const r = new Ctor();
     r.lang = locale === "zh" ? "zh-CN" : locale === "pt" ? "pt-BR" : locale;
     r.interimResults = true;
