@@ -92,7 +92,9 @@ export function OnboardingChat({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scope]);
 
-  useEffect(() => end.current?.scrollIntoView?.({ block: "nearest" }), [lines, view]);
+  useEffect(() => {
+    end.current?.scrollIntoView?.({ block: "nearest" });
+  }, [lines, view]);
 
   function apply(res: ChatReply | { status: "error"; error: ReturnType<typeof err> }) {
     if (res.status === "error" && !("view" in res)) {

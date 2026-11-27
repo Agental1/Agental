@@ -42,7 +42,9 @@ export function VoiceButton({ onText, disabled }: { onText: (text: string) => vo
   const rec = useRef<RecognitionLike | null>(null);
 
   useEffect(() => {
-    return () => rec.current?.stop();
+    return () => {
+      rec.current?.stop();
+    };
   }, []);
 
   if (supported === null) return null;
