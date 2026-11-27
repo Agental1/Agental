@@ -58,7 +58,7 @@
       },
       {
         "title": "Representation, kept separate",
-        "body": "Representation is a free agent agreement, held in the US by a licensed partner agency that receives the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
+        "body": "Representation is a free agent agreement, which will be held in the US by a licensed partner agency that will receive the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
       },
       {
         "title": "Every profile has a strength",
@@ -124,7 +124,7 @@
           "Reel & Self-tape",
           "Career and earnings tracking",
           "{searches} AI role searches per month",
-          "{commission} commission on bookings, taken by our licensed partner agency"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -136,7 +136,7 @@
           "AI feedback on your self-tapes",
           "Faster replies from the Agental team",
           "Priority support",
-          "{commission} commission on bookings, taken by our licensed partner agency"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "{searches} AI role searches per month",
           "More coaching",
           "More features coming soon",
-          "{commission} commission on bookings, taken by our licensed partner agency"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "Everything in Premium",
           "{searches} AI role searches per month",
-          "{commission} commission on bookings, taken by our licensed partner agency"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       }
     ],
@@ -213,7 +213,7 @@
     "hero": {
       "eyebrow": "How it works",
       "title": "How Agental works, for artists",
-      "subtitle": "Representation held by a licensed partner agency, and an AI that works for you around the clock. Here's the journey, jargon-free."
+      "subtitle": "Representation through a licensed partner agency once it is in place, and an AI that works for you around the clock. Here's the journey, jargon-free."
     },
     "sections": [
       {
@@ -222,7 +222,7 @@
       },
       {
         "title": "The agreement that gets you represented",
-        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency holds your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
+        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency will hold your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
       },
       {
         "title": "A watch that never stops",
@@ -276,7 +276,7 @@
           },
           {
             "q": "Does Agental represent me?",
-            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency holds it and receives the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
+            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency will hold it and receive the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
           },
           {
             "q": "How much does it cost to start?",
@@ -293,7 +293,7 @@
         "items": [
           {
             "q": "What is the representation mandate?",
-            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency holds it and receives the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
+            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency will hold it and receive the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
           },
           {
             "q": "How much is the commission?",
@@ -665,7 +665,8 @@
     "steps": {
       "identity": "Your name",
       "profile": "About you",
-      "mandat": "Agreement"
+      "mandat": "Agreement",
+      "plans": "Plans"
     },
     "identity": {
       "title": "Who are you?",
@@ -681,7 +682,9 @@
     "mandat": {
       "title": "The representation agreement",
       "subtitle": "Here is what representation means, before anything is signed.",
-      "submit": "Continue to my profile"
+      "submit": "Got it, continue",
+      "closed": "Signing is closed during the beta, so there is nothing to sign today. You can read how it works and keep going.",
+      "ack": "Continuing records that you read this step. It is not a signature."
     },
     "back": "Back",
     "continue": "Continue",
@@ -772,6 +775,13 @@
         "discard": "Discard",
         "cityHint": "Pick a city"
       }
+    },
+    "plans": {
+      "title": "Plans, if you want them",
+      "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
+      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "continueBasic": "Continue with Basic (free)",
+      "continueWith": "Continue with {plan}"
     }
   },
   "space": {
@@ -1280,7 +1290,7 @@
         "Reel & Self-tape",
         "Career and earnings tracking",
         "{searches} AI role searches per month",
-        "{commission} commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PRO": [
         "Everything in Basic",
@@ -1288,19 +1298,19 @@
         "AI feedback on your self-tapes",
         "Faster replies from the Agental team",
         "Priority support",
-        "{commission} commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [
         "Everything in Pro",
         "{searches} AI role searches per month",
         "More coaching",
         "More features coming soon",
-        "{commission} commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "ULTIMATE": [
         "Everything in Premium",
         "{searches} AI role searches per month",
-        "{commission} commission on bookings, taken by our licensed partner agency"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ]
     },
     "media": {

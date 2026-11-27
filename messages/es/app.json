@@ -199,7 +199,8 @@
       "special": "Un carácter especial"
     },
     "agreePrivacy": "Acepto la <privacy>Política de privacidad</privacy> y el uso de cookies.",
-    "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy>, las <terms>Condiciones del servicio</terms> y el uso de cookies."
+    "agreePrivacyTerms": "Acepto la <privacy>Política de privacidad</privacy>, las <terms>Condiciones del servicio</terms> y el uso de cookies.",
+    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
   },
   "height": {
     "unit": "Unidad de altura",
@@ -659,6 +660,13 @@
           "quota": "sin búsquedas este mes"
         },
         "notPerformer": "No es artista"
+      },
+      "acceptances": {
+        "privacy": "Privacy and cookies",
+        "representation": "Representation step (seen, not a signature)",
+        "plans": "Plans step (optional)",
+        "notRecorded": "Not recorded",
+        "plansPicked": "{date}, version {version}, picked {plan}"
       }
     },
     "studentRequests": {

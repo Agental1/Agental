@@ -55,6 +55,15 @@ model User {
   privacyVersion        String?
   termsAcceptedAt       DateTime?
   termsVersion          String?
+  // Round 12.1, group 2: two more acceptances, each on its own, never merged with
+  // the Privacy Policy box or with a signature. The representation step seen and
+  // acknowledged (NOT a signature: Mandat.signedAt is never written here), and
+  // the optional plans step with the plan the person picked.
+  representationAckAt      DateTime?
+  representationAckVersion String?
+  plansStepAt              DateTime?
+  plansStepVersion         String?
+  plansStepChoice          String?
   // Email notifications, set in Settings. Product news is opt-in.
   notifyApplications    Boolean   @default(true)
   notifyMessages        Boolean   @default(true)

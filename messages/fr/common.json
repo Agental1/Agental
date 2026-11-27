@@ -428,7 +428,7 @@
     "repFree": "Le mandat de représentation est le contrat qui te lie à ton agent, et il est gratuit : tu ne paies ni frais d’inscription ni cotisation. La seule rétribution est une commission de {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental, et seulement une fois que tu as été payé.",
     "repTerms": "Il court pendant {months} mois et se renouvelle automatiquement. Tu peux y mettre fin avec un préavis de {noticeDays} jours, et il n’est pas exclusif par défaut.",
     "repOpportunities": "La recherche de rôles, les soumissions, la négociation et la relecture des contrats passent toutes par la représentation, et uniquement par elle.",
-    "repPartner": "Aux États-Unis, une agence partenaire agréée détient ta représentation et perçoit la commission. Agental fournit la technologie, les outils et le coaching.",
+    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
     "toolsTitle": "Outils",
     "toolsBody": "Les formules font l’objet d’un contrat technologique distinct, avec leurs propres conditions, que tu acceptes séparément. Elles sont facultatives, sans engagement, et débloquent des outils : envois automatiques, recherche par IA, Self-tape Studio et coaching. Une formule ne te donne jamais un accès meilleur ou plus rapide aux rôles (California Fee-Related Talent Services Law, AB 1319), et tu peux être représenté sans rien payer.",
     "humanLoop": "Tu gardes la main. Tout envoi ou toute soumission requiert ton approbation. Chaque réponse que tu soumets à un rôle est transmise à l’équipe Agental pour relecture, et rien n’est envoyé à un site de casting. Les réponses aux e-mails que nous recevons ne partent qu’après approbation d’un membre de l’équipe.",
@@ -439,7 +439,7 @@
     "mandate": {
       "summaryTitle": "Le mandat en langage clair",
       "free": "Il est gratuit : aucun frais d’inscription ni cotisation.",
-      "commission": "L’agence partenaire agréée perçoit {commission} du cachet brut, uniquement sur les réservations que tu obtiens via Agental et seulement une fois que tu as été payé.",
+      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
       "nonExclusive": "Il n’est pas exclusif par défaut.",
       "term": "Il dure {months} mois et se renouvelle automatiquement.",
       "notice": "Tu peux y mettre fin avec un préavis de {noticeDays} jours.",

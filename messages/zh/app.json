@@ -199,7 +199,8 @@
       "special": "一个特殊字符"
     },
     "agreePrivacy": "我接受<privacy>隐私政策</privacy>并同意使用 Cookie。",
-    "agreePrivacyTerms": "我接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。"
+    "agreePrivacyTerms": "我接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。",
+    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
   },
   "height": {
     "unit": "身高单位",
@@ -659,6 +660,13 @@
           "quota": "本月搜索已用完"
         },
         "notPerformer": "非演员账户"
+      },
+      "acceptances": {
+        "privacy": "Privacy and cookies",
+        "representation": "Representation step (seen, not a signature)",
+        "plans": "Plans step (optional)",
+        "notRecorded": "Not recorded",
+        "plansPicked": "{date}, version {version}, picked {plan}"
       }
     },
     "studentRequests": {

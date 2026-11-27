@@ -374,6 +374,11 @@ export async function accountTimeline(userId: string) {
       consentVersion: true,
       privacyAcceptedAt: true,
       privacyVersion: true,
+      representationAckAt: true,
+      representationAckVersion: true,
+      plansStepAt: true,
+      plansStepVersion: true,
+      plansStepChoice: true,
       artistProfile: { select: { id: true, ...COMPLETENESS_SELECT } },
     },
   });

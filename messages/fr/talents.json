@@ -58,7 +58,7 @@
       },
       {
         "title": "La représentation, à part",
-        "body": "La représentation est un mandat d’agent gratuit, détenu aux États-Unis par une agence partenaire agréée qui perçoit la commission. Tu peux le lire dès maintenant et le signer une fois ce partenaire en place. Il reste séparé de toute formule ou de tout site, et c’est toi qui choisis de l’accepter."
+        "body": "Representation is a free agent agreement, which will be held in the US by a licensed partner agency that will receive the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
       },
       {
         "title": "Chaque profil a une force",
@@ -124,7 +124,7 @@
           "Bande démo & self-tape",
           "Suivi de carrière et de revenus",
           "{searches} recherches de rôles par l’IA par mois",
-          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -136,7 +136,7 @@
           "Retours IA sur tes self-tapes",
           "Réponses plus rapides de l’équipe Agental",
           "Support prioritaire",
-          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "{searches} recherches de rôles par l’IA par mois",
           "Plus de coaching",
           "D’autres fonctionnalités bientôt",
-          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "Tout le Premium",
           "{searches} recherches de rôles par l’IA par mois",
-          "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       }
     ],
@@ -213,7 +213,7 @@
     "hero": {
       "eyebrow": "Comment ça marche",
       "title": "Comment fonctionne Agental, côté artiste",
-      "subtitle": "Une représentation assurée par une agence partenaire agréée, et une IA qui travaille pour toi en continu. Voici le parcours, sans jargon."
+      "subtitle": "Representation through a licensed partner agency once it is in place, and an AI that works for you around the clock. Here's the journey, jargon-free."
     },
     "sections": [
       {
@@ -222,7 +222,7 @@
       },
       {
         "title": "Le contrat qui te fait représenter",
-        "body": "Le mandat de représentation est ton contrat avec ton agent. Il est gratuit, sans frais d’inscription ni cotisation, et non exclusif par défaut. Aux États-Unis, une agence partenaire agréée détient ta représentation : la recherche de rôles, les soumissions, la négociation et la relecture des contrats passent toutes par elle. Tu peux lire le mandat dès maintenant et le signer une fois ce partenaire en place."
+        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency will hold your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
       },
       {
         "title": "Une veille qui ne s'arrête jamais",
@@ -276,7 +276,7 @@
           },
           {
             "q": "Est-ce qu’Agental me représente ?",
-            "a": "La représentation passe par un mandat distinct et gratuit. Aux États-Unis, une agence partenaire agréée la détient et perçoit la commission, et Agental fournit la technologie, les outils et le coaching. Tu peux lire le mandat dès maintenant et le signer une fois ce partenaire en place."
+            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency will hold it and receive the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
           },
           {
             "q": "Combien ça coûte de commencer ?",
@@ -293,7 +293,7 @@
         "items": [
           {
             "q": "Qu'est-ce que le mandat de représentation ?",
-            "a": "C’est le mandat d’agent entre toi et ta représentation. Aux États-Unis, une agence partenaire agréée le détient et perçoit la commission. Il est gratuit, sans frais d’inscription ni cotisation, et non exclusif par défaut."
+            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency will hold it and receive the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
           },
           {
             "q": "Quel est le montant de la commission ?",
@@ -665,7 +665,8 @@
     "steps": {
       "identity": "Ton nom",
       "profile": "À propos de toi",
-      "mandat": "Contrat"
+      "mandat": "Contrat",
+      "plans": "Plans"
     },
     "identity": {
       "title": "Qui es-tu ?",
@@ -681,7 +682,9 @@
     "mandat": {
       "title": "Le mandat de représentation",
       "subtitle": "Voici ce que signifie la représentation, avant toute signature.",
-      "submit": "Continuer vers mon profil"
+      "submit": "Got it, continue",
+      "closed": "Signing is closed during the beta, so there is nothing to sign today. You can read how it works and keep going.",
+      "ack": "Continuing records that you read this step. It is not a signature."
     },
     "back": "Retour",
     "continue": "Continuer",
@@ -772,6 +775,13 @@
         "discard": "Ignorer",
         "cityHint": "Choisis une ville"
       }
+    },
+    "plans": {
+      "title": "Plans, if you want them",
+      "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
+      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "continueBasic": "Continue with Basic (free)",
+      "continueWith": "Continue with {plan}"
     }
   },
   "space": {
@@ -1280,7 +1290,7 @@
         "Bande démo & self-tape",
         "Suivi de carrière et de revenus",
         "{searches} recherches de rôles par l’IA par mois",
-        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PRO": [
         "Tout le Basic",
@@ -1288,19 +1298,19 @@
         "Retours IA sur tes self-tapes",
         "Réponses plus rapides de l’équipe Agental",
         "Support prioritaire",
-        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [
         "Tout le Pro",
         "{searches} recherches de rôles par l’IA par mois",
         "Plus de coaching",
         "D’autres fonctionnalités bientôt",
-        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "ULTIMATE": [
         "Tout le Premium",
         "{searches} recherches de rôles par l’IA par mois",
-        "{commission} de commission sur les contrats, prélevée par notre agence partenaire agréée"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ]
     },
     "media": {

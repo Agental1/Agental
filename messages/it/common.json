@@ -428,7 +428,7 @@
     "repFree": "Il mandato di rappresentanza è l’accordo con il tuo agente, ed è gratuito: non paghi quote d’iscrizione né quote di adesione. L’unica commissione è pari al {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato.",
     "repTerms": "Ha una durata di {months} mesi e si rinnova automaticamente. Puoi recederlo con un preavviso di {noticeDays} giorni, e per impostazione predefinita non è in esclusiva.",
     "repOpportunities": "La ricerca di ruoli, le candidature, la negoziazione e la revisione dei contratti passano tutte dalla rappresentanza, e solo da essa.",
-    "repPartner": "Negli Stati Uniti, un’agenzia partner autorizzata detiene la tua rappresentanza e riceve la commissione. Agental fornisce la tecnologia, gli strumenti e il coaching.",
+    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
     "toolsTitle": "Strumenti",
     "toolsBody": "I piani sono un contratto tecnologico separato, con condizioni proprie che accetti a parte. Sono facoltativi, senza vincoli, e sbloccano strumenti: candidature automatiche, ricerca con IA, Self-tape Studio e coaching. Un piano non ti dà mai un accesso migliore o anticipato ai lavori (California Fee-Related Talent Services Law, AB 1319), e puoi essere rappresentato senza pagare nulla.",
     "humanLoop": "Resti nel controllo. Ogni invio o candidatura richiede la tua approvazione. Una risposta che invii a un ruolo viene sottoposta al team Agental per la revisione, e nulla viene inviato a un sito di casting. Le risposte alle email che riceviamo partono solo dopo l’approvazione di un membro dello staff.",
@@ -439,7 +439,7 @@
     "mandate": {
       "summaryTitle": "Il mandato in parole semplici",
       "free": "È gratuito: nessuna quota d’iscrizione e nessuna quota di adesione.",
-      "commission": "L’agenzia partner autorizzata riceve il {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental e solo dopo che sei stato pagato.",
+      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
       "nonExclusive": "Per impostazione predefinita non è in esclusiva.",
       "term": "Dura {months} mesi e si rinnova automaticamente.",
       "notice": "Puoi recederlo con un preavviso di {noticeDays} giorni.",

@@ -428,7 +428,7 @@
     "repFree": "代理契約はエージェントとの契約で、無料です。入会金も会費もかかりません。唯一の手数料は総報酬の{commission}で、Agental を通じて得た予約にのみ発生し、支払いを受けた後にのみ請求されます。",
     "repTerms": "期間は{months}か月で、自動更新されます。{noticeDays}日前までに通知すれば解約できます。また、初期設定では専属ではありません。",
     "repOpportunities": "役の検索、応募、交渉、契約書の確認はすべて代理を通じて行われ、代理を通じてのみ行われます。",
-    "repPartner": "米国では、ライセンスを持つ提携エージェンシーがあなたの代理を担い、手数料を受け取ります。Agental は、テクノロジー、ツール、コーチングを提供します。",
+    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
     "toolsTitle": "ツール",
     "toolsBody": "プランは、独自の利用規約を持つ別のテクノロジー契約で、あなたが個別に同意します。プランは任意で、縛りはなく、自動応募、AI検索、Self-tape Studio、コーチングなどのツールを利用できるようになります。プランによって役へのより良い、または早いアクセスが得られることは決してなく（カリフォルニア州 Fee-Related Talent Services Law、AB 1319）、費用を払わずに代理を受けることもできます。",
     "humanLoop": "あなたが常に主導権を持ちます。あなたの承認なしに何も送信・提出されることはありません。役に対して提出した回答は、レビューのために Agental チームに送られ、キャスティングサイトには何も送られません。当社が受け取ったメールへの返信は、スタッフが承認した後にのみ送られます。",
@@ -439,7 +439,7 @@
     "mandate": {
       "summaryTitle": "平易な言葉で見る契約内容",
       "free": "無料です。入会金も会費もかかりません。",
-      "commission": "ライセンスを持つ提携エージェンシーは、総報酬の{commission}を受け取ります。これは、Agental を通じて得た予約にのみ発生し、支払いを受けた後にのみ発生します。",
+      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
       "nonExclusive": "初期設定では専属ではありません。",
       "term": "期間は{months}か月で、自動更新されます。",
       "notice": "{noticeDays}日前までに通知すれば解約できます。",

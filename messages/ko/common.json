@@ -428,7 +428,7 @@
     "repFree": "대리 계약은 에이전트와의 계약이며 무료예요. 가입비도 회비도 없어요. 유일한 비용은 총 출연료의 {commission}에 해당하는 수수료로, Agental을 통해 얻은 예약에 대해서만, 그리고 출연료를 받은 후에만 발생해요.",
     "repTerms": "계약 기간은 {months}개월이며 자동으로 갱신돼요. {noticeDays}일 전에 통보하면 해지할 수 있고, 기본적으로 독점 계약이 아니에요.",
     "repOpportunities": "역 검색, 지원, 협상, 계약서 검토는 모두 대리를 통해서만 이루어져요.",
-    "repPartner": "미국에서는 라이선스를 가진 파트너 에이전시가 나의 대리를 맡고 수수료를 받아요. Agental은 기술, 도구, 코칭을 제공해요.",
+    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
     "toolsTitle": "도구",
     "toolsBody": "요금제는 별도의 기술 계약이며, 각자의 약관이 있고 따로 동의하게 돼요. 요금제는 선택 사항이고 약정이 없으며, 자동 지원, AI 검색, Self-tape Studio, 코칭 같은 도구를 열어 줘요. 요금제로 역에 더 좋거나 더 빠르게 접근하는 일은 없으며(캘리포니아 Fee-Related Talent Services Law, AB 1319), 돈을 내지 않고도 대리를 받을 수 있어요.",
     "humanLoop": "나는 언제나 과정에 함께해요. 내 승인 없이는 아무것도 보내지거나 제출되지 않아요. 역에 제출한 응답은 검토를 위해 Agental 팀에 전달되며, 캐스팅 사이트로는 아무것도 전송되지 않아요. 우리가 받은 이메일에 대한 답장은 직원이 승인한 후에만 발송돼요.",
@@ -439,7 +439,7 @@
     "mandate": {
       "summaryTitle": "쉽게 풀어 쓴 계약 내용",
       "free": "무료예요. 가입비도 회비도 없어요.",
-      "commission": "라이선스를 가진 파트너 에이전시는 총 출연료의 {commission}을 받아요. 이는 Agental을 통해 얻은 예약에 대해서만이고, 출연료를 받은 후에만 해당해요.",
+      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
       "nonExclusive": "기본적으로 독점 계약이 아니에요.",
       "term": "계약 기간은 {months}개월이며 자동으로 갱신돼요.",
       "notice": "{noticeDays}일 전에 통보하면 해지할 수 있어요.",

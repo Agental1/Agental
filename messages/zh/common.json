@@ -428,7 +428,7 @@
     "repFree": "代理协议即你与经纪人之间的协议，免费：不收注册费，也没有会员费。唯一的费用是总片酬的 {commission} 作为佣金，仅针对你通过 Agental 获得的预订，并且只在你收到片酬之后收取。",
     "repTerms": "协议期限为 {months} 个月，并自动续期。你可提前 {noticeDays} 天通知终止协议，默认为非独家。",
     "repOpportunities": "试镜角色的搜寻、投递、谈判和合同审核，全部通过代理进行，且只能通过代理进行。",
-    "repPartner": "在美国，持牌合作经纪机构持有你的代理权并收取佣金。Agental 提供技术、工具和指导。",
+    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
     "toolsTitle": "工具",
     "toolsBody": "方案是一份独立的技术合同，附有其自身条款，你需单独接受。方案为可选，无需承诺，并可解锁工具：自动投递、AI 搜索、Self-tape Studio 和指导。方案绝不会让你获得更好或更早的角色机会（加利福尼亚州 Fee-Related Talent Services Law，AB 1319），你无需付费也可以获得代理。",
     "humanLoop": "你始终掌控全局。任何内容都需经你批准才会发送或提交。你提交给角色的回复将交由 Agental 团队审核，不会发送到任何选角网站。我们收到的邮件回复，须经工作人员批准后才会发出。",
@@ -439,7 +439,7 @@
     "mandate": {
       "summaryTitle": "用通俗语言解释协议",
       "free": "免费：不收注册费，也没有会员费。",
-      "commission": "持牌合作经纪机构将收取总片酬的 {commission}，仅针对你通过 Agental 获得的预订，并且仅在你收到片酬之后收取。",
+      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
       "nonExclusive": "默认为非独家。",
       "term": "协议期限为 {months} 个月，并自动续期。",
       "notice": "你可提前 {noticeDays} 天通知终止协议。",

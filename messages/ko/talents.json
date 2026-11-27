@@ -58,7 +58,7 @@
       },
       {
         "title": "대리는 따로 관리돼요",
-        "body": "대리 계약은 무료 에이전트 계약이며, 미국에서는 수수료를 받는 라이선스 파트너 에이전시가 보유해요. 지금 읽어 볼 수 있고, 그 파트너가 준비되면 서명하면 돼요. 어떤 요금제나 웹사이트와도 분리되어 있으며, 수락할지는 내가 결정해요."
+        "body": "Representation is a free agent agreement, which will be held in the US by a licensed partner agency that will receive the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
       },
       {
         "title": "모든 프로필에는 강점이 있어요",
@@ -124,7 +124,7 @@
           "릴 & 셀프 테이프",
           "경력 및 수입 관리",
           "월 {searches}회 AI 배역 검색",
-          "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -136,7 +136,7 @@
           "셀프 테이프에 대한 AI 피드백",
           "Agental 팀의 더 빠른 답장",
           "우선 지원",
-          "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "월 {searches}회 AI 배역 검색",
           "더 많은 코칭",
           "더 많은 기능이 곧 추가돼요",
-          "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "Premium의 모든 기능",
           "월 {searches}회 AI 배역 검색",
-          "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+          "{commission} commission on bookings, which will be held by a licensed partner agency"
         ]
       }
     ],
@@ -213,7 +213,7 @@
     "hero": {
       "eyebrow": "이용 방법",
       "title": "아티스트를 위한 Agental 이용 방법",
-      "subtitle": "라이선스 파트너 에이전시가 맡는 대리, 그리고 쉬지 않고 나를 위해 일하는 AI. 전문 용어 없이 과정을 소개해요."
+      "subtitle": "Representation through a licensed partner agency once it is in place, and an AI that works for you around the clock. Here's the journey, jargon-free."
     },
     "sections": [
       {
@@ -222,7 +222,7 @@
       },
       {
         "title": "나를 대리하게 해 줄 계약",
-        "body": "대리 계약은 나와 에이전트 사이의 계약이에요. 무료이고, 가입비와 회비가 없으며, 기본적으로 독점 계약이 아니에요. 미국에서는 라이선스 파트너 에이전시가 나의 대리를 맡아요. 역 검색, 지원, 협상, 계약서 검토는 모두 그곳을 통해 이루어져요. 계약서는 지금 읽어 볼 수 있고, 그 파트너가 준비되면 서명하면 돼요."
+        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency will hold your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
       },
       {
         "title": "멈추지 않는 모니터링",
@@ -276,7 +276,7 @@
           },
           {
             "q": "Agental이 저를 대리하나요?",
-            "a": "대리는 무료인 별도의 계약을 통해 이루어져요. 미국에서는 라이선스 파트너 에이전시가 이를 보유하고 수수료를 받으며, Agental은 기술, 도구, 코칭을 제공해요. 계약서는 지금 읽어 볼 수 있고, 그 파트너가 준비되면 서명하면 돼요."
+            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency will hold it and receive the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
           },
           {
             "q": "시작하는 데 얼마가 드나요?",
@@ -293,7 +293,7 @@
         "items": [
           {
             "q": "대리 위임 계약이란 무엇인가요?",
-            "a": "나와 나의 대리인 사이의 에이전트 계약이에요. 미국에서는 라이선스 파트너 에이전시가 보유하며 수수료를 받아요. 무료이고, 가입비나 회비가 없으며, 기본적으로 독점 계약이 아니에요."
+            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency will hold it and receive the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
           },
           {
             "q": "수수료는 얼마인가요?",
@@ -665,7 +665,8 @@
     "steps": {
       "identity": "이름",
       "profile": "나에 대해",
-      "mandat": "계약"
+      "mandat": "계약",
+      "plans": "Plans"
     },
     "identity": {
       "title": "당신은 누구인가요?",
@@ -681,7 +682,9 @@
     "mandat": {
       "title": "대리 계약",
       "subtitle": "서명하기 전에, 대리가 무엇을 의미하는지 알려 드릴게요.",
-      "submit": "내 프로필로 계속"
+      "submit": "Got it, continue",
+      "closed": "Signing is closed during the beta, so there is nothing to sign today. You can read how it works and keep going.",
+      "ack": "Continuing records that you read this step. It is not a signature."
     },
     "back": "뒤로",
     "continue": "계속",
@@ -772,6 +775,13 @@
         "discard": "버리기",
         "cityHint": "도시를 선택해 주세요"
       }
+    },
+    "plans": {
+      "title": "Plans, if you want them",
+      "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
+      "noPayment": "No payment opens here. You can change your plan any time in Settings.",
+      "continueBasic": "Continue with Basic (free)",
+      "continueWith": "Continue with {plan}"
     }
   },
   "space": {
@@ -1280,7 +1290,7 @@
         "릴 & 셀프 테이프",
         "경력 및 수입 관리",
         "월 {searches}회 AI 배역 검색",
-        "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PRO": [
         "Basic의 모든 기능",
@@ -1288,19 +1298,19 @@
         "셀프 테이프에 대한 AI 피드백",
         "Agental 팀의 더 빠른 답장",
         "우선 지원",
-        "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "PREMIUM": [
         "Pro의 모든 기능",
         "월 {searches}회 AI 배역 검색",
         "더 많은 코칭",
         "더 많은 기능이 곧 추가돼요",
-        "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ],
       "ULTIMATE": [
         "Premium의 모든 기능",
         "월 {searches}회 AI 배역 검색",
-        "출연 계약에 대한 수수료 {commission}(인가받은 파트너 에이전시가 받음)"
+        "{commission} commission on bookings, which will be held by a licensed partner agency"
       ]
     },
     "media": {

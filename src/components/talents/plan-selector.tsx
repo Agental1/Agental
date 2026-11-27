@@ -33,11 +33,19 @@ export function PlanSelector({
   plans,
   current,
   usc: initialUsc = null,
+  onPick,
+  pickPending = false,
 }: {
   plans: PlanCard[];
   current: string;
   /** Round 8b: "USC student verified" on the account, with the date and address. */
   usc?: UscVerified | null;
+  /**
+   * Sign-up plans step: choosing only records the pick (no payment, no plan
+   * change). Every card's button reads "Continue with ...", Basic included.
+   */
+  onPick?: (plan: string) => void;
+  pickPending?: boolean;
 }) {
   const t = useTranslations("talents");
   const router = useRouter();
@@ -52,6 +60,10 @@ export function PlanSelector({
   const [usc, setUsc] = useState<UscVerified | null>(initialUsc);
 
   function choose(plan: string) {
+    if (onPick) {
+      onPick(plan);
+      return;
+    }
     if (plan !== "FREE") {
       setCheckout(plans.find((p) => p.plan === plan) ?? null);
       return;
@@ -112,26 +124,36 @@ export function PlanSelector({
               />
               <Button
                 className="mt-4"
-                variant={isCurrent ? "outline" : popular ? "primary" : "secondary"}
-                disabled={isCurrent || pending}
+                variant={isCurrent ? "outline" : onPick ? "primary" : popular ? "primary" : "secondary"}
+                disabled={isCurrent || pending || pickPending}
                 onClick={() => choose(p.plan)}
               >
-                {busy === p.plan && <Loader2 className="size-4 animate-spin" />}
-                {isCurrent ? t("space.plans.currentPlan") : t("space.plans.choose")}
+                {(busy === p.plan || (pickPending && onPick)) && <Loader2 className="size-4 animate-spin" />}
+                {onPick
+                  ? p.plan === "FREE"
+                    ? t("onboarding.plans.continueBasic")
+                    : t("onboarding.plans.continueWith", { plan: p.name })
+                  : isCurrent
+                    ? t("space.plans.currentPlan")
+                    : t("space.plans.choose")}
               </Button>
             </div>
           );
         })}
       </div>
       {error && <p className="text-sm text-danger">{errorText(error)}</p>}
-      <CheckoutPanel
-        plan={checkout}
-        promotion={promotion}
-        usc={usc}
-        onUscVerified={setUsc}
-        onClose={() => setCheckout(null)}
-      />
-      <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
+      {!onPick && (
+        <>
+          <CheckoutPanel
+            plan={checkout}
+            promotion={promotion}
+            usc={usc}
+            onUscVerified={setUsc}
+            onClose={() => setCheckout(null)}
+          />
+          <p className="text-xs text-fg-subtle">{t("space.plans.demo")}</p>
+        </>
+      )}
     </div>
   );
 }

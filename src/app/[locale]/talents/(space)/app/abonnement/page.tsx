@@ -1,5 +1,4 @@
-import { percent } from "@/lib/format";
-import { formatPlanPrice, planBenefitLines, planSearchCount, planYearlyPrice, promoPrices } from "@/lib/plan-price";
+import { talentPlanCards } from "@/lib/plan-cards";
 import { PromotionsButton, PromotionsProvider } from "@/components/talents/promotions";
 import { BillingPeriodProvider } from "@/components/talents/billing-period";
 import { toLocale } from "@/i18n/routing";
@@ -12,8 +11,6 @@ import { getRoleSearchQuota } from "@/lib/role-search";
 import { SearchUsageBar } from "@/components/app/search-usage";
 import { date } from "@/lib/format";
 import { PlanSelector, type PlanCard } from "@/components/talents/plan-selector";
-import { B2C_PLANS } from "@/domain/pricing";
-import type { PlanB2C } from "@/domain/enums";
 import { LimelightSection } from "@/components/talents/limelight-section";
 
 export async function generateMetadata({
@@ -57,22 +54,7 @@ export default async function AbonnementPage({
       ? { at: uscRow.uscVerifiedAt.toISOString(), email: uscRow.uscVerifiedEmail }
       : null;
 
-  // Display names come from the messages, in the order of the B2C_PLANS table.
-  const planNames = (t.raw("pricing.plans") as { name: string }[]).map((p) => p.name);
-  const plans: PlanCard[] = (Object.keys(B2C_PLANS) as PlanB2C[]).map((p, i) => ({
-    plan: p,
-    name: planNames[i] ?? p,
-    price: formatPlanPrice(B2C_PLANS[p].priceCents, locale),
-    commission: percent(B2C_PLANS[p].commissionRate, locale),
-    // space.planFeatures, not a local map. The map that used to live here
-    // still advertised "Auto-candidature IA" and daily quotas — the promises
-    // the pricing-copy pass removed from the message files. It was rewritten
-    // there and never wired up, so the subscription screen kept selling them.
-    searches: planSearchCount(p),
-    yearlyPrice: planYearlyPrice(p, locale),
-    features: planBenefitLines(t.raw(`space.planFeatures.${p}`) as string[], locale, p),
-    promos: promoPrices(p, locale),
-  }));
+  const plans: PlanCard[] = talentPlanCards(t, locale);
 
   return (
     <PromotionsProvider>
