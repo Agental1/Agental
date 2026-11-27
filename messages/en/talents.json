@@ -814,7 +814,7 @@
           "pausedNow": "Searches are on a short pause. You can still ask for one now: we'll save it and start it when they resume.",
           "waiting": "Got it. Your search is in the queue and will start soon. We'll let you know as soon as results are in."
         },
-        "explain": "{agent} looks for roles that fit your profile. {left, plural, one {# search} other {# searches}} left this period.",
+        "explain": "{agent} looks for roles that fit your profile.",
         "scan": {
           "looking": "{agent} is checking the places roles show up.",
           "running": "{agent} is searching right now. Results land here as soon as they're in.",

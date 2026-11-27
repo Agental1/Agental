@@ -814,7 +814,7 @@
           "pausedNow": "Las búsquedas están en pausa un momento. Aún puedes pedir una ahora: la guardamos y empezará al reanudarse.",
           "waiting": "Listo. Tu búsqueda está en cola. Las búsquedas empiezan pronto y te avisaremos en cuanto haya resultados."
         },
-        "explain": "{agent} busca roles que encajan con tu perfil. Te {left, plural, one {queda # búsqueda} other {quedan # búsquedas}} en este periodo.",
+        "explain": "{agent} busca roles que encajan con tu perfil.",
         "scan": {
           "looking": "{agent} revisa los lugares donde aparecen los roles.",
           "running": "{agent} está buscando ahora mismo. Los resultados llegan aquí en cuanto estén listos.",

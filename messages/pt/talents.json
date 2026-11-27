@@ -814,7 +814,7 @@
           "pausedNow": "As buscas estão em pausa por um momento. Você ainda pode pedir uma agora: vamos salvá-la e iniciá-la quando voltarem.",
           "waiting": "Sua busca está na fila. As buscas começam em breve e avisaremos quando houver resultados."
         },
-        "explain": "{agent} procura papéis que combinam com o seu perfil. Você ainda tem {left, plural, one {# busca} other {# buscas}} neste período.",
+        "explain": "{agent} procura papéis que combinam com o seu perfil.",
         "scan": {
           "looking": "{agent} está verificando os lugares onde os papéis aparecem.",
           "running": "{agent} está buscando agora. Os resultados aparecem aqui assim que chegarem.",

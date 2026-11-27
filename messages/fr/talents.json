@@ -814,7 +814,7 @@
           "pausedNow": "Les recherches sont en pause un moment. Tu peux quand même en lancer une maintenant : on l’enregistre et elle démarrera à la reprise.",
           "waiting": "Les recherches démarrent bientôt. Ta demande est en file, et on te préviendra dès que les résultats seront là."
         },
-        "explain": "{agent} cherche des rôles qui correspondent à ton profil. Il te reste {left, plural, one {# recherche} other {# recherches}} pour cette période.",
+        "explain": "{agent} cherche des rôles qui correspondent à ton profil.",
         "scan": {
           "looking": "{agent} vérifie les endroits où les rôles apparaissent.",
           "running": "{agent} cherche en ce moment. Les résultats arrivent ici dès qu’ils sont prêts.",
