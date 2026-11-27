@@ -2,6 +2,8 @@
 
 Updated 2026-11-22 (round 9). Production builds from `frontend-redesign` with pnpm. Round 9 state and everything waiting on the founder: `docs/HANDOFF.md`, "Round 9 (2026-11-22): start here", "Waiting for Jérôme".
 
+**Production** runs v0.6.42.0, Version 77 (`round-12-group-6`, 2026-11-26), still in **test mode**: round 12 groups 1 to 6 (copy fixes, representation and services copy, pricing by benefit with a yearly display toggle, self-tape length check, search animation and board, conversational onboarding behind an admin switch). Details and everything waiting on the founder: `docs/HANDOFF.md`, "Round 12 (2026-11-26): start here".
+
 **Production** runs v0.6.25.0, Version 57 (`live-2026-11-22-r9-g9`), still in **test mode** (`WORKFLOW_MODE` unset, both n8n workflows inactive): round 9 groups 1 (admin cleanup with 30-day restore, clickable counts, Projects, privacy), 2 part 1 (emails list, Limelight confirmation, demo accounts Test), 4 (searches through n8n, cost per provider, ceiling), 5 (Samantha and Adrian), 6 (automatic emails, staff approval, unsubscribe), 7 (replies to approve), 8 (texts behind a flag, off), 9 (pause switch, AI accounts page, `docs/GO_LIVE.md`). Group 2's sending, group 3 and every live test wait on the founder's keys and DNS. Versions 49 to 57 in `docs/RELEASES.md`.
 
 **Production** runs v0.6.12.0, Version 43 (`live-2026-11-22-r8c-g6`): round 8c groups A, 1, 4 and 6 (numbered Preferences, Build chips, Applications buttons; pnpm, relink prompt, deep-link focus; live bell ready, daily backup ready, search rate limit, security pass; Terms draft page behind a flag). Groups 2, 3 and 5 wait on founder actions. Before that, Version 39 (end of round 8b).

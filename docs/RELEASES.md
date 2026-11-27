@@ -84,6 +84,32 @@ Every version that goes live on agental.co gets a version number, a git tag and 
 
 Google sign-in: the button is live and reaches Google's account screen. The Google app is still in Testing with no test users, so nobody can finish signing in yet; publishing needs a privacy-policy page (see `docs/HANDOFF.md`).
 
+## Round 12: going back
+
+Before round 12 the live site was **Version 71** (tag `before-round-12`, deployment `agental-9vl403651-agentalco.vercel.app`).
+
+| To go back to | Say | What runs |
+|---|---|---|
+| Before round 12 | "go back to Version 71" | `vercel promote agental-9vl403651-agentalco.vercel.app` |
+| After group 4 only (self-tape length) | "go back to Version 72" | `vercel promote agental-1ll3t2cck-agentalco.vercel.app` |
+| After group 1 (quick copy fixes) | "go back to Version 73" | `vercel promote agental-gxtw83xzs-agentalco.vercel.app` |
+| After group 2 (representation and services copy) | "go back to Version 74" | `vercel promote agental-plhzcgq5u-agentalco.vercel.app` |
+| After group 5 (search animation and board) | "go back to Version 75" | `vercel promote agental-9er8kbeqh-agentalco.vercel.app` |
+| After group 3 (pricing by benefit) | "go back to Version 76" | `vercel promote agental-rl62sahyr-agentalco.vercel.app` |
+| After group 6 (conversational onboarding), the end of round 12 | "go back to Version 77" | `vercel promote agental-1w6lk52so-agentalco.vercel.app` |
+
+The groups were shipped in this order: 4, 1, 2, 5, 3, 6. Each version contains the ones before it, so going back to a version removes every group shipped after it. To remove one group from the middle, revert its pull request on `frontend-redesign` and deploy (tags `round-12-group-1` to `round-12-group-6` mark each one).
+
+### The database
+
+Round 12 has one migration, in group 6: `20270101000000_round12_onboarding_draft`. It only adds: the `OnboardingDraft` table (answers in progress of the chat) and one `AppSetting` row, `onboarding.chat`. Older versions run on the newer database and ignore both. Going back deletes nothing.
+
+### Switching off what round 12 added, without losing data
+
+- **Conversational onboarding (group 6):** Admin > Controls > "Conversational onboarding" > Off. Everyone gets the classic form again at once, no deploy needed. Drafts stay in `OnboardingDraft`; profiles already saved through the chat are ordinary profiles and stay. Turning the switch back on resumes each draft.
+- **Yearly prices (group 3):** display only, nothing is stored and no payment is open. Removing the toggle is a code change (`yearlyPriceCents` in `src/domain/pricing.ts`).
+- **Self-tape length (group 4), search board (group 5), copy (groups 1 and 2):** no stored data; going back to the earlier version is enough.
+
 ## Going back one step
 
 The fastest way: make the previous deployment the live one again. Nothing is rebuilt.
