@@ -58,7 +58,7 @@
       },
       {
         "title": "代理は別に管理",
-        "body": "Representation is a free agent agreement, which will be held in the US by a licensed partner agency that will receive the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
+        "body": "代理契約は無料のエージェント契約で、米国ではライセンスを持つ提携エージェンシーが保有する予定で、同エージェンシーが手数料を受け取ります。今すぐ読むことができ、提携先が整ったら署名できます。プランやウェブサイトからは切り離されており、受け入れるかどうかはあなたが決めます。"
       },
       {
         "title": "どのプロフィールにも強みがある",
@@ -106,7 +106,7 @@
     "eyebrow": "下がっていく手数料",
     "title": "進むほど、手元に残る額が増える",
     "cta": "料金の詳細を見る",
-    "body": "Your subscription and the representation commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
+    "body": "サブスクリプションと代理業務の手数料は別のものです。代理業務は無料のままです。より多くのツールを使うためにプランを選ぶと、同時に手数料が下がります。あなたの成功と足並みをそろえたモデルです。"
   },
   "pricing": {
     "eyebrow": "料金",
@@ -124,7 +124,7 @@
           "リールとセルフテープ",
           "キャリアと収入の記録",
           "月 {searches} 回の AI による役の検索",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
         ]
       },
       {
@@ -134,9 +134,9 @@
           "Basic のすべて",
           "月 {searches} 回の AI による役の検索",
           "セルフテープへの AI フィードバック",
-          "Faster answers to your questions about the app",
-          "Priority support for the app",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "アプリに関するご質問への、より早い回答",
+          "アプリの優先サポート",
+          "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "月 {searches} 回の AI による役の検索",
           "より多くのコーチング",
           "さらに多くの機能を近日公開",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "Premium のすべて",
           "月 {searches} 回の AI による役の検索",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
         ]
       }
     ],
@@ -213,7 +213,7 @@
     "hero": {
       "eyebrow": "使い方",
       "title": "アーティストのための Agental の仕組み",
-      "subtitle": "Representation through a licensed partner agency once it is in place, and an AI that works for you around the clock. Here's the journey, jargon-free."
+      "subtitle": "準備が整ったら、ライセンスを持つ提携エージェンシーが担う代理と、いつでもあなたのために働く AI。専門用語なしで流れをご紹介します。"
     },
     "sections": [
       {
@@ -222,7 +222,7 @@
       },
       {
         "title": "代理を受けられるようにする契約",
-        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency will hold your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
+        "body": "代理契約はあなたとエージェントとの間の契約です。無料で、入会金も会費もかからず、初期設定では専属ではありません。米国では、ライセンスを持つ提携エージェンシーがあなたの代理を担う予定です。役の検索、応募、交渉、契約書の確認はすべてそこを通じて行われます。契約内容は今すぐ読むことができ、提携先が整ったら署名できます。"
       },
       {
         "title": "休まず続くチェック",
@@ -234,7 +234,7 @@
       },
       {
         "title": "選考から出演料まで",
-        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency will receive its commission only on bookings you get through Agental, and only once you've been paid."
+        "body": "選ばれたら、交渉と契約書の確認は代理を通じて進みます。提携エージェンシーが手数料を受け取るのは、Agental を通じて得た予約についてのみで、かつあなたが支払いを受けた後にのみです。"
       }
     ],
     "cta": "メンバーになる",
@@ -276,7 +276,7 @@
           },
           {
             "q": "Agental は私の代理をしますか？",
-            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency will hold it and receive the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
+            "a": "代理は、無料の別契約を通じて提供されます。米国では、ライセンスを持つ提携エージェンシーが代理を担う予定で、手数料を受け取ります。Agental は、テクノロジー、ツール、コーチングを提供します。契約内容は今すぐ読むことができ、提携先が整ったら署名できます。"
           },
           {
             "q": "始めるのにいくらかかりますか？",
@@ -293,7 +293,7 @@
         "items": [
           {
             "q": "代理の委任契約とは何ですか？",
-            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency will hold it and receive the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
+            "a": "あなたと代理人との間の代理契約です。米国では、ライセンスを持つ提携エージェンシーが保有する予定で、手数料を受け取ります。無料で、入会金も会費もかからず、初期設定では専属ではありません。"
           },
           {
             "q": "手数料はいくらですか？",
@@ -666,7 +666,7 @@
       "identity": "お名前",
       "profile": "あなたについて",
       "mandat": "契約",
-      "plans": "Plans"
+      "plans": "プラン"
     },
     "identity": {
       "title": "あなたについて教えてください",
@@ -682,9 +682,9 @@
     "mandat": {
       "title": "代理契約",
       "subtitle": "署名する前に、代理とはどういうことかをご確認ください。",
-      "submit": "Got it, continue",
-      "closed": "Signing is closed during the beta, so there is nothing to sign today. You can read how it works and keep going.",
-      "ack": "Continuing records that you read this step. It is not a signature."
+      "submit": "わかりました、続ける",
+      "closed": "ベータ期間中は署名の受付を停止しているため、今日は署名するものはありません。仕組みを読んで、先に進んでください。",
+      "ack": "続行すると、この手順を読んだことが記録されます。これは署名ではありません。"
     },
     "back": "戻る",
     "continue": "続ける",
@@ -777,11 +777,11 @@
       }
     },
     "plans": {
-      "title": "Plans, if you want them",
-      "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
-      "noPayment": "Picking a plan here charges nothing. You can change your plan any time in Settings.",
-      "continueBasic": "Continue with Basic (free)",
-      "continueWith": "Continue with {plan}"
+      "title": "ご希望であればプラン",
+      "subtitle": "プランは任意のツールです。役へのアクセスや代理の方法が変わることはありません。",
+      "noPayment": "ここでプランを選んでも料金は発生しません。プランはいつでも設定から変更できます。",
+      "continueBasic": "Basic（無料）で続ける",
+      "continueWith": "{plan}で続ける"
     }
   },
   "space": {
@@ -1290,27 +1290,27 @@
         "リールとセルフテープ",
         "キャリアと収入の記録",
         "月 {searches} 回の AI による役の検索",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
       ],
       "PRO": [
         "Basic のすべて",
         "月 {searches} 回の AI による役の検索",
         "セルフテープへの AI フィードバック",
-        "Faster answers to your questions about the app",
-        "Priority support for the app",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "アプリに関するご質問への、より早い回答",
+        "アプリの優先サポート",
+        "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
       ],
       "PREMIUM": [
         "Pro のすべて",
         "月 {searches} 回の AI による役の検索",
         "より多くのコーチング",
         "さらに多くの機能を近日公開",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
       ],
       "ULTIMATE": [
         "Premium のすべて",
         "月 {searches} 回の AI による役の検索",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "出演料に対する手数料 {commission}（提携する認可エージェンシーが保有する予定です）"
       ]
     },
     "media": {

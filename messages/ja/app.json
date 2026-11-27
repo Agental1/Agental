@@ -200,7 +200,7 @@
     },
     "agreePrivacy": "<privacy>プライバシーポリシー</privacy>とCookieの使用に同意します。",
     "agreePrivacyTerms": "<privacy>プライバシーポリシー</privacy>、<terms>利用規約</terms>、およびCookieの使用に同意します。",
-    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
+    "agreeSeparate": "代理契約とプランは別々に選択するもので、次のステップで説明します。"
   },
   "height": {
     "unit": "身長の単位",
@@ -662,11 +662,11 @@
         "notPerformer": "出演者ではありません"
       },
       "acceptances": {
-        "privacy": "Privacy and cookies",
-        "representation": "Representation step (seen, not a signature)",
-        "plans": "Plans step (optional)",
-        "notRecorded": "Not recorded",
-        "plansPicked": "{date}, version {version}, picked {plan}"
+        "privacy": "プライバシーとCookie",
+        "representation": "代理のステップ（確認のみ、署名なし）",
+        "plans": "プランのステップ（任意）",
+        "notRecorded": "未記録",
+        "plansPicked": "{date}、バージョン {version}、選択したプラン: {plan}"
       }
     },
     "studentRequests": {

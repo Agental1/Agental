@@ -200,7 +200,7 @@
     },
     "agreePrivacy": "Accetto l’<privacy>Informativa sulla privacy</privacy> e l’uso dei cookie.",
     "agreePrivacyTerms": "Accetto l’<privacy>Informativa sulla privacy</privacy>, i <terms>Termini di servizio</terms> e l’uso dei cookie.",
-    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
+    "agreeSeparate": "La rappresentanza e i piani sono scelte separate, spiegate nei passaggi successivi."
   },
   "height": {
     "unit": "Unità di altezza",
@@ -662,11 +662,11 @@
         "notPerformer": "Non è un artista"
       },
       "acceptances": {
-        "privacy": "Privacy and cookies",
-        "representation": "Representation step (seen, not a signature)",
-        "plans": "Plans step (optional)",
-        "notRecorded": "Not recorded",
-        "plansPicked": "{date}, version {version}, picked {plan}"
+        "privacy": "Privacy e cookie",
+        "representation": "Passaggio rappresentanza (visto, non firmato)",
+        "plans": "Passaggio piani (facoltativo)",
+        "notRecorded": "Non registrato",
+        "plansPicked": "{date}, versione {version}, piano scelto: {plan}"
       }
     },
     "studentRequests": {

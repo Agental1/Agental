@@ -130,7 +130,7 @@
   "home": {
     "what": {
       "title": "Che cos'è Agental",
-      "body": "Agental is an AI-powered platform for performers and casting teams, in beta. Each performer builds a profile with their headshots, credits, reel and self-tapes, and an AI assistant prepares application drafts that the performer reviews before anything is sent. Casting teams receive ranked shortlists with the reasoning shown. Representation is a separate, free agreement: you can read it now and sign it once a licensed partner agency is in place.",
+      "body": "Agental è una piattaforma basata sull’IA per artisti e team di casting, in beta. Ogni artista crea un profilo con foto, crediti, showreel e self-tape, e un assistente IA prepara bozze di candidatura che l’artista rivede prima che venga inviato qualsiasi cosa. I team di casting ricevono liste ordinate con il ragionamento in vista. La rappresentanza è un mandato separato e gratuito: puoi leggerlo ora e firmarlo quando un’agenzia partner autorizzata sarà operativa.",
       "facts": [
         {
           "title": "Iscrizione gratuita",
@@ -428,18 +428,18 @@
     "repFree": "Il mandato di rappresentanza è l’accordo con il tuo agente, ed è gratuito: non paghi quote d’iscrizione né quote di adesione. L’unica commissione è pari al {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental, e solo dopo che sei stato pagato.",
     "repTerms": "Ha una durata di {months} mesi e si rinnova automaticamente. Puoi recederlo con un preavviso di {noticeDays} giorni, e per impostazione predefinita non è in esclusiva.",
     "repOpportunities": "La ricerca di ruoli, le candidature, la negoziazione e la revisione dei contratti passano tutte dalla rappresentanza, e solo da essa.",
-    "repPartner": "In the US, a licensed partner agency will hold your representation and receive the commission once it is in place. Agental provides the technology, the tools and the coaching.",
+    "repPartner": "Negli Stati Uniti, un’agenzia partner autorizzata deterrà la tua rappresentanza e riceverà la commissione una volta operativa. Agental fornisce la tecnologia, gli strumenti e il coaching.",
     "toolsTitle": "Strumenti",
     "toolsBody": "I piani sono un contratto tecnologico separato, con condizioni proprie che accetti a parte. Sono facoltativi, senza vincoli, e sbloccano strumenti: candidature automatiche, ricerca con IA, Self-tape Studio e coaching. Un piano non ti dà mai un accesso migliore o anticipato ai lavori (California Fee-Related Talent Services Law, AB 1319), e puoi essere rappresentato senza pagare nulla.",
     "humanLoop": "Resti nel controllo. Ogni invio o candidatura richiede la tua approvazione. Una risposta che invii a un ruolo viene sottoposta al team Agental per la revisione, e nulla viene inviato a un sito di casting. Le risposte alle email che riceviamo partono solo dopo l’approvazione di un membro dello staff.",
-    "beta": "You can read the representation agreement now. You can sign it once a licensed partner agency is in place. Payments stay off until the company exists.",
+    "beta": "Puoi leggere il mandato di rappresentanza già ora. Potrai firmarlo quando un’agenzia partner autorizzata sarà operativa. I pagamenti restano disattivati finché la società non esiste.",
     "pricingLine": "La rappresentanza è gratuita. Paghi una commissione solo sulle prenotazioni che ottieni tramite Agental, e solo dopo essere stato pagato. I piani qui sotto sono strumenti facoltativi e non cambiano mai il tuo accesso ai ruoli.",
     "commissionNote": "Le condizioni della commissione sono stabilite nel mandato di rappresentanza.",
     "cookiesNever": "Accettare i cookie non equivale mai ad accettare il mandato di rappresentanza o un piano.",
     "mandate": {
       "summaryTitle": "Il mandato in parole semplici",
       "free": "È gratuito: nessuna quota d’iscrizione e nessuna quota di adesione.",
-      "commission": "The commission is {commission} of the gross fee, only on bookings you get through Agental and only once you've been paid. It will be held by a licensed partner agency.",
+      "commission": "La commissione è del {commission} del compenso lordo, solo sulle prenotazioni che ottieni tramite Agental e solo dopo che sei stato pagato. Sarà trattenuta da un’agenzia partner autorizzata.",
       "nonExclusive": "Per impostazione predefinita non è in esclusiva.",
       "term": "Dura {months} mesi e si rinnova automaticamente.",
       "notice": "Puoi recederlo con un preavviso di {noticeDays} giorni.",

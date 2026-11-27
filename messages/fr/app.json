@@ -200,7 +200,7 @@
     },
     "agreePrivacy": "J’accepte la <privacy>Politique de confidentialité</privacy> et l’utilisation des cookies.",
     "agreePrivacyTerms": "J’accepte la <privacy>Politique de confidentialité</privacy>, les <terms>Conditions d’utilisation</terms> et l’utilisation des cookies.",
-    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
+    "agreeSeparate": "La représentation et les formules sont deux choix distincts, expliqués dans les étapes suivantes."
   },
   "height": {
     "unit": "Unité de taille",
@@ -662,11 +662,11 @@
         "notPerformer": "Pas un artiste"
       },
       "acceptances": {
-        "privacy": "Privacy and cookies",
-        "representation": "Representation step (seen, not a signature)",
-        "plans": "Plans step (optional)",
-        "notRecorded": "Not recorded",
-        "plansPicked": "{date}, version {version}, picked {plan}"
+        "privacy": "Confidentialité et cookies",
+        "representation": "Étape représentation (lue, sans signature)",
+        "plans": "Étape formules (facultative)",
+        "notRecorded": "Non enregistré",
+        "plansPicked": "{date}, version {version}, formule choisie : {plan}"
       }
     },
     "studentRequests": {

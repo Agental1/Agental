@@ -200,7 +200,7 @@
     },
     "agreePrivacy": "我接受<privacy>隐私政策</privacy>并同意使用 Cookie。",
     "agreePrivacyTerms": "我接受<privacy>隐私政策</privacy>、<terms>服务条款</terms>并同意使用 Cookie。",
-    "agreeSeparate": "Representation and plans are separate choices, explained in the next steps."
+    "agreeSeparate": "代理与方案是两项独立的选择，将在后续步骤中说明。"
   },
   "height": {
     "unit": "身高单位",
@@ -662,11 +662,11 @@
         "notPerformer": "非演员账户"
       },
       "acceptances": {
-        "privacy": "Privacy and cookies",
-        "representation": "Representation step (seen, not a signature)",
-        "plans": "Plans step (optional)",
-        "notRecorded": "Not recorded",
-        "plansPicked": "{date}, version {version}, picked {plan}"
+        "privacy": "隐私与 Cookie",
+        "representation": "代理步骤（已查看，非签署）",
+        "plans": "方案步骤（可选）",
+        "notRecorded": "未记录",
+        "plansPicked": "{date}，版本 {version}，选择的方案：{plan}"
       }
     },
     "studentRequests": {

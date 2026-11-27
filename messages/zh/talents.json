@@ -58,7 +58,7 @@
       },
       {
         "title": "代理与其他业务分开",
-        "body": "Representation is a free agent agreement, which will be held in the US by a licensed partner agency that will receive the commission. You can read it now and sign it once that partner is in place. It stays apart from any plan or website, and you choose whether to accept it."
+        "body": "代理协议是一份免费的经纪协议，将在美国由持牌合作经纪机构持有，该机构将收取佣金。你现在即可阅读，待该合作方到位后再签署。它与任何方案或网站分开，是否接受由你决定。"
       },
       {
         "title": "每个人都有自己的强项",
@@ -106,7 +106,7 @@
     "eyebrow": "递减佣金",
     "title": "走得越远，留得越多",
     "cta": "查看详细价格",
-    "body": "Your subscription and the representation commission are two separate things. Representation stays free. If you choose a plan for access to more tools, your commission goes down at the same time. It is a model aligned with your success."
+    "body": "订阅和代理佣金是两回事。代理始终免费。如果你选择一个方案来使用更多工具，佣金也会同时降低。这是一种与你的成功挂钩的模式。"
   },
   "pricing": {
     "eyebrow": "价格",
@@ -124,7 +124,7 @@
           "作品集与自录试镜",
           "职业与收入记录",
           "每月 {searches} 次 AI 角色搜索",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
         ]
       },
       {
@@ -134,9 +134,9 @@
           "包含基础版全部功能",
           "每月 {searches} 次 AI 角色搜索",
           "AI 点评你的自录试镜",
-          "Faster answers to your questions about the app",
-          "Priority support for the app",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "更快解答你关于应用的问题",
+          "应用优先支持",
+          "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "每月 {searches} 次 AI 角色搜索",
           "更多辅导",
           "更多功能即将推出",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
         ]
       },
       {
@@ -156,7 +156,7 @@
         "features": [
           "包含高级版全部功能",
           "每月 {searches} 次 AI 角色搜索",
-          "{commission} commission on bookings, which will be held by a licensed partner agency"
+          "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
         ]
       }
     ],
@@ -213,7 +213,7 @@
     "hero": {
       "eyebrow": "如何运作",
       "title": "Agental 如何为演员工作",
-      "subtitle": "Representation through a licensed partner agency once it is in place, and an AI that works for you around the clock. Here's the journey, jargon-free."
+      "subtitle": "待持牌合作经纪机构到位后，由其提供代理，AI 全天候为你工作。这是完整流程，不说行话。"
     },
     "sections": [
       {
@@ -222,7 +222,7 @@
       },
       {
         "title": "让你获得代理的协议",
-        "body": "The representation agreement is your agent agreement. It's free, with no sign-up or membership fee, and non-exclusive by default. In the US, a licensed partner agency will hold your representation: role search, submissions, negotiation and contract review all come through it. You can read the agreement now and sign it once that partner is in place."
+        "body": "代理协议就是你与经纪人之间的协议。它免费，没有注册费或会员费，默认为非独家。在美国，将由持牌合作经纪机构持有你的代理权：试镜角色的搜寻、投递、谈判和合同审核，全部通过该机构进行。你现在即可阅读协议，待该合作方到位后再签署。"
       },
       {
         "title": "从不停歇的选角追踪",
@@ -234,7 +234,7 @@
       },
       {
         "title": "从入选到拿到片酬",
-        "body": "Once you're selected, negotiation and contract review come through your representation. The partner agency will receive its commission only on bookings you get through Agental, and only once you've been paid."
+        "body": "一旦入选，谈判和合同审核将通过你的代理进行。合作经纪机构只会就你通过 Agental 获得的预订收取佣金，并且仅在你收到片酬之后。"
       }
     ],
     "cta": "成为会员",
@@ -276,7 +276,7 @@
           },
           {
             "q": "Agental 会代理我吗？",
-            "a": "Representation comes through a separate, free agreement. In the US, a licensed partner agency will hold it and receive the commission, and Agental provides the technology, the tools and the coaching. You can read the agreement now and sign it once that partner is in place."
+            "a": "代理通过一份独立且免费的协议提供。在美国，将由持牌合作经纪机构持有并收取佣金，Agental 提供技术、工具和指导。你现在即可阅读协议，待该合作方到位后再签署。"
           },
           {
             "q": "开始要花多少钱？",
@@ -293,7 +293,7 @@
         "items": [
           {
             "q": "经纪委托是什么？",
-            "a": "It's the agent agreement between you and your representation. In the US, a licensed partner agency will hold it and receive the commission. It's free, with no sign-up or membership fee, and non-exclusive by default."
+            "a": "它是你与代理之间的经纪协议。在美国，将由持牌合作经纪机构持有并收取佣金。它免费，没有注册费或会员费，默认为非独家。"
           },
           {
             "q": "佣金是多少？",
@@ -666,7 +666,7 @@
       "identity": "你的姓名",
       "profile": "关于你",
       "mandat": "协议",
-      "plans": "Plans"
+      "plans": "方案"
     },
     "identity": {
       "title": "你是谁？",
@@ -682,9 +682,9 @@
     "mandat": {
       "title": "代理协议",
       "subtitle": "在签署任何文件之前，先了解代理意味着什么。",
-      "submit": "Got it, continue",
-      "closed": "Signing is closed during the beta, so there is nothing to sign today. You can read how it works and keep going.",
-      "ack": "Continuing records that you read this step. It is not a signature."
+      "submit": "知道了，继续",
+      "closed": "测试期间签署已关闭，因此今天无需签署任何内容。你可以阅读运作方式并继续。",
+      "ack": "继续操作仅记录你已阅读此步骤，并非签署。"
     },
     "back": "返回",
     "continue": "继续",
@@ -777,11 +777,11 @@
       }
     },
     "plans": {
-      "title": "Plans, if you want them",
-      "subtitle": "Plans are optional tools. They never change your access to roles or how you are represented.",
-      "noPayment": "Picking a plan here charges nothing. You can change your plan any time in Settings.",
-      "continueBasic": "Continue with Basic (free)",
-      "continueWith": "Continue with {plan}"
+      "title": "如有需要，可选择方案",
+      "subtitle": "方案是可选工具，永远不会改变你获取角色的权限或代理方式。",
+      "noPayment": "在此选择方案不会产生任何费用。你可以随时在设置中更改方案。",
+      "continueBasic": "以 Basic（免费）继续",
+      "continueWith": "以 {plan} 继续"
     }
   },
   "space": {
@@ -1290,27 +1290,27 @@
         "作品集与自录试镜",
         "职业与收入记录",
         "每月 {searches} 次 AI 角色搜索",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
       ],
       "PRO": [
         "包含基础版全部功能",
         "每月 {searches} 次 AI 角色搜索",
         "AI 点评你的自录试镜",
-        "Faster answers to your questions about the app",
-        "Priority support for the app",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "更快解答你关于应用的问题",
+        "应用优先支持",
+        "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
       ],
       "PREMIUM": [
         "包含专业版全部功能",
         "每月 {searches} 次 AI 角色搜索",
         "更多辅导",
         "更多功能即将推出",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
       ],
       "ULTIMATE": [
         "包含高级版全部功能",
         "每月 {searches} 次 AI 角色搜索",
-        "{commission} commission on bookings, which will be held by a licensed partner agency"
+        "预订佣金 {commission}，将由持牌合作经纪公司代为持有"
       ]
     },
     "media": {
